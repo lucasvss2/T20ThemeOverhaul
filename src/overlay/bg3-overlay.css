@@ -109,6 +109,71 @@
     text-transform: uppercase;
     white-space: nowrap;
 }
+/* ── Grid overlay (rolagens em lote: Rolar para Todos / PNJs) ────────────────── */
+.bg3-t20-grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 92vw;
+    animation: bg3t20-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.bg3-t20-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 4), minmax(160px, 220px));
+    gap: 18px;
+    margin-top: 14px;
+}
+.bg3-t20-grid-cell {
+    background: linear-gradient(135deg, rgba(20, 12, 4, 0.85), rgba(8, 4, 2, 0.78));
+    border: 1px solid rgba(var(--bg3-accent-rgb), 0.55);
+    border-radius: 8px;
+    padding: 14px 12px 12px;
+    text-align: center;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+.bg3-t20-grid-name {
+    font-size: 0.95rem;
+    color: var(--bg3-accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(var(--bg3-accent-rgb), 0.45);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bg3-t20-grid-total {
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    line-height: 1;
+    font-weight: 900;
+    color: var(--bg3-text-bright);
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.18);
+}
+.bg3-t20-grid-total.is-crit {
+    color: var(--bg3-color-crit);
+    text-shadow: 0 0 22px rgba(var(--bg3-color-crit-rgb), 0.85);
+}
+.bg3-t20-grid-total.is-fumble {
+    color: var(--bg3-color-danger);
+    text-shadow: 0 0 22px rgba(var(--bg3-color-danger-rgb), 0.85);
+}
+.bg3-t20-grid-crit {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 700;
+}
+.bg3-t20-grid-crit.is-crit   { color: var(--bg3-color-crit); }
+.bg3-t20-grid-crit.is-fumble { color: var(--bg3-color-danger); }
+.bg3-t20-grid-formula {
+    font-size: 0.7rem;
+    color: var(--bg3-text-muted);
+    margin-top: 6px;
+    font-family: monospace;
+    opacity: 0.7;
+}
+
 @keyframes bg3t20-in {
     from { opacity: 0; }
     to   { opacity: 1; }

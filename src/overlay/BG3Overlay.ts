@@ -51,6 +51,51 @@ const OUTCOME_LABEL: Record<TestOutcome, string> = {
     falha_critica: "FALHA CRÍTICA",
 };
 
+/** Detecta crítico/falha natural num d20 ativo do roll. */
+function detectD20Outcome(roll: Roll): "is-crit" | "is-fumble" | "" {
+    const d20 = roll.dice?.find((d) => d.faces === 20)?.results?.find((r) => r.active)?.result ?? null;
+    if (d20 === 20) return "is-crit";
+    if (d20 === 1)  return "is-fumble";
+    return "";
+}
+
+export interface GridRollEntry {
+    meta: RollMeta;
+    roll: Roll;
+    name: string;
+}
+
+function buildGridCellHtml(e: GridRollEntry): string {
+    const total = e.roll.total ?? 0;
+    const cls   = detectD20Outcome(e.roll);
+    const critLabel =
+        cls === "is-crit"   ? `<div class="bg3-t20-grid-crit is-crit">CRÍTICO!</div>`
+      : cls === "is-fumble" ? `<div class="bg3-t20-grid-crit is-fumble">FALHA!</div>`
+      : "";
+    const formula = e.roll.formula ? `<div class="bg3-t20-grid-formula">${esc(e.roll.formula)} = ${total}</div>` : "";
+    return `
+        <div class="bg3-t20-grid-cell">
+            <div class="bg3-t20-grid-name">${esc(e.name)}</div>
+            <div class="bg3-t20-grid-total${cls ? " " + cls : ""}">${total}</div>
+            ${critLabel}
+            ${formula}
+        </div>
+    `;
+}
+
+function buildGridHtml(entries: GridRollEntry[], title: string): string {
+    const cols = Math.min(entries.length, 4);
+    const cellsHtml = entries.map(buildGridCellHtml).join("");
+    return `
+        <div class="bg3-t20-grid-wrapper">
+            <div class="bg3-t20-category">${esc(title)}</div>
+            <div class="bg3-t20-divider"></div>
+            <div class="bg3-t20-grid" style="--cols: ${cols}">${cellsHtml}</div>
+        </div>
+        <div class="bg3-t20-hint">clique para fechar</div>
+    `;
+}
+
 function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome): string {
     const total = roll.total ?? 0;
 
@@ -61,15 +106,12 @@ function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome): string {
         totalClass = ` ${OUTCOME_TOTAL_CLASS[outcome]}`;
         resultHtml = `<div class="bg3-t20-crit-label ${OUTCOME_TOTAL_CLASS[outcome]}">${OUTCOME_LABEL[outcome]}</div>`;
     } else {
-        const d20 = roll.dice?.find((d) => d.faces === 20)?.results?.find((r) => r.active)?.result ?? null;
-        const isCrit   = d20 === 20;
-        const isFumble = d20 === 1;
-        totalClass = isCrit ? " is-crit" : isFumble ? " is-fumble" : "";
-        resultHtml = isCrit
-            ? `<div class="bg3-t20-crit-label is-crit">Acerto Crítico!</div>`
-            : isFumble
-              ? `<div class="bg3-t20-crit-label is-fumble">Falha Crítica</div>`
-              : "";
+        const cls = detectD20Outcome(roll);
+        totalClass = cls ? ` ${cls}` : "";
+        resultHtml =
+            cls === "is-crit"   ? `<div class="bg3-t20-crit-label is-crit">Acerto Crítico!</div>`
+          : cls === "is-fumble" ? `<div class="bg3-t20-crit-label is-fumble">Falha Crítica</div>`
+          : "";
     }
 
     const subHtml = meta.subcategory
@@ -121,18 +163,34 @@ class BG3OverlaySingleton {
     }
 
     show(meta: RollMeta, roll: Roll, outcome?: TestOutcome): void {
+        this.mount(buildHtml(meta, roll, outcome), DISMISS_DELAY_MS);
+    }
+
+    /**
+     * Renderiza um grid (até 4 por linha) com várias rolagens — usado pra
+     * "Rolar para Todos" / "Rolar para PNJs" de iniciativa, mostrando cada
+     * resultado com o nome de quem rolou. Auto-dismiss escala com o número
+     * de células pra dar tempo de leitura.
+     */
+    showGrid(entries: GridRollEntry[], title: string): void {
+        if (entries.length === 0) return;
+        const dismissMs = Math.min(10000, DISMISS_DELAY_MS + entries.length * 600);
+        this.mount(buildGridHtml(entries, title), dismissMs);
+    }
+
+    private mount(innerHtml: string, dismissMs: number): void {
         this.dismiss(true);
         ensureStyles();
 
         const el = document.createElement("div");
         el.id = OVERLAY_ID;
-        el.innerHTML = buildHtml(meta, roll, outcome);
+        el.innerHTML = innerHtml;
         el.addEventListener("click", () => this.dismiss());
         document.body.appendChild(el);
         this.el = el;
 
         this.elevateDice();
-        this.timer = setTimeout(() => this.dismiss(), DISMISS_DELAY_MS);
+        this.timer = setTimeout(() => this.dismiss(), dismissMs);
     }
 
     dismiss(immediate = false): void {

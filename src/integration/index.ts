@@ -9,7 +9,35 @@
 import { parseT20 } from "@/parser/t20";
 import { MODULE_ID, SYSTEM_ID } from "@/constants";
 import { log } from "@/utils/logging";
-import { BG3Overlay } from "@/overlay/BG3Overlay";
+import { BG3Overlay, type GridRollEntry } from "@/overlay/BG3Overlay";
+
+// Tempo (ms) entre rolagens de iniciativa pra considerar como um lote — basta
+// para "Rolar para Todos / PNJs" coalescer todas as mensagens num único grid.
+const INITIATIVE_BATCH_MS = 1000;
+const INITIATIVE_CATEGORY = "Iniciativa";
+
+// ── Initiative batching ──────────────────────────────────────────────────────
+
+const _initBatch: GridRollEntry[] = [];
+let _initFlushTimer: ReturnType<typeof setTimeout> | null = null;
+
+function batchInitiative(entry: GridRollEntry): void {
+    _initBatch.push(entry);
+    if (_initFlushTimer) clearTimeout(_initFlushTimer);
+    _initFlushTimer = setTimeout(flushInitiativeBatch, INITIATIVE_BATCH_MS);
+}
+
+function flushInitiativeBatch(): void {
+    _initFlushTimer = null;
+    if (_initBatch.length === 0) return;
+    const batch = _initBatch.splice(0);
+    if (batch.length === 1) {
+        const [{ meta, roll }] = batch;
+        BG3Overlay.show(meta, roll);
+    } else {
+        BG3Overlay.showGrid(batch, INITIATIVE_CATEGORY);
+    }
+}
 
 // ── Public entry point ────────────────────────────────────────────────────────
 
@@ -45,6 +73,14 @@ function installOverlayHook(): void {
 
         const roll = rolls[0];
         if (!roll) return;
+
+        // Iniciativa: agrupa rolagens próximas (Rolar para Todos / PNJs) num grid.
+        // O próprio debounce do INITIATIVE_BATCH_MS dá tempo da animação DSN rodar.
+        if (rollMeta.category === INITIATIVE_CATEGORY) {
+            const name = message.speaker?.alias ?? "Combatente";
+            batchInitiative({ meta: rollMeta, roll, name });
+            return;
+        }
 
         setTimeout(() => BG3Overlay.show(rollMeta, roll), 1000);
     });
