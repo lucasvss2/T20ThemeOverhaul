@@ -816,6 +816,15 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         render: (_event, dialog) => {
             const root = dialog.element;
 
+            // ── Botões de ação NÃO devem submeter/fechar o modal ──────────────
+            // Botões dentro do <form> do DialogV2 sem `type` explícito viram
+            // `type="submit"` → clicar (aplicar dano/cura/condição, rolar) fecharia
+            // o modal. Forçamos `type="button"` em todos os botões de ação. O modal
+            // só fecha pelo X ou pelo botão "Finalizar" (esse é o único submit).
+            root.querySelectorAll<HTMLButtonElement>("button:not([type])").forEach((b) => {
+                b.type = "button";
+            });
+
             // ── Collapse sections ─────────────────────────────────────────────
             // Only section-title elements that have a .smf-collapse-btn child are
             // collapsible — prevents inner sub-titles from toggling the parent.
