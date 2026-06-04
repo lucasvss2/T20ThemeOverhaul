@@ -26,7 +26,8 @@ function injectVitalBars(root: HTMLElement): void {
             `<div class="t20-vital-bar__fill" style="width:${regPct.toFixed(1)}%"></div>` +
             (temp > 0 ? `<div class="t20-vital-bar__fill-temp" style="width:${tempPct.toFixed(1)}%"></div>` : "");
         const footer = el.querySelector(".attribute-footer");
-        footer ? el.insertBefore(bar, footer) : el.appendChild(bar);
+        if (footer) el.insertBefore(bar, footer);
+        else el.appendChild(bar);
     };
 
     const healthEl = root.querySelector<HTMLElement>(".attribute.health");

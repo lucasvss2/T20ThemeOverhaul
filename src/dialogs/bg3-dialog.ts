@@ -189,7 +189,7 @@ function stylizeDialog(
         tdItem?.name, optsItem?.name,
         opts?.["ability"], opts?.["skill"],
     ];
-    let itemName = (nameSources.find(isValidName) as string | undefined) ?? "";
+    const itemName = (nameSources.find(isValidName) as string | undefined) ?? "";
 
     // ── Resolve item image ───────────────────────────────────────────────────
 

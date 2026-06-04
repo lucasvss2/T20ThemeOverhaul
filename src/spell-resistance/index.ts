@@ -838,8 +838,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             // ── Rolar Resist\u00eancia (suporta reroll) ────────────────────────────
             let hasRolledResist = false;
             const rollResistBtn = root.querySelector<HTMLButtonElement>("#smf-roll-resist");
-            rollResistBtn?.addEventListener("click", function () {
-                const btn = this;
+            rollResistBtn?.addEventListener("click", (ev) => {
+                const btn = ev.currentTarget as HTMLButtonElement;
                 btn.disabled = true;
 
                 const bonusExtra = (root.querySelector<HTMLInputElement>('[name="bonusExtra"]')?.value ?? "").trim();
@@ -997,8 +997,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
 
             // ── Rolar Vontade (resist\u00eancia do morto-vivo) ─────────────────────
             const undeadRollBtn = root.querySelector<HTMLButtonElement>("#smf-undead-roll");
-            undeadRollBtn?.addEventListener("click", function () {
-                const btn = this;
+            undeadRollBtn?.addEventListener("click", (ev) => {
+                const btn = ev.currentTarget as HTMLButtonElement;
                 btn.disabled = true;
                 const vontBonus = targetActor ? computeSkillTotal(targetActor, "vont") : 0;
                 const bonusStr  = vontBonus >= 0 ? `+${vontBonus}` : `${vontBonus}`;
