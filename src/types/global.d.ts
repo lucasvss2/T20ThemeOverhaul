@@ -14,12 +14,18 @@ declare const Hooks: {
 
 declare const game: {
     system: { id: string; version: string };
+    /** Current Foundry version string (e.g. "13.351"). */
+    version?: string;
+    /** In-game world clock. */
+    time?: { worldTime?: number };
+    /** Active combat encounter, if any. */
+    combat?: { round?: number; combatant?: { tokenId?: string } };
     modules: {
         get(id: string): FoundryModule | undefined;
     };
     actors?: {
         get(id: string): FoundryActor | undefined;
-        contents?: Array<{ id: string }>;
+        contents?: FoundryActor[];
     };
     messages?: {
         get(id: string): ChatMessage | undefined;
@@ -69,10 +75,38 @@ declare interface FoundryUser {
     active: boolean;
 }
 
+/**
+ * Token document (Foundry v11+). Holds the authoritative position, size,
+ * disposition and flags. NOTE: inside an `updateToken` hook, `x`/`y` still
+ * hold the PRE-move position during animation — the destination is in the
+ * hook's `changes` payload (see the v13 quirk handled by `overrideXY`).
+ */
+declare interface FoundryTokenDocument {
+    id?: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    disposition?: number;
+    flags?: Record<string, Record<string, unknown>>;
+    update(data: Record<string, unknown>): Promise<unknown>;
+}
+
 declare interface FoundryToken {
     id: string;
     name: string;
     actor: FoundryActor | null;
+    /** Token document (v11+) — authoritative x/y/size/disposition/flags. */
+    document?: FoundryTokenDocument;
+    /** True if this token is currently selected/controlled by the user. */
+    controlled?: boolean;
+    /** Select this token on the canvas. */
+    control(options?: { releaseOthers?: boolean }): void;
+    /** Legacy direct position (pre-v11) — prefer `document.x/y`. */
+    x?: number;
+    y?: number;
+    /** Legacy data bag (pre-v11) — prefer `document`. */
+    data?: { disposition?: number };
 }
 
 declare interface FoundryItemEffect {
@@ -81,6 +115,16 @@ declare interface FoundryItemEffect {
     disabled: boolean;
     changes: Array<{ key: string; value: string; mode: number; priority?: number | null }>;
     flags: Record<string, Record<string, unknown>>;
+    /** "ActiveEffect" — document class name. */
+    documentName?: string;
+    /** Origin UUID this effect was created from. */
+    origin?: string;
+    /** Whether the effect transfers from item to owning actor. */
+    transfer?: boolean;
+    /** Parent document (the owning Actor or Item). */
+    parent?: FoundryActor | FoundryItem;
+    update(data: Record<string, unknown>): Promise<unknown>;
+    toObject(): Record<string, unknown>;
 }
 
 declare interface FoundryItem {
@@ -89,6 +133,7 @@ declare interface FoundryItem {
     type: string;
     system: Record<string, unknown>;
     effects?: { contents: FoundryItemEffect[] };
+    flags?: Record<string, Record<string, unknown>>;
 }
 
 declare interface FoundryActor {
@@ -103,6 +148,7 @@ declare interface FoundryActor {
     type?: string;
     img?: string;
     ownership: Record<string, number>;
+    flags?: Record<string, Record<string, unknown>>;
     items?: {
         contents: FoundryItem[];
         /** Look up a single item by id */
@@ -119,6 +165,8 @@ declare interface FoundryActor {
         data: Record<string, unknown>[],
         options?: Record<string, unknown>,
     ): Promise<unknown[]>;
+    /** Delete embedded child documents (e.g. ActiveEffect) by id. */
+    deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown[]>;
     /**
      * Toggle a status effect on the actor.
      * Pass `{ active: true }` to force-enable without toggling off.
@@ -336,10 +384,45 @@ declare interface DiceTerm extends RollTerm {
 
 // ── UI ───────────────────────────────────────────────────────────────────────
 
-declare const canvas: {
-    tokens?: {
-        controlled?: FoundryToken[];
+/** A MeasuredTemplate document (circle/cone/etc) embedded in a scene. */
+declare interface MeasuredTemplateDocument {
+    id: string;
+    uuid: string;
+    x: number;
+    y: number;
+    distance: number;
+    direction?: number;
+    angle?: number;
+    flags?: Record<string, Record<string, unknown>>;
+    /** Author/owner — shape varies across versions. */
+    user?: string | { id?: string };
+    author?: { id?: string };
+    update(data: Record<string, unknown>): Promise<unknown>;
+    delete(): Promise<unknown>;
+}
+
+declare interface FoundryScene {
+    name?: string;
+    id?: string;
+    grid?: { size?: number; distance?: number };
+    templates?: {
+        contents?: MeasuredTemplateDocument[];
+        get(id: string): MeasuredTemplateDocument | undefined;
     };
+    createEmbeddedDocuments(type: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown[]>;
+    deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown>;
+}
+
+declare const canvas: {
+    scene?: FoundryScene;
+    tokens?: {
+        placeables?: FoundryToken[];
+        controlled?: FoundryToken[];
+        get(id: string): FoundryToken | undefined;
+    };
+    /** PIXI app/stage — used for canvas-click prompts. Loosely typed on purpose. */
+    app?: { stage?: unknown };
+    stage?: unknown;
 } | undefined;
 
 declare const ui: {

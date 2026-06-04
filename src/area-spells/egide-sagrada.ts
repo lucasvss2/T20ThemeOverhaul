@@ -59,8 +59,7 @@ function isEgideSagradaMessage(message: ChatMessage): boolean {
 /** True se o ator tem "Escudo Fraterno" entre seus poderes. */
 function hasEscudoFraterno(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === ESCUDO_FRATERNO_NORMALIZED);
 }
 
@@ -123,7 +122,7 @@ function buildEgideFlags(meta: {
         casterName:         meta.casterName,
         raioM:              meta.raioM,
         creatorUserId:      game.user?.id ?? "",
-        createdAtGameTime:  (game as unknown as { time?: { worldTime?: number } }).time?.worldTime ?? 0,
+        createdAtGameTime:  game.time?.worldTime ?? 0,
     };
 }
 
@@ -133,16 +132,11 @@ async function createGhostTemplate(opts: {
     casterName: string;
     raioM: number;
 }): Promise<string | null> {
-    type SceneLike = FoundryActor & {
-        createEmbeddedDocuments(t: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown[]>;
-    };
-    type CanvasLike = { scene?: SceneLike };
-    const cv    = canvas as unknown as CanvasLike;
-    const scene = cv.scene;
+    const scene = canvas?.scene;
     if (!scene) return null;
 
     const center = getTokenCenterPx(opts.casterToken);
-    const tokenId = (opts.casterToken as unknown as { id?: string }).id ?? "";
+    const tokenId = opts.casterToken.id;
 
     const data = {
         t: "circle",
@@ -175,9 +169,7 @@ async function createGhostTemplate(opts: {
 }
 
 function getEgideTemplates(): EgideTpl[] {
-    type SceneLike = { templates?: { contents?: EgideTpl[] } };
-    const cv = canvas as unknown as { scene?: SceneLike };
-    const list = cv.scene?.templates?.contents ?? [];
+    const list = canvas?.scene?.templates?.contents ?? [];
     return list.filter(t => t.flags?.[MODULE_ID]?.[FLAG_SPELL] === SPELL_KEY);
 }
 
@@ -213,7 +205,7 @@ function buildEffectDataFromTemplate(template: EgideTpl): Record<string, unknown
 async function applyEgideToToken(token: FoundryToken, template: EgideTpl): Promise<boolean> {
     const actor = token.actor;
     if (!actor) return false;
-    const actorId = (actor as unknown as { id?: string }).id ?? "";
+    const actorId = actor.id;
     const lockKey = `${actorId}::${template.id}`;
     if (_applyInProgress.has(lockKey)) return false;
     if (tokenHasEgideEffectFrom(actor, template.id)) return false;
@@ -263,7 +255,7 @@ async function syncTokenWithEgides(
 ): Promise<void> {
     if (!isActiveGM()) return;
     if (!token.actor) return;
-    const tokenId = (token as unknown as { id?: string }).id ?? "";
+    const tokenId = token.id;
     if (!tokenId) return;
 
     if (_syncInProgress.has(tokenId)) {
@@ -314,11 +306,9 @@ async function resyncAllTokens(overrideForToken?: {
     tokenId: string; xy: { x?: number; y?: number };
 }): Promise<void> {
     if (!isActiveGM()) return;
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    for (const tk of (cv.tokens?.placeables ?? [])) {
+    for (const tk of (canvas?.tokens?.placeables ?? [])) {
         if (!tk.actor) continue;
-        const tid = (tk as unknown as { id?: string }).id;
+        const tid = tk.id;
         const ov  = (overrideForToken && overrideForToken.tokenId === tid)
             ? overrideForToken.xy
             : undefined;
@@ -328,13 +318,11 @@ async function resyncAllTokens(overrideForToken?: {
 
 async function cleanupAEsForTemplate(templateId: string): Promise<void> {
     if (!isActiveGM()) return;
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
     const actorsSet = new Set<FoundryActor>();
-    for (const a of ((game.actors?.contents ?? []) as unknown as FoundryActor[])) {
+    for (const a of (game.actors?.contents ?? [])) {
         if (a) actorsSet.add(a);
     }
-    for (const tk of (cv.tokens?.placeables ?? [])) {
+    for (const tk of (canvas?.tokens?.placeables ?? [])) {
         if (tk.actor) actorsSet.add(tk.actor);
     }
     let removed = 0;
@@ -463,7 +451,7 @@ async function onEgideSagradaCast(message: ChatMessage): Promise<void> {
         );
         return;
     }
-    const casterTokenId = (casterToken as unknown as { id?: string }).id ?? "";
+    const casterTokenId = casterToken.id;
 
     // SNAPSHOT: efeitos do Sequencer já atrelados ao caster ANTES do cast.
     // O diff posterior nos dá os IDs criados pelo autoanim pra Égide.
@@ -478,8 +466,7 @@ async function onEgideSagradaCast(message: ChatMessage): Promise<void> {
     const raioM = computeEgideRaioM(casterActor);
     const withShield = raioM === RAIO_ESCUDO_FRATERNO_M;
 
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
 
     // 1 caster = 1 égide ativa (recast substitui)
     const previas = getCasterTemplates(casterTokenId);
@@ -534,7 +521,7 @@ async function moveEgideWithCaster(
     casterToken: FoundryToken,
     overrideXY?: { x?: number; y?: number },
 ): Promise<void> {
-    const casterTokenId = (casterToken as unknown as { id?: string }).id ?? "";
+    const casterTokenId = casterToken.id;
     if (!casterTokenId) return;
     const mine = getCasterTemplates(casterTokenId);
     if (mine.length === 0) return;
@@ -570,8 +557,7 @@ async function onClickCancelEgide(): Promise<void> {
         refreshSkillsMenu();
         return;
     }
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
     if (!scene?.deleteEmbeddedDocuments) return;
 
     // Caso simples: 1 ativa → confirmar e deletar
@@ -659,7 +645,7 @@ export function setupEgideSagrada(): void {
         const changes  = args[1] as Record<string, unknown> | undefined;
         const token    = tokenDoc.object;
         if (!token) return;
-        const tokenId  = (token as unknown as { id?: string }).id ?? "";
+        const tokenId  = token.id;
         const destX = typeof changes?.["x"] === "number" ? (changes["x"] as number) : undefined;
         const destY = typeof changes?.["y"] === "number" ? (changes["y"] as number) : undefined;
         const overrideXY = (destX !== undefined || destY !== undefined)

@@ -59,8 +59,7 @@ const RAIO_PODEROSA_M = 30;
 /** True se o ator (caster) tem o aprimoramento "Aura Poderosa" entre seus poderes. */
 function hasAuraPoderosa(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === POWERFUL_AURA_NORMALIZED);
 }
 
@@ -89,7 +88,7 @@ function buildAuraFlags(meta: {
         casterName:         meta.casterName,
         raioM:              meta.raioM,
         creatorUserId:      game.user?.id ?? "",
-        createdAtGameTime:  (game as unknown as { time?: { worldTime?: number } }).time?.worldTime ?? 0,
+        createdAtGameTime:  game.time?.worldTime ?? 0,
     };
 }
 
@@ -99,16 +98,11 @@ async function createGhostTemplate(opts: {
     casterName: string;
     raioM: number;
 }): Promise<string | null> {
-    type SceneLike = FoundryActor & {
-        createEmbeddedDocuments(t: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown[]>;
-    };
-    type CanvasLike = { scene?: SceneLike };
-    const cv    = canvas as unknown as CanvasLike;
-    const scene = cv.scene;
+    const scene = canvas?.scene;
     if (!scene) return null;
 
     const center = getTokenCenterPx(opts.casterToken);
-    const tokenId = (opts.casterToken as unknown as { id?: string }).id ?? "";
+    const tokenId = opts.casterToken.id;
 
     const data = {
         t: "circle",
@@ -148,9 +142,7 @@ type AuraTpl = {
 };
 
 function getAuraTemplates(): AuraTpl[] {
-    type SceneLike = { templates?: { contents?: AuraTpl[] } };
-    const cv = canvas as unknown as { scene?: SceneLike };
-    const list = cv.scene?.templates?.contents ?? [];
+    const list = canvas?.scene?.templates?.contents ?? [];
     return list.filter(t => t.flags?.[MODULE_ID]?.[FLAG_SPELL] === SPELL_KEY);
 }
 
@@ -192,7 +184,7 @@ function buildEffectDataFromTemplate(template: AuraTpl): Record<string, unknown>
 async function applyAuraToToken(token: FoundryToken, template: AuraTpl): Promise<boolean> {
     const actor = token.actor;
     if (!actor) return false;
-    const actorId = (actor as unknown as { id?: string }).id ?? "";
+    const actorId = actor.id;
     const lockKey = `${actorId}::${template.id}`;
     if (_applyInProgress.has(lockKey)) return false;
     if (tokenHasAuraEffectFrom(actor, template.id)) return false;
@@ -245,7 +237,7 @@ async function syncTokenWithAuras(
 ): Promise<void> {
     if (!isActiveGM()) return;
     if (!token.actor) return;
-    const tokenId = (token as unknown as { id?: string }).id ?? "";
+    const tokenId = token.id;
     if (!tokenId) return;
 
     if (_syncInProgress.has(tokenId)) {
@@ -298,12 +290,10 @@ async function resyncAllTokens(overrideForToken?: {
     tokenId: string; xy: { x?: number; y?: number };
 }): Promise<void> {
     if (!isActiveGM()) return;
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
     for (const tk of tokens) {
         if (!tk.actor) continue;
-        const tid = (tk as unknown as { id?: string }).id;
+        const tid = tk.id;
         const ov  = (overrideForToken && overrideForToken.tokenId === tid)
             ? overrideForToken.xy
             : undefined;
@@ -314,13 +304,11 @@ async function resyncAllTokens(overrideForToken?: {
 /** Remove TODOS os AEs criados por este template (usado no delete do template). */
 async function cleanupAEsForTemplate(templateId: string): Promise<void> {
     if (!isActiveGM()) return;
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
     const actorsSet = new Set<FoundryActor>();
-    for (const a of ((game.actors?.contents ?? []) as unknown as FoundryActor[])) {
+    for (const a of (game.actors?.contents ?? [])) {
         if (a) actorsSet.add(a);
     }
-    for (const tk of (cv.tokens?.placeables ?? [])) {
+    for (const tk of (canvas?.tokens?.placeables ?? [])) {
         if (tk.actor) actorsSet.add(tk.actor);
     }
     let removed = 0;
@@ -330,9 +318,7 @@ async function cleanupAEsForTemplate(templateId: string): Promise<void> {
         );
         if (ours.length === 0) continue;
         try {
-            await (actor as FoundryActor & {
-                deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
-            }).deleteEmbeddedDocuments("ActiveEffect", ours.map(e => e.id));
+            await actor.deleteEmbeddedDocuments("ActiveEffect", ours.map(e => e.id));
             removed += ours.length;
         } catch (err) {
             console.warn(`[t20-theme-overhaul] Aura Sagrada cleanup em ${actor.name}:`, err);
@@ -476,7 +462,7 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
         );
         return;
     }
-    const casterTokenId = (casterToken as unknown as { id?: string }).id ?? "";
+    const casterTokenId = casterToken.id;
 
     // SNAPSHOT: efeitos do Sequencer já atrelados ao caster ANTES do cast.
     // Capturamos imediatamente (antes de qualquer outra coisa) pra não competir
@@ -491,8 +477,7 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
 
     const raioM = hasAuraPoderosa(casterActor) ? RAIO_PODEROSA_M : RAIO_PADRAO_M;
 
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
 
     // 1. Limpa auras anteriores do mesmo caster (deletar template dispara cleanup dos AEs)
     const previas = getCasterTemplates(casterTokenId);
@@ -559,7 +544,7 @@ async function moveAuraWithCaster(
     casterToken: FoundryToken,
     overrideXY?: { x?: number; y?: number },
 ): Promise<void> {
-    const casterTokenId = (casterToken as unknown as { id?: string }).id ?? "";
+    const casterTokenId = casterToken.id;
     if (!casterTokenId) return;
     const mine = getCasterTemplates(casterTokenId);
     if (mine.length === 0) return;
@@ -603,8 +588,7 @@ async function onClickCancelAura(): Promise<void> {
         refreshSkillsMenu();
         return;
     }
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
     if (!scene?.deleteEmbeddedDocuments) {
         ui.notifications?.warn("Cena não disponível.");
         return;
@@ -717,8 +701,7 @@ function ensureAuraStyles(): void {
 /** True se o ator tem o item "Aura de Cura" entre seus poderes. */
 function hasAuraDeCura(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === HEALING_AURA_NORMALIZED);
 }
 
@@ -748,18 +731,14 @@ type HealCandidate = {
  * Fallback: world actor.
  */
 function resolveActorForCandidate(c: { tokenId: string; actorId: string }): FoundryActor | null {
-    type CanvasLike = { tokens?: { get(id: string): FoundryToken | null } };
-    const cv = canvas as unknown as CanvasLike;
-    const tok = cv.tokens?.get(c.tokenId);
+    const tok = canvas?.tokens?.get(c.tokenId);
     if (tok?.actor) return tok.actor;
     return game.actors?.get(c.actorId) ?? null;
 }
 
 /** Lista tokens elegíveis pra cura por uma aura — caster + aliados FRIENDLY dentro. */
 function listHealCandidates(template: AuraTpl, healAmount: number): HealCandidate[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
 
     const casterTokenId = template.flags?.[MODULE_ID]?.[FLAG_CASTER] as string | undefined;
     const casterActorId = template.flags?.[MODULE_ID]?.[FLAG_CASTER_AID] as string | undefined;
@@ -776,7 +755,7 @@ function listHealCandidates(template: AuraTpl, healAmount: number): HealCandidat
 
     for (const tk of tokens) {
         if (!tk.actor) continue;
-        const tid = (tk as unknown as { id?: string }).id ?? "";
+        const tid = tk.id;
         if (!tid || seenToken.has(tid)) continue;
         if (!isAuraTarget(tk, casterTokenId, casterDisp)) continue;
         if (!isTokenInsideTemplate(tk, template)) continue;
@@ -791,7 +770,7 @@ function listHealCandidates(template: AuraTpl, healAmount: number): HealCandidat
 
         const after = Math.min(max, cur + healAmount);
         out.push({
-            actorId:   (tk.actor as unknown as { id?: string }).id ?? "",
+            actorId:   tk.actor?.id ?? "",
             actorName: tk.actor.name ?? tk.name ?? "Ator",
             tokenId:   tid,
             pvBefore:  cur,
@@ -912,8 +891,7 @@ function pickHealTargetsDialog(opts: {
 /** True se o ator tem o item "Aura Ardente" entre seus poderes. */
 function hasAuraArdente(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === BURNING_AURA_NORMALIZED);
 }
 
@@ -951,9 +929,7 @@ type BurnCandidate = {
 
 /** Lista mortos-vivos e espíritos dentro da aura. */
 function listBurnCandidates(template: AuraTpl, damage: number): BurnCandidate[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
 
     // Dedup por TOKEN ID (não actor ID) — múltiplos tokens unlinked do mesmo
     // NPC base compartilham `actor.id` mas têm PV independentes (synthetic
@@ -963,7 +939,7 @@ function listBurnCandidates(template: AuraTpl, damage: number): BurnCandidate[] 
 
     for (const tk of tokens) {
         if (!tk.actor) continue;
-        const tid = (tk as unknown as { id?: string }).id ?? "";
+        const tid = tk.id;
         if (!tid || seenToken.has(tid)) continue;
         if (!isUndeadOrSpirit(tk.actor)) continue;
         if (!isTokenInsideTemplate(tk, template)) continue;
@@ -974,7 +950,7 @@ function listBurnCandidates(template: AuraTpl, damage: number): BurnCandidate[] 
         if (!Number.isFinite(cur) || cur <= 0) continue; // já morto / sem PV → não inclui
 
         out.push({
-            actorId:   (tk.actor as unknown as { id?: string }).id ?? "",
+            actorId:   tk.actor?.id ?? "",
             actorName: tk.name ?? tk.actor.name ?? "Ator",
             tokenId:   tid,
             pvBefore:  cur,
@@ -1090,8 +1066,7 @@ function pickBurnTargetsDialog(opts: {
 /** True se o ator tem o item "Aura Antimagia" entre seus poderes. */
 function hasAuraAntimagia(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === ANTIMAGIC_AURA_NORMALIZED);
 }
 
@@ -1144,14 +1119,12 @@ export function getAuraAntimagiaContextForActor(actorId: string): Array<{
 /** True se o ator (caster) tem o item "Aura de Invencibilidade" nos poderes. */
 function hasAuraInvencibilidade(actor: FoundryActor | null | undefined): boolean {
     if (!actor) return false;
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(it => normalizeCondName(it.name ?? "") === INVINCIBILITY_AURA_NORMALIZED);
 }
 
 function getCurrentSceneId(): string {
-    type CanvasLike = { scene?: { id?: string } };
-    return (canvas as unknown as CanvasLike).scene?.id ?? "";
+    return canvas?.scene?.id ?? "";
 }
 
 /**
@@ -1171,16 +1144,13 @@ export function getAuraInvencibilidadeContextForActor(
     if (auras.length === 0) return [];
 
     // Resolve token específico (preferindo o passado por id, pra unlinked)
-    type CanvasLike = { tokens?: { get(id: string): FoundryToken | undefined } };
-    const cv = canvas as unknown as CanvasLike;
-    const targetToken = (tokenId ? cv.tokens?.get(tokenId) : null) ?? findTokenForActor(actorId);
+    const targetToken = (tokenId ? canvas?.tokens?.get(tokenId) : null) ?? findTokenForActor(actorId);
     if (!targetToken) return [];
 
     // Já usou nesta cena?
-    const targetActor = (targetToken as unknown as { actor?: FoundryActor | null }).actor ?? null;
+    const targetActor = targetToken.actor ?? null;
     const sceneId = getCurrentSceneId();
-    type FlagBag = { flags?: Record<string, Record<string, unknown>> };
-    const usedScene = (targetActor as unknown as FlagBag | null)?.flags?.[MODULE_ID]?.[FLAG_INVENC_USED_SCENE];
+    const usedScene = targetActor?.flags?.[MODULE_ID]?.[FLAG_INVENC_USED_SCENE];
     if (usedScene && usedScene === sceneId) return [];
 
     const out: Array<{ casterName: string; casterActorId: string }> = [];
@@ -1220,10 +1190,8 @@ export async function markAuraInvencibilidadeUsed(opts: {
     damageIgnored: number;
 }): Promise<void> {
     const { actorId, tokenId, casterName, targetName, damageIgnored } = opts;
-    type CanvasLike = { tokens?: { get(id: string): FoundryToken | undefined } };
-    const cv = canvas as unknown as CanvasLike;
-    const tok = tokenId ? cv.tokens?.get(tokenId) : null;
-    const actor = (tok as unknown as { actor?: FoundryActor | null } | null)?.actor
+    const tok = tokenId ? canvas?.tokens?.get(tokenId) : null;
+    const actor = tok?.actor
         ?? game.actors?.get(actorId)
         ?? null;
     if (!actor) return;
@@ -1287,8 +1255,7 @@ async function spendSustainPM(caster: FoundryActor, auras: AuraTpl[]): Promise<{
 
     // Cancela as auras que não couberam ser sustentadas
     if (cancelled.length > 0) {
-        type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-        const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+        const scene = canvas?.scene;
         if (scene?.deleteEmbeddedDocuments) {
             try {
                 await scene.deleteEmbeddedDocuments("MeasuredTemplate", cancelled.map(t => t.id));
@@ -1379,7 +1346,7 @@ async function onCombatTurnStart(actor: FoundryActor, combatantTokenId: string):
         console.debug(`[t20-theme-overhaul] turn skip: não sou o active GM`);
         return;
     }
-    const actorId = (actor as unknown as { id?: string }).id ?? "";
+    const actorId = actor.id;
     if (!actorId) {
         console.debug(`[t20-theme-overhaul] turn skip: actor sem id`);
         return;
@@ -1475,9 +1442,7 @@ async function onCombatTurnStart(actor: FoundryActor, combatantTokenId: string):
 export function diagnoseAuras(): unknown {
     const auras = getAuraTemplates();
     const report: Array<Record<string, unknown>> = [];
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
 
     for (const tpl of auras) {
         const casterAid = tpl.flags?.[MODULE_ID]?.[FLAG_CASTER_AID] as string | undefined;
@@ -1566,7 +1531,7 @@ export function setupAuraSagrada(): void {
         const changes  = args[1] as Record<string, unknown> | undefined;
         const token    = tokenDoc.object;
         if (!token) return;
-        const tokenId  = (token as unknown as { id?: string }).id ?? "";
+        const tokenId  = token.id;
         const destX = typeof changes?.["x"] === "number" ? (changes["x"] as number) : undefined;
         const destY = typeof changes?.["y"] === "number" ? (changes["y"] as number) : undefined;
         const overrideXY = (destX !== undefined || destY !== undefined)

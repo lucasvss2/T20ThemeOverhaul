@@ -115,9 +115,7 @@ function isTokenInEsferaBounds(
     token: FoundryToken,
     esferaPx: { x: number; y: number; width: number; height: number },
 ): boolean {
-    type CanvasLike = { scene?: { grid?: { size?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size ?? 100;
+    const gridSize = canvas?.scene?.grid?.size ?? 100;
     const pos      = getTokenPosPx(token);
 
     // Caixa (AABB) da criatura em pixels — cobre TODOS os quadrados ocupados.
@@ -143,9 +141,7 @@ function isTokenInEsferaBounds(
  * Exclui o próprio esfera-token (e qualquer outro com nossa flag).
  */
 function tokensInEsfera(esferaPx: { x: number; y: number; width: number; height: number }): FoundryToken[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv     = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
     return tokens.filter(t => !tokenIsEsfera(t) && isTokenInEsferaBounds(t, esferaPx));
 }
 
@@ -153,9 +149,7 @@ function tokensInEsfera(esferaPx: { x: number; y: number; width: number; height:
 function tokenBoundsPx(token: { x: number; y: number; width: number; height: number }): {
     x: number; y: number; width: number; height: number;
 } {
-    type CanvasLike = { scene?: { grid?: { size?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size ?? 100;
+    const gridSize = canvas?.scene?.grid?.size ?? 100;
     return {
         x:      token.x,
         y:      token.y,
@@ -276,17 +270,11 @@ function trackRecentTemplate(authorUid: string, tplId: string): void {
 function sweepRecentUnflaggedTemplates(authorUid: string): void {
     const arr = _recentTemplatesByUser.get(authorUid);
     if (!arr || arr.length === 0) return;
-    type TplDoc = {
-        flags?: Record<string, Record<string, unknown>>;
-        delete?(): Promise<unknown>;
-    };
-    type CanvasLike = { scene?: { templates?: { get(id: string): TplDoc | undefined } } };
-    const cv     = canvas as unknown as CanvasLike;
     const cutoff = Date.now() - TPL_TRACK_WINDOW_MS;
     const remaining: RecentTemplate[] = [];
     for (const r of arr) {
         if (r.ts < cutoff) continue;
-        const t = cv.scene?.templates?.get(r.id);
+        const t = canvas?.scene?.templates?.get(r.id);
         if (!t) continue;
         const ourFlag = t.flags?.[MODULE_ID]?.[FLAG_SPELL];
         if (ourFlag) { remaining.push(r); continue; } // já é nosso → mantém
@@ -532,14 +520,7 @@ async function placeEsfera(meta: EsferaMeta): Promise<void> {
     );
     if (!pos) return;
 
-    type SceneLike = {
-        id?: string;
-        grid?: { size?: number; distance?: number };
-        createEmbeddedDocuments(t: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown[]>;
-    };
-    type CanvasLike = { scene?: SceneLike };
-    const cv    = canvas as unknown as CanvasLike;
-    const scene = cv.scene;
+    const scene = canvas?.scene;
     if (!scene) {
         ui.notifications?.error("Esfera Flamejante: nenhuma cena ativa");
         return;
@@ -573,9 +554,7 @@ function tokensAlongPath(
     if (dist === 0) {
         return tokensInEsfera({ x: fromPx.x, y: fromPx.y, width: esferaW, height: esferaH });
     }
-    type CanvasLike = { scene?: { grid?: { size?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size ?? 100;
+    const gridSize = canvas?.scene?.grid?.size ?? 100;
     const steps    = Math.max(1, Math.ceil(dist / (gridSize / 4)));
     const seen     = new Set<string>();
     const result: FoundryToken[] = [];
@@ -584,8 +563,7 @@ function tokensAlongPath(
         const sx = fromPx.x + dx * t;
         const sy = fromPx.y + dy * t;
         for (const tok of tokensInEsfera({ x: sx, y: sy, width: esferaW, height: esferaH })) {
-            const tid = (tok as unknown as { document?: { id?: string }; id?: string }).document?.id
-                     ?? (tok as unknown as { id?: string }).id
+            const tid = tok.document?.id ?? tok.id
                      ?? "";
             if (tid && !seen.has(tid)) {
                 seen.add(tid);
@@ -623,7 +601,7 @@ async function applyEsferaDamage(esferaTokenDoc: {
     // Multi-GM dedup via isActiveGM (lowest sorted userId).
     if (!isActiveGM()) return;
 
-    const round         = (game as unknown as { combat?: { round?: number } }).combat?.round ?? 0;
+    const round         = game.combat?.round ?? 0;
     const damaged       = (flags["damagedThisRound"] as Record<string, number> | undefined) ?? {};
     const damageFormula = (flags["damageFormula"]    as string) ?? "3d6";
     const cd            = (flags["cd"]               as number) ?? 0;
@@ -640,8 +618,7 @@ async function applyEsferaDamage(esferaTokenDoc: {
     const targets: FoundryToken[] = [];
     for (const t of tokens) {
         if (!t.actor) continue;
-        const tokId = (t as unknown as { document?: { id?: string }; id?: string }).document?.id
-                   ?? (t as unknown as { id?: string }).id
+        const tokId = t.document?.id ?? t.id
                    ?? "";
         if (!tokId || seen.has(tokId)) continue;
         seen.add(tokId);
@@ -670,8 +647,7 @@ async function applyEsferaDamage(esferaTokenDoc: {
         if (!actor) continue;
         const targetUserId = getTargetUserId(actor);
         if (!targetUserId) continue;
-        const tokId = (token as unknown as { document?: { id?: string }; id?: string }).document?.id
-                   ?? (token as unknown as { id?: string }).id
+        const tokId = token.document?.id ?? token.id
                    ?? "";
         if (tokId) newDamaged[tokId] = round;
         targetNames.push(token.name ?? actor.name ?? "Alvo");
@@ -948,8 +924,7 @@ async function onClickCancelEsfera(): Promise<void> {
         refreshSkillsMenu();
         return;
     }
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
     if (!scene?.deleteEmbeddedDocuments) return;
 
     if (mine.length === 1) {
@@ -1241,13 +1216,8 @@ export function setupBolaDeFogo(): void {
         {
             const itemIdMaybe = extractItemId(message);
             const actorIdMaybe = message.speaker?.actor ?? "";
-            type ActorsGetter = {
-                get(id: string): {
-                    items?: { get(id: string): { flags?: Record<string, Record<string, unknown>> } | undefined };
-                } | undefined;
-            };
             const liveItem = (itemIdMaybe && actorIdMaybe)
-                ? (game.actors as unknown as ActorsGetter).get(actorIdMaybe)?.items?.get(itemIdMaybe)
+                ? game.actors?.get(actorIdMaybe)?.items?.get(itemIdMaybe)
                 : undefined;
             const isPedraUse = liveItem?.flags?.[MODULE_ID]?.[FLAG_SPELL] === PEDRA_KEY;
             if (isPedraUse) {
@@ -1518,9 +1488,7 @@ export function setupBolaDeFogo(): void {
         const newY = destY ?? oldY;
         if (oldX === newX && oldY === newY) return;
 
-        type CanvasLike = { scene?: { grid?: { size?: number } } };
-        const cv       = canvas as unknown as CanvasLike;
-        const gridSize = cv.scene?.grid?.size ?? 100;
+        const gridSize = canvas?.scene?.grid?.size ?? 100;
         const esferaW  = tokDoc.width  * gridSize;
         const esferaH  = tokDoc.height * gridSize;
         const affected = tokensAlongPath(

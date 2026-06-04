@@ -107,8 +107,7 @@ export function isUndead(actor: FoundryActor): boolean {
     if (tipo === "mor")        return true; // Lich, Ravarimm, etc.
 
     // PCs — item de raça undead (Osteon, Soterrado)
-    type ItemLike = { type?: string; name?: string };
-    const items = (actor as unknown as { items?: { contents?: ItemLike[] } }).items?.contents ?? [];
+    const items = actor.items?.contents ?? [];
     return items.some(item => {
         if (item.type !== "race") return false;
         const n = typeof item.name === "string" ? normalizeCondName(item.name) : "";
@@ -211,7 +210,7 @@ function buildConsagrarFlags(meta: {
         casterActorId:      meta.casterActorId,
         casterName:         meta.casterName,
         undeadPenalty:      meta.undeadPenalty,
-        createdAtGameTime:  (game as unknown as { time?: { worldTime?: number } }).time?.worldTime ?? 0,
+        createdAtGameTime:  game.time?.worldTime ?? 0,
         creatorUserId:      game.user?.id ?? "",
     };
 }
@@ -249,12 +248,7 @@ async function placeTemplateManual(meta: {
     const pos = await promptCanvasClick();
     if (!pos) return;
 
-    type SceneLike = FoundryActor & {
-        createEmbeddedDocuments(t: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown>;
-    };
-    type CanvasLike = { scene?: SceneLike };
-    const cv    = canvas as unknown as CanvasLike;
-    const scene = cv.scene;
+    const scene = canvas?.scene;
     if (!scene) {
         ui.notifications?.error("Consagrar: nenhuma cena ativa");
         return;
@@ -367,7 +361,7 @@ async function applyEffectToToken(token: FoundryToken, template: {
 }): Promise<boolean> {
     const actor = token.actor;
     if (!actor) return false;
-    const actorId = (actor as unknown as { id?: string }).id ?? "";
+    const actorId = actor.id;
     const lockKey = `${actorId}::${template.id}`;
     // Bloqueia qualquer segundo caller antes mesmo de verificar o efeito
     if (_applyInProgress.has(lockKey)) return false;
@@ -386,8 +380,7 @@ async function applyEffectToToken(token: FoundryToken, template: {
             const existing = findUnclaimedT20PenaltyEffect(actor, template.id);
             if (existing) {
                 try {
-                    await (existing as unknown as { update(d: Record<string, unknown>): Promise<unknown> })
-                        .update({ [`flags.${MODULE_ID}.${FLAG_EFFECT_ORIGIN}`]: template.id });
+                    await existing.update({ [`flags.${MODULE_ID}.${FLAG_EFFECT_ORIGIN}`]: template.id });
                     return true;
                 } catch (err) {
                     console.warn(`[t20-theme-overhaul] Consagrar adopt em ${actor.name}:`, err);
@@ -435,15 +428,10 @@ function getConsagrarTemplates(): Array<{
     id: string; uuid: string; x: number; y: number; distance: number;
     flags?: Record<string, Record<string, unknown>>;
 }> {
-    type SceneLike = { templates?: { contents?: Array<{ flags?: Record<string, Record<string, unknown>> }> } };
-    const cv = canvas as unknown as { scene?: SceneLike };
-    const templates = cv.scene?.templates?.contents ?? [];
+    const templates = canvas?.scene?.templates?.contents ?? [];
     return templates.filter(t =>
         t.flags?.[MODULE_ID]?.[FLAG_SPELL] === SPELL_KEY
-    ) as Array<{
-        id: string; uuid: string; x: number; y: number; distance: number;
-        flags?: Record<string, Record<string, unknown>>;
-    }>;
+    );
 }
 
 /**
@@ -470,7 +458,7 @@ async function syncTokenWithTemplates(
 ): Promise<void> {
     if (!isActiveGM()) return;
     if (!token.actor) return;
-    const tokenId = (token as unknown as { id?: string }).id ?? "";
+    const tokenId = token.id;
     if (!tokenId) return;
 
     if (_syncInProgress.has(tokenId)) {
@@ -549,12 +537,10 @@ async function removeAEsForTemplate(templateId: string): Promise<void> {
     //       synthetic.actor é uma instância DIFERENTE com mesmo id do world
     //       actor; precisamos deduplicar por REFERÊNCIA (Set), não por id.
     const actorsSet = new Set<FoundryActor>();
-    for (const a of ((game.actors?.contents ?? []) as unknown as FoundryActor[])) {
+    for (const a of (game.actors?.contents ?? [])) {
         if (a) actorsSet.add(a);
     }
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    for (const tk of (cv.tokens?.placeables ?? [])) {
+    for (const tk of (canvas?.tokens?.placeables ?? [])) {
         const a = tk.actor;
         if (a) actorsSet.add(a);
     }
@@ -629,8 +615,7 @@ async function onClickRemoveArea(): Promise<void> {
         return;
     }
 
-    type SceneLike = { deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown> };
-    const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+    const scene = canvas?.scene;
     if (!scene?.deleteEmbeddedDocuments) {
         ui.notifications?.warn("Cena não disponível.");
         return;
@@ -854,13 +839,11 @@ export function setupConsagrar(): void {
         const templates = getConsagrarTemplates();
         if (templates.length === 0) return;
 
-        type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-        const cv = canvas as unknown as CanvasLike;
-        const tokens = cv.tokens?.placeables ?? [];
+        const tokens = canvas?.tokens?.placeables ?? [];
         // Acha o token deste ator (linked ou unlinked) na cena
         const myToken = tokens.find(t =>
             t.actor === actor ||
-            (t.actor as unknown as { id?: string })?.id === (actor as unknown as { id?: string }).id
+            t.actor?.id === actor.id
         );
         if (!myToken) return;
 
@@ -914,9 +897,7 @@ export function setupConsagrar(): void {
         if (tplDoc.flags?.[MODULE_ID]?.[FLAG_SPELL] !== SPELL_KEY) return;
         if (changes["x"] === undefined && changes["y"] === undefined && changes["distance"] === undefined) return;
         if (!isActiveGM()) return;
-        type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-        const cv = canvas as unknown as CanvasLike;
-        const tokens = cv.tokens?.placeables ?? [];
+        const tokens = canvas?.tokens?.placeables ?? [];
         void (async () => {
             for (const token of tokens) {
                 if (!token.actor) continue;
@@ -938,9 +919,7 @@ export function setupConsagrar(): void {
         if (!isActiveGM()) return;
         const templates = getConsagrarTemplates();
         if (templates.length === 0) return;
-        type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-        const cv = canvas as unknown as CanvasLike;
-        const tokens = cv.tokens?.placeables ?? [];
+        const tokens = canvas?.tokens?.placeables ?? [];
         void (async () => {
             for (const token of tokens) {
                 if (!token.actor) continue;
@@ -960,10 +939,7 @@ export function setupConsagrar(): void {
         const worldTime = args[0] as number;
         const templates = getConsagrarTemplates();
         if (templates.length === 0) return;
-        type SceneLike = {
-            deleteEmbeddedDocuments?(t: string, ids: string[]): Promise<unknown>;
-        };
-        const scene = (canvas as unknown as { scene?: SceneLike }).scene;
+        const scene = canvas?.scene;
         for (const template of templates) {
             const createdAt = template.flags?.[MODULE_ID]?.["createdAtGameTime"] as number | undefined;
             if (createdAt == null) continue;

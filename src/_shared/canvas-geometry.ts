@@ -8,6 +8,9 @@
  * destination from an `updateToken` hook — see the v13 quirk where `doc.x/y`
  * still holds the pre-move position during animation). Callers that don't move
  * the token simply omit it.
+ *
+ * Phase 2: relies on the typed Foundry ambient globals (FoundryToken.document,
+ * canvas.scene/tokens) instead of inline `as unknown as` casts.
  */
 
 /**
@@ -22,15 +25,10 @@ export function getTokenPosPx(
     token: FoundryToken,
     overrideXY?: { x?: number; y?: number },
 ): { x: number; y: number; widthSq: number; heightSq: number } {
-    type TokenDoc = {
-        document?: { x?: number; y?: number; width?: number; height?: number };
-        x?: number; y?: number;
-    };
-    const t = token as unknown as TokenDoc;
-    const doc = t.document;
+    const doc = token.document;
     return {
-        x:        overrideXY?.x ?? doc?.x ?? t.x ?? 0,
-        y:        overrideXY?.y ?? doc?.y ?? t.y ?? 0,
+        x:        overrideXY?.x ?? doc?.x ?? token.x ?? 0,
+        y:        overrideXY?.y ?? doc?.y ?? token.y ?? 0,
         widthSq:  doc?.width  ?? 1,
         heightSq: doc?.height ?? 1,
     };
@@ -41,9 +39,7 @@ export function getTokenCenterPx(
     token: FoundryToken,
     overrideXY?: { x?: number; y?: number },
 ): { x: number; y: number } {
-    type CanvasLike = { scene?: { grid?: { size?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size ?? 100;
+    const gridSize = canvas?.scene?.grid?.size ?? 100;
     const pos      = getTokenPosPx(token, overrideXY);
     return {
         x: pos.x + (pos.widthSq  * gridSize) / 2,
@@ -67,10 +63,8 @@ export function isTokenInsideTemplate(
     template: { x: number; y: number; distance: number },
     overrideXY?: { x?: number; y?: number },
 ): boolean {
-    type CanvasLike = { scene?: { grid?: { size?: number; distance?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size     ?? 100;
-    const gridDist = cv.scene?.grid?.distance ?? 1.5;
+    const gridSize = canvas?.scene?.grid?.size     ?? 100;
+    const gridDist = canvas?.scene?.grid?.distance ?? 1.5;
 
     const radiusSq = template.distance / gridDist;
     const tCxSq    = template.x / gridSize;
@@ -91,19 +85,14 @@ export function isTokenInsideTemplate(
 export function tokensInTemplate(template: {
     x: number; y: number; distance: number;
 }): FoundryToken[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv     = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
     return tokens.filter(t => isTokenInsideTemplate(t, template));
 }
 
 /** Token on the scene whose `actor.id` matches the given id (linked or unlinked). */
 export function findTokenForActor(actorId: string): FoundryToken | null {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    for (const t of (cv.tokens?.placeables ?? [])) {
-        const aid = (t.actor as unknown as { id?: string } | null)?.id;
-        if (aid === actorId) return t;
+    for (const t of (canvas?.tokens?.placeables ?? [])) {
+        if (t.actor?.id === actorId) return t;
     }
     return null;
 }
@@ -113,12 +102,7 @@ export function findTokenForActor(actorId: string): FoundryToken | null {
  * the legacy shape (token.data.disposition). Defaults to NEUTRAL (0).
  */
 export function getTokenDisposition(token: FoundryToken): number {
-    type TokenLike = {
-        document?: { disposition?: number };
-        data?:     { disposition?: number };
-    };
-    const t = token as unknown as TokenLike;
-    return t.document?.disposition ?? t.data?.disposition ?? 0;
+    return token.document?.disposition ?? token.data?.disposition ?? 0;
 }
 
 /** Caster + tokens sharing the caster's disposition (aura ally targeting). */
@@ -127,7 +111,6 @@ export function isAuraTarget(
     casterTokenId: string,
     casterDisposition: number,
 ): boolean {
-    const tokenId = (token as unknown as { id?: string }).id;
-    if (tokenId === casterTokenId) return true; // the caster always includes itself
+    if (token.id === casterTokenId) return true; // the caster always includes itself
     return getTokenDisposition(token) === casterDisposition;
 }

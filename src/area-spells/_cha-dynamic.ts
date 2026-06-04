@@ -35,9 +35,7 @@ type TplLike = {
 };
 
 function listTemplates(cfg: ChaDynamicConfig): TplLike[] {
-    type SceneLike = { templates?: { contents?: TplLike[] } };
-    const cv = canvas as unknown as { scene?: SceneLike };
-    return (cv.scene?.templates?.contents ?? [])
+    return (canvas?.scene?.templates?.contents ?? [])
         .filter(t => t.flags?.[cfg.moduleId]?.[cfg.flagSpell] === cfg.spellKey);
 }
 
@@ -50,13 +48,12 @@ function readActorCha(actor: FoundryActor): number {
 
 /** Atualiza in-place as AEs já aplicadas nos recipientes deste template. */
 async function updateRecipientAEs(cfg: ChaDynamicConfig, templateId: string, newChanges: unknown[]): Promise<void> {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const tokens = (canvas as unknown as CanvasLike).tokens?.placeables ?? [];
+    const tokens = canvas?.tokens?.placeables ?? [];
     const seen = new Set<string>();
     for (const token of tokens) {
         const actor = token.actor;
         if (!actor) continue;
-        const aid = (actor as unknown as { id?: string }).id ?? "";
+        const aid = actor.id;
         if (!aid || seen.has(aid)) continue;
         seen.add(aid);
         const ours = (actor.effects?.contents ?? []).filter(e =>
@@ -64,8 +61,7 @@ async function updateRecipientAEs(cfg: ChaDynamicConfig, templateId: string, new
         );
         for (const ae of ours) {
             try {
-                await (ae as unknown as { update(d: Record<string, unknown>): Promise<unknown> })
-                    .update({ changes: newChanges });
+                await ae.update({ changes: newChanges });
             } catch (err) {
                 console.warn(`[${cfg.moduleId}] ${cfg.label}: falha ao atualizar AE de recipiente:`, err);
             }
@@ -99,7 +95,7 @@ async function applyNewChaToTemplate(cfg: ChaDynamicConfig, tpl: TplLike, newCha
 /** Recomputa todas as auras deste tipo emitidas pelo ator, com o CHA atual dele. */
 async function recomputeForActor(cfg: ChaDynamicConfig, actor: FoundryActor): Promise<void> {
     if (!isActiveGM()) return;
-    const actorId = (actor as unknown as { id?: string }).id ?? "";
+    const actorId = actor.id;
     if (!actorId) return;
     const newCha = readActorCha(actor);
     if (!Number.isFinite(newCha)) return;
@@ -115,7 +111,7 @@ export function setupChaDynamicAura(cfg: ChaDynamicConfig): void {
     const pending = new Set<string>();
     const schedule = (actor: FoundryActor | null | undefined): void => {
         if (!actor) return;
-        const actorId = (actor as unknown as { id?: string }).id ?? "";
+        const actorId = actor.id;
         if (!actorId || pending.has(actorId)) return;
         // Só agenda se este ator emite alguma aura deste tipo (checagem barata).
         const isCaster = listTemplates(cfg).some(t => t.flags?.[cfg.moduleId]?.[cfg.flagCasterAid] === actorId);
