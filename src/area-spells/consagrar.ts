@@ -63,7 +63,7 @@ function isActiveGM(): boolean {
  *   - Se o 1PM não foi marcado, o 2PM (que só "aumenta as penalidades") não
  *     produz penalidade sozinho.
  */
-function computeUndeadPenaltyFromMessage(message: ChatMessage): number {
+export function computeUndeadPenaltyFromMessage(message: ChatMessage): number {
     type OnUseEntry = { cost?: number; description?: string; qty?: number };
     const t20 = (message.flags as Record<string, unknown> | undefined)?.tormenta20 as
         | { onUseEffects?: unknown } | undefined;

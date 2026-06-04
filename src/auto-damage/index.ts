@@ -136,7 +136,7 @@ async function buildRerollContent(rollLabel: string, attackRoll: Roll, damageRol
  * resultados ativos, E há ≥2 dados no total (evita falso positivo de 1d20=20
  * natural). Maximize por aprimoramento sempre envolve múltiplos dados de dano.
  */
-function isRollMaximized(roll: Roll): boolean {
+export function isRollMaximized(roll: Roll): boolean {
     let totalDice = 0;
     for (const term of roll.terms) {
         const t = term as unknown as { faces?: number; results?: Array<{ result: number; active: boolean }> };
@@ -164,7 +164,7 @@ function isRollMaximized(roll: Roll): boolean {
  * Example: "12d6 + 5 + 1 + 1d6 + 2" with criticoX=3
  *   → base "4d6 + 5 + 1 + 2", critOnly "1d6"
  */
-function deriveBaseDamageFormula(dmgRoll: Roll, criticoX: number): { base: string; critOnly: string } {
+export function deriveBaseDamageFormula(dmgRoll: Roll, criticoX: number): { base: string; critOnly: string } {
     const allExpr = dmgRoll.terms.map(t => (t as { expression?: string }).expression ?? "").join(" ").trim();
     if (criticoX <= 1) return { base: allExpr, critOnly: "" };
 
@@ -211,7 +211,7 @@ function deriveBaseDamageFormula(dmgRoll: Roll, criticoX: number): { base: strin
  * Re-applies a critical multiplier to a base damage formula string.
  * "4d6 + 5" with criticoX=3 → "12d6 + 5"
  */
-function critifyFormula(baseFormula: string, criticoX: number): string {
+export function critifyFormula(baseFormula: string, criticoX: number): string {
     if (criticoX <= 1) return baseFormula;
     return baseFormula.replace(/(\d+)d(\d+)/g, (_, n, f) => `${parseInt(n, 10) * criticoX}d${f}`);
 }
