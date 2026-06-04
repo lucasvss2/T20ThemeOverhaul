@@ -80,6 +80,14 @@ export interface SpellResistPreRollRequest {
      * de resultado para o GM escolher o status equivalente manualmente.
      */
     customEffectNames: string[];
+    /**
+     * Opcional — quando setado, ao fechar o modal de resistência (alvo terminou
+     * a interação) emitimos `socketName(payload)` ao usuário `userId`. Usado por
+     * magias de área (ex.: Coluna de Chamas) pra saber quando TODOS os alvos
+     * terminaram e então remover o grid/animação. Genérico de propósito — o
+     * spell-resistance não conhece a magia que pediu a notificação.
+     */
+    resolveNotify?: { socketName: string; userId: string; payload?: unknown };
 }
 
 /**

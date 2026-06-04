@@ -1138,6 +1138,12 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             });
         },
         rejectClose: false,
+    }).finally(() => {
+        // Notifica quem pediu (ex.: Coluna de Chamas) que este alvo terminou a
+        // interação de resistência — usado pra remover grid/animação quando
+        // TODOS os alvos resolverem. No-op se resolveNotify não foi setado.
+        const rn = preReq.resolveNotify;
+        if (rn) void getSocket()?.executeAsUser(rn.socketName, rn.userId, rn.payload);
     });
 }
 
@@ -1226,6 +1232,7 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
         const sn = normalizeCondName(extractSpellName(message));
         if (sn === "consagrar") return;
         if (sn === "bola de fogo") return;
+        if (sn.includes("coluna de chamas")) return; // handler de área dedicado
     }
 
     const damageRoll = rolls.find(r => (r.options as Record<string, unknown>)?.["type"] === "damage");
