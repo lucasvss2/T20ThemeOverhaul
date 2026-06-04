@@ -129,12 +129,8 @@ export function computeEffectiveCriticoX(
 
     let bonus = 0;
     for (const ae of actor.effects?.contents ?? []) {
-        const aeName = (ae as unknown as { name?: string }).name ?? "";
-        if (!selectedDescriptions.has(aeName)) continue;
-        const changes = (ae as unknown as {
-            changes?: Array<{ key: string; value: string; mode: number }>;
-        }).changes ?? [];
-        for (const ch of changes) {
+        if (!selectedDescriptions.has(ae.name ?? "")) continue;
+        for (const ch of ae.changes ?? []) {
             if (ch.key === "criticoX" && ch.mode === 2) {
                 bonus += parseInt(ch.value, 10) || 0;
             }
@@ -170,25 +166,17 @@ export function computeEffectiveCriticoM(
 
     // Actor AEs — exact name match
     for (const ae of actor?.effects?.contents ?? []) {
-        const aeName = (ae as unknown as { name?: string }).name ?? "";
-        if (!selected.includes(aeName)) continue;
-        const changes = (ae as unknown as {
-            changes?: Array<{ key: string; value: string; mode: number }>;
-        }).changes ?? [];
-        for (const ch of changes) {
+        if (!selected.includes(ae.name ?? "")) continue;
+        for (const ch of ae.changes ?? []) {
             if (ch.key === "criticoM" && ch.mode === 2) delta += parseInt(ch.value, 10) || 0;
         }
     }
 
     // Weapon AEs — " - AEName" substring match in onUseEffects descriptions
-    type WithEffects = { effects?: { contents: unknown[] } };
-    for (const ae of (weaponItem as unknown as WithEffects | undefined)?.effects?.contents ?? []) {
-        const aeName = (ae as unknown as { name?: string }).name ?? "";
+    for (const ae of weaponItem?.effects?.contents ?? []) {
+        const aeName = ae.name ?? "";
         if (!aeName || !selected.some(d => d.includes(` - ${aeName}`))) continue;
-        const changes = (ae as unknown as {
-            changes?: Array<{ key: string; value: string; mode: number }>;
-        }).changes ?? [];
-        for (const ch of changes) {
+        for (const ch of ae.changes ?? []) {
             if (ch.key === "criticoM" && ch.mode === 2) delta += parseInt(ch.value, 10) || 0;
         }
     }
@@ -239,27 +227,6 @@ function isGritoKiaiPoder(item: FoundryItem): boolean {
     return normalizeCondName(item.name).includes(GRITO_PODER_NAME);
 }
 
-// ── Helpers de tipos ──────────────────────────────────────────────────────────
-
-interface WithCreateEmbedded {
-    createEmbeddedDocuments(type: string, data: unknown[], options?: Record<string, unknown>): Promise<unknown>;
-    deleteEmbeddedDocuments(type: string, ids: string[], options?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface WithUuid { uuid: string; }
-interface WithId   { id: string; }
-
-interface AEUpdate {
-    update(data: Record<string, unknown>, options?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface AELike {
-    id?: string;
-    name?: string;
-    origin?: string;
-    flags?: Record<string, Record<string, unknown> | undefined>;
-}
-
 // ── AE data builder ───────────────────────────────────────────────────────────
 
 function buildGritoAEData(itemUuid: string): Record<string, unknown> {
@@ -286,22 +253,18 @@ function buildGritoAEData(itemUuid: string): Record<string, unknown> {
 
 // ── AE management helpers ─────────────────────────────────────────────────────
 
-async function deleteAEs(target: unknown, ids: string[], label: string): Promise<void> {
+async function deleteAEs(target: FoundryActor, ids: string[], label: string): Promise<void> {
     if (!ids.length) return;
     try {
-        await (target as WithCreateEmbedded)
-            .deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
+        await target.deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
     } catch (err) {
         warn(`Grito de Kiai: falha ao deletar ${label}:`, err);
     }
 }
 
-function collectGritoActorAEs(actor: FoundryActor, itemUuid: string): AELike[] {
+function collectGritoActorAEs(actor: FoundryActor, itemUuid: string): FoundryItemEffect[] {
     return (actor.effects?.contents ?? [])
-        .filter(e => {
-            const ae = e as unknown as AELike;
-            return ae.origin === itemUuid && GRITO_NAME_REGEX.test(ae.name ?? "");
-        }) as unknown as AELike[];
+        .filter(e => e.origin === itemUuid && GRITO_NAME_REGEX.test(e.name ?? ""));
 }
 
 /**
@@ -310,13 +273,12 @@ function collectGritoActorAEs(actor: FoundryActor, itemUuid: string): AELike[] {
  * do Kiai Divino.
  */
 async function disableItemTransfer(item: FoundryItem): Promise<void> {
-    const nativeAEs = (item.effects?.contents ?? []).filter(ae => {
-        const aeAny = ae as unknown as { transfer?: boolean };
-        return GRITO_NAME_REGEX.test((ae as AELike).name ?? "") && aeAny.transfer === true;
-    });
+    const nativeAEs = (item.effects?.contents ?? []).filter(ae =>
+        GRITO_NAME_REGEX.test(ae.name ?? "") && ae.transfer === true,
+    );
     for (const ae of nativeAEs) {
         try {
-            await (ae as unknown as AEUpdate).update({ transfer: false }, { render: false });
+            await ae.update({ transfer: false }, { render: false });
         } catch (err) {
             warn(`Grito de Kiai: falha ao setar transfer:false na AE nativa:`, err);
         }
@@ -328,9 +290,9 @@ async function disableItemTransfer(item: FoundryItem): Promise<void> {
  * Deduplica cópias transferidas ou antigas.
  */
 async function ensureGritoAE(item: FoundryItem): Promise<void> {
-    const actor = (item as unknown as { actor?: FoundryActor }).actor;
+    const actor = item.actor;
     if (!actor) return;
-    const itemUuid = (item as unknown as WithUuid).uuid;
+    const itemUuid = item.uuid;
     if (!itemUuid) return;
 
     await disableItemTransfer(item);
@@ -339,8 +301,7 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
 
     if (existing.length === 0) {
         try {
-            await (actor as unknown as WithCreateEmbedded)
-                .createEmbeddedDocuments("ActiveEffect", [buildGritoAEData(itemUuid)], { render: false });
+            await actor.createEmbeddedDocuments("ActiveEffect", [buildGritoAEData(itemUuid)], { render: false });
             log(`Grito de Kiai: AE criada em "${actor.name}".`);
         } catch (err) {
             warn(`Grito de Kiai: falha ao criar AE:`, err);
@@ -350,7 +311,7 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
 
     // Remove duplicatas
     if (existing.length > 1) {
-        const ids = existing.slice(1).map(e => (e as WithId).id).filter((id): id is string => Boolean(id));
+        const ids = existing.slice(1).map(e => e.id).filter((id): id is string => Boolean(id));
         await deleteAEs(actor, ids, `${ids.length} AE(s) duplicada(s)`);
         log(`Grito de Kiai: ${ids.length} AE(s) duplicada(s) removida(s) de "${actor.name}".`);
     }
@@ -360,7 +321,7 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
     const hasFlag = Boolean(primary?.flags?.[MODULE_ID]?.[GRITO_FLAG]);
     if (primary && !hasFlag) {
         try {
-            await (primary as unknown as AEUpdate).update(
+            await primary.update(
                 { [`flags.${MODULE_ID}.${GRITO_FLAG}`]: true },
                 { render: false },
             );
@@ -372,16 +333,15 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
 
 /** Remove AEs do actor quando o poder é deletado. */
 async function cleanupGritoAE(item: FoundryItem): Promise<void> {
-    const actor = (item as unknown as { actor?: FoundryActor; parent?: FoundryActor }).actor
-        ?? (item as unknown as { parent?: FoundryActor }).parent;
+    const actor = item.actor ?? item.parent;
     if (!actor) return;
-    const itemUuid = (item as unknown as WithUuid).uuid;
+    const itemUuid = item.uuid;
     if (!itemUuid) return;
 
     const stale = collectGritoActorAEs(actor, itemUuid);
     if (!stale.length) return;
 
-    const ids = stale.map(e => (e as WithId).id).filter((id): id is string => Boolean(id));
+    const ids = stale.map(e => e.id).filter((id): id is string => Boolean(id));
     await deleteAEs(actor, ids, "AE residual (poder deletado)");
     log(`Grito de Kiai: AE residual removida de "${actor.name}".`);
 }
@@ -660,7 +620,7 @@ export function setupGritoKiai(): void {
         const item   = args[0] as FoundryItem;
         const userId = args[2] as string | undefined;
         if (!userId || userId !== game.user?.id) return;
-        if (!(item as unknown as { parent?: unknown }).parent) return;
+        if (!item.parent) return;
         if (!isGritoKiaiPoder(item)) return;
         void ensureGritoAE(item);
     });
@@ -691,8 +651,8 @@ export function setupGritoKiai(): void {
 
         // Localiza a AE do Grito de Kiai no actor → o checkbox é aprs.<aeId>.aplica
         const gritoAE = (actor.effects?.contents ?? []).find(
-            e => GRITO_NAME_REGEX.test((e as unknown as { name?: string }).name ?? ""),
-        ) as unknown as { id?: string } | undefined;
+            e => GRITO_NAME_REGEX.test(e.name ?? ""),
+        );
         if (!gritoAE?.id) return;
 
         const cb       = el.querySelector<HTMLInputElement>(`input[name="aprs.${gritoAE.id}.aplica"]`);

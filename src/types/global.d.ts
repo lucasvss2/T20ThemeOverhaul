@@ -123,7 +123,7 @@ declare interface FoundryItemEffect {
     transfer?: boolean;
     /** Parent document (the owning Actor or Item). */
     parent?: FoundryActor | FoundryItem;
-    update(data: Record<string, unknown>): Promise<unknown>;
+    update(data: Record<string, unknown>, options?: Record<string, unknown>): Promise<unknown>;
     toObject(): Record<string, unknown>;
 }
 
@@ -134,6 +134,12 @@ declare interface FoundryItem {
     system: Record<string, unknown>;
     effects?: { contents: FoundryItemEffect[] };
     flags?: Record<string, Record<string, unknown>>;
+    /** Full UUID, e.g. "Actor.{id}.Item.{id}" for owned items. */
+    uuid?: string;
+    /** Owning actor (for embedded/owned items). */
+    actor?: FoundryActor | null;
+    /** Parent document (the owning actor for owned items). */
+    parent?: FoundryActor | null;
 }
 
 declare interface FoundryActor {
@@ -166,7 +172,7 @@ declare interface FoundryActor {
         options?: Record<string, unknown>,
     ): Promise<unknown[]>;
     /** Delete embedded child documents (e.g. ActiveEffect) by id. */
-    deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown[]>;
+    deleteEmbeddedDocuments(type: string, ids: string[], options?: Record<string, unknown>): Promise<unknown[]>;
     /**
      * Toggle a status effect on the actor.
      * Pass `{ active: true }` to force-enable without toggling off.
@@ -379,6 +385,8 @@ declare interface RollTerm {
 
 declare interface DiceTerm extends RollTerm {
     faces: number;
+    number?: number;
+    total?: number;
     results: Array<{ result: number; active: boolean }>;
 }
 

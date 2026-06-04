@@ -57,19 +57,7 @@ const KIAI_NAME_REGEX = /kiai\s*divino/i;
 
 // ── Helpers de tipos ──────────────────────────────────────────────────────────
 
-interface WithCreateEmbedded {
-    createEmbeddedDocuments(type: string, data: unknown[], options?: Record<string, unknown>): Promise<unknown>;
-    deleteEmbeddedDocuments(type: string, ids: string[], options?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface WithUuid { uuid: string; }
-interface WithId   { id: string; }
-
-interface AEUpdate {
-    update(data: Record<string, unknown>, options?: Record<string, unknown>): Promise<unknown>;
-}
-
-interface AEChange { key: string; value: unknown; mode: number; priority?: number }
+interface AEChange { key: string; value: unknown; mode: number; priority?: number | null }
 interface AELike {
     id?: string;
     name?: string;
@@ -128,11 +116,10 @@ function buildKiaiAEData(itemUuid: string): Record<string, unknown> {
     };
 }
 
-async function deleteAEs(target: unknown, ids: string[], label: string): Promise<void> {
+async function deleteAEs(target: FoundryActor, ids: string[], label: string): Promise<void> {
     if (!ids.length) return;
     try {
-        await (target as WithCreateEmbedded)
-            .deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
+        await target.deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
     } catch (err) {
         warn(`Kiai Divino: falha ao deletar ${label}:`, err);
     }
@@ -144,13 +131,12 @@ async function deleteAEs(target: unknown, ids: string[], label: string): Promise
  * reloads ou re-imports, voltando o estado duplicado.
  */
 async function disableItemTransfer(item: FoundryItem): Promise<void> {
-    const nativeAEs = (item.effects?.contents ?? []).filter(ae => {
-        const aeAny = ae as unknown as { transfer?: boolean };
-        return aeNameMatchesKiai(ae as AELike) && aeAny.transfer === true;
-    });
+    const nativeAEs = (item.effects?.contents ?? []).filter(ae =>
+        aeNameMatchesKiai(ae) && ae.transfer === true,
+    );
     for (const ae of nativeAEs) {
         try {
-            await (ae as unknown as AEUpdate).update({ transfer: false }, { render: false });
+            await ae.update({ transfer: false }, { render: false });
         } catch (err) {
             warn(`Kiai Divino: falha ao setar transfer:false na AE nativa do item:`, err);
         }
@@ -163,9 +149,9 @@ async function disableItemTransfer(item: FoundryItem): Promise<void> {
  * versões antigas.
  */
 async function ensureKiaiAE(item: FoundryItem): Promise<void> {
-    const actor = (item as unknown as { actor?: FoundryActor }).actor;
+    const actor = item.actor;
     if (!actor) return;
-    const itemUuid = (item as unknown as WithUuid).uuid;
+    const itemUuid = item.uuid;
     if (!itemUuid) return;
 
     // (f) Primeiro: força transfer:false na AE nativa do item pra não regenerar
@@ -174,17 +160,13 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
 
     // (a) Coleta todas Kiai AEs no actor ligadas a este poder.
     const kiaiAEs = (actor.effects?.contents ?? [])
-        .filter(e => {
-            const ae = e as unknown as AELike;
-            return ae.origin === itemUuid && aeNameMatchesKiai(ae);
-        }) as unknown as AELike[];
+        .filter(e => e.origin === itemUuid && aeNameMatchesKiai(e));
 
     if (kiaiAEs.length === 0) {
         // (e) Nenhuma — cria.
         try {
             const effectData = buildKiaiAEData(itemUuid);
-            await (actor as unknown as WithCreateEmbedded)
-                .createEmbeddedDocuments("ActiveEffect", [effectData], { render: false });
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData], { render: false });
             log(`Kiai Divino: AE criada em "${actor.name}".`);
         } catch (err) {
             warn(`Kiai Divino: falha ao criar AE:`, err);
@@ -199,7 +181,7 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
 
     // (c) Deleta duplicatas.
     if (extras.length) {
-        const ids = extras.map(e => (e as WithId).id).filter((id): id is string => Boolean(id));
+        const ids = extras.map(e => e.id).filter((id): id is string => Boolean(id));
         await deleteAEs(actor, ids, `${ids.length} AE(s) duplicada(s) no actor`);
         log(`Kiai Divino: ${ids.length} AE(s) duplicada(s) removida(s) de "${actor.name}".`);
     }
@@ -213,7 +195,7 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
                 { key: "dano", value: "max", mode: 0, priority: 20 },
             ];
         try {
-            await (primary as unknown as AEUpdate).update({
+            await primary.update({
                 changes: newChanges,
                 disabled: true,
                 [`flags.${MODULE_ID}.${KIAI_FLAG}`]: true,
@@ -229,19 +211,17 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
  * Remove AEs residuais no actor quando o poder é deletado.
  */
 async function cleanupKiaiAE(item: FoundryItem): Promise<void> {
-    const actor = (item as unknown as { actor?: FoundryActor; parent?: FoundryActor }).actor
-        ?? (item as unknown as { parent?: FoundryActor }).parent;
+    const actor = item.actor ?? item.parent;
     if (!actor) return;
-    const itemUuid = (item as unknown as WithUuid).uuid;
+    const itemUuid = item.uuid;
     if (!itemUuid) return;
 
-    const stale = (actor.effects?.contents ?? []).filter(e => {
-        const ae = e as unknown as AELike;
-        return ae.origin === itemUuid && aeNameMatchesKiai(ae);
-    });
+    const stale = (actor.effects?.contents ?? []).filter(e =>
+        e.origin === itemUuid && aeNameMatchesKiai(e),
+    );
     if (!stale.length) return;
 
-    const ids = stale.map(e => (e as unknown as WithId).id).filter((id): id is string => Boolean(id));
+    const ids = stale.map(e => e.id).filter((id): id is string => Boolean(id));
     await deleteAEs(actor, ids, "AE residual no actor (poder deletado)");
 }
 
@@ -273,7 +253,7 @@ export function setupKiaiDivino(): void {
         const userId = args[2] as string | undefined;
 
         if (!userId || userId !== game.user?.id) return;
-        if (!(item as unknown as { parent?: unknown }).parent) return;
+        if (!item.parent) return;
         if (!isKiaiDivinoPoder(item)) return;
 
         void ensureKiaiAE(item);
