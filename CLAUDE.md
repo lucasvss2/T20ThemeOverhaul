@@ -431,6 +431,8 @@ Hooks.on("updateToken", (...args) => {
 
 ## T20 Data Structures
 
+> **Full reference:** [`docs/t20-system-reference.md`](docs/t20-system-reference.md) — complete `actor.system` schema for PC (`character`) and ameaça (`npc`): atributos, attributes (pv/pm/defesa/movement/nd/cd/sentidos), pericias, tracos (resistencias by damage type), detalhes, modificadores (AE-target keys), CONFIG.T20 enums, and how the **statblock importer** (`StatblockParser`) works. T20 has no `template.json` — the schema lives in DataModel classes in `tormenta20.mjs`. The Bestiário/Suplementos de Arton modules are data-only compendiums using this same npc schema.
+
 ```typescript
 // Actor
 actor.system.atributos.des.value; // modifier (not score)
