@@ -50,6 +50,7 @@ import {
     dispatchSpellResistanceToTarget,
 } from "@/spell-resistance/index";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
+import { isActiveGM, getTokenPosPx, tokensInTemplate, escHtml } from "@/_shared";
 import type { SpellResistPreRollRequest } from "@/spell-resistance/types";
 import {
     collectOnUseDanoBonuses,
@@ -94,68 +95,6 @@ const TEMPLATE_LINGER_MS = 3500;
 const ESFERA_DIAMETRO_M = 1.5;  // diâmetro em metros = 1 quadrado do tabuleiro
 const ESFERA_TEXTURE = `modules/${MODULE_ID}/assets/esfera-flamejante.png`;
 
-// ── GM election ──────────────────────────────────────────────────────────────
-//
-// Elege o GM "primário" para executar mutações compartilhadas (criação de
-// Tile, aplicação de dano, etc.). Quando há múltiplos GMs ativos, todos
-// recebem hooks; sem dedup haveria duplicação. Elegemos o GM ativo com o
-// menor ID lexicográfico — determinístico em todos os clientes.
-function isActiveGM(): boolean {
-    const myId = game.user?.id;
-    if (!myId || !game.user?.isGM) return false;
-    const activeGMs = (game.users?.contents ?? [])
-        .filter(u => u.isGM && u.active)
-        .map(u => u.id)
-        .sort();
-    return activeGMs[0] === myId;
-}
-
-// ── Helpers (geometria) ──────────────────────────────────────────────────────
-
-function getTokenPosPx(token: FoundryToken): { x: number; y: number; widthSq: number; heightSq: number } {
-    type TokenDoc = {
-        document?: { x?: number; y?: number; width?: number; height?: number };
-        x?: number; y?: number;
-    };
-    const t   = token as unknown as TokenDoc;
-    const doc = t.document;
-    return {
-        x:        doc?.x ?? t.x ?? 0,
-        y:        doc?.y ?? t.y ?? 0,
-        widthSq:  doc?.width  ?? 1,
-        heightSq: doc?.height ?? 1,
-    };
-}
-
-function isTokenInsideTemplate(
-    token: FoundryToken,
-    template: { x: number; y: number; distance: number },
-): boolean {
-    type CanvasLike = { scene?: { grid?: { size?: number; distance?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size     ?? 100;
-    const gridDist = cv.scene?.grid?.distance ?? 1.5;
-
-    const radiusSq = template.distance / gridDist;
-    const tCxSq    = template.x / gridSize;
-    const tCySq    = template.y / gridSize;
-
-    const pos = getTokenPosPx(token);
-    const cx  = pos.x / gridSize + pos.widthSq  / 2;
-    const cy  = pos.y / gridSize + pos.heightSq / 2;
-    const dx  = cx - tCxSq;
-    const dy  = cy - tCySq;
-    return Math.sqrt(dx * dx + dy * dy) <= radiusSq;
-}
-
-function tokensInTemplate(template: {
-    x: number; y: number; distance: number;
-}): FoundryToken[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv     = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
-    return tokens.filter(t => isTokenInsideTemplate(t, template));
-}
 
 // ── Geometria para esfera-Token (FASE 2 — esfera flamejante) ────────────────
 //
@@ -1026,7 +965,6 @@ async function onClickCancelEsfera(): Promise<void> {
     // Múltiplas esferas — picker
     type DialogCtor = new (data: object, opts?: object) => { render(force?: boolean): unknown };
     const DialogCls = (globalThis as unknown as { Dialog: DialogCtor }).Dialog;
-    const escHtml = (s: string): string => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const rows = mine.map((t, i) => {
         const caster = escHtml((t.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
         return `<label class="picker-row" style="display:flex; align-items:center; gap:10px; padding:6px 8px; cursor:pointer;">

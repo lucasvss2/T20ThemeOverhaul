@@ -17,6 +17,7 @@
  */
 
 import { log } from "@/utils/logging";
+import { isActiveGM } from "@/_shared";
 
 export interface ChaDynamicConfig {
     moduleId:      string;
@@ -32,14 +33,6 @@ type TplLike = {
     flags?: Record<string, Record<string, unknown>>;
     update(data: Record<string, unknown>): Promise<unknown>;
 };
-
-function isActiveGM(): boolean {
-    const myId = game.user?.id;
-    if (!myId || !game.user?.isGM) return false;
-    const activeGMs = (game.users?.contents ?? [])
-        .filter(u => u.isGM && u.active).map(u => u.id).sort();
-    return activeGMs[0] === myId;
-}
 
 function listTemplates(cfg: ChaDynamicConfig): TplLike[] {
     type SceneLike = { templates?: { contents?: TplLike[] } };

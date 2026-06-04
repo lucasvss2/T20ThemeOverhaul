@@ -20,6 +20,7 @@
 import { MODULE_ID } from "@/constants";
 import { extractSpellName, normalizeCondName, getMsgAuthorId } from "@/spell-resistance/index";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
+import { isActiveGM, isTokenInsideTemplate, tokensInTemplate, escHtml } from "@/_shared";
 import CONSAGRAR_STYLES from "./consagrar.css?inline";
 
 const SPELL_KEY = "consagrar";
@@ -30,23 +31,6 @@ const FLAG_HEAL_BOOST = "consagrarHealingBoost";      // AE flag: marca o effect
 const RAIO_METROS = 9;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-
-/**
- * Elege o GM "primário" para executar mutações compartilhadas (apply/remove
- * AE, sweep, etc.). Quando há múltiplos GMs ativos, todos rodavam a lógica
- * em paralelo e cada mutação era feita N vezes — o bug de duplicação de AE
- * reportado em v1.6.66. Elegemos o GM ativo com o menor ID lexicográfico:
- * determinístico em todos os clientes, sem precisar de coordenação.
- */
-function isActiveGM(): boolean {
-    const myId = game.user?.id;
-    if (!myId || !game.user?.isGM) return false;
-    const activeGMs = (game.users?.contents ?? [])
-        .filter(u => u.isGM && u.active)
-        .map(u => u.id)
-        .sort();
-    return activeGMs[0] === myId;
-}
 
 /**
  * Calcula a penalidade para mortos-vivos com base nos APRIMORAMENTOS QUE O
@@ -130,85 +114,6 @@ export function isUndead(actor: FoundryActor): boolean {
         const n = typeof item.name === "string" ? normalizeCondName(item.name) : "";
         return n === "osteon" || n === "soterrado";
     });
-}
-
-/**
- * Verdadeira posição do token em PIXELS levando em conta o quirk do v13:
- *
- *   No hook `updateToken`, `doc.x/y` ainda é a posição ANTIGA — o destino
- *   está em `changes.x/y` (que o caller passa via `overrideXY`).
- *   `doc.x/y` só converge para o destino DEPOIS que a animação termina
- *   (centenas de ms a segundos). Por isso TODA chamada de sync que vem
- *   de `updateToken` precisa passar o destino explicitamente.
- *
- * Para chamadas de fora de `updateToken` (canvasReady, createToken,
- * updateMeasuredTemplate), `overrideXY` é undefined e usamos doc.x/y, que
- * aí sim já está estável.
- */
-function getTokenPosPx(
-    token: FoundryToken,
-    overrideXY?: { x?: number; y?: number },
-): { x: number; y: number; widthSq: number; heightSq: number } {
-    type TokenDoc = {
-        document?: { x?: number; y?: number; width?: number; height?: number };
-        x?: number; y?: number;
-    };
-    const t = token as unknown as TokenDoc;
-    const doc = t.document;
-    const baseX = doc?.x ?? t.x ?? 0;
-    const baseY = doc?.y ?? t.y ?? 0;
-    return {
-        x:        overrideXY?.x ?? baseX,
-        y:        overrideXY?.y ?? baseY,
-        widthSq:  doc?.width  ?? 1,
-        heightSq: doc?.height ?? 1,
-    };
-}
-
-/**
- * Testa se o centro do token cai dentro do raio do template.
- *
- * Tudo é convertido para QUADRADOS:
- *   raioQuads   = template.distance(m) / grid.distance(m/quadrado)
- *   centroTplQ  = template.x(px) / grid.size(px/quadrado)
- *   centroTkQ   = token.x(px)    / grid.size + widthSq/2
- *
- * `overrideXY` é o destino do movimento (changes.x/y do hook), usado para
- * derrotar o quirk de doc.x/y desatualizado durante a animação em v13.
- */
-function isTokenInsideTemplate(
-    token: FoundryToken,
-    template: { x: number; y: number; distance: number },
-    overrideXY?: { x?: number; y?: number },
-): boolean {
-    type CanvasLike = { scene?: { grid?: { size?: number; distance?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size     ?? 100;
-    const gridDist = cv.scene?.grid?.distance ?? 1.5;
-
-    const radiusSq = template.distance / gridDist;
-    const tCxSq    = template.x / gridSize;
-    const tCySq    = template.y / gridSize;
-
-    const pos = getTokenPosPx(token, overrideXY);
-    const cx  = pos.x / gridSize + pos.widthSq  / 2;
-    const cy  = pos.y / gridSize + pos.heightSq / 2;
-    const dx  = cx - tCxSq;
-    const dy  = cy - tCySq;
-    return Math.sqrt(dx * dx + dy * dy) <= radiusSq;
-}
-
-/**
- * Lista de tokens cujo centro está dentro do template (sem override —
- * para uso em sweeps de mundo, p.ex. ao criar o template inicialmente).
- */
-function tokensInTemplate(template: {
-    x: number; y: number; distance: number;
-}): FoundryToken[] {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv     = canvas as unknown as CanvasLike;
-    const tokens = cv.tokens?.placeables ?? [];
-    return tokens.filter(t => isTokenInsideTemplate(t, template));
 }
 
 /** Promise que resolve quando o usuário clica no canvas (ou ESC para cancelar). */
@@ -694,10 +599,6 @@ function ensureConsagrarStyles(): void {
     document.head.appendChild(el);
 }
 
-function esc(s: string): string {
-    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
 type ConsagrarTpl = {
     id: string;
     user?: string | { id?: string };
@@ -750,7 +651,7 @@ async function onClickRemoveArea(): Promise<void> {
 }
 
 function confirmSingleRemoval(tpl: ConsagrarTpl): Promise<string[] | null> {
-    const caster = esc((tpl.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
+    const caster = escHtml((tpl.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
     return new Promise<string[] | null>((resolve) => {
         new Dialog({
             title: "Remover área de Consagrar",
@@ -780,7 +681,7 @@ function confirmSingleRemoval(tpl: ConsagrarTpl): Promise<string[] | null> {
 function pickTemplatesDialog(templates: ConsagrarTpl[]): Promise<string[] | null> {
     return new Promise<string[] | null>((resolve) => {
         const rows = templates.map((t, i) => {
-            const caster = esc((t.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
+            const caster = escHtml((t.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
             return `
                 <label class="picker-row">
                     <input type="checkbox" data-tid="${t.id}" checked />

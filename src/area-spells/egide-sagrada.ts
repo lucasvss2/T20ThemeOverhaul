@@ -27,6 +27,11 @@
 import { MODULE_ID } from "@/constants";
 import { extractSpellName, normalizeCondName, getMsgAuthorId } from "@/spell-resistance/index";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
+import {
+    isActiveGM, escHtml, extractBaseEffectData,
+    getTokenCenterPx, isTokenInsideTemplate, findTokenForActor,
+    getTokenDisposition, isAuraTarget,
+} from "@/_shared";
 import { setupChaDynamicAura } from "./_cha-dynamic";
 
 const SPELL_NAME_NORMALIZED = "egide sagrada";   // normalizeCondName remove acentos
@@ -40,103 +45,6 @@ const ESCUDO_FRATERNO_NORMALIZED = "escudo fraterno";
 const RAIO_ADJACENTE_M = 1.5;   // 1 square — "adjacente"
 const RAIO_ESCUDO_FRATERNO_M = 9;
 
-// ── Helpers compartilhados (espelham aura-sagrada.ts, intencionalmente
-//    inline pra evitar acoplamento; refactor de _shared.ts em outra fase) ─────
-
-function isActiveGM(): boolean {
-    const myId = game.user?.id;
-    if (!myId || !game.user?.isGM) return false;
-    const activeGMs = (game.users?.contents ?? [])
-        .filter(u => u.isGM && u.active)
-        .map(u => u.id)
-        .sort();
-    return activeGMs[0] === myId;
-}
-
-function escHtml(s: string): string {
-    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function getTokenPosPx(
-    token: FoundryToken,
-    overrideXY?: { x?: number; y?: number },
-): { x: number; y: number; widthSq: number; heightSq: number } {
-    type TokenDoc = {
-        document?: { x?: number; y?: number; width?: number; height?: number };
-        x?: number; y?: number;
-    };
-    const t = token as unknown as TokenDoc;
-    const doc = t.document;
-    return {
-        x:        overrideXY?.x ?? doc?.x ?? t.x ?? 0,
-        y:        overrideXY?.y ?? doc?.y ?? t.y ?? 0,
-        widthSq:  doc?.width  ?? 1,
-        heightSq: doc?.height ?? 1,
-    };
-}
-
-function getTokenCenterPx(
-    token: FoundryToken,
-    overrideXY?: { x?: number; y?: number },
-): { x: number; y: number } {
-    type CanvasLike = { scene?: { grid?: { size?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size ?? 100;
-    const pos      = getTokenPosPx(token, overrideXY);
-    return {
-        x: pos.x + (pos.widthSq  * gridSize) / 2,
-        y: pos.y + (pos.heightSq * gridSize) / 2,
-    };
-}
-
-function isTokenInsideTemplate(
-    token: FoundryToken,
-    template: { x: number; y: number; distance: number },
-    overrideXY?: { x?: number; y?: number },
-): boolean {
-    type CanvasLike = { scene?: { grid?: { size?: number; distance?: number } } };
-    const cv       = canvas as unknown as CanvasLike;
-    const gridSize = cv.scene?.grid?.size     ?? 100;
-    const gridDist = cv.scene?.grid?.distance ?? 1.5;
-    const radiusSq = template.distance / gridDist;
-    const tCxSq    = template.x / gridSize;
-    const tCySq    = template.y / gridSize;
-    const c = getTokenCenterPx(token, overrideXY);
-    const cx = c.x / gridSize;
-    const cy = c.y / gridSize;
-    const dx = cx - tCxSq;
-    const dy = cy - tCySq;
-    return Math.sqrt(dx * dx + dy * dy) <= radiusSq;
-}
-
-function findTokenForActor(actorId: string): FoundryToken | null {
-    type CanvasLike = { tokens?: { placeables?: FoundryToken[] } };
-    const cv = canvas as unknown as CanvasLike;
-    for (const t of (cv.tokens?.placeables ?? [])) {
-        const aid = (t.actor as unknown as { id?: string } | null)?.id;
-        if (aid === actorId) return t;
-    }
-    return null;
-}
-
-function getTokenDisposition(token: FoundryToken): number {
-    type TokenLike = {
-        document?: { disposition?: number };
-        data?:     { disposition?: number };
-    };
-    const t = token as unknown as TokenLike;
-    return t.document?.disposition ?? t.data?.disposition ?? 0;
-}
-
-function isAuraTarget(
-    token: FoundryToken,
-    casterTokenId: string,
-    casterDisposition: number,
-): boolean {
-    const tokenId = (token as unknown as { id?: string }).id;
-    if (tokenId === casterTokenId) return true;
-    return getTokenDisposition(token) === casterDisposition;
-}
 
 // ── Detecção da Égide Sagrada e estado do caster ─────────────────────────────
 
@@ -195,14 +103,6 @@ function computeEgideRaioM(caster: FoundryActor): number {
         return RAIO_ESCUDO_FRATERNO_M;
     }
     return RAIO_ADJACENTE_M;
-}
-
-function extractBaseEffectData(message: ChatMessage): Record<string, unknown> | null {
-    type EffectsShape = Array<Array<Record<string, unknown>>>;
-    const t20 = (message.flags as Record<string, unknown> | undefined)?.tormenta20 as
-        | { effects?: EffectsShape } | undefined;
-    const first = t20?.effects?.[0]?.[0];
-    return (first as Record<string, unknown> | undefined) ?? null;
 }
 
 // ── Template ghost + AE apply/remove ─────────────────────────────────────────
