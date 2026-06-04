@@ -19,7 +19,7 @@
  * Apenas o label exibido na UI é alterado.
  */
 
-import { MODULE_ID } from "@/constants";
+import { log, warn } from "@/utils/logging";
 
 interface AEChange {
     key?:   string;
@@ -90,14 +90,14 @@ export function patchT20WeaponUpgradeLabels(): void {
     const cfg = (globalThis as unknown as { CONFIG?: FoundryGlobal }).CONFIG;
     const ItemCls = cfg?.Item?.documentClass;
     if (!ItemCls) {
-        console.warn(`[${MODULE_ID}] CONFIG.Item.documentClass não encontrado — patch de labels não aplicado.`);
+        warn(`CONFIG.Item.documentClass não encontrado — patch de labels não aplicado.`);
         return;
     }
 
     const proto = ItemCls.prototype as ItemProtoLike;
     if (proto._bg3WeaponUpgradePatched) return;
     if (typeof proto._prepareLabels !== "function") {
-        console.warn(`[${MODULE_ID}] Tormenta20Item.prototype._prepareLabels não encontrado — patch de labels não aplicado.`);
+        warn(`Tormenta20Item.prototype._prepareLabels não encontrado — patch de labels não aplicado.`);
         return;
     }
 
@@ -113,7 +113,7 @@ export function patchT20WeaponUpgradeLabels(): void {
     };
     proto._bg3WeaponUpgradePatched = true;
 
-    console.log(`[${MODULE_ID}] Tormenta20Item._prepareLabels patched — labels de crítico em armas refletem AEs upgrade.`);
+    log(`Tormenta20Item._prepareLabels patched — labels de crítico em armas refletem AEs upgrade.`);
 
     // ⚠️ NÃO chamamos `actor.prepareData()` em loop aqui. T20 armazena bônus em
     // ArrayField acumulativo (ex: `pm.bonus.total`); cada `prepareData()` extra

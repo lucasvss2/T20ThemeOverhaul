@@ -16,6 +16,7 @@ import { MODULE_ID } from "@/constants";
 import { extractSpellName, getMsgAuthorId, normalizeCondName } from "@/spell-resistance/index";
 import { isUndead } from "@/area-spells/consagrar";
 import { getSocket, onSocketReady } from "@/socket";
+import { warn } from "@/utils/logging";
 
 // ── Constantes ────────────────────────────────────────────────────────────────
 
@@ -265,8 +266,7 @@ async function applyMargemToWeapons(
                 weaponCount++;
                 actorApplied = true;
             } catch (err) {
-                console.warn(
-                    `[${MODULE_ID}] Medalhão Afiado: falha ao aplicar em ${weapon.name} (${actor.name}):`,
+                warn(`Medalhão Afiado: falha ao aplicar em ${weapon.name} (${actor.name}):`,
                     err,
                 );
             }
@@ -329,7 +329,7 @@ async function cleanupMedalhaoForActor(actor: FoundryActor, deletedAEName: strin
                 await (item as ItemWithDelete).deleteEmbeddedDocuments("ActiveEffect", toDelete);
                 cleaned += toDelete.length;
             } catch (err) {
-                console.warn(`[${MODULE_ID}] Cleanup falhou em ${item.name} (${actor.name}):`, err);
+                warn(`Cleanup falhou em ${item.name} (${actor.name}):`, err);
             }
         }
     }

@@ -47,7 +47,7 @@
 
 import { MODULE_ID } from "@/constants";
 import { normalizeCondName } from "@/spell-resistance/index";
-import { log } from "@/utils/logging";
+import { log, warn } from "@/utils/logging";
 
 // ── Constantes ────────────────────────────────────────────────────────────────
 
@@ -134,7 +134,7 @@ async function deleteAEs(target: unknown, ids: string[], label: string): Promise
         await (target as WithCreateEmbedded)
             .deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
     } catch (err) {
-        console.warn(`[${MODULE_ID}] Kiai Divino: falha ao deletar ${label}:`, err);
+        warn(`Kiai Divino: falha ao deletar ${label}:`, err);
     }
 }
 
@@ -152,7 +152,7 @@ async function disableItemTransfer(item: FoundryItem): Promise<void> {
         try {
             await (ae as unknown as AEUpdate).update({ transfer: false }, { render: false });
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Kiai Divino: falha ao setar transfer:false na AE nativa do item:`, err);
+            warn(`Kiai Divino: falha ao setar transfer:false na AE nativa do item:`, err);
         }
     }
 }
@@ -187,7 +187,7 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
                 .createEmbeddedDocuments("ActiveEffect", [effectData], { render: false });
             log(`Kiai Divino: AE criada em "${actor.name}".`);
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Kiai Divino: falha ao criar AE:`, err);
+            warn(`Kiai Divino: falha ao criar AE:`, err);
         }
         return;
     }
@@ -220,7 +220,7 @@ async function ensureKiaiAE(item: FoundryItem): Promise<void> {
             }, { render: false });
             log(`Kiai Divino: AE primary atualizada em "${actor.name}".`);
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Kiai Divino: falha ao atualizar AE primary:`, err);
+            warn(`Kiai Divino: falha ao atualizar AE primary:`, err);
         }
     }
 }

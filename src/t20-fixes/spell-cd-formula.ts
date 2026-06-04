@@ -20,7 +20,7 @@
  * e mantém fallback pra fórmula antiga caso `actor.attributes.cd` esteja 0.
  */
 
-import { MODULE_ID } from "@/constants";
+import { log, warn } from "@/utils/logging";
 
 type ItemDataProtoLike = {
     prepareFinalAttributes?: () => void;
@@ -34,7 +34,7 @@ export function patchT20SpellCDFormula(): void {
     const t20 = (game as unknown as { tormenta20?: T20Global }).tormenta20;
     const Cons = t20?.data?.models?.ConsumableData;
     if (!Cons) {
-        console.warn(`[${MODULE_ID}] tormenta20.data.models.ConsumableData não encontrado — patch de CD não aplicado.`);
+        warn(`tormenta20.data.models.ConsumableData não encontrado — patch de CD não aplicado.`);
         return;
     }
 
@@ -42,7 +42,7 @@ export function patchT20SpellCDFormula(): void {
     // protótipo do protótipo: prepareFinalAttributes é definido na base.
     const baseProto = Object.getPrototypeOf(Cons.prototype) as ItemDataProtoLike;
     if (!baseProto || typeof baseProto.prepareFinalAttributes !== "function") {
-        console.warn(`[${MODULE_ID}] Tormenta20ItemData.prototype.prepareFinalAttributes não encontrado — patch de CD não aplicado.`);
+        warn(`Tormenta20ItemData.prototype.prepareFinalAttributes não encontrado — patch de CD não aplicado.`);
         return;
     }
     if (baseProto._bg3CDFormulaPatched) return;
@@ -96,7 +96,7 @@ export function patchT20SpellCDFormula(): void {
     };
     baseProto._bg3CDFormulaPatched = true;
 
-    console.log(`[${MODULE_ID}] T20 spell CD formula patched — CD agora inclui bônus de items via actor.attributes.cd.`);
+    log(`T20 spell CD formula patched — CD agora inclui bônus de items via actor.attributes.cd.`);
 
     // ⚠️ NÃO chamamos `actor.prepareData()` em loop aqui. T20 armazena bônus em
     // ArrayField acumulativo (ex: `pm.bonus.total`); cada `prepareData()` extra

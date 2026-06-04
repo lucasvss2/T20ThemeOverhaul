@@ -54,7 +54,7 @@
 
 import { MODULE_ID } from "@/constants";
 import { normalizeCondName, getMsgAuthorId } from "@/spell-resistance/index";
-import { log } from "@/utils/logging";
+import { log, warn } from "@/utils/logging";
 import GRITO_STYLES from "./grito-kiai.css?inline";
 
 // ── Constantes ────────────────────────────────────────────────────────────────
@@ -292,7 +292,7 @@ async function deleteAEs(target: unknown, ids: string[], label: string): Promise
         await (target as WithCreateEmbedded)
             .deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
     } catch (err) {
-        console.warn(`[${MODULE_ID}] Grito de Kiai: falha ao deletar ${label}:`, err);
+        warn(`Grito de Kiai: falha ao deletar ${label}:`, err);
     }
 }
 
@@ -318,7 +318,7 @@ async function disableItemTransfer(item: FoundryItem): Promise<void> {
         try {
             await (ae as unknown as AEUpdate).update({ transfer: false }, { render: false });
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Grito de Kiai: falha ao setar transfer:false na AE nativa:`, err);
+            warn(`Grito de Kiai: falha ao setar transfer:false na AE nativa:`, err);
         }
     }
 }
@@ -343,7 +343,7 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
                 .createEmbeddedDocuments("ActiveEffect", [buildGritoAEData(itemUuid)], { render: false });
             log(`Grito de Kiai: AE criada em "${actor.name}".`);
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Grito de Kiai: falha ao criar AE:`, err);
+            warn(`Grito de Kiai: falha ao criar AE:`, err);
         }
         return;
     }
@@ -365,7 +365,7 @@ async function ensureGritoAE(item: FoundryItem): Promise<void> {
                 { render: false },
             );
         } catch (err) {
-            console.warn(`[${MODULE_ID}] Grito de Kiai: falha ao atualizar flag na AE:`, err);
+            warn(`Grito de Kiai: falha ao atualizar flag na AE:`, err);
         }
     }
 }

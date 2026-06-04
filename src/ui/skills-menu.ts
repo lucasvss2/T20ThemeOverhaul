@@ -1,4 +1,5 @@
 import MENU_STYLES from "./skills-menu.css?inline";
+import { warn } from "@/utils/logging";
 
 /**
  * Skills Menu — botão único da toolbar que agrega ações de skills ativas.
@@ -116,7 +117,7 @@ function getVisibleActions(): SkillAction[] {
         try {
             if (a.isVisible()) out.push(a);
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] skills-menu: isVisible() falhou para ${a.id}:`, err);
+            warn(`skills-menu: isVisible() falhou para ${a.id}:`, err);
         }
     }
     return out;
@@ -181,7 +182,7 @@ async function openPicker(actions: SkillAction[]): Promise<void> {
                             try {
                                 await a.onClick();
                             } catch (err) {
-                                console.warn(`[t20-theme-overhaul] skills-menu: ação ${id} falhou:`, err);
+                                warn(`skills-menu: ação ${id} falhou:`, err);
                             }
                         }
                         resolve();

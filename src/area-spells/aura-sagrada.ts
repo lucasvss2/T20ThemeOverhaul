@@ -34,6 +34,7 @@ import {
 } from "@/_shared";
 import { setupChaDynamicAura } from "./_cha-dynamic";
 import AURA_STYLES from "./aura-sagrada.css?inline";
+import { log, warn } from "@/utils/logging";
 
 // Valor RETORNADO por normalizeCondName("Aura Sagrada") — esse helper só
 // faz lowercase + remove acentos, NÃO substitui espaço por hífen. Manter o
@@ -129,7 +130,7 @@ async function createGhostTemplate(opts: {
         const tpl = created?.[0] as { id?: string } | undefined;
         return tpl?.id ?? null;
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao criar template:`, err);
+        warn(`Aura Sagrada: falha ao criar template:`, err);
         return null;
     }
 }
@@ -198,7 +199,7 @@ async function applyAuraToToken(token: FoundryToken, template: AuraTpl): Promise
         }).createEmbeddedDocuments("ActiveEffect", [data]);
         return true;
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada apply em ${actor.name}:`, err);
+        warn(`Aura Sagrada apply em ${actor.name}:`, err);
         return false;
     } finally {
         _applyInProgress.delete(lockKey);
@@ -218,7 +219,7 @@ async function removeAuraFromToken(token: FoundryToken, templateId: string): Pro
         }).deleteEmbeddedDocuments("ActiveEffect", ours.map(e => e.id));
         return true;
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada remove em ${actor.name}:`, err);
+        warn(`Aura Sagrada remove em ${actor.name}:`, err);
         return false;
     }
 }
@@ -321,7 +322,7 @@ async function cleanupAEsForTemplate(templateId: string): Promise<void> {
             await actor.deleteEmbeddedDocuments("ActiveEffect", ours.map(e => e.id));
             removed += ours.length;
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura Sagrada cleanup em ${actor.name}:`, err);
+            warn(`Aura Sagrada cleanup em ${actor.name}:`, err);
         }
     }
     if (removed > 0) {
@@ -385,7 +386,7 @@ async function endSequencerEffectsByIds(ids: string[]): Promise<void> {
         // API quer string[] (IDs); passar [{id}] objeto plain quebra.
         await sm.endEffects({ effects: toEnd });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao encerrar efeitos do Sequencer:`, err);
+        warn(`Aura Sagrada: falha ao encerrar efeitos do Sequencer:`, err);
     }
 }
 
@@ -412,7 +413,7 @@ async function endAutoanimSpellEffectsForCasterToken(casterTokenId: string): Pro
     try {
         await sm.endEffects({ effects: matchIds });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: fallback endEffects falhou:`, err);
+        warn(`Aura Sagrada: fallback endEffects falhou:`, err);
     }
 }
 
@@ -471,7 +472,7 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
 
     const baseEffect = extractBaseEffectData(message);
     if (!baseEffect) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: mensagem sem effects[0][0] — abortando.`);
+        warn(`Aura Sagrada: mensagem sem effects[0][0] — abortando.`);
         return;
     }
 
@@ -504,7 +505,7 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
     try {
         await tplDoc.update({ [`flags.${MODULE_ID}.baseEffectData`]: baseEffect });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao anexar baseEffectData:`, err);
+        warn(`Aura Sagrada: falha ao anexar baseEffectData:`, err);
         return;
     }
 
@@ -524,7 +525,7 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
         try {
             await tplDoc.update({ [`flags.${MODULE_ID}.sequencerEffectIds`]: newIds });
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao salvar sequencerEffectIds:`, err);
+            warn(`Aura Sagrada: falha ao salvar sequencerEffectIds:`, err);
         }
     })();
 
@@ -555,7 +556,7 @@ async function moveAuraWithCaster(
         try {
             await tpl.update({ x: newCenter.x, y: newCenter.y });
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao mover template:`, err);
+            warn(`Aura Sagrada: falha ao mover template:`, err);
         }
     }
     // O `updateMeasuredTemplate` resultante do .update vai disparar resync.
@@ -600,7 +601,7 @@ async function onClickCancelAura(): Promise<void> {
     try {
         await scene.deleteEmbeddedDocuments("MeasuredTemplate", idsToRemove);
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao cancelar:`, err);
+        warn(`Aura Sagrada: falha ao cancelar:`, err);
         ui.notifications?.error("Falha ao cancelar aura (veja console).");
     }
 }
@@ -803,7 +804,7 @@ async function applyHealsAndPostCard(opts: {
             await actor.update({ "system.attributes.pv.value": c.pvAfter });
             applied.push(c);
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura de Cura: falha ao curar ${c.actorName}:`, err);
+            warn(`Aura de Cura: falha ao curar ${c.actorName}:`, err);
         }
     }
     if (applied.length === 0) return;
@@ -985,7 +986,7 @@ async function applyBurnsAndPostCard(opts: {
             const pvAfter = Number(actor.system?.attributes?.pv?.value ?? c.pvBefore);
             applied.push({ ...c, pvAfter, dealt: Math.max(0, c.pvBefore - pvAfter) });
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura Ardente: falha ao aplicar dano em ${c.actorName}:`, err);
+            warn(`Aura Ardente: falha ao aplicar dano em ${c.actorName}:`, err);
         }
     }
     if (applied.length === 0) return;
@@ -1201,7 +1202,7 @@ export async function markAuraInvencibilidadeUsed(opts: {
         await (actor as FoundryActor & { setFlag(s: string, k: string, v: unknown): Promise<unknown> })
             .setFlag(MODULE_ID, FLAG_INVENC_USED_SCENE, sceneId);
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Aura de Invencibilidade: falha ao marcar uso:`, err);
+        warn(`Aura de Invencibilidade: falha ao marcar uso:`, err);
     }
 
     try {
@@ -1249,7 +1250,7 @@ async function spendSustainPM(caster: FoundryActor, auras: AuraTpl[]): Promise<{
         try {
             await caster.update({ "system.attributes.pm.value": newPm });
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao debitar PM:`, err);
+            warn(`Aura Sagrada: falha ao debitar PM:`, err);
         }
     }
 
@@ -1260,7 +1261,7 @@ async function spendSustainPM(caster: FoundryActor, auras: AuraTpl[]): Promise<{
             try {
                 await scene.deleteEmbeddedDocuments("MeasuredTemplate", cancelled.map(t => t.id));
             } catch (err) {
-                console.warn(`[t20-theme-overhaul] Aura Sagrada: falha ao cancelar aura por falta de PM:`, err);
+                warn(`Aura Sagrada: falha ao cancelar aura por falta de PM:`, err);
             }
         }
         // Posta aviso no chat
@@ -1480,7 +1481,7 @@ export function diagnoseAuras(): unknown {
         });
     }
 
-    console.log(`[t20-theme-overhaul] DIAGNOSE AURAS:`, report);
+    log(`DIAGNOSE AURAS:`, report);
     return report;
 }
 

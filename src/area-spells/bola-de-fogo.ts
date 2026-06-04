@@ -58,6 +58,7 @@ import {
     correctMangledDanoFormula,
     type OnUseDanoBonus,
 } from "@/t20-fixes/onuse-foreign-die-dano";
+import { log, warn } from "@/utils/logging";
 
 // Aprimoramento próprio da magia (+2d6) — já contabilizado na fórmula base da
 // esfera/pedra. Excluído dos bônus externos pra não duplicar.
@@ -313,7 +314,7 @@ async function claimTemplate(
     try {
         await tplDoc.update({ [`flags.${MODULE_ID}`]: buildBolaDeFogoFlags(pending) });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Bola de Fogo: falha ao reclamar template:`, err);
+        warn(`Bola de Fogo: falha ao reclamar template:`, err);
     }
 }
 
@@ -332,7 +333,7 @@ async function dispatchExplosion(tplDoc: {
     try {
         await tplDoc.update({ [`flags.${MODULE_ID}.dispatched`]: true });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Bola de Fogo: falha ao marcar dispatched:`, err);
+        warn(`Bola de Fogo: falha ao marcar dispatched:`, err);
     }
 
     const tokens = tokensInTemplate({ x: tplDoc.x, y: tplDoc.y, distance: tplDoc.distance });
@@ -531,7 +532,7 @@ async function placeEsfera(meta: EsferaMeta): Promise<void> {
         await scene.createEmbeddedDocuments("Token", [tokenData]);
         ui.notifications?.info(`Esfera Flamejante criada (${meta.damageFormula} por hit). Arraste o token pra mover.`);
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Esfera Flamejante: falha ao criar token:`, err);
+        warn(`Esfera Flamejante: falha ao criar token:`, err);
         ui.notifications?.error("Esfera Flamejante: falha ao criar token (veja console).");
     }
 }
@@ -681,7 +682,7 @@ async function applyEsferaDamage(esferaTokenDoc: {
     try {
         await esferaTokenDoc.update({ [`flags.${MODULE_ID}.damagedThisRound`]: newDamaged });
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Esfera Flamejante: falha ao salvar damagedThisRound:`, err);
+        warn(`Esfera Flamejante: falha ao salvar damagedThisRound:`, err);
     }
 
     // Posta um chat card-resumo com o dano rolado + lista de alvos
@@ -780,7 +781,7 @@ function patchAbilityUseDialog(): void {
     const t20 = (game as unknown as { tormenta20?: T20Global }).tormenta20;
     const Dlg = t20?.applications?.AbilityUseDialog;
     if (!Dlg) {
-        console.warn(`[t20-theme-overhaul] AbilityUseDialog não encontrado — Pedra Flamejante (Ap3) desabilitada.`);
+        warn(`AbilityUseDialog não encontrado — Pedra Flamejante (Ap3) desabilitada.`);
         return;
     }
     if (Dlg._bg3PatchedForAp3) return;
@@ -884,16 +885,16 @@ function patchAbilityUseDialog(): void {
             const castActorId = actor?.id ?? "";
             if (castActorId && cdAtCast > 0) {
                 _pendingPedraCDs.set(castActorId, { cd: cdAtCast, resistTxt, ts: Date.now(), foreignBonuses, baseFace });
-                console.warn(`[t20-theme-overhaul] Bola de Fogo Ap3 — CD capturado: ${cdAtCast} = ${formula} (resist: "${resistTxt}"). Bônus face estrangeira: ${foreignBonuses.length}`);
+                warn(`Bola de Fogo Ap3 — CD capturado: ${cdAtCast} = ${formula} (resist: "${resistTxt}"). Bônus face estrangeira: ${foreignBonuses.length}`);
             } else {
-                console.warn(`[t20-theme-overhaul] Bola de Fogo Ap3 detectado mas CD do cast indisponível. Fallback será usado.`);
+                warn(`Bola de Fogo Ap3 detectado mas CD do cast indisponível. Fallback será usado.`);
             }
-            console.warn(`[t20-theme-overhaul] Bola de Fogo Ap3 detectado — forçando brew=true (T20 vai criar a Pedra Flamejante via seu fluxo nativo).`);
+            warn(`Bola de Fogo Ap3 detectado — forçando brew=true (T20 vai criar a Pedra Flamejante via seu fluxo nativo).`);
         }
         return result;
     };
     Dlg._bg3PatchedForAp3 = true;
-    console.log(`[t20-theme-overhaul] AbilityUseDialog patched (Pedra Flamejante Ap3 ativo).`);
+    log(`AbilityUseDialog patched (Pedra Flamejante Ap3 ativo).`);
 }
 
 
@@ -932,7 +933,7 @@ async function onClickCancelEsfera(): Promise<void> {
             await scene.deleteEmbeddedDocuments("Token", [mine[0].id]);
             ui.notifications?.info("Esfera Flamejante apagada.");
         } catch (err) {
-            console.warn(`[t20-theme-overhaul] Esfera Flamejante: falha ao apagar:`, err);
+            warn(`Esfera Flamejante: falha ao apagar:`, err);
         }
         return;
     }
@@ -972,7 +973,7 @@ async function onClickCancelEsfera(): Promise<void> {
         await scene.deleteEmbeddedDocuments("Token", ids);
         ui.notifications?.info(`${ids.length} Esfera(s) Flamejante apagada(s).`);
     } catch (err) {
-        console.warn(`[t20-theme-overhaul] Esfera Flamejante: falha ao apagar múltiplas:`, err);
+        warn(`Esfera Flamejante: falha ao apagar múltiplas:`, err);
     }
 }
 
@@ -1053,7 +1054,7 @@ export function setupBolaDeFogo(): void {
                     if (danoIdx >= 0 && correctedRolls[danoIdx].parts?.[0]) {
                         correctedRolls[danoIdx].parts![0][0] = fixed;
                     }
-                    console.warn(`[t20-theme-overhaul] Pedra Flamejante: fórmula de dano corrigida (face estrangeira) → ${fixed}`);
+                    warn(`Pedra Flamejante: fórmula de dano corrigida (face estrangeira) → ${fixed}`);
                 }
             }
         }
@@ -1154,7 +1155,7 @@ export function setupBolaDeFogo(): void {
             [`flags.${MODULE_ID}.cd`]:            effectiveCD,
             ...animFlags,
         });
-        console.warn(`[t20-theme-overhaul] Pedra Flamejante criada — CD=${effectiveCD} (fonte: ${cdSource}, atributo=${conjuracao}).`);
+        warn(`Pedra Flamejante criada — CD=${effectiveCD} (fonte: ${cdSource}, atributo=${conjuracao}).`);
         ui.notifications?.info(`Pedra Flamejante criada no inventário (${dado} fogo, CD ${effectiveCD}). Clique no item para arremessar.`);
     });
 
@@ -1225,7 +1226,7 @@ export function setupBolaDeFogo(): void {
                     (r.options as Record<string, unknown>)?.["type"] === "damage",
                 );
                 if (!damageRoll) {
-                    console.warn(`[t20-theme-overhaul] Pedra Flamejante usada mas sem damage roll na msg.`);
+                    warn(`Pedra Flamejante usada mas sem damage roll na msg.`);
                     return;
                 }
                 const t20Item = message.getFlag("tormenta20", "itemData") as Record<string, unknown> | undefined;
@@ -1250,7 +1251,7 @@ export function setupBolaDeFogo(): void {
                     resistTxt:     resTxt,
                     spellName:     "Pedra Flamejante (Bola de Fogo)",
                 });
-                console.warn(`[t20-theme-overhaul] Pedra Flamejante detonada — pending cast registrado (dano=${damageRoll.total}, cd=${cd}). Aguardando user posicionar template.`);
+                warn(`Pedra Flamejante detonada — pending cast registrado (dano=${damageRoll.total}, cd=${cd}). Aguardando user posicionar template.`);
                 return;
             }
         }
@@ -1266,8 +1267,7 @@ export function setupBolaDeFogo(): void {
         // ── DIAGNÓSTICO: log temporário para verificar detecção de aprimoramentos.
         //    Abrir DevTools (F12) → Console ao castar com Ap3 selecionado.
         //    Remover após confirmar que detectImp3Active retorna true.
-        console.warn(
-            `[t20-theme-overhaul] Bola de Fogo cast — onUseEffects (${entries.length} entries):`,
+        warn(`Bola de Fogo cast — onUseEffects (${entries.length} entries):`,
             JSON.stringify(entries, null, 2),
             `· imp1=${detectImp1Qty(entries)} imp2=${detectImp2Active(entries)} imp3=${detectImp3Active(entries)}`,
         );
@@ -1289,7 +1289,7 @@ export function setupBolaDeFogo(): void {
             const extSuffix  = extBonuses.map(b => ` + ${danoBonusToFormula(b)}`).join("");
             const damageFormula = `${dice}d6[fogo]${extSuffix}`;
             if (extSuffix) {
-                console.log(`[${MODULE_ID}] Esfera Flamejante: bônus on-use externos anexados → ${damageFormula}`);
+                log(`Esfera Flamejante: bônus on-use externos anexados → ${damageFormula}`);
             }
             const cd            = extractCD(message);
             const resistTxt     = ((itemData["resistencia"] as { txt?: string } | undefined)?.txt ?? "").trim()
@@ -1445,7 +1445,7 @@ export function setupBolaDeFogo(): void {
                 try {
                     await tokDoc.update({ [`ownership.${casterUid}`]: 3 });
                 } catch (err) {
-                    console.warn(`[t20-theme-overhaul] Bola de Fogo: falha ao conceder OWNER da esfera ao caster (${casterUid}):`, err);
+                    warn(`Bola de Fogo: falha ao conceder OWNER da esfera ao caster (${casterUid}):`, err);
                 }
             }
 

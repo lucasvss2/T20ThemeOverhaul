@@ -16,7 +16,7 @@
  * próprias AEs da aura (flagOrigin) pra não entrar em loop ao atualizá-las.
  */
 
-import { log } from "@/utils/logging";
+import { log, warn } from "@/utils/logging";
 import { isActiveGM } from "@/_shared";
 
 export interface ChaDynamicConfig {
@@ -63,7 +63,7 @@ async function updateRecipientAEs(cfg: ChaDynamicConfig, templateId: string, new
             try {
                 await ae.update({ changes: newChanges });
             } catch (err) {
-                console.warn(`[${cfg.moduleId}] ${cfg.label}: falha ao atualizar AE de recipiente:`, err);
+                warn(`${cfg.label}: falha ao atualizar AE de recipiente:`, err);
             }
         }
     }
@@ -85,7 +85,7 @@ async function applyNewChaToTemplate(cfg: ChaDynamicConfig, tpl: TplLike, newCha
     try {
         await tpl.update({ [`flags.${cfg.moduleId}.baseEffectData`]: newBase });
     } catch (err) {
-        console.warn(`[${cfg.moduleId}] ${cfg.label}: falha ao atualizar baseEffectData:`, err);
+        warn(`${cfg.label}: falha ao atualizar baseEffectData:`, err);
         return;
     }
     await updateRecipientAEs(cfg, tpl.id, newBase.changes);

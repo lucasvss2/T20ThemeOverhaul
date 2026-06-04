@@ -28,7 +28,8 @@
  */
 
 import { MODULE_ID } from "@/constants";
-import { log, warn } from "@/utils/logging";
+import { log, warn, error } from "@/utils/logging";
+
 
 let socket: SocketlibSocket | null = null;
 const pending: Array<(s: SocketlibSocket) => void> = [];
@@ -62,7 +63,7 @@ Hooks.once("socketlib.ready", () => {
     log(`socketlib registrado (${pending.length} handler set(s) pendente(s)).`);
     for (const fn of pending) {
         try { fn(socket); } catch (err) {
-            console.error(`[t20-theme-overhaul] erro registrando handler de socket:`, err);
+            error(`erro registrando handler de socket:`, err);
         }
     }
     pending.length = 0;

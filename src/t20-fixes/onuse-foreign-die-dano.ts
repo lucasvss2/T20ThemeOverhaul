@@ -29,7 +29,7 @@
  * ou a contagem do dado base é menor que o total a reduzir. Tudo em try/catch.
  */
 
-import { MODULE_ID } from "@/constants";
+import { log, warn } from "@/utils/logging";
 
 const STR_VALUE_RE = /^(\d+)d(\d+)([+-]\d+)?$/;
 
@@ -223,8 +223,7 @@ async function correctRolledDamage(item: ItemLike, onUseEffects: unknown): Promi
         rolled[name] = newRoll;
 
         const dmgList = foreign.map(f => `${f.count}d${f.faces}`).join(" + ");
-        console.log(
-            `[${MODULE_ID}] dano de face estrangeira corrigido (base d${baseFace} → +${dmgList}). `
+        log(`dano de face estrangeira corrigido (base d${baseFace} → +${dmgList}). `
             + `Fórmula: ${corrected}`,
         );
     }
@@ -239,7 +238,7 @@ export function setupOnUseForeignDieDano(): void {
             | (Record<string, unknown> & { _bg3ForeignDiePatched?: boolean })
             | undefined;
         if (!proto || typeof proto["rollDamage"] !== "function") {
-            console.warn(`[${MODULE_ID}] onuse-foreign-die-dano: ItemT20.prototype.rollDamage não encontrado.`);
+            warn(`onuse-foreign-die-dano: ItemT20.prototype.rollDamage não encontrado.`);
             return;
         }
         if (proto._bg3ForeignDiePatched) return;
@@ -251,11 +250,11 @@ export function setupOnUseForeignDieDano(): void {
                 const options = (arg?.["options"] ?? {}) as { onUseEffects?: unknown };
                 await correctRolledDamage(this, options.onUseEffects);
             } catch (err) {
-                console.warn(`[${MODULE_ID}] onuse-foreign-die-dano: correção abortada (dano intacto):`, err);
+                warn(`onuse-foreign-die-dano: correção abortada (dano intacto):`, err);
             }
             return ret;
         };
         proto._bg3ForeignDiePatched = true;
-        console.log(`[${MODULE_ID}] ItemT20.rollDamage patched (bônus de dano de face estrangeira).`);
+        log(`ItemT20.rollDamage patched (bônus de dano de face estrangeira).`);
     });
 }

@@ -9,6 +9,7 @@
 import { parseT20 } from "@/parser/t20";
 import { MODULE_ID, SYSTEM_ID } from "@/constants";
 import { log } from "@/utils/logging";
+
 import { BG3Overlay, type GridRollEntry } from "@/overlay/BG3Overlay";
 
 // Tempo (ms) entre rolagens de iniciativa pra considerar como um lote — basta
