@@ -3,6 +3,8 @@ import {
     computeSublimeCD,
     parseND,
     perceptionPasses,
+    parsePMCost,
+    buildPerceptionFormula,
 } from "@/disparo-sublime/index";
 
 // ── computeSublimeCD ──────────────────────────────────────────────────────────
@@ -54,5 +56,43 @@ describe("perceptionPasses", () => {
 
     it("fails when total is below the CD", () => {
         expect(perceptionPasses(16, 17)).toBe(false);
+    });
+});
+
+// ── parsePMCost ───────────────────────────────────────────────────────────────
+
+describe("parsePMCost", () => {
+    it("reads a numeric string", () => {
+        expect(parsePMCost("2")).toBe(2);
+    });
+
+    it("reads a number", () => {
+        expect(parsePMCost(3)).toBe(3);
+    });
+
+    it("returns 0 for empty / invalid / non-positive", () => {
+        expect(parsePMCost("")).toBe(0);
+        expect(parsePMCost(undefined)).toBe(0);
+        expect(parsePMCost(null)).toBe(0);
+        expect(parsePMCost("abc")).toBe(0);
+        expect(parsePMCost(0)).toBe(0);
+        expect(parsePMCost(-1)).toBe(0);
+    });
+});
+
+// ── buildPerceptionFormula ────────────────────────────────────────────────────
+
+describe("buildPerceptionFormula", () => {
+    it("returns the base 1d20 + bonus when no boosts", () => {
+        expect(buildPerceptionFormula(6, [])).toBe("1d20 + 6");
+    });
+
+    it("appends each boost value parenthesized", () => {
+        expect(buildPerceptionFormula(6, ["@car"])).toBe("1d20 + 6 + (@car)");
+        expect(buildPerceptionFormula(6, ["@car", "1d6"])).toBe("1d20 + 6 + (@car) + (1d6)");
+    });
+
+    it("skips empty / whitespace boost values", () => {
+        expect(buildPerceptionFormula(6, ["", "  ", "@car"])).toBe("1d20 + 6 + (@car)");
     });
 });

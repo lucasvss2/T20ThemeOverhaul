@@ -109,3 +109,64 @@
     font-weight: bold;
     letter-spacing: 0.5px;
 }
+
+.ds-boost-applied {
+    text-align: center;
+    color: #6ecf7a;
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+/* Skill-boost selection modal */
+.ds-boost-modal {
+    color: #e8e0d0;
+    font-family: "Signika", serif;
+}
+
+.ds-boost-hint {
+    color: #9a8e7a;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.ds-boost-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    margin: 4px 0;
+    border: 1px solid #3a2e1a;
+    border-radius: 4px;
+    background: rgba(200, 169, 110, 0.06);
+    cursor: pointer;
+}
+
+.ds-boost-row:hover {
+    border-color: #c8a96e;
+    background: rgba(200, 169, 110, 0.12);
+}
+
+.ds-boost-row input {
+    flex-shrink: 0;
+}
+
+.ds-boost-name {
+    flex: 1;
+    color: #f0ebe0;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.ds-boost-bonus {
+    color: #6ecf7a;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.ds-boost-cost {
+    color: #c8a96e;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}

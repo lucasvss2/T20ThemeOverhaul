@@ -208,6 +208,109 @@ function getPercepcaoBonus(actor: FoundryActor): number {
     return Number(per?.value ?? 0);
 }
 
+// ── Bônus de perícia on-use (Audácia etc.) ────────────────────────────────────
+
+interface SkillBoost {
+    id: string;
+    name: string;
+    cost: number;     // PM
+    values: string[]; // fórmulas dos changes key:"roll" (ex: ["@car"])
+    preview: string;  // fórmula resolvida p/ exibição (ex: "3" ou "1d6")
+}
+
+/** Custo em PM de uma flag custo (string "2" / number / vazio). 0 se inválido. */
+export function parsePMCost(raw: unknown): number {
+    const n = typeof raw === "number" ? raw : parseInt(String(raw ?? ""), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+/** Monta a fórmula do teste de Percepção: base + valores dos bônus selecionados. */
+export function buildPerceptionFormula(percBonus: number, boostValues: string[]): string {
+    let f = `1d20 + ${percBonus}`;
+    for (const v of boostValues) {
+        const t = (v ?? "").trim();
+        if (t) f += ` + (${t})`;
+    }
+    return f;
+}
+
+/** Resolve atributos (@car…) numa fórmula mantendo dados, para exibição. */
+function resolveFormulaPreview(formula: string, rd: object): string {
+    try {
+        const R = Roll as unknown as { replaceFormulaData?: (f: string, d: object) => string };
+        return (R.replaceFormulaData?.(formula, rd) ?? formula).replace(/\s+/g, " ").trim();
+    } catch {
+        return formula;
+    }
+}
+
+/** Coleta AEs on-use de perícia do ator (onuse && skill) com change key "roll". */
+function collectSkillBoostAEs(actor: FoundryActor): SkillBoost[] {
+    const rd = (actor as { getRollData?: () => object }).getRollData?.() ?? {};
+    const out: SkillBoost[] = [];
+    for (const ae of actor.effects?.contents ?? []) {
+        const t20 = ae.flags?.tormenta20 as
+            | { onuse?: boolean; skill?: boolean; custo?: unknown } | undefined;
+        if (!t20?.onuse || !t20?.skill) continue;
+        const values = (ae.changes ?? [])
+            .filter(c => c.key === "roll")
+            .map(c => String(c.value ?? ""))
+            .filter(Boolean);
+        if (!values.length) continue;
+        out.push({
+            id: ae.id ?? "",
+            name: ae.name ?? "Bônus",
+            cost: parsePMCost(t20.custo),
+            values,
+            preview: resolveFormulaPreview(values.join(" + "), rd),
+        });
+    }
+    return out;
+}
+
+/**
+ * Modal de seleção de bônus de perícia. Resolve com os ids das AEs marcadas.
+ * Fechar sem confirmar → nenhum bônus.
+ */
+function promptSkillBoosts(boosts: SkillBoost[], pm: number): Promise<string[]> {
+    return new Promise(resolve => {
+        const rows = boosts.map(b => `
+            <label class="ds-boost-row">
+                <input type="checkbox" name="ds-boost" value="${esc(b.id)}" />
+                <span class="ds-boost-name">${esc(b.name)}</span>
+                <span class="ds-boost-bonus">+${esc(b.preview)}</span>
+                <span class="ds-boost-cost">${b.cost} PM</span>
+            </label>`).join("");
+        const content = `
+            <div class="ds-boost-modal">
+                <div class="ds-boost-hint">Selecione poderes para somar ao teste de Percepção.<br>PM atual: ${pm} — o teste base já custa ${PM_COST} PM.</div>
+                ${rows}
+            </div>`;
+        let done = false;
+        const dlg = new Dialog({
+            title: "Disparo Sublime — Bônus no Teste",
+            content,
+            buttons: {
+                roll: {
+                    icon: '<i class="fas fa-dice-d20"></i>',
+                    label: "Rolar Percepção",
+                    callback: ($html: JQuery) => {
+                        done = true;
+                        const root = ($html as unknown as ArrayLike<HTMLElement>)[0];
+                        const checked = root
+                            ? Array.from(root.querySelectorAll('input[name="ds-boost"]:checked'))
+                            : [];
+                        resolve(checked.map(el => (el as HTMLInputElement).value));
+                    },
+                },
+            },
+            default: "roll",
+            close: () => { if (!done) resolve([]); },
+        }, { classes: ["bg3-dialog", "bg3-ds-dialog"] });
+        dlg.render(true);
+    });
+}
+
 // ── Card ────────────────────────────────────────────────────────────────────────
 
 function buildCard(opts: {
@@ -218,6 +321,7 @@ function buildCard(opts: {
     nd: number;
     passed: boolean;
     casterName: string;
+    appliedBoosts: string[];
 }): string {
     const outcome = opts.passed
         ? `<div class="ds-outcome ds-pass">✓ PASSOU — próximo acerto com arco é CRÍTICO</div>`
@@ -225,10 +329,14 @@ function buildCard(opts: {
     const hint = opts.passed
         ? `<div class="ds-hint">Marque "${esc(SUBLIME_AE_NAME)}" no seu ataque com arco contra o alvo nesta rodada.</div>`
         : "";
+    const boostsLine = opts.appliedBoosts.length
+        ? `<div class="ds-boost-applied">Bônus aplicados: ${esc(opts.appliedBoosts.join(", "))}</div>`
+        : "";
     return `
         <div class="ds-card">
             <div class="ds-header"><i class="fas fa-bullseye"></i> Disparo Sublime — ${esc(opts.casterName)}</div>
             <div class="ds-target-row">Alvo: <span class="ds-target-name">${esc(opts.targetName)}</span> (ND ${opts.nd})</div>
+            ${boostsLine}
             <div class="ds-divider"></div>
             <div class="ds-test-row">
                 <div class="ds-block">
@@ -275,11 +383,28 @@ async function processActivation(message: ChatMessage): Promise<void> {
     );
     const cd = computeSublimeCD(nd);
 
-    // Debita PM e rola Percepção
-    await debitPM(actor, PM_COST);
+    // Bônus de perícia on-use (Audácia etc.): pergunta ao caster ANTES de rolar.
+    const boosts = collectSkillBoostAEs(actor);
+    let applied: SkillBoost[] = [];
+    if (boosts.length) {
+        const selectedIds = await promptSkillBoosts(boosts, getPM(actor));
+        applied = boosts.filter(b => selectedIds.includes(b.id));
+        const want = PM_COST + applied.reduce((s, b) => s + b.cost, 0);
+        if (want > getPM(actor)) {
+            ui.notifications?.warn("Disparo Sublime: PM insuficiente para os bônus selecionados — rolando sem eles.");
+            applied = [];
+        }
+    }
+
+    // Debita PM (base + bônus) e rola Percepção
+    const totalCost = PM_COST + applied.reduce((s, b) => s + b.cost, 0);
+    await debitPM(actor, totalCost);
 
     const percBonus = getPercepcaoBonus(actor);
-    const roll = new Roll(`1d20 + ${percBonus}`);
+    const boostValues = applied.flatMap(b => b.values);
+    const rd = (actor as { getRollData?: () => object }).getRollData?.() ?? {};
+    const RollCtor = Roll as unknown as new (f: string, d?: object) => Roll;
+    const roll = new RollCtor(buildPerceptionFormula(percBonus, boostValues), rd);
     await (roll as unknown as { evaluate: (o?: object) => Promise<unknown> }).evaluate();
     const total = roll.total ?? 0;
     const natural = ((roll.dice?.[0] as { results?: Array<{ result: number }> } | undefined)?.results?.[0]?.result) ?? 0;
@@ -305,13 +430,17 @@ async function processActivation(message: ChatMessage): Promise<void> {
     }
 
     await ChatMessage.create({
-        content: buildCard({ targetName: target.name, rollTotal: total, natural, cd, nd, passed, casterName }),
+        content: buildCard({
+            targetName: target.name, rollTotal: total, natural, cd, nd, passed, casterName,
+            appliedBoosts: applied.map(b => b.name),
+        }),
         rolls: [roll.toJSON()],
         type: 5,
         speaker: { alias: casterName },
     });
 
-    log(`Disparo Sublime: ${casterName} vs ${target.name} (ND ${nd}) — Percepção ${total} vs CD ${cd} → ${passed ? "PASSOU (armado)" : "falhou"}.`);
+    const boostLog = applied.length ? ` [bônus: ${applied.map(b => b.name).join(", ")}]` : "";
+    log(`Disparo Sublime: ${casterName} vs ${target.name} (ND ${nd}) — Percepção ${total} vs CD ${cd} → ${passed ? "PASSOU (armado)" : "falhou"}${boostLog}.`);
 }
 
 async function processConsumption(message: ChatMessage): Promise<void> {
