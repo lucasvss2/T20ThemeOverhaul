@@ -1,0 +1,111 @@
+/* Disparo Sublime — Perception test card */
+
+.ds-card {
+    background: linear-gradient(135deg, #090604 0%, #1c1209 100%);
+    border: 1px solid #c8a96e;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 4px 0;
+    font-family: "Signika", serif;
+    color: #e8e0d0;
+}
+
+.ds-header {
+    color: #c8a96e;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.ds-divider {
+    border: none;
+    border-top: 1px solid #3a2e1a;
+    margin: 6px 0;
+}
+
+.ds-target-row {
+    text-align: center;
+    color: #9a8e7a;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.ds-target-name {
+    color: #e8e0d0;
+    font-weight: bold;
+}
+
+/* Roll vs CD comparison */
+.ds-test-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 8px;
+}
+
+.ds-block {
+    flex: 1;
+    text-align: center;
+    padding: 4px 6px;
+}
+
+.ds-block-label {
+    color: #7a6e5a;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.ds-block-value {
+    color: #f0ebe0;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.ds-vs {
+    color: #5a4e3a;
+    font-size: 11px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Outcome banner */
+.ds-outcome {
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.ds-pass {
+    color: #6ecf7a;
+    background: rgba(110, 207, 122, 0.1);
+}
+
+.ds-fail {
+    color: #cc4444;
+    background: rgba(204, 68, 68, 0.1);
+}
+
+.ds-hint {
+    text-align: center;
+    color: #9a8e7a;
+    font-size: 9px;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+.ds-consumed {
+    color: #f5c842;
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
