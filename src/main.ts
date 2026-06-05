@@ -27,6 +27,7 @@ import { setupSheetRedesign } from "./sheet/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
+import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -67,6 +68,7 @@ Hooks.once("setup", () => {
     setupKiaiDivino();
     setupGritoKiai();
     setupOnUseForeignDieDano();   // corrige bônus de dano on-use com face de dado diferente da base
+    setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupSheetRedesign();
