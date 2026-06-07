@@ -11,7 +11,7 @@
  * renderSceneControls / ready / canvasReady (o Foundry recria a toolbar).
  */
 
-import { ENVIRONMENTS, lookupEncounter, type EncounterResult } from "./encounter-data";
+import { ENVIRONMENTS, lookupEncounter, validateEnvironments, type EncounterResult } from "./encounter-data";
 import ENCOUNTER_STYLES from "./encounter-roller.css?inline";
 import { log, warn } from "@/utils/logging";
 
@@ -180,7 +180,15 @@ function openEncounterDialog(): void {
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 export function setupEncounterRoller(): void {
+    Hooks.once("ready", () => {
+        ensureStyles();
+        injectBtn();
+        // Aponta erros de formato caso a tabela de encontros tenha sido expandida.
+        const problems = validateEnvironments();
+        if (problems.length) {
+            warn(`encounter-roller: tabela de encontros com ${problems.length} problema(s):\n` + problems.join("\n"));
+        }
+    });
     Hooks.on("renderSceneControls", () => { ensureStyles(); injectBtn(); });
-    Hooks.once("ready", () => { ensureStyles(); injectBtn(); });
     Hooks.on("canvasReady", () => injectBtn());
 }

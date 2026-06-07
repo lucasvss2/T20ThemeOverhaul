@@ -8,9 +8,39 @@
  * O GM informa um nível de 1 a 8 → mapeado ao bracket; o 1d100 escolhe a faixa.
  *
  * Fonte: documento de tabela fornecido pelo mestre do mundo.
+ *
+ * ──────────────────────────────────────────────────────────────────────────────
+ * COMO ADICIONAR/EXPANDIR UM AMBIENTE (basta editar ESTE arquivo):
+ *
+ * 1. Acrescente um objeto ao array `ENVIRONMENTS` seguindo o template abaixo.
+ *    Nada mais precisa mudar — o dropdown do modal e o lookup são gerados a
+ *    partir deste array automaticamente.
+ *
+ *    {
+ *        id: "pantano",            // minúsculas, sem espaços, único
+ *        label: "Pântano",          // texto exibido no dropdown
+ *        rows: [
+ *            { min: 1,  max: 15,  title: "...", flavor: "...",
+ *                levels: ["<Nv 1-2>", "<Nv 3-4>", "<Nv 5-6>", "<Nv 7-8>"] },
+ *            // ... faixas seguintes ...
+ *            { min: 91, max: 100, title: "...", flavor: "",
+ *                levels: ["...", "...", "...", "..."] },
+ *        ],
+ *    }
+ *
+ * 2. Regras do formato (validadas por `validateEnvironments()` no setup e nos
+ *    testes): as faixas (`min`..`max`) devem cobrir 1–100 sem buracos nem
+ *    sobreposições; cada faixa tem EXATAMENTE 4 brackets de nível não vazios
+ *    (1-2, 3-4, 5-6, 7-8); `flavor` pode ser "" se a tabela não tiver.
+ *
+ * 3. As faixas não precisam ser sempre 7 nem do mesmo tamanho — qualquer
+ *    partição contígua de 1 a 100 funciona (ex.: 01-20, 21-50, 51-100).
+ * ──────────────────────────────────────────────────────────────────────────────
  */
 
-export type EnvironmentId = "esgoto" | "caverna" | "estrada" | "floresta" | "becos" | "ruinas";
+/** Id de ambiente (string livre, ex.: "esgoto"). String — não union — para que
+ *  adicionar um ambiente exija editar APENAS o array `ENVIRONMENTS`. */
+export type EnvironmentId = string;
 
 export interface EncounterRow {
     min: number;
@@ -197,4 +227,44 @@ export function lookupEncounter(envId: string, level: number, roll: number): Enc
         flavor: row.flavor,
         encounter: row.levels[bracketIndexForLevel(level)],
     };
+}
+
+// ── Validação (segurança ao expandir a tabela) ────────────────────────────────
+
+/**
+ * Valida a estrutura de uma lista de ambientes e retorna a lista de problemas
+ * encontrados (vazia = tudo certo). Checa: ids únicos/não-vazios, faixas
+ * cobrindo 1–100 sem buracos/sobreposições, e 4 brackets de nível não vazios
+ * por faixa. Chamada no setup (avisa no console) e exercida nos testes — assim,
+ * ao colar uma nova tabela, erros de formato são apontados na hora.
+ */
+export function validateEnvironments(envs: EnvironmentDef[] = ENVIRONMENTS): string[] {
+    const problems: string[] = [];
+    const seen = new Set<string>();
+    for (const env of envs) {
+        const tag = env.id || `(label: ${env.label})`;
+        if (!env.id) problems.push(`Ambiente sem id (label: "${env.label}").`);
+        else if (seen.has(env.id)) problems.push(`Id duplicado: "${env.id}".`);
+        if (env.id) seen.add(env.id);
+
+        const rows = env.rows ?? [];
+        if (!rows.length) { problems.push(`"${tag}": nenhuma faixa definida.`); continue; }
+
+        const sorted = [...rows].sort((a, b) => a.min - b.min);
+        if (sorted[0].min !== 1) problems.push(`"${tag}": a primeira faixa deve começar em 1 (está em ${sorted[0].min}).`);
+        if (sorted[sorted.length - 1].max !== 100) problems.push(`"${tag}": a última faixa deve terminar em 100 (está em ${sorted[sorted.length - 1].max}).`);
+        for (let i = 1; i < sorted.length; i++) {
+            if (sorted[i].min !== sorted[i - 1].max + 1) {
+                problems.push(`"${tag}": buraco/sobreposição entre ${sorted[i - 1].max} e ${sorted[i].min}.`);
+            }
+        }
+        for (const row of rows) {
+            if (!Array.isArray(row.levels) || row.levels.length !== 4) {
+                problems.push(`"${tag}" faixa ${row.min}-${row.max}: precisa de exatamente 4 brackets de nível.`);
+            } else if (row.levels.some(l => !l || !l.trim())) {
+                problems.push(`"${tag}" faixa ${row.min}-${row.max}: há bracket de nível vazio.`);
+            }
+        }
+    }
+    return problems;
 }

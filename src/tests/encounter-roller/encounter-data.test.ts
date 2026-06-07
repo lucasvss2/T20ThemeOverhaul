@@ -6,36 +6,26 @@ import {
     padRange,
     getEnvironment,
     lookupEncounter,
+    validateEnvironments,
+    type EnvironmentDef,
 } from "@/encounter-roller/encounter-data";
 
 // ── data integrity ────────────────────────────────────────────────────────────
 
 describe("ENVIRONMENTS data", () => {
-    it("has the six expected environments", () => {
-        expect(ENVIRONMENTS.map(e => e.id)).toEqual([
-            "esgoto", "caverna", "estrada", "floresta", "becos", "ruinas",
-        ]);
+    // Expansion-friendly: assert the core six are PRESENT (não lista exata),
+    // de modo que adicionar um novo ambiente não quebre este teste.
+    it("includes the six core environments and has unique ids", () => {
+        const ids = ENVIRONMENTS.map(e => e.id);
+        for (const core of ["esgoto", "caverna", "estrada", "floresta", "becos", "ruinas"]) {
+            expect(ids).toContain(core);
+        }
+        expect(new Set(ids).size).toBe(ids.length);
     });
 
-    it("every environment has 7 rows fully covering 1..100 with no gaps/overlaps", () => {
-        for (const env of ENVIRONMENTS) {
-            expect(env.rows).toHaveLength(7);
-            const sorted = [...env.rows].sort((a, b) => a.min - b.min);
-            expect(sorted[0].min).toBe(1);
-            expect(sorted[sorted.length - 1].max).toBe(100);
-            for (let i = 1; i < sorted.length; i++) {
-                expect(sorted[i].min).toBe(sorted[i - 1].max + 1);
-            }
-        }
-    });
-
-    it("every row has exactly 4 non-empty level brackets", () => {
-        for (const env of ENVIRONMENTS) {
-            for (const row of env.rows) {
-                expect(row.levels).toHaveLength(4);
-                for (const lv of row.levels) expect(lv.trim().length).toBeGreaterThan(0);
-            }
-        }
+    it("every environment passes validateEnvironments (1-100 coverage, 4 brackets)", () => {
+        // Validação genérica → cobre automaticamente qualquer ambiente novo.
+        expect(validateEnvironments()).toEqual([]);
     });
 });
 
@@ -114,5 +104,52 @@ describe("lookupEncounter", () => {
 
     it("returns null for an out-of-range roll", () => {
         expect(lookupEncounter("becos", 3, 0)).toBeNull();
+    });
+});
+
+// ── validateEnvironments ──────────────────────────────────────────────────────
+
+describe("validateEnvironments", () => {
+    const row = (min: number, max: number): EnvironmentDef["rows"][number] => ({
+        min, max, title: "T", flavor: "",
+        levels: ["a", "b", "c", "d"],
+    });
+
+    it("accepts a well-formed environment (any contiguous 1-100 partition)", () => {
+        const env: EnvironmentDef = { id: "pantano", label: "Pântano", rows: [row(1, 20), row(21, 50), row(51, 100)] };
+        expect(validateEnvironments([env])).toEqual([]);
+    });
+
+    it("flags a gap in d100 coverage", () => {
+        const env: EnvironmentDef = { id: "x", label: "X", rows: [row(1, 40), row(50, 100)] };
+        const out = validateEnvironments([env]);
+        expect(out.some(p => /buraco|sobreposi/i.test(p))).toBe(true);
+    });
+
+    it("flags coverage not starting at 1 or not ending at 100", () => {
+        const env: EnvironmentDef = { id: "x", label: "X", rows: [row(5, 100)] };
+        expect(validateEnvironments([env]).some(p => /começar em 1/i.test(p))).toBe(true);
+    });
+
+    it("flags a row without 4 level brackets", () => {
+        const env: EnvironmentDef = {
+            id: "x", label: "X",
+            rows: [{ min: 1, max: 100, title: "T", flavor: "", levels: ["a", "b"] as unknown as [string, string, string, string] }],
+        };
+        expect(validateEnvironments([env]).some(p => /4 brackets/i.test(p))).toBe(true);
+    });
+
+    it("flags an empty level bracket", () => {
+        const env: EnvironmentDef = {
+            id: "x", label: "X",
+            rows: [{ min: 1, max: 100, title: "T", flavor: "", levels: ["a", " ", "c", "d"] }],
+        };
+        expect(validateEnvironments([env]).some(p => /vazio/i.test(p))).toBe(true);
+    });
+
+    it("flags duplicate ids", () => {
+        const env: EnvironmentDef = { id: "dup", label: "A", rows: [row(1, 100)] };
+        const env2: EnvironmentDef = { id: "dup", label: "B", rows: [row(1, 100)] };
+        expect(validateEnvironments([env, env2]).some(p => /duplicad/i.test(p))).toBe(true);
     });
 });
