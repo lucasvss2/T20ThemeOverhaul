@@ -1,0 +1,117 @@
+/* Encontro Aleatório — GM modal */
+
+.enc-modal {
+    color: #e8e0d0;
+    font-family: "Signika", serif;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.enc-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.enc-label {
+    color: #9a8e7a;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.enc-select,
+.enc-input {
+    background: #1c1209;
+    border: 1px solid #3a2e1a;
+    border-radius: 4px;
+    color: #f0ebe0;
+    padding: 5px 8px;
+    font-size: 13px;
+}
+
+.enc-select:focus,
+.enc-input:focus {
+    border-color: #c8a96e;
+    outline: none;
+}
+
+.enc-roll-btn {
+    margin-top: 4px;
+    background: linear-gradient(135deg, #1c1209 0%, #2a1d0c 100%);
+    border: 1px solid #c8a96e;
+    border-radius: 4px;
+    color: #c8a96e;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.enc-roll-btn:hover {
+    background: linear-gradient(135deg, #2a1d0c 0%, #3a2810 100%);
+    color: #f5c842;
+}
+
+.enc-result[data-empty="true"] {
+    display: none;
+}
+
+.enc-res-card {
+    margin-top: 6px;
+    background: linear-gradient(135deg, #090604 0%, #1c1209 100%);
+    border: 1px solid #c8a96e;
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+
+.enc-res-error {
+    border-color: #cc4444;
+    color: #cc4444;
+}
+
+.enc-res-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.enc-res-d100 {
+    color: #f5c842;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.enc-res-meta {
+    color: #9a8e7a;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+
+.enc-res-title {
+    color: #c8a96e;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.enc-res-flavor {
+    color: #9a8e7a;
+    font-size: 11px;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+.enc-res-encounter {
+    color: #f0ebe0;
+    font-size: 14px;
+    line-height: 1.35;
+    border-top: 1px solid #3a2e1a;
+    padding-top: 6px;
+}
