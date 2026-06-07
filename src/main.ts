@@ -26,6 +26,7 @@ import { diagnoseAuras } from "./area-spells/aura-sagrada";
 import { setupSkillsMenu } from "./ui/skills-menu";
 import { setupSheetRedesign } from "./sheet/index";
 import { setupEncounterRoller } from "./encounter-roller/index";
+import { setupTreasure } from "./treasure/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
@@ -76,6 +77,7 @@ Hooks.once("setup", () => {
     setupAreaSpells();
     setupSheetRedesign();
     setupEncounterRoller();   // botão GM na toolbar: rolar encontro aleatório
+    setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
 
 });
 

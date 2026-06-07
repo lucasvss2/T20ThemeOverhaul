@@ -1,0 +1,128 @@
+/* Gerador de Tesouro — modais */
+
+.tre-modal, .tre-consult {
+    color: #e8e0d0;
+    font-family: "Signika", serif;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tre-subtitle {
+    color: #c8a96e;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.tre-row { display: flex; flex-direction: column; gap: 3px; }
+
+.tre-label {
+    color: #9a8e7a;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.tre-select {
+    background: #1c1209;
+    border: 1px solid #3a2e1a;
+    border-radius: 4px;
+    color: #f0ebe0;
+    padding: 5px 8px;
+    font-size: 13px;
+}
+.tre-select:focus { border-color: #c8a96e; outline: none; }
+
+.tre-actions { display: flex; gap: 6px; margin-top: 4px; }
+
+.tre-roll-btn, .tre-consult-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #1c1209 0%, #2a1d0c 100%);
+    border: 1px solid #c8a96e;
+    border-radius: 4px;
+    color: #c8a96e;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 7px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.tre-roll-btn:hover, .tre-consult-btn:hover { background: linear-gradient(135deg, #2a1d0c 0%, #3a2810 100%); color: #f5c842; }
+.tre-consult-btn { color: #9a8e7a; border-color: #3a2e1a; }
+
+.tre-result[data-empty="true"] { display: none; }
+
+.tre-result-head {
+    color: #f5c842;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 8px 0 4px;
+}
+
+.tre-card {
+    background: linear-gradient(135deg, #090604 0%, #1c1209 100%);
+    border: 1px solid #c8a96e;
+    border-radius: 6px;
+    padding: 8px 12px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.tre-empty { color: #9a8e7a; font-style: italic; }
+
+/* árvore de resultado */
+.tre-tree, .tre-tree ul { list-style: none; margin: 0; padding-left: 0; }
+.tre-tree ul { padding-left: 14px; border-left: 1px solid #3a2e1a; margin-left: 4px; }
+.tre-tree li { margin: 3px 0; }
+
+.tre-line-label { color: #f0ebe0; font-size: 13px; }
+.tre-tree > li > .tre-line-label { color: #c8a96e; font-weight: bold; }
+.tre-line-detail {
+    display: block;
+    color: #9a8e7a;
+    font-size: 10px;
+    font-style: italic;
+    margin-left: 4px;
+}
+
+/* consulta */
+.bg3-treasure-consult .tre-consult-body {
+    max-height: 60vh;
+    overflow: auto;
+    margin-top: 6px;
+}
+
+.tre-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    color: #e8e0d0;
+}
+.tre-table th {
+    background: #2a1d0c;
+    color: #c8a96e;
+    text-align: left;
+    padding: 4px 6px;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid #c8a96e;
+}
+.tre-table td {
+    padding: 3px 6px;
+    border-bottom: 1px solid #2a2018;
+    vertical-align: top;
+}
+.tre-table tr:nth-child(even) td { background: rgba(200, 169, 110, 0.04); }
+
+.tre-nd-cell { color: #f5c842; font-weight: bold; white-space: nowrap; }
+.tre-nowrap { white-space: nowrap; color: #f5c842; }
+.tre-exemplos { font-size: 10px; color: #b8ac98; line-height: 1.35; }
+
+.tre-block-title {
+    color: #c8a96e;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 10px 0 3px;
+}
