@@ -324,11 +324,19 @@ interface TokenLike {
     document?: { id?: string; getFlag?: (m: string, k: string) => unknown };
 }
 
-/** O usuário atual (jogador, não-dono) pode saquear este token morto? */
+/**
+ * O usuário atual (jogador, não-dono) pode tentar saquear este token?
+ * Morto (PV<=0/status) OU PV ilegível (jogador sem permissão de ver o inimigo)
+ * → permite e deixa o GM confirmar. Claramente vivo (PV legível > 0) → não.
+ */
 function isLootableByPlayer(token: TokenLike): boolean {
     if (game.user?.isGM) return false;
     if (token.isOwner) return false;
-    return isDeadNpcActor(token.actor);
+    const a = token.actor;
+    if (!a || a.type !== "npc") return false;
+    if (isDeadNpcActor(a)) return true;
+    const pv = (a.system?.["attributes"] as { pv?: { value?: number } } | undefined)?.pv?.value;
+    return typeof pv !== "number"; // PV desconhecido → permite (GM decide)
 }
 
 /** Jogador → pede ao GM para rolar o tesouro do token. */
@@ -390,30 +398,54 @@ async function lootTokenAsGM(payload: LootPayload): Promise<void> {
     log(`Tesouro saqueado de ${name} (ND ${nd}, ${qty}).`);
 }
 
-/** Patches de Token para permitir o right-click de saque a jogadores. */
+/**
+ * Liga o saque por right-click via listener PIXI direto no token.
+ *
+ * Não usamos os métodos `Token#_canHUD`/`_onClickRight` porque o `clickRight` é
+ * gated por `_canHUD` (GM/dono apenas) e o `MouseInteractionManager` captura a
+ * referência da permissão na criação do token — patchar o protótipo depois não
+ * tem efeito. O evento PIXI `rightdown`, ao contrário, dispara para QUALQUER
+ * usuário que veja o token (independe das permissões do Foundry), então o
+ * jogador consegue saquear inimigos não-próprios.
+ *
+ * Para o GM/dono o handler é no-op (isLootableByPlayer = false) → o HUD normal
+ * do Foundry continua funcionando, sem regressão.
+ */
+type LootHandler = () => void;
+type LootBoundToken = TokenLike & {
+    _bg3LootHandler?: LootHandler;
+    on?: (event: string, fn: LootHandler) => void;
+    off?: (event: string, fn: LootHandler) => void;
+    listeners?: (event: string) => LootHandler[];
+};
+
+/**
+ * Garante (idempotente) o listener `rightdown` de saque no token. NÃO usa flag
+ * persistente: o Foundry chama `removeAllListeners()` ao redesenhar o token, o
+ * que apagaria o listener — então re-verificamos a cada draw/refresh se o nosso
+ * handler ainda está anexado e re-anexamos se necessário (checagem barata).
+ */
+function bindTokenLoot(token: LootBoundToken | null | undefined): void {
+    if (!token || typeof token.on !== "function") return;
+    const cur = token._bg3LootHandler;
+    if (cur && token.listeners?.("rightdown").includes(cur)) return; // já ligado
+    if (cur && token.off) token.off("rightdown", cur);               // referência velha (já removida)
+    const handler: LootHandler = () => {
+        try { if (isLootableByPlayer(token)) requestLoot(token); } catch { /* ignore */ }
+    };
+    token._bg3LootHandler = handler;
+    token.on("rightdown", handler);
+}
+
 function setupTokenLoot(): void {
     onSocketReady((socket) => socket.register(LOOT_SOCKET, (p: unknown) => lootTokenAsGM(p as LootPayload)));
-    Hooks.once("ready", () => {
-        const proto = (CONFIG as unknown as { Token?: { objectClass?: { prototype: Record<string, unknown> & { _bg3TreasureLootPatched?: boolean } } } })
-            .Token?.objectClass?.prototype;
-        if (!proto || proto._bg3TreasureLootPatched) return;
-        const origCanHUD = proto["_canHUD"] as ((u: unknown, e: unknown) => boolean) | undefined;
-        const origRight = proto["_onClickRight"] as ((e: unknown) => unknown) | undefined;
-        if (typeof origCanHUD !== "function" || typeof origRight !== "function") {
-            warn("treasure: Token._canHUD/_onClickRight não encontrados — saque por right-click desativado.");
-            return;
-        }
-        proto["_canHUD"] = function (this: TokenLike, user: unknown, event: unknown): boolean {
-            try { if (isLootableByPlayer(this)) return true; } catch { /* ignore */ }
-            return origCanHUD.call(this, user, event);
-        };
-        proto["_onClickRight"] = function (this: TokenLike, event: unknown): unknown {
-            try { if (isLootableByPlayer(this)) { requestLoot(this); return undefined; } } catch { /* ignore */ }
-            return origRight.call(this, event);
-        };
-        proto._bg3TreasureLootPatched = true;
-        log("treasure: saque por right-click em tokens mortos ativado (jogadores).");
-    });
+    const bindAll = (): void => {
+        const placeables = (canvas as unknown as { tokens?: { placeables?: LootBoundToken[] } }).tokens?.placeables ?? [];
+        for (const t of placeables) bindTokenLoot(t);
+    };
+    Hooks.on("drawToken", (...args: unknown[]) => bindTokenLoot(args[0] as LootBoundToken));
+    Hooks.on("refreshToken", (...args: unknown[]) => bindTokenLoot(args[0] as LootBoundToken));
+    Hooks.on("canvasReady", bindAll);
 }
 
 // ── setup ─────────────────────────────────────────────────────────────────────
