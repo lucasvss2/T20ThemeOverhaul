@@ -18,11 +18,15 @@ import {
     generateTreasure, listNDs, type DieRoller, type Quantity, type ResultLine, type TreasureResult,
 } from "./treasure-engine";
 import TREASURE_STYLES from "./treasure.css?inline";
+import { MODULE_ID } from "@/constants";
+import { getSocket, onSocketReady } from "@/socket";
 import { log, warn } from "@/utils/logging";
 
 const SIDEBAR_BTN_ID = "bg3-t20-treasure-btn";
 const SHEET_BTN_CLASS = "bg3-t20-treasure-sheet-btn";
 const STYLES_ID = "bg3-t20-treasure-styles";
+const LOOT_SOCKET = "treasure/loot-token";
+const LOOTED_FLAG = "treasureLooted";
 
 // ── infra ─────────────────────────────────────────────────────────────────────
 
@@ -267,9 +271,8 @@ function injectSheetBtn(app: { actor?: { type?: string; system?: Record<string, 
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = `${SHEET_BTN_CLASS} header-control`;
+    btn.className = SHEET_BTN_CLASS;
     btn.innerHTML = '<i class="fas fa-coins"></i>';
-    btn.style.cssText = "flex:0 0 auto;background:none;border:none;color:#e8c860;cursor:pointer;font-size:14px;";
     btn.setAttribute("data-tooltip", "Gerar Tesouro desta ameaça");
     btn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -296,9 +299,127 @@ function injectSheetBtn(app: { actor?: { type?: string; system?: Record<string, 
     else header.appendChild(btn);
 }
 
+// ── saque por right-click no token (jogadores) ───────────────────────────────
+
+interface DeadActorLike {
+    type?: string;
+    name?: string;
+    system?: Record<string, unknown>;
+    statuses?: Set<string>;
+}
+
+/** Ator é um NPC morto? (pv <= 0 ou status de morte). Exportado para testes. */
+export function isDeadNpcActor(actor: DeadActorLike | null | undefined): boolean {
+    if (!actor || actor.type !== "npc") return false;
+    const pv = (actor.system?.["attributes"] as { pv?: { value?: number } } | undefined)?.pv?.value;
+    if (typeof pv === "number" && pv <= 0) return true;
+    const st = actor.statuses;
+    return !!st && (st.has("dead") || st.has("morto") || st.has("unconscious"));
+}
+
+interface TokenLike {
+    isOwner?: boolean;
+    actor?: DeadActorLike | null;
+    id?: string;
+    document?: { id?: string; getFlag?: (m: string, k: string) => unknown };
+}
+
+/** O usuário atual (jogador, não-dono) pode saquear este token morto? */
+function isLootableByPlayer(token: TokenLike): boolean {
+    if (game.user?.isGM) return false;
+    if (token.isOwner) return false;
+    return isDeadNpcActor(token.actor);
+}
+
+/** Jogador → pede ao GM para rolar o tesouro do token. */
+function requestLoot(token: TokenLike): void {
+    const sceneId = (canvas as unknown as { scene?: { id?: string } }).scene?.id ?? "";
+    const tokenId = token.id ?? token.document?.id ?? "";
+    if (!tokenId) return;
+    if (token.document?.getFlag?.(MODULE_ID, LOOTED_FLAG)) {
+        ui.notifications?.info("Este inimigo já foi saqueado.");
+        return;
+    }
+    const socket = getSocket();
+    if (!socket) { ui.notifications?.warn("Saque indisponível (socket não pronto)."); return; }
+    ui.notifications?.info("Saqueando tesouro…");
+    void socket.executeAsGM(LOOT_SOCKET, { sceneId, tokenId, requesterId: game.user?.id ?? "" });
+}
+
+interface LootPayload { sceneId: string; tokenId: string; requesterId: string }
+interface TokenDocLike {
+    actor?: DeadActorLike | null;
+    getFlag?: (m: string, k: string) => unknown;
+    setFlag?: (m: string, k: string, v: unknown) => Promise<unknown>;
+}
+
+/** GM → resolve e rola o tesouro do token, postando no chat (público). */
+async function lootTokenAsGM(payload: LootPayload): Promise<void> {
+    if (!game.user?.isGM) return;
+    const scenes = (game as unknown as { scenes?: { get(id: string): { tokens?: { get(id: string): TokenDocLike | undefined } } | undefined } }).scenes;
+    const scene = scenes?.get(payload.sceneId);
+    const tokenDoc = scene?.tokens?.get(payload.tokenId);
+    const actor = tokenDoc?.actor;
+    const whisper = (msg: string): void => {
+        void ChatMessage.create({ content: msg, whisper: payload.requesterId ? [payload.requesterId] : [] } as unknown as Record<string, unknown>);
+    };
+    if (!tokenDoc || !actor) { whisper("Saque: token não encontrado."); return; }
+    if (!isDeadNpcActor(actor)) { whisper("Esse inimigo ainda não está morto."); return; }
+    if (tokenDoc.getFlag?.(MODULE_ID, LOOTED_FLAG)) { whisper("Este inimigo já foi saqueado."); return; }
+    await tokenDoc.setFlag?.(MODULE_ID, LOOTED_FLAG, true);
+
+    const name = actor.name ?? "Inimigo";
+    const nd = String((actor.system?.["attributes"] as { nd?: unknown } | undefined)?.nd ?? "").trim();
+    const tesouro = (actor.system?.["detalhes"] as { tesouro?: unknown } | undefined)?.tesouro;
+    const qty = parseTreasureType(tesouro);
+
+    if (!listNDs().includes(nd)) { whisper(`Tesouro de ${name}: ND "${nd}" não está na tabela (1/4 a 20).`); return; }
+    if (qty === null) {
+        await ChatMessage.create({
+            content: `<div class="tre-card"><em>${esc(name)} não tinha tesouro.</em></div>`,
+            speaker: { alias: `Tesouro de ${name}` },
+        } as unknown as Record<string, unknown>);
+        return;
+    }
+    const res = generateTreasure(nd, qty, roller);
+    if (!res) { whisper(`Tesouro de ${name}: falha ao gerar.`); return; }
+    await ChatMessage.create({
+        content: `<div class="tre-result-head">${esc(name)} · ND ${esc(nd)} · ${esc(QTY_LABEL[qty])}</div><div class="tre-card">${renderTree(res.lines)}</div>`,
+        speaker: { alias: `Tesouro de ${name}` },
+    } as unknown as Record<string, unknown>);
+    log(`Tesouro saqueado de ${name} (ND ${nd}, ${qty}).`);
+}
+
+/** Patches de Token para permitir o right-click de saque a jogadores. */
+function setupTokenLoot(): void {
+    onSocketReady((socket) => socket.register(LOOT_SOCKET, (p: unknown) => lootTokenAsGM(p as LootPayload)));
+    Hooks.once("ready", () => {
+        const proto = (CONFIG as unknown as { Token?: { objectClass?: { prototype: Record<string, unknown> & { _bg3TreasureLootPatched?: boolean } } } })
+            .Token?.objectClass?.prototype;
+        if (!proto || proto._bg3TreasureLootPatched) return;
+        const origCanHUD = proto["_canHUD"] as ((u: unknown, e: unknown) => boolean) | undefined;
+        const origRight = proto["_onClickRight"] as ((e: unknown) => unknown) | undefined;
+        if (typeof origCanHUD !== "function" || typeof origRight !== "function") {
+            warn("treasure: Token._canHUD/_onClickRight não encontrados — saque por right-click desativado.");
+            return;
+        }
+        proto["_canHUD"] = function (this: TokenLike, user: unknown, event: unknown): boolean {
+            try { if (isLootableByPlayer(this)) return true; } catch { /* ignore */ }
+            return origCanHUD.call(this, user, event);
+        };
+        proto["_onClickRight"] = function (this: TokenLike, event: unknown): unknown {
+            try { if (isLootableByPlayer(this)) { requestLoot(this); return undefined; } } catch { /* ignore */ }
+            return origRight.call(this, event);
+        };
+        proto._bg3TreasureLootPatched = true;
+        log("treasure: saque por right-click em tokens mortos ativado (jogadores).");
+    });
+}
+
 // ── setup ─────────────────────────────────────────────────────────────────────
 
 export function setupTreasure(): void {
+    setupTokenLoot();
     Hooks.once("ready", () => { ensureStyles(); injectSidebarBtn(); });
     Hooks.on("renderSceneControls", () => { ensureStyles(); injectSidebarBtn(); });
     Hooks.on("canvasReady", () => injectSidebarBtn());

@@ -126,3 +126,28 @@
     letter-spacing: 0.5px;
     margin: 10px 0 3px;
 }
+
+/* Botão de tesouro no cabeçalho da ficha de Ameaça — pequeno (tamanho do ícone
+   + 5px de padding), nunca esticando ao longo da barra do header. */
+.bg3-t20-treasure-sheet-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: max-content !important;
+    height: auto !important;
+    padding: 5px !important;
+    margin: 0 4px !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #e8c860;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.bg3-t20-treasure-sheet-btn:hover { color: #f5c842; }
+.bg3-t20-treasure-sheet-btn > i { margin: 0; }
