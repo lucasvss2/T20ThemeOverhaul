@@ -170,6 +170,19 @@ async function restoreBrigaOnActor(actor: ActorLike): Promise<void> {
 
 // ── Setup / hooks ─────────────────────────────────────────────────────────────
 
+/**
+ * userId do hook. Os hooks de documento do Foundry diferem na posição:
+ *   create/delete → (doc, options, userId)        → userId em args[2]
+ *   update        → (doc, changed, options, userId) → userId em args[3]
+ * Pegamos o ÚLTIMO argumento string (sempre o userId) para funcionar em ambos.
+ */
+export function hookUserId(args: unknown[]): string | undefined {
+    for (let i = args.length - 1; i >= 0; i--) {
+        if (typeof args[i] === "string") return args[i] as string;
+    }
+    return undefined;
+}
+
 function isMyUser(userId: string | undefined): boolean {
     return !!userId && userId === game.user?.id;
 }
@@ -182,7 +195,7 @@ function actorOf(item: { parent?: unknown }): (ActorLike & { type?: string }) | 
 export function setupBriga(): void {
     Hooks.on("createItem", (...args: unknown[]) => {
         const item = args[0] as ItemLike & { parent?: unknown };
-        if (!isMyUser(args[2] as string | undefined)) return;
+        if (!isMyUser(hookUserId(args))) return;
         const actor = actorOf(item);
         if (!actor) return;
         // Briga adicionada → aplica. Lutador/arma desarmada adicionada com Briga já presente → aplica.
@@ -193,7 +206,7 @@ export function setupBriga(): void {
 
     Hooks.on("deleteItem", (...args: unknown[]) => {
         const item = args[0] as ItemLike & { parent?: unknown };
-        if (!isMyUser(args[2] as string | undefined)) return;
+        if (!isMyUser(hookUserId(args))) return;
         const actor = actorOf(item);
         if (!actor) return;
         if (isBrigaPoder(item)) void restoreBrigaOnActor(actor);
@@ -202,20 +215,21 @@ export function setupBriga(): void {
 
     Hooks.on("updateItem", (...args: unknown[]) => {
         const item = args[0] as ItemLike & { parent?: unknown };
-        const changes = args[1] as { system?: { niveis?: unknown } } | undefined;
-        if (!isMyUser(args[2] as string | undefined)) return;
+        const changes = args[1] as { system?: unknown } | undefined;
+        if (!isMyUser(hookUserId(args))) return;
         if (!isLutadorClasse(item)) return;
-        if (changes?.system?.niveis === undefined) return; // só quando o nível (niveis) muda
+        if (!changes?.system) return; // alguma mudança no system da classe (nível, etc.)
         const actor = actorOf(item);
         if (actor && hasBriga(actor)) void applyBrigaToActor(actor);
     });
 
     Hooks.on("updateActor", (...args: unknown[]) => {
         const actor = args[0] as ActorLike & { type?: string };
-        const changes = args[1] as { system?: { tracos?: { tamanho?: unknown } } } | undefined;
-        if (!isMyUser(args[2] as string | undefined)) return;
+        const changes = args[1] as { system?: { tracos?: { tamanho?: unknown }; nivel?: unknown } } | undefined;
+        if (!isMyUser(hookUserId(args))) return;
         if (actor.type !== "character") return;
-        if (changes?.system?.tracos?.tamanho === undefined) return; // só quando o tamanho muda
+        // tamanho (passo) ou nível do personagem mudou
+        if (changes?.system?.tracos?.tamanho === undefined && changes?.system?.nivel === undefined) return;
         if (hasBriga(actor)) void applyBrigaToActor(actor);
     });
 }

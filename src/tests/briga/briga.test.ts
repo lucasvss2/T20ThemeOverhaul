@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     brigaBaseDie, sizeStep, computeUnarmedDie,
-    isBrigaPoder, isLutadorClasse, isUnarmedWeapon,
+    isBrigaPoder, isLutadorClasse, isUnarmedWeapon, hookUserId,
 } from "@/briga/index";
 
 describe("brigaBaseDie (tabela do Lutador)", () => {
@@ -72,5 +72,18 @@ describe("detecção de itens", () => {
         expect(isUnarmedWeapon({ type: "arma", name: "Ataque desarmado" })).toBe(true);
         expect(isUnarmedWeapon({ type: "arma", name: "Espada longa" })).toBe(false);
         expect(isUnarmedWeapon({ type: "poder", name: "Ataque desarmado" })).toBe(false);
+    });
+});
+
+describe("hookUserId (posição do userId difere entre create e update)", () => {
+    const doc = { id: "x" };
+    it("create/delete: (doc, options, userId) → último string", () => {
+        expect(hookUserId([doc, {}, "user-123"])).toBe("user-123");
+    });
+    it("update: (doc, changed, options, userId) → último string (era o bug: args[2] é options)", () => {
+        expect(hookUserId([doc, { system: { niveis: 9 } }, { diff: true }, "user-123"])).toBe("user-123");
+    });
+    it("retorna undefined sem string", () => {
+        expect(hookUserId([doc, {}, {}])).toBeUndefined();
     });
 });
