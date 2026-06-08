@@ -21,6 +21,7 @@
  */
 
 import { log, warn } from "@/utils/logging";
+import { getCastingAttrOverride } from "@/tradicao-perdida/index";
 
 type ItemDataProtoLike = {
     prepareFinalAttributes?: () => void;
@@ -82,7 +83,13 @@ export function patchT20SpellCDFormula(): void {
         const attrs   = actorSys["attributes"] as { cd?: number; nivel?: { value?: number } } | undefined;
         const atrs    = actorSys["atributos"]  as Record<string, { value?: number } | undefined> | undefined;
         const actorCD = Number(attrs?.cd ?? 0);
-        const atrVal  = Number(atrs?.[resist.atributo ?? ""]?.value ?? 0);
+
+        // Tradição Perdida Aprimorada: o atributo-chave de conjuração passa a ser
+        // o atributo escolhido no poder.
+        let castingAttr = resist.atributo ?? "";
+        const override = getCastingAttrOverride(actor as unknown as FoundryActor);
+        if (override) castingAttr = override.attr;
+        const atrVal  = Number(atrs?.[castingAttr]?.value ?? 0);
         const bonus   = Number(resist.bonus ?? 0);
 
         if (actorCD > 0) {

@@ -1,0 +1,48 @@
+.trad-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 4px 2px;
+    color: #e8e0d0;
+}
+.trad-intro {
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+.trad-section-label {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #c8a96e;
+    margin-top: 4px;
+}
+.trad-attr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+}
+.trad-attr {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    border: 1px solid rgba(200, 169, 110, 0.35);
+    border-radius: 6px;
+    background: rgba(28, 18, 9, 0.5);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.trad-attr:hover {
+    border-color: #c8a96e;
+    background: rgba(106, 78, 24, 0.25);
+}
+.trad-attr input { accent-color: #c8a96e; }
+.trad-attr span { font-weight: 600; }
+.trad-select {
+    width: 100%;
+    padding: 6px 8px;
+    background: rgba(28, 18, 9, 0.6);
+    border: 1px solid rgba(200, 169, 110, 0.35);
+    border-radius: 6px;
+    color: #f0ebe0;
+}
