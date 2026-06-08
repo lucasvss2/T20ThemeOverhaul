@@ -6,6 +6,7 @@ import {
 } from "@/area-spells/aura-sagrada";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
+import { extractDamageType, computeTargetRd } from "./rd";
 import AUTO_DAMAGE_STYLES from "./auto-damage.css?inline";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
@@ -333,6 +334,7 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
         attackTotal:    newAttackTotal,
         targetDef:      req.targetDef,
         damageTotal:    damageRoll.total ?? 0,
+        damageType:     req.damageType,
         attackFormula:  req.attackFormula,
         damageFormula:      rerollDmgFormula,
         damageMaximized:    req.damageMaximized,
@@ -363,6 +365,24 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const targetActor = resolveActor(req.targetTokenId, req.targetActorId);
     const targetName  = targetActor?.name ?? "Alvo";
     const halfDmg     = Math.floor(req.damageTotal / 2);
+
+    // ── RD automática por tipo de dano ──────────────────────────────────────────
+    const tsys   = targetActor?.system as {
+        tracos?: { resistencias?: Record<string, { value?: number | string; base?: number | string; imunidade?: boolean } | undefined> };
+        detalhes?: { resistencias?: string };
+    } | undefined;
+    const { rd: autoRd, immune } = computeTargetRd(
+        tsys?.tracos?.resistencias, tsys?.detalhes?.resistencias, req.damageType ?? null,
+    );
+    const typeLabel = req.damageType
+        ? ((CONFIG as unknown as { T20?: { damageTypes?: Record<string, string> } }).T20?.damageTypes?.[req.damageType] ?? req.damageType)
+        : "";
+    const rdDefault = immune ? req.damageTotal : autoRd;
+    const rdNote = immune
+        ? `<div class="aad-rd-note aad-rd-immune">Imune${typeLabel ? ` a ${esc(typeLabel)}` : ""} — dano anulado.</div>`
+        : autoRd > 0
+            ? `<div class="aad-rd-note">RD automática: −${autoRd}${typeLabel ? ` (${esc(typeLabel)})` : ""}.</div>`
+            : "";
 
     // Aura de Invencibilidade — quando o alvo está dentro de uma aura cujo
     // caster tem o aprimoramento E ainda não usou nesta cena, oferecemos um
@@ -397,14 +417,15 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             </div>
             <div class="aad-divider"></div>
             <div class="aad-damage-display">
-                <div class="aad-label-sm">DANO</div>
+                <div class="aad-label-sm">DANO${typeLabel ? ` · ${esc(typeLabel)}` : ""}</div>
                 <div class="aad-damage-total">${req.damageTotal}</div>
             </div>
             ${invencBadgeHtml}
             <div class="aad-pm-row">
-                <span class="aad-label-sm">RD</span>
-                <input type="number" name="rd" value="0" min="0" max="999" class="aad-pm-input" />
+                <span class="aad-label-sm">RD${typeLabel ? ` (${esc(typeLabel)})` : ""}</span>
+                <input type="number" name="rd" value="${rdDefault}" min="0" max="999" class="aad-pm-input" />
             </div>
+            ${rdNote}
             <div class="aad-divider"></div>
             <div class="aad-pm-row">
                 <span class="aad-label-sm">CUSTO DE MANA (PM)</span>
@@ -489,6 +510,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 attackerName:   req.attackerName,
                 rollLabel:      req.rollLabel,
                 targetDef:      req.targetDef,
+                damageType:     req.damageType,
                 damageMaximized:    req.damageMaximized,
                 baseDamageFormula:  req.baseDamageFormula,
                 critOnlyDmgFormula: req.critOnlyDmgFormula,
@@ -528,6 +550,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             };
 
             rdInput?.addEventListener("input", refresh);
+            refresh(); // sincroniza os botões com a RD automática pré-preenchida
         },
         rejectClose: false,
     });
@@ -581,6 +604,8 @@ function setupCreateChatHook(): void {
         // → T20 chama roll.evaluate({maximize:true}) → todos os dados saem na face
         // máxima). Reroll precisa preservar essa semântica.
         const damageMaximized = isRollMaximized(damageRoll);
+        // Tipo de dano primário (flavor dos termos) para auto-RD no modal.
+        const damageType = extractDamageType(damageRoll);
 
         // Resolve attacker actor once for Grito-related computations
         const spkTokenId = (message.speaker as Record<string, unknown>)?.token as string | undefined ?? "";
@@ -662,6 +687,7 @@ function setupCreateChatHook(): void {
                 attackTotal,
                 targetDef,
                 damageTotal:       effectiveDamageTotal,
+                damageType,
                 attackFormula,
                 damageFormula,
                 damageMaximized,

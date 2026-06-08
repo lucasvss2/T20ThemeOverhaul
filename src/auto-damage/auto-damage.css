@@ -150,3 +150,16 @@
         rgba(106, 78, 24, 0.22));
     box-shadow: 0 0 12px rgba(200, 169, 110, 0.4);
 }
+
+/* ── Nota de RD automática (auto-RD por tipo de dano) ───────────────────── */
+.aad-rd-note {
+    margin: 2px 16px 4px;
+    text-align: center;
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--bg3-crit, #6ecf7a);
+}
+.aad-rd-note.aad-rd-immune {
+    color: var(--bg3-fumble, #cc4444);
+    font-weight: bold;
+}

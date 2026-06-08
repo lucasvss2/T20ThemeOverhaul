@@ -13,6 +13,8 @@ export interface AutoDamageRequest {
     attackTotal: number;
     targetDef: number;
     damageTotal: number;
+    /** Tipo de dano primário do roll (perfuracao, fogo, …) para auto-RD. null = sem tipo. */
+    damageType?: string | null;
     attackFormula: string;
     damageFormula: string;
     /** Was the original damage roll maximized (e.g. via Kiai Divino)?
@@ -48,6 +50,8 @@ export interface AttackRerollRequest {
     attackerName: string;
     rollLabel: string;
     targetDef: number;
+    /** Tipo de dano primário (para auto-RD após reroll). */
+    damageType?: string | null;
     damageMaximized: boolean;
     /** Non-critted base weapon formula — same semantics as in AutoDamageRequest. */
     baseDamageFormula?: string;
