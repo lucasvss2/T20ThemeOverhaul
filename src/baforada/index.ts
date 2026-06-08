@@ -1,0 +1,334 @@
+/**
+ * Baforada Dracônica — sopro elemental ativo do dracônico.
+ *
+ * Ao ADICIONAR o poder, abre modal para escolher o elemento (imutável).
+ * Ao USAR o poder na ficha (card no chat), interceptamos e abrimos um diálogo
+ * perguntando quantos PM gastar (1..mod. Constituição, limitado pelo PM atual).
+ * Cada PM = 1d10 do elemento. Gasta o PM (origin marcada para o sheet-log),
+ * rola o dano e despacha o teste de resistência (Reflexos CD Con reduz à
+ * metade) para cada alvo selecionado, reaproveitando o modal de resistência.
+ */
+
+import { MODULE_ID } from "@/constants";
+import { log, warn } from "@/utils/logging";
+import {
+    extractItemId,
+    normalizeCondName,
+    parseResistance,
+    getTargetUserId,
+    dispatchSpellResistanceToTarget,
+} from "@/spell-resistance/index";
+import type { SpellResistPreRollRequest } from "@/spell-resistance/types";
+import {
+    ELEMENT_KEYS,
+    isElementKey,
+    computeBaforadaCD,
+    maxBaforadaPm,
+    clampBaforadaPm,
+    buildBaforadaFormula,
+    RESIST_TXT,
+    type ElementKey,
+} from "./format";
+import STYLES from "./baforada.css?inline";
+
+const STYLES_ID = "bg3-t20-baforada-styles";
+const ELEMENT_FLAG = "baforadaElement";
+const BAFORADA_NAME = "baforada draconica";
+
+// ── CSS ───────────────────────────────────────────────────────────────────────
+
+function ensureStyles(): void {
+    if (document.getElementById(STYLES_ID)) return;
+    const el = document.createElement("style");
+    el.id = STYLES_ID;
+    el.textContent = STYLES;
+    document.head.appendChild(el);
+}
+
+function esc(s: string): string {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function rid(): string {
+    const f = (globalThis as unknown as { randomID?: () => string }).randomID;
+    return f ? f() : Math.random().toString(36).slice(2, 18);
+}
+
+// ── Detecção / dados ──────────────────────────────────────────────────────────
+
+interface ItemLike {
+    type?: string;
+    name?: string;
+    id?: string | null;
+    uuid?: string;
+    flags?: Record<string, Record<string, unknown>>;
+    parent?: FoundryActor | null;
+    setFlag?(scope: string, key: string, value: unknown): Promise<unknown>;
+}
+
+export function isBaforada(item: ItemLike | null | undefined): boolean {
+    return !!item && item.type === "poder" && normalizeCondName(item.name ?? "").includes(BAFORADA_NAME);
+}
+
+function elementLabel(key: string): string {
+    const cfg = (CONFIG as unknown as { T20?: { damageTypes?: Record<string, string> } }).T20?.damageTypes;
+    return cfg?.[key] ?? key;
+}
+
+function attrMod(actor: FoundryActor, key: string): number {
+    const a = (actor.system?.atributos as Record<string, { value?: number }> | undefined)?.[key];
+    return Number(a?.value ?? 0);
+}
+
+function totalLevel(actor: FoundryActor): number {
+    const items = (actor as { items?: { contents: FoundryItem[] } }).items?.contents ?? [];
+    return items.filter((i) => i.type === "classe")
+        .reduce((s, c) => s + Number((c.system as { niveis?: number })?.niveis ?? 0), 0);
+}
+
+function currentPm(actor: FoundryActor): number {
+    return Number((actor.system?.attributes as { pm?: { value?: number } } | undefined)?.pm?.value ?? 0);
+}
+
+function readElement(item: ItemLike | null | undefined): ElementKey | null {
+    const v = (item?.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[ELEMENT_FLAG];
+    return isElementKey(typeof v === "string" ? v : null) ? (v as ElementKey) : null;
+}
+
+// ── Resolver caster a partir da mensagem ───────────────────────────────────────
+
+function resolveCaster(message: ChatMessage): FoundryActor | null {
+    const spk = message.speaker as { token?: string; actor?: string } | undefined;
+    type Lyr = { get(id: string): { actor: FoundryActor | null } | undefined };
+    const tokenLyr = (canvas as unknown as { tokens?: Lyr }).tokens;
+    return (spk?.token ? tokenLyr?.get(spk.token)?.actor ?? null : null)
+        ?? (spk?.actor ? game.actors?.get(spk.actor) ?? null : null);
+}
+
+// ── Modal de escolha do elemento (na adição) ───────────────────────────────────
+
+function openElementModal(item: ItemLike, onDone?: () => void): void {
+    ensureStyles();
+    const radios = ELEMENT_KEYS.map((k, i) => `
+        <label class="baf-elem">
+            <input type="radio" name="baf-element" value="${k}" ${i === 0 ? "checked" : ""}/>
+            <span>${esc(elementLabel(k))}</span>
+        </label>`).join("");
+    const content = `
+        <div class="baf-modal">
+            <div class="baf-intro">Escolha o <b>elemento</b> da sua Baforada Dracônica
+            <i>(uma vez feita, a escolha não muda)</i>:</div>
+            <div class="baf-elem-grid">${radios}</div>
+        </div>`;
+    const dlg = new Dialog({
+        title: "Baforada Dracônica — Elemento",
+        content,
+        buttons: {
+            confirm: {
+                icon: '<i class="fas fa-fire"></i>',
+                label: "Confirmar",
+                callback: async ($html: JQuery) => {
+                    const root = ($html as unknown as { 0?: HTMLElement })[0] ?? ($html as unknown as HTMLElement);
+                    const chosen = root.querySelector<HTMLInputElement>('input[name="baf-element"]:checked')?.value;
+                    if (!isElementKey(chosen ?? null)) return;
+                    await item.setFlag?.(MODULE_ID, ELEMENT_FLAG, chosen);
+                    ui.notifications?.info(`Baforada Dracônica: elemento ${elementLabel(chosen as string)}.`);
+                    onDone?.();
+                },
+            },
+        },
+        default: "confirm",
+    }, { classes: ["bg3-dialog", "bg3-baforada-dialog"], width: 420 });
+    dlg.render(true);
+}
+
+// ── Diálogo de uso (gasto de PM) ───────────────────────────────────────────────
+
+function openUsePrompt(actor: FoundryActor, element: ElementKey, messageId: string): void {
+    ensureStyles();
+    const conMod = attrMod(actor, "con");
+    const max = maxBaforadaPm(conMod, currentPm(actor));
+    if (max <= 0) {
+        ui.notifications?.warn(`Baforada: PM insuficiente (Con ${conMod}, PM ${currentPm(actor)}).`);
+        return;
+    }
+    const cd = computeBaforadaCD(totalLevel(actor), conMod);
+
+    const content = `
+        <div class="baf-modal">
+            <div class="baf-intro">Sopro de <b>${esc(elementLabel(element))}</b> — gaste PM (1d10 por PM).
+            Reflexos <b>CD ${cd}</b> reduz à metade.</div>
+            <div class="baf-row">
+                <label>PM a gastar (máx ${max}):</label>
+                <input type="number" name="baf-pm" min="1" max="${max}" value="${max}" class="baf-pm-input"/>
+            </div>
+            <div class="baf-hint">Limite por Constituição (${conMod}); PM atual ${currentPm(actor)}.</div>
+        </div>`;
+
+    const dlg = new Dialog({
+        title: "Baforada Dracônica — Sopro",
+        content,
+        buttons: {
+            cast: {
+                icon: '<i class="fas fa-wind"></i>',
+                label: "Soprar",
+                callback: (($html: JQuery) => {
+                    const root = ($html as unknown as { 0?: HTMLElement })[0] ?? ($html as unknown as HTMLElement);
+                    const raw = Number(root.querySelector<HTMLInputElement>('input[name="baf-pm"]')?.value ?? "1");
+                    const pm = clampBaforadaPm(raw, max);
+                    if (pm <= 0) return;
+                    void fireBaforada(actor, element, pm, cd, messageId);
+                }) as (html: JQuery) => void,
+            },
+            cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar" },
+        },
+        default: "cast",
+    }, { classes: ["bg3-dialog", "bg3-baforada-dialog"], width: 420 });
+    dlg.render(true);
+}
+
+// ── Execução ────────────────────────────────────────────────────────────────
+
+async function fireBaforada(
+    actor: FoundryActor,
+    element: ElementKey,
+    pm: number,
+    cd: number,
+    messageId: string,
+): Promise<void> {
+    // 1. Gasta PM (origin para o sheet-log).
+    const pmValue = currentPm(actor);
+    await actor.update(
+        { "system.attributes.pm.value": Math.max(0, pmValue - pm) },
+        { [MODULE_ID]: { origin: { kind: "pm-cost", source: "Baforada Dracônica" } } },
+    );
+
+    // 2. Rola o dano (Nd10 do elemento).
+    const formula = buildBaforadaFormula(pm, element);
+    const roll = new Roll(formula);
+    await roll.evaluate();
+    const damageTotal = roll.total ?? 0;
+
+    // 3. Card no chat.
+    await postBaforadaCard(actor.name, element, pm, cd, roll);
+
+    // 4. Despacha resistência (Reflexos reduz à metade) por alvo selecionado.
+    const targets = Array.from(game.user?.targets ?? []) as FoundryToken[];
+    if (!targets.length) {
+        ui.notifications?.info(`Baforada: ${damageTotal} de ${elementLabel(element)} (nenhum alvo selecionado — aplique manualmente).`);
+        return;
+    }
+    const { skill, outcome } = parseResistance(RESIST_TXT);
+    const casterUserId = game.user?.id ?? "";
+    for (const token of targets) {
+        const targetActor = token.actor;
+        if (!targetActor) continue;
+        const targetUserId = getTargetUserId(targetActor);
+        if (!targetUserId) {
+            ui.notifications?.warn(`Baforada: sem usuário ativo para ${targetActor.name}.`);
+            continue;
+        }
+        const preReq: SpellResistPreRollRequest = {
+            type: "spell-resist-preroll",
+            requestId: rid(),
+            targetUserId,
+            casterUserId,
+            targetActorId: targetActor.id,
+            targetActorUuid: targetActor.uuid,
+            casterName: actor.name,
+            spellName: `Baforada Dracônica (${elementLabel(element)})`,
+            resistTxt: RESIST_TXT,
+            resistSkill: skill,
+            resistOutcome: outcome,
+            cd,
+            messageId,
+            damageTotal,
+            damageFormula: formula,
+            isHeal: false,
+            maxHealValue: 0,
+            conditions: [],
+            customEffectNames: [],
+        };
+        dispatchSpellResistanceToTarget(preReq);
+    }
+    log(`Baforada: ${pm} PM → ${damageTotal} de ${element} (CD ${cd}) em ${targets.length} alvo(s).`);
+}
+
+async function postBaforadaCard(
+    casterName: string,
+    element: ElementKey,
+    pm: number,
+    cd: number,
+    roll: Roll,
+): Promise<void> {
+    let rendered = "";
+    try { rendered = await roll.render({ flavor: `${elementLabel(element)} — ${pm}d10` }); } catch { /* ignore */ }
+    const content =
+        `<div class="bg3-baforada-card">` +
+        `<div class="baf-card-title">🐉 Baforada Dracônica — ${esc(casterName)}</div>` +
+        `<div class="baf-card-sub">${esc(elementLabel(element))} · ${pm} PM · Reflexos CD ${cd} reduz à metade</div>` +
+        `${rendered}` +
+        `</div>`;
+    await ChatMessage.create({
+        speaker: { alias: casterName },
+        content,
+        rolls: [roll.toJSON?.() ?? roll] as unknown[],
+        flags: { [MODULE_ID]: { baforadaCard: true } },
+    } as Record<string, unknown>);
+}
+
+// ── Setup ─────────────────────────────────────────────────────────────────────
+
+function isMine(userId: string | undefined): boolean {
+    return !!userId && userId === game.user?.id;
+}
+
+function messageAuthorId(message: ChatMessage): string | undefined {
+    const u = (message as { author?: { id?: string }; user?: string | { id?: string } }).author?.id
+        ?? (typeof message.user === "string" ? message.user : message.user?.id);
+    return u;
+}
+
+export function setupBaforada(): void {
+    Hooks.once("ready", () => ensureStyles());
+
+    // Escolha do elemento ao adicionar o poder.
+    Hooks.on("createItem", (...args: unknown[]) => {
+        const item = args[0] as ItemLike;
+        if (!isMine(args[2] as string | undefined)) return;
+        if (!isBaforada(item)) return;
+        if (item.parent?.type !== "character") return;
+        if (readElement(item)) return; // já escolhido
+        try { openElementModal(item); } catch (e) { warn("Baforada: modal de elemento falhou:", e); }
+    });
+
+    // Uso do poder → diálogo de PM.
+    Hooks.on("createChatMessage", (...args: unknown[]) => {
+        const message = args[0] as ChatMessage;
+        if (message.getFlag?.(MODULE_ID, "baforadaCard")) return; // nosso próprio card
+        // `flags.tormenta20.itemData` é só o `system` (sem `type`/`name`) — resolve
+        // o item de verdade via data-item-id pra checar tipo/nome.
+        const itemData = message.getFlag?.("tormenta20", "itemData");
+        if (!itemData) return;
+        if (!isMine(messageAuthorId(message))) return; // só o conjurador abre o prompt
+
+        const actor = resolveCaster(message);
+        if (!actor || actor.type !== "character") return;
+        const caster = actor as FoundryActor & { items?: { contents: FoundryItem[] } };
+        const itemId = extractItemId(message);
+        const usedItem = (itemId ? caster.items?.contents.find((i) => i.id === itemId) : undefined) as ItemLike | undefined;
+        if (!isBaforada(usedItem)) return;
+
+        const item = usedItem;
+        const element = readElement(item);
+        if (!element) {
+            // ainda não escolheu o elemento → escolhe agora, depois abre o prompt
+            if (item) openElementModal(item as ItemLike, () => {
+                const el = readElement(caster.items?.contents.find((i) => isBaforada(i as ItemLike)) as ItemLike);
+                if (el) openUsePrompt(actor, el, message.id);
+            });
+            return;
+        }
+        openUsePrompt(actor, element, message.id);
+    });
+}

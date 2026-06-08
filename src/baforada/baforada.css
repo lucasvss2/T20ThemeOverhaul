@@ -1,0 +1,50 @@
+.baf-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 4px 2px;
+    color: #e8e0d0;
+}
+.baf-intro { font-size: 0.95em; line-height: 1.4; }
+.baf-elem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.baf-elem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid rgba(200, 169, 110, 0.35);
+    border-radius: 6px;
+    background: rgba(28, 18, 9, 0.5);
+    cursor: pointer;
+}
+.baf-elem:hover { border-color: #c8a96e; background: rgba(106, 78, 24, 0.25); }
+.baf-elem input { accent-color: #c8a96e; }
+.baf-elem span { font-weight: 600; }
+.baf-row { display: flex; align-items: center; gap: 10px; }
+.baf-pm-input {
+    width: 70px;
+    padding: 4px 6px;
+    background: rgba(28, 18, 9, 0.6);
+    border: 1px solid rgba(200, 169, 110, 0.4);
+    border-radius: 5px;
+    color: #f0ebe0;
+    text-align: center;
+}
+.baf-hint { font-size: 0.78em; color: #9a8e7a; }
+
+/* Chat card */
+.bg3-baforada-card { padding: 2px 0; }
+.baf-card-title {
+    color: #ff8a4a;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+.baf-card-sub {
+    color: #9a8e7a;
+    font-size: 0.8em;
+    margin: 2px 0 6px;
+}
