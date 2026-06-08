@@ -296,8 +296,8 @@ function isMine(userId: string | undefined): boolean {
  * elemento escolhido e abre o nosso modal de PM (que rola, gasta PM e despacha
  * a resistência). Roll ÚNICO — o T20 não rola nada para a Baforada.
  */
-function onBaforadaUse(item: ItemLike): void {
-    const actor = item.parent as FoundryActor | null;
+function onBaforadaUse(cloneItem: ItemLike): void {
+    const actor = cloneItem.parent as (FoundryActor & { items?: { contents: FoundryItem[] } }) | null;
     if (!actor || actor.type !== "character") return;
 
     if (usedThisRound(actor)) {
@@ -305,11 +305,16 @@ function onBaforadaUse(item: ItemLike): void {
         return;
     }
 
-    const element = readElement(item);
+    // O item que o AbilityUseDialog.create recebe é um CLONE efêmero (id null) —
+    // setFlag nele NÃO persiste. Resolve o item real do ator para ler/gravar o
+    // elemento escolhido.
+    const realItem = (actor.items?.contents.find((i) => isBaforada(i as ItemLike)) as ItemLike | undefined) ?? cloneItem;
+
+    const element = readElement(realItem);
     if (!element) {
-        // ainda não escolheu o elemento → escolhe agora, depois abre o prompt
-        openElementModal(item, () => {
-            const el = readElement(item);
+        // ainda não escolheu o elemento → escolhe agora (salva no item real), depois abre o prompt
+        openElementModal(realItem, () => {
+            const el = readElement(realItem);
             if (el) openUsePrompt(actor, el);
         });
         return;
