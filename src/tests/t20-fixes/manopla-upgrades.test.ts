@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { isManopla, buildUpgradeOptionsHtml } from "@/t20-fixes/manopla-upgrades";
+import {
+    isManopla, buildUpgradeOptionsHtml, isUnarmedWeapon, isManoplaEquipped,
+    getManoplaWeaponUpgradeKeys, buildManoplaUpgradeAE,
+} from "@/t20-fixes/manopla-upgrades";
 
 describe("isManopla", () => {
     it("é true para equipamento cujo nome contém 'manopla' (case/acento-insensível)", () => {
@@ -49,5 +52,69 @@ describe("buildUpgradeOptionsHtml", () => {
         const html = buildUpgradeOptionsHtml({ "x<y": '"a"&b' }, {}, id);
         expect(html).toContain('value="x&lt;y"');
         expect(html).toContain(">&quot;a&quot;&amp;b<");
+    });
+});
+
+describe("isUnarmedWeapon", () => {
+    it("true para arma cujo nome contém 'desarmado'", () => {
+        expect(isUnarmedWeapon({ type: "arma", name: "Ataque desarmado" })).toBe(true);
+        expect(isUnarmedWeapon({ type: "arma", name: "ATAQUE DESARMADO" })).toBe(true);
+    });
+    it("false para outras armas / não-armas", () => {
+        expect(isUnarmedWeapon({ type: "arma", name: "Adaga" })).toBe(false);
+        expect(isUnarmedWeapon({ type: "equipamento", name: "Ataque desarmado" })).toBe(false);
+        expect(isUnarmedWeapon(null)).toBe(false);
+    });
+});
+
+describe("isManoplaEquipped", () => {
+    it("true com equipado legacy (bool/num/string) ou slot > 0", () => {
+        expect(isManoplaEquipped({ system: { equipado: true } })).toBe(true);
+        expect(isManoplaEquipped({ system: { equipado: 1 } })).toBe(true);
+        expect(isManoplaEquipped({ system: { equipado2: { slot: 2 } } })).toBe(true);
+    });
+    it("false quando não equipado", () => {
+        expect(isManoplaEquipped({ system: { equipado: false, equipado2: { slot: 0 } } })).toBe(false);
+        expect(isManoplaEquipped({ system: { equipado: "0" } })).toBe(false);
+        expect(isManoplaEquipped({ system: {} })).toBe(false);
+        expect(isManoplaEquipped(null)).toBe(false);
+    });
+});
+
+describe("getManoplaWeaponUpgradeKeys", () => {
+    const weaponMap = { accurate: {}, precise: {}, cruel: {}, status: {} };
+    it("retorna só as keys presentes no mapa de melhorias de arma", () => {
+        const ups = { melhoria1: "accurate", melhoria2: "golden", melhoria3: "cruel", melhoria4: "", material: "ruby-steel" };
+        expect(getManoplaWeaponUpgradeKeys(ups, weaponMap).sort()).toEqual(["accurate", "cruel"]);
+    });
+    it("deduplica e ignora 'status' e vazios", () => {
+        const ups = { melhoria1: "precise", melhoria2: "precise", melhoria3: "status", melhoria4: "" };
+        expect(getManoplaWeaponUpgradeKeys(ups, weaponMap)).toEqual(["precise"]);
+    });
+    it("vazio sem upgrades", () => {
+        expect(getManoplaWeaponUpgradeKeys(undefined, weaponMap)).toEqual([]);
+        expect(getManoplaWeaponUpgradeKeys({}, weaponMap)).toEqual([]);
+    });
+});
+
+describe("buildManoplaUpgradeAE", () => {
+    const tpl = {
+        name: "T20.WeaponUpgradesAccurate",
+        description: "T20.WeaponUpgradesTooltipAccurate",
+        changes: [{ key: "ataque", value: "1", mode: 2 }],
+        flags: { tormenta20: { onuse: true, self: true, upgrade: "accurate" } },
+        transfer: false,
+    };
+    const L = (s: string) => (s === "T20.WeaponUpgradesAccurate" ? "Certeira" : s);
+
+    it("prefixa 'Manopla — ', preserva changes/flags T20 e marca o flag de limpeza", () => {
+        const ae = buildManoplaUpgradeAE("accurate", tpl, "icon.png", "Item.abc", L) as Record<string, unknown>;
+        expect(ae.name).toBe("Manopla — Certeira");
+        expect(ae.origin).toBe("Item.abc");
+        expect(ae.icon).toBe("icon.png");
+        expect(ae.changes).toEqual([{ key: "ataque", value: "1", mode: 2 }]);
+        const flags = ae.flags as Record<string, Record<string, unknown>>;
+        expect(flags.tormenta20).toEqual({ onuse: true, self: true, upgrade: "accurate" });
+        expect(flags["aeris-bg3-rolls-t20"]).toEqual({ manoplaUpgrade: "accurate" });
     });
 });
