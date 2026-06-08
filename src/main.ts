@@ -21,6 +21,7 @@ import { setupMedalhaoAfiado } from "./medalhao-afiado/index";
 import { setupKiaiDivino } from "./kiai-divino/index";
 import { setupGritoKiai } from "./grito-kiai/index";
 import { setupDisparoSublime } from "./disparo-sublime/index";
+import { setupDeformidade } from "./deformidade/index";
 import { setupAreaSpells } from "./area-spells/index";
 import { diagnoseAuras } from "./area-spells/aura-sagrada";
 import { setupSkillsMenu } from "./ui/skills-menu";
@@ -71,6 +72,7 @@ Hooks.once("setup", () => {
     setupKiaiDivino();
     setupGritoKiai();
     setupDisparoSublime();        // Caçador: Percepção vs CD + crítico automático no ataque com arco
+    setupDeformidade();           // Lefou: modal de escolha de perícias (+2) ao adicionar Deformidade
     setupOnUseForeignDieDano();   // corrige bônus de dano on-use com face de dado diferente da base
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu

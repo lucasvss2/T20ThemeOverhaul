@@ -1,0 +1,57 @@
+/* Deformidade — modal de escolha de perícias */
+
+.def-modal {
+    color: #e8e0d0;
+    font-family: "Signika", serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.def-intro {
+    color: #9a8e7a;
+    font-size: 12px;
+    line-height: 1.4;
+}
+.def-intro b { color: #c8a96e; }
+
+.def-slot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid #3a2e1a;
+    border-radius: 4px;
+    background: rgba(200, 169, 110, 0.05);
+    flex-wrap: wrap;
+}
+
+.def-slot-label {
+    color: #c8a96e;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex: 0 0 auto;
+}
+
+.def-select {
+    flex: 1 1 140px;
+    background: #1c1209;
+    border: 1px solid #3a2e1a;
+    border-radius: 4px;
+    color: #f0ebe0;
+    padding: 4px 6px;
+    font-size: 13px;
+}
+.def-select:focus { border-color: #c8a96e; outline: none; }
+.def-select:disabled { opacity: 0.4; }
+
+.def-power-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #9a8e7a;
+    font-size: 11px;
+    flex: 0 0 auto;
+    cursor: pointer;
+}
