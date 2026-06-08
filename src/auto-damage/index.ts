@@ -1,4 +1,5 @@
 import type { AutoDamageRequest, AttackRerollRequest, AttackMissNotify } from "./types";
+import { MODULE_ID } from "@/constants";
 import { getSocket, onSocketReady } from "@/socket";
 import {
     getAuraInvencibilidadeContextForActor,
@@ -258,6 +259,8 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
             rolls:   rollsForMiss,
             type:    5,
             speaker,
+            flavor:  "Rerolagem - Ataque",
+            flags:   { [MODULE_ID]: { critThreshold: critM } },
         });
         void atkHtml; // suppress unused warning — buildRerollContent renders it
 
@@ -320,6 +323,8 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
         rolls:   rerollRolls,
         type:    5,
         speaker,
+        flavor:  "Rerolagem - Ataque",
+        flags:   { [MODULE_ID]: { critThreshold: critM } },
     });
 
     const newPayload: AutoDamageRequest = {

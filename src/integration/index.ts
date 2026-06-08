@@ -9,6 +9,7 @@
 import { parseT20 } from "@/parser/t20";
 import { MODULE_ID, SYSTEM_ID } from "@/constants";
 import { log } from "@/utils/logging";
+import { computeEffectiveCriticoM } from "@/grito-kiai/index";
 
 import { BG3Overlay, type GridRollEntry } from "@/overlay/BG3Overlay";
 
@@ -83,10 +84,42 @@ function installOverlayHook(): void {
             return;
         }
 
-        setTimeout(() => BG3Overlay.show(rollMeta, roll), 1000);
+        // Ataques: detecta crítico pela MARGEM efetiva (Precisa etc. baixam a
+        // margem para 19/18/…), diferenciando 20 natural × margem ampliada.
+        const isAttack = rollMeta.category === "Ataque" || rollMeta.category === "Ataque Mágico";
+        const opts = isAttack
+            ? { isAttack: true, critThreshold: attackCritThreshold(message) }
+            : undefined;
+
+        setTimeout(() => BG3Overlay.show(rollMeta, roll, undefined, opts), 1000);
     });
 
     log("Overlay cinemático T20 instalado.");
+}
+
+// ── Margem de crítico efetiva de um ataque ────────────────────────────────────
+
+/**
+ * Margem de ameaça efetiva da mensagem de ataque. Usa a flag `critThreshold`
+ * (setada pelo reroll, que já conhece o criticoM efetivo); senão calcula via
+ * computeEffectiveCriticoM a partir da arma + AEs (inclui Precisa, Manopla, …).
+ */
+function attackCritThreshold(message: ChatMessage): number {
+    const flagged = message.getFlag?.(MODULE_ID, "critThreshold") as number | undefined;
+    if (typeof flagged === "number" && flagged > 0) return flagged;
+    const { actor, weapon } = resolveAttacker(message);
+    return computeEffectiveCriticoM(message, actor, weapon);
+}
+
+function resolveAttacker(message: ChatMessage): { actor: FoundryActor | null; weapon: FoundryItem | null } {
+    const spk = message.speaker as { token?: string; actor?: string } | undefined;
+    type Lyr = { get(id: string): { actor: FoundryActor | null } | undefined };
+    const tokenLyr = (canvas as unknown as { tokens?: Lyr }).tokens;
+    const actor = (spk?.token ? tokenLyr?.get(spk.token)?.actor ?? null : null)
+        ?? (spk?.actor ? game.actors?.get(spk.actor) ?? null : null);
+    const itemId = (message.content as string | undefined)?.match(/data-item-id="([^"]+)"/)?.[1];
+    const weapon = (itemId && actor) ? actor.items?.get(itemId) ?? null : null;
+    return { actor, weapon };
 }
 
 // ── Roll extraction ───────────────────────────────────────────────────────────

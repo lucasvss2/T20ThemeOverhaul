@@ -51,12 +51,59 @@ const OUTCOME_LABEL: Record<TestOutcome, string> = {
     falha_critica: "FALHA CRÍTICA",
 };
 
-/** Detecta crítico/falha natural num d20 ativo do roll. */
-function detectD20Outcome(roll: Roll): "is-crit" | "is-fumble" | "" {
-    const d20 = roll.dice?.find((d) => d.faces === 20)?.results?.find((r) => r.active)?.result ?? null;
-    if (d20 === 20) return "is-crit";
-    if (d20 === 1)  return "is-fumble";
+/** Classificação do d20 ativo. */
+export type CritKind = "crit-nat" | "crit-margin" | "fumble" | "";
+
+/** Resultado do d20 ATIVO (o mantido em vantagem/desvantagem) do roll. */
+function activeD20(roll: Roll): number | null {
+    return roll.dice?.find((d) => d.faces === 20)?.results?.find((r) => r.active)?.result ?? null;
+}
+
+/**
+ * Classifica um d20 natural quanto a crítico/falha. `critThreshold` é a margem
+ * de ameaça efetiva (20 por padrão; melhorias como Precisa baixam para 19/18/…).
+ *   - 20 natural            → "crit-nat"
+ *   - >= critThreshold (<20) → "crit-margin" (crítico por margem ampliada)
+ *   - 1 natural             → "fumble"
+ * Pura → testável.
+ */
+export function classifyD20(natural: number | null, critThreshold = 20): CritKind {
+    if (natural == null) return "";
+    if (natural === 20) return "crit-nat";
+    if (natural === 1) return "fumble";
+    if (critThreshold < 20 && natural >= critThreshold) return "crit-margin";
     return "";
+}
+
+/** Detecta crítico/falha do d20 ativo do roll, dada a margem efetiva. */
+function detectD20Outcome(roll: Roll, critThreshold = 20): CritKind {
+    return classifyD20(activeD20(roll), critThreshold);
+}
+
+/** Opções de exibição de crítico para uma rolagem (ataque). */
+export interface OverlayCritOpts {
+    /** Margem de ameaça efetiva (20 padrão; Precisa etc. baixam). */
+    critThreshold?: number;
+    /** É uma rolagem de ATAQUE? (mostra status "crítico/sem crítico" + diferencia 20 natural × margem). */
+    isAttack?: boolean;
+}
+
+/** Monta o label de crítico/falha para a rolagem (ramo sem outcome explícito). */
+function buildCritLabel(kind: CritKind, isAttack: boolean, threshold: number): string {
+    const sub = (t: string) => `<span class="bg3-t20-crit-sub">${esc(t)}</span>`;
+    switch (kind) {
+        case "crit-nat":
+            return isAttack
+                ? `<div class="bg3-t20-crit-label is-crit">ACERTO CRÍTICO! ${sub("20 natural")}</div>`
+                : `<div class="bg3-t20-crit-label is-crit">Acerto Crítico!</div>`;
+        case "crit-margin":
+            return `<div class="bg3-t20-crit-label is-crit">ACERTO CRÍTICO! ${sub(`margem ampliada (≥${threshold})`)}</div>`;
+        case "fumble":
+            return `<div class="bg3-t20-crit-label is-fumble">Falha Crítica</div>`;
+        default:
+            // Ataque sem crítico → diz explicitamente "sem crítico"; outras rolagens não poluem.
+            return isAttack ? `<div class="bg3-t20-crit-label bg3-t20-crit-none">Sem crítico</div>` : "";
+    }
 }
 
 export interface GridRollEntry {
@@ -67,16 +114,17 @@ export interface GridRollEntry {
 
 function buildGridCellHtml(e: GridRollEntry): string {
     const total = e.roll.total ?? 0;
-    const cls   = detectD20Outcome(e.roll);
+    const kind  = detectD20Outcome(e.roll); // iniciativa → margem 20 (só 20/1 natural)
+    const totalCls = (kind === "crit-nat") ? "is-crit" : kind === "fumble" ? "is-fumble" : "";
     const critLabel =
-        cls === "is-crit"   ? `<div class="bg3-t20-grid-crit is-crit">CRÍTICO!</div>`
-      : cls === "is-fumble" ? `<div class="bg3-t20-grid-crit is-fumble">FALHA!</div>`
+        kind === "crit-nat" ? `<div class="bg3-t20-grid-crit is-crit">CRÍTICO!</div>`
+      : kind === "fumble"   ? `<div class="bg3-t20-grid-crit is-fumble">FALHA!</div>`
       : "";
     const formula = e.roll.formula ? `<div class="bg3-t20-grid-formula">${esc(e.roll.formula)} = ${total}</div>` : "";
     return `
         <div class="bg3-t20-grid-cell">
             <div class="bg3-t20-grid-name">${esc(e.name)}</div>
-            <div class="bg3-t20-grid-total${cls ? " " + cls : ""}">${total}</div>
+            <div class="bg3-t20-grid-total${totalCls ? " " + totalCls : ""}">${total}</div>
             ${critLabel}
             ${formula}
         </div>
@@ -96,7 +144,7 @@ function buildGridHtml(entries: GridRollEntry[], title: string): string {
     `;
 }
 
-function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome): string {
+function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome, opts?: OverlayCritOpts): string {
     const total = roll.total ?? 0;
 
     let totalClass: string;
@@ -106,12 +154,12 @@ function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome): string {
         totalClass = ` ${OUTCOME_TOTAL_CLASS[outcome]}`;
         resultHtml = `<div class="bg3-t20-crit-label ${OUTCOME_TOTAL_CLASS[outcome]}">${OUTCOME_LABEL[outcome]}</div>`;
     } else {
-        const cls = detectD20Outcome(roll);
-        totalClass = cls ? ` ${cls}` : "";
-        resultHtml =
-            cls === "is-crit"   ? `<div class="bg3-t20-crit-label is-crit">Acerto Crítico!</div>`
-          : cls === "is-fumble" ? `<div class="bg3-t20-crit-label is-fumble">Falha Crítica</div>`
-          : "";
+        const threshold = opts?.critThreshold ?? 20;
+        const isAttack  = opts?.isAttack ?? false;
+        const kind = detectD20Outcome(roll, threshold);
+        totalClass = (kind === "crit-nat" || kind === "crit-margin") ? " is-crit"
+                   : kind === "fumble" ? " is-fumble" : "";
+        resultHtml = buildCritLabel(kind, isAttack, threshold);
     }
 
     const subHtml = meta.subcategory
@@ -162,8 +210,8 @@ class BG3OverlaySingleton {
         this.diceElevations = [];
     }
 
-    show(meta: RollMeta, roll: Roll, outcome?: TestOutcome): void {
-        this.mount(buildHtml(meta, roll, outcome), DISMISS_DELAY_MS);
+    show(meta: RollMeta, roll: Roll, outcome?: TestOutcome, opts?: OverlayCritOpts): void {
+        this.mount(buildHtml(meta, roll, outcome, opts), DISMISS_DELAY_MS);
     }
 
     /**

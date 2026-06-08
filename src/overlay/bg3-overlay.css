@@ -91,6 +91,22 @@
 .bg3-t20-crit-label.is-fumble   { color: var(--bg3-color-danger); }
 .bg3-t20-crit-label.is-success  { color: var(--bg3-color-success); }
 .bg3-t20-crit-label.is-failure  { color: var(--bg3-color-failure); }
+/* Diferenciador 20-natural × margem ampliada (Precisa etc.) */
+.bg3-t20-crit-sub {
+    display: block;
+    font-size: 0.62em;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 1px;
+}
+/* Ataque sem crítico — indicação discreta */
+.bg3-t20-crit-label.bg3-t20-crit-none {
+    color: var(--bg3-text-muted);
+    font-weight: 600;
+    opacity: 0.7;
+    letter-spacing: 0.2em;
+}
 .bg3-t20-formula {
     font-size: 0.82rem;
     color: var(--bg3-text-muted);
