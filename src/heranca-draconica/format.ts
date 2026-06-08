@@ -15,7 +15,6 @@ export const ESCAMAS_NAME = "escamas elementais";
 
 export const RD_BASE = 5;
 export const RD_ESCAMAS = 10;
-export const DEFESA_BONUS = 2;
 
 export function isElementKey(s: string | null | undefined): s is ElementKey {
     return !!s && (ELEMENT_KEYS as readonly string[]).includes(s);
@@ -47,9 +46,3 @@ export function buildHerancaChanges(element: ElementKey, rd: number): AEChange[]
     ];
 }
 
-/** Changes da AE de Escamas Elementais: +2 na Defesa. */
-export function buildEscamasChanges(): AEChange[] {
-    return [
-        { key: "system.attributes.defesa.bonus", value: String(DEFESA_BONUS), mode: MODE_ADD, priority: 20 },
-    ];
-}

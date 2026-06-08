@@ -4,10 +4,8 @@ import {
     isElementKey,
     computeHerancaRd,
     buildHerancaChanges,
-    buildEscamasChanges,
     RD_BASE,
     RD_ESCAMAS,
-    DEFESA_BONUS,
 } from "@/heranca-draconica/format";
 
 describe("ELEMENT_KEYS", () => {
@@ -47,13 +45,5 @@ describe("buildHerancaChanges", () => {
     it("usa o elemento e a RD informados", () => {
         const ch = buildHerancaChanges("trevas", 10);
         expect(ch[0]).toEqual({ key: "system.tracos.resistencias.trevas.bonus", value: "10", mode: 2, priority: 20 });
-    });
-});
-
-describe("buildEscamasChanges", () => {
-    it("+2 na defesa via bonus[]", () => {
-        expect(buildEscamasChanges()).toEqual([
-            { key: "system.attributes.defesa.bonus", value: String(DEFESA_BONUS), mode: 2, priority: 20 },
-        ]);
     });
 });

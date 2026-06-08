@@ -25,7 +25,6 @@ import {
     isElementKey,
     computeHerancaRd,
     buildHerancaChanges,
-    buildEscamasChanges,
     type ElementKey,
 } from "./format";
 import STYLES from "./heranca-draconica.css?inline";
@@ -124,17 +123,9 @@ async function syncDraconico(actor: DraconicoActor): Promise<void> {
         }
     }
 
-    if (escamas) {
-        toCreate.push({
-            name: "Escamas Elementais — +2 Defesa",
-            icon: "icons/equipment/chest/breastplate-scale-grey.webp",
-            origin: escamas.uuid,
-            transfer: false,
-            disabled: false,
-            changes: buildEscamasChanges(),
-            flags: { [MODULE_ID]: { draconico: true, kind: "escamas" } },
-        });
-    }
+    // NÃO criamos AE de +2 Defesa para Escamas Elementais: o item do compêndio
+    // já carrega uma AE nativa (transfer:true) com esse bônus. Nosso papel para
+    // Escamas é só elevar a RD da Herança para 10 (feito acima via computeHerancaRd).
 
     if (toCreate.length) {
         await actor.createEmbeddedDocuments?.("ActiveEffect", toCreate, { render: false });
