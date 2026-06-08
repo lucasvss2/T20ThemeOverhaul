@@ -142,9 +142,13 @@ export function computeEffectiveCriticoX(
 /**
  * Computes the effective criticoM threshold for crit detection.
  * Starts from itemData.criticoM (includes permanent upgrades like "Precisa")
- * then adds deltas from on-use AEs selected in this roll:
- *   - Actor AEs: exact name match against onUseEffects descriptions
- *   - Weapon AEs: " - AEName" substring match in descriptions (T20 format)
+ * then adds deltas from on-use AEs that apply to THIS roll:
+ *   - Weapon AEs flagged `tormenta20.self:true` (onuse) — AUTO-applied, so they
+ *     always count even when there is no onUseEffects list (e.g. melhorias da
+ *     Manopla espelhadas no ataque desarmado: "Manopla — Precisa", criticoM −1).
+ *   - Actor AEs: exact name match against onUseEffects descriptions.
+ *   - Weapon AEs (non-self): " - AEName" substring match in descriptions.
+ * Cada AE é contado UMA vez (dedup por identidade).
  */
 export function computeEffectiveCriticoM(
     message: ChatMessage,
@@ -155,29 +159,45 @@ export function computeEffectiveCriticoM(
     const iFlags = message.getFlag("tormenta20", "itemData") as ItemDataM | null | undefined;
     const baseM = typeof iFlags?.criticoM === "number" ? iFlags.criticoM : 20;
 
+    type AELike = {
+        name?: string;
+        changes?: Array<{ key?: string; value?: string; mode?: number }>;
+        flags?: { tormenta20?: { self?: boolean; onuse?: boolean } };
+    };
+    const isAutoApplied = (ae: AELike): boolean => {
+        const f = ae.flags?.tormenta20;
+        return f?.self === true && f?.onuse === true;
+    };
+    let delta = 0;
+    const addCriticoM = (ae: AELike): void => {
+        for (const ch of ae.changes ?? []) {
+            if (ch.key === "criticoM" && ch.mode === 2) delta += parseInt(ch.value ?? "", 10) || 0;
+        }
+    };
+
+    const counted = new Set<AELike>();
+
+    // (1) Weapon AEs auto-aplicadas (self:true onuse) — sempre contam.
+    const weaponAEs = (weaponItem?.effects?.contents ?? []) as AELike[];
+    for (const ae of weaponAEs) {
+        if (isAutoApplied(ae)) { addCriticoM(ae); counted.add(ae); }
+    }
+
+    // (2) Efeitos selecionados neste roll (onUseEffects), se houver.
     type OnUseEntry = { description?: string };
     const t20 = (message.flags as Record<string, unknown>)?.tormenta20 as
         | { onUseEffects?: unknown } | undefined;
     const raw = t20?.onUseEffects;
-    if (!Array.isArray(raw)) return baseM;
-    const selected = (raw as OnUseEntry[]).map(ef => ef.description ?? "");
-
-    let delta = 0;
-
-    // Actor AEs — exact name match
-    for (const ae of actor?.effects?.contents ?? []) {
-        if (!selected.includes(ae.name ?? "")) continue;
-        for (const ch of ae.changes ?? []) {
-            if (ch.key === "criticoM" && ch.mode === 2) delta += parseInt(ch.value, 10) || 0;
+    if (Array.isArray(raw)) {
+        const selected = (raw as OnUseEntry[]).map(ef => ef.description ?? "");
+        for (const ae of (actor?.effects?.contents ?? []) as AELike[]) {
+            if (counted.has(ae) || !selected.includes(ae.name ?? "")) continue;
+            addCriticoM(ae);
         }
-    }
-
-    // Weapon AEs — " - AEName" substring match in onUseEffects descriptions
-    for (const ae of weaponItem?.effects?.contents ?? []) {
-        const aeName = ae.name ?? "";
-        if (!aeName || !selected.some(d => d.includes(` - ${aeName}`))) continue;
-        for (const ch of ae.changes ?? []) {
-            if (ch.key === "criticoM" && ch.mode === 2) delta += parseInt(ch.value, 10) || 0;
+        for (const ae of weaponAEs) {
+            const aeName = ae.name ?? "";
+            if (counted.has(ae) || !aeName || !selected.some(d => d.includes(` - ${aeName}`))) continue;
+            addCriticoM(ae);
         }
     }
 

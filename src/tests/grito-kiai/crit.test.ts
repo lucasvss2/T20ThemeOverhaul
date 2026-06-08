@@ -93,6 +93,34 @@ describe("computeEffectiveCriticoM", () => {
         const weapon = aeWeapon([{ name: "Medalhão Afiado", changes: [{ key: "criticoM", value: "-1", mode: 2 }] }]);
         expect(computeEffectiveCriticoM(fakeMsg(["Medalhão Afiado"], { criticoM: 20 }), null, weapon)).toBe(20);
     });
+
+    // ── self:true weapon AEs (auto-aplicadas) — caso Manopla "Precisa" ──────────
+    const selfWeapon = (effects: Array<FakeAE & { self?: boolean; onuse?: boolean }>) =>
+        ({ effects: { contents: effects.map(e => ({ ...e, flags: { tormenta20: { self: e.self ?? true, onuse: e.onuse ?? true } } })) } } as unknown as FoundryItem);
+
+    /** Mensagem SEM onUseEffects (caso típico do ataque desarmado). */
+    const msgNoOnUse = (itemData?: { criticoM?: number }) =>
+        ({
+            flags: { tormenta20: {} },
+            getFlag: (s: string, k: string) => (s === "tormenta20" && k === "itemData" ? (itemData ?? null) : undefined),
+        } as unknown as ChatMessage);
+
+    it("conta AE de arma self:true (Manopla — Precisa) mesmo SEM onUseEffects", () => {
+        const weapon = selfWeapon([{ name: "Manopla — Precisa", changes: [{ key: "criticoM", value: "-1", mode: 2 }] }]);
+        expect(computeEffectiveCriticoM(msgNoOnUse({ criticoM: 20 }), null, weapon)).toBe(19);
+    });
+
+    it("conta AE de arma self:true mesmo com onUseEffects presente (e sem duplicar)", () => {
+        const weapon = selfWeapon([{ name: "Manopla — Precisa", changes: [{ key: "criticoM", value: "-1", mode: 2 }] }]);
+        // a descrição até casaria o ramo de seleção, mas o AE já foi contado uma vez via self:true
+        const msg = fakeMsg(["X - Manopla — Precisa"], { criticoM: 20 });
+        expect(computeEffectiveCriticoM(msg, null, weapon)).toBe(19);
+    });
+
+    it("NÃO conta AE de arma onuse SEM self quando não selecionado em onUseEffects", () => {
+        const weapon = selfWeapon([{ name: "Opcional", self: false, onuse: true, changes: [{ key: "criticoM", value: "-1", mode: 2 }] }]);
+        expect(computeEffectiveCriticoM(msgNoOnUse({ criticoM: 20 }), null, weapon)).toBe(20);
+    });
 });
 
 // ── getKeptD20Natural ──────────────────────────────────────────────────────────
