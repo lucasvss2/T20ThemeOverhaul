@@ -194,6 +194,35 @@ function openUsePrompt(actor: FoundryActor, element: ElementKey): void {
     dlg.render(true);
 }
 
+// ── Animação (Automated Animations) ────────────────────────────────────────────
+
+/**
+ * Aciona o Automated Animations para a Baforada. Necessário porque cancelamos
+ * o uso nativo do T20 (que normalmente dispararia o A-A). Reúne o token do
+ * caster + o item real + os alvos e chama a API pública `playAnimation`.
+ * No-op silencioso se o A-A não estiver instalado.
+ */
+function playBaforadaAnimation(actor: FoundryActor, targets: FoundryToken[]): void {
+    try {
+        const AA = (globalThis as unknown as {
+            AutomatedAnimations?: { playAnimation?: (src: unknown, item: unknown, opts?: unknown) => unknown };
+        }).AutomatedAnimations;
+        if (typeof AA?.playAnimation !== "function") return;
+
+        const tokens = (actor as unknown as { getActiveTokens?: () => FoundryToken[] }).getActiveTokens?.() ?? [];
+        const sourceToken = tokens[0];
+        if (!sourceToken) return;
+
+        const item = (actor as unknown as { items?: { contents: FoundryItem[] } })
+            .items?.contents.find((i) => isBaforada(i as ItemLike));
+        if (!item) return;
+
+        void AA.playAnimation(sourceToken, item, { targets });
+    } catch (e) {
+        warn("Baforada: falha ao disparar animação (Automated Animations):", e);
+    }
+}
+
 // ── Execução ────────────────────────────────────────────────────────────────
 
 async function fireBaforada(
@@ -215,11 +244,17 @@ async function fireBaforada(
     await roll.evaluate();
     const damageTotal = roll.total ?? 0;
 
-    // 3. Card no chat (único — o diálogo nativo do T20 foi cancelado no patch).
+    const targets = Array.from(game.user?.targets ?? []) as FoundryToken[];
+
+    // 3. Dispara a animação do Automated Animations manualmente. Como cancelamos
+    //    o fluxo nativo do T20 (que normalmente acionaria o A-A), precisamos
+    //    chamar a API diretamente: source = token do caster, item = Baforada.
+    playBaforadaAnimation(actor, targets);
+
+    // 4. Card no chat (único — o diálogo nativo do T20 foi cancelado no patch).
     const messageId = await postBaforadaCard(actor.name, element, pm, cd, roll);
 
-    // 4. Despacha resistência (Reflexos reduz à metade) por alvo selecionado.
-    const targets = Array.from(game.user?.targets ?? []) as FoundryToken[];
+    // 5. Despacha resistência (Reflexos reduz à metade) por alvo selecionado.
     if (!targets.length) {
         ui.notifications?.info(`Baforada: ${damageTotal} de ${elementLabel(element)} (nenhum alvo selecionado — aplique manualmente).`);
         return;
