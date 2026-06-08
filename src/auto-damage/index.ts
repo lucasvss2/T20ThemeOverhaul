@@ -88,7 +88,13 @@ function resolveActor(targetTokenId: string, targetActorId: string): FoundryActo
 
 // ── Damage & PM application ───────────────────────────────────────────────────
 
-async function applyDamage(targetTokenId: string, targetActorId: string, amount: number, pmCost: number): Promise<void> {
+async function applyDamage(
+    targetTokenId: string,
+    targetActorId: string,
+    amount: number,
+    pmCost: number,
+    origin?: { kind: string; source?: string; type?: string },
+): Promise<void> {
     const actor = resolveActor(targetTokenId, targetActorId);
     if (!actor) return;
 
@@ -117,7 +123,10 @@ async function applyDamage(targetTokenId: string, targetActorId: string, amount:
         update["system.attributes.pm.value"] = Math.max(0, currentPm - pmCost);
     }
 
-    await actor.update(update);
+    // Origin hint consumed by the sheet-log audit feature (sheet-log/index.ts)
+    // to attribute the PV/PM change to its cause (dano de X, custo de PM, …).
+    const opts = origin ? { [MODULE_ID]: { origin } } : undefined;
+    await actor.update(update, opts);
 }
 
 // ── Reroll handling (runs on attacker's client) ───────────────────────────────
@@ -449,7 +458,8 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             callback: (_event, _button, dialog) => {
                 const root     = dialog.element;
                 const finalDmg = applyRd(req.damageTotal, readRdInput(root));
-                void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root));
+                void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
+                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
             },
         },
         {
@@ -460,7 +470,8 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             callback: (_event, _button, dialog) => {
                 const root     = dialog.element;
                 const finalDmg = applyRd(halfDmg, readRdInput(root));
-                void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root));
+                void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
+                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
             },
         },
         {
@@ -471,7 +482,8 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             callback: (_event, _button, dialog) => {
                 const root = dialog.element;
                 const pm   = readPmInput(root);
-                if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm);
+                if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
+                    { kind: "pm-cost", source: req.attackerName });
             },
         },
     ];
@@ -492,7 +504,8 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     targetName,
                     damageIgnored: req.damageTotal,
                 });
-                if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm);
+                if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
+                    { kind: "pm-cost", source: req.attackerName });
             },
         });
     }

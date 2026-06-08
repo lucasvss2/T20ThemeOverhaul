@@ -31,6 +31,11 @@ declare const game: {
         get(id: string): ChatMessage | undefined;
         contents?: ChatMessage[];
     };
+    journal?: {
+        getName(name: string): JournalEntry | undefined;
+        get(id: string): JournalEntry | undefined;
+        contents: JournalEntry[];
+    };
     users?: {
         find(fn: (u: FoundryUser) => boolean): FoundryUser | undefined;
         get(id: string): FoundryUser | undefined;
@@ -161,7 +166,7 @@ declare interface FoundryActor {
         get(id: string): FoundryItem | null;
     };
     effects?: { contents: FoundryItemEffect[] };
-    update(data: Record<string, unknown>): Promise<void>;
+    update(data: Record<string, unknown>, options?: Record<string, unknown>): Promise<void>;
     /**
      * Create embedded child documents (e.g. ActiveEffect) on this actor.
      * `toChat: true` triggers the T20 status notification card in chat.
@@ -231,6 +236,33 @@ declare class ChatMessage {
 
     static create(data: Record<string, unknown>): Promise<ChatMessage | undefined>;
     static getSpeaker(options?: { actor?: FoundryActor | null; token?: FoundryToken }): Record<string, unknown>;
+}
+
+// ── Journal ──────────────────────────────────────────────────────────────────
+
+declare interface JournalEntryPage {
+    id: string;
+    name: string;
+    type: string;
+    text?: { content?: string; format?: number };
+    flags?: Record<string, Record<string, unknown>>;
+    update(data: Record<string, unknown>, options?: Record<string, unknown>): Promise<unknown>;
+}
+
+declare class JournalEntry {
+    id: string;
+    name: string;
+    pages: {
+        contents: JournalEntryPage[];
+        get(id: string): JournalEntryPage | undefined;
+    };
+    flags?: Record<string, Record<string, unknown>>;
+    createEmbeddedDocuments(
+        type: string,
+        data: Record<string, unknown>[],
+        options?: Record<string, unknown>,
+    ): Promise<unknown[]>;
+    static create(data: Record<string, unknown>): Promise<JournalEntry | undefined>;
 }
 
 // ── Foundry v13 ApplicationV2 / DialogV2 ─────────────────────────────────────
