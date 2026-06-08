@@ -30,6 +30,7 @@ import { setupSheetRedesign } from "./sheet/index";
 import { setupEncounterRoller } from "./encounter-roller/index";
 import { setupTreasure } from "./treasure/index";
 import { setupSheetLog } from "./sheet-log/index";
+import { setupHerancaDraconica } from "./heranca-draconica/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
@@ -78,6 +79,7 @@ Hooks.once("setup", () => {
     setupDisparoSublime();        // Caçador: Percepção vs CD + crítico automático no ataque com arco
     setupDeformidade();           // Lefou: modal de escolha de perícias (+2) ao adicionar Deformidade
     setupBriga();                 // Lutador: escala o dano do ataque desarmado pela tabela de Briga
+    setupHerancaDraconica();      // Dracônico: Herança (RD elemental + tipo monstro) + Escamas (+2 Def, RD→10)
     setupOnUseForeignDieDano();   // corrige bônus de dano on-use com face de dado diferente da base
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso

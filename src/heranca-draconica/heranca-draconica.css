@@ -1,0 +1,39 @@
+.drac-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px 2px;
+    color: #e8e0d0;
+}
+.drac-intro {
+    font-size: 0.95em;
+    line-height: 1.4;
+    color: #e8e0d0;
+}
+.drac-elem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.drac-elem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border: 1px solid rgba(200, 169, 110, 0.35);
+    border-radius: 6px;
+    background: rgba(28, 18, 9, 0.5);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+.drac-elem:hover {
+    border-color: #c8a96e;
+    background: rgba(106, 78, 24, 0.25);
+}
+.drac-elem input {
+    accent-color: #c8a96e;
+}
+.drac-elem span {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
