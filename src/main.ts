@@ -34,6 +34,7 @@ import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-a
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
 import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
+import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -79,6 +80,7 @@ Hooks.once("setup", () => {
     setupOnUseForeignDieDano();   // corrige bônus de dano on-use com face de dado diferente da base
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
+    setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupSheetRedesign();
