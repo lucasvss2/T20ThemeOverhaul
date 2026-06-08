@@ -12,7 +12,6 @@
 import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
 import {
-    extractItemId,
     normalizeCondName,
     parseResistance,
     getTargetUserId,
@@ -112,16 +111,6 @@ function readElement(item: ItemLike | null | undefined): ElementKey | null {
     return isElementKey(typeof v === "string" ? v : null) ? (v as ElementKey) : null;
 }
 
-// ── Resolver caster a partir da mensagem ───────────────────────────────────────
-
-function resolveCaster(message: ChatMessage): FoundryActor | null {
-    const spk = message.speaker as { token?: string; actor?: string } | undefined;
-    type Lyr = { get(id: string): { actor: FoundryActor | null } | undefined };
-    const tokenLyr = (canvas as unknown as { tokens?: Lyr }).tokens;
-    return (spk?.token ? tokenLyr?.get(spk.token)?.actor ?? null : null)
-        ?? (spk?.actor ? game.actors?.get(spk.actor) ?? null : null);
-}
-
 // ── Modal de escolha do elemento (na adição) ───────────────────────────────────
 
 function openElementModal(item: ItemLike, onDone?: () => void): void {
@@ -161,7 +150,7 @@ function openElementModal(item: ItemLike, onDone?: () => void): void {
 
 // ── Diálogo de uso (gasto de PM) ───────────────────────────────────────────────
 
-function openUsePrompt(actor: FoundryActor, element: ElementKey, messageId: string): void {
+function openUsePrompt(actor: FoundryActor, element: ElementKey): void {
     ensureStyles();
     const conMod = attrMod(actor, "con");
     const level = totalLevel(actor);
@@ -195,7 +184,7 @@ function openUsePrompt(actor: FoundryActor, element: ElementKey, messageId: stri
                     const raw = Number(root.querySelector<HTMLInputElement>('input[name="baf-pm"]')?.value ?? "1");
                     const pm = clampBaforadaPm(raw, max);
                     if (pm <= 0) return;
-                    void fireBaforada(actor, element, pm, cd, messageId);
+                    void fireBaforada(actor, element, pm, cd);
                 }) as (html: JQuery) => void,
             },
             cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar" },
@@ -212,7 +201,6 @@ async function fireBaforada(
     element: ElementKey,
     pm: number,
     cd: number,
-    messageId: string,
 ): Promise<void> {
     // 1. Gasta PM (origin para o sheet-log) + marca uso na rodada de combate.
     const pmValue = currentPm(actor);
@@ -227,8 +215,8 @@ async function fireBaforada(
     await roll.evaluate();
     const damageTotal = roll.total ?? 0;
 
-    // 3. Card no chat.
-    await postBaforadaCard(actor.name, element, pm, cd, roll);
+    // 3. Card no chat (único — o diálogo nativo do T20 foi cancelado no patch).
+    const messageId = await postBaforadaCard(actor.name, element, pm, cd, roll);
 
     // 4. Despacha resistência (Reflexos reduz à metade) por alvo selecionado.
     const targets = Array.from(game.user?.targets ?? []) as FoundryToken[];
@@ -278,7 +266,7 @@ async function postBaforadaCard(
     pm: number,
     cd: number,
     roll: Roll,
-): Promise<void> {
+): Promise<string> {
     let rendered = "";
     try { rendered = await roll.render({ flavor: `${elementLabel(element)} — ${pm}d10` }); } catch { /* ignore */ }
     const content =
@@ -287,12 +275,13 @@ async function postBaforadaCard(
         `<div class="baf-card-sub">${esc(elementLabel(element))} · ${pm} PM · Reflexos CD ${cd} reduz à metade</div>` +
         `${rendered}` +
         `</div>`;
-    await ChatMessage.create({
+    const msg = await ChatMessage.create({
         speaker: { alias: casterName },
         content,
         rolls: [roll.toJSON?.() ?? roll] as unknown[],
         flags: { [MODULE_ID]: { baforadaCard: true } },
     } as Record<string, unknown>);
+    return msg?.id ?? "";
 }
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
@@ -301,14 +290,61 @@ function isMine(userId: string | undefined): boolean {
     return !!userId && userId === game.user?.id;
 }
 
-function messageAuthorId(message: ChatMessage): string | undefined {
-    const u = (message as { author?: { id?: string }; user?: string | { id?: string } }).author?.id
-        ?? (typeof message.user === "string" ? message.user : message.user?.id);
-    return u;
+/**
+ * Fluxo de uso da Baforada — substitui o diálogo nativo do T20 (cancelado no
+ * patch de AbilityUseDialog.create). Faz a checagem de 1×/rodada, garante o
+ * elemento escolhido e abre o nosso modal de PM (que rola, gasta PM e despacha
+ * a resistência). Roll ÚNICO — o T20 não rola nada para a Baforada.
+ */
+function onBaforadaUse(item: ItemLike): void {
+    const actor = item.parent as FoundryActor | null;
+    if (!actor || actor.type !== "character") return;
+
+    if (usedThisRound(actor)) {
+        ui.notifications?.warn("Baforada Dracônica: já usada nesta rodada (recarga: ação de movimento).");
+        return;
+    }
+
+    const element = readElement(item);
+    if (!element) {
+        // ainda não escolheu o elemento → escolhe agora, depois abre o prompt
+        openElementModal(item, () => {
+            const el = readElement(item);
+            if (el) openUsePrompt(actor, el);
+        });
+        return;
+    }
+    openUsePrompt(actor, element);
+}
+
+/**
+ * Monkey-patch de `AbilityUseDialog.create`: para a Baforada Dracônica,
+ * CANCELA o diálogo/uso nativo do T20 (return null → o item.roll() do T20
+ * aborta: sem diálogo nativo, sem rolagem, sem gasto de PM, sem card duplicado)
+ * e dispara o NOSSO fluxo. O poder já traz `rolls:[1d10]` + aprimoramento
+ * "+1d10/PM", então deixar o T20 rolar gerava uma SEGUNDA rolagem.
+ */
+function patchAbilityUseDialog(): void {
+    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _bg3PatchedBaforada?: boolean };
+    type T20Global = { applications?: { AbilityUseDialog?: DlgLike } };
+    const Dlg = (game as unknown as { tormenta20?: T20Global }).tormenta20?.applications?.AbilityUseDialog;
+    if (!Dlg) { warn("Baforada: AbilityUseDialog não encontrado — patch não aplicado."); return; }
+    if (Dlg._bg3PatchedBaforada) return;
+    const orig = Dlg.create.bind(Dlg);
+    Dlg.create = async function (item: unknown, ...args: unknown[]): Promise<unknown> {
+        if (isBaforada(item as ItemLike)) {
+            // Dispara nosso fluxo no próximo tick e cancela o uso nativo.
+            setTimeout(() => { try { onBaforadaUse(item as ItemLike); } catch (e) { warn("Baforada: onUse falhou:", e); } }, 0);
+            return null;
+        }
+        return orig(item, ...args);
+    };
+    Dlg._bg3PatchedBaforada = true;
+    log("Baforada: AbilityUseDialog.create patcheado (uso nativo cancelado para a Baforada).");
 }
 
 export function setupBaforada(): void {
-    Hooks.once("ready", () => ensureStyles());
+    Hooks.once("ready", () => { ensureStyles(); patchAbilityUseDialog(); });
 
     // Escolha do elemento ao adicionar o poder.
     Hooks.on("createItem", (...args: unknown[]) => {
@@ -318,41 +354,5 @@ export function setupBaforada(): void {
         if (item.parent?.type !== "character") return;
         if (readElement(item)) return; // já escolhido
         try { openElementModal(item); } catch (e) { warn("Baforada: modal de elemento falhou:", e); }
-    });
-
-    // Uso do poder → diálogo de PM.
-    Hooks.on("createChatMessage", (...args: unknown[]) => {
-        const message = args[0] as ChatMessage;
-        if (message.getFlag?.(MODULE_ID, "baforadaCard")) return; // nosso próprio card
-        // `flags.tormenta20.itemData` é só o `system` (sem `type`/`name`) — resolve
-        // o item de verdade via data-item-id pra checar tipo/nome.
-        const itemData = message.getFlag?.("tormenta20", "itemData");
-        if (!itemData) return;
-        if (!isMine(messageAuthorId(message))) return; // só o conjurador abre o prompt
-
-        const actor = resolveCaster(message);
-        if (!actor || actor.type !== "character") return;
-        const caster = actor as FoundryActor & { items?: { contents: FoundryItem[] } };
-        const itemId = extractItemId(message);
-        const usedItem = (itemId ? caster.items?.contents.find((i) => i.id === itemId) : undefined) as ItemLike | undefined;
-        if (!isBaforada(usedItem)) return;
-
-        // 1×/rodada em combate.
-        if (usedThisRound(actor)) {
-            ui.notifications?.warn("Baforada Dracônica: já usada nesta rodada (recarga: ação de movimento).");
-            return;
-        }
-
-        const item = usedItem;
-        const element = readElement(item);
-        if (!element) {
-            // ainda não escolheu o elemento → escolhe agora, depois abre o prompt
-            if (item) openElementModal(item as ItemLike, () => {
-                const el = readElement(caster.items?.contents.find((i) => isBaforada(i as ItemLike)) as ItemLike);
-                if (el) openUsePrompt(actor, el, message.id);
-            });
-            return;
-        }
-        openUsePrompt(actor, element, message.id);
     });
 }
