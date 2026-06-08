@@ -90,6 +90,23 @@ function currentPm(actor: FoundryActor): number {
     return Number((actor.system?.attributes as { pm?: { value?: number } } | undefined)?.pm?.value ?? 0);
 }
 
+const ROUND_FLAG = "baforadaLastRound";
+
+/** Chave da rodada de combate atual (`combatId:round`), ou null fora de combate. */
+function combatRoundKey(): string | null {
+    const c = (game as unknown as { combat?: { id?: string; round?: number; started?: boolean } }).combat;
+    if (!c || !c.started) return null;
+    return `${c.id ?? ""}:${c.round ?? 0}`;
+}
+
+/** true se o ator já usou a Baforada nesta rodada de combate. */
+function usedThisRound(actor: FoundryActor): boolean {
+    const key = combatRoundKey();
+    if (!key) return false; // sem combate ativo → sem limite de 1×/rodada
+    const last = (actor.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[ROUND_FLAG];
+    return last === key;
+}
+
 function readElement(item: ItemLike | null | undefined): ElementKey | null {
     const v = (item?.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[ELEMENT_FLAG];
     return isElementKey(typeof v === "string" ? v : null) ? (v as ElementKey) : null;
@@ -147,12 +164,13 @@ function openElementModal(item: ItemLike, onDone?: () => void): void {
 function openUsePrompt(actor: FoundryActor, element: ElementKey, messageId: string): void {
     ensureStyles();
     const conMod = attrMod(actor, "con");
-    const max = maxBaforadaPm(conMod, currentPm(actor));
+    const level = totalLevel(actor);
+    const max = maxBaforadaPm(conMod, level, currentPm(actor));
     if (max <= 0) {
-        ui.notifications?.warn(`Baforada: PM insuficiente (Con ${conMod}, PM ${currentPm(actor)}).`);
+        ui.notifications?.warn(`Baforada: PM insuficiente (Con ${conMod}, nível ${level}, PM ${currentPm(actor)}).`);
         return;
     }
-    const cd = computeBaforadaCD(totalLevel(actor), conMod);
+    const cd = computeBaforadaCD(level, conMod);
 
     const content = `
         <div class="baf-modal">
@@ -162,7 +180,7 @@ function openUsePrompt(actor: FoundryActor, element: ElementKey, messageId: stri
                 <label>PM a gastar (máx ${max}):</label>
                 <input type="number" name="baf-pm" min="1" max="${max}" value="${max}" class="baf-pm-input"/>
             </div>
-            <div class="baf-hint">Limite por Constituição (${conMod}); PM atual ${currentPm(actor)}.</div>
+            <div class="baf-hint">Limite: mín(Con ${conMod}, nível ${level}, PM ${currentPm(actor)}). 1×/rodada em combate.</div>
         </div>`;
 
     const dlg = new Dialog({
@@ -196,12 +214,12 @@ async function fireBaforada(
     cd: number,
     messageId: string,
 ): Promise<void> {
-    // 1. Gasta PM (origin para o sheet-log).
+    // 1. Gasta PM (origin para o sheet-log) + marca uso na rodada de combate.
     const pmValue = currentPm(actor);
-    await actor.update(
-        { "system.attributes.pm.value": Math.max(0, pmValue - pm) },
-        { [MODULE_ID]: { origin: { kind: "pm-cost", source: "Baforada Dracônica" } } },
-    );
+    const update: Record<string, unknown> = { "system.attributes.pm.value": Math.max(0, pmValue - pm) };
+    const roundKey = combatRoundKey();
+    if (roundKey) update[`flags.${MODULE_ID}.${ROUND_FLAG}`] = roundKey;
+    await actor.update(update, { [MODULE_ID]: { origin: { kind: "pm-cost", source: "Baforada Dracônica" } } });
 
     // 2. Rola o dano (Nd10 do elemento).
     const formula = buildBaforadaFormula(pm, element);
@@ -318,6 +336,12 @@ export function setupBaforada(): void {
         const itemId = extractItemId(message);
         const usedItem = (itemId ? caster.items?.contents.find((i) => i.id === itemId) : undefined) as ItemLike | undefined;
         if (!isBaforada(usedItem)) return;
+
+        // 1×/rodada em combate.
+        if (usedThisRound(actor)) {
+            ui.notifications?.warn("Baforada Dracônica: já usada nesta rodada (recarga: ação de movimento).");
+            return;
+        }
 
         const item = usedItem;
         const element = readElement(item);

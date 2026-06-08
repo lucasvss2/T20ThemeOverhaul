@@ -19,8 +19,8 @@ import {
     ATTR_KEYS,
     isAttrKey,
     pmCap,
-    computePmDelta,
-    buildTradicaoPmChange,
+    cappedChosen,
+    buildTradicaoChanges,
     type AttrKey,
 } from "./format";
 import STYLES from "./tradicao-perdida.css?inline";
@@ -156,14 +156,13 @@ async function syncTradicao(actor: TradActor): Promise<void> {
     if (!trad || !chosen) return;
 
     const classKey = classKeyAttr(actor);
-    const classMod = classKey ? attrMod(actor, classKey) : 0;
     const cap = pmCap(totalLevel(actor));
-    const delta = computePmDelta(attrMod(actor, chosen), classMod, cap);
-    const changes = buildTradicaoPmChange(delta);
+    const capped = cappedChosen(attrMod(actor, chosen), cap);
+    const changes = buildTradicaoChanges(capped, classKey);
     if (!changes.length) return;
 
     await actor.createEmbeddedDocuments?.("ActiveEffect", [{
-        name: `Tradição Perdida — PM por ${attrLabel(chosen)} (${delta >= 0 ? "+" : ""}${delta})`,
+        name: `Tradição Perdida — PM por ${attrLabel(chosen)} (+${capped})`,
         icon: "icons/magic/light/orb-lightning-purple.webp",
         origin: trad.uuid,
         transfer: false,
@@ -171,7 +170,7 @@ async function syncTradicao(actor: TradActor): Promise<void> {
         changes,
         flags: { [MODULE_ID]: { [OUR_AE_FLAG]: true } },
     }], { render: false });
-    log(`Tradição Perdida: PM por ${chosen} (delta ${delta}, cap ${cap}, classe ${classKey}).`);
+    log(`Tradição Perdida: PM por ${chosen} (+${capped}, cap ${cap}, classe ${classKey} desligada).`);
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────

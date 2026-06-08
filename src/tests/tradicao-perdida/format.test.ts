@@ -4,8 +4,8 @@ import {
     isAttrKey,
     tierAboveIniciante,
     pmCap,
-    computePmDelta,
-    buildTradicaoPmChange,
+    cappedChosen,
+    buildTradicaoChanges,
 } from "@/tradicao-perdida/format";
 
 describe("ATTR_KEYS / isAttrKey", () => {
@@ -47,32 +47,27 @@ describe("pmCap", () => {
     });
 });
 
-describe("computePmDelta", () => {
-    it("substitui o atributo da classe pelo escolhido (capado)", () => {
-        // CON 7 escolhido, classe usa SAB 2, cap 6 → min(7,6)=6 ; delta = 6-2 = 4
-        expect(computePmDelta(7, 2, 6)).toBe(4);
-    });
+describe("cappedChosen", () => {
     it("aplica o teto do patamar", () => {
-        // CON 9, cap 6 → 6 ; classe 0 → delta 6
-        expect(computePmDelta(9, 0, 6)).toBe(6);
-        // cap maior (veterano 8) → CON 9 vira 8
-        expect(computePmDelta(9, 0, 8)).toBe(8);
-    });
-    it("delta negativo permitido se escolher atributo pior", () => {
-        expect(computePmDelta(1, 3, 6)).toBe(-2);
+        expect(cappedChosen(7, 6)).toBe(6);   // CON 7, iniciante cap 6
+        expect(cappedChosen(9, 8)).toBe(8);   // veterano cap 8
+        expect(cappedChosen(5, 6)).toBe(5);   // abaixo do teto
     });
 });
 
-describe("buildTradicaoPmChange", () => {
-    it("soma o delta ao pm.bonus.total", () => {
-        expect(buildTradicaoPmChange(4)).toEqual([
-            { key: "system.attributes.pm.bonus.total", value: "4", mode: 2, priority: 20 },
+describe("buildTradicaoChanges", () => {
+    it("desliga o atributo da classe (prio 1000) + soma o valor capado", () => {
+        const ch = buildTradicaoChanges(6, "sab");
+        expect(ch).toContainEqual({ key: "system.attributes.pm.atributos.sab", value: "false", mode: 5, priority: 1000 });
+        expect(ch).toContainEqual({ key: "system.attributes.pm.bonus.total", value: "6", mode: 2, priority: 1000 });
+    });
+    it("sem classKeyAttr → só soma o valor", () => {
+        const ch = buildTradicaoChanges(6, null);
+        expect(ch).toEqual([{ key: "system.attributes.pm.bonus.total", value: "6", mode: 2, priority: 1000 }]);
+    });
+    it("valor 0 → só desliga o atributo da classe", () => {
+        expect(buildTradicaoChanges(0, "int")).toEqual([
+            { key: "system.attributes.pm.atributos.int", value: "false", mode: 5, priority: 1000 },
         ]);
-    });
-    it("delta zero → sem change", () => {
-        expect(buildTradicaoPmChange(0)).toEqual([]);
-    });
-    it("delta negativo serializado", () => {
-        expect(buildTradicaoPmChange(-2)[0].value).toBe("-2");
     });
 });

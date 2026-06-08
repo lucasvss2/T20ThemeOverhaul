@@ -17,9 +17,16 @@ export function computeBaforadaCD(totalLevel: number, conMod: number): number {
     return 10 + Math.floor(totalLevel / 2) + conMod;
 }
 
-/** PM máximo gastável: limitado pela Constituição E pelo PM atual. (mín 0) */
-export function maxBaforadaPm(conMod: number, currentPm: number): number {
-    return Math.max(0, Math.min(conMod, currentPm));
+/**
+ * PM máximo gastável por uso. Combina:
+ *  - o texto do poder ("limitados por sua Constituição") → mod. de Constituição;
+ *  - a regra geral de custo variável: poder de RAÇA é limitado pelo NÍVEL DE
+ *    PERSONAGEM (T20 Jogador, "Custo de Pontos de Mana");
+ *  - o PM atual disponível.
+ * Resultado = min(Con, nível, PM atual), mínimo 0.
+ */
+export function maxBaforadaPm(conMod: number, charLevel: number, currentPm: number): number {
+    return Math.max(0, Math.min(conMod, charLevel, currentPm));
 }
 
 /** Garante o PM escolhido dentro de [1, max] (ou 0 se max for 0). */

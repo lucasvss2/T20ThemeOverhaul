@@ -17,12 +17,13 @@ describe("computeBaforadaCD", () => {
 });
 
 describe("maxBaforadaPm", () => {
-    it("limitado pela Con e pelo PM atual", () => {
-        expect(maxBaforadaPm(7, 12)).toBe(7);   // Con limita
-        expect(maxBaforadaPm(7, 3)).toBe(3);    // PM limita
-        expect(maxBaforadaPm(0, 10)).toBe(0);
-        expect(maxBaforadaPm(5, 0)).toBe(0);
-        expect(maxBaforadaPm(-1, 10)).toBe(0);
+    it("limitado por min(Con, nível, PM atual)", () => {
+        expect(maxBaforadaPm(7, 9, 12)).toBe(7);   // Con limita
+        expect(maxBaforadaPm(7, 9, 3)).toBe(3);    // PM limita
+        expect(maxBaforadaPm(7, 2, 12)).toBe(2);   // NÍVEL limita (Al nv2, Con7 → 2)
+        expect(maxBaforadaPm(0, 9, 10)).toBe(0);
+        expect(maxBaforadaPm(5, 9, 0)).toBe(0);
+        expect(maxBaforadaPm(-1, 9, 10)).toBe(0);
     });
 });
 
