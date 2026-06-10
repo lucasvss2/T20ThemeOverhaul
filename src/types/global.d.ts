@@ -61,6 +61,20 @@ declare const game: {
             key: string,
             data: SettingConfig,
         ): void;
+        /** Registra um menu (botão) nas configurações do módulo. */
+        registerMenu?(
+            namespace: string,
+            key: string,
+            data: {
+                name: string;
+                label: string;
+                hint?: string;
+                icon?: string;
+                restricted?: boolean;
+                /** Classe instanciada no clique; Foundry chama `.render(true)`. */
+                type: new () => { render(force?: boolean): void };
+            },
+        ): void;
         get(namespace: string, key: string): unknown;
         set(namespace: string, key: string, value: unknown): Promise<unknown>;
     };

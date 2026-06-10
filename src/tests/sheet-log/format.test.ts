@@ -8,6 +8,8 @@ import {
     describeChange,
     diffChanges,
     originPhrase,
+    applyRetention,
+    dayKey,
 } from "@/sheet-log/format";
 
 describe("flattenLeaves", () => {
@@ -119,6 +121,33 @@ describe("diffChanges", () => {
         expect(labels).toEqual(["PV", "T$ (Ouro)"]);
         const money = out.find((e) => e.label === "T$ (Ouro)")!;
         expect(money.delta).toBe(-200);
+    });
+});
+
+describe("applyRetention", () => {
+    const list = ["a", "b", "c", "d", "e"];
+    it("0 = ilimitado (histórico permanente)", () => {
+        expect(applyRetention(list, 0)).toEqual(list);
+    });
+    it("negativo/não-finito = ilimitado", () => {
+        expect(applyRetention(list, -5)).toEqual(list);
+        expect(applyRetention(list, NaN)).toEqual(list);
+        expect(applyRetention(list, Infinity)).toEqual(list);
+    });
+    it("max > 0 mantém os N primeiros (mais recentes)", () => {
+        expect(applyRetention(list, 3)).toEqual(["a", "b", "c"]);
+        expect(applyRetention(list, 10)).toEqual(list);
+    });
+});
+
+describe("dayKey", () => {
+    it("formata data pt-BR (dd/mm/aaaa)", () => {
+        expect(dayKey(Date.now())).toMatch(/^\d{2}\/\d{2}\/\d{4}$/);
+    });
+    it("mesmo dia → mesma chave; dias diferentes → chaves diferentes", () => {
+        const t = new Date(2026, 5, 10, 8, 0, 0).getTime();
+        expect(dayKey(t)).toBe(dayKey(t + 3600_000));            // +1h, mesmo dia
+        expect(dayKey(t)).not.toBe(dayKey(t + 48 * 3600_000));   // +2 dias
     });
 });
 

@@ -191,6 +191,23 @@ export function diffChanges(
     return out;
 }
 
+// ── Retenção & agrupamento ─────────────────────────────────────────────────────
+
+/**
+ * Aplica a política de retenção: `max <= 0` (ou não-finito) = ILIMITADO —
+ * histórico permanente até o GM apagar manualmente. `max > 0` mantém só os N
+ * mais recentes (entries já vêm ordenadas: mais recente primeiro).
+ */
+export function applyRetention<T>(entries: T[], max: number): T[] {
+    if (!Number.isFinite(max) || max <= 0) return entries;
+    return entries.slice(0, max);
+}
+
+/** Chave de agrupamento por dia (data local pt-BR, ex: "10/06/2026"). */
+export function dayKey(ts: number): string {
+    return new Date(ts).toLocaleDateString("pt-BR");
+}
+
 // ── Origin → phrase ──────────────────────────────────────────────────────────
 
 const DAMAGE_TYPE_PT: Record<string, string> = {

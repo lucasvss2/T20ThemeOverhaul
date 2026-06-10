@@ -22,6 +22,8 @@
 import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
 import {
+    applyRetention,
+    dayKey,
     diffChanges,
     flattenLeaves,
     getByPath,
@@ -34,7 +36,9 @@ const JOURNAL_NAME = "📜 Log de Alterações — Fichas";
 const SNAP_KEY = `${MODULE_ID}.sheetLogSnapshot`;
 const SETTING_ENABLED = "sheetLog.enabled";
 const SETTING_NPCS = "sheetLog.includeNpcs";
-const MAX_ENTRIES = 500;
+const SETTING_MAX = "sheetLog.maxEntries";
+/** Máximo de linhas RENDERIZADAS na página (os dados completos ficam no flag). */
+const RENDER_MAX = 300;
 
 // ── Stored record shape (persisted in the page flag) ───────────────────────────
 
@@ -62,6 +66,16 @@ function includeNpcs(): boolean {
         return game.settings.get(MODULE_ID, SETTING_NPCS) === true;
     } catch {
         return false;
+    }
+}
+
+/** Limite de registros por personagem (0 = ilimitado/permanente — default). */
+function maxEntries(): number {
+    try {
+        const v = Number(game.settings.get(MODULE_ID, SETTING_MAX));
+        return Number.isFinite(v) ? v : 0;
+    } catch {
+        return 0;
     }
 }
 
@@ -164,7 +178,9 @@ async function appendRecords(actor: FoundryActor, records: LogRecord[]): Promise
     if (!page) return;
 
     const existing = ((page.flags?.[MODULE_ID] as { entries?: LogRecord[] } | undefined)?.entries) ?? [];
-    const merged = [...records, ...existing].slice(0, MAX_ENTRIES);
+    // Retenção: default ILIMITADA (histórico permanente até o GM apagar
+    // manualmente); a setting sheetLog.maxEntries pode impor um teto.
+    const merged = applyRetention([...records, ...existing], maxEntries());
 
     await page.update({
         name: actor.name, // keep page title fresh on rename
@@ -187,12 +203,11 @@ function esc(s: string): string {
 }
 
 function renderRow(r: LogRecord): string {
-    const d = new Date(r.ts);
-    const time = d.toLocaleString();
+    const time = new Date(r.ts).toLocaleTimeString("pt-BR");
     const deltaColor = r.delta == null ? GOLD : r.delta < 0 ? RED : GREEN;
     return (
         `<div style="display:flex;gap:8px;align-items:baseline;padding:4px 6px;border-bottom:1px solid rgba(200,169,110,0.12);">` +
-        `<span style="color:${MUTED};font-size:0.78em;white-space:nowrap;min-width:130px;">${esc(time)}</span>` +
+        `<span style="color:${MUTED};font-size:0.78em;white-space:nowrap;min-width:70px;">${esc(time)}</span>` +
         `<span style="flex:1;"><strong style="color:${deltaColor};">${esc(r.label)}</strong> ` +
         `<span style="color:#e8e0d0;">${esc(r.detail)}</span> ` +
         `<span style="color:${MUTED};font-style:italic;">— ${esc(r.origin)} · ${esc(r.user)}</span></span>` +
@@ -200,12 +215,37 @@ function renderRow(r: LogRecord): string {
     );
 }
 
+/** Divisor visual entre dias (sessões) — facilita ler o histórico acumulado. */
+function renderDayDivider(day: string): string {
+    return (
+        `<div style="margin:10px 0 4px;padding:3px 6px;color:${GOLD};font-weight:700;` +
+        `font-size:0.82em;letter-spacing:0.08em;border-bottom:1px solid rgba(200,169,110,0.45);">` +
+        `📅 ${esc(day)}</div>`
+    );
+}
+
 function renderEntries(records: LogRecord[]): string {
-    const rows = records.map(renderRow).join("");
+    const shown = records.slice(0, RENDER_MAX);
+    const rows: string[] = [];
+    let lastDay = "";
+    for (const r of shown) {
+        const day = dayKey(r.ts);
+        if (day !== lastDay) {
+            rows.push(renderDayDivider(day));
+            lastDay = day;
+        }
+        rows.push(renderRow(r));
+    }
+    const trimmedNote = records.length > shown.length
+        ? ` · exibindo os ${shown.length} mais recentes`
+        : "";
     const header =
-        `<div style="color:${GOLD};font-weight:700;letter-spacing:0.04em;margin-bottom:6px;">` +
-        `Histórico de alterações (mais recente no topo · ${records.length} registro(s))</div>`;
-    return `<div style="font-family:'Signika',sans-serif;">${header}${rows}</div>`;
+        `<div style="color:${GOLD};font-weight:700;letter-spacing:0.04em;margin-bottom:2px;">` +
+        `Histórico de alterações (mais recente no topo · ${records.length} registro(s)${trimmedNote})</div>` +
+        `<div style="color:${MUTED};font-size:0.78em;margin-bottom:6px;">` +
+        `Histórico permanente entre sessões — para limpar, use “Manutenção do log” nas configurações do módulo ` +
+        `(ou apague este Diário/página manualmente).</div>`;
+    return `<div style="font-family:'Signika',sans-serif;">${header}${rows.join("")}</div>`;
 }
 
 // ── Record building ───────────────────────────────────────────────────────────
@@ -354,4 +394,87 @@ function registerSettings(): void {
         type: Boolean,
         default: false,
     });
+    game.settings.register(MODULE_ID, SETTING_MAX, {
+        name: "Log de fichas — máximo de registros por personagem",
+        hint: "0 = ilimitado (histórico permanente entre sessões, até apagar manualmente). Um número > 0 mantém apenas os N registros mais recentes de cada personagem.",
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 0,
+    });
+    // Menu GM: limpeza manual do log (botão nas configurações do módulo).
+    // O Foundry EXIGE que `type` seja subclasse de FormApplication/ApplicationV2 —
+    // uma classe qualquer faz registerMenu LANÇAR e derrubar o setup inteiro
+    // (bug v1.43.0). Por isso: subclasse real + try/catch de isolamento.
+    try {
+        const MenuType = buildMaintenanceMenuType();
+        if (MenuType) {
+            game.settings.registerMenu?.(MODULE_ID, "sheetLog.maintenance", {
+                name: "Log de fichas — manutenção",
+                label: "Manutenção do log",
+                hint: "Apagar o histórico de alterações de fichas (todo o Diário). Ação manual e irreversível.",
+                icon: "fas fa-scroll",
+                restricted: true,
+                type: MenuType,
+            });
+        }
+    } catch (e) {
+        warn("sheet-log: registerMenu falhou (menu de manutenção indisponível):", e);
+    }
+}
+
+/**
+ * Constrói o tipo do menu de manutenção como subclasse REAL de FormApplication
+ * (exigência do registerMenu). O render é sobrescrito para abrir nosso Dialog —
+ * o template do FormApplication nunca é usado.
+ */
+function buildMaintenanceMenuType(): (new () => { render(force?: boolean): unknown }) | null {
+    const Base = (globalThis as unknown as {
+        FormApplication?: new (object?: object, options?: object) => { render(force?: boolean): unknown };
+    }).FormApplication;
+    if (!Base) return null;
+    const Cls = class extends Base {
+        render(): unknown {
+            openMaintenanceDialog();
+            return this;
+        }
+    };
+    return Cls as unknown as new () => { render(force?: boolean): unknown };
+}
+
+/** Dialog GM de manutenção: apagar todo o log (Diário inteiro). */
+function openMaintenanceDialog(): void {
+    if (!game.user?.isGM) return;
+    const journal = game.journal?.getName(JOURNAL_NAME) ?? null;
+    const pages = journal?.pages?.contents ?? [];
+    const totals = pages.map((p) => {
+        const n = ((p.flags?.[MODULE_ID] as { entries?: unknown[] } | undefined)?.entries ?? []).length;
+        return `<li>${p.name}: <b>${n}</b> registro(s)</li>`;
+    }).join("");
+    const body = journal
+        ? `<p>O log atual contém:</p><ul>${totals || "<li>(vazio)</li>"}</ul>
+           <p><b>Apagar TODO o log?</b> Essa ação é irreversível — o Diário inteiro será excluído.
+           Um novo (vazio) será criado automaticamente na próxima alteração de ficha.</p>`
+        : `<p>Não há log no momento — ele será criado automaticamente na próxima alteração de ficha.</p>`;
+
+    new Dialog({
+        title: "Log de fichas — manutenção",
+        content: `<div style="padding:4px 2px;">${body}</div>`,
+        buttons: journal ? {
+            wipe: {
+                icon: '<i class="fas fa-trash"></i>',
+                label: "Apagar TODO o log",
+                callback: () => {
+                    void (journal as unknown as { delete(): Promise<unknown> }).delete().then(() => {
+                        ui.notifications?.info("Log de alterações de fichas apagado.");
+                        log("Sheet-log: diário apagado manualmente pelo GM.");
+                    });
+                },
+            },
+            cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar" },
+        } : {
+            ok: { icon: '<i class="fas fa-check"></i>', label: "Entendi" },
+        },
+        default: "cancel",
+    }, { classes: ["bg3-dialog"], width: 420 }).render(true);
 }
