@@ -396,9 +396,19 @@ async function processActivation(message: ChatMessage): Promise<void> {
         }
     }
 
-    // Debita PM (base + bônus) e rola Percepção
-    const totalCost = PM_COST + applied.reduce((s, b) => s + b.cost, 0);
-    await debitPM(actor, totalCost);
+    // Debita PM (base + bônus) e rola Percepção.
+    // Com a setting `automaticManaSpend` LIGADA, o T20 nativo já debita o
+    // ativacao.custo do poder no item.roll() — desconta do nosso débito base
+    // pra não cobrar em dobro. (Os custos dos bônus de perícia são só nossos.)
+    const autoSpend = game.settings.get("tormenta20", "automaticManaSpend") === true;
+    const powerItem = (actor as FoundryActor & { items?: { contents: FoundryItem[] } })
+        .items?.contents.find(i => i.type === "poder" && /disparo\s+sublime/i.test(i.name));
+    const nativeDebit = autoSpend
+        ? Number((powerItem?.system as { ativacao?: { custo?: number } } | undefined)?.ativacao?.custo ?? 0)
+        : 0;
+    const baseCost = Math.max(0, PM_COST - nativeDebit);
+    const totalCost = baseCost + applied.reduce((s, b) => s + b.cost, 0);
+    if (totalCost > 0) await debitPM(actor, totalCost);
 
     const percBonus = getPercepcaoBonus(actor);
     const boostValues = applied.flatMap(b => b.values);
