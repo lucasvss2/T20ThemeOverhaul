@@ -1210,6 +1210,23 @@ export function dispatchSpellResistanceToTarget(preReq: SpellResistPreRollReques
     }
 }
 
+// ── Supressão one-shot do modal (para fluxos dedicados de outros módulos) ─────
+
+const _suppressNext = new Set<string>();
+
+/**
+ * Suprime a PRÓXIMA mensagem desta magia lançada por este usuário (one-shot).
+ * Usado por módulos com resolução própria (ex.: Truque do Miasma Mefítico),
+ * evitando que o modal genérico de resistência abra em paralelo.
+ */
+export function suppressNextSpellResist(userId: string, spellNameNormalized: string): void {
+    _suppressNext.add(`${userId}:${spellNameNormalized}`);
+}
+
+function consumeSpellResistSuppression(userId: string, spellNameNormalized: string): boolean {
+    return _suppressNext.delete(`${userId}:${spellNameNormalized}`);
+}
+
 // ── createChatMessage hook ────────────────────────────────────────────────────
 
 async function processSpellMessage(message: ChatMessage): Promise<void> {
@@ -1242,6 +1259,9 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
         if (sn === "consagrar") return;
         if (sn === "bola de fogo") return;
         if (sn.includes("coluna de chamas")) return; // handler de área dedicado
+        // Supressão one-shot registrada por outro módulo (ex.: Truque do Miasma,
+        // que tem fluxo de resolução próprio).
+        if (consumeSpellResistSuppression(getMsgAuthorId(message) ?? "", sn)) return;
     }
 
     const damageRoll = rolls.find(r => (r.options as Record<string, unknown>)?.["type"] === "damage");

@@ -35,6 +35,7 @@ import { setupTradicaoPerdida } from "./tradicao-perdida/index";
 import { setupBaforada } from "./baforada/index";
 import { setupVelocidade } from "./velocidade/index";
 import { setupMenteDivina } from "./mente-divina/index";
+import { setupMiasma } from "./miasma/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
@@ -94,6 +95,7 @@ Hooks.once("setup", () => {
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
     setupMenteDivina();           // Mente Divina: alvo escolhe o atributo via pop-up (aprimoramentos cobertos)
+    setupMiasma();                // Miasma Mefítico: trevas (tipoDano) + Truque (pó de ônix, morte/imunidade/+2 CD)
     setupSheetRedesign();
     setupEncounterRoller();   // botão GM na toolbar: rolar encontro aleatório
     setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
