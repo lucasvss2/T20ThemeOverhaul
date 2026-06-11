@@ -33,6 +33,7 @@ import { setupSheetLog } from "./sheet-log/index";
 import { setupHerancaDraconica } from "./heranca-draconica/index";
 import { setupTradicaoPerdida } from "./tradicao-perdida/index";
 import { setupBaforada } from "./baforada/index";
+import { setupVelocidade } from "./velocidade/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
@@ -90,6 +91,7 @@ Hooks.once("setup", () => {
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
+    setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
     setupSheetRedesign();
     setupEncounterRoller();   // botão GM na toolbar: rolar encontro aleatório
     setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
