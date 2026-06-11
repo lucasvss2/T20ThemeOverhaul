@@ -47,6 +47,45 @@ export function setupIntegration(): void {
     installOverlayHook();
 }
 
+// ── Visibilidade de rolagens secretas ─────────────────────────────────────────
+
+export interface RollVisibilityInfo {
+    /** IDs de usuários do whisper (vazio = mensagem pública). */
+    whisper: string[];
+    /** Rolagem blind (secreta): nem o autor vê o resultado. */
+    blind: boolean;
+    /** ID do autor da mensagem. */
+    authorId: string;
+}
+
+/**
+ * Pode `myId` ver o RESULTADO desta rolagem?
+ *  - pública (sem whisper)   → todos
+ *  - blind (secreta)         → apenas destinatários do whisper (GMs); o autor
+ *                              NÃO vê (semântica do blind roll do Foundry)
+ *  - whisper/self (privada)  → destinatários + o próprio autor
+ * Pura → testável. Antes deste gate, o overlay vazava o resultado de testes
+ * secretos da ameaça para todos os players.
+ */
+export function canSeeRollResult(info: RollVisibilityInfo, myId: string): boolean {
+    if (!info.whisper.length && !info.blind) return true;
+    if (info.blind) return info.whisper.includes(myId);
+    return info.whisper.includes(myId) || info.authorId === myId;
+}
+
+function messageVisibilityInfo(message: ChatMessage): RollVisibilityInfo {
+    const m = message as unknown as {
+        whisper?: string[]; blind?: boolean;
+        author?: { id?: string }; user?: string | { id?: string };
+    };
+    const authorId = m.author?.id ?? (typeof m.user === "string" ? m.user : m.user?.id) ?? "";
+    return {
+        whisper: Array.isArray(m.whisper) ? m.whisper : [],
+        blind: m.blind === true,
+        authorId,
+    };
+}
+
 // ── Core overlay hook ─────────────────────────────────────────────────────────
 
 function installOverlayHook(): void {
@@ -57,6 +96,13 @@ function installOverlayHook(): void {
 
         // Hidden test messages are handled by hidden-test/index.ts
         if (message.getFlag(MODULE_ID, "hiddenTest")) return;
+
+        // Rolagens secretas/sussurradas: só mostra o overlay pra quem pode ver
+        // o resultado (destinatários do whisper; autor em rolls privados).
+        if (!canSeeRollResult(messageVisibilityInfo(message), game.user?.id ?? "")) {
+            log("Rolagem secreta/sussurrada — overlay suprimido para este usuário.");
+            return;
+        }
 
         const rolls = getRolls(message);
         if (!rolls.length) {
