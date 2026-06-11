@@ -12,6 +12,7 @@ import type {
     ResistOutcome,
 } from "./types";
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
+import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
 import { warn } from "@/utils/logging";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
@@ -605,6 +606,32 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
     // ── Seção 2: Dano / Cura ──────────────────────────────────────────────────
 
     const halfDmg = Math.floor(preReq.damageTotal / 2);
+
+    // RD automática por tipo de dano: lê tracos.resistencias (estrutura) +
+    // detalhes.resistencias (texto de NPC) do ALVO — mesmo motor do auto-damage.
+    const dmgType = preReq.damageType ?? damageTypeFromFormula(preReq.damageFormula);
+    const tracosResist = (targetActor?.system as { tracos?: { resistencias?: Record<string, { value?: number | string; base?: number | string; imunidade?: boolean }> } } | undefined)
+        ?.tracos?.resistencias;
+    const npcResistText = (targetActor?.system as { detalhes?: { resistencias?: unknown } } | undefined)
+        ?.detalhes?.resistencias;
+    const { rd: autoRd, immune: dmgImmune } = computeTargetRd(
+        tracosResist,
+        typeof npcResistText === "string" ? npcResistText : null,
+        dmgType,
+    );
+    const dmgTypeLabel = dmgType
+        ? ((CONFIG as unknown as { T20?: { damageTypes?: Record<string, string> } }).T20?.damageTypes?.[dmgType] ?? dmgType)
+        : "";
+    // Mostra a linha de RD sempre que houver tipo conhecido OU RD genérica
+    // ("redução de dano X" vale para qualquer tipo).
+    const rdRowHtml = dmgImmune
+        ? `<div class="smf-rd-row smf-rd-immune"><i class="fas fa-shield"></i> IMUNE a ${dmgTypeLabel} — dano anulado</div>`
+        : (dmgType || autoRd > 0)
+            ? `<div class="smf-rd-row"><label for="smf-rd-input">RD${dmgTypeLabel ? ` ${dmgTypeLabel}` : ""}:</label>` +
+              `<input type="number" id="smf-rd-input" min="0" value="${autoRd}"/>` +
+              `<span class="smf-rd-hint">${autoRd > 0 ? "detectada na ficha — subtraída ao aplicar" : "nenhuma detectada (ajuste se preciso)"}</span></div>`
+            : "";
+
     let damageSectionHtml: string;
 
     if (preReq.isHeal && preReq.damageTotal > 0) {
@@ -665,9 +692,10 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         `;
     } else if (!preReq.isHeal && preReq.damageTotal > 0) {
         damageSectionHtml = `
-            <div class="smf-section-title"><i class="fas fa-burst"></i> DANO<button type="button" class="smf-collapse-btn" title="Minimizar"><i class="fas fa-chevron-down"></i></button></div>
+            <div class="smf-section-title"><i class="fas fa-burst"></i> DANO${dmgTypeLabel ? ` <span class="smf-dmg-type">(${dmgTypeLabel})</span>` : ""}<button type="button" class="smf-collapse-btn" title="Minimizar"><i class="fas fa-chevron-down"></i></button></div>
             <div class="smf-section-body">
             <div class="smf-dmg-number">${preReq.damageTotal}</div>
+            ${rdRowHtml}
             <div class="smf-dmg-btns">
                 <button class="smf-dmg-btn" data-dmg="${preReq.damageTotal}" id="smf-dmg-full">
                     <i class="fas fa-bolt"></i> Aplicar Integral (${preReq.damageTotal})
@@ -1097,8 +1125,17 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         label = "\u2713 N\u00e3o aplicado";
                     } else {
                         const amt = parseInt(btn.dataset["dmg"] ?? "", 10) || 0;
-                        if (amt > 0) await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, amt);
-                        label = amt > 0 ? `\u2713 ${amt} de dano aplicado` : "\u2713 N\u00e3o aplicado";
+                        // RD autom\u00e1tica por tipo: subtrai a RD do alvo (edit\u00e1vel
+                        // no input); imunidade ao tipo anula o dano.
+                        const rdInput = root.querySelector<HTMLInputElement>("#smf-rd-input");
+                        const rdVal = Math.max(0, parseInt(rdInput?.value ?? "0", 10) || 0);
+                        const finalAmt = dmgImmune ? 0 : Math.max(0, amt - rdVal);
+                        if (finalAmt > 0) await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, finalAmt);
+                        label = dmgImmune
+                            ? `\u2713 Imune a ${dmgTypeLabel} \u2014 0 de dano`
+                            : finalAmt > 0
+                                ? (rdVal > 0 ? `\u2713 ${amt} \u2212 RD ${rdVal} = ${finalAmt} de dano aplicado` : `\u2713 ${finalAmt} de dano aplicado`)
+                                : (amt > 0 && rdVal > 0 ? `\u2713 RD ${rdVal} absorveu todo o dano (${amt})` : "\u2713 N\u00e3o aplicado");
                     }
                     root.querySelectorAll(".smf-dmg-btn, .smf-heal-btn").forEach((b) => b.classList.add("smf-spent"));
                     const fb = root.querySelector<HTMLElement>("#smf-dmg-feedback");
@@ -1368,6 +1405,8 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
             messageId:       message.id,
             damageTotal:     effectiveDamage,
             damageFormula:   truqueAtivo ? (/energ[eé]tico/i.test(message.content ?? "") ? "1d8 + 1d6" : "1d8") : damageFormula,
+            // Truque de Curar Ferimentos é dano de LUZ; senão extrai do roll.
+            damageType:      truqueAtivo ? "luz" : extractDamageType(damageRoll),
             isHeal,
             maxHealValue:    effectiveMaxHeal,
             removeFadiga,

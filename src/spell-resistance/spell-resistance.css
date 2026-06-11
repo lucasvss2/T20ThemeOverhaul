@@ -416,3 +416,48 @@
     line-height: 1.35;
 }
 .smf-aura-antimagia-sub b { color: #ffd86b; font-weight: 700; }
+
+/* ── RD automática por tipo de dano ─────────────────────────────────────────── */
+.smf-dmg-type {
+    color: #9a8e7a;
+    font-size: 0.78em;
+    text-transform: none;
+    letter-spacing: 0.02em;
+}
+.smf-rd-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 8px;
+    padding: 5px 8px;
+    border: 1px solid rgba(200, 169, 110, 0.3);
+    border-radius: 6px;
+    background: rgba(28, 18, 9, 0.45);
+    font-size: 0.85rem;
+    color: #e8e0d0;
+}
+.smf-rd-row label {
+    font-weight: 700;
+    color: #c8a96e;
+    white-space: nowrap;
+}
+.smf-rd-row input[type="number"] {
+    width: 56px;
+    padding: 2px 6px;
+    text-align: center;
+    background: rgba(9, 6, 4, 0.7);
+    border: 1px solid rgba(200, 169, 110, 0.4);
+    border-radius: 4px;
+    color: #f0ebe0;
+}
+.smf-rd-hint {
+    color: #9a8e7a;
+    font-size: 0.74rem;
+    font-style: italic;
+}
+.smf-rd-immune {
+    border-color: rgba(110, 207, 122, 0.5);
+    color: #6ecf7a;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}

@@ -60,6 +60,12 @@ export interface SpellResistPreRollRequest {
     damageTotal: number;
     /** Fórmula do roll de dano */
     damageFormula: string;
+    /**
+     * Tipo de dano primário (chave de CONFIG.T20.damageTypes, ex.: "acido",
+     * "fogo"). Quando ausente, o modal tenta extrair da damageFormula
+     * ("5d6[acido]"). Usado para RD automática do alvo por tipo.
+     */
+    damageType?: string | null;
     /** true se a magia cura (curapv) — nesse caso vai direto para result dialog */
     isHeal: boolean;
     /** Valor máximo possível da cura com os dados rolados (para checkbox Consagrar) */

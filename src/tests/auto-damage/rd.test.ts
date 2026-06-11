@@ -1,9 +1,36 @@
 import { describe, it, expect } from "vitest";
 import {
     extractDamageType,
+    damageTypeFromFormula,
     parseNpcResistText,
     computeTargetRd,
 } from "@/auto-damage/rd";
+
+// ── damageTypeFromFormula ─────────────────────────────────────────────────────
+
+describe("damageTypeFromFormula", () => {
+    it("extrai o tipo do flavor da fórmula", () => {
+        expect(damageTypeFromFormula("5d6[acido]")).toBe("acido");
+        expect(damageTypeFromFormula("5d6[trevas] + 2")).toBe("trevas");
+        expect(damageTypeFromFormula("3d10[fogo]")).toBe("fogo");
+    });
+    it("fórmula mista → primeiro tipo específico", () => {
+        expect(damageTypeFromFormula("6d6[fogo] + 6d6[luz]")).toBe("fogo");
+    });
+    it("sem flavor de tipo → null", () => {
+        expect(damageTypeFromFormula("2d8+4")).toBe(null);
+        expect(damageTypeFromFormula("")).toBe(null);
+        expect(damageTypeFromFormula(null)).toBe(null);
+        expect(damageTypeFromFormula(undefined)).toBe(null);
+    });
+    it("ignora flavors que não são tipos específicos (dano genérico/perda)", () => {
+        expect(damageTypeFromFormula("2d6[dano]")).toBe(null);
+        expect(damageTypeFromFormula("2d6[perda] + 1d6[frio]")).toBe("frio");
+    });
+    it("acentos normalizados", () => {
+        expect(damageTypeFromFormula("1d6[ácido]")).toBe("acido");
+    });
+});
 
 // ── extractDamageType ─────────────────────────────────────────────────────────
 

@@ -37,6 +37,20 @@ export function extractDamageType(roll: RollLike | null | undefined): string | n
     return null;
 }
 
+/**
+ * Tipo de dano primário a partir de uma FÓRMULA serializada (ex.: "5d6[acido]",
+ * "6d6[fogo] + 6d6[luz]" → primeiro flavor de tipo específico). Útil quando só
+ * a string da fórmula viaja no payload (dispatchers de área), sem o Roll.
+ */
+export function damageTypeFromFormula(formula: string | null | undefined): string | null {
+    if (!formula) return null;
+    for (const m of formula.matchAll(/\[([^\]]+)\]/g)) {
+        const n = stripAccents(m[1]);
+        if (SPECIFIC_TYPES.has(n)) return n;
+    }
+    return null;
+}
+
 function mapWordToType(word: string): string | null {
     const w = stripAccents(word).trim();
     if (!w) return null;
