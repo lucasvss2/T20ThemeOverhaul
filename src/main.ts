@@ -34,6 +34,7 @@ import { setupHerancaDraconica } from "./heranca-draconica/index";
 import { setupTradicaoPerdida } from "./tradicao-perdida/index";
 import { setupBaforada } from "./baforada/index";
 import { setupVelocidade } from "./velocidade/index";
+import { setupMenteDivina } from "./mente-divina/index";
 import { patchT20SpellCDFormula } from "./t20-fixes/spell-cd-formula";
 import { patchT20WeaponUpgradeLabels } from "./t20-fixes/weapon-upgrade-always-active";
 import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
@@ -92,6 +93,7 @@ Hooks.once("setup", () => {
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
+    setupMenteDivina();           // Mente Divina: alvo escolhe o atributo via pop-up (aprimoramentos cobertos)
     setupSheetRedesign();
     setupEncounterRoller();   // botão GM na toolbar: rolar encontro aleatório
     setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
