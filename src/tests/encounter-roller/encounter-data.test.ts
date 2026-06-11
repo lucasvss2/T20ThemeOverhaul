@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
     ENVIRONMENTS,
     bracketIndexForLevel,
+    maxLevelFor,
     findRow,
     padRange,
     getEnvironment,
@@ -32,17 +33,54 @@ describe("ENVIRONMENTS data", () => {
 // ── bracketIndexForLevel ──────────────────────────────────────────────────────
 
 describe("bracketIndexForLevel", () => {
-    it("maps 1-2→0, 3-4→1, 5-6→2, 7-8→3", () => {
-        expect([1, 2].map(bracketIndexForLevel)).toEqual([0, 0]);
-        expect([3, 4].map(bracketIndexForLevel)).toEqual([1, 1]);
-        expect([5, 6].map(bracketIndexForLevel)).toEqual([2, 2]);
-        expect([7, 8].map(bracketIndexForLevel)).toEqual([3, 3]);
+    const idx = (lv: number) => bracketIndexForLevel(lv);
+
+    it("maps 1-2→0, 3-4→1, 5-6→2, 7-8→3 (brackets padrão)", () => {
+        expect([1, 2].map(idx)).toEqual([0, 0]);
+        expect([3, 4].map(idx)).toEqual([1, 1]);
+        expect([5, 6].map(idx)).toEqual([2, 2]);
+        expect([7, 8].map(idx)).toEqual([3, 3]);
     });
 
     it("clamps out-of-range levels", () => {
-        expect(bracketIndexForLevel(0)).toBe(0);
-        expect(bracketIndexForLevel(-5)).toBe(0);
-        expect(bracketIndexForLevel(99)).toBe(3);
+        expect(idx(0)).toBe(0);
+        expect(idx(-5)).toBe(0);
+        expect(idx(99)).toBe(3);
+    });
+
+    it("brackets do deserto [2,5,8,10]: 1-2→0, 3-5→1, 6-8→2, 9-10→3", () => {
+        const dz = [2, 5, 8, 10];
+        expect([1, 2].map(l => bracketIndexForLevel(l, dz))).toEqual([0, 0]);
+        expect([3, 4, 5].map(l => bracketIndexForLevel(l, dz))).toEqual([1, 1, 1]);
+        expect([6, 7, 8].map(l => bracketIndexForLevel(l, dz))).toEqual([2, 2, 2]);
+        expect([9, 10].map(l => bracketIndexForLevel(l, dz))).toEqual([3, 3]);
+        expect(bracketIndexForLevel(15, dz)).toBe(3);   // clamp em 10
+    });
+});
+
+// ── maxLevelFor / deserto ─────────────────────────────────────────────────────
+
+describe("deserto (níveis 1-10)", () => {
+    it("ambiente existe, com bracketMax [2,5,8,10] e 7 faixas", () => {
+        const dz = getEnvironment("deserto")!;
+        expect(dz).not.toBeNull();
+        expect(dz.bracketMax).toEqual([2, 5, 8, 10]);
+        expect(dz.rows.length).toBe(7);
+        expect(maxLevelFor(dz)).toBe(10);
+    });
+
+    it("ambientes sem bracketMax continuam com máx 8", () => {
+        expect(maxLevelFor(getEnvironment("esgoto")!)).toBe(8);
+    });
+
+    it("lookup usa os cortes do deserto (nível 5 → bracket 3-5; nível 9 → 9-10)", () => {
+        // d100=1 → "Feras das Areias"
+        const lv5 = lookupEncounter("deserto", 5, 1)!;
+        expect(lv5.encounter).toContain("Escorpião Gigante");
+        const lv9 = lookupEncounter("deserto", 9, 1)!;
+        expect(lv9.encounter).toContain("Quimera");
+        const lv10 = lookupEncounter("deserto", 10, 95)!;
+        expect(lv10.encounter).toContain("Tarelaf");
     });
 });
 

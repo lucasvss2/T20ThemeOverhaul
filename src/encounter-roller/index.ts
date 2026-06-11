@@ -11,7 +11,7 @@
  * renderSceneControls / ready / canvasReady (o Foundry recria a toolbar).
  */
 
-import { ENVIRONMENTS, lookupEncounter, validateEnvironments, type EncounterResult } from "./encounter-data";
+import { ENVIRONMENTS, getEnvironment, maxLevelFor, lookupEncounter, validateEnvironments, type EncounterResult } from "./encounter-data";
 import ENCOUNTER_STYLES from "./encounter-roller.css?inline";
 import { log, warn } from "@/utils/logging";
 
@@ -84,7 +84,7 @@ function buildModalContent(): string {
                 <select name="enc-env" class="enc-select">${options}</select>
             </div>
             <div class="enc-row">
-                <label class="enc-label">Nível do grupo (1-8)</label>
+                <label class="enc-label" data-role="enc-level-label">Nível do grupo (1-8)</label>
                 <input type="number" name="enc-level" class="enc-input" min="1" max="8" value="1" />
             </div>
             <button type="button" class="enc-roll-btn"><i class="fas fa-dice-d20"></i> Rolar Encontro</button>
@@ -150,13 +150,29 @@ function openEncounterDialog(): void {
             const rollBtn = root.querySelector<HTMLButtonElement>(".enc-roll-btn");
             const envSel  = root.querySelector<HTMLSelectElement>('select[name="enc-env"]');
             const lvlInp  = root.querySelector<HTMLInputElement>('input[name="enc-level"]');
+            const lvlLbl  = root.querySelector<HTMLElement>('[data-role="enc-level-label"]');
             const resultBox = root.querySelector<HTMLElement>(".enc-result");
             if (!rollBtn || !envSel || !lvlInp || !resultBox) return;
+
+            // Nível máximo varia por ambiente (deserto vai até 10; demais, 8).
+            const envMaxLevel = (): number => {
+                const env = getEnvironment(envSel.value);
+                return env ? maxLevelFor(env) : 8;
+            };
+            const syncLevelBounds = (): void => {
+                const max = envMaxLevel();
+                lvlInp.max = String(max);
+                if (lvlLbl) lvlLbl.textContent = `Nível do grupo (1-${max})`;
+                const cur = parseInt(lvlInp.value, 10) || 1;
+                if (cur > max) lvlInp.value = String(max);
+            };
+            syncLevelBounds();
+            envSel.addEventListener("change", syncLevelBounds);
 
             rollBtn.addEventListener("click", () => {
                 void (async () => {
                     const envId = envSel.value;
-                    const level = Math.max(1, Math.min(8, parseInt(lvlInp.value, 10) || 1));
+                    const level = Math.max(1, Math.min(envMaxLevel(), parseInt(lvlInp.value, 10) || 1));
                     lvlInp.value = String(level);
 
                     const { total, roll } = await rollSecretD100();

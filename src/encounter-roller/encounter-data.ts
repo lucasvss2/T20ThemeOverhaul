@@ -54,8 +54,18 @@ export interface EncounterRow {
 export interface EnvironmentDef {
     id: EnvironmentId;
     label: string;
+    /**
+     * Teto de nível de cada bracket (ascendente). Default [2, 4, 6, 8]
+     * (níveis 1-8). O deserto usa [2, 5, 8, 10] → níveis 1-10 com cortes
+     * 1-2 / 3-5 / 6-8 / 9-10. O último valor define o nível máximo aceito
+     * pelo modal para este ambiente.
+     */
+    bracketMax?: number[];
     rows: EncounterRow[];
 }
+
+/** Brackets padrão (níveis 1-8: 1-2 / 3-4 / 5-6 / 7-8). */
+export const DEFAULT_BRACKET_MAX = [2, 4, 6, 8];
 
 export const ENVIRONMENTS: EnvironmentDef[] = [
     {
@@ -178,14 +188,50 @@ export const ENVIRONMENTS: EnvironmentDef[] = [
                 levels: ["1 Necromante Jovem", "1 Necromante + 2 Zumbis", "1 Múmia + Servos", "1 Lich (Enfraquecido) ou Alto-Sacerdote das Trevas"] },
         ],
     },
+    {
+        id: "deserto",
+        label: "Deserto",
+        // Níveis 1-10 (cortes da planilha: 1-2 / 3-5 / 6-8 / 9-10).
+        bracketMax: [2, 5, 8, 10],
+        rows: [
+            { min: 1, max: 15, title: "Feras das Areias", flavor: "A fauna local tentando sobreviver.",
+                levels: ["3 Coiotes/Hienas (use a ficha de Lobo, p. 283)", "1 Escorpião Gigante (use a ficha de Aranha Gigante, p. 284) + 2 Coiotes", "2 Basiliscos (Livro Básico, p. 285)", "1 Quimera do Deserto (Livro Básico, p. 289)"] },
+            { min: 16, max: 30, title: "Saqueadores Desesperados", flavor: "Nômades sedentos ou bandoleiros.",
+                levels: ["3 Bandidos (Livro Básico, p. 301)", "1 Capanga (como Líder) (p. 302) + 4 Bandidos (p. 301)", "1 Mago (p. 304) + 4 Bandidos (p. 301)", "2 Cavaleiros (p. 302) + 1 Mago (p. 304) + 6 Bandidos"] },
+            { min: 31, max: 45, title: "A Fúria do Deserto", flavor: "A letalidade do clima árido.",
+                levels: ["Tempestade de Areia: Teste de Fortitude. Falha causa condição Fatigado.", "Areia Movediça: Teste de Acrobacia/Atletismo ou soterramento.", "Fissura de Fogo: Teste de Reflexos contra 6d6 de dano de Fogo.", "Tornado Infernal: Perigo Complexo. 10d6 de dano de Fogo e Esmagamento."] },
+            { min: 46, max: 60, title: "O Clima Rubro", flavor: "A tempestade aberrante da Tormenta.",
+                levels: ["Chuva Ácida: Dano leve (1d6 ácido) por rodada sem abrigo.", "Tempestade de Matéria: Teste de Vontade. Falha perde 1d4 PM.", "Névoa Enlouquecedora: Teste de Vontade ou fica Apavorado (p. 393).", "Anomalia Gravitacional: Quedas para cima (dano de queda massivo de impacto)."] },
+            { min: 61, max: 75, title: "Interação", flavor: "Oásis, miragens e viajantes insólitos.",
+                levels: ["Oásis Puro: Água fresca (Cura PV/PM). Atrai NPCs suspeitos.", "Ruína Aberrante: Estátua coberta de Tormenta. Tocar exige Vontade (Insanidade).", "Mercador Qareen: Voando em um tapete. Vende poções caras (dobro do preço).", "Refugiados Lefou: Acampamento pedindo ajuda e curas (bons informantes)."] },
+            { min: 76, max: 90, title: "Os Cultistas do Devorador", flavor: "Adoradores de Aharadak.",
+                levels: ["2 Cultistas (Livro Básico, p. 302)", "1 Sacerdote (p. 304) + 4 Cultistas (p. 302)", "2 Sacerdotes (p. 304) + 2 Capangas Lefou (p. 302)", "1 Sumo-Sacerdote (Sacerdote ND alto) + 1 Assassino (p. 301)"] },
+            { min: 91, max: 100, title: "A Verdadeira Tormenta", flavor: "Demônios Lefeu cruzando as areias.",
+                levels: ["2 Cultistas Lefou (Livro Básico, p. 302)", "1 Uktril (Demônio da Tormenta, p. 293)", "2 Uktril (Livro Básico, p. 293)", "1 Tarelaf (p. 293) + 1 Uktril (p. 293)"] },
+        ],
+    },
 ];
 
 // ── Lookup (puro, testável) ───────────────────────────────────────────────────
 
-/** Bracket (0..3) para um nível 1-8: 1-2→0, 3-4→1, 5-6→2, 7-8→3. */
-export function bracketIndexForLevel(level: number): number {
-    const lv = Math.max(1, Math.min(8, Math.floor(level)));
-    return Math.min(3, Math.ceil(lv / 2) - 1);
+/**
+ * Bracket (0..3) para um nível, segundo os tetos `bracketMax` do ambiente.
+ * Default [2,4,6,8]: 1-2→0, 3-4→1, 5-6→2, 7-8→3.
+ * Deserto [2,5,8,10]: 1-2→0, 3-5→1, 6-8→2, 9-10→3.
+ */
+export function bracketIndexForLevel(level: number, bracketMax: number[] = DEFAULT_BRACKET_MAX): number {
+    const maxLv = bracketMax[bracketMax.length - 1] ?? 8;
+    const lv = Math.max(1, Math.min(maxLv, Math.floor(level)));
+    for (let i = 0; i < bracketMax.length; i++) {
+        if (lv <= bracketMax[i]) return i;
+    }
+    return bracketMax.length - 1;
+}
+
+/** Nível máximo aceito para um ambiente (último teto de bracket). */
+export function maxLevelFor(env: EnvironmentDef): number {
+    const bm = env.bracketMax ?? DEFAULT_BRACKET_MAX;
+    return bm[bm.length - 1] ?? 8;
 }
 
 export function getEnvironment(id: string): EnvironmentDef | null {
@@ -212,7 +258,7 @@ export interface EncounterResult {
     encounter: string;
 }
 
-/** Resolve o encontro para (ambiente, nível 1-8, rolamento 1-100). */
+/** Resolve o encontro para (ambiente, nível 1..maxLevelFor(env), rolamento 1-100). */
 export function lookupEncounter(envId: string, level: number, roll: number): EncounterResult | null {
     const env = getEnvironment(envId);
     if (!env) return null;
@@ -225,7 +271,7 @@ export function lookupEncounter(envId: string, level: number, roll: number): Enc
         rangeLabel: `${padRange(row.min)}-${padRange(row.max)}`,
         title: row.title,
         flavor: row.flavor,
-        encounter: row.levels[bracketIndexForLevel(level)],
+        encounter: row.levels[bracketIndexForLevel(level, env.bracketMax ?? DEFAULT_BRACKET_MAX)],
     };
 }
 
@@ -246,6 +292,15 @@ export function validateEnvironments(envs: EnvironmentDef[] = ENVIRONMENTS): str
         if (!env.id) problems.push(`Ambiente sem id (label: "${env.label}").`);
         else if (seen.has(env.id)) problems.push(`Id duplicado: "${env.id}".`);
         if (env.id) seen.add(env.id);
+
+        const bm = env.bracketMax;
+        if (bm !== undefined) {
+            if (!Array.isArray(bm) || bm.length !== 4) {
+                problems.push(`"${tag}": bracketMax precisa de exatamente 4 tetos.`);
+            } else if (bm.some((n, i) => !Number.isInteger(n) || n < 1 || (i > 0 && n <= bm[i - 1]))) {
+                problems.push(`"${tag}": bracketMax deve ser inteiros positivos ascendentes.`);
+            }
+        }
 
         const rows = env.rows ?? [];
         if (!rows.length) { problems.push(`"${tag}": nenhuma faixa definida.`); continue; }
