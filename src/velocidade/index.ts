@@ -20,13 +20,15 @@
  */
 
 import { MODULE_ID } from "@/constants";
-import { log } from "@/utils/logging";
+import { log, warn } from "@/utils/logging";
 import { extractSpellName, normalizeCondName } from "@/spell-resistance/index";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
+import { getSocket, onSocketReady } from "@/socket";
 
 const SPELL_NAME = "velocidade";
 const SUSTAIN_FLAG = "velocidadeSustain";
 const SUSTAIN_COST = 1;
+const SOCKET_REMOVE_BUFFS = "velocidade/remove-buffs";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -85,19 +87,59 @@ async function onVelocidadeCast(message: ChatMessage, actor: FoundryActor): Prom
         log("Velocidade: aprimoramento 'duração cena' — sem sustain.");
         return;
     }
+    // Guarda os ALVOS do cast (uuids) — ao cancelar a sustentação, o buff
+    // "Velocidade" é removido automaticamente deles.
+    const targetUuids = (Array.from(game.user?.targets ?? []) as FoundryToken[])
+        .map((t) => t.actor?.uuid)
+        .filter((u): u is string => Boolean(u));
     await actor.update(
-        { [`flags.${MODULE_ID}.${SUSTAIN_FLAG}`]: { since: game.time?.worldTime ?? 0 } },
+        { [`flags.${MODULE_ID}.${SUSTAIN_FLAG}`]: { since: game.time?.worldTime ?? 0, targets: targetUuids } },
         { render: false },
     );
     ui.notifications?.info(`Velocidade sustentada: ${actor.name} pagará ${SUSTAIN_COST} PM por turno (cancele pelo menu de skills).`);
     refreshSkillsMenu();
-    log(`Velocidade: sustain registrado em ${actor.name}.`);
+    log(`Velocidade: sustain registrado em ${actor.name} (${targetUuids.length} alvo(s)).`);
 }
 
 // ── Sustain / cancel ──────────────────────────────────────────────────────────
 
+/**
+ * Remove a AE "Velocidade" dos atores (uuids). Roda no cliente com permissão:
+ * GM direto; player → roteado via executeAsGM.
+ */
+async function removeVelocidadeBuffs(uuids: string[]): Promise<void> {
+    for (const uuid of uuids) {
+        try {
+            const doc = fromUuidSync(uuid) as unknown;
+            const actor = ((doc as { actor?: FoundryActor | null })?.actor ?? (doc as FoundryActor)) || null;
+            if (!actor?.effects) continue;
+            const ids = (actor.effects.contents ?? [])
+                .filter((e) => normalizeCondName(e.name ?? "") === SPELL_NAME)
+                .map((e) => e.id)
+                .filter((id): id is string => Boolean(id));
+            if (ids.length) {
+                await actor.deleteEmbeddedDocuments("ActiveEffect", ids, { render: false });
+                log(`Velocidade: buff removido de ${actor.name}.`);
+            }
+        } catch (e) {
+            warn(`Velocidade: falha ao remover buff de ${uuid}:`, e);
+        }
+    }
+}
+
 async function cancelSustain(actor: FoundryActor, reason: "manual" | "sem-pm"): Promise<void> {
+    // Alvos salvos no cast → remove o buff "Velocidade" deles automaticamente.
+    const flag = (actor.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[SUSTAIN_FLAG] as
+        | { targets?: string[] } | undefined;
+    const targets = Array.isArray(flag?.targets) ? flag.targets : [];
+
     await actor.update({ [`flags.${MODULE_ID}.-=${SUSTAIN_FLAG}`]: null }, { render: false });
+
+    if (targets.length) {
+        if (game.user?.isGM) await removeVelocidadeBuffs(targets);
+        else await getSocket()?.executeAsGM(SOCKET_REMOVE_BUFFS, targets);
+    }
+
     const title = reason === "sem-pm" ? "Velocidade cancelada — sem PM" : "Velocidade encerrada";
     const color = reason === "sem-pm" ? "#cc4444" : "#c8a96e";
     await ChatMessage.create({
@@ -105,7 +147,8 @@ async function cancelSustain(actor: FoundryActor, reason: "manual" | "sem-pm"): 
         content:
             `<div style="border-left:3px solid ${color};padding:6px 10px;">` +
             `<div style="color:${color};font-weight:700;letter-spacing:0.06em;">⏱️ ${esc(title)}</div>` +
-            `<div style="color:#9a8e7a;font-size:0.85em;">${esc(actor.name)} parou de sustentar a magia.</div>` +
+            `<div style="color:#9a8e7a;font-size:0.85em;">${esc(actor.name)} parou de sustentar a magia` +
+            `${targets.length ? " — buff removido do(s) alvo(s)" : ""}.</div>` +
             `</div>`,
     });
     refreshSkillsMenu();
@@ -178,6 +221,13 @@ function openCancelDialog(): void {
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 export function setupVelocidade(): void {
+    // Remoção de buffs roteada pro GM (players não têm permissão em atores alheios).
+    onSocketReady((socket) => {
+        socket.register(SOCKET_REMOVE_BUFFS, (uuids: unknown) => {
+            if (Array.isArray(uuids)) void removeVelocidadeBuffs(uuids as string[]);
+        });
+    });
+
     // Cast: só o autor da mensagem registra (evita duplicação multi-cliente).
     Hooks.on("createChatMessage", (...args: unknown[]) => {
         const message = args[0] as ChatMessage;

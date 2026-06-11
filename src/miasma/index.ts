@@ -28,8 +28,13 @@ import {
     extractSpellName,
     normalizeCondName,
     extractCD,
-    suppressNextSpellResist,
+    parseResistance,
+    getTargetUserId,
+    dispatchSpellResistanceToTarget,
 } from "@/spell-resistance/index";
+import type { SpellResistPreRollRequest, SpellConditionData } from "@/spell-resistance/types";
+import { tokensInTemplate } from "@/_shared";
+import { onSocketReady } from "@/socket";
 
 const SPELL_NORM = "miasma mefitico";
 const PO_NORM = "po de onix";
@@ -194,7 +199,6 @@ function patchAbilityUseDialog(): void {
         const po = findPoDeOnix(casterActor);
         if (po && casterActor) await consumePoDeOnix(po, casterActor);
         _pending = ctx;
-        suppressNextSpellResist(game.user?.id ?? "", SPELL_NORM);
         return result;
     };
     Dlg._bg3PatchedMiasma = true;
@@ -306,9 +310,146 @@ async function ensurePoDeOnixCompendium(): Promise<void> {
     }
 }
 
+// ── Área (base): template → dano em quem está dentro do grid ──────────────────
+//
+// Espelha a Coluna de Chamas: registra o cast pendente, reivindica o template
+// que o T20 cria (user posiciona o grid), dispara o modal de resistência pra
+// cada token DENTRO da área, e remove grid + animação quando TODOS resolvem
+// (resolveNotify por alvo; fallback de tempo de segurança).
+
+const SPELL_KEY           = "miasma-mefitico";
+const FLAG_SPELL          = "spell";
+const SOCKET_RESOLVED     = "miasma/resolved";
+const PENDING_WINDOW_MS   = 30_000;
+const RESOLVE_FALLBACK_MS = 90_000;
+const EMPTY_LINGER_MS     = 2_500;
+
+interface AreaPending {
+    casterName: string;
+    casterUserId: string;
+    messageId: string;
+    damageTotal: number;
+    damageFormula: string;
+    cd: number;
+    resistTxt: string;
+    ts: number;
+}
+const _areaPending = new Map<string, AreaPending>(); // key: casterUserId
+
+type TplLike = {
+    id: string; x: number; y: number; distance: number;
+    flags?: Record<string, Record<string, unknown>>;
+    update(data: Record<string, unknown>): Promise<unknown>;
+    delete?(): Promise<unknown>;
+};
+
+type Resolution = { remaining: number; tpl: TplLike; timer: ReturnType<typeof setTimeout> | null };
+const _resolutions = new Map<string, Resolution>();
+
+async function removeTemplateAndAnim(tpl: TplLike): Promise<void> {
+    try { await tpl.delete?.(); } catch (e) { warn("Miasma: falha ao remover template:", e); }
+}
+
+function onTargetResolved(castId: string): void {
+    const res = _resolutions.get(castId);
+    if (!res) return;
+    res.remaining -= 1;
+    if (res.remaining > 0) return;
+    if (res.timer) clearTimeout(res.timer);
+    _resolutions.delete(castId);
+    void removeTemplateAndAnim(res.tpl);
+    log("Miasma: todos os alvos resolveram — grid e animação removidos.");
+}
+
+/** Condição "enjoado por 1 rodada" (se o status existir no CONFIG). */
+function enjoadoCondition(): SpellConditionData[] {
+    const st = ((CONFIG as unknown as { statusEffects?: Array<{ id: string; name?: string; label?: string }> })
+        .statusEffects ?? []).find((s) => /enjoad/i.test(`${s.id}${s.name ?? s.label ?? ""}`));
+    if (!st) return [];
+    return [{ statusId: st.id, label: st.name ?? st.label ?? "Enjoado", durationRounds: 1 }];
+}
+
+async function dispatchMiasmaArea(tplDoc: TplLike): Promise<void> {
+    const flags = tplDoc.flags?.[MODULE_ID];
+    if (!flags || flags[FLAG_SPELL] !== SPELL_KEY || flags["dispatched"] === true) return;
+    try { await tplDoc.update({ [`flags.${MODULE_ID}.dispatched`]: true }); } catch (e) { warn("Miasma: dispatched flag:", e); }
+
+    const casterName    = (flags["casterName"]    as string) ?? "Lançador";
+    const casterUserId  = (flags["casterUserId"]  as string) ?? "";
+    const messageId     = (flags["messageId"]     as string) ?? "";
+    const damageTotal   = (flags["damageTotal"]   as number) ?? 0;
+    const damageFormula = (flags["damageFormula"] as string) ?? "";
+    const cd            = (flags["cd"]            as number) ?? 0;
+    const resistTxt     = (flags["resistTxt"]     as string) ?? "Fortitude (veja texto)";
+    const { skill, outcome } = parseResistance(resistTxt);
+    const conditions = enjoadoCondition();
+
+    const tokens = tokensInTemplate({ x: tplDoc.x, y: tplDoc.y, distance: tplDoc.distance });
+    const rid = (globalThis as unknown as { randomID?: () => string }).randomID
+        ?? (() => Math.random().toString(36).slice(2, 18));
+
+    let dispatched = 0;
+    for (const token of tokens) {
+        const targetActor = token.actor;
+        if (!targetActor) continue;
+        const targetUserId = getTargetUserId(targetActor);
+        if (!targetUserId) {
+            ui.notifications?.warn(`Miasma: nenhum usuário ativo para ${targetActor.name}.`);
+            continue;
+        }
+        const preReq: SpellResistPreRollRequest = {
+            type: "spell-resist-preroll",
+            requestId: rid(),
+            targetUserId,
+            casterUserId,
+            targetActorId: targetActor.id,
+            targetActorUuid: targetActor.uuid,
+            casterName,
+            spellName: "Miasma Mefítico",
+            resistTxt,
+            resistSkill: skill,
+            resistOutcome: outcome,
+            cd,
+            messageId,
+            damageTotal,
+            damageFormula,
+            isHeal: false,
+            maxHealValue: 0,
+            removeFadiga: false,
+            truqueAtivo: false,
+            conditions,
+            customEffectNames: [],
+            resolveNotify: { socketName: SOCKET_RESOLVED, userId: casterUserId, payload: tplDoc.id },
+        };
+        dispatchSpellResistanceToTarget(preReq);
+        dispatched++;
+    }
+
+    if (dispatched === 0) {
+        ui.notifications?.info(`Miasma Mefítico: nenhum alvo na área (${damageTotal} de dano rolado).`);
+        setTimeout(() => void removeTemplateAndAnim(tplDoc), EMPTY_LINGER_MS);
+        return;
+    }
+    ui.notifications?.info(`Miasma Mefítico! ${damageTotal} de dano em ${dispatched} alvo(s).`);
+    const timer = setTimeout(() => {
+        if (!_resolutions.has(tplDoc.id)) return;
+        _resolutions.delete(tplDoc.id);
+        void removeTemplateAndAnim(tplDoc);
+        warn("Miasma: fallback de tempo — grid removido sem todos os alvos responderem.");
+    }, RESOLVE_FALLBACK_MS);
+    _resolutions.set(tplDoc.id, { remaining: dispatched, tpl: tplDoc, timer });
+}
+
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 export function setupMiasma(): void {
+    onSocketReady((socket) => {
+        socket.register(SOCKET_RESOLVED, (...args: unknown[]) => {
+            const castId = args[0] as string;
+            if (castId) onTargetResolved(castId);
+        });
+    });
+
     Hooks.once("ready", () => {
         patchAbilityUseDialog();
         void ensurePoDeOnixCompendium();
@@ -324,15 +465,79 @@ export function setupMiasma(): void {
         void ensureTrevasChange(item);
     });
 
-    // Card do cast → resolve Truque pendente (autor).
+    // Card do cast (autor): Truque pendente → resolve; senão → registra pending
+    // de ÁREA (o T20 cria o template; o user posiciona o grid).
     Hooks.on("createChatMessage", (...args: unknown[]) => {
         const message = args[0] as ChatMessage;
-        if (!_pending) return;
         if (messageAuthorId(message) !== game.user?.id) return;
         if (!message.getFlag?.("tormenta20", "itemData")) return;
         if (!normalizeCondName(extractSpellName(message)).includes(SPELL_NORM)) return;
-        void resolveTruque(message);
+
+        if (_pending) { void resolveTruque(message); return; }
+
+        // Base/área: precisa de damage roll.
+        const dmgRolls = (message.rolls ?? []).filter(
+            (r) => (r.options as Record<string, unknown>)?.["type"] === "damage",
+        );
+        if (!dmgRolls.length) return;
+        const itemData = message.getFlag("tormenta20", "itemData") as Record<string, unknown>;
+        const resist = itemData["resistencia"] as { txt?: string; cd?: number } | undefined;
+        let cd = Number(resist?.cd ?? 0);
+        const cdHtml = extractCD(message);
+        if (cdHtml > 0) cd = cdHtml;
+
+        _areaPending.set(game.user?.id ?? "", {
+            casterName: message.speaker?.alias ?? "Lançador",
+            casterUserId: game.user?.id ?? "",
+            messageId: message.id,
+            damageTotal: dmgRolls.reduce((s, r) => s + (r.total ?? 0), 0),
+            damageFormula: dmgRolls.map((r) => r.formula).filter(Boolean).join(" + "),
+            cd,
+            resistTxt: String(resist?.txt ?? "Fortitude (veja texto)"),
+            ts: Date.now(),
+        });
     });
 
-    log("Miasma Mefítico (trevas + Truque + Pó de Ônix) instalado.");
+    // Template criado pelo T20 → o autor reivindica.
+    Hooks.on("createMeasuredTemplate", (...args: unknown[]) => {
+        const tplDoc = args[0] as TplLike & { user?: string | { id?: string }; author?: { id?: string } };
+        const triggerUserId = typeof args[2] === "string" ? (args[2] as string) : undefined;
+        const me = game.user?.id;
+        if (!me) return;
+        if (tplDoc.flags?.[MODULE_ID]?.[FLAG_SPELL] === SPELL_KEY) return;
+        const authorUid = tplDoc.author?.id
+            ?? (typeof tplDoc.user === "string" ? tplDoc.user : tplDoc.user?.id)
+            ?? triggerUserId;
+        if (authorUid !== me) return;
+        const pending = _areaPending.get(me);
+        if (!pending || Date.now() - pending.ts >= PENDING_WINDOW_MS) return;
+        _areaPending.delete(me);
+        void tplDoc.update({
+            [`flags.${MODULE_ID}`]: {
+                [FLAG_SPELL]: SPELL_KEY,
+                casterName: pending.casterName,
+                casterUserId: pending.casterUserId,
+                messageId: pending.messageId,
+                damageTotal: pending.damageTotal,
+                damageFormula: pending.damageFormula,
+                cd: pending.cd,
+                resistTxt: pending.resistTxt,
+                dispatched: false,
+            },
+        }).catch((e: unknown) => warn("Miasma: falha ao reclamar template:", e));
+    });
+
+    // Flag recém-adicionada → o CASTER dispara o dano/resistência na área.
+    Hooks.on("updateMeasuredTemplate", (...args: unknown[]) => {
+        const tplDoc = args[0] as TplLike;
+        const changes = args[1] as Record<string, unknown> | undefined;
+        const flags = tplDoc.flags?.[MODULE_ID];
+        if (!flags || flags[FLAG_SPELL] !== SPELL_KEY || flags["dispatched"] === true) return;
+        const changedFlags = (changes?.["flags"] as Record<string, unknown> | undefined)?.[MODULE_ID];
+        if (!changedFlags) return;
+        if (flags["casterUserId"] !== game.user?.id) return;
+        void dispatchMiasmaArea(tplDoc);
+    });
+
+    log("Miasma Mefítico (área + trevas + Truque + Pó de Ônix) instalado.");
 }
