@@ -17,8 +17,9 @@ Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"
 
 ```bash
 npm run typecheck   # tsc --noEmit — must pass before any commit/tag
-npm test            # vitest run — 75 tests must pass
+npm test            # vitest run — 459 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
 npm run build       # Vite → dist/main.bundle.js
+npm run build:packs # compila packs-src/ → packs/ (compêndios LevelDB, via @foundryvtt/foundryvtt-cli)
 npm run dev         # watch mode
 npm run lint        # eslint src
 ```
@@ -52,12 +53,17 @@ Version scheme: `MAJOR.MINOR.PATCH`
 7.  Copy dist/main.bundle.js + module.json → local AppData module folder
         C:\Users\lucas\AppData\Local\FoundryVTT\Data\modules\aeris-bg3-rolls-t20\
 8.  Check GitHub Actions tab — wait for release workflow green ✓
+8b. Se packs-src/ mudou: `npm run build:packs` e copiar `packs/` pro AppData — MAS o
+    LevelDB fica TRAVADO com o mundo rodando: derrubar o mundo (game.shutDown() →
+    confirmar "Voltar à Configuração"), copiar, religar via POST /setup
+    {action:"launchWorld", world:"libertacao-de-valkaria"} (senha admin = mesma dos
+    GMs). Mudar a entrada "packs" do module.json também exige relaunch do mundo.
 ```
 
 **Rules:**
 - Never push a tag without `npm run typecheck` passing locally first.
 - Never report a deploy as done before step 8 (green CI).
-- Work is done in a **worktree branch** (`claude/adoring-johnson-bbb8c4`), NOT directly on `master`. Push with `git push origin <branch>:master`.
+- Work is done in a **branch** (atual: `claude/sheet-log`), NOT directly on `master`. Push with `git push origin <branch>:master`.
 - If CI fails post-push: fix → push new commit → re-tag:
   ```bash
   git tag -d vX.Y.Z
@@ -353,6 +359,42 @@ Comportamento:
 Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `renderSceneControls`, `ready` e `canvasReady`.
 
 ---
+
+
+### Sistemas v1.32–v1.49 (resumo)
+
+| Versão | Sistema | Arquivo |
+|---|---|---|
+| 1.32 | RD automática por tipo no auto-damage (`extractDamageType`/`computeTargetRd`) | `auto-damage/rd.ts` |
+| 1.33 | Deformidade (Lefou): modal de perícias +2 | `deformidade/` |
+| 1.34 | Briga (Lutador): dano desarmado evolui c/ nível+tamanho | `briga/` |
+| 1.35–37 | Acuidade c/ Arma · Manopla (UI + aprimoramentos mecânicos) | `t20-fixes/acuidade-arma.ts`, `t20-fixes/manopla-upgrades.ts` |
+| 1.38 | Overlay diferencia crítico 20-natural × margem ampliada | `overlay/`, `integration/` |
+| 1.39/43 | Sheet-log: Journal GM-only permanente de mudanças de ficha (origin hints via `options[MODULE_ID].origin`) | `sheet-log/` |
+| 1.40 | Herança Dracônica + Escamas Elementais (RD elemental via `tracos.resistencias.<el>.bonus`, tipo mon) | `heranca-draconica/` |
+| 1.41 | Tradição Perdida (+Aprimorada): PM pelo atributo escolhido — DESLIGA o atributo da classe (`pm.atributos.X=false` prio 1000, vence a AE "Magias (Classe)") e soma o valor capado; cap por patamar 6/8/10/12; nível total = Σ `classe.system.niveis` | `tradicao-perdida/` |
+| 1.42 | Baforada Dracônica: cancela uso nativo via patch AbilityUseDialog; modal próprio mín(Con,nível,PM); 1×/rodada em combate; anima via `AutomatedAnimations.playAnimation(token, item, {targets})` | `baforada/` |
+| 1.43.1 | Rolagem secreta não mostra overlay (`canSeeRollResult`: blind→só whisper; privada→whisper+autor) | `integration/` |
+| 1.44 | Velocidade: sustain 1 PM/turno (combatTurnChange, GM eleito) + cancelar remove buff "Velocidade" dos alvos (uuids salvos na flag; executeAsGM) | `velocidade/` |
+| 1.45 | Mente Divina: alvo escolhe atributo via socket pop-up (`executeAsUser`); "nos três" aplica direto; AE `system.atributos.X.bonus` +2/+4 durationScene | `mente-divina/` |
+| 1.46 | Miasma Mefítico: área (molde Coluna de Chamas/resolveNotify), trevas via `tipoDano`, Truque (pó de ônix consumido, morte/imunidade 1 dia/+2 CD caster) | `miasma/` |
+| 1.47 | RD automática no modal de spell-resistance (`damageType` no preReq + fallback `damageTypeFromFormula`) | `spell-resistance/` |
+| 1.48 | Encounter-roller: ambiente Deserto, `bracketMax` por ambiente (deserto [2,5,8,10] → níveis 1-10) | `encounter-roller/` |
+| 1.49 | Compêndio do módulo "T20 Overhaul — Ameaças" (100 atores c/ árvore de pastas) | `packs-src/`, `scripts/build-packs.mjs` |
+
+### Gotchas críticos (v1.32+)
+
+- **`automaticManaSpend` (setting WORLD do T20, default FALSE)** é o gate de TODO débito automático nativo de PM (item.roll / rollPericia / rollAtributo). Está LIGADA neste mundo. Fluxos do módulo que debitam manualmente devem descontar o que o nativo cobra (ex.: disparo-sublime subtrai `ativacao.custo`).
+- **Patch de `AbilityUseDialog.create`**: retornar `null` CANCELA o uso nativo (sem PM, sem card, sem roll) — usado pela Baforada (fluxo próprio) e pela validação pré-cast do Truque do Miasma. O `item` recebido é um **CLONE efêmero** (`id: null`) — `setFlag` nele NÃO persiste; resolva o item real via `actor.items.find(...)`.
+- **`registerMenu` exige subclasse de FormApplication/ApplicationV2** — classe plain LANÇA no setup e mata o registro de TODOS os hooks do módulo que vêm depois. Sempre try/catch + subclasse real (ver sheet-log).
+- **`tipoDano` (mode 5 OVERRIDE)** é key nativa do `applyRollChanges` que troca o tipo de dano do roll (`r.parts[p][1] = value`) — usada pra consertar a AE "trevas" do Miasma que vinha do compêndio com changes vazias.
+- **StatblockParser programático**: `new game.tormenta20.applications.StatblockParser({actor, statblock:"", schema:{}, items:[], log:[]})`, stub `parser.render = () => parser`, evento fake `{preventDefault(){}, currentTarget:{closest:()=>({statblock:{value:text}})}}` → `_parseStatblock(ev)` + `_applyToActor(ev)`. Luta (= bônus de ataque), criticoM e saves vêm certos; conferir depois: nomes truncados de habilidades, sentidos/ic (SetFields — `JSON.stringify` mostra `{}` mas o valor existe; use `Array.from`), parágrafos de poderes engolidos (ex.: Atropelamento do Górgon).
+- **Pipeline de compêndios**: fontes em `packs-src/<pack>/*.json` (1 doc/arquivo; `_key` obrigatório INCLUSIVE nos embedados: `!actors.items!<actorId>.<itemId>`, `!actors.items.effects!<aId>.<iId>.<eId>`, pastas `!folders!<id>`). `npm run build:packs` compila → `packs/` (gitignorado). CI (release.yml e beta-release.yml) compila e inclui no zip. module.json tem a entrada `"packs"` (Actor, system tormenta20, GM-only).
+- **Imagens dos packs**: paths URL-encoded (`assets/Amea%C3%A7as/...`); assets do usuário em `Data/assets/Ameaças/<subpasta>/`; convenção: `Nome.png` = retrato, `Nome Vista/Visão Aerea.png` = token.
+- **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 459 testes / 29 arquivos.
+- **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
+
 
 ## Foundry v13 Gotchas
 

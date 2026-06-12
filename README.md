@@ -1,6 +1,6 @@
 # T20 Theme Overhaul
 
-Módulo para [Foundry VTT](https://foundryvtt.com) com melhorias visuais e mecânicas para o sistema **Tormenta20** (`tormenta20`). Versão atual: **v1.18.6**.
+Módulo para [Foundry VTT](https://foundryvtt.com) com melhorias visuais e mecânicas para o sistema **Tormenta20** (`tormenta20`). Versão atual: **v1.49.2**.
 
 Depende apenas de [socketlib](https://foundryvtt.com/packages/socketlib) para coordenação cliente↔GM. O Foundry instala automaticamente ao adicionar o módulo.
 
@@ -81,7 +81,9 @@ Toda rolagem T20 interceptada exibe um overlay full-screen escuro com o resultad
 | Iniciativa | `Iniciativa` |
 | Teste de atributo (Força, Destreza…) | `Teste de <Atributo>` |
 
-Acerto crítico (nat 20) aparece em dourado; falha crítica (nat 1) aparece em vermelho. Dados 3D do **Dice So Nice** aparecem sempre acima do overlay.
+Acerto crítico aparece em dourado — diferenciando **20 natural** de **margem ampliada** (armas/melhorias com crítico 19/18, ex.: Precisa); ataques sem crítico mostram "Sem crítico". Falha crítica (nat 1) em vermelho. Dados 3D do **Dice So Nice** aparecem sempre acima do overlay.
+
+**Rolagens secretas/sussurradas não vazam**: o overlay só aparece para quem pode ver o resultado (GMs do whisper em rolagens blind; autor em rolls privados).
 
 ---
 
@@ -142,7 +144,7 @@ Após um ataque com arma, se o total do ataque superar a DEF do alvo selecionado
 
 **Campos opcionais:**
 
-- **RD** — redução de dano deduzida antes de aplicar (labels dos botões atualizam em tempo real)
+- **RD automática por tipo de dano** — o módulo lê as resistências do alvo (estruturais e texto de NPC) e pré-preenche a RD conforme o tipo do dano (perfuração, fogo…); imunidade anula o dano. Campo editável
 - **Custo de Mana (PM)** — debitado junto com PV na mesma ação
 
 ---
@@ -156,7 +158,7 @@ Quando uma magia com resistência é lançada contra alvos marcados com **T**, o
 - **Seção Resistência** — rola Fortitude / Reflexos / Vontade contra a CD da magia (extraída do HTML do chat, incluindo bônus de Fortalecimento Arcano e similares). Suporta reroll gratuito.
 - **Poderes ativáveis** — lista automática de poderes/itens que bônus à resistência escolhida, com PM selecionável.
 - **Bônus extra** — campo livre para bônus manuais (ex: `+1d4`, `-2`)
-- **Seção Dano / Cura** — aplica dano integral, metade ou nenhum. Para magias de cura, exibe o total e opção de Consagrar (bônus automático se o alvo estiver em área de Consagrar).
+- **Seção Dano / Cura** — aplica dano integral, metade ou nenhum, **subtraindo automaticamente a RD do alvo pelo tipo de dano** (imunidade anula; campo editável). Para magias de cura, exibe o total e opção de Consagrar (bônus automático se o alvo estiver em área de Consagrar).
 - **Morto-Vivo** — toggle para magias de cura vs morto-vivo (rola resistência adicional de Vontade)
 - **Efeitos / Buff** — botões para aplicar cada efeito de buff da magia diretamente ao alvo
 - **Condições** — grid filtrável com todas as condições do T20; aplica via `toggleStatusEffect`
@@ -211,6 +213,53 @@ Magia evocação com dois aprimoramentos implementados:
 
 ---
 
+#### Coluna de Chamas & Miasma Mefítico
+
+Magias de área one-shot: o usuário posiciona o grid do T20 e o modal de resistência abre para **cada token dentro da área**. O grid e a animação somem automaticamente quando todos os alvos resolvem o modal.
+
+- **Miasma Mefítico** — aprimoramentos funcionais: +1d6 dano (+2 PM), tipo trevas (+3 PM, via key nativa `tipoDano`) e **Truque** completo: valida alvo com 0 PV, consome **Pó de Ônix** (item incluído no compêndio do módulo), rola Fortitude vs CD; falha = morte + caster ganha +2 CD por 1 dia; sucesso = imunidade ao truque por 1 dia.
+
+---
+
+### Automação de Poderes & Magias
+
+| Poder / Magia | Automação |
+|---|---|
+| **Deformidade** (Lefou) | Modal de escolha de 1-2 perícias (+2 permanente) ao adicionar o poder |
+| **Briga** (Lutador) | Dano do ataque desarmado evolui automaticamente com o nível (tabela oficial + tamanho) |
+| **Acuidade com Arma** | Usa Des no ataque e dano de armas leves/arremesso |
+| **Manopla** | Exibe e aplica aprimoramentos de arma nos ataques desarmados |
+| **Kiai Divino** (3 PM) | Dano maximizado no próximo ataque |
+| **Grito de Kiai** (Samurai, 2 PM) | Vantagem no ataque + dado bônus por nível |
+| **Disparo Sublime** (Caçador) | Percepção vs CD 15+ND → crítico automático no próximo tiro |
+| **Medalhão Afiado** | +1 margem de ameaça quando magia com bônus de ataque é lançada |
+| **Herança Dracônica** | Modal de elemento → RD 5 (10 com Escamas Elementais) + tipo monstro |
+| **Tradição Perdida** (+ Aprimorada) | Modal de atributo/classe → PM pelo atributo escolhido (teto por patamar), recálculo automático em level-up; Aprimorada troca o atributo-chave de CD |
+| **Baforada Dracônica** | Modal de PM (mín(Con, nível, PM), 1×/rodada) → Nd10 do elemento + Reflexos CD Con + animação |
+| **Velocidade** | Sustain automático de 1 PM/turno; cancelar remove o buff dos alvos |
+| **Mente Divina** | Pop-up para o **alvo** escolher o atributo (+2/+4); aprimoramentos "nos três" aplicam direto |
+
+---
+
+### Ferramentas de GM
+
+- **Gerador de Encontros Aleatórios** — botão na toolbar; 7 ambientes (Esgotos, Cavernas, Estradas, Florestas, Becos, Ruínas e **Deserto** com níveis 1-10) com rolagem 1d100 secreta.
+- **Gerador de Tesouro** — botão na toolbar + ficha de Ameaça.
+- **Log de Alterações de Fichas** — Diário GM-only com histórico permanente de toda mudança nas fichas (PV/PM, dinheiro, munição, itens, condições), com autor e origem (dano de X, custo de PM…), divisores por dia e menu de manutenção.
+- **Gasto automático de mana** — todos os fluxos de PM (perícias com poderes on-use, magias, poderes) usam a setting nativa `automaticManaSpend` do T20 (deve estar LIGADA), com proteção contra débito duplo nos fluxos do módulo.
+
+---
+
+### Compêndios incluídos
+
+| Compêndio | Conteúdo |
+|---|---|
+| **T20 Overhaul — Ameaças** | 100 ameaças prontas organizadas em pastas (Allihana, Azgher, Glorienn, Hyninn, Lena, Marah, Tenebra, Ragnar) — GM-only |
+
+As fontes dos compêndios vivem em `packs-src/` (1 JSON por documento) e são compiladas para LevelDB no build (`npm run build:packs`).
+
+---
+
 ### Skills Menu
 
 Botão único na barra lateral esquerda que agrega todas as ações de skills ativas no momento.
@@ -240,7 +289,8 @@ npm install        # instala as dependências
 npm run dev        # build + watch (modo desenvolvimento)
 npm run build      # build de produção
 npm run typecheck  # verifica tipos TypeScript
-npm test           # roda os testes unitários (Vitest, 75 testes)
+npm test           # roda os testes unitários (Vitest, 459 testes)
+npm run build:packs  # compila packs-src/ → packs/ (compêndios LevelDB)
 ```
 
 ### Estrutura do projeto
@@ -296,8 +346,8 @@ src/
 
 ```sh
 # Após npm run typecheck && npm test && npm run build
-git tag v1.18.6
-git push origin <beta-branch>:master && git push origin v1.18.6
+git tag vX.Y.Z
+git push origin <branch>:master && git push origin vX.Y.Z
 ```
 
 O CI executa typecheck + testes + build, monta o ZIP e publica a release no GitHub.
