@@ -9,10 +9,12 @@
         "lint": "eslint src",
         "typecheck": "tsc --noEmit",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "build:packs": "node scripts/build-packs.mjs"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.4",
+        "@foundryvtt/foundryvtt-cli": "^3.0.3",
         "@types/jquery": "^3.5.32",
         "@types/node": "^25.7.0",
         "eslint": "^9.27.0",

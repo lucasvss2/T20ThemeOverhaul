@@ -33,6 +33,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Build compendium packs
+        run: npm run build:packs
+
       - name: Create ZIP
         run: |
           mkdir -p staging/aeris-bg3-rolls-t20
@@ -40,6 +43,9 @@ jobs:
           cp dist/main.bundle.js   staging/aeris-bg3-rolls-t20/main.bundle.js
           if [ -d dist/assets ]; then
             cp -r dist/assets staging/aeris-bg3-rolls-t20/assets
+          fi
+          if [ -d packs ]; then
+            cp -r packs staging/aeris-bg3-rolls-t20/packs
           fi
           cd staging
           zip -r ../aeris-bg3-rolls-t20-beta.zip aeris-bg3-rolls-t20/

@@ -66,6 +66,9 @@ jobs:
             module.json > module.patched.json
           mv module.patched.json module.json
 
+      - name: Build compendium packs
+        run: npm run build:packs
+
       - name: Create ZIP
         run: |
           mkdir -p staging/aeris-bg3-rolls-t20
@@ -74,6 +77,10 @@ jobs:
           # Assets (PNGs, ícones, etc.) — vite.config.ts copia public/ pra dist/
           if [ -d dist/assets ]; then
             cp -r dist/assets staging/aeris-bg3-rolls-t20/assets
+          fi
+          # Compêndios do módulo (LevelDB compilado de packs-src/ pelo build:packs)
+          if [ -d packs ]; then
+            cp -r packs staging/aeris-bg3-rolls-t20/packs
           fi
           cd staging
           zip -r ../aeris-bg3-rolls-t20.zip aeris-bg3-rolls-t20/
