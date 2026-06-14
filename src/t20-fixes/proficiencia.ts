@@ -20,10 +20,14 @@
  * • Arma −5: embrulha `ItemT20.prototype.getAttackToHit`. Esse método alimenta
  *   tanto a rolagem real (`rollAttack`) quanto o label `labels.toHit`
  *   (`_prepareLabels`), então a penalidade aparece nos dois lugares de uma vez.
- * • Armadura: embrulha `ActorT20.prototype.prepareDerivedData`. Depois do prepare
- *   nativo, se houver armadura/escudo não-proficiente equipado, marca
- *   `pericia.pda = true` em toda perícia de atributo `for`/`des`. A construção da
- *   rolagem de perícia já soma `rollData.pda` quando `skill.pda` é verdadeiro.
+ * • Armadura: embrulha `CreatureData.prototype.prepareSkills` (base compartilhada
+ *   de character/npc). ANTES do prepare nativo das perícias — que roda depois de
+ *   `prepareDefense` já ter populado `rollData.pda` — marca `pericia.pda = true`
+ *   em toda perícia de atributo `for`/`des` quando há armadura/escudo sem
+ *   proficiência. Assim a penalidade entra tanto no VALOR exibido na ficha
+ *   (`prepareSkill` soma `@pda`) quanto na rolagem. (Fazer isso depois, no
+ *   `prepareDerivedData`, só corrigia a rolagem — a listagem já tinha sido
+ *   calculada sem o `@pda`.)
  *
  * Apenas personagens (`type === "character"`) são afetados — fichas de Ameaça
  * (npc) têm valores de ataque/perícia já calibrados pelo ND e não devem ser
@@ -31,6 +35,7 @@
  */
 
 import { log, warn } from "@/utils/logging";
+import { SYSTEM_ID } from "@/constants";
 
 const PENALIDADE_ATAQUE = "-5";
 
@@ -161,9 +166,15 @@ export function broadenArmorPenaltyToStrDexSkills(
 /* -------------------------------------------------------------------------- */
 
 type GetAttackToHit = (this: ProfItem) => { rollData: unknown; parts: string[] } | undefined;
-type ItemProto = { getAttackToHit?: GetAttackToHit; _bg3ProficienciaPatched?: boolean };
-type PrepareDerived = (this: ProfActor) => void;
-type ActorProto = { prepareDerivedData?: PrepareDerived; _bg3ProficienciaPatched?: boolean };
+type ItemProto = { getAttackToHit?: GetAttackToHit; _bg3ProfWeaponPatched?: boolean };
+
+/** Modelo de dados (system) com `pericias` e `parent` (o ator dono). */
+interface CreatureDataLike {
+    parent?: ProfActor | null;
+    pericias?: Record<string, { atributo?: string; pda?: boolean }>;
+}
+type PrepareSkills = (this: CreatureDataLike, opts?: unknown) => unknown;
+type CreatureProto = { prepareSkills?: PrepareSkills; _bg3ProfArmorPatched?: boolean };
 
 function patchWeaponPenalty(): void {
     const proto = (CONFIG as unknown as { Item?: { documentClass?: { prototype: ItemProto } } })
@@ -172,7 +183,7 @@ function patchWeaponPenalty(): void {
         warn(`proficiencia: ItemT20.prototype.getAttackToHit não encontrado.`);
         return;
     }
-    if (proto._bg3ProficienciaPatched) return;
+    if (proto._bg3ProfWeaponPatched) return;
     const orig = proto.getAttackToHit;
     proto.getAttackToHit = function (this: ProfItem) {
         const result = orig.call(this);
@@ -185,35 +196,52 @@ function patchWeaponPenalty(): void {
         }
         return result;
     };
-    proto._bg3ProficienciaPatched = true;
+    proto._bg3ProfWeaponPatched = true;
     log(`ItemT20.getAttackToHit patched — −5 de ataque para armas sem proficiência.`);
 }
 
 function patchArmorPenalty(): void {
-    const proto = (CONFIG as unknown as { Actor?: { documentClass?: { prototype: ActorProto } } })
-        .Actor?.documentClass?.prototype;
-    if (!proto || typeof proto.prepareDerivedData !== "function") {
-        warn(`proficiencia: ActorT20.prototype.prepareDerivedData não encontrado.`);
+    const charProto = (CONFIG as unknown as {
+        Actor?: { dataModels?: { character?: { prototype?: object } } };
+    }).Actor?.dataModels?.character?.prototype;
+    // prepareSkills mora na base compartilhada (CreatureData) — sobe a cadeia até o dono.
+    let proto = charProto as (CreatureProto & object) | undefined;
+    while (proto && !Object.prototype.hasOwnProperty.call(proto, "prepareSkills")) {
+        proto = Object.getPrototypeOf(proto) as (CreatureProto & object) | undefined;
+    }
+    if (!proto || typeof proto.prepareSkills !== "function") {
+        warn(`proficiencia: CreatureData.prototype.prepareSkills não encontrado.`);
         return;
     }
-    if (proto._bg3ProficienciaPatched) return;
-    const orig = proto.prepareDerivedData;
-    proto.prepareDerivedData = function (this: ProfActor) {
-        orig.call(this);
+    if (proto._bg3ProfArmorPatched) return;
+    const orig = proto.prepareSkills;
+    proto.prepareSkills = function (this: CreatureDataLike, opts?: unknown) {
         try {
-            if (this.type === "character" && hasNonProficientArmorEquipped(this)) {
-                broadenArmorPenaltyToStrDexSkills(this.system?.pericias);
+            const actor = this.parent;
+            if (actor?.type === "character" && hasNonProficientArmorEquipped(actor)) {
+                broadenArmorPenaltyToStrDexSkills(this.pericias);
             }
         } catch (err) {
             warn(`proficiencia: alargamento de penalidade de armadura abortado:`, err);
         }
+        return orig.call(this, opts);
     };
-    proto._bg3ProficienciaPatched = true;
-    log(`ActorT20.prepareDerivedData patched — penalidade de armadura em todas perícias For/Des sem proficiência.`);
+    proto._bg3ProfArmorPatched = true;
+    log(`CreatureData.prepareSkills patched — penalidade de armadura em todas perícias For/Des sem proficiência.`);
 }
 
+/**
+ * IMPORTANTE — instalado em `init` (não `ready`): `prepareSkills` roda durante o
+ * carregamento do mundo (antes de `ready`), então a penalidade de armadura
+ * precisa estar embrulhada ANTES da primeira preparação dos atores, senão fichas
+ * que já entram com armadura não-proficiente equipada exibem o valor antigo até
+ * um re-prepare. Não forçamos `actor.prepareData()` (dispararia o bug de
+ * acúmulo de ArrayField em pm/pv — ver histórico v1.19.4); confiamos no prepare
+ * natural do load. Deve ser chamado no top-level do módulo (antes do hook init).
+ */
 export function setupProeficiencia(): void {
-    Hooks.once("ready", () => {
+    Hooks.once("init", () => {
+        if ((game as unknown as { system?: { id?: string } }).system?.id !== SYSTEM_ID) return;
         patchWeaponPenalty();
         patchArmorPenalty();
     });

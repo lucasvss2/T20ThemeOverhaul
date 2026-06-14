@@ -51,6 +51,11 @@ import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import "./socket/index";
 import { log, warn } from "./utils/logging";
 
+// Penalidade por não-proficiência (arma −5 / armadura em perícias For-Des).
+// Registrada no top-level para poder instalar os patches no hook `init` — ANTES
+// da primeira preparação dos atores (ver nota em t20-fixes/proficiencia.ts).
+setupProeficiencia();
+
 // ── Init: sanity checks ───────────────────────────────────────────────────────
 
 Hooks.once("init", () => {
@@ -92,7 +97,6 @@ Hooks.once("setup", () => {
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
-    setupProeficiencia();         // Penalidade por não-proficiência: −5 ataque (arma) + penalidade de armadura em todas perícias For/Des
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
