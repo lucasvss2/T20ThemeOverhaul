@@ -151,14 +151,56 @@ function injectStyles(): void {
     const style = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
-.control-icon.bg3-token-visibility.active { color: #c8a96e; box-shadow: 0 0 8px #6a4e18 inset; }
-.bg3-token-vis-dialog { color: #f0ebe0; }
-.bg3-token-vis-dialog p { margin: 0 0 8px; }
-.bg3-token-vis-dialog .players { display: flex; flex-direction: column; gap: 6px; max-height: 320px; overflow: auto; }
-.bg3-token-vis-dialog label { display: flex; align-items: center; gap: 8px; padding: 4px 6px; border: 1px solid #3a2f1d; border-radius: 4px; cursor: pointer; }
-.bg3-token-vis-dialog label:hover { background: #1c1209; }
-.bg3-token-vis-dialog .quick { display: flex; gap: 8px; margin-bottom: 8px; }
-.bg3-token-vis-dialog .quick button { flex: 1; }
+/* HUD: botão destacado quando há restrição ativa no token */
+.control-icon.bg3-token-visibility.active { color: var(--bg3-accent, #c8a96e) !important; box-shadow: 0 0 10px rgba(200,169,110,0.55) inset !important; }
+.control-icon.bg3-token-visibility i { pointer-events: none; }
+
+/* Modal (dentro de .bg3-dialog) */
+.bg3-token-vis-dialog .window-content { padding: 0 !important; }
+.bg3-token-vis-dialog .bg3-tv-intro {
+  margin: 0; padding: 16px 18px 12px; text-align: center;
+  color: var(--bg3-text-secondary, #e8e0d0); font-size: 0.98rem; letter-spacing: 0.02em;
+}
+.bg3-token-vis-dialog .bg3-tv-intro b { color: var(--bg3-accent, #c8a96e); font-weight: 700; }
+
+.bg3-token-vis-dialog .bg3-tv-quick { display: flex; gap: 8px; padding: 0 18px 12px; }
+.bg3-token-vis-dialog .bg3-tv-quick button {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  background: linear-gradient(to bottom, var(--bg3-btn-bg-top, #5a3c10), var(--bg3-btn-bg-bottom, #3a2408));
+  border: 1px solid var(--bg3-btn-border, #8b6914); border-radius: 4px;
+  color: var(--bg3-btn-text, #f0e0b0); cursor: pointer;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 6px 10px; transition: all 0.15s;
+}
+.bg3-token-vis-dialog .bg3-tv-quick button:hover {
+  background: linear-gradient(to bottom, #7c5218, #5a3210);
+  border-color: var(--bg3-accent, #c8a96e); color: var(--bg3-btn-text-hover, #fff3d6);
+  box-shadow: 0 0 12px rgba(200,169,110,0.4);
+}
+
+.bg3-token-vis-dialog .bg3-tv-players {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 0 18px 16px; max-height: 340px; overflow-y: auto;
+}
+.bg3-token-vis-dialog .bg3-tv-row {
+  display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+  border: 1px solid var(--bg3-divider-soft, #2a2012); border-radius: 5px;
+  color: var(--bg3-text-primary, #f0ebe0); cursor: pointer; transition: all 0.15s;
+}
+.bg3-token-vis-dialog .bg3-tv-row:hover {
+  border-color: var(--bg3-btn-border, #8b6914);
+  background: rgba(200,169,110,0.06);
+}
+.bg3-token-vis-dialog .bg3-tv-row:has(input:checked) {
+  border-color: rgba(200,169,110,0.55);
+  background: rgba(200,169,110,0.10);
+}
+.bg3-token-vis-dialog .bg3-tv-name {
+  font-size: 0.96rem; letter-spacing: 0.02em; flex: 1 1 auto;
+}
+/* checkbox herda o estilo dourado de .bg3-dialog input[type=checkbox]; só ajusta tamanho */
+.bg3-token-vis-dialog .bg3-tv-row input[type="checkbox"] { width: 16px !important; height: 16px !important; }
 `;
     document.head.appendChild(style);
 }
@@ -188,62 +230,63 @@ function openDialog(hudObject: AnyObj | undefined): void {
     const rows = ps
         .map(
             (u) =>
-                `<label><input type="checkbox" name="${u.id}" ${isChecked(u.id) ? "checked" : ""}/> <span>${escapeHtml(u.name)}</span></label>`,
+                `<label class="bg3-tv-row"><input type="checkbox" name="${u.id}" ${isChecked(u.id) ? "checked" : ""}/><span class="bg3-tv-name">${escapeHtml(u.name)}</span></label>`,
         )
         .join("");
+    const tokenName = escapeHtml(String((hudObject ?? tokens[0])?.["name"] ?? "este token"));
     const content = `
-<div class="bg3-token-vis-dialog">
-  <p>Quais jogadores podem ver <b>${escapeHtml(String((hudObject ?? tokens[0])?.["name"] ?? "este token"))}</b>?</p>
-  <div class="quick">
-    <button type="button" data-all="1">Marcar todos</button>
-    <button type="button" data-all="0">Desmarcar todos</button>
-  </div>
-  <div class="players">${rows}</div>
-</div>`;
+<p class="bg3-tv-intro">Quais jogadores podem ver <b>${tokenName}</b>?</p>
+<div class="bg3-tv-quick">
+  <button type="button" data-all="1"><i class="fa-solid fa-check-double"></i> Marcar todos</button>
+  <button type="button" data-all="0"><i class="fa-solid fa-eye-slash"></i> Desmarcar todos</button>
+</div>
+<div class="bg3-tv-players">${rows}</div>`;
 
-    const DialogCtor = (foundry as unknown as { applications?: { api?: { Dialog?: unknown } } })?.applications?.api
-        ?.Dialog as undefined;
-    void DialogCtor; // (mantido para referência; usamos o Dialog clássico abaixo)
-
-    const Dialog = (globalThis as unknown as { Dialog?: new (cfg: AnyObj) => { render: (b?: boolean) => void } }).Dialog;
+    const Dialog = (globalThis as unknown as { Dialog?: new (cfg: AnyObj, opts?: AnyObj) => { render: (b?: boolean) => void } })
+        .Dialog;
     if (!Dialog) {
         warn(`token-visibility: Dialog indisponível.`);
         return;
     }
 
-    const dlg = new Dialog({
-        title: "Visível para… (por jogador)",
-        content,
-        buttons: {
-            save: {
-                icon: '<i class="fa-solid fa-check"></i>',
-                label: "Salvar",
-                callback: (html: unknown) => {
-                    const root = htmlRoot(html);
-                    if (!root) return;
-                    const checked = ps.map((u) => u.id).filter((id) => {
-                        const cb = root.querySelector<HTMLInputElement>(`input[name="${id}"]`);
-                        return !!cb?.checked;
-                    });
-                    const sel = resolveSelection(checked, ps.map((u) => u.id));
-                    void applySelection(tokens, sel);
+    const dlg = new Dialog(
+        {
+            title: "Visível para… (por jogador)",
+            content,
+            buttons: {
+                save: {
+                    icon: '<i class="fa-solid fa-check"></i>',
+                    label: "Salvar",
+                    callback: (html: unknown) => {
+                        const root = htmlRoot(html);
+                        if (!root) return;
+                        const checked = ps.map((u) => u.id).filter((id) => {
+                            const cb = root.querySelector<HTMLInputElement>(`input[name="${id}"]`);
+                            return !!cb?.checked;
+                        });
+                        const sel = resolveSelection(checked, ps.map((u) => u.id));
+                        void applySelection(tokens, sel);
+                    },
                 },
+                cancel: { icon: '<i class="fa-solid fa-xmark"></i>', label: "Cancelar" },
             },
-            cancel: { icon: '<i class="fa-solid fa-xmark"></i>', label: "Cancelar" },
-        },
-        default: "save",
-        render: (html: unknown) => {
-            const root = htmlRoot(html);
-            if (!root) return;
-            root.querySelectorAll<HTMLButtonElement>("button[data-all]").forEach((b) => {
-                b.addEventListener("click", (ev) => {
-                    ev.preventDefault();
-                    const val = b.dataset["all"] === "1";
-                    root.querySelectorAll<HTMLInputElement>('.players input[type="checkbox"]').forEach((cb) => (cb.checked = val));
+            default: "save",
+            render: (html: unknown) => {
+                const root = htmlRoot(html);
+                if (!root) return;
+                root.querySelectorAll<HTMLButtonElement>("button[data-all]").forEach((b) => {
+                    b.addEventListener("click", (ev) => {
+                        ev.preventDefault();
+                        const val = b.dataset["all"] === "1";
+                        root.querySelectorAll<HTMLInputElement>('.bg3-tv-players input[type="checkbox"]').forEach(
+                            (cb) => (cb.checked = val),
+                        );
+                    });
                 });
-            });
-        },
-    } as unknown as AnyObj);
+            },
+        } as unknown as AnyObj,
+        { classes: ["bg3-dialog", "bg3-token-vis-dialog"], width: 460 } as unknown as AnyObj,
+    );
     dlg.render(true);
 }
 
