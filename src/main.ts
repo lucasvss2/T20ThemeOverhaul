@@ -42,6 +42,7 @@ import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
 import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
+import { setupProeficiencia } from "./t20-fixes/proficiencia";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -91,6 +92,7 @@ Hooks.once("setup", () => {
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
+    setupProeficiencia();         // Penalidade por não-proficiência: −5 ataque (arma) + penalidade de armadura em todas perícias For/Des
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
