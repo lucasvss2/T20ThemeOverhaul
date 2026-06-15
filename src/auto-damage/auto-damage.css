@@ -136,6 +136,34 @@
 .aad-invenc-badge b {
     color: var(--bg3-accent-bright, #ffe89a);
 }
+.aad-reaction-badge {
+    margin: 6px 12px 4px;
+    padding: 8px 12px;
+    border-left: 3px solid #5a8bb8;
+    background: linear-gradient(135deg,
+        rgba(120, 170, 220, 0.16),
+        rgba(40, 70, 110, 0.12));
+    color: var(--bg3-text-primary, #f0ebe0);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    border-radius: 0 4px 4px 0;
+}
+.aad-reaction-badge b {
+    color: #bcd9ff;
+}
+.aad-dialog button[data-button^="react-"] {
+    background: linear-gradient(180deg,
+        rgba(120, 170, 220, 0.26),
+        rgba(40, 70, 110, 0.16));
+    border-color: #5a8bb8 !important;
+    color: #d6e8ff !important;
+    font-weight: 700;
+}
+.aad-dialog button[data-button^="react-"]:hover {
+    background: linear-gradient(180deg,
+        rgba(120, 170, 220, 0.40),
+        rgba(40, 70, 110, 0.24));
+}
 .aad-dialog button[data-button="invenc"] {
     background: linear-gradient(180deg,
         rgba(200, 169, 110, 0.28),

@@ -44,6 +44,7 @@ import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
+import { setupReactions } from "./reactions";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -108,6 +109,7 @@ Hooks.once("setup", () => {
     setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
     setupSheetLog();          // GM: log de auditoria de alterações de ficha (Journal)
     setupTokenVisibility();   // GM: escolher por checklist quais jogadores veem cada token
+    setupReactions();         // Reações de defesa: bloquear ataque elevando a Defesa (Armadura Arcana etc.)
 
 });
 

@@ -5,6 +5,7 @@ import {
     getAuraInvencibilidadeContextForActor,
     markAuraInvencibilidadeUsed,
 } from "@/area-spells/aura-sagrada";
+import { getBlockingDefenseReactions, applyDefenseReaction } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
 import { extractDamageType, computeTargetRd } from "./rd";
@@ -412,6 +413,21 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             </div>`
         : "";
 
+    // Reações de defesa — se o ataque acerta mas seria bloqueado por uma reação
+    // do alvo (Armadura Arcana, Escudo da Fé, Salto Dimensional), oferecemos
+    // botões de bloqueio (só quando o bônus transformaria o acerto em erro).
+    const blockReactions = getBlockingDefenseReactions({
+        actor:       targetActor as unknown as Parameters<typeof getBlockingDefenseReactions>[0]["actor"],
+        attackTotal: req.attackTotal,
+        defesa:      req.targetDef,
+    });
+    const reactionBadgeHtml = blockReactions.length
+        ? `<div class="aad-reaction-badge">
+                <b>Reação de defesa</b> disponível — bloquearia este ataque
+                (${req.attackTotal} vs Defesa ${req.targetDef}).
+            </div>`
+        : "";
+
     const content = `
         <div class="aad-body">
             <div class="aad-banner">
@@ -435,6 +451,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 <div class="aad-damage-total">${req.damageTotal}</div>
             </div>
             ${invencBadgeHtml}
+            ${reactionBadgeHtml}
             <div class="aad-pm-row">
                 <span class="aad-label-sm">RD${typeLabel ? ` (${esc(typeLabel)})` : ""}</span>
                 <input type="number" name="rd" value="${rdDefault}" min="0" max="999" class="aad-pm-input" />
@@ -506,6 +523,25 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 });
                 if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
                     { kind: "pm-cost", source: req.attackerName });
+            },
+        });
+    }
+
+    for (const r of blockReactions) {
+        buttons.push({
+            type:   "submit",
+            action: `react-${r.key.replace(/\s+/g, "-")}`,
+            label:  `Reagir: ${r.label} (+${r.bonus} Def → bloqueia, ${r.pm} PM)`,
+            icon:   "fas fa-shield-halved",
+            callback: () => {
+                void applyDefenseReaction({
+                    actor:        targetActor as unknown as Parameters<typeof applyDefenseReaction>[0]["actor"],
+                    key:          r.key,
+                    attackTotal:  req.attackTotal,
+                    defesa:       req.targetDef,
+                    attackerName: req.attackerName,
+                    targetName,
+                });
             },
         });
     }
