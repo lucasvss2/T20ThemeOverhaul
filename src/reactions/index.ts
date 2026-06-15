@@ -20,12 +20,15 @@ import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
 
 export interface DefenseReaction {
-    label:   string;
-    bonus:   number;   // bônus na Defesa contra o ataque
-    pm:      number;   // custo total em PM (base + aprimoramento)
-    reflex?: number;   // bônus em Reflexos (informativo)
-    moveM?:  number;   // deslocamento concedido em metros (informativo)
-    circulo: number;
+    label:    string;
+    bonus:    number;   // bônus na Defesa contra o ataque
+    pm:       number;   // custo total em PM (base + aprimoramento)
+    reflex?:  number;   // bônus em Reflexos (informativo / usado no modal de magia)
+    moveM?:   number;   // deslocamento concedido em metros (informativo)
+    circulo:  number;
+    itemType?:            "magia" | "poder";  // tipo de item que concede (default magia)
+    requiresShield?:      boolean;            // exige escudo equipado (Bloqueio Divino)
+    requiresDancaMarcial?: boolean;           // exige estar sob Dança Marcial (Gingado Elusivo)
 }
 
 /** Chaves normalizadas (sem acento, minúsculas) → dados da reação. */
@@ -33,6 +36,8 @@ export const DEFENSE_REACTIONS: Record<string, DefenseReaction> = {
     "armadura arcana":   { label: "Armadura Arcana",   bonus: 5, pm: 2, circulo: 1 },
     "escudo da fe":      { label: "Escudo da Fé",      bonus: 2, pm: 1, circulo: 1 },
     "salto dimensional": { label: "Salto Dimensional", bonus: 5, pm: 5, reflex: 5, moveM: 1.5, circulo: 2 },
+    "bloqueio divino":   { label: "Bloqueio Divino",   bonus: 5, pm: 2, circulo: 0, itemType: "poder", requiresShield: true },
+    "gingado elusivo":   { label: "Gingado Elusivo",   bonus: 5, pm: 2, circulo: 0, itemType: "poder", requiresDancaMarcial: true, reflex: 5, moveM: 1.5 },
 };
 
 const REACTION_USED_FLAG = "reactionUsedRound";
@@ -70,18 +75,47 @@ export interface BlockingReaction {
 interface ActorLike {
     system?: { attributes?: { pm?: { value?: number } } };
     items?:  { contents?: ItemLike[] } | ItemLike[];
+    effects?: { contents?: EffectLike[] } | EffectLike[];
     getFlag?: (scope: string, key: string) => unknown;
     setFlag?: (scope: string, key: string, val: unknown) => Promise<unknown>;
     update?: (data: Record<string, unknown>) => Promise<unknown>;
     name?:   string;
 }
-interface ItemLike { type?: string; name?: string; id?: string | null; }
+interface ItemLike { type?: string; name?: string; id?: string | null; system?: Record<string, unknown> }
+interface EffectLike { name?: string; disabled?: boolean }
 
 function itemsOf(actor: ActorLike): ItemLike[] {
     const it = actor.items;
     if (!it) return [];
     if (Array.isArray(it)) return it;
     return it.contents ?? [];
+}
+
+function effectsOf(actor: ActorLike): EffectLike[] {
+    const e = actor.effects;
+    if (!e) return [];
+    if (Array.isArray(e)) return e;
+    return e.contents ?? [];
+}
+
+/** O ator tem um Active Effect ativo (não desabilitado) com este nome normalizado? */
+export function actorHasActiveEffectNamed(actor: ActorLike, normalizedName: string): boolean {
+    return effectsOf(actor).some((e) => !e.disabled && normalizeName(e.name ?? "") === normalizedName);
+}
+
+/** O ator tem um escudo equipado? (cobre system.equipado + tipo/subtipo/nome "escudo"). */
+export function actorHasShieldEquipped(actor: ActorLike): boolean {
+    for (const it of itemsOf(actor)) {
+        if (it.type !== "equipamento") continue;
+        const sys = (it.system ?? {}) as Record<string, unknown>;
+        const equipado = sys["equipado"] === true
+            || (sys["equipado2"] as Record<string, unknown> | undefined)?.["slot"] != null;
+        if (!equipado) continue;
+        const tipo = String(sys["tipo"] ?? "").toLowerCase();
+        const subtipo = String(sys["subtipo"] ?? "").toLowerCase();
+        if (tipo === "escudo" || subtipo === "escudo" || normalizeName(it.name ?? "").includes("escudo")) return true;
+    }
+    return false;
 }
 
 /**
@@ -104,13 +138,16 @@ export function getBlockingDefenseReactions(opts: {
     const out: BlockingReaction[] = [];
     const seen = new Set<string>();
     for (const it of itemsOf(actor)) {
-        if (it.type !== "magia") continue;
+        if (it.type !== "magia" && it.type !== "poder") continue;
         const n = normalizeName(it.name ?? "");
         if (!Object.prototype.hasOwnProperty.call(DEFENSE_REACTIONS, n)) continue;
         if (seen.has(n)) continue;
         const reg = DEFENSE_REACTIONS[n] as DefenseReaction;
+        if (reg.itemType && it.type !== reg.itemType) continue;
         if (pmAvail < reg.pm) continue;
         if (!canBlock(attackTotal, defesa, reg.bonus)) continue;
+        if (reg.requiresShield && !actorHasShieldEquipped(actor)) continue;
+        if (reg.requiresDancaMarcial && !actorHasActiveEffectNamed(actor, "danca marcial")) continue;
         seen.add(n);
         out.push({ key: n, label: reg.label, bonus: reg.bonus, pm: reg.pm, itemId: it.id ?? null, reflex: reg.reflex, moveM: reg.moveM });
     }
@@ -186,13 +223,15 @@ export async function applyDefenseReaction(opts: {
 /*  Reações PÓS-DANO (redução de dano após ser atingido)                      */
 /* -------------------------------------------------------------------------- */
 
-export type PostDamageKind = "half" | "flat" | "flat-per-pm" | "roll-reduce" | "roll-weapon" | "to-zero";
+export type PostDamageKind = "half" | "flat" | "flat-attr" | "flat-per-pm" | "roll-reduce" | "roll-weapon" | "to-zero";
 
 export interface PostDamageReaction {
     label:        string;
     kind:         PostDamageKind;
     pm:           number;   // custo fixo em PM (flat-per-pm calcula pelo perPmAmount/maxPmAttr)
     flat?:        number;   // redução fixa
+    flatBase?:    number;   // base da redução por atributo (flat-attr: flatBase + atributo)
+    flatAttr?:    string;   // atributo somado à base (flat-attr, ex.: "con")
     perPmAmount?: number;   // redução por PM (flat-per-pm)
     maxPmAttr?:   string;   // atributo que limita o PM gasto (ex.: "sab")
     rollSkill?:   string;   // perícia rolada para reduzir (ex.: "inti")
@@ -211,6 +250,7 @@ export const POSTDAMAGE_REACTIONS: Record<string, PostDamageReaction> = {
     "instante estoico":    { label: "Instante Estoico",    kind: "flat",        pm: 1, flat: 10, note: "dano não mágico" },
     "campo de forca":      { label: "Campo de Força",      kind: "flat",        pm: 4, flat: 30 },
     "bloqueio brutal":     { label: "Bloqueio Brutal",     kind: "roll-weapon", pm: 2 },
+    "rilhar os dentes":    { label: "Rilhar os Dentes",    kind: "flat-attr",   pm: 1, flatBase: 5, flatAttr: "con", note: "dano corpo a corpo" },
 };
 
 function pmOf(actor: ActorLike): number {
@@ -274,6 +314,7 @@ function reductionHint(reg: PostDamageReaction): string {
     switch (reg.kind) {
         case "half":        return "dano à metade";
         case "flat":        return `−${reg.flat}${reg.note ? ` (${reg.note})` : ""}`;
+        case "flat-attr":   return `−(${reg.flatBase}+${(reg.flatAttr ?? "").toUpperCase()})${reg.note ? ` (${reg.note})` : ""}`;
         case "to-zero":     return "anula o dano";
         case "flat-per-pm": return `−${reg.perPmAmount}/PM`;
         case "roll-reduce": return "−resultado de Intimidação";
@@ -285,7 +326,8 @@ function reductionHint(reg: PostDamageReaction): string {
 export function reduceDamage(kind: PostDamageKind, damage: number, params: { flat?: number; perPmAmount?: number; pmSpent?: number; rolled?: number } = {}): number {
     switch (kind) {
         case "half":        return Math.floor(damage / 2);
-        case "flat":        return Math.max(0, damage - (params.flat ?? 0));
+        case "flat":
+        case "flat-attr":   return Math.max(0, damage - (params.flat ?? 0));
         case "to-zero":     return 0;
         case "flat-per-pm": return Math.max(0, damage - (params.perPmAmount ?? 0) * (params.pmSpent ?? 0));
         case "roll-reduce":
@@ -319,6 +361,10 @@ export async function computePostDamageReduction(key: string, damage: number, ac
     switch (reg.kind) {
         case "half":    return { final: reduceDamage("half", damage), pmSpent: reg.pm, desc: "dano à metade" };
         case "flat":    return { final: reduceDamage("flat", damage, { flat: reg.flat }), pmSpent: reg.pm, desc: `−${reg.flat}` };
+        case "flat-attr": {
+            const flat = (reg.flatBase ?? 0) + attrMod(actor, reg.flatAttr ?? "con");
+            return { final: reduceDamage("flat", damage, { flat }), pmSpent: reg.pm, desc: `−${flat} (RD ${reg.flatBase}+${(reg.flatAttr ?? "").toUpperCase()})` };
+        }
         case "to-zero": return { final: 0, pmSpent: reg.pm, desc: "dano anulado" };
         case "flat-per-pm": {
             const maxByAttr = Math.max(0, attrMod(actor, reg.maxPmAttr ?? "sab"));
@@ -669,6 +715,110 @@ async function postCard(content: string, flags: AnyObj): Promise<void> {
         const ChatMessageCls = (globalThis as unknown as { ChatMessage?: { create: (d: AnyObj) => Promise<unknown> } }).ChatMessage;
         await ChatMessageCls?.create({ content, flags: { [MODULE_ID]: flags } });
     } catch (err) { warn(`reactions: falha ao postar card:`, err); }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Bloqueio Desconcertante — atacante fica Desprevenido ao errar/aparar      */
+/* -------------------------------------------------------------------------- */
+
+export interface MissDebuffReaction { label: string; pm: number; status: string; }
+export const MISS_DEBUFF_REACTIONS: Record<string, MissDebuffReaction> = {
+    "bloqueio desconcertante": { label: "Bloqueio Desconcertante", pm: 1, status: "desprevenido" },
+};
+
+/** Reações de debuff (poder) disponíveis ao errar/aparar: conhece, paga, reação livre. */
+export function getMissDebuffReactions(opts: { actor: AnyActor | null | undefined; currentRoundKey?: string | null }): Array<{ key: string; label: string; pm: number }> {
+    const { actor } = opts;
+    if (!actor) return [];
+    const pm = pmOf(actor);
+    const currentRoundKey = opts.currentRoundKey ?? roundKey();
+    if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return [];
+    const out: Array<{ key: string; label: string; pm: number }> = [];
+    const seen = new Set<string>();
+    for (const it of itemsOf(actor)) {
+        if (it.type !== "poder") continue;
+        const n = normalizeName(it.name ?? "");
+        if (!Object.prototype.hasOwnProperty.call(MISS_DEBUFF_REACTIONS, n) || seen.has(n)) continue;
+        const reg = MISS_DEBUFF_REACTIONS[n] as MissDebuffReaction;
+        if (pm < reg.pm) continue;
+        seen.add(n);
+        out.push({ key: n, label: reg.label, pm: reg.pm });
+    }
+    return out;
+}
+
+/**
+ * Aplica Bloqueio Desconcertante: debita PM do portador, consome a reação e
+ * aplica a condição (Desprevenido) no ATACANTE. Posta o card.
+ */
+export async function applyMissDebuff(opts: {
+    holderActor: AnyActor | null | undefined;
+    attackerActor: AnyActor | null | undefined;
+    key: string;
+    attackerName: string;
+    targetName: string;
+}): Promise<void> {
+    const reg = Object.prototype.hasOwnProperty.call(MISS_DEBUFF_REACTIONS, opts.key) ? MISS_DEBUFF_REACTIONS[opts.key] : undefined;
+    if (!reg || !opts.holderActor) return;
+    await consumeReaction(opts.holderActor, reg.pm);
+    try { await opts.attackerActor?.toggleStatusEffect?.(reg.status, { active: true }); }
+    catch (err) { warn("reactions: falha ao aplicar status do debuff:", err); }
+    const content = `
+<div class="bg3-reaction-block bg3-reaction-counter">
+  <div class="bg3-reac-title"><i class="fa-solid fa-bullseye"></i> ${escHtml(reg.label)}</div>
+  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> deixa <b>${escHtml(opts.attackerName)}</b> Desprevenido até o fim do próximo turno.</div>
+  <div class="bg3-reac-cost">−${reg.pm} PM</div>
+</div>`;
+    await postCard(content, { reactionMissDebuff: true });
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Amigo Protetor — divide o dano com um aliado próximo                      */
+/* -------------------------------------------------------------------------- */
+
+const AMIGO_PROTETOR_NAME = "amigo protetor";
+const AMIGO_PROTETOR_PM = 2;
+
+/** Amigo Protetor disponível: conhece o poder, ≥2 PM, reação disponível. */
+export function getAmigoProtetorOption(opts: { actor: AnyActor | null | undefined; currentRoundKey?: string | null }): { pm: number } | null {
+    const { actor } = opts;
+    if (!actor) return null;
+    const names = itemsOf(actor).filter((i) => i.type === "poder").map((i) => i.name ?? "");
+    if (!names.some((nm) => normalizeName(nm).includes(AMIGO_PROTETOR_NAME))) return null;
+    if (pmOf(actor) < AMIGO_PROTETOR_PM) return null;
+    const currentRoundKey = opts.currentRoundKey ?? roundKey();
+    if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return null;
+    return { pm: AMIGO_PROTETOR_PM };
+}
+
+/** Divide o dano: metade ao portador, metade ao aliado (chamado por quem rola). */
+export function splitAmigoProtetor(damage: number): { toHolder: number; toAlly: number } {
+    const toHolder = Math.floor(damage / 2);
+    return { toHolder, toAlly: Math.max(0, damage - toHolder) };
+}
+
+/**
+ * Consome PM/reação do portador e posta o card do Amigo Protetor. A aplicação do
+ * dano (metade no portador, metade no aliado) é feita pelo chamador (auto-damage).
+ */
+export async function resolveAmigoProtetor(opts: {
+    holderActor: AnyActor | null | undefined;
+    allyName: string;
+    targetName: string;
+    attackerName: string;
+    toHolder: number;
+    toAlly: number;
+}): Promise<void> {
+    if (!opts.holderActor) return;
+    await consumeReaction(opts.holderActor, AMIGO_PROTETOR_PM);
+    const content = `
+<div class="bg3-reaction-block">
+  <div class="bg3-reac-title"><i class="fa-solid fa-people-arrows"></i> Amigo Protetor</div>
+  <div class="bg3-reac-line"><b>${escHtml(opts.allyName)}</b> salta em defesa de <b>${escHtml(opts.targetName)}</b> contra ${escHtml(opts.attackerName)}.</div>
+  <div class="bg3-reac-stat">${escHtml(opts.targetName)}: <b>${opts.toHolder}</b> · ${escHtml(opts.allyName)}: <b>${opts.toAlly}</b>.</div>
+  <div class="bg3-reac-cost">−${AMIGO_PROTETOR_PM} PM</div>
+</div>`;
+    await postCard(content, { reactionAmigoProtetor: true });
 }
 
 /* -------------------------------------------------------------------------- */

@@ -12,6 +12,8 @@ import {
     getContestReactions, applyContestReaction,
     getRerollReactions, consumeReaction,
     getPresencaOption, resolvePresenca,
+    getMissDebuffReactions, applyMissDebuff,
+    getAmigoProtetorOption, resolveAmigoProtetor, splitAmigoProtetor,
 } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
@@ -93,6 +95,33 @@ function resolveActor(targetTokenId: string, targetActorId: string): FoundryActo
     const layer = (canvas as unknown as { tokens?: CanvasTokenLayer }).tokens;
     const canvasActor = layer?.get(targetTokenId)?.actor ?? null;
     return canvasActor ?? game.actors?.get(targetActorId) ?? null;
+}
+
+/** Pequeno seletor de aliado (Amigo Protetor). Resolve no token escolhido ou null. */
+async function pickAllyDialog<T extends { id?: string; name?: string }>(allies: T[]): Promise<T | null> {
+    return new Promise<T | null>((resolve) => {
+        const btns = allies.map((t, i) =>
+            `<button type="button" class="aad-skill-btn aad-skill-block" data-idx="${i}">
+                <span class="aad-skill-name"><i class="fas fa-user-shield"></i> ${esc(t.name ?? "Aliado")}</span></button>`).join("");
+        let picked: T | null = null;
+        void foundry.applications.api.DialogV2.wait({
+            classes: ["bg3-dialog", "aad-dialog"],
+            window:  { title: "Amigo Protetor — escolher aliado" },
+            position: { width: 320 },
+            content: `<div class="aad-body"><div class="aad-skills"><div class="aad-skills-title"><i class="fas fa-people-arrows"></i> Quem salta em sua defesa?</div>${btns}</div></div>`,
+            buttons: [{ type: "submit", action: "cancel", label: "Cancelar", icon: "fas fa-ban", default: true }],
+            render: (_e, dialog) => {
+                dialog.element.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((b) => {
+                    b.addEventListener("click", () => {
+                        const idx = parseInt(b.dataset["idx"] ?? "-1", 10);
+                        picked = allies[idx] ?? null;
+                        try { (dialog as unknown as { close: () => void }).close(); } catch { /* ignore */ }
+                    });
+                });
+            },
+            rejectClose: false,
+        }).finally(() => resolve(picked));
+    });
 }
 
 // ── Damage & PM application ───────────────────────────────────────────────────
@@ -450,6 +479,10 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         holderLevel: Number(((targetActor?.system as { attributes?: { nivel?: { value?: number } } } | undefined)?.attributes?.nivel?.value) ?? 0),
         carMod: Number(((targetActor?.system as { atributos?: { car?: { value?: number } } } | undefined)?.atributos?.car?.value) ?? 0),
     });
+    // Amigo Protetor: divide o dano com um aliado próximo (metade/metade).
+    const amigoOption = getAmigoProtetorOption({
+        actor: targetActor as unknown as Parameters<typeof getAmigoProtetorOption>[0]["actor"],
+    });
 
     // Painel "Reações & Habilidades" — separa as ações de skill/reação dos
     // botões padrão de aplicar dano (que ficam no rodapé).
@@ -488,6 +521,11 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="presenca">
             <span class="aad-skill-name"><i class="fas fa-crown"></i> Presença Aristocrática</span>
             <span class="aad-skill-sub">atacante faz Vontade (CD ${presencaOption.cd}) ou perde a ação · ${presencaOption.pm} PM</span></button>`);
+    }
+    if (amigoOption) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-reduce" data-skill="amigo">
+            <span class="aad-skill-name"><i class="fas fa-people-arrows"></i> Amigo Protetor</span>
+            <span class="aad-skill-sub">divide o dano (metade) com um aliado próximo · ${amigoOption.pm} PM</span></button>`);
     }
     skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-util" data-skill="reroll">
         <span class="aad-skill-name"><i class="fas fa-dice-d20"></i> Forçar Rerolar Ataque</span></button>`);
@@ -657,6 +695,35 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         void key;
     };
 
+    // Amigo Protetor: escolhe um aliado próximo (mesma disposição) e divide o
+    // dano (metade no alvo, metade no aliado). Aplica e trava o rodapé.
+    const doAmigoProtetor = async (root: HTMLElement): Promise<void> => {
+        type TokLike = { id?: string; name?: string; actor?: { id?: string } | null; document?: { disposition?: number } };
+        const cvs = canvas as unknown as { tokens?: { get(id: string): TokLike | undefined; placeables?: TokLike[] } };
+        const holderTok = cvs.tokens?.get(req.targetTokenId);
+        const holderDisp = holderTok?.document?.disposition;
+        const allies = (cvs.tokens?.placeables ?? []).filter(
+            (t) => t.id !== req.targetTokenId && t.actor && t.document?.disposition === holderDisp,
+        );
+        if (!allies.length) { ui.notifications.warn("Amigo Protetor: nenhum aliado na cena."); return; }
+
+        const ally = allies.length === 1 ? allies[0] : await pickAllyDialog(allies);
+        if (!ally || !ally.id || !ally.actor?.id) return; // cancelado
+
+        const dmgAfterRd = applyRd(req.damageTotal, readRdInput(root));
+        const { toHolder, toAlly } = splitAmigoProtetor(dmgAfterRd);
+        await applyDamage(req.targetTokenId, req.targetActorId, toHolder, readPmInput(root),
+            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+        await applyDamage(ally.id, ally.actor.id, toAlly, 0,
+            { kind: "damage", source: `Amigo Protetor (${req.attackerName})` });
+        await resolveAmigoProtetor({
+            holderActor: targetActor as unknown as Parameters<typeof resolveAmigoProtetor>[0]["holderActor"],
+            allyName: ally.name ?? "Aliado", targetName, attackerName: req.attackerName, toHolder, toAlly,
+        });
+        root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
+            .forEach((b) => { b.disabled = true; });
+    };
+
     // Presença Aristocrática: rola a Vontade do atacante. Se ANULAR (atacante
     // falha), trava os botões de aplicar (sem dano). Se o atacante passa, o
     // ataque acerta normalmente — o rodapé permanece ativo para aplicar o dano.
@@ -707,6 +774,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill === "reroll") doReroll();
                     else if (skill === "presenca") void doPresenca(root);
+                    else if (skill === "amigo") void doAmigoProtetor(root);
                     else if (skill === "invenc") doInvenc(root);
                     else if (skill.startsWith("block:")) doBlock(skill.slice(6));
                     else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
@@ -726,7 +794,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     // invencibilidade/rerolar) travam os botões de aplicar para evitar
                     // dupla aplicação. Contra-ataques mantêm o rodapé ativo; a Presença
                     // controla o rodapé sozinha (trava só se anular).
-                    if (!skill.startsWith("counter:") && skill !== "presenca") {
+                    if (!skill.startsWith("counter:") && skill !== "presenca" && skill !== "amigo") {
                         root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
                             .forEach((b) => { b.disabled = true; });
                     }
@@ -744,10 +812,17 @@ function openMissCounterPrompt(req: MissCounterRequest): void {
     const targetActor = resolveActor(req.targetTokenId, req.targetActorId);
     const targetName  = targetActor?.name ?? "Alvo";
 
-    const skillBtns = req.options.map((o) =>
-        `<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="counter:${o.key}">
+    const skillBtns = req.options.map((o) => {
+        const kind = o.kind ?? "counter";
+        if (kind === "debuff") {
+            return `<button type="button" class="aad-skill-btn aad-skill-block" data-skill="debuff:${o.key}">
+                <span class="aad-skill-name"><i class="fas fa-bullseye"></i> ${esc(o.label)}</span>
+                <span class="aad-skill-sub">deixa o atacante Desprevenido · ${o.pm} PM</span></button>`;
+        }
+        return `<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="counter:${o.key}">
             <span class="aad-skill-name"><i class="fas fa-reply"></i> ${esc(o.label)}</span>
-            <span class="aad-skill-sub">ataque corpo a corpo no atacante · ${o.pm} PM</span></button>`).join("");
+            <span class="aad-skill-sub">ataque corpo a corpo no atacante · ${o.pm} PM</span></button>`;
+    }).join("");
 
     const content = `
         <div class="aad-body">
@@ -785,6 +860,15 @@ function openMissCounterPrompt(req: MissCounterRequest): void {
         }
     };
 
+    const doMissDebuff = async (key: string): Promise<void> => {
+        const attackerActor = resolveActor(req.attackerTokenId ?? "", req.attackerActorId ?? "");
+        await applyMissDebuff({
+            holderActor:   targetActor as unknown as Parameters<typeof applyMissDebuff>[0]["holderActor"],
+            attackerActor: attackerActor as unknown as Parameters<typeof applyMissDebuff>[0]["attackerActor"],
+            key, attackerName: req.attackerName, targetName,
+        });
+    };
+
     void foundry.applications.api.DialogV2.wait({
         id:      `miss-counter-${req.requestId}`,
         classes: ["bg3-dialog", "aad-dialog"],
@@ -800,6 +884,7 @@ function openMissCounterPrompt(req: MissCounterRequest): void {
                     if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill.startsWith("counter:")) void doCounter(skill.slice(8));
+                    else if (skill.startsWith("debuff:")) void doMissDebuff(skill.slice(7));
                     // NÃO fecha — pode haver outras ações; só desabilita após o uso.
                     root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((b) => {
                         b.disabled = true; b.classList.add("aad-skill-used");
@@ -922,11 +1007,14 @@ function setupCreateChatHook(): void {
                 ui.notifications.info(
                     `${attackerName} errou ${targetActor.name}! (${attackTotal} vs DEF ${targetDef})`,
                 );
-                // Contra-Ataque (no erro): se o alvo tiver a reação, ofereça-a ao dono.
+                // Reações no ERRO: Contra-Ataque (counter) + Bloqueio Desconcertante (debuff).
                 const missCounters = getMissCounterReactions({
                     actor: targetActor as unknown as Parameters<typeof getMissCounterReactions>[0]["actor"],
                 });
-                if (missCounters.length) {
+                const missDebuffs = getMissDebuffReactions({
+                    actor: targetActor as unknown as Parameters<typeof getMissDebuffReactions>[0]["actor"],
+                });
+                if (missCounters.length || missDebuffs.length) {
                     const muid = getTargetUserId(targetActor);
                     if (muid) {
                         const missReq: MissCounterRequest = {
@@ -934,7 +1022,10 @@ function setupCreateChatHook(): void {
                             targetUserId: muid, targetActorId: targetActor.id, targetTokenId: token.id,
                             attackerName, attackerTokenId: spkTokenId, attackerActorId: spkActorId,
                             attackTotal, targetDef,
-                            options: missCounters.map((c) => ({ key: c.key, label: c.label, pm: c.pm })),
+                            options: [
+                                ...missCounters.map((c) => ({ key: c.key, label: c.label, pm: c.pm, kind: "counter" as const })),
+                                ...missDebuffs.map((c) => ({ key: c.key, label: c.label, pm: c.pm, kind: "debuff" as const })),
+                            ],
                         };
                         if (muid === game.user?.id) openMissCounterPrompt(missReq);
                         else void getSocket()?.executeAsUser(SOCKET_MISS_COUNTER, muid, missReq);

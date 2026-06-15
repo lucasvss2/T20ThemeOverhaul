@@ -338,7 +338,8 @@ baseEffectData
 
 ### Não implementados (próximas fases)
 - **Égide Sagrada — reroll nv 11+** (5 PM, re-roll de resistência contra magia ao caster, com possível redirect ao conjurador se passar e a magia for single-target).
-- **Escudo Fraterno (talento de reação)**: redirecionar dano de aliado pro paladino — não confundir com o aprimoramento de raio implementado em v1.12.0.
+
+> **Correção (v1.60.0):** "Escudo Fraterno" NÃO é uma reação de redirecionar dano. Nos compêndios só existe o **aprimoramento passivo** de raio da Égide Sagrada (9 m com escudo), JÁ implementado em v1.12.0. O mecanismo de dividir/redirecionar dano com aliado é **Amigo Protetor** (v1.60.0) e **Proteção Fraterna** (melhor-de em resistência, ainda não implementado).
 
 ### Encerrar animação ao cancelar a aura (v1.9.2)
 
@@ -405,6 +406,18 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 - **Anular = fechar o modal de resistência do alvo:** `spell-resistance` rastreia modais abertos por `messageId` (`openSpellModals` Map) e exporta `closeSpellModalForMessage(messageId)`. Ao anular, o counterspell faz `getSocket().executeForEveryone("counterspell/negated", {messageId,...})` → todo cliente fecha seu modal + `ui.notifications.warn`. Como nada é auto-aplicado (o dono do alvo clica os botões), "anular" = fechar o modal + avisar; o GM não aplica os efeitos.
 - **Contramágica Superior** (passivo): ao anular, ganha PM temporários = círculo da magia, limitado pelo PM gasto (`superiorTempPm(circle, 3)`). Aplicado via `pm.value` (cap no max).
 - **Exports puros testáveis:** `hasCounterspellPower(names)`, `counterspellSucceeds(total, cd)`, `superiorTempPm(circle, pmSpent)`.
+
+### Reações defensivas extras — lado ataque (v1.60.0)
+
+Todas em `src/reactions/index.ts` + integração no `auto-damage`. Varredura confirmou 79 itens `execucao:"reaction"`; estes 5 encaixam no fluxo de dano recebido.
+
+- **Bloqueio Divino** (poder, 2 PM): +5 Defesa contra o ataque, **exige escudo equipado**. Entrou em `DEFENSE_REACTIONS` (campos novos `itemType:"poder"`, `requiresShield`). `getBlockingDefenseReactions` agora aceita `it.type` "magia" OU "poder" e checa `actorHasShieldEquipped`.
+- **Gingado Elusivo** (poder, 2 PM): +5 Defesa **e** +5 Reflexos, **exige estar sob efeito da Dança Marcial** (`requiresDancaMarcial` → `actorHasActiveEffectNamed(actor,"danca marcial")` — a Dança Marcial aplica um AE de mesmo nome no ator). O +5 Reflexos entra no modal de resistência na v1.61.0.
+- **Rilhar os Dentes** (poder, 1 PM): RD = 5 + Constituição vs dano corpo a corpo. `POSTDAMAGE_REACTIONS` ganhou o kind `flat-attr` (`flatBase` + `flatAttr`); `computePostDamageReduction` resolve `flatBase + attrMod(actor, flatAttr)`.
+- **Bloqueio Desconcertante** (poder, 1 PM): ao errar/aparar, atacante fica **Desprevenido**. Registry `MISS_DEBUFF_REACTIONS` + `getMissDebuffReactions`/`applyMissDebuff`. Integrado no `openMissCounterPrompt` — `MissCounterRequest.options[].kind` agora é `"counter" | "debuff"`; o status `desprevenido` é aplicado no ATACANTE.
+- **Amigo Protetor** (poder, 2 PM): metade do dano vai para um aliado próximo. `getAmigoProtetorOption` + `splitAmigoProtetor` (metade/resto) + `resolveAmigoProtetor`. No `auto-damage`, `doAmigoProtetor` abre um picker (`pickAllyDialog`) de tokens com mesma `disposition` (excluindo o alvo), aplica metade no alvo + metade no aliado e trava o rodapé. Excluído do auto-disable de rodapé (controla sozinho; picker pode ser cancelado).
+
+**Gotcha de teste (MCP):** prompts antigos não fechados deixam `document.querySelector(".aad-dialog")` apontando para o STALE — sempre fechar via `foundry.applications.instances` e pegar o ÚLTIMO `.aad-dialog`. Nível do PC em `system.attributes.nivel.value` (não `system.nivel`).
 
 ### Reações — Parte 2b: Presença Aristocrática (v1.59.0)
 

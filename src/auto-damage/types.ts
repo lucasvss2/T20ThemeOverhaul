@@ -90,6 +90,7 @@ export interface MissCounterRequest {
     attackerActorId?: string;
     attackTotal: number;
     targetDef: number;
-    options: Array<{ key: string; label: string; pm: number }>;
+    /** kind: "counter" (contra-ataque) ou "debuff" (Bloqueio Desconcertante → Desprevenido). */
+    options: Array<{ key: string; label: string; pm: number; kind?: "counter" | "debuff" }>;
 }
 

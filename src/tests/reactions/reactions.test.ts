@@ -22,6 +22,12 @@ import {
     presencaCD,
     presencaNegates,
     presencaAlreadyUsedThisScene,
+    actorHasShieldEquipped,
+    actorHasActiveEffectNamed,
+    splitAmigoProtetor,
+    getAmigoProtetorOption,
+    getMissDebuffReactions,
+    MISS_DEBUFF_REACTIONS,
 } from "@/reactions";
 
 describe("DEFENSE_REACTIONS registry", () => {
@@ -300,5 +306,94 @@ describe("Presença Aristocrática", () => {
         expect(presencaAlreadyUsedThisScene(map, "tokenA", "scene2")).toBe(false);
         expect(presencaAlreadyUsedThisScene(map, "tokenB", "scene1")).toBe(false);
         expect(presencaAlreadyUsedThisScene(undefined, "tokenA", "scene1")).toBe(false);
+    });
+});
+
+describe("Bloqueio Divino / Gingado Elusivo (defesa condicional)", () => {
+    const baseActor = (opts: { pm: number; powers: string[]; equip?: any[]; effects?: string[]; usedRound?: unknown }) => ({
+        system: { attributes: { pm: { value: opts.pm } } },
+        items: [
+            ...opts.powers.map((name, i) => ({ type: "poder", name, id: `p${i}` })),
+            ...(opts.equip ?? []),
+        ],
+        effects: (opts.effects ?? []).map((name) => ({ name, disabled: false })),
+        getFlag: (_s: string, _k: string) => opts.usedRound,
+    });
+    const escudo = { type: "equipamento", name: "Escudo de Aço", id: "e1", system: { equipado: true, tipo: "escudo" } };
+
+    it("registro tem Bloqueio Divino (+5, escudo) e Gingado (+5, Dança Marcial)", () => {
+        expect(DEFENSE_REACTIONS["bloqueio divino"]).toMatchObject({ bonus: 5, pm: 2, itemType: "poder", requiresShield: true });
+        expect(DEFENSE_REACTIONS["gingado elusivo"]).toMatchObject({ bonus: 5, pm: 2, requiresDancaMarcial: true, reflex: 5 });
+    });
+
+    it("actorHasShieldEquipped detecta escudo equipado", () => {
+        expect(actorHasShieldEquipped(baseActor({ pm: 5, powers: [], equip: [escudo] }) as any)).toBe(true);
+        expect(actorHasShieldEquipped(baseActor({ pm: 5, powers: [], equip: [{ type: "equipamento", name: "Adaga", system: { equipado: true, tipo: "arma" } }] }) as any)).toBe(false);
+    });
+
+    it("actorHasActiveEffectNamed acha Dança Marcial ativa (e ignora desabilitada)", () => {
+        expect(actorHasActiveEffectNamed(baseActor({ pm: 5, powers: [], effects: ["Dança Marcial"] }) as any, "danca marcial")).toBe(true);
+        const off = { system: { attributes: { pm: { value: 5 } } }, items: [], effects: [{ name: "Dança Marcial", disabled: true }] };
+        expect(actorHasActiveEffectNamed(off as any, "danca marcial")).toBe(false);
+    });
+
+    it("Bloqueio Divino só aparece com escudo equipado", () => {
+        const semEscudo = baseActor({ pm: 10, powers: ["Bloqueio Divino"] });
+        expect(getBlockingDefenseReactions({ actor: semEscudo as any, attackTotal: 24, defesa: 20, currentRoundKey: "c1:1" })).toEqual([]);
+        const comEscudo = baseActor({ pm: 10, powers: ["Bloqueio Divino"], equip: [escudo] });
+        const out = getBlockingDefenseReactions({ actor: comEscudo as any, attackTotal: 24, defesa: 20, currentRoundKey: "c1:1" });
+        expect(out.map((r) => r.key)).toEqual(["bloqueio divino"]);
+    });
+
+    it("Gingado Elusivo só aparece sob efeito de Dança Marcial", () => {
+        const semDanca = baseActor({ pm: 10, powers: ["Gingado Elusivo"] });
+        expect(getBlockingDefenseReactions({ actor: semDanca as any, attackTotal: 24, defesa: 20, currentRoundKey: "c1:1" })).toEqual([]);
+        const comDanca = baseActor({ pm: 10, powers: ["Gingado Elusivo"], effects: ["Dança Marcial"] });
+        const out = getBlockingDefenseReactions({ actor: comDanca as any, attackTotal: 24, defesa: 20, currentRoundKey: "c1:1" });
+        expect(out.map((r) => r.key)).toEqual(["gingado elusivo"]);
+    });
+});
+
+describe("Rilhar os Dentes (flat-attr)", () => {
+    it("registro: RD = 5 + Con, 1 PM, corpo a corpo", () => {
+        expect(POSTDAMAGE_REACTIONS["rilhar os dentes"]).toMatchObject({ kind: "flat-attr", pm: 1, flatBase: 5, flatAttr: "con" });
+    });
+    it("reduceDamage flat-attr usa o flat calculado", () => {
+        expect(reduceDamage("flat-attr", 18, { flat: 9 })).toBe(9);   // 5 + Con 4 = 9
+        expect(reduceDamage("flat-attr", 6, { flat: 9 })).toBe(0);
+    });
+});
+
+describe("Amigo Protetor", () => {
+    it("splitAmigoProtetor divide metade/metade (resto ao aliado)", () => {
+        expect(splitAmigoProtetor(10)).toEqual({ toHolder: 5, toAlly: 5 });
+        expect(splitAmigoProtetor(7)).toEqual({ toHolder: 3, toAlly: 4 });
+        expect(splitAmigoProtetor(0)).toEqual({ toHolder: 0, toAlly: 0 });
+    });
+    const mk = (pm: number, powers: string[], used?: unknown) => ({
+        system: { attributes: { pm: { value: pm } } },
+        items: powers.map((name, i) => ({ type: "poder", name, id: `p${i}` })),
+        getFlag: () => used,
+    });
+    it("getAmigoProtetorOption requer o poder, ≥2 PM e reação disponível", () => {
+        expect(getAmigoProtetorOption({ actor: mk(5, ["Amigo Protetor"]) as any, currentRoundKey: "c1:1" })).toEqual({ pm: 2 });
+        expect(getAmigoProtetorOption({ actor: mk(1, ["Amigo Protetor"]) as any, currentRoundKey: "c1:1" })).toBeNull();
+        expect(getAmigoProtetorOption({ actor: mk(5, ["Revide"]) as any, currentRoundKey: "c1:1" })).toBeNull();
+        expect(getAmigoProtetorOption({ actor: mk(5, ["Amigo Protetor"], "c1:1") as any, currentRoundKey: "c1:1" })).toBeNull();
+    });
+});
+
+describe("Bloqueio Desconcertante (miss-debuff)", () => {
+    it("registro: Desprevenido, 1 PM", () => {
+        expect(MISS_DEBUFF_REACTIONS["bloqueio desconcertante"]).toMatchObject({ pm: 1, status: "desprevenido" });
+    });
+    const mk = (pm: number, powers: string[], used?: unknown) => ({
+        system: { attributes: { pm: { value: pm } } },
+        items: powers.map((name, i) => ({ type: "poder", name, id: `p${i}` })),
+        getFlag: () => used,
+    });
+    it("getMissDebuffReactions lista quando conhece e pode pagar", () => {
+        expect(getMissDebuffReactions({ actor: mk(5, ["Bloqueio Desconcertante"]) as any, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["bloqueio desconcertante"]);
+        expect(getMissDebuffReactions({ actor: mk(0, ["Bloqueio Desconcertante"]) as any, currentRoundKey: "c1:1" })).toEqual([]);
     });
 });
