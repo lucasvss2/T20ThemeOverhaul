@@ -13,7 +13,7 @@ import type {
 } from "./types";
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
-import { getMagicReactions, consumeReaction, type MagicReactionOption } from "@/reactions";
+import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
@@ -847,6 +847,9 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 <div class="smf-target-name">Alvo: ${esc(targetName)}</div>
             </div>
             <div class="smf-divider"></div>
+            <div class="smf-section" id="smf-presenca-sect" style="display:none;">
+                <div id="smf-presenca" class="smf-presenca"></div>
+            </div>
             <div class="smf-section">${resistSectionHtml}</div>
             <div class="smf-divider"></div>
             <div class="smf-section">${damageSectionHtml}</div>
@@ -1117,6 +1120,55 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     if (wrap) wrap.innerHTML = `<div class="smf-rr-outcome">✦ Efeito refletido no conjurador.</div>`;
                 }
             };
+
+            // ── Presença Aristocrática (Parte 2b) ─────────────────────────────
+            // Disponível imediatamente (pré-resolução) quando a magia tenta causar
+            // dano ao alvo. O CONJURADOR faz Vontade (CD Car do alvo); se falhar, a
+            // magia é anulada e ele perde a ação → fecha o modal.
+            (() => {
+                if (preReq.isHeal || preReq.damageTotal <= 0 || !targetActor) return;
+                const csTok = (canvas as unknown as { tokens?: { get(id: string): { actor?: unknown } | undefined } }).tokens;
+                const casterActor = (casterTokenId ? csTok?.get(casterTokenId)?.actor : null)
+                    ?? (casterActorId ? game.actors?.get(casterActorId) : null);
+                const attackerKey = casterTokenId || casterActorId || "";
+                const sceneId = (canvas as unknown as { scene?: { id?: string } }).scene?.id ?? "";
+                const opt = getPresencaOption({
+                    actor: targetActor as unknown as Parameters<typeof getPresencaOption>[0]["actor"],
+                    attackerKey, sceneId,
+                    holderLevel: Number(((targetActor.system as { attributes?: { nivel?: { value?: number } } } | undefined)?.attributes?.nivel?.value) ?? 0),
+                    carMod: Number(((targetActor.system as { atributos?: { car?: { value?: number } } } | undefined)?.atributos?.car?.value) ?? 0),
+                });
+                if (!opt) return;
+                const sect = root.querySelector<HTMLElement>("#smf-presenca-sect");
+                const wrap = root.querySelector<HTMLElement>("#smf-presenca");
+                if (!sect || !wrap) return;
+                sect.style.display = "block";
+                wrap.innerHTML = `
+                    <div class="smf-label-sm" style="padding:6px 0 4px;"><i class="fas fa-crown"></i> PRESENÇA ARISTOCRÁTICA</div>
+                    <button type="button" class="smf-action-btn smf-presenca-btn">
+                        <i class="fas fa-crown"></i> Forçar Vontade (CD ${opt.cd}) <span class="smf-magic-reac-sub">conjurador falha → magia anulada · ${opt.pm} PM</span>
+                    </button>`;
+                wrap.querySelector<HTMLButtonElement>(".smf-presenca-btn")?.addEventListener("click", (ev) => {
+                    const btn = ev.currentTarget as HTMLButtonElement;
+                    if (btn.disabled) return;
+                    btn.disabled = true;
+                    void (async () => {
+                        const { negated } = await resolvePresenca({
+                            holderActor:   targetActor as unknown as Parameters<typeof resolvePresenca>[0]["holderActor"],
+                            attackerActor: casterActor as unknown as Parameters<typeof resolvePresenca>[0]["attackerActor"],
+                            attackerKey, sceneId, cd: opt.cd,
+                            attackerName: preReq.casterName, targetName, contextLabel: "a magia",
+                        });
+                        if (negated) {
+                            wrap.innerHTML = `<div class="smf-rr-outcome">⚜ Magia anulada — o conjurador falhou na Vontade e perdeu a ação.</div>`;
+                            // Fecha o modal: a magia não tem efeito.
+                            setTimeout(() => { try { (dialog as unknown as { close: () => void }).close(); } catch { /* ignore */ } }, 1400);
+                        } else {
+                            wrap.innerHTML = `<div class="smf-rr-outcome">O conjurador resistiu — a magia prossegue.</div>`;
+                        }
+                    })();
+                });
+            })();
 
             // ── Consagrar (maximiza cura) ─────────────────────────────────────
             const consagrarCb = root.querySelector<HTMLInputElement>("#smf-consagrar");

@@ -11,6 +11,7 @@ import {
     getCounterReactions, resolveCounterAttack, getMissCounterReactions,
     getContestReactions, applyContestReaction,
     getRerollReactions, consumeReaction,
+    getPresencaOption, resolvePresenca,
 } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
@@ -438,6 +439,17 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const rerollReactions = getRerollReactions({
         actor: targetActor as unknown as Parameters<typeof getRerollReactions>[0]["actor"],
     });
+    // Presença Aristocrática: atacante faz Vontade (CD Car do portador) ou perde
+    // a ação. Disponível só fora-de-uso desta criatura nesta cena.
+    const attackerActorForPresenca = resolveActor(req.attackerTokenId ?? "", req.attackerActorId ?? "");
+    const presencaKey = req.attackerTokenId || req.attackerActorId || "";
+    const presencaSceneId = (canvas as unknown as { scene?: { id?: string } }).scene?.id ?? "";
+    const presencaOption = getPresencaOption({
+        actor: targetActor as unknown as Parameters<typeof getPresencaOption>[0]["actor"],
+        attackerKey: presencaKey, sceneId: presencaSceneId,
+        holderLevel: Number(((targetActor?.system as { attributes?: { nivel?: { value?: number } } } | undefined)?.attributes?.nivel?.value) ?? 0),
+        carMod: Number(((targetActor?.system as { atributos?: { car?: { value?: number } } } | undefined)?.atributos?.car?.value) ?? 0),
+    });
 
     // Painel "Reações & Habilidades" — separa as ações de skill/reação dos
     // botões padrão de aplicar dano (que ficam no rodapé).
@@ -471,6 +483,11 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-invenc" data-skill="invenc">
             <span class="aad-skill-name"><i class="fas fa-shield-heart"></i> Aura de Invencibilidade</span>
             <span class="aad-skill-sub">ignora o dano · ${esc(invencCasters)}</span></button>`);
+    }
+    if (presencaOption) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="presenca">
+            <span class="aad-skill-name"><i class="fas fa-crown"></i> Presença Aristocrática</span>
+            <span class="aad-skill-sub">atacante faz Vontade (CD ${presencaOption.cd}) ou perde a ação · ${presencaOption.pm} PM</span></button>`);
     }
     skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-util" data-skill="reroll">
         <span class="aad-skill-name"><i class="fas fa-dice-d20"></i> Forçar Rerolar Ataque</span></button>`);
@@ -640,6 +657,23 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         void key;
     };
 
+    // Presença Aristocrática: rola a Vontade do atacante. Se ANULAR (atacante
+    // falha), trava os botões de aplicar (sem dano). Se o atacante passa, o
+    // ataque acerta normalmente — o rodapé permanece ativo para aplicar o dano.
+    const doPresenca = async (root: HTMLElement): Promise<void> => {
+        if (!presencaOption) return;
+        const { negated } = await resolvePresenca({
+            holderActor:   targetActor as unknown as Parameters<typeof resolvePresenca>[0]["holderActor"],
+            attackerActor: attackerActorForPresenca as unknown as Parameters<typeof resolvePresenca>[0]["attackerActor"],
+            attackerKey:   presencaKey, sceneId: presencaSceneId, cd: presencaOption.cd,
+            attackerName:  req.attackerName, targetName, contextLabel: "o ataque",
+        });
+        if (negated) {
+            root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
+                .forEach((b) => { b.disabled = true; });
+        }
+    };
+
     void foundry.applications.api.DialogV2.wait({
         id:      `auto-damage-${req.requestId}`,
         classes: ["bg3-dialog", "aad-dialog"],
@@ -672,6 +706,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill === "reroll") doReroll();
+                    else if (skill === "presenca") void doPresenca(root);
                     else if (skill === "invenc") doInvenc(root);
                     else if (skill.startsWith("block:")) doBlock(skill.slice(6));
                     else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
@@ -689,8 +724,9 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     });
                     // Reações que JÁ resolvem o dano recebido (bloqueio/redução/aparar/
                     // invencibilidade/rerolar) travam os botões de aplicar para evitar
-                    // dupla aplicação. Contra-ataques mantêm o rodapé ativo.
-                    if (!skill.startsWith("counter:")) {
+                    // dupla aplicação. Contra-ataques mantêm o rodapé ativo; a Presença
+                    // controla o rodapé sozinha (trava só se anular).
+                    if (!skill.startsWith("counter:") && skill !== "presenca") {
                         root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
                             .forEach((b) => { b.disabled = true; });
                     }

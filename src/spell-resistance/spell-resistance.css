@@ -486,3 +486,14 @@
     white-space: normal;
     word-break: break-word;
 }
+
+/* ── Presença Aristocrática (pré-resolução) ──────────────────────────────── */
+.smf-presenca { border-left: 3px solid #d8b24a; padding-left: 8px; }
+.smf-presenca .smf-presenca-btn {
+    background: linear-gradient(to bottom, rgba(216,178,74,0.18), rgba(0,0,0,0.2));
+    border: 1px solid #d8b24a;
+    color: #f4e6b8;
+}
+.smf-presenca .smf-presenca-btn:hover { background: rgba(216,178,74,0.32); }
+.smf-presenca .smf-presenca-btn:disabled { opacity: 0.5; cursor: default; }
+.smf-presenca .smf-presenca-btn i { color: #d8b24a; }

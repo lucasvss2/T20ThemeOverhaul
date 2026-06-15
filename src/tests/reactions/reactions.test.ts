@@ -18,6 +18,10 @@ import {
     getMagicReactions,
     MAGIC_REACTIONS,
     reduceDamage,
+    hasPresenca,
+    presencaCD,
+    presencaNegates,
+    presencaAlreadyUsedThisScene,
 } from "@/reactions";
 
 describe("DEFENSE_REACTIONS registry", () => {
@@ -269,5 +273,32 @@ describe("reduceDamage roll-weapon", () => {
     it("subtrai a rolagem de arma", () => {
         expect(reduceDamage("roll-weapon", 18, { rolled: 7 })).toBe(11);
         expect(reduceDamage("roll-weapon", 5, { rolled: 9 })).toBe(0);
+    });
+});
+
+describe("Presença Aristocrática", () => {
+    it("hasPresenca detecta o poder (com prefixo/acento)", () => {
+        expect(hasPresenca(["Presença Aristocrática"])).toBe(true);
+        expect(hasPresenca(["presenca aristocratica"])).toBe(true);
+        expect(hasPresenca(["Bênção: Presença Aristocrática"])).toBe(true);
+        expect(hasPresenca(["Aura Sagrada", "Revide"])).toBe(false);
+        expect(hasPresenca([])).toBe(false);
+    });
+    it("presencaCD = 10 + ½ nível + Carisma", () => {
+        expect(presencaCD(0, 3)).toBe(13);
+        expect(presencaCD(10, 4)).toBe(19);
+        expect(presencaCD(7, 2)).toBe(15); // 10 + 3 + 2
+    });
+    it("presencaNegates quando o atacante FALHA na Vontade (total < CD)", () => {
+        expect(presencaNegates(12, 15)).toBe(true);
+        expect(presencaNegates(15, 15)).toBe(false); // empate passa
+        expect(presencaNegates(20, 15)).toBe(false);
+    });
+    it("presencaAlreadyUsedThisScene compara mapa por chave+cena", () => {
+        const map = { "tokenA": "scene1" };
+        expect(presencaAlreadyUsedThisScene(map, "tokenA", "scene1")).toBe(true);
+        expect(presencaAlreadyUsedThisScene(map, "tokenA", "scene2")).toBe(false);
+        expect(presencaAlreadyUsedThisScene(map, "tokenB", "scene1")).toBe(false);
+        expect(presencaAlreadyUsedThisScene(undefined, "tokenA", "scene1")).toBe(false);
     });
 });

@@ -406,6 +406,19 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 - **Contramágica Superior** (passivo): ao anular, ganha PM temporários = círculo da magia, limitado pelo PM gasto (`superiorTempPm(circle, 3)`). Aplicado via `pm.value` (cap no max).
 - **Exports puros testáveis:** `hasCounterspellPower(names)`, `counterspellSucceeds(total, cd)`, `superiorTempPm(circle, pmSpent)`.
 
+### Reações — Parte 2b: Presença Aristocrática (v1.59.0)
+
+`src/reactions/index.ts` (`getPresencaOption`/`resolvePresenca`) + integração em `auto-damage/index.ts` (ataques) e `spell-resistance/index.ts` (magias).
+
+- **Regra:** poder, reação, 2 PM. Quando uma criatura inteligente tenta machucar o portador (ataque, magia ou habilidade), o ATACANTE faz **Vontade (CD Car)**; se falhar, não consegue machucar e **perde a ação**. 1×/cena por criatura.
+- **CD Car** = `10 + ½ nível + Carisma` do portador (`presencaCD`). ⚠️ **Nível do PC fica em `system.attributes.nivel.value`** (NÃO `system.nivel.value` — esse não existe; default `?? 0` mascarava). NPCs idem.
+- **Anula quando o atacante FALHA** (`presencaNegates(vont, cd)` = `vont < cd`; empate passa).
+- **1×/cena por criatura:** flag `presencaUsedScene` no portador = `{ [attackerKey]: sceneId }`, `attackerKey = attackerTokenId || attackerActorId` (por-instância p/ unlinked). `presencaAlreadyUsedThisScene` compara contra `canvas.scene.id` — reseta naturalmente ao trocar de cena.
+- **Também consome a reação da rodada** (`reactionUsedRound`) — é uma reação como as demais (1/rodada), além do limite por-cena.
+- **Não escreve no atacante** — só rola a Vontade dele (lido localmente via `resolveActor`/`canvas.tokens`, igual `doCounter`/`reflectToCaster`); o "perde a ação" é informativo (mestre aplica). O chamador aplica/ignora o dano conforme `negated`.
+- **auto-damage:** botão `data-skill="presenca"` no painel; tratado como o contra-ataque (NÃO trava o rodapé automaticamente) — `doPresenca` trava os botões de aplicar SÓ quando anula.
+- **spell-resistance:** seção `#smf-presenca-sect` (acima da resistência, pré-resolução), visível só quando `!isHeal && damageTotal > 0`; ao anular, fecha o modal após 1,4 s.
+
 
 ## Foundry v13 Gotchas
 

@@ -672,6 +672,106 @@ async function postCard(content: string, flags: AnyObj): Promise<void> {
 }
 
 /* -------------------------------------------------------------------------- */
+/*  Presença Aristocrática (Parte 2b) — atacante faz Vontade ou perde a ação  */
+/* -------------------------------------------------------------------------- */
+
+const PRESENCA_NAME = "presenca aristocratica";
+const PRESENCA_PM = 2;
+const PRESENCA_USED_FLAG = "presencaUsedScene";
+
+/** O ator conhece Presença Aristocrática? (lista de nomes de itens) */
+export function hasPresenca(itemNames: string[]): boolean {
+    return itemNames.some((n) => normalizeName(n).includes(PRESENCA_NAME));
+}
+
+/** CD da habilidade do portador: 10 + ½ nível + Carisma. */
+export function presencaCD(holderLevel: number, carMod: number): number {
+    return 10 + Math.floor(holderLevel / 2) + carMod;
+}
+
+/** A Presença ANULA quando o atacante FALHA na Vontade (total < CD). */
+export function presencaNegates(attackerVont: number, cd: number): boolean {
+    return attackerVont < cd;
+}
+
+/** Já usou Presença contra esta criatura nesta cena? */
+export function presencaAlreadyUsedThisScene(usedMap: unknown, attackerKey: string, sceneId: string): boolean {
+    if (!usedMap || typeof usedMap !== "object") return false;
+    return (usedMap as Record<string, unknown>)[attackerKey] === sceneId;
+}
+
+/**
+ * Presença disponível para o portador AGORA: conhece o poder, tem ≥2 PM, reação
+ * disponível na rodada e ainda não usou contra esta criatura nesta cena.
+ * Retorna `{ pm, cd }` ou null.
+ */
+export function getPresencaOption(opts: {
+    actor: AnyActor | null | undefined;
+    attackerKey: string;
+    sceneId: string;
+    holderLevel: number;
+    carMod: number;
+    currentRoundKey?: string | null;
+}): { pm: number; cd: number } | null {
+    const { actor } = opts;
+    if (!actor) return null;
+    const names = itemsOf(actor).filter((i) => i.type === "poder").map((i) => i.name ?? "");
+    if (!hasPresenca(names)) return null;
+    if (pmOf(actor) < PRESENCA_PM) return null;
+    const currentRoundKey = opts.currentRoundKey ?? roundKey();
+    if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return null;
+    const usedMap = actor.getFlag?.(MODULE_ID, PRESENCA_USED_FLAG);
+    if (presencaAlreadyUsedThisScene(usedMap, opts.attackerKey, opts.sceneId)) return null;
+    return { pm: PRESENCA_PM, cd: presencaCD(opts.holderLevel, opts.carMod) };
+}
+
+/**
+ * Resolve a Presença Aristocrática: rola a Vontade do ATACANTE contra a CD do
+ * portador. Debita 2 PM do portador, consome a reação da rodada, marca o uso
+ * contra esta criatura nesta cena e posta o card. Retorna se ANULOU (atacante
+ * falhou). NÃO modifica o atacante — o "perde a ação" é informativo (o mestre
+ * aplica na iniciativa). O chamador aplica/ignora o dano conforme `negated`.
+ */
+export async function resolvePresenca(opts: {
+    holderActor: AnyActor | null | undefined;
+    attackerActor: AnyActor | null | undefined;
+    attackerKey: string;
+    sceneId: string;
+    cd: number;
+    attackerName: string;
+    targetName: string;
+    contextLabel: string;   // "o ataque" | "a magia" etc.
+}): Promise<{ negated: boolean }> {
+    const holder = opts.holderActor;
+    if (!holder) return { negated: false };
+
+    const vontMod = opts.attackerActor ? pericValue(opts.attackerActor, "vont") : 0;
+    const { total, html } = await rollFormula(`1d20 + ${vontMod}`);
+    const negated = presencaNegates(total, opts.cd);
+
+    // Débito de PM + consumo da reação da rodada + marca uso por cena/criatura.
+    try {
+        const pm = pmOf(holder);
+        await holder.update?.({ "system.attributes.pm.value": Math.max(0, pm - PRESENCA_PM) });
+        const curKey = roundKey();
+        if (curKey) await holder.setFlag?.(MODULE_ID, REACTION_USED_FLAG, curKey);
+        const usedMap = { ...((holder.getFlag?.(MODULE_ID, PRESENCA_USED_FLAG) as Record<string, string> | undefined) ?? {}) };
+        usedMap[opts.attackerKey] = opts.sceneId;
+        await holder.setFlag?.(MODULE_ID, PRESENCA_USED_FLAG, usedMap);
+    } catch (err) { warn("reactions: falha Presença (PM/uso):", err); }
+
+    const content = `
+<div class="bg3-reaction-block ${negated ? "" : "bg3-reaction-fail"}">
+  <div class="bg3-reac-title"><i class="fa-solid fa-crown"></i> Presença Aristocrática — ${negated ? "Anulado" : "Resistido"}</div>
+  <div class="bg3-reac-line"><b>${escHtml(opts.attackerName)}</b> tenta machucar <b>${escHtml(opts.targetName)}</b> e faz Vontade (CD ${opts.cd}).</div>
+  <div class="bg3-reac-stat">Vontade ${total} vs CD ${opts.cd} — <b>${negated ? "falhou" : "passou"}</b>.${negated ? ` Não consegue machucar ${escHtml(opts.targetName)} e <b>perde a ação</b>.` : ""}</div>
+  <div class="bg3-reac-cost">−${PRESENCA_PM} PM</div>
+</div>${html ?? ""}`;
+    await postCard(content, { reactionPresenca: true, negated });
+    return { negated };
+}
+
+/* -------------------------------------------------------------------------- */
 
 function injectStyles(): void {
     if (document.getElementById(STYLE_ID)) return;
