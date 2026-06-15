@@ -32,6 +32,38 @@ const SKILL_LABELS: Record<ResistSkill, string> = {
     vont: "Vontade",
 };
 
+// ── Rastreamento de modais abertos (para Contramágica fechar ao anular) ─────────
+// Chave = messageId da conjuração; valor = conjunto de dialogs abertos para essa
+// magia (1 por alvo neste cliente). Limpo no `.finally` de cada modal.
+type ClosableDialog = { close: () => void };
+const openSpellModals = new Map<string, Set<ClosableDialog>>();
+
+function trackSpellModal(messageId: string, dialog: ClosableDialog): void {
+    if (!messageId) return;
+    let set = openSpellModals.get(messageId);
+    if (!set) { set = new Set(); openSpellModals.set(messageId, set); }
+    set.add(dialog);
+}
+function untrackSpellModal(messageId: string, dialog: ClosableDialog): void {
+    const set = openSpellModals.get(messageId);
+    if (!set) return;
+    set.delete(dialog);
+    if (set.size === 0) openSpellModals.delete(messageId);
+}
+
+/**
+ * Fecha qualquer modal de resistência aberto neste cliente para a conjuração
+ * dada (usado pela Contramágica quando a magia é anulada). No-op se não houver.
+ */
+export function closeSpellModalForMessage(messageId: string): void {
+    const set = openSpellModals.get(messageId);
+    if (!set) return;
+    for (const dlg of Array.from(set)) {
+        try { dlg.close(); } catch { /* ignore */ }
+    }
+    openSpellModals.delete(messageId);
+}
+
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
 const SPELL_RESIST_STYLES_ID = "bg3-t20-spell-resist-styles";
@@ -93,7 +125,7 @@ export function extractCD(message: ChatMessage): number {
  * Para Curar Ferimentos sem resistência o chat card não tem "CD X" explícito,
  * então usamos isso como fallback quando extractCD retorna 0.
  */
-function computeCasterSpellCD(actor: FoundryActor | null | undefined): number {
+export function computeCasterSpellCD(actor: FoundryActor | null | undefined): number {
     if (!actor) return 0;
     type T20Sys = {
         attributes?: { cd?: number; conjuracao?: string };
@@ -827,6 +859,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
 
     // ── Dialog ────────────────────────────────────────────────────────────────
 
+    let dlgRef: ClosableDialog | null = null;
     void foundry.applications.api.DialogV2.wait({
         id:      `spell-modal-${preReq.requestId}`,
         classes: ["bg3-dialog", "smf-dialog"],
@@ -845,6 +878,11 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         ],
         render: (_event, dialog) => {
             const root = dialog.element;
+
+            // Registra o modal para que a Contramágica possa fechá-lo se a magia
+            // for anulada (removido no .finally).
+            dlgRef = dialog as unknown as ClosableDialog;
+            trackSpellModal(preReq.messageId, dlgRef);
 
             // ── Botões de ação NÃO devem submeter/fechar o modal ──────────────
             // Botões dentro do <form> do DialogV2 sem `type` explícito viram
@@ -1285,6 +1323,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         },
         rejectClose: false,
     }).finally(() => {
+        if (dlgRef) untrackSpellModal(preReq.messageId, dlgRef);
         // Notifica quem pediu (ex.: Coluna de Chamas) que este alvo terminou a
         // interação de resistência — usado pra remover grid/animação quando
         // TODOS os alvos resolverem. No-op se resolveNotify não foi setado.

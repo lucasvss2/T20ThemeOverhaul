@@ -98,6 +98,7 @@ src/
   area-spells/egide-sagrada.ts — Égide Sagrada (Paladino): ghost template + Escudo Fraterno (raio dinâmico)
   ui/skills-menu.ts            — Toolbar button that aggregates active skill actions (register/refresh API)
   sheet/index.ts               — Character sheet redesign (BG3 aesthetic)
+  counterspell/index.ts        — Contramágica: janela GM no cast → Misticismo vs CD → anula a magia (Parte 2b)
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -394,6 +395,16 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
 - **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 459 testes / 29 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
+
+### Reações — Parte 2b: Contramágica (v1.58.0)
+
+`src/counterspell/index.ts`. Reação de TERCEIROS que anula uma magia na conjuração (diferente das demais reações, sempre do próprio alvo).
+
+- **Gatilho (modelo escolhido):** janela no cliente do **GM eleito** (`isActiveGM()`). Hook `createChatMessage` detecta a conjuração (mesma detecção do spell-resistance: `itemData.tipo ∈ arc/div/uni`, sem roll de ataque) e enumera **reatores elegíveis** na cena: tokens cujo ator conhece **Contramágica Aprimorada** (poder, `.includes("contramagica aprimorada")`), têm **≥3 PM** (custo de Dissipar Magia), reação disponível na rodada (flag compartilhada `reactionUsedRound`) e **disposição oposta** à do conjurador (não oferece anular magia de aliado). Se nenhum elegível → não abre janela.
+- **Resolução:** GM clica "Reagir" → rola **Misticismo** (`computeSkillTotal(actor,"mist")`) + opcional **+Sabedoria** (checkbox manual quando o ator tem **Contramágica Elemental** — escola/elemento da Afinidade não é auto-detectável). Sucesso = `total ≥ CD` (`extractCD` do card; fallback `computeCasterSpellCD`). Gasta 3 PM e consome a reação SEMPRE (sucesso ou falha). Sucesso → posta card "Magia Anulada" e fecha a janela; falha → marca a linha e deixa outro reator tentar.
+- **Anular = fechar o modal de resistência do alvo:** `spell-resistance` rastreia modais abertos por `messageId` (`openSpellModals` Map) e exporta `closeSpellModalForMessage(messageId)`. Ao anular, o counterspell faz `getSocket().executeForEveryone("counterspell/negated", {messageId,...})` → todo cliente fecha seu modal + `ui.notifications.warn`. Como nada é auto-aplicado (o dono do alvo clica os botões), "anular" = fechar o modal + avisar; o GM não aplica os efeitos.
+- **Contramágica Superior** (passivo): ao anular, ganha PM temporários = círculo da magia, limitado pelo PM gasto (`superiorTempPm(circle, 3)`). Aplicado via `pm.value` (cap no max).
+- **Exports puros testáveis:** `hasCounterspellPower(names)`, `counterspellSucceeds(total, cd)`, `superiorTempPm(circle, pmSpent)`.
 
 
 ## Foundry v13 Gotchas
