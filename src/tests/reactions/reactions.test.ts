@@ -1,10 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
     DEFENSE_REACTIONS,
+    POSTDAMAGE_REACTIONS,
     normalizeName,
     canBlock,
     reactionAvailable,
     getBlockingDefenseReactions,
+    getPostDamageReactions,
+    reduceDamage,
 } from "@/reactions";
 
 describe("DEFENSE_REACTIONS registry", () => {
@@ -89,5 +92,68 @@ describe("getBlockingDefenseReactions", () => {
         const out = getBlockingDefenseReactions({ actor, attackTotal: 21, defesa: 20, currentRoundKey: "c1:1" });
         // ataque 21 vs 20: Escudo (+2→22) bloqueia, Armadura (+5→25) bloqueia. Mais barata primeiro = Escudo (1 PM)
         expect(out.map((r) => r.key)).toEqual(["escudo da fe", "armadura arcana"]);
+    });
+});
+
+describe("POSTDAMAGE_REACTIONS registry", () => {
+    it("contém as reações pós-dano com mecânica correta", () => {
+        expect(POSTDAMAGE_REACTIONS["rolamento defensivo"]).toMatchObject({ kind: "half", pm: 2, status: "caido" });
+        expect(POSTDAMAGE_REACTIONS["duro na queda"]).toMatchObject({ kind: "flat", pm: 1, flat: 5 });
+        expect(POSTDAMAGE_REACTIONS["forca dos penhascos"]).toMatchObject({ kind: "flat-per-pm", perPmAmount: 10, maxPmAttr: "sab" });
+        expect(POSTDAMAGE_REACTIONS["intimidar a morte"]).toMatchObject({ kind: "roll-reduce", pm: 2, rollSkill: "inti" });
+        expect(POSTDAMAGE_REACTIONS["sacrificar servo"]).toMatchObject({ kind: "to-zero", pm: 0 });
+        expect(POSTDAMAGE_REACTIONS["heroi da realidade"]).toMatchObject({ kind: "half", pm: 5 });
+    });
+});
+
+describe("reduceDamage", () => {
+    it("half arredonda para baixo", () => {
+        expect(reduceDamage("half", 21)).toBe(10);
+        expect(reduceDamage("half", 20)).toBe(10);
+    });
+    it("flat subtrai e nunca fica negativo", () => {
+        expect(reduceDamage("flat", 12, { flat: 5 })).toBe(7);
+        expect(reduceDamage("flat", 3, { flat: 5 })).toBe(0);
+    });
+    it("to-zero anula", () => {
+        expect(reduceDamage("to-zero", 99)).toBe(0);
+    });
+    it("flat-per-pm reduz 10 por PM gasto", () => {
+        expect(reduceDamage("flat-per-pm", 25, { perPmAmount: 10, pmSpent: 2 })).toBe(5);
+        expect(reduceDamage("flat-per-pm", 25, { perPmAmount: 10, pmSpent: 3 })).toBe(0);
+    });
+    it("roll-reduce subtrai o resultado da rolagem", () => {
+        expect(reduceDamage("roll-reduce", 18, { rolled: 11 })).toBe(7);
+        expect(reduceDamage("roll-reduce", 8, { rolled: 20 })).toBe(0);
+    });
+});
+
+describe("getPostDamageReactions", () => {
+    const makeActor = (opts: { pm: number; powers: string[]; usedRound?: unknown }) => ({
+        system: { attributes: { pm: { value: opts.pm } } },
+        items: opts.powers.map((name, i) => ({ type: "poder", name, id: `p${i}` })),
+        getFlag: (_s: string, _k: string) => opts.usedRound,
+    });
+
+    it("lista poderes pós-dano que conhece e pode pagar", () => {
+        const actor = makeActor({ pm: 10, powers: ["Rolamento Defensivo", "Duro na Queda"] });
+        const out = getPostDamageReactions({ actor, currentRoundKey: "c1:1" });
+        expect(out.map((r) => r.key).sort()).toEqual(["duro na queda", "rolamento defensivo"]);
+    });
+    it("Força dos Penhascos aparece com pelo menos 1 PM (custo variável)", () => {
+        const actor = makeActor({ pm: 1, powers: ["Força dos Penhascos"] });
+        expect(getPostDamageReactions({ actor, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["forca dos penhascos"]);
+    });
+    it("não lista se PM insuficiente para o custo fixo", () => {
+        const actor = makeActor({ pm: 1, powers: ["Rolamento Defensivo"] }); // custa 2
+        expect(getPostDamageReactions({ actor, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+    it("não lista se já reagiu na rodada", () => {
+        const actor = makeActor({ pm: 10, powers: ["Rolamento Defensivo"], usedRound: "c1:1" });
+        expect(getPostDamageReactions({ actor, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+    it("ignora poderes fora do registro", () => {
+        const actor = makeActor({ pm: 10, powers: ["Ataque Reflexo", "Especialista"] });
+        expect(getPostDamageReactions({ actor, currentRoundKey: "c1:1" })).toEqual([]);
     });
 });

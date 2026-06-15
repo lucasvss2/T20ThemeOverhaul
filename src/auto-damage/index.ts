@@ -5,7 +5,10 @@ import {
     getAuraInvencibilidadeContextForActor,
     markAuraInvencibilidadeUsed,
 } from "@/area-spells/aura-sagrada";
-import { getBlockingDefenseReactions, applyDefenseReaction } from "@/reactions";
+import {
+    getBlockingDefenseReactions, applyDefenseReaction,
+    getPostDamageReactions, computePostDamageReduction, finalizePostDamageReaction,
+} from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
 import { extractDamageType, computeTargetRd } from "./rd";
@@ -406,27 +409,44 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const hasInvenc     = invencContext.length > 0;
     const invencCasters = invencContext.map(c => c.casterName).join(" + ");
 
-    const invencBadgeHtml = hasInvenc
-        ? `<div class="aad-invenc-badge">
-                <b>Aura de Invencibilidade</b> disponível — <b>${esc(invencCasters)}</b> permite
-                ignorar este dano (primeira vez na cena).
-            </div>`
-        : "";
-
-    // Reações de defesa — se o ataque acerta mas seria bloqueado por uma reação
-    // do alvo (Armadura Arcana, Escudo da Fé, Salto Dimensional), oferecemos
-    // botões de bloqueio (só quando o bônus transformaria o acerto em erro).
+    // Reações de defesa (bloqueio pré-rolagem) — só quando o bônus transformaria
+    // o acerto em erro. E reações pós-dano (redução) que o alvo possa usar.
     const blockReactions = getBlockingDefenseReactions({
         actor:       targetActor as unknown as Parameters<typeof getBlockingDefenseReactions>[0]["actor"],
         attackTotal: req.attackTotal,
         defesa:      req.targetDef,
     });
-    const reactionBadgeHtml = blockReactions.length
-        ? `<div class="aad-reaction-badge">
-                <b>Reação de defesa</b> disponível — bloquearia este ataque
-                (${req.attackTotal} vs Defesa ${req.targetDef}).
-            </div>`
-        : "";
+    const postReactions = getPostDamageReactions({
+        actor: targetActor as unknown as Parameters<typeof getPostDamageReactions>[0]["actor"],
+    });
+
+    // Painel "Reações & Habilidades" — separa as ações de skill/reação dos
+    // botões padrão de aplicar dano (que ficam no rodapé).
+    const skillBtns: string[] = [];
+    for (const r of blockReactions) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-block" data-skill="block:${r.key}">
+            <span class="aad-skill-name"><i class="fas fa-shield-halved"></i> ${esc(r.label)}</span>
+            <span class="aad-skill-sub">+${r.bonus} Def → bloqueia · ${r.pm} PM</span></button>`);
+    }
+    for (const r of postReactions) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-reduce" data-skill="reduce:${r.key}">
+            <span class="aad-skill-name"><i class="fas fa-hand-fist"></i> ${esc(r.label)}</span>
+            <span class="aad-skill-sub">${esc(r.reductionHint)} · ${esc(String(r.pmHint))} PM</span></button>`);
+    }
+    if (hasInvenc) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-invenc" data-skill="invenc">
+            <span class="aad-skill-name"><i class="fas fa-shield-heart"></i> Aura de Invencibilidade</span>
+            <span class="aad-skill-sub">ignora o dano · ${esc(invencCasters)}</span></button>`);
+    }
+    skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-util" data-skill="reroll">
+        <span class="aad-skill-name"><i class="fas fa-dice-d20"></i> Forçar Rerolar Ataque</span></button>`);
+
+    const skillsPanelHtml = `
+        <div class="aad-divider"></div>
+        <div class="aad-skills">
+            <div class="aad-skills-title"><i class="fas fa-bolt"></i> Reações & Habilidades</div>
+            ${skillBtns.join("")}
+        </div>`;
 
     const content = `
         <div class="aad-body">
@@ -450,18 +470,16 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 <div class="aad-label-sm">DANO${typeLabel ? ` · ${esc(typeLabel)}` : ""}</div>
                 <div class="aad-damage-total">${req.damageTotal}</div>
             </div>
-            ${invencBadgeHtml}
-            ${reactionBadgeHtml}
             <div class="aad-pm-row">
                 <span class="aad-label-sm">RD${typeLabel ? ` (${esc(typeLabel)})` : ""}</span>
                 <input type="number" name="rd" value="${rdDefault}" min="0" max="999" class="aad-pm-input" />
             </div>
             ${rdNote}
-            <div class="aad-divider"></div>
             <div class="aad-pm-row">
                 <span class="aad-label-sm">CUSTO DE MANA (PM)</span>
                 <input type="number" name="pmCost" value="0" min="0" max="999" class="aad-pm-input" />
             </div>
+            ${skillsPanelHtml}
         </div>
     `;
 
@@ -505,82 +523,54 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         },
     ];
 
-    if (hasInvenc) {
-        buttons.push({
-            type:   "submit",
-            action: "invenc",
-            label:  "Ignorar (Aura de Invencibilidade)",
-            icon:   "fas fa-shield-heart",
-            callback: (_event, _button, dialog) => {
-                const root = dialog.element;
-                const pm   = readPmInput(root);
-                void markAuraInvencibilidadeUsed({
-                    actorId:       req.targetActorId,
-                    tokenId:       req.targetTokenId,
-                    casterName:    invencCasters,
-                    targetName,
-                    damageIgnored: req.damageTotal,
-                });
-                if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
-                    { kind: "pm-cost", source: req.attackerName });
-            },
+    // ── Handlers das ações de skill/reação (botões no corpo do modal) ──────────
+    const doInvenc = (root: HTMLElement): void => {
+        const pm = readPmInput(root);
+        void markAuraInvencibilidadeUsed({
+            actorId: req.targetActorId, tokenId: req.targetTokenId,
+            casterName: invencCasters, targetName, damageIgnored: req.damageTotal,
         });
-    }
+        if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
+            { kind: "pm-cost", source: req.attackerName });
+    };
 
-    for (const r of blockReactions) {
-        buttons.push({
-            type:   "submit",
-            action: `react-${r.key.replace(/\s+/g, "-")}`,
-            label:  `Reagir: ${r.label} (+${r.bonus} Def → bloqueia, ${r.pm} PM)`,
-            icon:   "fas fa-shield-halved",
-            callback: () => {
-                void applyDefenseReaction({
-                    actor:        targetActor as unknown as Parameters<typeof applyDefenseReaction>[0]["actor"],
-                    key:          r.key,
-                    attackTotal:  req.attackTotal,
-                    defesa:       req.targetDef,
-                    attackerName: req.attackerName,
-                    targetName,
-                });
-            },
+    const doBlock = (key: string): void => {
+        void applyDefenseReaction({
+            actor: targetActor as unknown as Parameters<typeof applyDefenseReaction>[0]["actor"],
+            key, attackTotal: req.attackTotal, defesa: req.targetDef,
+            attackerName: req.attackerName, targetName,
         });
-    }
+    };
 
-    buttons.push({
-        type:   "submit",
-        action: "reroll",
-        label:  "Forçar Rerolar Ataque",
-        icon:   "fas fa-dice-d20",
-        callback: () => {
-            const rerollReq: AttackRerollRequest = {
-                type:           "attack-reroll-request",
-                requestId:      req.requestId,
-                attackerUserId: req.attackerUserId,
-                targetUserId:   req.targetUserId,
-                targetActorId:  req.targetActorId,
-                targetTokenId:  req.targetTokenId,
-                attackFormula:  req.attackFormula,
-                damageFormula:  req.damageFormula,
-                attackerName:   req.attackerName,
-                rollLabel:      req.rollLabel,
-                targetDef:      req.targetDef,
-                damageType:     req.damageType,
-                damageMaximized:    req.damageMaximized,
-                baseDamageFormula:  req.baseDamageFormula,
-                critOnlyDmgFormula: req.critOnlyDmgFormula,
-                gritoActive:        req.gritoActive,
-                samuraiLevel:       req.samuraiLevel,
-                effectiveCriticoX:  req.effectiveCriticoX,
-                effectiveCriticoM:  req.effectiveCriticoM,
-            };
+    const doReduce = async (key: string, root: HTMLElement): Promise<void> => {
+        const dmgAfterRd = applyRd(req.damageTotal, readRdInput(root));
+        const r = await computePostDamageReduction(
+            key, dmgAfterRd, targetActor as unknown as Parameters<typeof computePostDamageReduction>[2],
+        );
+        await applyDamage(req.targetTokenId, req.targetActorId, r.final, r.pmSpent,
+            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+        await finalizePostDamageReaction({
+            actor: targetActor as unknown as Parameters<typeof finalizePostDamageReaction>[0]["actor"],
+            key, originalDamage: dmgAfterRd, finalDamage: r.final, desc: r.desc,
+            pmSpent: r.pmSpent, rollHtml: r.rollHtml, attackerName: req.attackerName, targetName,
+        });
+    };
 
-            if (req.attackerUserId === game.user?.id) {
-                void handleReroll(rerollReq);
-            } else {
-                void getSocket()?.executeAsUser(SOCKET_REROLL_REQUEST, req.attackerUserId, rerollReq);
-            }
-        },
-    });
+    const doReroll = (): void => {
+        const rerollReq: AttackRerollRequest = {
+            type: "attack-reroll-request",
+            requestId: req.requestId, attackerUserId: req.attackerUserId, targetUserId: req.targetUserId,
+            targetActorId: req.targetActorId, targetTokenId: req.targetTokenId,
+            attackFormula: req.attackFormula, damageFormula: req.damageFormula,
+            attackerName: req.attackerName, rollLabel: req.rollLabel, targetDef: req.targetDef,
+            damageType: req.damageType, damageMaximized: req.damageMaximized,
+            baseDamageFormula: req.baseDamageFormula, critOnlyDmgFormula: req.critOnlyDmgFormula,
+            gritoActive: req.gritoActive, samuraiLevel: req.samuraiLevel,
+            effectiveCriticoX: req.effectiveCriticoX, effectiveCriticoM: req.effectiveCriticoM,
+        };
+        if (req.attackerUserId === game.user?.id) void handleReroll(rerollReq);
+        else void getSocket()?.executeAsUser(SOCKET_REROLL_REQUEST, req.attackerUserId, rerollReq);
+    };
 
     void foundry.applications.api.DialogV2.wait({
         id:      `auto-damage-${req.requestId}`,
@@ -605,6 +595,21 @@ function openDamagePrompt(req: AutoDamageRequest): void {
 
             rdInput?.addEventListener("input", refresh);
             refresh(); // sincroniza os botões com a RD automática pré-preenchida
+
+            // Wire dos botões de skill/reação (painel no corpo) — cada um executa
+            // a ação e fecha o modal.
+            const dlg = dialog as unknown as { close?: () => unknown };
+            root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((btn) => {
+                btn.addEventListener("click", (ev) => {
+                    ev.preventDefault();
+                    const skill = btn.dataset["skill"] ?? "";
+                    if (skill === "reroll") doReroll();
+                    else if (skill === "invenc") doInvenc(root);
+                    else if (skill.startsWith("block:")) doBlock(skill.slice(6));
+                    else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
+                    try { dlg.close?.(); } catch { /* ignore */ }
+                });
+            });
         },
         rejectClose: false,
     });

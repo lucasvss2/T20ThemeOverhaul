@@ -183,6 +183,187 @@ export async function applyDefenseReaction(opts: {
 }
 
 /* -------------------------------------------------------------------------- */
+/*  Reações PÓS-DANO (redução de dano após ser atingido)                      */
+/* -------------------------------------------------------------------------- */
+
+export type PostDamageKind = "half" | "flat" | "flat-per-pm" | "roll-reduce" | "to-zero";
+
+export interface PostDamageReaction {
+    label:        string;
+    kind:         PostDamageKind;
+    pm:           number;   // custo fixo em PM (flat-per-pm calcula pelo perPmAmount/maxPmAttr)
+    flat?:        number;   // redução fixa
+    perPmAmount?: number;   // redução por PM (flat-per-pm)
+    maxPmAttr?:   string;   // atributo que limita o PM gasto (ex.: "sab")
+    rollSkill?:   string;   // perícia rolada para reduzir (ex.: "inti")
+    status?:      string;   // condição aplicada após o uso (ex.: "caido")
+}
+
+/** Reações pós-dano (poderes), chave normalizada → dados. */
+export const POSTDAMAGE_REACTIONS: Record<string, PostDamageReaction> = {
+    "rolamento defensivo": { label: "Rolamento Defensivo", kind: "half",        pm: 2, status: "caido" },
+    "heroi da realidade":  { label: "Herói da Realidade",  kind: "half",        pm: 5 },
+    "duro na queda":       { label: "Duro na Queda",       kind: "flat",        pm: 1, flat: 5 },
+    "forca dos penhascos": { label: "Força dos Penhascos", kind: "flat-per-pm", pm: 0, perPmAmount: 10, maxPmAttr: "sab" },
+    "intimidar a morte":   { label: "Intimidar a Morte",   kind: "roll-reduce", pm: 2, rollSkill: "inti" },
+    "sacrificar servo":    { label: "Sacrificar Servo",    kind: "to-zero",     pm: 0 },
+};
+
+function pmOf(actor: ActorLike): number {
+    return Number(actor.system?.attributes?.pm?.value ?? 0);
+}
+function attrMod(actor: AnyActor, key: string): number {
+    return Number((actor?.system as AnyObj | undefined)?.["atributos"] && ((actor.system as AnyObj)["atributos"] as AnyObj)?.[key] && (((actor.system as AnyObj)["atributos"] as AnyObj)[key] as AnyObj)?.["value"] || 0);
+}
+function pericValue(actor: AnyActor, key: string): number {
+    const per = (actor?.system as AnyObj | undefined)?.["pericias"] as AnyObj | undefined;
+    return Number((per?.[key] as AnyObj | undefined)?.["value"] ?? 0);
+}
+
+type AnyActor = ActorLike & {
+    toggleStatusEffect?: (id: string, opts?: { active?: boolean }) => Promise<unknown>;
+};
+
+/** Custo mínimo de PM para a reação aparecer como opção. */
+function minPm(reg: PostDamageReaction): number {
+    return reg.kind === "flat-per-pm" ? 1 : reg.pm;
+}
+
+export interface PostDamageOption {
+    key:           string;
+    label:         string;
+    kind:          PostDamageKind;
+    pmHint:        number | string;
+    reductionHint: string;
+}
+
+/** Reações pós-dano que o ator conhece, pode pagar e não usou nesta rodada. */
+export function getPostDamageReactions(opts: {
+    actor: AnyActor | null | undefined;
+    currentRoundKey?: string | null;
+}): PostDamageOption[] {
+    const { actor } = opts;
+    if (!actor) return [];
+    const pm = pmOf(actor);
+    const currentRoundKey = opts.currentRoundKey ?? roundKey();
+    if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return [];
+
+    const out: PostDamageOption[] = [];
+    const seen = new Set<string>();
+    for (const it of itemsOf(actor)) {
+        if (it.type !== "poder") continue;
+        const n = normalizeName(it.name ?? "");
+        if (!Object.prototype.hasOwnProperty.call(POSTDAMAGE_REACTIONS, n) || seen.has(n)) continue;
+        const reg = POSTDAMAGE_REACTIONS[n] as PostDamageReaction;
+        if (pm < minPm(reg)) continue;
+        seen.add(n);
+        out.push({
+            key: n, label: reg.label, kind: reg.kind,
+            pmHint: reg.kind === "flat-per-pm" ? `${reg.perPmAmount}/PM` : reg.pm,
+            reductionHint: reductionHint(reg),
+        });
+    }
+    return out;
+}
+
+function reductionHint(reg: PostDamageReaction): string {
+    switch (reg.kind) {
+        case "half":        return "dano à metade";
+        case "flat":        return `−${reg.flat}`;
+        case "to-zero":     return "anula o dano";
+        case "flat-per-pm": return `−${reg.perPmAmount}/PM`;
+        case "roll-reduce": return "−resultado de Intimidação";
+    }
+}
+
+/** Cálculo puro da redução para os tipos sem rolagem (testável). */
+export function reduceDamage(kind: PostDamageKind, damage: number, params: { flat?: number; perPmAmount?: number; pmSpent?: number; rolled?: number } = {}): number {
+    switch (kind) {
+        case "half":        return Math.floor(damage / 2);
+        case "flat":        return Math.max(0, damage - (params.flat ?? 0));
+        case "to-zero":     return 0;
+        case "flat-per-pm": return Math.max(0, damage - (params.perPmAmount ?? 0) * (params.pmSpent ?? 0));
+        case "roll-reduce": return Math.max(0, damage - (params.rolled ?? 0));
+    }
+}
+
+/** Quanto PM gastar e qual a redução final (resolve rolagem se necessário). */
+export async function computePostDamageReduction(key: string, damage: number, actor: AnyActor): Promise<{ final: number; pmSpent: number; desc: string; rollHtml?: string }> {
+    const reg = Object.prototype.hasOwnProperty.call(POSTDAMAGE_REACTIONS, key) ? POSTDAMAGE_REACTIONS[key] : undefined;
+    if (!reg) return { final: damage, pmSpent: 0, desc: "" };
+    switch (reg.kind) {
+        case "half":    return { final: reduceDamage("half", damage), pmSpent: reg.pm, desc: "dano à metade" };
+        case "flat":    return { final: reduceDamage("flat", damage, { flat: reg.flat }), pmSpent: reg.pm, desc: `−${reg.flat}` };
+        case "to-zero": return { final: 0, pmSpent: reg.pm, desc: "dano anulado" };
+        case "flat-per-pm": {
+            const maxByAttr = Math.max(0, attrMod(actor, reg.maxPmAttr ?? "sab"));
+            const need = Math.ceil(damage / (reg.perPmAmount ?? 10));
+            const pmSpent = Math.max(0, Math.min(maxByAttr, need, pmOf(actor)));
+            const final = reduceDamage("flat-per-pm", damage, { perPmAmount: reg.perPmAmount, pmSpent });
+            return { final, pmSpent, desc: `−${(reg.perPmAmount ?? 10) * pmSpent} (${pmSpent} PM)` };
+        }
+        case "roll-reduce": {
+            const mod = pericValue(actor, reg.rollSkill ?? "inti");
+            const RollCls = (globalThis as unknown as { Roll?: new (f: string) => { evaluate: (o?: AnyObj) => Promise<unknown>; total?: number; render: () => Promise<string> } }).Roll;
+            let rolled = 0, rollHtml: string | undefined;
+            if (RollCls) {
+                const roll = new RollCls(`1d20 + ${mod}`);
+                await roll.evaluate({ async: true });
+                rolled = roll.total ?? 0;
+                try { rollHtml = await roll.render(); } catch { /* ignore */ }
+            }
+            return { final: reduceDamage("roll-reduce", damage, { rolled }), pmSpent: reg.pm, desc: `−${rolled} (Intimidação)`, rollHtml };
+        }
+    }
+}
+
+/**
+ * Finaliza uma reação pós-dano: marca o uso da rodada, aplica condição (se houver)
+ * e posta o card. O DANO reduzido e o débito de PM são aplicados pelo chamador
+ * (auto-damage) via applyDamage, para uma única atualização do ator.
+ */
+export async function finalizePostDamageReaction(opts: {
+    actor: AnyActor | null | undefined;
+    key: string;
+    originalDamage: number;
+    finalDamage: number;
+    desc: string;
+    pmSpent: number;
+    rollHtml?: string;
+    attackerName: string;
+    targetName: string;
+}): Promise<void> {
+    const reg = Object.prototype.hasOwnProperty.call(POSTDAMAGE_REACTIONS, opts.key) ? POSTDAMAGE_REACTIONS[opts.key] : undefined;
+    const actor = opts.actor;
+    if (!reg || !actor) return;
+
+    try {
+        const curKey = roundKey();
+        if (curKey) await actor.setFlag?.(MODULE_ID, REACTION_USED_FLAG, curKey);
+        if (reg.status) await actor.toggleStatusEffect?.(reg.status, { active: true });
+    } catch (err) {
+        warn(`reactions: falha ao marcar uso/condição pós-dano:`, err);
+    }
+
+    const statusNote = reg.status === "caido" ? `<div class="bg3-reac-note">Fica Caído.</div>` : "";
+    const content = `
+<div class="bg3-reaction-block">
+  <div class="bg3-reac-title"><i class="fa-solid fa-shield-halved"></i> Dano Reduzido</div>
+  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> reagiu com <b>${escHtml(reg.label)}</b> contra o ataque de ${escHtml(opts.attackerName)}.</div>
+  <div class="bg3-reac-stat">Dano ${opts.originalDamage} <span class="bg3-reac-arrow">→</span> <b>${opts.finalDamage}</b> (${escHtml(opts.desc)}).</div>
+  ${opts.pmSpent > 0 ? `<div class="bg3-reac-cost">−${opts.pmSpent} PM</div>` : ""}
+  ${statusNote}
+</div>${opts.rollHtml ?? ""}`;
+    try {
+        const ChatMessageCls = (globalThis as unknown as { ChatMessage?: { create: (d: AnyObj) => Promise<unknown> } }).ChatMessage;
+        await ChatMessageCls?.create({ content, flags: { [MODULE_ID]: { reactionReduce: true } } });
+    } catch (err) {
+        warn(`reactions: falha ao postar card pós-dano:`, err);
+    }
+    log(`Reação pós-dano: ${reg.label} (${opts.targetName}) reduziu dano ${opts.originalDamage} → ${opts.finalDamage}.`);
+}
+
+/* -------------------------------------------------------------------------- */
 
 function injectStyles(): void {
     if (document.getElementById(STYLE_ID)) return;

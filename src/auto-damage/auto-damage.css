@@ -136,34 +136,56 @@
 .aad-invenc-badge b {
     color: var(--bg3-accent-bright, #ffe89a);
 }
-.aad-reaction-badge {
-    margin: 6px 12px 4px;
-    padding: 8px 12px;
-    border-left: 3px solid #5a8bb8;
-    background: linear-gradient(135deg,
-        rgba(120, 170, 220, 0.16),
-        rgba(40, 70, 110, 0.12));
+/* ── Painel "Reações & Habilidades" — separa as skills do rodapé de aplicar dano ── */
+.aad-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 2px;
+}
+.aad-skills-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bg3-accent-muted, #9a8358);
+    margin: 2px 0 4px;
+}
+.aad-skills-title i {
+    margin-right: 5px;
+    color: var(--bg3-accent, #c8a96e);
+}
+.aad-skill-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+    width: 100%;
+    text-align: left;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--bg3-divider, #3a2f1d);
+    border-left-width: 3px;
+    background: rgba(0, 0, 0, 0.25);
     color: var(--bg3-text-primary, #f0ebe0);
-    font-size: 0.82rem;
-    line-height: 1.35;
-    border-radius: 0 4px 4px 0;
+    font-family: "Palatino Linotype", serif;
+    transition: all 0.15s;
 }
-.aad-reaction-badge b {
-    color: #bcd9ff;
+.aad-skill-btn:hover {
+    border-color: var(--bg3-btn-border, #8b6914);
+    background: rgba(200, 169, 110, 0.10);
 }
-.aad-dialog button[data-button^="react-"] {
-    background: linear-gradient(180deg,
-        rgba(120, 170, 220, 0.26),
-        rgba(40, 70, 110, 0.16));
-    border-color: #5a8bb8 !important;
-    color: #d6e8ff !important;
-    font-weight: 700;
-}
-.aad-dialog button[data-button^="react-"]:hover {
-    background: linear-gradient(180deg,
-        rgba(120, 170, 220, 0.40),
-        rgba(40, 70, 110, 0.24));
-}
+.aad-skill-name { font-weight: 700; font-size: 0.88rem; }
+.aad-skill-name i { margin-right: 6px; }
+.aad-skill-sub { font-size: 0.74rem; color: var(--bg3-text-muted, #9a8e7a); }
+.aad-skill-block  { border-left-color: #5a8bb8; }
+.aad-skill-block  .aad-skill-name i { color: #bcd9ff; }
+.aad-skill-reduce { border-left-color: #c8a96e; }
+.aad-skill-reduce .aad-skill-name i { color: #ffd98a; }
+.aad-skill-invenc { border-left-color: #c8a96e; }
+.aad-skill-invenc .aad-skill-name i { color: #ffe89a; }
+.aad-skill-util   { border-left-color: #6a5a3a; }
+.aad-skill-util   .aad-skill-name i { color: #c8b890; }
 .aad-dialog button[data-button="invenc"] {
     background: linear-gradient(180deg,
         rgba(200, 169, 110, 0.28),
