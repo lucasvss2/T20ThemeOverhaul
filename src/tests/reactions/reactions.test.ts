@@ -15,6 +15,8 @@ import {
     getMissCounterReactions,
     getContestReactions,
     getRerollReactions,
+    getMagicReactions,
+    MAGIC_REACTIONS,
     reduceDamage,
 } from "@/reactions";
 
@@ -228,6 +230,38 @@ describe("registries novas (contra-ataque / aparar / rerolar)", () => {
         const a = actor(20, [{ type: "poder", name: "Revide" }, { type: "poder", name: "Aparar" }], "c1:1");
         expect(getCounterReactions({ actor: a, currentRoundKey: "c1:1" })).toEqual([]);
         expect(getContestReactions({ actor: a, attackTotal: 22, defesa: 18, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+});
+
+describe("getMagicReactions (reações contra magia)", () => {
+    const actor = (pm: number, items: Array<{ type: string; name: string }>, used?: unknown) => ({
+        system: { attributes: { pm: { value: pm } } },
+        items: items.map((it, i) => ({ ...it, id: `m${i}` })),
+        getFlag: () => used,
+    });
+    it("registro tem as 5 reações contra magia com kinds corretos", () => {
+        expect(MAGIC_REACTIONS["alterar destino"]).toMatchObject({ kind: "reroll", rerollBonus: 10, pm: 15 });
+        expect(MAGIC_REACTIONS["premonicao"]).toMatchObject({ kind: "reroll", pm: 10 });
+        expect(MAGIC_REACTIONS["heroi da realidade"]).toMatchObject({ kind: "reroll", pm: 5 });
+        expect(MAGIC_REACTIONS["aparar magia"]).toMatchObject({ kind: "aparar", pm: 2 });
+        expect(MAGIC_REACTIONS["refletir magia"]).toMatchObject({ kind: "reflect", pm: 6 });
+    });
+    it("ao FALHAR: oferece reroll + aparar, não reflexão", () => {
+        const a = actor(20, [{ type: "magia", name: "Alterar Destino" }, { type: "poder", name: "Aparar Magia" }, { type: "poder", name: "Refletir Magia" }]);
+        expect(getMagicReactions({ actor: a, passed: false, currentRoundKey: "c1:1" }).map((r) => r.key).sort())
+            .toEqual(["alterar destino", "aparar magia"]);
+    });
+    it("ao PASSAR: oferece só Refletir Magia", () => {
+        const a = actor(20, [{ type: "magia", name: "Alterar Destino" }, { type: "poder", name: "Refletir Magia" }]);
+        expect(getMagicReactions({ actor: a, passed: true, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["refletir magia"]);
+    });
+    it("respeita PM (Alterar Destino custa 15)", () => {
+        const a = actor(5, [{ type: "magia", name: "Alterar Destino" }, { type: "poder", name: "Aparar Magia" }]);
+        expect(getMagicReactions({ actor: a, passed: false, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["aparar magia"]);
+    });
+    it("nenhuma se já reagiu na rodada", () => {
+        const a = actor(20, [{ type: "poder", name: "Aparar Magia" }], "c1:1");
+        expect(getMagicReactions({ actor: a, passed: false, currentRoundKey: "c1:1" })).toEqual([]);
     });
 });
 

@@ -461,3 +461,28 @@
     font-weight: 700;
     letter-spacing: 0.04em;
 }
+
+/* ── Reações contra magia (Parte 2a) ──────────────────────────────────────── */
+.smf-magic-reactions {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.smf-magic-reactions .smf-magic-reac {
+    border-left: 3px solid #8a6ad0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    text-align: left;
+    line-height: 1.35;
+    white-space: normal;
+}
+.smf-magic-reactions .smf-magic-reac i { color: #c6b0f5; margin-right: 6px; }
+.smf-magic-reac-sub {
+    font-size: 0.74rem;
+    color: var(--bg3-text-muted, #9a8e7a);
+    white-space: normal;
+    word-break: break-word;
+}

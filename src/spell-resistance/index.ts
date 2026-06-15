@@ -13,6 +13,7 @@ import type {
 } from "./types";
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
+import { getMagicReactions, consumeReaction, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
@@ -567,6 +568,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 <i class="fas fa-dice-d20"></i> Rolar ${esc(skillLabel)} (CD ${preReq.cd})
             </button>
             <div id="smf-resist-result" class="smf-resist-result"></div>
+            <div id="smf-magic-reactions" class="smf-magic-reactions" style="display:none;"></div>
         `;
     }
 
@@ -977,8 +979,106 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         hasRolledResist = true;
                     }
                     btn.disabled = false;
+                    renderMagicReactions(passed);
                 })();
             });
+
+            // ── Reações contra magia (Parte 2a) ───────────────────────────────
+            // Resolve o conjurador (para refletir o efeito de volta nele).
+            const srcMsg = game.messages?.get(preReq.messageId) as ChatMessage | undefined;
+            const casterTokenId = (srcMsg?.speaker as { token?: string } | undefined)?.token ?? "";
+            const casterActorId = (srcMsg?.speaker as { actor?: string } | undefined)?.actor ?? "";
+            const casterTokenActor = casterTokenId
+                ? (canvas as unknown as { tokens?: { get(id: string): { actor?: { uuid?: string } } | undefined } }).tokens?.get(casterTokenId)?.actor
+                : null;
+            const casterUuid = casterTokenActor?.uuid
+                ?? (casterActorId ? (game.actors?.get(casterActorId) as { uuid?: string } | undefined)?.uuid : "")
+                ?? "";
+
+            const paintResult = (totalVal: number, d20: number, ok: boolean, note: string): void => {
+                const sl = skillKey ? SKILL_LABELS[skillKey] : "Resistência";
+                const el = root.querySelector<HTMLElement>("#smf-resist-result");
+                if (!el) return;
+                el.innerHTML = `
+                    <div class="smf-rr-row">
+                        <span class="smf-label-sm">${esc(sl.toUpperCase())}</span>
+                        <span class="${ok ? "smf-rr-pass" : "smf-rr-fail"}">${totalVal}</span>
+                        <span class="smf-label-sm">d20: ${d20}</span>
+                        <span class="smf-label-sm">CD ${preReq.cd}</span>
+                        <span class="${ok ? "smf-rr-badge-pass" : "smf-rr-badge-fail"}">${ok ? "PASSOU" : "FALHOU"}</span>
+                    </div>
+                    <div class="smf-rr-outcome">${esc(note)}</div>`;
+                el.style.display = "block";
+            };
+
+            const reflectToCaster = async (label: string): Promise<void> => {
+                if (!casterUuid && !casterActorId) { warn("reações-magia: conjurador não resolvido para reflexão"); return; }
+                await applySpellDamage(casterUuid, casterActorId, preReq.damageTotal);
+                await ChatMessage.create({
+                    content: `<div class="bg3-reaction-block bg3-reaction-counter"><div class="bg3-reac-title"><i class="fa-solid fa-arrows-rotate"></i> Magia Refletida</div><div class="bg3-reac-line"><b>${esc(targetName)}</b> reflete <b>${esc(preReq.spellName)}</b> (${preReq.damageTotal}) de volta em ${esc(preReq.casterName)} com <b>${esc(label)}</b>.</div></div>`,
+                    flags: { [MODULE_ID]: { reactionReflect: true } },
+                });
+            };
+
+            const renderMagicReactions = (passed: boolean): void => {
+                const wrap = root.querySelector<HTMLElement>("#smf-magic-reactions");
+                if (!wrap || !targetActor) return;
+                const opts: MagicReactionOption[] = getMagicReactions({
+                    actor: targetActor as unknown as Parameters<typeof getMagicReactions>[0]["actor"],
+                    passed,
+                });
+                if (!opts.length) { wrap.style.display = "none"; wrap.innerHTML = ""; return; }
+                wrap.style.display = "block";
+                wrap.innerHTML = `<div class="smf-label-sm" style="padding:6px 0 4px;"><i class="fas fa-bolt"></i> REAÇÕES CONTRA MAGIA</div>`
+                    + opts.map((o) =>
+                        `<button type="button" class="smf-action-btn smf-magic-reac" data-key="${o.key}" data-kind="${o.kind}" data-bonus="${o.rerollBonus ?? 0}" data-pm="${o.pm}">
+                            <i class="fas fa-wand-sparkles"></i> ${esc(o.label)} <span class="smf-magic-reac-sub">${esc(o.note ?? "")} · ${o.pm} PM</span>
+                        </button>`).join("");
+                wrap.querySelectorAll<HTMLButtonElement>(".smf-magic-reac").forEach((b) => {
+                    b.addEventListener("click", () => { void onMagicReaction(b); });
+                });
+            };
+
+            const onMagicReaction = async (b: HTMLButtonElement): Promise<void> => {
+                if (b.disabled) return;
+                b.disabled = true;
+                const kind = b.dataset["kind"] ?? "";
+                const pm   = parseInt(b.dataset["pm"] ?? "0", 10);
+                const bonus = parseInt(b.dataset["bonus"] ?? "0", 10);
+                const label = b.textContent?.trim().split("\n")[0] ?? "Reação";
+                const tActor = targetActor as unknown as Parameters<typeof consumeReaction>[0];
+
+                if (kind === "reroll") {
+                    const parts: string[] = ["1d20"];
+                    if (baseBonus !== 0) parts.push(baseBonus > 0 ? `+ ${baseBonus}` : `- ${Math.abs(baseBonus)}`);
+                    if (bonus !== 0) parts.push(`+ ${bonus}`);
+                    const roll = new Roll(parts.join(" ")); await roll.evaluate({ async: true } as never);
+                    const d20 = (roll.dice?.[0] as { results?: { active?: boolean; result?: number }[] } | undefined)?.results?.find((r) => r.active)?.result ?? 0;
+                    const total = roll.total ?? 0;
+                    const ok = d20 === 20 || (d20 !== 1 && total >= preReq.cd);
+                    await consumeReaction(tActor, pm);
+                    await ChatMessage.create({ content: await roll.render({ flavor: `Rerolar Resistência (${targetName}) vs CD ${preReq.cd} — ${ok ? "✓ PASSOU" : "✗ FALHOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
+                    paintResult(total, d20, ok, ok ? "Passou (rerolagem)" : "Falhou — efeito completo");
+                    renderMagicReactions(ok);
+                } else if (kind === "aparar") {
+                    const luta  = targetActor ? computeSkillTotal(targetActor, "luta") : 0;
+                    const nivel = Number(((targetActor?.system as { nivel?: { value?: number } } | undefined)?.nivel?.value) ?? 0);
+                    const roll = new Roll(`1d20 + ${luta} + ${nivel}`); await roll.evaluate({ async: true } as never);
+                    const total = roll.total ?? 0;
+                    const ok = total >= preReq.cd;
+                    const reflectAlso = total >= preReq.cd + 10;
+                    await consumeReaction(tActor, pm);
+                    await ChatMessage.create({ content: await roll.render({ flavor: `Aparar Magia (${targetName}) — ataque vs CD ${preReq.cd} — ${ok ? "✓ EVITOU" : "✗ NÃO EVITOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
+                    paintResult(total, 0, ok, ok ? (reflectAlso ? "Evitou e refletiu! (Aparar Magia)" : "Evitou totalmente (Aparar Magia)") : "Não evitou — efeito completo");
+                    if (reflectAlso) await reflectToCaster("Aparar Magia");
+                    renderMagicReactions(ok);
+                } else if (kind === "reflect") {
+                    await consumeReaction(tActor, pm);
+                    await reflectToCaster(label);
+                    const wrap = root.querySelector<HTMLElement>("#smf-magic-reactions");
+                    if (wrap) wrap.innerHTML = `<div class="smf-rr-outcome">✦ Efeito refletido no conjurador.</div>`;
+                }
+            };
 
             // ── Consagrar (maximiza cura) ─────────────────────────────────────
             const consagrarCb = root.querySelector<HTMLInputElement>("#smf-consagrar");

@@ -608,6 +608,62 @@ export async function consumeReaction(actor: AnyActor | null | undefined, pm: nu
     } catch (err) { warn(`reactions: falha consumeReaction:`, err); }
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Reações CONTRA MAGIA (no teste de resistência — Parte 2a)                  */
+/* -------------------------------------------------------------------------- */
+
+export type MagicReactionKind = "reroll" | "aparar" | "reflect";
+
+export interface MagicReaction {
+    label:       string;
+    pm:          number;
+    kind:        MagicReactionKind;
+    rerollBonus?: number;  // reroll: bônus extra no novo teste (Alterar Destino +10)
+    note?:       string;
+}
+
+/** Reações contra magia, chave normalizada → dados. */
+export const MAGIC_REACTIONS: Record<string, MagicReaction> = {
+    "alterar destino":    { label: "Alterar Destino",    pm: 15, kind: "reroll", rerollBonus: 10, note: "rerola a resistência com +10" },
+    "premonicao":         { label: "Premonição",         pm: 10, kind: "reroll", note: "rerola a resistência (aceita o novo)" },
+    "heroi da realidade": { label: "Herói da Realidade", pm: 5,  kind: "reroll", note: "repete o teste de resistência" },
+    "aparar magia":       { label: "Aparar Magia",       pm: 2,  kind: "aparar", note: "rola ataque como resistência; reflete se superar a CD por 10" },
+    "refletir magia":     { label: "Refletir Magia",     pm: 6,  kind: "reflect", note: "reflete o efeito de volta ao conjurador" },
+};
+
+export interface MagicReactionOption { key: string; label: string; pm: number; kind: MagicReactionKind; rerollBonus?: number; note?: string; }
+
+/**
+ * Reações contra magia que o ator pode usar agora, dado o resultado do teste:
+ *  - reação de rerolar/aparar → só quando FALHOU (tenta reverter);
+ *  - reflexão (Refletir Magia) → só quando PASSOU.
+ */
+export function getMagicReactions(opts: {
+    actor: AnyActor | null | undefined;
+    passed: boolean;
+    currentRoundKey?: string | null;
+}): MagicReactionOption[] {
+    const { actor, passed } = opts;
+    if (!actor) return [];
+    const pm = pmOf(actor);
+    const currentRoundKey = opts.currentRoundKey ?? roundKey();
+    if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return [];
+    const out: MagicReactionOption[] = [];
+    const seen = new Set<string>();
+    for (const it of itemsOf(actor)) {
+        if (it.type !== "poder" && it.type !== "magia") continue;
+        const n = normalizeName(it.name ?? "");
+        if (!Object.prototype.hasOwnProperty.call(MAGIC_REACTIONS, n) || seen.has(n)) continue;
+        const reg = MAGIC_REACTIONS[n] as MagicReaction;
+        // reflexão exige PASSAR; rerolar/aparar exigem ter FALHADO
+        if (reg.kind === "reflect" ? !passed : passed) continue;
+        if (pm < reg.pm) continue;
+        seen.add(n);
+        out.push({ key: n, label: reg.label, pm: reg.pm, kind: reg.kind, rerollBonus: reg.rerollBonus, note: reg.note });
+    }
+    return out;
+}
+
 async function postCard(content: string, flags: AnyObj): Promise<void> {
     try {
         const ChatMessageCls = (globalThis as unknown as { ChatMessage?: { create: (d: AnyObj) => Promise<unknown> } }).ChatMessage;
