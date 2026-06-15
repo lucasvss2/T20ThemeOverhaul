@@ -8,6 +8,9 @@ import {
 import {
     getBlockingDefenseReactions, applyDefenseReaction,
     getPostDamageReactions, computePostDamageReduction, finalizePostDamageReaction,
+    getCounterReactions, applyCounterReaction,
+    getContestReactions, applyContestReaction,
+    getRerollReactions, consumeReaction,
 } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
@@ -259,6 +262,11 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
         }
     }
 
+    // Reparar Injustiça: mantém o PIOR entre a rolagem original e a nova.
+    if (req.keepWorst && typeof req.originalAttackTotal === "number" && req.originalAttackTotal < newAttackTotal) {
+        newAttackTotal = req.originalAttackTotal;
+    }
+
     // Missed on reroll — post attack rolls to chat, notify both sides
     if (newAttackTotal < req.targetDef) {
         const rollsForMiss: object[] = [attackRoll.toJSON()];
@@ -419,6 +427,16 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const postReactions = getPostDamageReactions({
         actor: targetActor as unknown as Parameters<typeof getPostDamageReactions>[0]["actor"],
     });
+    const contestReactions = getContestReactions({
+        actor: targetActor as unknown as Parameters<typeof getContestReactions>[0]["actor"],
+        attackTotal: req.attackTotal, defesa: req.targetDef,
+    });
+    const counterReactions = getCounterReactions({
+        actor: targetActor as unknown as Parameters<typeof getCounterReactions>[0]["actor"],
+    });
+    const rerollReactions = getRerollReactions({
+        actor: targetActor as unknown as Parameters<typeof getRerollReactions>[0]["actor"],
+    });
 
     // Painel "Reações & Habilidades" — separa as ações de skill/reação dos
     // botões padrão de aplicar dano (que ficam no rodapé).
@@ -428,10 +446,25 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             <span class="aad-skill-name"><i class="fas fa-shield-halved"></i> ${esc(r.label)}</span>
             <span class="aad-skill-sub">+${r.bonus} Def → bloqueia · ${r.pm} PM</span></button>`);
     }
+    for (const r of contestReactions) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-block" data-skill="aparar:${r.key}">
+            <span class="aad-skill-name"><i class="fas fa-hand-back-fist"></i> ${esc(r.label)}</span>
+            <span class="aad-skill-sub">teste de ataque vs rolagem · ${r.pm} PM</span></button>`);
+    }
     for (const r of postReactions) {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-reduce" data-skill="reduce:${r.key}">
             <span class="aad-skill-name"><i class="fas fa-hand-fist"></i> ${esc(r.label)}</span>
             <span class="aad-skill-sub">${esc(r.reductionHint)} · ${esc(String(r.pmHint))} PM</span></button>`);
+    }
+    for (const r of counterReactions) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="counter:${r.key}">
+            <span class="aad-skill-name"><i class="fas fa-reply"></i> ${esc(r.label)}</span>
+            <span class="aad-skill-sub">contra-ataque${r.note ? ` · ${esc(r.note)}` : ""}${r.pm > 0 ? ` · ${r.pm} PM` : ""}</span></button>`);
+    }
+    for (const r of rerollReactions) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-util" data-skill="rerollreact:${r.key}">
+            <span class="aad-skill-name"><i class="fas fa-dice-d20"></i> ${esc(r.label)}</span>
+            <span class="aad-skill-sub">força o atacante a rerolar${r.keepWorst ? " (pior dos dois)" : " (aceita o novo)"} · ${r.pm} PM</span></button>`);
     }
     if (hasInvenc) {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-invenc" data-skill="invenc">
@@ -556,20 +589,48 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         });
     };
 
-    const doReroll = (): void => {
-        const rerollReq: AttackRerollRequest = {
-            type: "attack-reroll-request",
-            requestId: req.requestId, attackerUserId: req.attackerUserId, targetUserId: req.targetUserId,
-            targetActorId: req.targetActorId, targetTokenId: req.targetTokenId,
-            attackFormula: req.attackFormula, damageFormula: req.damageFormula,
-            attackerName: req.attackerName, rollLabel: req.rollLabel, targetDef: req.targetDef,
-            damageType: req.damageType, damageMaximized: req.damageMaximized,
-            baseDamageFormula: req.baseDamageFormula, critOnlyDmgFormula: req.critOnlyDmgFormula,
-            gritoActive: req.gritoActive, samuraiLevel: req.samuraiLevel,
-            effectiveCriticoX: req.effectiveCriticoX, effectiveCriticoM: req.effectiveCriticoM,
-        };
-        if (req.attackerUserId === game.user?.id) void handleReroll(rerollReq);
-        else void getSocket()?.executeAsUser(SOCKET_REROLL_REQUEST, req.attackerUserId, rerollReq);
+    const buildRerollReq = (extra?: { keepWorst?: boolean; originalAttackTotal?: number }): AttackRerollRequest => ({
+        type: "attack-reroll-request",
+        requestId: req.requestId, attackerUserId: req.attackerUserId, targetUserId: req.targetUserId,
+        targetActorId: req.targetActorId, targetTokenId: req.targetTokenId,
+        attackFormula: req.attackFormula, damageFormula: req.damageFormula,
+        attackerName: req.attackerName, rollLabel: req.rollLabel, targetDef: req.targetDef,
+        damageType: req.damageType, damageMaximized: req.damageMaximized,
+        baseDamageFormula: req.baseDamageFormula, critOnlyDmgFormula: req.critOnlyDmgFormula,
+        gritoActive: req.gritoActive, samuraiLevel: req.samuraiLevel,
+        effectiveCriticoX: req.effectiveCriticoX, effectiveCriticoM: req.effectiveCriticoM,
+        keepWorst: extra?.keepWorst, originalAttackTotal: extra?.originalAttackTotal,
+    });
+    const dispatchReroll = (rr: AttackRerollRequest): void => {
+        if (req.attackerUserId === game.user?.id) void handleReroll(rr);
+        else void getSocket()?.executeAsUser(SOCKET_REROLL_REQUEST, req.attackerUserId, rr);
+    };
+    const doReroll = (): void => dispatchReroll(buildRerollReq());
+
+    const doCounter = (key: string): void => {
+        void applyCounterReaction({
+            actor: targetActor as unknown as Parameters<typeof applyCounterReaction>[0]["actor"],
+            key, attackerName: req.attackerName, targetName,
+        });
+    };
+
+    const doAparar = async (key: string, root: HTMLElement): Promise<void> => {
+        const res = await applyContestReaction({
+            actor: targetActor as unknown as Parameters<typeof applyContestReaction>[0]["actor"],
+            key, attackTotal: req.attackTotal, attackerName: req.attackerName, targetName,
+        });
+        // Falhou em aparar → o ataque acerta normalmente, aplica o dano (com RD).
+        if (!res.blocked) {
+            const finalDmg = applyRd(req.damageTotal, readRdInput(root));
+            await applyDamage(req.targetTokenId, req.targetActorId, finalDmg, 0,
+                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+        }
+    };
+
+    const doRerollReaction = async (key: string, keepWorst: boolean, pm: number): Promise<void> => {
+        await consumeReaction(targetActor as unknown as Parameters<typeof consumeReaction>[0], pm);
+        dispatchReroll(buildRerollReq({ keepWorst, originalAttackTotal: req.attackTotal }));
+        void key;
     };
 
     void foundry.applications.api.DialogV2.wait({
@@ -607,6 +668,13 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     else if (skill === "invenc") doInvenc(root);
                     else if (skill.startsWith("block:")) doBlock(skill.slice(6));
                     else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
+                    else if (skill.startsWith("aparar:")) void doAparar(skill.slice(7), root);
+                    else if (skill.startsWith("counter:")) doCounter(skill.slice(8));
+                    else if (skill.startsWith("rerollreact:")) {
+                        const k = skill.slice(12);
+                        const rr = rerollReactions.find((x) => x.key === k);
+                        if (rr) void doRerollReaction(rr.key, rr.keepWorst, rr.pm);
+                    }
                     try { dlg.close?.(); } catch { /* ignore */ }
                 });
             });

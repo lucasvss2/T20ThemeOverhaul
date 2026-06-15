@@ -158,10 +158,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1px;
+    justify-content: center;
+    gap: 2px;
     width: 100%;
+    height: auto;
+    min-height: 0;
     text-align: left;
-    padding: 6px 10px;
+    padding: 8px 12px 9px;
     border-radius: 4px;
     cursor: pointer;
     border: 1px solid var(--bg3-divider, #3a2f1d);
@@ -169,21 +172,26 @@
     background: rgba(0, 0, 0, 0.25);
     color: var(--bg3-text-primary, #f0ebe0);
     font-family: "Palatino Linotype", serif;
+    line-height: 1.35;
+    white-space: normal;
+    overflow: visible;
     transition: all 0.15s;
 }
 .aad-skill-btn:hover {
     border-color: var(--bg3-btn-border, #8b6914);
     background: rgba(200, 169, 110, 0.10);
 }
-.aad-skill-name { font-weight: 700; font-size: 0.88rem; }
+.aad-skill-name { font-weight: 700; font-size: 0.88rem; line-height: 1.3; white-space: normal; word-break: break-word; }
 .aad-skill-name i { margin-right: 6px; }
-.aad-skill-sub { font-size: 0.74rem; color: var(--bg3-text-muted, #9a8e7a); }
+.aad-skill-sub { font-size: 0.74rem; color: var(--bg3-text-muted, #9a8e7a); line-height: 1.35; white-space: normal; word-break: break-word; }
 .aad-skill-block  { border-left-color: #5a8bb8; }
 .aad-skill-block  .aad-skill-name i { color: #bcd9ff; }
 .aad-skill-reduce { border-left-color: #c8a96e; }
 .aad-skill-reduce .aad-skill-name i { color: #ffd98a; }
 .aad-skill-invenc { border-left-color: #c8a96e; }
 .aad-skill-invenc .aad-skill-name i { color: #ffe89a; }
+.aad-skill-counter { border-left-color: #ff8a4a; }
+.aad-skill-counter .aad-skill-name i { color: #ffb07a; }
 .aad-skill-util   { border-left-color: #6a5a3a; }
 .aad-skill-util   .aad-skill-name i { color: #c8b890; }
 .aad-dialog button[data-button="invenc"] {

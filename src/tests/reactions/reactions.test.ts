@@ -2,11 +2,17 @@ import { describe, it, expect } from "vitest";
 import {
     DEFENSE_REACTIONS,
     POSTDAMAGE_REACTIONS,
+    COUNTER_REACTIONS,
+    CONTEST_REACTIONS,
+    REROLL_REACTIONS,
     normalizeName,
     canBlock,
     reactionAvailable,
     getBlockingDefenseReactions,
     getPostDamageReactions,
+    getCounterReactions,
+    getContestReactions,
+    getRerollReactions,
     reduceDamage,
 } from "@/reactions";
 
@@ -155,5 +161,67 @@ describe("getPostDamageReactions", () => {
     it("ignora poderes fora do registro", () => {
         const actor = makeActor({ pm: 10, powers: ["Ataque Reflexo", "Especialista"] });
         expect(getPostDamageReactions({ actor, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+    it("inclui magias pós-dano (Instante Estoico, Campo de Força)", () => {
+        const actor = {
+            system: { attributes: { pm: { value: 10 } } },
+            items: [{ type: "magia", name: "Instante Estoico", id: "m0" }, { type: "magia", name: "Campo de Força", id: "m1" }],
+            getFlag: () => undefined,
+        };
+        const out = getPostDamageReactions({ actor, currentRoundKey: "c1:1" });
+        expect(out.map((r) => r.key).sort()).toEqual(["campo de forca", "instante estoico"]);
+    });
+});
+
+describe("registries novas (contra-ataque / aparar / rerolar)", () => {
+    it("COUNTER tem Revide e Arma Espiritual", () => {
+        expect(COUNTER_REACTIONS["revide"]).toMatchObject({ pm: 2, kind: "melee-attack" });
+        expect(COUNTER_REACTIONS["arma espiritual"]).toMatchObject({ kind: "fixed-damage", damage: "2d6" });
+    });
+    it("CONTEST tem Aparar", () => {
+        expect(CONTEST_REACTIONS["aparar"]).toMatchObject({ pm: 1 });
+    });
+    it("REROLL: Reparar Injustiça mantém pior, Premonição aceita novo", () => {
+        expect(REROLL_REACTIONS["reparar injustica"]).toMatchObject({ pm: 2, keepWorst: true });
+        expect(REROLL_REACTIONS["premonicao"]).toMatchObject({ keepWorst: false });
+    });
+    it("POSTDAMAGE: Bloqueio Brutal usa roll-weapon", () => {
+        expect(POSTDAMAGE_REACTIONS["bloqueio brutal"]).toMatchObject({ kind: "roll-weapon", pm: 2 });
+        expect(POSTDAMAGE_REACTIONS["instante estoico"]).toMatchObject({ kind: "flat", flat: 10 });
+        expect(POSTDAMAGE_REACTIONS["campo de forca"]).toMatchObject({ kind: "flat", flat: 30 });
+    });
+
+    const actor = (pm: number, items: Array<{ type: string; name: string }>, used?: unknown) => ({
+        system: { attributes: { pm: { value: pm } } },
+        items: items.map((it, i) => ({ ...it, id: `x${i}` })),
+        getFlag: () => used,
+    });
+
+    it("getCounterReactions lista contra-ataques conhecidos e pagáveis", () => {
+        const a = actor(5, [{ type: "poder", name: "Revide" }, { type: "magia", name: "Arma Espiritual" }]);
+        expect(getCounterReactions({ actor: a, currentRoundKey: "c1:1" }).map((r) => r.key).sort())
+            .toEqual(["arma espiritual", "revide"]);
+    });
+    it("getContestReactions só quando o ataque acerta", () => {
+        const a = actor(5, [{ type: "poder", name: "Aparar" }]);
+        expect(getContestReactions({ actor: a, attackTotal: 22, defesa: 18, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["aparar"]);
+        expect(getContestReactions({ actor: a, attackTotal: 15, defesa: 18, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+    it("getRerollReactions respeita PM (Premonição custa 13)", () => {
+        const a = actor(5, [{ type: "poder", name: "Reparar Injustiça" }, { type: "magia", name: "Premonição" }]);
+        // só Reparar Injustiça (2 PM) cabe em 5 PM
+        expect(getRerollReactions({ actor: a, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["reparar injustica"]);
+    });
+    it("nenhuma reação se já usou a reação da rodada", () => {
+        const a = actor(20, [{ type: "poder", name: "Revide" }, { type: "poder", name: "Aparar" }], "c1:1");
+        expect(getCounterReactions({ actor: a, currentRoundKey: "c1:1" })).toEqual([]);
+        expect(getContestReactions({ actor: a, attackTotal: 22, defesa: 18, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+});
+
+describe("reduceDamage roll-weapon", () => {
+    it("subtrai a rolagem de arma", () => {
+        expect(reduceDamage("roll-weapon", 18, { rolled: 7 })).toBe(11);
+        expect(reduceDamage("roll-weapon", 5, { rolled: 9 })).toBe(0);
     });
 });

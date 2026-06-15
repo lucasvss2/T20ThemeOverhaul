@@ -61,6 +61,10 @@ export interface AttackRerollRequest {
     samuraiLevel?: number;
     effectiveCriticoX?: number;
     effectiveCriticoM?: number;
+    /** Reação "Reparar Injustiça": mantém o PIOR entre rolagem original e nova. */
+    keepWorst?: boolean;
+    /** Total do ataque original (para o keepWorst). */
+    originalAttackTotal?: number;
 }
 
 export interface AttackMissNotify {
