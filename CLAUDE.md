@@ -99,6 +99,10 @@ src/
   ui/skills-menu.ts            — Toolbar button that aggregates active skill actions (register/refresh API)
   sheet/index.ts               — Character sheet redesign (BG3 aesthetic)
   counterspell/index.ts        — Contramágica: janela GM no cast → Misticismo vs CD → anula a magia (Parte 2b)
+  duration-manager/index.ts    — Gerenciador de duração de buffs/condições (rodadas/cena/dia/sustentada) em combate
+  duration-manager/classify.ts — Classificação pura da duração (effect.duration + system.duracao.units) — testável
+  duration-manager/hud.ts      — Mini-dialog de duração ao aplicar condição manual (default rodadas=1)
+  duration-manager/types.ts    — DurKind, DurData (flag flags.<MODULE_ID>.dur)
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -439,6 +443,20 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Não escreve no atacante** — só rola a Vontade dele (lido localmente via `resolveActor`/`canvas.tokens`, igual `doCounter`/`reflectToCaster`); o "perde a ação" é informativo (mestre aplica). O chamador aplica/ignora o dano conforme `negated`.
 - **auto-damage:** botão `data-skill="presenca"` no painel; tratado como o contra-ataque (NÃO trava o rodapé automaticamente) — `doPresenca` trava os botões de aplicar SÓ quando anula.
 - **spell-resistance:** seção `#smf-presenca-sect` (acima da resistência, pré-resolução), visível só quando `!isHeal && damageTotal > 0`; ao anular, fecha o modal após 1,4 s.
+
+
+### Gerenciador de Duração de buffs/condições (v1.62.0)
+
+`src/duration-manager/`. Expira automaticamente buffs e condições com duração **rodadas/cena** durante um encontro; **dia** expira ao passar 1 dia in-game (`updateWorldTime`) ou via ação "Descanso" no skills-menu; **sustentada** sobrevive ao encontro e pergunta ao conjurador se encerra a concentração ao fim; **indeterminada** só remoção manual.
+
+- **"Em combate" = `game.combat.started`.** Fora de encontro nada expira sozinho (item 3). Rodadas/cena só contam durante o encontro e **começam a contar quando o encontro inicia** (item 4) — ancoradas em `combatStart`/`createCombatant`, não no cast.
+- **Flag** `flags.<MODULE_ID>.dur` (`DurData`): `{ managed, kind, rounds?, remaining?, combatId?, startWorldTime?, casterActorId?, label?, source }`. `getDur`/`writeDur`.
+- **Classificação** (`classify.ts`, puro/testável): `effect.duration.type==="turns"` + `rounds<100` → **rodadas(N)**; senão pelo `system.duracao.units` da magia-pai (resolvida via `fromUuidSync(effect.origin)`) → scene/sust/day/perm(→indeterminada)/special(→indeterminada)/inst(→scene). **Pegadinha do compêndio:** T20 marca ~140/171 effects aplicados como `type:"scene"/durationScene:true` por DEFAULT, independente da duração real — por isso a unidade real vem do `duracao.units` da magia, não do effect. Scene às vezes traz sentinela `rounds:999` (nunca tratar como contagem real).
+- **Hooks (GM eleito `isActiveGM()` p/ mutações):** `createActiveEffect` (classifica/tagueia/prompt), `combatStart`+`createCombatant` (ancora), `combatTurnChange` (decrementa rodadas no INÍCIO do turno do dono; 0 → remove + chat card), `deleteCombat` (cena/rodadas removidas, sustentada pergunta), `updateWorldTime` (dia). O prompt manual roda no cliente que togglou (`userId === game.user.id`), não no GM eleito.
+- **HUD manual (item 6):** condição togglada via paleta do token → `createActiveEffect` sem nosso flag → `promptDuration` (rodadas[N]/cena/dia/indeterminada, default rodadas=1). Cancelar = indeterminada (não remove a condição).
+- **Magia→condição:** `spell-resistance` chama `registerExpectedCondition(actorId, statusId, dur)` ANTES do `toggleStatusEffect` (mapa de supressão, TTL 4s) → o `createActiveEffect` consome e NÃO pergunta. `computeConditionDur` prefere a duração por-rodada que a magia cravou no effect (`flags.tormenta20.effects[][].duration` com `type:"turns"` — ex.: Adaga Mental → Atordoado 1 rodada), senão classifica pelo `duracao.units` da magia.
+- **⚠️ Condições derivadas (cascata T20):** aplicar Atordoado cria a primária (`origin:null`) **+ Desprevenido derivado** (`origin: ...ActiveEffect.<idDaPrimária>`). Remover a primária **cascateia** (T20 remove a derivada junto). O manager **ignora** effects cujo `origin` contém `.ActiveEffect.` (`isDerivedConditionOrigin`) — só gerencia/pergunta a primária; ao expirá-la, T20 limpa as derivadas. Sem esse guard, cada condição dispararia um prompt extra pela derivada.
+- **Guards do `createActiveEffect`:** ignora se já tem nosso flag, se tem QUALQUER flag do módulo (AEs de área são de outro subsistema), se `transfer:true` (passiva de item) ou origin derivado. Buffs (sem `statuses`) só são gerenciados se têm sinal temporal (units da magia, `durationScene`, ou `type:"turns"`) — passivas permanentes ficam intactas.
 
 
 ## Foundry v13 Gotchas

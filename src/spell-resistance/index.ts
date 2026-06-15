@@ -15,6 +15,9 @@ import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
 import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, getEvasaoLevel, actorHasActiveEffectNamed, type EvasaoLevel, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
+import { registerExpectedCondition } from "@/duration-manager/index";
+import { classifyDuration } from "@/duration-manager/classify";
+import type { DurData } from "@/duration-manager/types";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
@@ -435,6 +438,49 @@ async function applyCondition(actorUuid: string, actorId: string, statusId: stri
     const actor = resolveTargetActor(actorUuid, actorId) as ActorWithToggle | null;
     if (!actor?.toggleStatusEffect) return;
     await actor.toggleStatusEffect(statusId, { active: true });
+}
+
+/**
+ * Determina a duração de uma condição aplicada pelo modal, para o gerenciador
+ * de duração: prefere a duração por-rodada que a magia cravou no effect
+ * (ex.: Adaga Mental → Atordoado 1 rodada), senão classifica pela duração geral
+ * da magia (`system.duracao.units`). Registra a duração ANTES do
+ * toggleStatusEffect — o gerenciador a consome e não pergunta nada.
+ */
+function statusLabel(statusId: string): string {
+    const list = (CONFIG as { statusEffects?: Array<{ id: string; name?: string; label?: string }> }).statusEffects ?? [];
+    const s = list.find((e) => e.id === statusId);
+    const raw = s?.name ?? s?.label ?? statusId;
+    return game.i18n?.localize(raw) ?? raw;
+}
+
+function computeConditionDur(messageId: string, statusId: string): DurData {
+    const label = statusLabel(statusId);
+    const normLabel = normalizeCondName(label);
+    const msg = game.messages?.get(messageId);
+
+    // 1) Effect cravado pela magia com nome "(Condição)" e duração por rodadas.
+    const groups = msg?.getFlag("tormenta20", "effects") as
+        | Array<Array<{ name?: string; duration?: { type?: string; rounds?: number } }>>
+        | undefined;
+    for (const grp of groups ?? []) {
+        for (const e of grp ?? []) {
+            if (!e?.name) continue;
+            const n = normalizeCondName(e.name);
+            if (n.includes(normLabel) && e.duration?.type === "turns" && (e.duration.rounds ?? 0) > 0) {
+                return { managed: true, kind: "rounds", rounds: e.duration.rounds!, source: "spell", label };
+            }
+        }
+    }
+
+    // 2) Duração geral da magia.
+    const itemData = msg?.getFlag("tormenta20", "itemData") as
+        | { duracao?: { units?: string; value?: number } }
+        | undefined;
+    const c = classifyDuration({ parentUnits: itemData?.duracao?.units, parentValue: itemData?.duracao?.value });
+    const dur: DurData = { managed: true, kind: c.kind, source: "spell", label };
+    if (c.kind === "rounds") dur.rounds = c.rounds ?? 1;
+    return dur;
 }
 
 /**
@@ -1396,6 +1442,13 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 const checked: string[] = [];
                 root.querySelectorAll<HTMLInputElement>(".smf-cond-grid input:checked").forEach((el) => {
                     if (el.value) {
+                        // Tagueia a duração ANTES de aplicar — o gerenciador
+                        // de duração a consome e expira sozinho (não pergunta).
+                        registerExpectedCondition(
+                            preReq.targetActorId,
+                            el.value,
+                            computeConditionDur(preReq.messageId, el.value),
+                        );
                         void applyCondition(preReq.targetActorUuid, preReq.targetActorId, el.value);
                         checked.push(el.value);
                     }
