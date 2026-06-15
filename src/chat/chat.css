@@ -6,7 +6,7 @@
    (item-card, resistance-roll, condition-card) sobrepõem onde necessário.
    ════════════════════════════════════════════════════════════════════════════ */
 
-#chat-log .chat-message,
+#chat-notifications .chat-message,
 #chat .chat-message {
     background: radial-gradient(ellipse at top, var(--bg3-bg-dark) 0%, #090604 100%) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
@@ -18,21 +18,21 @@
     font-family: "Modesto Condensed", "Palatino Linotype", "Book Antiqua", serif !important;
 }
 
-#chat-log .chat-message.whisper,
+#chat-notifications .chat-message.whisper,
 #chat .chat-message.whisper {
     background: radial-gradient(ellipse at top, #0e1822 0%, #050b14 100%) !important;
     border-color: rgba(80, 130, 200, 0.45) !important;
     box-shadow: 0 0 0 1px #0a1828, 0 4px 14px rgba(0, 0, 0, 0.65) !important;
 }
 
-#chat-log .chat-message .message-header,
+#chat-notifications .chat-message .message-header,
 #chat .chat-message .message-header {
     background: transparent !important;
     border: none !important;
     padding: 2px 8px !important;
     color: #d4c4a0 !important;
 }
-#chat-log .chat-message .message-sender,
+#chat-notifications .chat-message .message-sender,
 #chat .chat-message .message-sender {
     color: #d4c4a0 !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
@@ -46,47 +46,47 @@
          1px  1px 0 rgba(0,0,0,0.85),
         0 0 6px rgba(0,0,0,0.9) !important;
 }
-#chat-log .chat-message .message-metadata,
-#chat-log .chat-message .message-timestamp,
-#chat-log .chat-message .message-delete,
+#chat-notifications .chat-message .message-metadata,
+#chat-notifications .chat-message .message-timestamp,
+#chat-notifications .chat-message .message-delete,
 #chat .chat-message .message-metadata,
 #chat .chat-message .message-timestamp,
 #chat .chat-message .message-delete {
     color: var(--bg3-text-disabled) !important;
     font-size: 0.62rem !important;
 }
-#chat-log .chat-message .message-delete:hover,
+#chat-notifications .chat-message .message-delete:hover,
 #chat .chat-message .message-delete:hover {
     color: var(--bg3-color-danger) !important;
 }
-#chat-log .chat-message .message-content,
+#chat-notifications .chat-message .message-content,
 #chat .chat-message .message-content {
     color: #c0b49a !important;
     padding: 4px 10px !important;
 }
-#chat-log .chat-message .message-content a,
+#chat-notifications .chat-message .message-content a,
 #chat .chat-message .message-content a {
     color: var(--bg3-accent) !important;
     text-decoration: none !important;
 }
-#chat-log .chat-message .message-content a:hover,
+#chat-notifications .chat-message .message-content a:hover,
 #chat .chat-message .message-content a:hover {
     color: #e0c489 !important;
     text-decoration: underline !important;
 }
-#chat-log .chat-message .message-content b,
-#chat-log .chat-message .message-content strong,
+#chat-notifications .chat-message .message-content b,
+#chat-notifications .chat-message .message-content strong,
 #chat .chat-message .message-content b,
 #chat .chat-message .message-content strong {
     color: var(--bg3-accent) !important;
 }
-#chat-log .chat-message .message-content em,
-#chat-log .chat-message .message-content i,
+#chat-notifications .chat-message .message-content em,
+#chat-notifications .chat-message .message-content i,
 #chat .chat-message .message-content em,
 #chat .chat-message .message-content i {
     color: var(--bg3-text-muted) !important;
 }
-#chat-log .chat-message .message-content hr,
+#chat-notifications .chat-message .message-content hr,
 #chat .chat-message .message-content hr {
     border: none !important;
     border-top: 1px solid var(--bg3-divider) !important;
@@ -95,13 +95,13 @@
 
 /* ── Generic dice roll (Foundry stock) ───────────────────────────────────── */
 
-#chat-log .chat-message .dice-roll,
+#chat-notifications .chat-message .dice-roll,
 #chat .chat-message .dice-roll {
     background: transparent !important;
     border: none !important;
     padding: 2px 0 !important;
 }
-#chat-log .chat-message .dice-roll .dice-flavor,
+#chat-notifications .chat-message .dice-roll .dice-flavor,
 #chat .chat-message .dice-roll .dice-flavor {
     color: var(--bg3-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
@@ -112,7 +112,7 @@
     margin: 4px 0 6px !important;
     text-shadow: 0 0 10px rgba(var(--bg3-accent-rgb), 0.25) !important;
 }
-#chat-log .chat-message .dice-roll .dice-formula,
+#chat-notifications .chat-message .dice-roll .dice-formula,
 #chat .chat-message .dice-roll .dice-formula {
     color: #c8b896 !important;
     font-family: monospace !important;
@@ -123,7 +123,7 @@
     padding: 2px 10px !important;
     text-align: center !important;
 }
-#chat-log .chat-message .dice-roll .dice-total,
+#chat-notifications .chat-message .dice-roll .dice-total,
 #chat .chat-message .dice-roll .dice-total {
     color: #f0ebe0 !important;
     background: transparent !important;
@@ -136,49 +136,49 @@
     padding: 4px 8px 2px !important;
     margin: 0 !important;
 }
-#chat-log .chat-message .dice-roll .dice-total.critical,
+#chat-notifications .chat-message .dice-roll .dice-total.critical,
 #chat .chat-message .dice-roll .dice-total.critical {
     color: var(--bg3-color-success) !important;
     text-shadow: 0 0 24px rgba(var(--bg3-color-success-rgb), 0.6) !important;
 }
-#chat-log .chat-message .dice-roll .dice-total.fumble,
+#chat-notifications .chat-message .dice-roll .dice-total.fumble,
 #chat .chat-message .dice-roll .dice-total.fumble {
     color: var(--bg3-color-danger) !important;
     text-shadow: 0 0 24px rgba(var(--bg3-color-danger-rgb), 0.6) !important;
 }
-#chat-log .chat-message .dice-tooltip,
+#chat-notifications .chat-message .dice-tooltip,
 #chat .chat-message .dice-tooltip {
     background: rgba(10, 6, 2, 0.85) !important;
     border-top: 1px solid rgba(106, 78, 24, 0.25) !important;
     margin-top: 4px !important;
     padding: 6px 0 4px !important;
 }
-#chat-log .chat-message .dice-tooltip .part-header,
+#chat-notifications .chat-message .dice-tooltip .part-header,
 #chat .chat-message .dice-tooltip .part-header {
     background: var(--bg3-divider-soft) !important;
     border-bottom: 1px solid var(--bg3-divider-med) !important;
     padding: 3px 8px !important;
 }
-#chat-log .chat-message .dice-tooltip .part-formula,
+#chat-notifications .chat-message .dice-tooltip .part-formula,
 #chat .chat-message .dice-tooltip .part-formula {
     color: #a89880 !important;
     font-family: monospace !important;
     font-size: 0.72rem !important;
 }
-#chat-log .chat-message .dice-tooltip .part-flavor,
+#chat-notifications .chat-message .dice-tooltip .part-flavor,
 #chat .chat-message .dice-tooltip .part-flavor {
     color: #7a6e5a !important;
     font-style: italic !important;
     font-size: 0.7rem !important;
 }
-#chat-log .chat-message .dice-tooltip .part-total,
+#chat-notifications .chat-message .dice-tooltip .part-total,
 #chat .chat-message .dice-tooltip .part-total {
     color: var(--bg3-text-bright) !important;
     background: rgba(0, 0, 0, 0.3) !important;
     font-weight: 700 !important;
     font-size: 0.78rem !important;
 }
-#chat-log .chat-message .dice-tooltip .dice-rolls,
+#chat-notifications .chat-message .dice-tooltip .dice-rolls,
 #chat .chat-message .dice-tooltip .dice-rolls {
     list-style: none !important;
     padding: 2px 8px 4px !important;
@@ -187,7 +187,7 @@
     flex-wrap: wrap !important;
     gap: 4px !important;
 }
-#chat-log .chat-message .dice-tooltip .roll.die,
+#chat-notifications .chat-message .dice-tooltip .roll.die,
 #chat .chat-message .dice-tooltip .roll.die {
     color: var(--bg3-text-bright) !important;
     background: rgba(30, 20, 8, 0.9) !important;
@@ -198,12 +198,12 @@
     min-width: 22px !important;
     text-align: center !important;
 }
-#chat-log .chat-message .dice-tooltip .roll.die.max,
+#chat-notifications .chat-message .dice-tooltip .roll.die.max,
 #chat .chat-message .dice-tooltip .roll.die.max {
     color: var(--bg3-color-success) !important;
     border-color: rgba(var(--bg3-color-success-rgb), 0.5) !important;
 }
-#chat-log .chat-message .dice-tooltip .roll.die.min,
+#chat-notifications .chat-message .dice-tooltip .roll.die.min,
 #chat .chat-message .dice-tooltip .roll.die.min {
     color: var(--bg3-color-danger) !important;
     border-color: rgba(var(--bg3-color-danger-rgb), 0.5) !important;
@@ -230,7 +230,7 @@ section#chat textarea#chat-message:focus {
 
 /* ── Combat-tracker announcement (System messages) ──────────────────────── */
 
-#chat-log .chat-message.no-border,
+#chat-notifications .chat-message.no-border,
 #chat .chat-message.no-border {
     /* System messages without sender header */
     border-color: rgba(106, 78, 24, 0.3) !important;
