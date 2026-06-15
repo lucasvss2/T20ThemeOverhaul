@@ -8,7 +8,7 @@ import {
 import {
     getBlockingDefenseReactions, applyDefenseReaction,
     getPostDamageReactions, computePostDamageReduction, finalizePostDamageReaction,
-    getCounterReactions, applyCounterReaction,
+    getCounterReactions, resolveCounterAttack,
     getContestReactions, applyContestReaction,
     getRerollReactions, consumeReaction,
 } from "@/reactions";
@@ -607,11 +607,17 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     };
     const doReroll = (): void => dispatchReroll(buildRerollReq());
 
-    const doCounter = (key: string): void => {
-        void applyCounterReaction({
-            actor: targetActor as unknown as Parameters<typeof applyCounterReaction>[0]["actor"],
-            key, attackerName: req.attackerName, targetName,
+    const doCounter = async (key: string): Promise<void> => {
+        const attackerActor = resolveActor(req.attackerTokenId ?? "", req.attackerActorId ?? "");
+        const attackerDefesa = attackerActor ? getDef(attackerActor) : 0;
+        const { damageToAttacker } = await resolveCounterAttack({
+            actor: targetActor as unknown as Parameters<typeof resolveCounterAttack>[0]["actor"],
+            key, attackerDefesa, attackerName: req.attackerName, targetName,
         });
+        if (damageToAttacker > 0 && (req.attackerTokenId || req.attackerActorId)) {
+            await applyDamage(req.attackerTokenId ?? "", req.attackerActorId ?? "", damageToAttacker, 0,
+                { kind: "damage", source: targetName });
+        }
     };
 
     const doAparar = async (key: string, root: HTMLElement): Promise<void> => {
@@ -669,7 +675,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     else if (skill.startsWith("block:")) doBlock(skill.slice(6));
                     else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
                     else if (skill.startsWith("aparar:")) void doAparar(skill.slice(7), root);
-                    else if (skill.startsWith("counter:")) doCounter(skill.slice(8));
+                    else if (skill.startsWith("counter:")) void doCounter(skill.slice(8));
                     else if (skill.startsWith("rerollreact:")) {
                         const k = skill.slice(12);
                         const rr = rerollReactions.find((x) => x.key === k);
@@ -810,6 +816,8 @@ function setupCreateChatHook(): void {
                 targetActorId: targetActor.id,
                 targetTokenId: token.id,
                 attackerName,
+                attackerTokenId: spkTokenId,
+                attackerActorId: spkActorId,
                 rollLabel,
                 attackTotal,
                 targetDef,

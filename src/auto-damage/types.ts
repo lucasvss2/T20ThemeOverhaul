@@ -9,6 +9,9 @@ export interface AutoDamageRequest {
      *  game.actors.get(actorId) returns the prototype (HP=0), not the token. */
     targetTokenId: string;
     attackerName: string;
+    /** Token/ator do ATACANTE (para aplicar dano de contra-ataque nele). */
+    attackerTokenId?: string;
+    attackerActorId?: string;
     rollLabel: string;
     attackTotal: number;
     targetDef: number;

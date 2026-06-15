@@ -439,29 +439,37 @@ export function getCounterReactions(opts: { actor: AnyActor | null | undefined; 
 }
 
 /**
- * Aplica um contra-ataque: debita PM, marca o uso, rola o dano/ataque e posta o
- * card. A aplicação do dano no ATACANTE é manual (o token do atacante não está
- * no contexto do prompt de dano).
+ * Resolve um contra-ataque: debita PM, marca o uso, rola o ataque/dano e posta o
+ * card. Retorna o DANO a aplicar no atacante (o chamador aplica no token do
+ * atacante). melee-attack rola 1d20+Luta vs a Defesa do atacante; fixed-damage
+ * causa o dano automaticamente.
  */
-export async function applyCounterReaction(opts: {
-    actor: AnyActor | null | undefined; key: string; attackerName: string; targetName: string;
-}): Promise<void> {
+export async function resolveCounterAttack(opts: {
+    actor: AnyActor | null | undefined; key: string; attackerDefesa: number; attackerName: string; targetName: string;
+}): Promise<{ damageToAttacker: number }> {
     const reg = Object.prototype.hasOwnProperty.call(COUNTER_REACTIONS, opts.key) ? COUNTER_REACTIONS[opts.key] : undefined;
     const actor = opts.actor;
-    if (!reg || !actor) return;
-    try {
-        const pm = pmOf(actor);
-        if (reg.pm > 0) await actor.update?.({ "system.attributes.pm.value": Math.max(0, pm - reg.pm) });
-        const curKey = roundKey();
-        if (curKey) await actor.setFlag?.(MODULE_ID, REACTION_USED_FLAG, curKey);
-    } catch (err) { warn(`reactions: falha contra-ataque (PM/uso):`, err); }
+    if (!reg || !actor) return { damageToAttacker: 0 };
 
+    await consumeReaction(actor, reg.pm);
+
+    let damageToAttacker = 0;
     let bodyHtml = "";
     if (reg.kind === "fixed-damage") {
         const { total, html } = await rollFormula(reg.damage ?? "1d6");
-        bodyHtml = `<div class="bg3-reac-stat"><b>${total}</b> de dano no atacante (${escHtml(reg.damage ?? "")}) — aplique manualmente.</div>${html ?? ""}`;
+        damageToAttacker = total;
+        bodyHtml = `<div class="bg3-reac-stat"><b>${total}</b> de dano em ${escHtml(opts.attackerName)} (${escHtml(reg.damage ?? "")}).</div>${html ?? ""}`;
     } else {
-        bodyHtml = `<div class="bg3-reac-note">Faça um ataque corpo a corpo contra <b>${escHtml(opts.attackerName)}</b>.</div>`;
+        const luta = pericValue(actor, "luta");
+        const { total: atk, html: atkHtml } = await rollFormula(`1d20 + ${luta}`);
+        const hit = atk >= opts.attackerDefesa;
+        if (hit) {
+            const { total: dmg, html: dmgHtml } = await rollFormula(meleeDamageFormula(actor));
+            damageToAttacker = dmg;
+            bodyHtml = `<div class="bg3-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>acertou!</b> ${dmg} de dano.</div>${atkHtml ?? ""}${dmgHtml ?? ""}`;
+        } else {
+            bodyHtml = `<div class="bg3-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>errou</b>.</div>${atkHtml ?? ""}`;
+        }
     }
     const content = `
 <div class="bg3-reaction-block bg3-reaction-counter">
@@ -471,6 +479,7 @@ export async function applyCounterReaction(opts: {
   ${reg.pm > 0 ? `<div class="bg3-reac-cost">−${reg.pm} PM</div>` : ""}
 </div>`;
     await postCard(content, { reactionCounter: true });
+    return { damageToAttacker };
 }
 
 /* -------------------------------------------------------------------------- */
