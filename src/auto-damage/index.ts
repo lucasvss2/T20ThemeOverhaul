@@ -666,10 +666,10 @@ function openDamagePrompt(req: AutoDamageRequest): void {
 
             // Wire dos botões de skill/reação (painel no corpo) — cada um executa
             // a ação e fecha o modal.
-            const dlg = dialog as unknown as { close?: () => unknown };
             root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((btn) => {
                 btn.addEventListener("click", (ev) => {
                     ev.preventDefault();
+                    if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill === "reroll") doReroll();
                     else if (skill === "invenc") doInvenc(root);
@@ -682,7 +682,18 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                         const rr = rerollReactions.find((x) => x.key === k);
                         if (rr) void doRerollReaction(rr.key, rr.keepWorst, rr.pm);
                     }
-                    try { dlg.close?.(); } catch { /* ignore */ }
+                    // NÃO fecha o modal — contra-ataques exigem aplicar o dano recebido
+                    // depois. 1 reação/rodada: desabilita o painel após o uso.
+                    root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((b) => {
+                        b.disabled = true; b.classList.add("aad-skill-used");
+                    });
+                    // Reações que JÁ resolvem o dano recebido (bloqueio/redução/aparar/
+                    // invencibilidade/rerolar) travam os botões de aplicar para evitar
+                    // dupla aplicação. Contra-ataques mantêm o rodapé ativo.
+                    if (!skill.startsWith("counter:")) {
+                        root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
+                            .forEach((b) => { b.disabled = true; });
+                    }
                 });
             });
         },
@@ -747,13 +758,16 @@ function openMissCounterPrompt(req: MissCounterRequest): void {
         buttons: [{ type: "submit", action: "ignore", label: "Ignorar", icon: "fas fa-ban", default: true }],
         render: (_event, dialog) => {
             const root = dialog.element;
-            const dlg  = dialog as unknown as { close?: () => unknown };
             root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((btn) => {
                 btn.addEventListener("click", (ev) => {
                     ev.preventDefault();
+                    if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill.startsWith("counter:")) void doCounter(skill.slice(8));
-                    try { dlg.close?.(); } catch { /* ignore */ }
+                    // NÃO fecha — pode haver outras ações; só desabilita após o uso.
+                    root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((b) => {
+                        b.disabled = true; b.classList.add("aad-skill-used");
+                    });
                 });
             });
         },

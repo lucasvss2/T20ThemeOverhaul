@@ -192,6 +192,19 @@
 .aad-skill-invenc .aad-skill-name i { color: #ffe89a; }
 .aad-skill-counter { border-left-color: #ff8a4a; }
 .aad-skill-counter .aad-skill-name i { color: #ffb07a; }
+.aad-skill-btn.aad-skill-used {
+    opacity: 0.5;
+    cursor: default;
+    filter: grayscale(0.4);
+}
+.aad-skill-btn.aad-skill-used:hover {
+    background: rgba(0, 0, 0, 0.25);
+    border-color: var(--bg3-divider, #3a2f1d);
+}
+.aad-skill-btn.aad-skill-used .aad-skill-name::after {
+    content: " ✓";
+    color: var(--bg3-accent, #c8a96e);
+}
 .aad-skill-util   { border-left-color: #6a5a3a; }
 .aad-skill-util   .aad-skill-name i { color: #c8b890; }
 .aad-dialog button[data-button="invenc"] {
