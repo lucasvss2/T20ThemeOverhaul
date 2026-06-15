@@ -658,13 +658,14 @@ export async function consumeReaction(actor: AnyActor | null | undefined, pm: nu
 /*  Reações CONTRA MAGIA (no teste de resistência — Parte 2a)                  */
 /* -------------------------------------------------------------------------- */
 
-export type MagicReactionKind = "reroll" | "aparar" | "reflect";
+export type MagicReactionKind = "reroll" | "aparar" | "reflect" | "bonus";
 
 export interface MagicReaction {
     label:       string;
     pm:          number;
     kind:        MagicReactionKind;
     rerollBonus?: number;  // reroll: bônus extra no novo teste (Alterar Destino +10)
+    bonus?:      number;   // bonus: soma ao total já rolado (Futuro Melhor +2)
     note?:       string;
 }
 
@@ -675,7 +676,41 @@ export const MAGIC_REACTIONS: Record<string, MagicReaction> = {
     "heroi da realidade": { label: "Herói da Realidade", pm: 5,  kind: "reroll", note: "repete o teste de resistência" },
     "aparar magia":       { label: "Aparar Magia",       pm: 2,  kind: "aparar", note: "rola ataque como resistência; reflete se superar a CD por 10" },
     "refletir magia":     { label: "Refletir Magia",     pm: 6,  kind: "reflect", note: "reflete o efeito de volta ao conjurador" },
+    "futuro melhor":      { label: "Futuro Melhor",      pm: 1,  kind: "bonus", bonus: 2, note: "+2 no teste já rolado" },
 };
+
+/* -------------------------------------------------------------------------- */
+/*  Evasão / Evasão Aprimorada (modifica o resultado de "metade" em Reflexos) */
+/* -------------------------------------------------------------------------- */
+
+export type EvasaoLevel = "none" | "evasao" | "aprimorada";
+
+/**
+ * Nível de Evasão do ator (poderes Evasão / Evasão Aprimorada, inclusive variantes
+ * do Ladino). Exige liberdade de movimento — anulado se estiver Imóvel.
+ *  - "evasao": Reflexos que reduz à metade → passou: 0 dano; falhou: dano cheio.
+ *  - "aprimorada": passou: 0 dano; falhou: metade do dano.
+ */
+export function getEvasaoLevel(actor: ActorLike | null | undefined): EvasaoLevel {
+    if (!actor) return "none";
+    if (actorHasActiveEffectNamed(actor, "imovel")) return "none";
+    let level: EvasaoLevel = "none";
+    for (const it of itemsOf(actor)) {
+        if (it.type !== "poder") continue;
+        const n = normalizeName(it.name ?? "");
+        if (!n.includes("evasao")) continue;
+        if (n.includes("aprimorada")) return "aprimorada"; // melhor nível vence
+        level = "evasao";
+    }
+    return level;
+}
+
+/** Dano efetivo após Evasão num efeito de Reflexos-reduz-à-metade. */
+export function applyEvasao(level: EvasaoLevel, passed: boolean, full: number, half: number): number {
+    if (level === "none") return passed ? half : full;
+    if (passed) return 0;                                   // evasão e aprimorada: 0 ao passar
+    return level === "aprimorada" ? half : full;            // ao falhar: aprimorada=metade, evasão=cheio
+}
 
 export interface MagicReactionOption { key: string; label: string; pm: number; kind: MagicReactionKind; rerollBonus?: number; note?: string; }
 

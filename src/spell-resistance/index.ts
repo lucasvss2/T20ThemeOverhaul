@@ -13,7 +13,7 @@ import type {
 } from "./types";
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
-import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, type MagicReactionOption } from "@/reactions";
+import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, getEvasaoLevel, actorHasActiveEffectNamed, type EvasaoLevel, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
@@ -546,6 +546,20 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         : []
     );
 
+    // Gingado Elusivo: +5 Reflexos contra o efeito quando o alvo está sob Dança
+    // Marcial. Injetado como "poder" sintético na lista de bônus (debita 2 PM no roll).
+    if (targetActor && skillKey === "refl" && pmActual >= 2) {
+        const itemsArr = ((targetActor as unknown as { items?: { contents?: Array<{ type?: string; name?: string }> } }).items?.contents) ?? [];
+        const hasGingado = itemsArr.some(i => i.type === "poder" && normalizeCondName(i.name ?? "").includes("gingado elusivo"));
+        if (hasGingado && actorHasActiveEffectNamed(targetActor as never, "danca marcial")) {
+            powers.push({ itemType: "poder", name: "Gingado Elusivo", pm: 2, bonusFormula: "+5", isAdvantage: false, bonusLabel: "+5 Reflexos" } as unknown as ActivatableItem);
+        }
+    }
+
+    // Evasão / Evasão Aprimorada: modifica o resultado de Reflexos-reduz-à-metade.
+    const evasaoLevel: EvasaoLevel = (targetActor && skillKey === "refl") ? getEvasaoLevel(targetActor as never) : "none";
+    const evasaoApplies = evasaoLevel !== "none" && (preReq.resistOutcome === "metade" || preReq.resistOutcome === "parcial");
+
     let resistBodyHtml: string;
 
     if (preReq.isHeal) {
@@ -918,6 +932,9 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
 
             // ── Rolar Resist\u00eancia (suporta reroll) ────────────────────────────
             let hasRolledResist = false;
+            // Último resultado do teste (para Futuro Melhor: +2 no teste já rolado).
+            let lastResistTotal = 0;
+            let lastResistD20 = 0;
             const rollResistBtn = root.querySelector<HTMLButtonElement>("#smf-roll-resist");
             rollResistBtn?.addEventListener("click", (ev) => {
                 const btn = ev.currentTarget as HTMLButtonElement;
@@ -983,12 +1000,19 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         flags:   { [MODULE_ID]: { resistanceRoll: true } },
                     });
 
-                    const outcomeText = passed
-                        ? (preReq.resistOutcome === "anula"   ? "Sem efeito (passou)" :
-                           preReq.resistOutcome === "metade"  ? "Metade do dano (passou)" :
-                           preReq.resistOutcome === "parcial" ? "Metade + sem condi\u00e7\u00f5es (passou)" :
-                           "Passou \u2014 veja texto da magia")
-                        : "Falhou \u2014 efeito completo";
+                    lastResistTotal = total;
+                    lastResistD20 = d20Res;
+
+                    const outcomeText = evasaoApplies
+                        ? (passed
+                            ? `Sem dano (Evas\u00e3o${evasaoLevel === "aprimorada" ? " Aprimorada" : ""} \u2014 passou)`
+                            : (evasaoLevel === "aprimorada" ? "Metade do dano (Evas\u00e3o Aprimorada \u2014 falhou)" : "Falhou \u2014 efeito completo"))
+                        : (passed
+                            ? (preReq.resistOutcome === "anula"   ? "Sem efeito (passou)" :
+                               preReq.resistOutcome === "metade"  ? "Metade do dano (passou)" :
+                               preReq.resistOutcome === "parcial" ? "Metade + sem condi\u00e7\u00f5es (passou)" :
+                               "Passou \u2014 veja texto da magia")
+                            : "Falhou \u2014 efeito completo");
 
                     const passClass  = passed ? "smf-rr-pass"       : "smf-rr-fail";
                     const badgeClass = passed ? "smf-rr-badge-pass" : "smf-rr-badge-fail";
@@ -1098,8 +1122,17 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     const total = roll.total ?? 0;
                     const ok = d20 === 20 || (d20 !== 1 && total >= preReq.cd);
                     await consumeReaction(tActor, pm);
+                    lastResistTotal = total; lastResistD20 = d20;
                     await ChatMessage.create({ content: await roll.render({ flavor: `Rerolar Resistência (${targetName}) vs CD ${preReq.cd} — ${ok ? "✓ PASSOU" : "✗ FALHOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
                     paintResult(total, d20, ok, ok ? "Passou (rerolagem)" : "Falhou — efeito completo");
+                    renderMagicReactions(ok);
+                } else if (kind === "bonus") {
+                    // Futuro Melhor: +2 (ou bonus) no teste já rolado.
+                    const newTotal = lastResistTotal + (bonus || 2);
+                    const ok = lastResistD20 === 20 || (lastResistD20 !== 1 && newTotal >= preReq.cd);
+                    await consumeReaction(tActor, pm);
+                    lastResistTotal = newTotal;
+                    paintResult(newTotal, lastResistD20, ok, ok ? `Passou (+${bonus || 2} de ${label})` : "Falhou — efeito completo");
                     renderMagicReactions(ok);
                 } else if (kind === "aparar") {
                     const luta  = targetActor ? computeSkillTotal(targetActor, "luta") : 0;
@@ -1109,6 +1142,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     const ok = total >= preReq.cd;
                     const reflectAlso = total >= preReq.cd + 10;
                     await consumeReaction(tActor, pm);
+                    lastResistTotal = total; lastResistD20 = 0;
                     await ChatMessage.create({ content: await roll.render({ flavor: `Aparar Magia (${targetName}) — ataque vs CD ${preReq.cd} — ${ok ? "✓ EVITOU" : "✗ NÃO EVITOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
                     paintResult(total, 0, ok, ok ? (reflectAlso ? "Evitou e refletiu! (Aparar Magia)" : "Evitou totalmente (Aparar Magia)") : "Não evitou — efeito completo");
                     if (reflectAlso) await reflectToCaster("Aparar Magia");

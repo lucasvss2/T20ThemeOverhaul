@@ -419,6 +419,14 @@ Todas em `src/reactions/index.ts` + integração no `auto-damage`. Varredura con
 
 **Gotcha de teste (MCP):** prompts antigos não fechados deixam `document.querySelector(".aad-dialog")` apontando para o STALE — sempre fechar via `foundry.applications.instances` e pegar o ÚLTIMO `.aad-dialog`. Nível do PC em `system.attributes.nivel.value` (não `system.nivel`).
 
+### Reações defensivas extras — lado magia (v1.61.0)
+
+No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `reactions/index.ts`.
+
+- **Evasão / Evasão Aprimorada** (poderes, inclui variantes do Ladino; passivo): em efeito de **Reflexos-reduz-à-metade**, Evasão → passou: 0 dano / falhou: cheio; Aprimorada → passou: 0 / falhou: metade. `getEvasaoLevel(actor)` ("none"|"evasao"|"aprimorada", **aprimorada vence**, anulado se Imóvel) + `applyEvasao(level,passed,full,half)`. O modal NÃO auto-aplica — ajusta o **texto de outcome** ("Sem dano (Evasão…)" / "Metade do dano (Evasão Aprimorada — falhou)") e o GM aplica o botão certo. Só quando `skillKey==="refl"` e outcome metade/parcial.
+- **Gingado Elusivo (+5 Reflexos)**: injetado como **poder sintético** na lista de bônus do modal (`powers.push({pm:2,bonusFormula:"+5",bonusLabel:"+5 Reflexos"})`) quando `skillKey==="refl"` + conhece Gingado + Dança Marcial ativa + ≥2 PM. Reusa o mecanismo de power-check (soma +5 ao roll, debita 2 PM na 1ª rolagem). Lado Defesa (+5 Def) já entrou na v1.60.0.
+- **Futuro Melhor** (magia, 1 PM): `MAGIC_REACTIONS` ganhou kind **`bonus`** (+2). Aparece no painel de reações contra magia só quando FALHOU. Soma +2 ao último total (`lastResistTotal`/`lastResistD20` rastreados no render) e recomputa pass/fail. Consome 1 PM.
+
 ### Reações — Parte 2b: Presença Aristocrática (v1.59.0)
 
 `src/reactions/index.ts` (`getPresencaOption`/`resolvePresenca`) + integração em `auto-damage/index.ts` (ataques) e `spell-resistance/index.ts` (magias).

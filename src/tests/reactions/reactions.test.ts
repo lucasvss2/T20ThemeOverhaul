@@ -28,6 +28,8 @@ import {
     getAmigoProtetorOption,
     getMissDebuffReactions,
     MISS_DEBUFF_REACTIONS,
+    getEvasaoLevel,
+    applyEvasao,
 } from "@/reactions";
 
 describe("DEFENSE_REACTIONS registry", () => {
@@ -395,5 +397,49 @@ describe("Bloqueio Desconcertante (miss-debuff)", () => {
     it("getMissDebuffReactions lista quando conhece e pode pagar", () => {
         expect(getMissDebuffReactions({ actor: mk(5, ["Bloqueio Desconcertante"]) as any, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["bloqueio desconcertante"]);
         expect(getMissDebuffReactions({ actor: mk(0, ["Bloqueio Desconcertante"]) as any, currentRoundKey: "c1:1" })).toEqual([]);
+    });
+});
+
+describe("Futuro Melhor (magic bonus)", () => {
+    it("registro: magia, 1 PM, kind bonus +2", () => {
+        expect(MAGIC_REACTIONS["futuro melhor"]).toMatchObject({ pm: 1, kind: "bonus", bonus: 2 });
+    });
+    it("getMagicReactions oferece Futuro Melhor só quando FALHOU", () => {
+        const actor = { system: { attributes: { pm: { value: 5 } } }, items: [{ type: "magia", name: "Futuro Melhor", id: "m0" }], getFlag: () => undefined } as any;
+        const onFail = getMagicReactions({ actor, passed: false, currentRoundKey: "c1:1" }).map((r) => r.key);
+        const onPass = getMagicReactions({ actor, passed: true, currentRoundKey: "c1:1" }).map((r) => r.key);
+        expect(onFail).toContain("futuro melhor");
+        expect(onPass).not.toContain("futuro melhor");
+    });
+});
+
+describe("Evasão / Evasão Aprimorada", () => {
+    const mk = (powers: string[], effects: string[] = []) => ({
+        system: { attributes: { pm: { value: 5 } } },
+        items: powers.map((name, i) => ({ type: "poder", name, id: `p${i}` })),
+        effects: effects.map((name) => ({ name, disabled: false })),
+        getFlag: () => undefined,
+    });
+    it("getEvasaoLevel detecta nível (aprimorada vence) e variantes do Ladino", () => {
+        expect(getEvasaoLevel(mk(["Evasão"]) as any)).toBe("evasao");
+        expect(getEvasaoLevel(mk(["Evasão (Ladino)"]) as any)).toBe("evasao");
+        expect(getEvasaoLevel(mk(["Evasão", "Evasão Aprimorada"]) as any)).toBe("aprimorada");
+        expect(getEvasaoLevel(mk(["Evasão Aprimorada (Ladino)"]) as any)).toBe("aprimorada");
+        expect(getEvasaoLevel(mk(["Bola de Fogo"]) as any)).toBe("none");
+    });
+    it("anulada quando Imóvel (exige liberdade de movimento)", () => {
+        expect(getEvasaoLevel(mk(["Evasão Aprimorada"], ["Imóvel"]) as any)).toBe("none");
+    });
+    it("applyEvasao: sem Evasão = comportamento padrão (metade/cheio)", () => {
+        expect(applyEvasao("none", true, 20, 10)).toBe(10);
+        expect(applyEvasao("none", false, 20, 10)).toBe(20);
+    });
+    it("applyEvasao: Evasão → passou 0, falhou cheio", () => {
+        expect(applyEvasao("evasao", true, 20, 10)).toBe(0);
+        expect(applyEvasao("evasao", false, 20, 10)).toBe(20);
+    });
+    it("applyEvasao: Aprimorada → passou 0, falhou metade", () => {
+        expect(applyEvasao("aprimorada", true, 20, 10)).toBe(0);
+        expect(applyEvasao("aprimorada", false, 20, 10)).toBe(10);
     });
 });
