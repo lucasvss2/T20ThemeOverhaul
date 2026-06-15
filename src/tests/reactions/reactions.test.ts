@@ -3,6 +3,7 @@ import {
     DEFENSE_REACTIONS,
     POSTDAMAGE_REACTIONS,
     COUNTER_REACTIONS,
+    ONMISS_COUNTER_REACTIONS,
     CONTEST_REACTIONS,
     REROLL_REACTIONS,
     normalizeName,
@@ -11,6 +12,7 @@ import {
     getBlockingDefenseReactions,
     getPostDamageReactions,
     getCounterReactions,
+    getMissCounterReactions,
     getContestReactions,
     getRerollReactions,
     reduceDamage,
@@ -201,6 +203,16 @@ describe("registries novas (contra-ataque / aparar / rerolar)", () => {
         const a = actor(5, [{ type: "poder", name: "Revide" }, { type: "magia", name: "Arma Espiritual" }]);
         expect(getCounterReactions({ actor: a, currentRoundKey: "c1:1" }).map((r) => r.key).sort())
             .toEqual(["arma espiritual", "revide"]);
+    });
+    it("Contra-Ataque é on-miss: aparece em getMissCounterReactions, não em getCounterReactions", () => {
+        const a = actor(5, [{ type: "poder", name: "Contra-Ataque" }]);
+        expect(getCounterReactions({ actor: a, currentRoundKey: "c1:1" })).toEqual([]);
+        expect(getMissCounterReactions({ actor: a, currentRoundKey: "c1:1" }).map((r) => r.key)).toEqual(["contra-ataque"]);
+        expect(ONMISS_COUNTER_REACTIONS["contra-ataque"]).toMatchObject({ pm: 2, kind: "melee-attack" });
+    });
+    it("Revide (on-hit) não aparece como contra-ataque no erro", () => {
+        const a = actor(5, [{ type: "poder", name: "Revide" }]);
+        expect(getMissCounterReactions({ actor: a, currentRoundKey: "c1:1" })).toEqual([]);
     });
     it("getContestReactions só quando o ataque acerta", () => {
         const a = actor(5, [{ type: "poder", name: "Aparar" }]);

@@ -411,31 +411,44 @@ export interface CounterReaction {
     damage?: string;   // fixed-damage: fórmula (ex.: "2d6")
     note?:  string;
 }
+/** Contra-ataques que disparam ao SER ATINGIDO (aparecem no prompt de dano). */
 export const COUNTER_REACTIONS: Record<string, CounterReaction> = {
     "revide":          { label: "Revide",          pm: 2, kind: "melee-attack", note: "ataque corpo a corpo no atacante" },
     "arma espiritual": { label: "Arma Espiritual", pm: 0, kind: "fixed-damage", damage: "2d6", note: "a arma fere o atacante (magia ativa)" },
 };
 
+/** Contra-ataques que disparam quando o inimigo ERRA (prompt próprio no erro). */
+export const ONMISS_COUNTER_REACTIONS: Record<string, CounterReaction> = {
+    "contra-ataque": { label: "Contra-Ataque", pm: 2, kind: "melee-attack", note: "ataque corpo a corpo no atacante" },
+};
+
 export interface CounterOption { key: string; label: string; pm: number; note?: string; }
 
-export function getCounterReactions(opts: { actor: AnyActor | null | undefined; currentRoundKey?: string | null }): CounterOption[] {
-    const { actor } = opts;
+function listCounters(registry: Record<string, CounterReaction>, actor: AnyActor | null | undefined, currentRoundKey: string | null): CounterOption[] {
     if (!actor) return [];
     const pm = pmOf(actor);
-    const currentRoundKey = opts.currentRoundKey ?? roundKey();
     if (!reactionAvailable(actor.getFlag?.(MODULE_ID, REACTION_USED_FLAG), currentRoundKey)) return [];
     const out: CounterOption[] = [];
     const seen = new Set<string>();
     for (const it of itemsOf(actor)) {
         if (it.type !== "poder" && it.type !== "magia") continue;
         const n = normalizeName(it.name ?? "");
-        if (!Object.prototype.hasOwnProperty.call(COUNTER_REACTIONS, n) || seen.has(n)) continue;
-        const reg = COUNTER_REACTIONS[n] as CounterReaction;
+        if (!Object.prototype.hasOwnProperty.call(registry, n) || seen.has(n)) continue;
+        const reg = registry[n] as CounterReaction;
         if (pm < reg.pm) continue;
         seen.add(n);
         out.push({ key: n, label: reg.label, pm: reg.pm, note: reg.note });
     }
     return out;
+}
+
+export function getCounterReactions(opts: { actor: AnyActor | null | undefined; currentRoundKey?: string | null }): CounterOption[] {
+    return listCounters(COUNTER_REACTIONS, opts.actor, opts.currentRoundKey ?? roundKey());
+}
+
+/** Contra-ataques de "erro do inimigo" que o ator pode usar agora. */
+export function getMissCounterReactions(opts: { actor: AnyActor | null | undefined; currentRoundKey?: string | null }): CounterOption[] {
+    return listCounters(ONMISS_COUNTER_REACTIONS, opts.actor, opts.currentRoundKey ?? roundKey());
 }
 
 /**
@@ -447,7 +460,9 @@ export function getCounterReactions(opts: { actor: AnyActor | null | undefined; 
 export async function resolveCounterAttack(opts: {
     actor: AnyActor | null | undefined; key: string; attackerDefesa: number; attackerName: string; targetName: string;
 }): Promise<{ damageToAttacker: number }> {
-    const reg = Object.prototype.hasOwnProperty.call(COUNTER_REACTIONS, opts.key) ? COUNTER_REACTIONS[opts.key] : undefined;
+    const reg = Object.prototype.hasOwnProperty.call(COUNTER_REACTIONS, opts.key)
+        ? COUNTER_REACTIONS[opts.key]
+        : (Object.prototype.hasOwnProperty.call(ONMISS_COUNTER_REACTIONS, opts.key) ? ONMISS_COUNTER_REACTIONS[opts.key] : undefined);
     const actor = opts.actor;
     if (!reg || !actor) return { damageToAttacker: 0 };
 

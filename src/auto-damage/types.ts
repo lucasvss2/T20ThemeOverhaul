@@ -78,3 +78,18 @@ export interface AttackMissNotify {
     targetDef: number;
 }
 
+/** Prompt de contra-ataque NO ERRO (Contra-Ataque) enviado ao dono do alvo. */
+export interface MissCounterRequest {
+    type: "miss-counter-request";
+    requestId: string;
+    targetUserId: string;
+    targetActorId: string;
+    targetTokenId: string;
+    attackerName: string;
+    attackerTokenId?: string;
+    attackerActorId?: string;
+    attackTotal: number;
+    targetDef: number;
+    options: Array<{ key: string; label: string; pm: number }>;
+}
+

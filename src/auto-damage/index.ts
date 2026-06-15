@@ -1,4 +1,4 @@
-import type { AutoDamageRequest, AttackRerollRequest, AttackMissNotify } from "./types";
+import type { AutoDamageRequest, AttackRerollRequest, AttackMissNotify, MissCounterRequest } from "./types";
 import { MODULE_ID } from "@/constants";
 import { getSocket, onSocketReady } from "@/socket";
 import {
@@ -8,7 +8,7 @@ import {
 import {
     getBlockingDefenseReactions, applyDefenseReaction,
     getPostDamageReactions, computePostDamageReduction, finalizePostDamageReaction,
-    getCounterReactions, resolveCounterAttack,
+    getCounterReactions, resolveCounterAttack, getMissCounterReactions,
     getContestReactions, applyContestReaction,
     getRerollReactions, consumeReaction,
 } from "@/reactions";
@@ -19,9 +19,10 @@ import AUTO_DAMAGE_STYLES from "./auto-damage.css?inline";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
-const SOCKET_DAMAGE_REQUEST = "auto-damage/request";
-const SOCKET_REROLL_REQUEST = "auto-damage/reroll-request";
-const SOCKET_MISS_NOTIFY    = "auto-damage/miss-notify";
+const SOCKET_DAMAGE_REQUEST  = "auto-damage/request";
+const SOCKET_REROLL_REQUEST  = "auto-damage/reroll-request";
+const SOCKET_MISS_NOTIFY     = "auto-damage/miss-notify";
+const SOCKET_MISS_COUNTER    = "auto-damage/miss-counter";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
@@ -689,6 +690,77 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     });
 }
 
+// ── Prompt de Contra-Ataque no ERRO ───────────────────────────────────────────
+
+function openMissCounterPrompt(req: MissCounterRequest): void {
+    ensureStyles();
+    const targetActor = resolveActor(req.targetTokenId, req.targetActorId);
+    const targetName  = targetActor?.name ?? "Alvo";
+
+    const skillBtns = req.options.map((o) =>
+        `<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="counter:${o.key}">
+            <span class="aad-skill-name"><i class="fas fa-reply"></i> ${esc(o.label)}</span>
+            <span class="aad-skill-sub">ataque corpo a corpo no atacante · ${o.pm} PM</span></button>`).join("");
+
+    const content = `
+        <div class="aad-body">
+            <div class="aad-banner">
+                <div class="aad-label-sm">ATAQUE ERROU</div>
+                <div class="aad-target-name">${esc(targetName)}</div>
+            </div>
+            <div class="aad-row">
+                <span class="aad-label-sm">ATACANTE</span>
+                <span class="aad-value-lg">${esc(req.attackerName)}</span>
+            </div>
+            <div class="aad-row">
+                <span class="aad-label-sm">ATAQUE</span>
+                <span class="aad-attack-val">${req.attackTotal}</span>
+                <span class="aad-label-sm">vs DEF</span>
+                <span class="aad-def-val">${req.targetDef}</span>
+            </div>
+            <div class="aad-divider"></div>
+            <div class="aad-skills">
+                <div class="aad-skills-title"><i class="fas fa-bolt"></i> Reação de Contra-Ataque</div>
+                ${skillBtns}
+            </div>
+        </div>`;
+
+    const doCounter = async (key: string): Promise<void> => {
+        const attackerActor = resolveActor(req.attackerTokenId ?? "", req.attackerActorId ?? "");
+        const attackerDefesa = attackerActor ? getDef(attackerActor) : 0;
+        const { damageToAttacker } = await resolveCounterAttack({
+            actor: targetActor as unknown as Parameters<typeof resolveCounterAttack>[0]["actor"],
+            key, attackerDefesa, attackerName: req.attackerName, targetName,
+        });
+        if (damageToAttacker > 0 && (req.attackerTokenId || req.attackerActorId)) {
+            await applyDamage(req.attackerTokenId ?? "", req.attackerActorId ?? "", damageToAttacker, 0,
+                { kind: "damage", source: targetName });
+        }
+    };
+
+    void foundry.applications.api.DialogV2.wait({
+        id:      `miss-counter-${req.requestId}`,
+        classes: ["bg3-dialog", "aad-dialog"],
+        window:  { title: `Contra-Ataque — ${targetName}` },
+        position: { width: 360 },
+        content,
+        buttons: [{ type: "submit", action: "ignore", label: "Ignorar", icon: "fas fa-ban", default: true }],
+        render: (_event, dialog) => {
+            const root = dialog.element;
+            const dlg  = dialog as unknown as { close?: () => unknown };
+            root.querySelectorAll<HTMLButtonElement>(".aad-skill-btn").forEach((btn) => {
+                btn.addEventListener("click", (ev) => {
+                    ev.preventDefault();
+                    const skill = btn.dataset["skill"] ?? "";
+                    if (skill.startsWith("counter:")) void doCounter(skill.slice(8));
+                    try { dlg.close?.(); } catch { /* ignore */ }
+                });
+            });
+        },
+        rejectClose: false,
+    });
+}
+
 // ── Socket handler ────────────────────────────────────────────────────────────
 
 function setupSocket(): void {
@@ -704,6 +776,9 @@ function setupSocket(): void {
             ui.notifications.info(
                 `Ataque de ${data.attackerName} errou no reroll! (${data.attackTotal} vs DEF ${data.targetDef})`,
             );
+        });
+        socket.register(SOCKET_MISS_COUNTER, (...args: unknown[]) => {
+            openMissCounterPrompt(args[0] as MissCounterRequest);
         });
     });
 }
@@ -797,6 +872,24 @@ function setupCreateChatHook(): void {
                 ui.notifications.info(
                     `${attackerName} errou ${targetActor.name}! (${attackTotal} vs DEF ${targetDef})`,
                 );
+                // Contra-Ataque (no erro): se o alvo tiver a reação, ofereça-a ao dono.
+                const missCounters = getMissCounterReactions({
+                    actor: targetActor as unknown as Parameters<typeof getMissCounterReactions>[0]["actor"],
+                });
+                if (missCounters.length) {
+                    const muid = getTargetUserId(targetActor);
+                    if (muid) {
+                        const missReq: MissCounterRequest = {
+                            type: "miss-counter-request", requestId: randomID(),
+                            targetUserId: muid, targetActorId: targetActor.id, targetTokenId: token.id,
+                            attackerName, attackerTokenId: spkTokenId, attackerActorId: spkActorId,
+                            attackTotal, targetDef,
+                            options: missCounters.map((c) => ({ key: c.key, label: c.label, pm: c.pm })),
+                        };
+                        if (muid === game.user?.id) openMissCounterPrompt(missReq);
+                        else void getSocket()?.executeAsUser(SOCKET_MISS_COUNTER, muid, missReq);
+                    }
+                }
                 continue;
             }
 
