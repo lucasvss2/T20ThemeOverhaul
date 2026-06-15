@@ -391,10 +391,41 @@ async function resolveSustainedAtEnd(actor: FoundryActor, eff: EffectDoc, dur: D
 
 // ── Day expiry (world-time) + manual rest ────────────────────────────────────────
 
+/**
+ * Every actor that could carry a managed effect: world/linked actors PLUS the
+ * synthetic actors of UNLINKED tokens on the canvas. `game.actors.contents`
+ * alone misses unlinked NPC tokens, whose effects live on the token-synthetic
+ * actor (classic v13 gotcha — `game.actors.get` never reflects them).
+ */
+function relevantActors(): FoundryActor[] {
+    const seen = new Set<string>();
+    const out: FoundryActor[] = [];
+    for (const actor of game.actors?.contents ?? []) {
+        if (actor.id && !seen.has(actor.id)) {
+            seen.add(actor.id);
+            out.push(actor);
+        }
+    }
+    type Placeable = { document?: { actorLink?: boolean }; id?: string; actor?: FoundryActor | null };
+    const tokens = (canvas as unknown as { tokens?: { placeables?: Placeable[] } }).tokens?.placeables ?? [];
+    for (const tok of tokens) {
+        // Only unlinked token-synthetic actors add anything new; linked tokens
+        // share the world actor already collected above.
+        if (tok.document?.actorLink) continue;
+        const actor = tok.actor;
+        const key = tok.id ? `tok:${tok.id}` : undefined;
+        if (actor && key && !seen.has(key)) {
+            seen.add(key);
+            out.push(actor);
+        }
+    }
+    return out;
+}
+
 async function onWorldTime(): Promise<void> {
     if (!isActiveGM()) return;
     const now = worldTime();
-    for (const actor of game.actors?.contents ?? []) {
+    for (const actor of relevantActors()) {
         for (const eff of managedEffects(actor)) {
             const dur = getDur(eff)!;
             if (dur.kind !== "day") continue;
@@ -411,7 +442,7 @@ function dayEffectActors(): FoundryActor[] {
     const isGM = game.user?.isGM;
     const myId = game.user?.id ?? "";
     const out: FoundryActor[] = [];
-    for (const actor of game.actors?.contents ?? []) {
+    for (const actor of relevantActors()) {
         if (!isGM && (actor.ownership?.[myId] ?? 0) < 3) continue;
         if (managedEffects(actor).some((e) => getDur(e)!.kind === "day")) out.push(actor);
     }
