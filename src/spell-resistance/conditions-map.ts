@@ -84,12 +84,9 @@ export const SPELL_CONDITIONS: Record<string, SpellConditionEntry> = {
             { statusId: "lento", applyOn: "pass", durKind: "scene" },
         ],
     },
-    // Amedrontar — falha: Apavorado por 1 rodada, depois Abalado (encadeamento
-    // não modelado — só o Apavorado é auto-aplicado). Vontade parcial.
-    "amedrontar": {
-        conditions: [{ statusId: "apavorado", applyOn: "fail", durKind: "rounds", rounds: 1 }],
-        note: "Após o Apavorado, o alvo fica Abalado (aplicar manualmente).",
-    },
+    // Amedrontar — REMOVIDA do lote 1: tem complicações (encadeamento
+    // Apavorado→Abalado + nuances) a tratar com base no documento do usuário.
+    // Volta a cair na grade manual até ser recurada.
 };
 
 export interface ResolvedCondition {

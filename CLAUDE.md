@@ -465,7 +465,7 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 
 - **`resolveSpellConditions(spellName, passed, onUseEffects)`** (puro/testável): filtra por `applyOn` vs resultado, aplica overrides de aprimoramento (regex em `onUseEffects[].description`), separa `apply` (auto) de `suggest` (pré-marca na grade).
 - **Integração no modal** (`doAutoApplyConditions` em `openUnifiedSpellModal`): ao resolver o teste (roll principal + branches de reação reroll/bonus/aparar — todos chamam), aplica via `registerExpectedCondition` + `applyCondition` (status REAL, não o efeito-de-nome do botão buff), com a duração tagueada pro gerenciador de duração; rola `formula` (ex.: "1d4") pras durações variáveis. **Idempotente**: `autoAppliedConds` Set rastreia o aplicado; reroll que vira o resultado remove (toggle off) e reaplica. Posta `.smf-autocond-note` no resultado.
-- Decisões: auto-aplica direto + aviso; "veja texto"/escolha → `suggest:true` (pré-marca, não aplica). Lote 1: Adaga Mental, Despedaçar (Atordoado 1 rod.), Imobilizar (falha→Paralisado/passa→Lento, cena), Amedrontar (Apavorado 1 rod.). Cobertura cresce por lote.
+- Decisões: auto-aplica direto + aviso; "veja texto"/escolha → `suggest:true` (pré-marca, não aplica). Lote 1: Adaga Mental, Despedaçar (Atordoado 1 rod.), Imobilizar (falha→Paralisado/passa→Lento, cena). (Amedrontar foi removida — tem complicações a recurar com base no documento do usuário.) Cobertura cresce por lote.
 
 
 ## Foundry v13 Gotchas
