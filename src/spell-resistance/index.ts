@@ -18,6 +18,7 @@ import { warn } from "@/utils/logging";
 import { registerExpectedCondition } from "@/duration-manager/index";
 import { classifyDuration } from "@/duration-manager/classify";
 import type { DurData } from "@/duration-manager/types";
+import { resolveSpellConditions } from "./conditions-map";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
@@ -990,6 +991,65 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             });
 
             // ── Rolar Resist\u00eancia (suporta reroll) ────────────────────────────
+            // ── Aplicação automática de condições (conditions-map curado) ──────
+            // Ao resolver o teste, aplica a condição que a magia causa conforme o
+            // resultado (falha/passa), com a duração tagueada pro gerenciador de
+            // duração (rola durações variáveis). Idempotente: num reroll que vira o
+            // resultado, remove a condição antes aplicada e reaplica a correta.
+            // Magias não curadas → no-op (cai na grade manual).
+            const autoAppliedConds = new Set<string>();
+            const doAutoApplyConditions = async (passed: boolean): Promise<void> => {
+                if (preReq.isHeal) return;
+                const onUse = game.messages?.get(preReq.messageId)?.getFlag("tormenta20", "onUseEffects");
+                const { apply, suggest } = resolveSpellConditions(preReq.spellName, passed, onUse);
+                const want = new Set(apply.map((a) => a.statusId));
+
+                const tActor = resolveTargetActor(preReq.targetActorUuid, preReq.targetActorId) as
+                    | (FoundryActor & { toggleStatusEffect?(id: string, o?: Record<string, unknown>): Promise<void> })
+                    | null;
+                for (const sid of [...autoAppliedConds]) {
+                    if (!want.has(sid)) {
+                        await tActor?.toggleStatusEffect?.(sid, { active: false });
+                        autoAppliedConds.delete(sid);
+                    }
+                }
+
+                const labels: string[] = [];
+                for (const c of apply) {
+                    if (autoAppliedConds.has(c.statusId)) continue;
+                    let rounds = c.rounds;
+                    if (c.formula) {
+                        const r = new Roll(c.formula);
+                        await r.evaluate({ async: true });
+                        rounds = r.total ?? 1;
+                    }
+                    const dur: DurData = { managed: true, kind: c.durKind, source: "spell", label: statusLabel(c.statusId) };
+                    if (c.durKind === "rounds") dur.rounds = rounds ?? 1;
+                    registerExpectedCondition(preReq.targetActorId, c.statusId, dur);
+                    await applyCondition(preReq.targetActorUuid, preReq.targetActorId, c.statusId);
+                    autoAppliedConds.add(c.statusId);
+                    labels.push(
+                        c.durKind === "rounds" ? `${statusLabel(c.statusId)} (${dur.rounds} rod.)`
+                        : c.durKind === "scene" ? `${statusLabel(c.statusId)} (cena)`
+                        : statusLabel(c.statusId),
+                    );
+                }
+
+                for (const sid of suggest) {
+                    const cb = root.querySelector<HTMLInputElement>(`.smf-cond-grid input[value="${sid}"]`);
+                    if (cb) cb.checked = true;
+                }
+
+                const resultEl = root.querySelector<HTMLElement>("#smf-resist-result");
+                resultEl?.querySelector(".smf-autocond-note")?.remove();
+                if (labels.length && resultEl) {
+                    const note = document.createElement("div");
+                    note.className = "smf-autocond-note";
+                    note.innerHTML = `<i class="fas fa-wand-magic-sparkles"></i> Condição aplicada automaticamente: ${esc(labels.join(", "))}`;
+                    resultEl.appendChild(note);
+                }
+            };
+
             let hasRolledResist = false;
             // Último resultado do teste (para Futuro Melhor: +2 no teste já rolado).
             let lastResistTotal = 0;
@@ -1104,6 +1164,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     }
                     btn.disabled = false;
                     renderMagicReactions(passed);
+                    void doAutoApplyConditions(passed);
                 })();
             });
 
@@ -1185,6 +1246,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     await ChatMessage.create({ content: await roll.render({ flavor: `Rerolar Resistência (${targetName}) vs CD ${preReq.cd} — ${ok ? "✓ PASSOU" : "✗ FALHOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
                     paintResult(total, d20, ok, ok ? "Passou (rerolagem)" : "Falhou — efeito completo");
                     renderMagicReactions(ok);
+                    void doAutoApplyConditions(ok);
                 } else if (kind === "bonus") {
                     // Futuro Melhor: +2 (ou bonus) no teste já rolado.
                     const newTotal = lastResistTotal + (bonus || 2);
@@ -1193,6 +1255,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     lastResistTotal = newTotal;
                     paintResult(newTotal, lastResistD20, ok, ok ? `Passou (+${bonus || 2} de ${label})` : "Falhou — efeito completo");
                     renderMagicReactions(ok);
+                    void doAutoApplyConditions(ok);
                 } else if (kind === "aparar") {
                     const luta  = targetActor ? computeSkillTotal(targetActor, "luta") : 0;
                     const nivel = Number(((targetActor?.system as { nivel?: { value?: number } } | undefined)?.nivel?.value) ?? 0);
@@ -1206,6 +1269,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     paintResult(total, 0, ok, ok ? (reflectAlso ? "Evitou e refletiu! (Aparar Magia)" : "Evitou totalmente (Aparar Magia)") : "Não evitou — efeito completo");
                     if (reflectAlso) await reflectToCaster("Aparar Magia");
                     renderMagicReactions(ok);
+                    void doAutoApplyConditions(ok);
                 } else if (kind === "reflect") {
                     await consumeReaction(tActor, pm);
                     await reflectToCaster(label);

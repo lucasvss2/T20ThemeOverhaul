@@ -493,6 +493,19 @@
     letter-spacing: 0.04em;
 }
 
+/* ── Aviso de condição aplicada automaticamente ───────────────────────────── */
+.smf-autocond-note {
+    margin-top: 6px;
+    padding: 5px 9px;
+    border-left: 3px solid var(--bg3-accent, #c8a96e);
+    background: rgba(200, 169, 110, 0.1);
+    color: var(--bg3-accent, #c8a96e);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    border-radius: 0 3px 3px 0;
+}
+.smf-autocond-note i { margin-right: 5px; }
+
 /* ── Reações contra magia (Parte 2a) ──────────────────────────────────────── */
 .smf-magic-reactions {
     margin-top: 8px;

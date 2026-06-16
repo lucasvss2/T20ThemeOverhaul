@@ -459,6 +459,14 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Guards do `createActiveEffect`:** ignora se já tem nosso flag, se tem QUALQUER flag do módulo (AEs de área são de outro subsistema), se `transfer:true` (passiva de item) ou origin derivado. Buffs (sem `statuses`) só são gerenciados se têm sinal temporal (units da magia, `durationScene`, ou `type:"turns"`) — passivas permanentes ficam intactas.
 - **⚠️ Sweep dia/descanso cobre tokens unlinked (v1.62.1):** `onWorldTime`/`dayEffectActors` iteram `relevantActors()` = world actors ∪ atores sintéticos de tokens UNLINKED do canvas. `game.actors.contents` sozinho NÃO enxerga NPCs unlinked (efeito vive no synthetic actor) — bug pego na verificação ao vivo (Zumbi unlinked não expirava no fim do dia). Os hooks de combate (anchor/tick/end) já usam `combatActors` (via canvas), então só o sweep de tempo precisava do fix.
 
+### Aplicação automática de condições por magia (v1.64.0)
+
+`src/spell-resistance/conditions-map.ts` — mapa **curado à mão** `magia normalizada → { conditions:[{statusId, applyOn:"fail"|"pass", durKind, rounds?|formula?, suggest?}], aprimoramentos:[{match,add?,replace?}] }`. **⚠️ T20 NÃO codifica a condição em dados** — ela vive na PROSE da descrição (`system.description.value`, às vezes via `@UUID{Condição}`), com contexto (curar/invocar/imune) que torna extração automática insegura (ex.: Sopro da Salvação linka 18 condições mas é CURA; Conjurar Mortos-Vivos paralisa o invocado, não o alvo). Por isso curadoria manual por lote; magias não curadas caem na grade manual.
+
+- **`resolveSpellConditions(spellName, passed, onUseEffects)`** (puro/testável): filtra por `applyOn` vs resultado, aplica overrides de aprimoramento (regex em `onUseEffects[].description`), separa `apply` (auto) de `suggest` (pré-marca na grade).
+- **Integração no modal** (`doAutoApplyConditions` em `openUnifiedSpellModal`): ao resolver o teste (roll principal + branches de reação reroll/bonus/aparar — todos chamam), aplica via `registerExpectedCondition` + `applyCondition` (status REAL, não o efeito-de-nome do botão buff), com a duração tagueada pro gerenciador de duração; rola `formula` (ex.: "1d4") pras durações variáveis. **Idempotente**: `autoAppliedConds` Set rastreia o aplicado; reroll que vira o resultado remove (toggle off) e reaplica. Posta `.smf-autocond-note` no resultado.
+- Decisões: auto-aplica direto + aviso; "veja texto"/escolha → `suggest:true` (pré-marca, não aplica). Lote 1: Adaga Mental, Despedaçar (Atordoado 1 rod.), Imobilizar (falha→Paralisado/passa→Lento, cena), Amedrontar (Apavorado 1 rod.). Cobertura cresce por lote.
+
 
 ## Foundry v13 Gotchas
 
