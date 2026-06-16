@@ -36,6 +36,16 @@
     overflow-x: hidden !important;
 }
 
+/* DialogV2 modals (.application) — Foundry clampa a altura ao viewport e
+   esconde o excesso SEM scroll, recortando o rodapé em telas menores. Garante
+   um fallback de scroll pra TODOS os nossos modais DialogV2 (resistência,
+   auto-dano, etc.). A regra .window-app acima não cobre .application. */
+.application.bg3-dialog .window-content {
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
 /* Corner resize handle — bottom-right, bidirectional */
 .window-app.ability-use-form .window-resizable-handle {
     position: absolute !important;

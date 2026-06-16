@@ -907,13 +907,18 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 <div class="smf-target-name">Alvo: ${esc(targetName)}</div>
             </div>
             <div class="smf-divider"></div>
-            <div class="smf-section" id="smf-presenca-sect" style="display:none;">
-                <div id="smf-presenca" class="smf-presenca"></div>
+            <div class="smf-columns">
+                <div class="smf-col smf-col-left">
+                    <div class="smf-section" id="smf-presenca-sect" style="display:none;">
+                        <div id="smf-presenca" class="smf-presenca"></div>
+                    </div>
+                    <div class="smf-section">${resistSectionHtml}</div>
+                </div>
+                <div class="smf-col smf-col-right">
+                    <div class="smf-section">${damageSectionHtml}</div>
+                    ${buffAndCondHtml}
+                </div>
             </div>
-            <div class="smf-section">${resistSectionHtml}</div>
-            <div class="smf-divider"></div>
-            <div class="smf-section">${damageSectionHtml}</div>
-            ${buffAndCondHtml}
         </div>
     `;
 
@@ -927,7 +932,10 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         id:      `spell-modal-${preReq.requestId}`,
         classes: ["bg3-dialog", "smf-dialog"],
         window:  { title: `${preReq.spellName} \u2014 ${targetName}` },
-        position: { width: 480 },
+        // Cura \u00e9 simples \u2192 1 coluna estreita; o modal cheio (resist\u00eancia + dano +
+        // condi\u00e7\u00f5es) usa 2 colunas (a container query em .smf-body decide a partir
+        // de ~600px de largura interna).
+        position: { width: preReq.isHeal ? 460 : 760 },
         content,
         buttons: [
             {

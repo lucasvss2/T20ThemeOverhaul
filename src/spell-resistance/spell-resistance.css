@@ -4,6 +4,37 @@
 .smf-body {
     padding: 0;
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
+    /* Habilita as container queries que decidem 1 vs 2 colunas abaixo. */
+    container-type: inline-size;
+}
+
+/* ── Responsividade do modal ─────────────────────────────────────────────────
+   O conteúdo do modal de resistência pode ser alto (resistência + poderes +
+   dano/RD + grade de condições + buffs). Antes a janela do DialogV2 recortava
+   o excesso SEM scroll (overflow:hidden), tornando o rodapé inacessível em
+   telas menores. Aqui: (1) a janela nunca passa do viewport e ganha scroll;
+   (2) o corpo vira 2 colunas quando há largura — "resolver o teste" à esquerda,
+   "consequências" (dano/condições/buffs) à direita — reduzindo a altura. O
+   scroll-fallback de altura vem da regra global .application.bg3-dialog
+   .window-content em dialogs/bg3-dialog.css. */
+.smf-dialog { max-width: 96vw; }
+
+.smf-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 4px;
+    align-items: start;
+}
+.smf-col { min-width: 0; }
+
+@container (min-width: 600px) {
+    .smf-columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    /* O divisor que separava resistência↔dano no fluxo vertical vira a borda
+       entre as colunas. */
+    .smf-col-right {
+        border-left: 1px solid var(--bg3-tint-med);
+        padding-left: 4px;
+    }
 }
 .smf-banner {
     padding: 12px 16px 8px;

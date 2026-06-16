@@ -462,6 +462,10 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 
 ## Foundry v13 Gotchas
 
+### DialogV2 (`.application`) recorta conteúdo alto SEM scroll
+
+Modais DialogV2 têm root `.application` (NÃO `.window-app`, que é do Dialog clássico). O Foundry clampa a altura da janela ao viewport e põe `overflow:hidden` no `.window-content` → conteúdo alto fica **recortado e inacessível** (sem scroll). A regra `.window-app.bg3-dialog … {overflow:visible}` em `dialogs/bg3-dialog.css` NÃO cobre `.application`. Fix global (v1.63.0): `.application.bg3-dialog .window-content { max-height:90vh; overflow-y:auto !important }`. O modal de resistência (`.smf-dialog`) ainda vira **2 colunas** via container query (`.smf-body{container-type:inline-size}` + `@container (min-width:600px)`), largura `isHeal?460:760` — "resolver o teste" à esquerda, dano/condições/buffs à direita; abaixo de 600px de largura interna colapsa pra 1 coluna + scroll.
+
 ### Rolls in createChatMessage
 
 `message._source.rolls[0]` is a **JSON string** in v13. Always use `message.rolls` for Roll instances:
