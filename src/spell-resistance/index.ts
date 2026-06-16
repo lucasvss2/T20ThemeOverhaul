@@ -884,7 +884,6 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
     // Para magias de cura: Buff e Condições são omitidos (não fazem sentido)
 
     const buffAndCondHtml = preReq.isHeal ? "" : `
-            <div class="smf-divider"></div>
             <div class="smf-section" id="smf-sect-effects">
                 <div class="smf-section-title">
                     <i class="fas fa-sparkles"></i> EFEITOS / CONDIÇÕES
@@ -898,6 +897,11 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             </div>
     `;
 
+    // Layout em 2 colunas (modal cheio): a coluna ESQUERDA recebe o fluxo de
+    // resolução (presença → resistência → dano), que é o mais alto; a DIREITA
+    // recebe efeitos/condições. Assim a esquerda enche primeiro (antes a
+    // esquerda só tinha a resistência e ficava quase vazia). Em cura só há a
+    // coluna esquerda (a direita fica vazia e a container query colapsa p/ 1).
     const content = `
         <div class="smf-body">
             <div class="smf-banner">
@@ -913,9 +917,10 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         <div id="smf-presenca" class="smf-presenca"></div>
                     </div>
                     <div class="smf-section">${resistSectionHtml}</div>
+                    <div class="smf-divider"></div>
+                    <div class="smf-section">${damageSectionHtml}</div>
                 </div>
                 <div class="smf-col smf-col-right">
-                    <div class="smf-section">${damageSectionHtml}</div>
                     ${buffAndCondHtml}
                 </div>
             </div>
