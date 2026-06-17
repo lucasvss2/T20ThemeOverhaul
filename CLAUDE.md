@@ -92,7 +92,10 @@ src/
   auto-damage/index.ts         — Auto damage application prompt (attack-based weapons)
   spell-resistance/index.ts    — Automatic saving throw + damage dialog for spells
   spell-resistance/types.ts    — SpellResistRequest, SpellConditionData, ResistSkill
-  area-spells/index.ts         — Entry point for area-persistent spells (calls setupConsagrar + setupAuraSagrada + setupEgideSagrada)
+  area-spells/index.ts         — Entry point for area spells (Consagrar, Aura/Égide Sagrada, Bola/Coluna/Explosão de Chamas)
+  area-spells/area-engine.ts   — Engine reutilizável p/ magias de área one-shot: registerAreaSpell({key,nameNormalized,displayName,anchorToCaster,cleanup})
+  area-spells/explosao-de-chamas.ts — Explosão de Chamas (cone 6m pessoal) via engine; Em Chamas vem do conditions-map
+  conditions/em-chamas.ts      — Condição Em Chamas: tick 1d6 fogo no início do turno (combatTurnChange, GM eleito)
   area-spells/consagrar.ts     — Consagrar: MeasuredTemplate claim, AE apply/remove, movement sync
   area-spells/aura-sagrada.ts  — Aura Sagrada (Paladino): ghost template + Aura de Cura (combatTurn heal)
   area-spells/egide-sagrada.ts — Égide Sagrada (Paladino): ghost template + Escudo Fraterno (raio dinâmico)
@@ -466,6 +469,17 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **`resolveSpellConditions(spellName, passed, onUseEffects)`** (puro/testável): filtra por `applyOn` vs resultado, aplica overrides de aprimoramento (regex em `onUseEffects[].description`), separa `apply` (auto) de `suggest` (pré-marca na grade).
 - **Integração no modal** (`doAutoApplyConditions` em `openUnifiedSpellModal`): ao resolver o teste (roll principal + branches de reação reroll/bonus/aparar — todos chamam), aplica via `registerExpectedCondition` + `applyCondition` (status REAL, não o efeito-de-nome do botão buff), com a duração tagueada pro gerenciador de duração; rola `formula` (ex.: "1d4") pras durações variáveis. **Idempotente**: `autoAppliedConds` Set rastreia o aplicado; reroll que vira o resultado remove (toggle off) e reaplica. Posta `.smf-autocond-note` no resultado.
 - Decisões: auto-aplica direto + aviso; "veja texto"/escolha → `suggest:true` (pré-marca, não aplica). Lote 1: Adaga Mental, Despedaçar (Atordoado 1 rod.), Imobilizar (falha→Paralisado/passa→Lento, cena). (Amedrontar foi removida — tem complicações a recurar com base no documento do usuário.) Cobertura cresce por lote.
+
+### Engine de magias de área + Explosão de Chamas (v1.65.0)
+
+`src/area-spells/area-engine.ts` — scaffolding reutilizável p/ magias de área **one-shot** (coloca grid → quem está dentro rola resistência → grid some). Generaliza o padrão escrito à mão na Coluna de Chamas / branch one-shot da Bola de Fogo. Uma feature declara `registerAreaSpell(def)` e o engine instala os hooks UMA vez, roteando por nome.
+
+- **`AreaSpellDef`**: `{ key, nameNormalized (includes), displayName, defaultResistTxt?, anchorToCaster?, cleanup? }`. `cleanup`: `{mode:"after-resolve", fallbackMs?}` (remove o grid quando TODOS os alvos fecham o modal — via `resolveNotify`/socket, igual Coluna) ou `{mode:"linger", ms}` (timer fixo).
+- **Fluxo**: `createChatMessage` (autor detecta, soma rolls de dano, CD via `extractCD`>stored, resistTxt) → `createMeasuredTemplate` (autor reclama via flags; se `anchorToCaster`, **sobrescreve x/y pro centro do token do conjurador no MESMO update** preservando a `direction` que o user mirou) → `updateMeasuredTemplate` (flag chegou → caster dispara resistência a cada token dentro). `messageId` real é repassado → a auto-aplicação de condição do modal (`conditions-map`) continua funcionando. **Caster é excluído** dos alvos em magias `anchorToCaster`.
+- **Containment p/ qualquer shape**: `_shared/canvas-geometry.ts` ganhou `isTokenInAreaTemplate`/`tokensInAreaTemplate` (cone/circle/ray/rect) por **trigonometria** — em v13 (com os shape getters custom do T20) `template.object.shape` NÃO expõe `.contains()` usável. Convenção de ângulo do Foundry: `direction` em graus, 0=leste, horário (y cresce p/ baixo); `Math.atan2(dy,dx)` casa. Cone = `dist≤distância && |Δângulo|≤angle/2`. Circle reusa o teste de raio em quadrados existente.
+- **Explosão de Chamas** (`explosao-de-chamas.ts`): Arcana 1, cone 6m PESSOAL (sempre do token do conjurador), Reflexos reduz à metade, `cleanup:after-resolve`. +1d6 (aprimoramento) já soma no roll do T20 → engine soma todos os rolls. O aprimoramento "Reflexos parcial" NÃO muda o dano (metade/integral); só adiciona **Em Chamas** ao FALHAR — entrada `"explosao de chamas"` no `conditions-map` (gated por regex `/em\s*chamas|reflexos\s*parcial/` em `onUseEffects`, `applyOn:"fail"`, `durKind:"indeterminate"`). Truque (alvo 1 objeto, sem área) NÃO automatizado — sem cone, sem template a reclamar.
+- **Condição Em Chamas** (`conditions/em-chamas.ts`): T20 **NÃO** automatiza a queima (status `emchamas` só carrega `changes:{key:"dano",value:"1d6[fogo]"}` vestigial). Implementamos: no início do turno de cada criatura Em Chamas (`combatTurnChange`, GM eleito), rola 1d6 e aplica via `actor.applyDamage(total,1,false)` (sem RD automática — ajuste manual do mestre, igual Aura Ardente) + chat card. Genérico p/ qualquer fonte da condição. Status id = **`emchamas`** (sem hífen/espaço).
+- **Migração futura**: Coluna de Chamas e o branch one-shot da Bola de Fogo podem migrar pro engine (não migrados ainda p/ evitar risco — eram a referência).
 
 
 ## Foundry v13 Gotchas

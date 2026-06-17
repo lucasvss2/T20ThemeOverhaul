@@ -233,7 +233,7 @@ declare class ChatMessage {
     id: string;
     flavor: string;
     content: string;
-    speaker: { actor?: string; alias?: string };
+    speaker: { actor?: string; alias?: string; token?: string; scene?: string };
     rolls: Roll[];
     isRoll: boolean;
     flags: Record<string, Record<string, unknown>>;

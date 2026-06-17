@@ -47,6 +47,7 @@ import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
 import { setupCounterspell } from "./counterspell";
 import { setupDurationManager } from "./duration-manager/index";
+import { setupEmChamas } from "./conditions/em-chamas";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -114,6 +115,7 @@ Hooks.once("setup", () => {
     setupReactions();         // Reações de defesa: bloquear ataque elevando a Defesa (Armadura Arcana etc.)
     setupCounterspell();      // Contramágica: janela GM no cast → Misticismo vs CD → anula a magia
     setupDurationManager();   // Gerencia duração (rodadas/cena/dia/sustentada) de buffs e condições em combate
+    setupEmChamas();          // Condição Em Chamas: 1d6 de fogo no início do turno da criatura
 
 });
 

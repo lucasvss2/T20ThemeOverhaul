@@ -87,6 +87,20 @@ export const SPELL_CONDITIONS: Record<string, SpellConditionEntry> = {
     // Amedrontar — REMOVIDA do lote 1: tem complicações (encadeamento
     // Apavorado→Abalado + nuances) a tratar com base no documento do usuário.
     // Volta a cair na grade manual até ser recurada.
+
+    // Explosão de Chamas — base: só dano (Reflexos reduz à metade), sem
+    // condição. Com o aprimoramento "+1 PM: Reflexos parcial" a criatura que
+    // FALHAR fica Em Chamas (até ser removida manualmente → indeterminada). O
+    // tick de 1d6 de fogo por turno é aplicado por `conditions/em-chamas.ts`.
+    "explosao de chamas": {
+        conditions: [],
+        aprimoramentos: [
+            {
+                match: /em\s*chamas|reflexos\s*parcial/i,
+                add: [{ statusId: "emchamas", applyOn: "fail", durKind: "indeterminate" }],
+            },
+        ],
+    },
 };
 
 export interface ResolvedCondition {

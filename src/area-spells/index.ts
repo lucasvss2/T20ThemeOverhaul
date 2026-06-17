@@ -8,6 +8,7 @@ import { setupAuraSagrada } from "./aura-sagrada";
 import { setupEgideSagrada } from "./egide-sagrada";
 import { setupBolaDeFogo } from "./bola-de-fogo";
 import { setupColunaDeChamas } from "./coluna-de-chamas";
+import { setupExplosaoDeChamas } from "./explosao-de-chamas";
 
 export function setupAreaSpells(): void {
     setupConsagrar();
@@ -15,4 +16,5 @@ export function setupAreaSpells(): void {
     setupEgideSagrada();
     setupBolaDeFogo();
     setupColunaDeChamas();
+    setupExplosaoDeChamas();
 }

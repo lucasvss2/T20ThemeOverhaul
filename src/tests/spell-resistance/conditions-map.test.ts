@@ -94,6 +94,21 @@ describe("resolveSpellConditions", () => {
         }
     });
 
+    it("Explosão de Chamas: no condition at base, Em Chamas only with the aprimoramento (on fail)", () => {
+        // Base cast (no aprimoramentos) → só dano, sem condição.
+        expect(resolveSpellConditions("Explosão de Chamas", false, []).apply).toEqual([]);
+        expect(resolveSpellConditions("Explosão de Chamas", true, []).apply).toEqual([]);
+
+        // Com o aprimoramento "Reflexos parcial / em chamas": falha → Em Chamas.
+        const apr = [{ description: "muda a resistência para Reflexos parcial; se falhar fica em chamas", qty: 1 }];
+        const fail = resolveSpellConditions("Explosão de Chamas", false, apr);
+        expect(fail.apply.map((c) => c.statusId)).toEqual(["emchamas"]);
+        expect(fail.apply[0]!.durKind).toBe("indeterminate");
+
+        // Passar no teste com o aprimoramento → sem condição (só metade do dano).
+        expect(resolveSpellConditions("Explosão de Chamas", true, apr).apply).toEqual([]);
+    });
+
     it("routes suggest-flagged conditions to the suggest list", () => {
         SPELL_CONDITIONS["__test_sug"] = {
             conditions: [{ statusId: "enfeiticado", applyOn: "fail", durKind: "scene", suggest: true }],
