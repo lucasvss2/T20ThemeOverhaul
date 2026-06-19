@@ -17,7 +17,7 @@ Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"
 
 ```bash
 npm run typecheck   # tsc --noEmit — must pass before any commit/tag
-npm test            # vitest run — 459 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
+npm test            # vitest run — 603 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
 npm run build       # Vite → dist/main.bundle.js
 npm run build:packs # compila packs-src/ → packs/ (compêndios LevelDB, via @foundryvtt/foundryvtt-cli)
 npm run dev         # watch mode
@@ -63,7 +63,7 @@ Version scheme: `MAJOR.MINOR.PATCH`
 **Rules:**
 - Never push a tag without `npm run typecheck` passing locally first.
 - Never report a deploy as done before step 8 (green CI).
-- Work is done in a **branch** (atual: `claude/sheet-log`), NOT directly on `master`. Push with `git push origin <branch>:master`.
+- Work is done in a **branch** (uma por feature/fix, ex.: `feat/briar-images-bundled`), NOT directly on `master`. Push with `git push origin <branch>:master`.
 - If CI fails post-push: fix → push new commit → re-tag:
   ```bash
   git tag -d vX.Y.Z
@@ -399,9 +399,11 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 - **`tipoDano` (mode 5 OVERRIDE)** é key nativa do `applyRollChanges` que troca o tipo de dano do roll (`r.parts[p][1] = value`) — usada pra consertar a AE "trevas" do Miasma que vinha do compêndio com changes vazias.
 - **StatblockParser programático**: `new game.tormenta20.applications.StatblockParser({actor, statblock:"", schema:{}, items:[], log:[]})`, stub `parser.render = () => parser`, evento fake `{preventDefault(){}, currentTarget:{closest:()=>({statblock:{value:text}})}}` → `_parseStatblock(ev)` + `_applyToActor(ev)`. Luta (= bônus de ataque), criticoM e saves vêm certos; conferir depois: nomes truncados de habilidades, sentidos/ic (SetFields — `JSON.stringify` mostra `{}` mas o valor existe; use `Array.from`), parágrafos de poderes engolidos (ex.: Atropelamento do Górgon).
 - **Pipeline de compêndios**: fontes em `packs-src/<pack>/*.json` (1 doc/arquivo; `_key` obrigatório INCLUSIVE nos embedados: `!actors.items!<actorId>.<itemId>`, `!actors.items.effects!<aId>.<iId>.<eId>`, pastas `!folders!<id>`). `npm run build:packs` compila → `packs/` (gitignorado). CI (release.yml e beta-release.yml) compila e inclui no zip. module.json tem a entrada `"packs"` (Actor, system tormenta20, GM-only).
-- **Imagens dos packs**: paths URL-encoded (`assets/Amea%C3%A7as/...`); assets do usuário em `Data/assets/Ameaças/<subpasta>/`; convenção: `Nome.png` = retrato, `Nome Vista/Visão Aerea.png` = token.
+- **Imagens dos packs**: paths URL-encoded (`Amea%C3%A7as`); convenção de nome: `Nome.png` = retrato, `Nome Token.png` / `Nome Vista/Visão Aerea.png` = token.
+  - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/aeris-bg3-rolls-t20/assets/...`) e o ator referencia **module-relative**: `modules/aeris-bg3-rolls-t20/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
+  - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 459 testes / 29 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 603 testes / 36 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
