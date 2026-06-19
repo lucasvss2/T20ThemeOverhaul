@@ -179,11 +179,11 @@ function validateTruque(casterActor: FoundryActor | null): PendingTruque | null 
 // ── Patch do AbilityUseDialog (validação pré-cast) ─────────────────────────────
 
 function patchAbilityUseDialog(): void {
-    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _bg3PatchedMiasma?: boolean };
+    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _t20PatchedMiasma?: boolean };
     const Dlg = (game as unknown as { tormenta20?: { applications?: { AbilityUseDialog?: DlgLike } } })
         .tormenta20?.applications?.AbilityUseDialog;
     if (!Dlg) { warn("Miasma: AbilityUseDialog não encontrado — Truque sem validação pré-cast."); return; }
-    if (Dlg._bg3PatchedMiasma) return;
+    if (Dlg._t20PatchedMiasma) return;
     const orig = Dlg.create.bind(Dlg);
     Dlg.create = async function (item: unknown, ...args: unknown[]): Promise<unknown> {
         const result = await orig(item, ...args);
@@ -201,7 +201,7 @@ function patchAbilityUseDialog(): void {
         _pending = ctx;
         return result;
     };
-    Dlg._bg3PatchedMiasma = true;
+    Dlg._t20PatchedMiasma = true;
 }
 
 // ── Resolução do Truque (após o card do cast) ──────────────────────────────────

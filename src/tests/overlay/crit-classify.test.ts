@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { classifyD20 } from "@/overlay/BG3Overlay";
+import { classifyD20 } from "@/overlay/T20Overlay";
 
 describe("classifyD20", () => {
     it("20 natural sempre é crítico natural", () => {

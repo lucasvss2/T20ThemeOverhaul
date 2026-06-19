@@ -61,7 +61,7 @@ jobs:
           TAG="${{ steps.version.outputs.tag }}"
           jq \
             --arg v "$VERSION" \
-            --arg dl "https://github.com/${{ github.repository }}/releases/download/$TAG/aeris-bg3-rolls-t20.zip" \
+            --arg dl "https://github.com/${{ github.repository }}/releases/download/$TAG/t20-theme-overhaul.zip" \
             '.version = $v | .download = $dl' \
             module.json > module.patched.json
           mv module.patched.json module.json
@@ -71,22 +71,22 @@ jobs:
 
       - name: Create ZIP
         run: |
-          mkdir -p staging/aeris-bg3-rolls-t20
-          cp module.json           staging/aeris-bg3-rolls-t20/module.json
-          cp dist/main.bundle.js   staging/aeris-bg3-rolls-t20/main.bundle.js
+          mkdir -p staging/t20-theme-overhaul
+          cp module.json           staging/t20-theme-overhaul/module.json
+          cp dist/main.bundle.js   staging/t20-theme-overhaul/main.bundle.js
           # Assets (PNGs, ícones, etc.) — vite.config.ts copia public/ pra dist/
           if [ -d dist/assets ]; then
-            cp -r dist/assets staging/aeris-bg3-rolls-t20/assets
+            cp -r dist/assets staging/t20-theme-overhaul/assets
           fi
           # Compêndios do módulo (LevelDB compilado de packs-src/ pelo build:packs)
           if [ -d packs ]; then
-            cp -r packs staging/aeris-bg3-rolls-t20/packs
+            cp -r packs staging/t20-theme-overhaul/packs
           fi
           cd staging
-          zip -r ../aeris-bg3-rolls-t20.zip aeris-bg3-rolls-t20/
+          zip -r ../t20-theme-overhaul.zip t20-theme-overhaul/
           cd ..
           echo "ZIP contents:"
-          unzip -l aeris-bg3-rolls-t20.zip
+          unzip -l t20-theme-overhaul.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -94,6 +94,6 @@ jobs:
           tag_name: ${{ steps.version.outputs.tag }}
           name: ${{ steps.version.outputs.tag }}
           generate_release_notes: true
-          files: aeris-bg3-rolls-t20.zip
+          files: t20-theme-overhaul.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -211,7 +211,7 @@ export function openHiddenTestPlayerDialog(request: HiddenTestRequest): void {
 
     void foundry.applications.api.DialogV2.wait({
         id: "hidden-test-player",
-        classes: ["bg3-dialog"],
+        classes: ["t20-dialog"],
         window: { title: "Teste" },
         position: { width: 440 },
         content,

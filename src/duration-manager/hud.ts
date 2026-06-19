@@ -9,25 +9,25 @@ import type { ClassifyResult } from "./classify";
 import { escHtml } from "@/_shared";
 
 /**
- * Open the BG3-styled duration picker for a manually-applied condition.
+ * Open the T20-styled duration picker for a manually-applied condition.
  * Resolves with the chosen duration. "Cancelar" resolves to indeterminate
  * (the condition stays applied, just without automatic expiry).
  */
 export function promptDuration(condName: string): Promise<ClassifyResult> {
     const name = escHtml(condName || "condição");
     const content =
-        `<div class="bg3-dur-dialog">` +
-        `<p class="bg3-dur-head">Por quanto tempo <b>${name}</b> dura?</p>` +
-        `<label class="bg3-dur-row">` +
+        `<div class="t20-dur-dialog">` +
+        `<p class="t20-dur-head">Por quanto tempo <b>${name}</b> dura?</p>` +
+        `<label class="t20-dur-row">` +
         `<input type="radio" name="durkind" value="rounds" checked/>` +
         `<span>Rodadas</span>` +
-        `<input type="number" name="durrounds" min="1" step="1" value="1" class="bg3-dur-rounds"/>` +
+        `<input type="number" name="durrounds" min="1" step="1" value="1" class="t20-dur-rounds"/>` +
         `</label>` +
-        `<label class="bg3-dur-row"><input type="radio" name="durkind" value="scene"/>` +
+        `<label class="t20-dur-row"><input type="radio" name="durkind" value="scene"/>` +
         `<span>Cena <em>— some ao fim do encontro</em></span></label>` +
-        `<label class="bg3-dur-row"><input type="radio" name="durkind" value="day"/>` +
+        `<label class="t20-dur-row"><input type="radio" name="durkind" value="day"/>` +
         `<span>Dia <em>— some ao descansar</em></span></label>` +
-        `<label class="bg3-dur-row"><input type="radio" name="durkind" value="indeterminate"/>` +
+        `<label class="t20-dur-row"><input type="radio" name="durkind" value="indeterminate"/>` +
         `<span>Indeterminada <em>— só remoção manual</em></span></label>` +
         `</div>`;
 
@@ -72,7 +72,7 @@ export function promptDuration(condName: string): Promise<ClassifyResult> {
                 default: "apply",
                 close: () => done({ kind: "indeterminate" }),
             },
-            { classes: ["bg3-dialog", "bg3-dur-dialog-app"], width: 380 },
+            { classes: ["t20-dialog", "t20-dur-dialog-app"], width: 380 },
         ).render(true);
     });
 }

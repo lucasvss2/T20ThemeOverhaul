@@ -30,7 +30,7 @@ import {
 } from "./format";
 import STYLES from "./baforada.css?inline";
 
-const STYLES_ID = "bg3-t20-baforada-styles";
+const STYLES_ID = "t20-baforada-styles";
 const ELEMENT_FLAG = "baforadaElement";
 const BAFORADA_NAME = "baforada draconica";
 
@@ -144,7 +144,7 @@ function openElementModal(item: ItemLike, onDone?: () => void): void {
             },
         },
         default: "confirm",
-    }, { classes: ["bg3-dialog", "bg3-baforada-dialog"], width: 420 });
+    }, { classes: ["t20-dialog", "t20-baforada-dialog"], width: 420 });
     dlg.render(true);
 }
 
@@ -190,7 +190,7 @@ function openUsePrompt(actor: FoundryActor, element: ElementKey): void {
             cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar" },
         },
         default: "cast",
-    }, { classes: ["bg3-dialog", "bg3-baforada-dialog"], width: 420 });
+    }, { classes: ["t20-dialog", "t20-baforada-dialog"], width: 420 });
     dlg.render(true);
 }
 
@@ -305,7 +305,7 @@ async function postBaforadaCard(
     let rendered = "";
     try { rendered = await roll.render({ flavor: `${elementLabel(element)} — ${pm}d10` }); } catch { /* ignore */ }
     const content =
-        `<div class="bg3-baforada-card">` +
+        `<div class="t20-baforada-card">` +
         `<div class="baf-card-title">🐉 Baforada Dracônica — ${esc(casterName)}</div>` +
         `<div class="baf-card-sub">${esc(elementLabel(element))} · ${pm} PM · Reflexos CD ${cd} reduz à metade</div>` +
         `${rendered}` +
@@ -365,11 +365,11 @@ function onBaforadaUse(cloneItem: ItemLike): void {
  * "+1d10/PM", então deixar o T20 rolar gerava uma SEGUNDA rolagem.
  */
 function patchAbilityUseDialog(): void {
-    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _bg3PatchedBaforada?: boolean };
+    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _t20PatchedBaforada?: boolean };
     type T20Global = { applications?: { AbilityUseDialog?: DlgLike } };
     const Dlg = (game as unknown as { tormenta20?: T20Global }).tormenta20?.applications?.AbilityUseDialog;
     if (!Dlg) { warn("Baforada: AbilityUseDialog não encontrado — patch não aplicado."); return; }
-    if (Dlg._bg3PatchedBaforada) return;
+    if (Dlg._t20PatchedBaforada) return;
     const orig = Dlg.create.bind(Dlg);
     Dlg.create = async function (item: unknown, ...args: unknown[]): Promise<unknown> {
         if (isBaforada(item as ItemLike)) {
@@ -379,7 +379,7 @@ function patchAbilityUseDialog(): void {
         }
         return orig(item, ...args);
     };
-    Dlg._bg3PatchedBaforada = true;
+    Dlg._t20PatchedBaforada = true;
     log("Baforada: AbilityUseDialog.create patcheado (uso nativo cancelado para a Baforada).");
 }
 

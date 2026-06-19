@@ -22,9 +22,9 @@ import { MODULE_ID } from "@/constants";
 import { getSocket, onSocketReady } from "@/socket";
 import { log, warn } from "@/utils/logging";
 
-const SIDEBAR_BTN_ID = "bg3-t20-treasure-btn";
-const SHEET_BTN_CLASS = "bg3-t20-treasure-sheet-btn";
-const STYLES_ID = "bg3-t20-treasure-styles";
+const SIDEBAR_BTN_ID = "t20-treasure-btn";
+const SHEET_BTN_CLASS = "t20-treasure-sheet-btn";
+const STYLES_ID = "t20-treasure-styles";
 const LOOT_SOCKET = "treasure/loot-token";
 const LOOTED_FLAG = "treasureLooted";
 
@@ -140,7 +140,7 @@ function openGenerateDialog(prefill: Prefill = {}): void {
             consultBtn.addEventListener("click", () => openConsultDialog());
             if (prefill.auto && prefill.nd) doRoll();
         },
-    }, { classes: ["bg3-dialog", "bg3-treasure-dialog"], width: 520 });
+    }, { classes: ["t20-dialog", "t20-treasure-dialog"], width: 520 });
     dlg.render(true);
 }
 
@@ -216,7 +216,7 @@ function openConsultDialog(): void {
             sel.addEventListener("change", refresh);
             refresh();
         },
-    }, { classes: ["bg3-dialog", "bg3-treasure-dialog", "bg3-treasure-consult"], width: 720 });
+    }, { classes: ["t20-dialog", "t20-treasure-dialog", "t20-treasure-consult"], width: 720 });
     dlg.render(true);
 }
 
@@ -413,7 +413,7 @@ async function lootTokenAsGM(payload: LootPayload): Promise<void> {
  */
 type LootHandler = () => void;
 type LootBoundToken = TokenLike & {
-    _bg3LootHandler?: LootHandler;
+    _t20LootHandler?: LootHandler;
     on?: (event: string, fn: LootHandler) => void;
     off?: (event: string, fn: LootHandler) => void;
     listeners?: (event: string) => LootHandler[];
@@ -427,13 +427,13 @@ type LootBoundToken = TokenLike & {
  */
 function bindTokenLoot(token: LootBoundToken | null | undefined): void {
     if (!token || typeof token.on !== "function") return;
-    const cur = token._bg3LootHandler;
+    const cur = token._t20LootHandler;
     if (cur && token.listeners?.("rightdown").includes(cur)) return; // já ligado
     if (cur && token.off) token.off("rightdown", cur);               // referência velha (já removida)
     const handler: LootHandler = () => {
         try { if (isLootableByPlayer(token)) requestLoot(token); } catch { /* ignore */ }
     };
-    token._bg3LootHandler = handler;
+    token._t20LootHandler = handler;
     token.on("rightdown", handler);
 }
 

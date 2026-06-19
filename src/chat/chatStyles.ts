@@ -1,5 +1,5 @@
 /**
- * BG3-style restyling for Tormenta20 chat roll cards.
+ * T20-style restyling for Tormenta20 chat roll cards.
  * Injects CSS and fixes missing attribute labels via renderChatMessage hook.
  */
 
@@ -9,7 +9,7 @@ import { resolveFlavorText } from "@/integration/index";
 import { log } from "@/utils/logging";
 import CHAT_STYLES from "./chat.css?inline";
 
-const CHAT_STYLES_ID = "bg3-t20-chat-styles";
+const CHAT_STYLES_ID = "t20-chat-styles";
 
 // ── T20 attribute key → display label ────────────────────────────────────────
 
@@ -46,7 +46,7 @@ function applyConditionCardTheme(message: ChatMessage, root: HTMLElement): void 
     const t20Flags = message.flags?.["tormenta20"] as Record<string, unknown> | undefined;
     if (t20Flags?.["itemData"]) return;
 
-    // Skip resistance roll messages — already themed via bg3-resistance-roll
+    // Skip resistance roll messages — already themed via t20-resistance-roll
     if (message.getFlag(MODULE_ID, "resistanceRoll")) return;
 
     const msgContent = root.querySelector(".message-content");
@@ -77,9 +77,9 @@ function applyConditionCardTheme(message: ChatMessage, root: HTMLElement): void 
         wrapper.style.setProperty("box-shadow",    "0 0 0 1px #2a1e08, 0 4px 18px rgba(0,0,0,0.75)", "important");
         wrapper.style.setProperty("color",         "#7a6e5a",                           "important");
         wrapper.style.setProperty("padding",       "8px 12px",                          "important");
-        wrapper.classList.add("bg3-t20-condition-card");
+        wrapper.classList.add("t20-condition-card");
     }
-    root.classList.add("bg3-t20-condition-message");
+    root.classList.add("t20-condition-message");
 
     // ── Force-override colours on every text descendant ──────────────────────
     // We scope to msgContent (not wrapper) — this guarantees the overrides hit
@@ -237,7 +237,7 @@ export function setupChatStyling(): void {
 
         // Resistance roll messages — add class for CSS theming
         if (message.getFlag(MODULE_ID, "resistanceRoll")) {
-            root.classList.add("bg3-resistance-roll");
+            root.classList.add("t20-resistance-roll");
         }
 
         // T20 condition notification cards — override inline style via JS

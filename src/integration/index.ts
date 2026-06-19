@@ -1,5 +1,5 @@
 /**
- * Integration layer: T20 roll interception and BG3 cinematic overlay.
+ * Integration layer: T20 roll interception and T20 cinematic overlay.
  *
  * Flow:
  *   createChatMessage → parse T20 flavor → show overlay immediately
@@ -11,7 +11,7 @@ import { MODULE_ID, SYSTEM_ID } from "@/constants";
 import { log } from "@/utils/logging";
 import { computeEffectiveCriticoM } from "@/grito-kiai/index";
 
-import { BG3Overlay, type GridRollEntry } from "@/overlay/BG3Overlay";
+import { T20Overlay, type GridRollEntry } from "@/overlay/T20Overlay";
 
 // Tempo (ms) entre rolagens de iniciativa pra considerar como um lote — basta
 // para "Rolar para Todos / PNJs" coalescer todas as mensagens num único grid.
@@ -35,9 +35,9 @@ function flushInitiativeBatch(): void {
     const batch = _initBatch.splice(0);
     if (batch.length === 1) {
         const [{ meta, roll }] = batch;
-        BG3Overlay.show(meta, roll);
+        T20Overlay.show(meta, roll);
     } else {
-        BG3Overlay.showGrid(batch, INITIATIVE_CATEGORY);
+        T20Overlay.showGrid(batch, INITIATIVE_CATEGORY);
     }
 }
 
@@ -137,7 +137,7 @@ function installOverlayHook(): void {
             ? { isAttack: true, critThreshold: attackCritThreshold(message) }
             : undefined;
 
-        setTimeout(() => BG3Overlay.show(rollMeta, roll, undefined, opts), 1000);
+        setTimeout(() => T20Overlay.show(rollMeta, roll, undefined, opts), 1000);
     });
 
     log("Overlay cinemático T20 instalado.");

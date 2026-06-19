@@ -2,12 +2,12 @@
 
 ## Project Overview
 
-Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"`). Adds a BG3-inspired dark theme: cinematic roll overlay, restyled dialogs, chat cards, hidden skill tests, auto damage prompts, area spells, and a character sheet redesign.
+Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"`). Adds a cinematic dark theme: cinematic roll overlay, restyled dialogs, chat cards, hidden skill tests, auto damage prompts, area spells, and a character sheet redesign.
 
-- **Module ID:** `aeris-bg3-rolls-t20`
+- **Module ID:** `t20-theme-overhaul`
 - **Foundry:** v13.351+
 - **Repo:** https://github.com/lucasvss2/T20ThemeOverhaul
-- **Local module path:** `C:\Users\lucas\AppData\Local\FoundryVTT\Data\modules\aeris-bg3-rolls-t20\`
+- **Local module path:** `C:\Users\lucas\AppData\Local\FoundryVTT\Data\modules\t20-theme-overhaul\`
 
 ---
 
@@ -48,10 +48,10 @@ Version scheme: `MAJOR.MINOR.PATCH`
         ↳ triggers .github/workflows/release.yml
           • runs typecheck + test + build on CI
           • patches module.json version + download URL
-          • creates aeris-bg3-rolls-t20.zip
+          • creates t20-theme-overhaul.zip
           • publishes GitHub Release (what Foundry reads)
 7.  Copy dist/main.bundle.js + module.json → local AppData module folder
-        C:\Users\lucas\AppData\Local\FoundryVTT\Data\modules\aeris-bg3-rolls-t20\
+        C:\Users\lucas\AppData\Local\FoundryVTT\Data\modules\t20-theme-overhaul\
 8.  Check GitHub Actions tab — wait for release workflow green ✓
 8b. Se packs-src/ mudou: `npm run build:packs` e copiar `packs/` pro AppData — MAS o
     LevelDB fica TRAVADO com o mundo rodando: derrubar o mundo (game.shutDown() →
@@ -85,9 +85,9 @@ src/
   socket/index.ts              — socketlib bootstrap (registers module on socketlib.ready, exposes getSocket / onSocketReady)
   parser/t20.ts                — parseT20(): flavor string → RollMeta | null
   integration/index.ts         — createChatMessage hook → overlay
-  overlay/BG3Overlay.ts        — Full-screen cinematic overlay singleton
-  dialogs/bg3-dialog.ts        — BG3-style restyling for AbilityUseDialog
-  chat/chatStyles.ts           — BG3-style restyling for T20 chat roll cards
+  overlay/T20Overlay.ts        — Full-screen cinematic overlay singleton
+  dialogs/t20-dialog.ts        — Cinematic restyling for AbilityUseDialog
+  chat/chatStyles.ts           — Cinematic restyling for T20 chat roll cards
   hidden-test/index.ts         — Secret skill test: GM rolls for multiple targets
   auto-damage/index.ts         — Auto damage application prompt (attack-based weapons)
   spell-resistance/index.ts    — Automatic saving throw + damage dialog for spells
@@ -100,7 +100,7 @@ src/
   area-spells/aura-sagrada.ts  — Aura Sagrada (Paladino): ghost template + Aura de Cura (combatTurn heal)
   area-spells/egide-sagrada.ts — Égide Sagrada (Paladino): ghost template + Escudo Fraterno (raio dinâmico)
   ui/skills-menu.ts            — Toolbar button that aggregates active skill actions (register/refresh API)
-  sheet/index.ts               — Character sheet redesign (BG3 aesthetic)
+  sheet/index.ts               — Character sheet redesign (cinematic aesthetic)
   counterspell/index.ts        — Contramágica: janela GM no cast → Misticismo vs CD → anula a magia (Parte 2b)
   duration-manager/index.ts    — Gerenciador de duração de buffs/condições (rodadas/cena/dia/sustentada) em combate
   duration-manager/classify.ts — Classificação pura da duração (effect.duration + system.duracao.units) — testável
@@ -117,10 +117,10 @@ src/
 
 | #   | File                          | Hook                     | Notes                                                                                   |
 | --- | ----------------------------- | ------------------------ | --------------------------------------------------------------------------------------- |
-| 1   | `overlay/BG3Overlay.ts`       | `createChatMessage`      | 1 000 ms delay, auto-dismiss 3 000 ms, CSS id `bg3-t20-styles`                          |
-| 2   | `dialogs/bg3-dialog.ts`       | `renderApplication`      | Detects `.ability-use-form` / `.attribute-use-form`, CSS id `bg3-t20-dialog-styles`     |
-| 3   | `chat/chatStyles.ts`          | `renderChatMessage`      | Target: `.tormenta20.chat-card.item-card` in `#chat-log`, CSS id `bg3-t20-chat-styles`  |
-| 4   | `integration/index.ts`        | `createChatMessage`      | `resolveFlavorText` → `parseT20` → `BG3Overlay.show`                                    |
+| 1   | `overlay/T20Overlay.ts`       | `createChatMessage`      | 1 000 ms delay, auto-dismiss 3 000 ms, CSS id `t20-styles`                          |
+| 2   | `dialogs/t20-dialog.ts`       | `renderApplication`      | Detects `.ability-use-form` / `.attribute-use-form`, CSS id `t20-dialog-styles`     |
+| 3   | `chat/chatStyles.ts`          | `renderChatMessage`      | Target: `.tormenta20.chat-card.item-card` in `#chat-log`, CSS id `t20-chat-styles`  |
+| 4   | `integration/index.ts`        | `createChatMessage`      | `resolveFlavorText` → `parseT20` → `T20Overlay.show`                                    |
 | 5   | `hidden-test/index.ts`        | socket                   | GM emits per-target; each player sees only their own result                             |
 | 6   | `auto-damage/index.ts`        | `createChatMessage`      | Triggers on attack+damage rolls (weapons). Skips spells (no attack roll).               |
 | 7   | `spell-resistance/index.ts`   | `createChatMessage`      | Triggers on spell rolls (tipo arc/div/uni, damage only, no attack). Rolls saving throw, sends dialog via socket. |
@@ -168,9 +168,9 @@ Persistent area spell using a MeasuredTemplate (circle, 9m radius). Manages Acti
 - `updateWorldTime` — expire templates after 1 in-game day (86 400 s)
 
 **Template claim strategy:**
-T20 creates its own MeasuredTemplate when a spell with area is cast. We detect this via `createMeasuredTemplate` (comparing `authorUid` vs `game.user.id`) and claim it by calling `doc.update({ flags.aeris-bg3-rolls-t20: {...} })`. This fires `updateMeasuredTemplate` which triggers AE application. Fallback: if no template appears within 4 s, prompt manual placement.
+T20 creates its own MeasuredTemplate when a spell with area is cast. We detect this via `createMeasuredTemplate` (comparing `authorUid` vs `game.user.id`) and claim it by calling `doc.update({ flags.t20-theme-overhaul: {...} })`. This fires `updateMeasuredTemplate` which triggers AE application. Fallback: if no template appears within 4 s, prompt manual placement.
 
-**Template flags (`flags.aeris-bg3-rolls-t20`):**
+**Template flags (`flags.t20-theme-overhaul`):**
 ```
 spell: "consagrar"          — identifies this as a Consagrar template
 casterActorId               — actor ID of the caster
@@ -180,7 +180,7 @@ createdAtGameTime           — game.time.worldTime at cast (for expiry)
 creatorUserId               — game.user.id at cast (for remove button filtering)
 ```
 
-**AE flags (`flags.aeris-bg3-rolls-t20`):**
+**AE flags (`flags.t20-theme-overhaul`):**
 ```
 consagrarTemplateOrigin: templateId  — links AE to its source template
 consagrarHealingBoost: true          — marks the living-token boost AE
@@ -218,7 +218,7 @@ If the user clicks `chat-apply-ae` from the T20 chat card:
 - If our AE doesn't exist yet → adopt the new one by writing our `consagrarTemplateOrigin` flag
 
 **Floating remove-area button:**
-Injected as the last `<li>` in `menu#scene-controls-layers`. Visible to GM (all areas) and to the caster (`creatorUserId` flag match). CSS id: `bg3-t20-consagrar-remove-btn`. Dialogs use `.bg3-dialog` class + `CONSAGRAR_STYLES_ID` supplement.
+Injected as the last `<li>` in `menu#scene-controls-layers`. Visible to GM (all areas) and to the caster (`creatorUserId` flag match). CSS id: `t20-consagrar-remove-btn`. Dialogs use `.t20-dialog` class + `CONSAGRAR_STYLES_ID` supplement.
 
 ---
 
@@ -236,7 +236,7 @@ Aura emitted FROM the paladin's token (no clickable grid). Currently implements 
 
 **Detection:** `normalizeCondName(extractSpellName(message)) === "aura sagrada"` (mind the SPACE — `normalizeCondName` does NOT replace spaces with hyphens).
 
-**Template flags (`flags.aeris-bg3-rolls-t20`):**
+**Template flags (`flags.t20-theme-overhaul`):**
 ```
 spell: "aura-sagrada"
 casterTokenId          — token that emits the aura
@@ -268,7 +268,7 @@ Itens normalizados nos poderes do caster: `"aura de cura"` (cura aliados elegív
 
 **Aura de Cura**:
 - Elegível = caster + tokens com mesma `disposition`, dentro da aura, com PV < max.
-- Cura = `5 + CHA do caster` (lido de `template.flags.aeris-bg3-rolls-t20.baseEffectData.changes[0].value` — T20 já resolveu `@car` no cast).
+- Cura = `5 + CHA do caster` (lido de `template.flags.t20-theme-overhaul.baseEffectData.changes[0].value` — T20 já resolveu `@car` no cast).
 - Aplica via `actor.update({ "system.attributes.pv.value": Math.min(max, cur + heal) })`.
 - Posta chat card `Aura de Cura — <caster>` (border `#c8a96e`) com `<alvo>: +N`.
 
@@ -277,7 +277,7 @@ Itens normalizados nos poderes do caster: `"aura de cura"` (cura aliados elegív
 - Dano = `5 + CHA do caster` (luz elemental).
 - Aplica via `actor.applyDamage(amount, 1, false)` — sem RD. T20 ActorT20 expõe `applyDamage(amount, multiplier=1, applyRD=false)`.
 - Posta chat card `Aura Ardente — <caster>` (border `#ff8a4a`).
-- CSS suplementar: `.bg3-aura-ardente-picker` com texto laranja.
+- CSS suplementar: `.t20-aura-ardente-picker` com texto laranja.
 
 **Setting `auraSagrada.alwaysPromptStartOfTurn`**: quando `true`, abre 1 dialog por alvo perguntando aplicar/pular. Quando `false` (default), aplica direto.
 
@@ -303,7 +303,7 @@ Aprimoramento (item `"Aura de Invencibilidade"` normalizado nos poderes do caste
 **Implementação**:
 - `aura-sagrada.ts` exporta:
   - `getAuraInvencibilidadeContextForActor(actorId, tokenId?): Array<{ casterName, casterActorId }>` — filtra: ator dentro de aura ativa cujo caster tem o aprimoramento + mesma disposition + ATOR AINDA NÃO USOU NESTA CENA. `tokenId` é preferido pra resolver synthetic actors de NPCs unlinked.
-  - `markAuraInvencibilidadeUsed({actorId, tokenId?, casterName, targetName, damageIgnored})` — seta flag `flags.aeris-bg3-rolls-t20.auraInvencibilidadeUsedSceneId = <sceneId>` no ator + posta chat card dourado descritivo.
+  - `markAuraInvencibilidadeUsed({actorId, tokenId?, casterName, targetName, damageIgnored})` — seta flag `flags.t20-theme-overhaul.auraInvencibilidadeUsedSceneId = <sceneId>` no ator + posta chat card dourado descritivo.
 - `auto-damage/index.ts` consulta `getAuraInvencibilidadeContextForActor` em `openDamagePrompt`. Se elegível: renderiza badge `.aad-invenc-badge` (gradient dourado) + adiciona botão extra `Ignorar (Aura de Invencibilidade)` antes do `Forçar Rerolar Ataque`. Click → marca uso + ignora 100% do dano (PM ainda é debitado se preenchido).
 
 **Tracking "primeira vez na cena"**: flag no ator com o `sceneId` atual. Comparação contra `canvas.scene.id` no momento da checagem — quando a cena muda, a flag fica stale e a comparação falha naturalmente, dando direito a nova imunidade. Não precisa de cleanup explícito.
@@ -326,7 +326,7 @@ Poder do paladino. "Você gasta uma ação de movimento e 2 PM para recobrir de 
 
 **Detecção de Escudo Fraterno:** item por nome — `normalizeCondName(item.name) === "escudo fraterno"`.
 
-**Template flags (`flags.aeris-bg3-rolls-t20`):**
+**Template flags (`flags.t20-theme-overhaul`):**
 ```
 spell: "egide-sagrada"
 casterTokenId / casterActorId / casterName
@@ -351,7 +351,7 @@ baseEffectData
 ### Encerrar animação ao cancelar a aura (v1.9.2)
 
 O autoanimations cria um efeito persistente do Sequencer atrelado ao TOKEN do caster (não ao MeasuredTemplate). Deletar o template NÃO encerra essa animação. Solução em 2 camadas:
-1. **Captura preciso no cast**: snapshot dos IDs do Sequencer atrelados ao caster antes do cast, depois 1.5 s após. O diff é salvo em `template.flags.aeris-bg3-rolls-t20.sequencerEffectIds`.
+1. **Captura preciso no cast**: snapshot dos IDs do Sequencer atrelados ao caster antes do cast, depois 1.5 s após. O diff é salvo em `template.flags.t20-theme-overhaul.sequencerEffectIds`.
 2. **Fallback no delete**: além de terminar pelos IDs salvos, o handler do `deleteMeasuredTemplate` varre TODOS efeitos do Sequencer atrelados ao caster cujo `file` casa `autoanimations.*\.(spell|aura)\.` e termina também — cobre race conditions.
 
 **Gotcha da API**: `Sequencer.EffectManager.endEffects({ effects: [...] })` exige `string[]` (IDs) ou `CanvasEffect[]`. Passar `[{ id: "..." }]` (objeto plain) falha com "collections in inFilter.effects must be of type string or CanvasEffect". Os helpers `endSequencerEffectsByIds` e `endAutoanimSpellEffectsForCasterToken` passam IDs como strings.
@@ -363,7 +363,7 @@ O autoanimations cria um efeito persistente do Sequencer atrelado ao TOKEN do ca
 Comportamento:
 - 0 ações visíveis → o botão da toolbar é removido.
 - 1 ação visível → click executa direto (sem menu intermediário); tooltip mostra o label da ação.
-- 2+ ações visíveis → click abre um Dialog `.bg3-dialog` com lista; tooltip vira `"Skills ativas (N)"`.
+- 2+ ações visíveis → click abre um Dialog `.t20-dialog` com lista; tooltip vira `"Skills ativas (N)"`.
 
 Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `renderSceneControls`, `ready` e `canvasReady`.
 
@@ -400,7 +400,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 - **StatblockParser programático**: `new game.tormenta20.applications.StatblockParser({actor, statblock:"", schema:{}, items:[], log:[]})`, stub `parser.render = () => parser`, evento fake `{preventDefault(){}, currentTarget:{closest:()=>({statblock:{value:text}})}}` → `_parseStatblock(ev)` + `_applyToActor(ev)`. Luta (= bônus de ataque), criticoM e saves vêm certos; conferir depois: nomes truncados de habilidades, sentidos/ic (SetFields — `JSON.stringify` mostra `{}` mas o valor existe; use `Array.from`), parágrafos de poderes engolidos (ex.: Atropelamento do Górgon).
 - **Pipeline de compêndios**: fontes em `packs-src/<pack>/*.json` (1 doc/arquivo; `_key` obrigatório INCLUSIVE nos embedados: `!actors.items!<actorId>.<itemId>`, `!actors.items.effects!<aId>.<iId>.<eId>`, pastas `!folders!<id>`). `npm run build:packs` compila → `packs/` (gitignorado). CI (release.yml e beta-release.yml) compila e inclui no zip. module.json tem a entrada `"packs"` (Actor, system tormenta20, GM-only).
 - **Imagens dos packs**: paths URL-encoded (`Amea%C3%A7as`); convenção de nome: `Nome.png` = retrato, `Nome Token.png` / `Nome Vista/Visão Aerea.png` = token.
-  - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/aeris-bg3-rolls-t20/assets/...`) e o ator referencia **module-relative**: `modules/aeris-bg3-rolls-t20/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
+  - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
 - **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 603 testes / 36 arquivos.
@@ -488,7 +488,7 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 
 ### DialogV2 (`.application`) recorta conteúdo alto SEM scroll
 
-Modais DialogV2 têm root `.application` (NÃO `.window-app`, que é do Dialog clássico). O Foundry clampa a altura da janela ao viewport e põe `overflow:hidden` no `.window-content` → conteúdo alto fica **recortado e inacessível** (sem scroll). A regra `.window-app.bg3-dialog … {overflow:visible}` em `dialogs/bg3-dialog.css` NÃO cobre `.application`. Fix global (v1.63.0): `.application.bg3-dialog .window-content { max-height:90vh; overflow-y:auto !important }`. O modal de resistência (`.smf-dialog`) ainda vira **2 colunas** via container query (`.smf-body{container-type:inline-size}` + `@container (min-width:600px)`), largura `isHeal?460:760` — "resolver o teste" à esquerda, dano/condições/buffs à direita; abaixo de 600px de largura interna colapsa pra 1 coluna + scroll.
+Modais DialogV2 têm root `.application` (NÃO `.window-app`, que é do Dialog clássico). O Foundry clampa a altura da janela ao viewport e põe `overflow:hidden` no `.window-content` → conteúdo alto fica **recortado e inacessível** (sem scroll). A regra `.window-app.t20-dialog … {overflow:visible}` em `dialogs/t20-dialog.css` NÃO cobre `.application`. Fix global (v1.63.0): `.application.t20-dialog .window-content { max-height:90vh; overflow-y:auto !important }`. O modal de resistência (`.smf-dialog`) ainda vira **2 colunas** via container query (`.smf-body{container-type:inline-size}` + `@container (min-width:600px)`), largura `isHeal?460:760` — "resolver o teste" à esquerda, dano/condições/buffs à direita; abaixo de 600px de largura interna colapsa pra 1 coluna + scroll.
 
 ### Rolls in createChatMessage
 

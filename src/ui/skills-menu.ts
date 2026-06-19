@@ -8,7 +8,7 @@ import { warn } from "@/utils/logging";
  * `registerSkillAction({ id, label, icon, isVisible, onClick })`. O menu:
  *  - Esconde o botão da toolbar se NENHUMA ação está visível.
  *  - Se exatamente 1 ação visível: clicar executa direto (sem dialog).
- *  - Se 2+ ações visíveis: clicar abre um picker (Dialog com .bg3-dialog) e
+ *  - Se 2+ ações visíveis: clicar abre um picker (Dialog com .t20-dialog) e
  *    o usuário escolhe qual ação rodar.
  *
  * `isVisible()` é avaliada SOB DEMANDA — toda vez que o menu re-renderiza
@@ -53,8 +53,8 @@ export function unregisterSkillAction(id: string): void {
 
 // ── DOM ──────────────────────────────────────────────────────────────────────
 
-const MENU_BTN_ID    = "bg3-t20-skills-menu-btn";
-const MENU_STYLES_ID = "bg3-t20-skills-menu-styles";
+const MENU_BTN_ID    = "t20-skills-menu-btn";
+const MENU_STYLES_ID = "t20-skills-menu-styles";
 
 
 
@@ -160,7 +160,7 @@ async function openPicker(actions: SkillAction[]): Promise<void> {
 
         const dlg = new Dialog({
             title: "Skills ativas",
-            content: `<div class="bg3-skills-menu-list">${rows}</div>`,
+            content: `<div class="t20-skills-menu-list">${rows}</div>`,
             buttons: {
                 cancel: {
                     icon:  '<i class="fas fa-times"></i>',
@@ -189,7 +189,7 @@ async function openPicker(actions: SkillAction[]): Promise<void> {
                     });
                 });
             },
-        }, { classes: ["bg3-dialog"] });
+        }, { classes: ["t20-dialog"] });
         dlg.render(true);
     });
 }

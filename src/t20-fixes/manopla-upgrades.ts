@@ -18,7 +18,7 @@
  * (ataque, criticoM, dano, …). O T20 aplica esses AEs no roll da ARMA via
  * `applyOnUseEffects`. Para a Manopla valer no ataque desarmado, espelhamos os
  * AEs das melhorias selecionadas na Manopla EQUIPADA para a arma "Ataque
- * desarmado" (com `flags.aeris-bg3-rolls-t20.manoplaUpgrade = key` para limpeza).
+ * desarmado" (com `flags.t20-theme-overhaul.manoplaUpgrade = key` para limpeza).
  * Aí o T20 os lista (pré-marcados, self:true) e aplica no soco, igual a uma arma
  * de verdade. Reconciliação idempotente em create/delete/update de item e ready.
  */

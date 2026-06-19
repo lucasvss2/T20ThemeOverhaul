@@ -1,8 +1,8 @@
 /**
- * Design tokens — fonte única da verdade para cores do tema BG3-T20.
+ * Design tokens — fonte única da verdade para cores do tema T20-T20.
  *
  * Para usar:
- *  - Em CSS (dentro de strings injetadas): `color: var(--bg3-accent);`
+ *  - Em CSS (dentro de strings injetadas): `color: var(--t20-accent);`
  *  - Em TypeScript (quando precisa da cor pura, ex: chat-render): `COLORS.accent`
  *
  * Princípios:
@@ -21,7 +21,7 @@ export const COLORS = {
     bgMid:      "#2a1e08",
     bgOverlay:  "rgba(0,0,0,0.85)",
 
-    // ── Accent (BG3 gold) ────────────────────────────────────────────────────
+    // ── Accent (T20 gold) ────────────────────────────────────────────────────
     accent:        "#c9a76a",   // primary gold
     accentBright:  "#e8d8a8",   // highlight / hover (cream tint)
     accentGold:    "#e6c987",   // vivid bright gold — charname, stat values, hover highlights
@@ -71,62 +71,62 @@ export const COLORS = {
 
 /**
  * CSS gerado a partir de COLORS. Injetar uma única vez no boot (setupTheme).
- * Aplicado em :root para que `var(--bg3-*)` esteja disponível em qualquer
+ * Aplicado em :root para que `var(--t20-*)` esteja disponível em qualquer
  * seletor descendente — incluindo dentro de dialogs/sheets do Foundry.
  */
 export const THEME_CSS = `
 :root {
     /* Backgrounds */
-    --bg3-bg-deepest:  ${COLORS.bgDeepest};
-    --bg3-bg-dark:     ${COLORS.bgDark};
-    --bg3-bg-mid:      ${COLORS.bgMid};
-    --bg3-bg-overlay:  ${COLORS.bgOverlay};
+    --t20-bg-deepest:  ${COLORS.bgDeepest};
+    --t20-bg-dark:     ${COLORS.bgDark};
+    --t20-bg-mid:      ${COLORS.bgMid};
+    --t20-bg-overlay:  ${COLORS.bgOverlay};
 
     /* Accent */
-    --bg3-accent:         ${COLORS.accent};
-    --bg3-accent-bright:  ${COLORS.accentBright};
-    --bg3-accent-gold:    ${COLORS.accentGold};
-    --bg3-accent-muted:   ${COLORS.accentMuted};
-    --bg3-accent-rgb:     ${COLORS.accentRgb};
+    --t20-accent:         ${COLORS.accent};
+    --t20-accent-bright:  ${COLORS.accentBright};
+    --t20-accent-gold:    ${COLORS.accentGold};
+    --t20-accent-muted:   ${COLORS.accentMuted};
+    --t20-accent-rgb:     ${COLORS.accentRgb};
 
     /* Borders / dividers */
-    --bg3-border-ambient: ${COLORS.borderAmbient};
-    --bg3-border:         ${COLORS.border};
-    --bg3-border-strong:  ${COLORS.borderStrong};
-    --bg3-divider:        ${COLORS.divider};
-    --bg3-divider-med:    ${COLORS.dividerMed};
-    --bg3-divider-soft:   ${COLORS.dividerSoft};
+    --t20-border-ambient: ${COLORS.borderAmbient};
+    --t20-border:         ${COLORS.border};
+    --t20-border-strong:  ${COLORS.borderStrong};
+    --t20-divider:        ${COLORS.divider};
+    --t20-divider-med:    ${COLORS.dividerMed};
+    --t20-divider-soft:   ${COLORS.dividerSoft};
 
     /* Accent tints */
-    --bg3-tint-subtle:  ${COLORS.tintSubtle};
-    --bg3-tint-soft:    ${COLORS.tintSoft};
-    --bg3-tint-med:     ${COLORS.tintMed};
-    --bg3-tint-strong:  ${COLORS.tintStrong};
-    --bg3-tint-bold:    ${COLORS.tintBold};
+    --t20-tint-subtle:  ${COLORS.tintSubtle};
+    --t20-tint-soft:    ${COLORS.tintSoft};
+    --t20-tint-med:     ${COLORS.tintMed};
+    --t20-tint-strong:  ${COLORS.tintStrong};
+    --t20-tint-bold:    ${COLORS.tintBold};
 
     /* Text */
-    --bg3-text-bright:    ${COLORS.textBright};
-    --bg3-text-primary:   ${COLORS.textPrimary};
-    --bg3-text-secondary: ${COLORS.textSecondary};
-    --bg3-text-muted:     ${COLORS.textMuted};
-    --bg3-text-disabled:  ${COLORS.textDisabled};
+    --t20-text-bright:    ${COLORS.textBright};
+    --t20-text-primary:   ${COLORS.textPrimary};
+    --t20-text-secondary: ${COLORS.textSecondary};
+    --t20-text-muted:     ${COLORS.textMuted};
+    --t20-text-disabled:  ${COLORS.textDisabled};
 
     /* Semantic */
-    --bg3-color-success:     ${COLORS.success};
-    --bg3-color-success-rgb: ${COLORS.successRgb};
-    --bg3-color-danger:      ${COLORS.danger};
-    --bg3-color-danger-rgb:  ${COLORS.dangerRgb};
-    --bg3-color-info:        ${COLORS.info};
-    --bg3-color-info-rgb:    ${COLORS.infoRgb};
-    --bg3-color-crit:        ${COLORS.colorCrit};
-    --bg3-color-crit-rgb:    ${COLORS.colorCritRgb};
-    --bg3-color-failure:     ${COLORS.colorFailure};
+    --t20-color-success:     ${COLORS.success};
+    --t20-color-success-rgb: ${COLORS.successRgb};
+    --t20-color-danger:      ${COLORS.danger};
+    --t20-color-danger-rgb:  ${COLORS.dangerRgb};
+    --t20-color-info:        ${COLORS.info};
+    --t20-color-info-rgb:    ${COLORS.infoRgb};
+    --t20-color-crit:        ${COLORS.colorCrit};
+    --t20-color-crit-rgb:    ${COLORS.colorCritRgb};
+    --t20-color-failure:     ${COLORS.colorFailure};
 
     /* Button gradient */
-    --bg3-btn-bg-top:     ${COLORS.btnBgTop};
-    --bg3-btn-bg-bottom:  ${COLORS.btnBgBottom};
-    --bg3-btn-border:     ${COLORS.btnBorder};
-    --bg3-btn-text:       ${COLORS.btnText};
-    --bg3-btn-text-hover: ${COLORS.btnTextHover};
+    --t20-btn-bg-top:     ${COLORS.btnBgTop};
+    --t20-btn-bg-bottom:  ${COLORS.btnBgBottom};
+    --t20-btn-border:     ${COLORS.btnBorder};
+    --t20-btn-text:       ${COLORS.btnText};
+    --t20-btn-text-hover: ${COLORS.btnTextHover};
 }
 `;

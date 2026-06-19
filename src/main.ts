@@ -1,7 +1,7 @@
 /**
- * aeris-bg3-rolls-t20 — main entry point
+ * t20-theme-overhaul — main entry point
  *
- * BG3-style cinematic dice overlay + chat / sheet redesign for the Tormenta20
+ * T20-style cinematic dice overlay + chat / sheet redesign for the Tormenta20
  * system. Intercepts T20 roll messages (perícias, resistências, ataques,
  * iniciativa) and displays a full-screen animated overlay with the roll
  * result. Cross-client coordination uses socketlib.
@@ -10,7 +10,7 @@
 import { MODULE_ID, SYSTEM_ID } from "./constants";
 import { setupTheme } from "./theme/index";
 import { setupIntegration } from "./integration/index";
-import { setupDialogStyling } from "./dialogs/bg3-dialog";
+import { setupDialogStyling } from "./dialogs/t20-dialog";
 import { setupChatStyling } from "./chat/chatStyles";
 import { setupHiddenTest } from "./hidden-test/index";
 import { setupAutoDamage } from "./auto-damage/index";
@@ -132,7 +132,7 @@ Hooks.once("ready", () => {
     patchT20WeaponUpgradeLabels();
 
     // API de diagnóstico — útil quando algo parece quebrado em mesa.
-    // Uso: `game.modules.get("aeris-bg3-rolls-t20").api.diagnoseAuras()`
+    // Uso: `game.modules.get("t20-theme-overhaul").api.diagnoseAuras()`
     const mod = game.modules.get(MODULE_ID) as
         | (FoundryModule & { api?: Record<string, unknown> })
         | undefined;

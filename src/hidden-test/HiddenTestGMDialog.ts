@@ -81,7 +81,7 @@ export function openHiddenTestGMDialog(): void {
 
     void foundry.applications.api.DialogV2.wait({
         id: "hidden-test-gm",
-        classes: ["bg3-dialog"],
+        classes: ["t20-dialog"],
         window: { title: "Solicitar Teste" },
         position: { width: 420 },
         content,

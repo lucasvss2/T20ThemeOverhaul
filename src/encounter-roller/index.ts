@@ -15,8 +15,8 @@ import { ENVIRONMENTS, getEnvironment, maxLevelFor, lookupEncounter, validateEnv
 import ENCOUNTER_STYLES from "./encounter-roller.css?inline";
 import { log, warn } from "@/utils/logging";
 
-const BTN_ID      = "bg3-t20-encounter-btn";
-const STYLES_ID   = "bg3-t20-encounter-styles";
+const BTN_ID      = "t20-encounter-btn";
+const STYLES_ID   = "t20-encounter-styles";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
@@ -189,7 +189,7 @@ function openEncounterDialog(): void {
                 })();
             });
         },
-    }, { classes: ["bg3-dialog", "bg3-encounter-dialog"], width: 460 });
+    }, { classes: ["t20-dialog", "t20-encounter-dialog"], width: 460 });
     dlg.render(true);
 }
 

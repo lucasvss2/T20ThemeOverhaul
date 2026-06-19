@@ -139,15 +139,15 @@ export async function applyHealsAndPostCard(opts: {
     const rows = applied.map(c => `
         <li style="display:flex;justify-content:space-between;padding:2px 0;">
             <span>${escHtml(c.actorName)}</span>
-            <span style="color:var(--bg3-color-success);font-weight:700;">+${c.healed}</span>
+            <span style="color:var(--t20-color-success);font-weight:700;">+${c.healed}</span>
         </li>`).join("");
     const content = `
-        <div class="tormenta20 chat-card item-card" style="border-color:var(--bg3-accent);">
+        <div class="tormenta20 chat-card item-card" style="border-color:var(--t20-accent);">
             <header class="card-header flexrow">
                 <h3 class="item-name"><div>Aura de Cura — ${escHtml(casterName)}</div></h3>
             </header>
             <div class="card-content" style="padding: 6px 10px;">
-                <p style="margin: 0 0 6px;color:var(--bg3-text-muted);font-size:0.85rem;">
+                <p style="margin: 0 0 6px;color:var(--t20-text-muted);font-size:0.85rem;">
                     Cura: <b>${healAmount}</b> PV
                 </p>
                 <ul style="list-style:none;padding:0;margin:0;">${rows}</ul>
@@ -168,13 +168,13 @@ export function pickHealTargetsDialog(opts: {
         const rows = opts.candidates.map((c, i) => `
             <label class="heal-row">
                 <input type="checkbox" data-idx="${i}" checked />
-                <span>${escHtml(c.actorName)} <small style="color:var(--bg3-accent-muted);">(${c.pvBefore}/${c.pvMax})</small></span>
+                <span>${escHtml(c.actorName)} <small style="color:var(--t20-accent-muted);">(${c.pvBefore}/${c.pvMax})</small></span>
                 <span class="heal-amount">+${c.healed}</span>
             </label>`).join("");
         new Dialog({
             title: `Aura de Cura — ${opts.casterName}`,
             content: `
-                <div class="bg3-aura-cura-picker">
+                <div class="t20-aura-cura-picker">
                     <p class="intro">Aliados dentro da aura — desmarque quem não curar</p>
                     ${rows}
                 </div>`,
@@ -198,7 +198,7 @@ export function pickHealTargetsDialog(opts: {
             },
             default: "heal",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }
 
@@ -328,7 +328,7 @@ export async function applyBurnsAndPostCard(opts: {
                 <h3 class="item-name"><div>Aura Ardente — ${escHtml(casterName)}</div></h3>
             </header>
             <div class="card-content" style="padding: 6px 10px;">
-                <p style="margin: 0 0 6px;color:var(--bg3-text-muted);font-size:0.85rem;">
+                <p style="margin: 0 0 6px;color:var(--t20-text-muted);font-size:0.85rem;">
                     Dano de luz: <b>${damage}</b>
                 </p>
                 <ul style="list-style:none;padding:0;margin:0;">${rows}</ul>
@@ -348,13 +348,13 @@ export function pickBurnTargetsDialog(opts: {
         const rows = opts.candidates.map((c, i) => `
             <label class="burn-row">
                 <input type="checkbox" data-idx="${i}" checked />
-                <span>${escHtml(c.actorName)} <small style="color:var(--bg3-accent-muted);">(${c.pvBefore} PV)</small></span>
+                <span>${escHtml(c.actorName)} <small style="color:var(--t20-accent-muted);">(${c.pvBefore} PV)</small></span>
                 <span class="burn-amount">-${c.damage}</span>
             </label>`).join("");
         new Dialog({
             title: `Aura Ardente — ${opts.casterName}`,
             content: `
-                <div class="bg3-aura-ardente-picker">
+                <div class="t20-aura-ardente-picker">
                     <p class="intro">Mortos-vivos e espíritos na aura — desmarque quem poupar</p>
                     ${rows}
                 </div>`,
@@ -378,6 +378,6 @@ export function pickBurnTargetsDialog(opts: {
             },
             default: "burn",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }

@@ -115,6 +115,6 @@ describe("buildManoplaUpgradeAE", () => {
         expect(ae.changes).toEqual([{ key: "ataque", value: "1", mode: 2 }]);
         const flags = ae.flags as Record<string, Record<string, unknown>>;
         expect(flags.tormenta20).toEqual({ onuse: true, self: true, upgrade: "accurate" });
-        expect(flags["aeris-bg3-rolls-t20"]).toEqual({ manoplaUpgrade: "accurate" });
+        expect(flags["t20-theme-overhaul"]).toEqual({ manoplaUpgrade: "accurate" });
     });
 });

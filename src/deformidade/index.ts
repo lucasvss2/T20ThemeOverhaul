@@ -27,7 +27,7 @@ import DEFORMIDADE_STYLES from "./deformidade.css?inline";
 const DEFORMIDADE_NAME = "deformidade";
 const DEFORMIDADE_FLAG = "deformidade";
 const SKILL_BONUS = 2;
-const STYLES_ID = "bg3-t20-deformidade-styles";
+const STYLES_ID = "t20-deformidade-styles";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
@@ -212,7 +212,7 @@ function openDeformidadeModal(item: DeformidadeItem): void {
                 cb?.addEventListener("change", () => { if (sel) sel.disabled = !!cb.checked; });
             }
         },
-    }, { classes: ["bg3-dialog", "bg3-deformidade-dialog"], width: 440 });
+    }, { classes: ["t20-dialog", "t20-deformidade-dialog"], width: 440 });
     dlg.render(true);
 }
 

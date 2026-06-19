@@ -47,7 +47,7 @@ interface ItemWithLabels {
 
 type ItemProtoLike = {
     _prepareLabels?:           (this: ItemWithLabels) => void;
-    _bg3WeaponUpgradePatched?: boolean;
+    _t20WeaponUpgradePatched?: boolean;
 };
 
 /** Aplica um change ao valor numérico segundo o mode AE. */
@@ -95,7 +95,7 @@ export function patchT20WeaponUpgradeLabels(): void {
     }
 
     const proto = ItemCls.prototype as ItemProtoLike;
-    if (proto._bg3WeaponUpgradePatched) return;
+    if (proto._t20WeaponUpgradePatched) return;
     if (typeof proto._prepareLabels !== "function") {
         warn(`Tormenta20Item.prototype._prepareLabels não encontrado — patch de labels não aplicado.`);
         return;
@@ -111,7 +111,7 @@ export function patchT20WeaponUpgradeLabels(): void {
         const { criticoM, criticoX } = computeEffectiveCritical(this);
         this.labels.critico = (criticoX === 2) ? `${criticoM}` : `${criticoM}/${criticoX}x`;
     };
-    proto._bg3WeaponUpgradePatched = true;
+    proto._t20WeaponUpgradePatched = true;
 
     log(`Tormenta20Item._prepareLabels patched — labels de crítico em armas refletem AEs upgrade.`);
 

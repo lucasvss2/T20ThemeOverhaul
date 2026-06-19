@@ -105,7 +105,7 @@ export function injectEstiloDisparoPadrao(item: ItemForEstilo): () => void {
 
 type ItemProtoLike = {
     rollDamage?:                (this: ItemForEstilo, arg?: Record<string, unknown>) => Promise<unknown>;
-    _bg3EstiloDisparoPatched?:  boolean;
+    _t20EstiloDisparoPatched?:  boolean;
 };
 
 export function setupEstiloDisparoDano(): void {
@@ -118,7 +118,7 @@ export function setupEstiloDisparoDano(): void {
             warn(`estilo-disparo-dano: ItemT20.prototype.rollDamage não encontrado.`);
             return;
         }
-        if (proto._bg3EstiloDisparoPatched) return;
+        if (proto._t20EstiloDisparoPatched) return;
 
         const orig = proto.rollDamage;
         proto.rollDamage = async function (this: ItemForEstilo, arg?: Record<string, unknown>) {
@@ -135,7 +135,7 @@ export function setupEstiloDisparoDano(): void {
                 try { restore(); } catch { /* ignore */ }
             }
         };
-        proto._bg3EstiloDisparoPatched = true;
+        proto._t20EstiloDisparoPatched = true;
         log(`ItemT20.rollDamage patched — Estilo de Disparo aplica @des em armas de disparo.`);
     });
 }

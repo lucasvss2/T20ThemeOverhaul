@@ -25,7 +25,7 @@ import {
 } from "./format";
 import STYLES from "./tradicao-perdida.css?inline";
 
-const STYLES_ID = "bg3-t20-tradicao-styles";
+const STYLES_ID = "t20-tradicao-styles";
 const ATTR_FLAG = "tradAttr";
 const CLASS_FLAG = "tradClassId";
 
@@ -232,7 +232,7 @@ function openTradicaoModal(item: ItemLike): void {
             },
         },
         default: "confirm",
-    }, { classes: ["bg3-dialog", "bg3-tradicao-dialog"], width: 440 });
+    }, { classes: ["t20-dialog", "t20-tradicao-dialog"], width: 440 });
     dlg.render(true);
 }
 

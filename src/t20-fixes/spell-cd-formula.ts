@@ -25,7 +25,7 @@ import { getCastingAttrOverride } from "@/tradicao-perdida/index";
 
 type ItemDataProtoLike = {
     prepareFinalAttributes?: () => void;
-    _bg3CDFormulaPatched?:   boolean;
+    _t20CDFormulaPatched?:   boolean;
 };
 
 export function patchT20SpellCDFormula(): void {
@@ -46,7 +46,7 @@ export function patchT20SpellCDFormula(): void {
         warn(`Tormenta20ItemData.prototype.prepareFinalAttributes não encontrado — patch de CD não aplicado.`);
         return;
     }
-    if (baseProto._bg3CDFormulaPatched) return;
+    if (baseProto._t20CDFormulaPatched) return;
 
     baseProto.prepareFinalAttributes = function(this: {
         parent?: {
@@ -101,7 +101,7 @@ export function patchT20SpellCDFormula(): void {
             resist.cd = 10 + nvl + atrVal + bonus;
         }
     };
-    baseProto._bg3CDFormulaPatched = true;
+    baseProto._t20CDFormulaPatched = true;
 
     log(`T20 spell CD formula patched — CD agora inclui bônus de items via actor.attributes.cd.`);
 

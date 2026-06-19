@@ -1,10 +1,10 @@
-import DIALOG_STYLES from "./bg3-dialog.css?inline";
+import DIALOG_STYLES from "./t20-dialog.css?inline";
 
 /**
- * BG3-style visual restyling for Tormenta20 roll dialogs.
+ * T20-style visual restyling for Tormenta20 roll dialogs.
  */
 
-const DIALOG_STYLES_ID = "bg3-t20-dialog-styles";
+const DIALOG_STYLES_ID = "t20-dialog-styles";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
@@ -129,7 +129,7 @@ function forceTextVisibility(el: HTMLElement): void {
     ).forEach((node) => {
         if (node.matches(
             "input, select, button, " +
-            ".bg3-skill-name, .bg3-skill-divider, .bg3-skill-banner, .bg3-banner-row, .bg3-skill-img"
+            ".t20-skill-name, .t20-skill-divider, .t20-skill-banner, .t20-banner-row, .t20-skill-img"
         )) return;
         node.style.setProperty("color", "#c8bfa0", "important");
     });
@@ -140,7 +140,7 @@ function forceTextVisibility(el: HTMLElement): void {
     });
 
     // Restore gold for the banner name
-    el.querySelectorAll<HTMLElement>(".bg3-skill-name").forEach((node) => {
+    el.querySelectorAll<HTMLElement>(".t20-skill-name").forEach((node) => {
         node.style.setProperty("color", "#c8a96e", "important");
     });
 }
@@ -153,7 +153,7 @@ type AppLike = {
 };
 
 /**
- * Add the BG3 class + inject a skill-name banner (with optional image).
+ * Add the T20 class + inject a skill-name banner (with optional image).
  * Accepts optional template data from hook args[2].
  */
 function stylizeDialog(
@@ -169,14 +169,14 @@ function stylizeDialog(
     }
     if (!el) return;
 
-    el.classList.add("bg3-dialog");
+    el.classList.add("t20-dialog");
 
     // Apply immediately and again after 200 ms to catch any post-render DOM updates
     forceTextVisibility(el);
     const elRef = el;
     setTimeout(() => forceTextVisibility(elRef), 200);
 
-    if (el.querySelector(".bg3-skill-banner")) return;
+    if (el.querySelector(".t20-skill-banner")) return;
 
     // ── Resolve item name ────────────────────────────────────────────────────
 
@@ -226,17 +226,17 @@ function stylizeDialog(
     // ── Build and inject banner ──────────────────────────────────────────────
 
     const imgHtml = itemImg
-        ? `<img class="bg3-skill-img" src="${itemImg}" alt="" />`
+        ? `<img class="t20-skill-img" src="${itemImg}" alt="" />`
         : "";
 
     const banner = document.createElement("div");
-    banner.className = "bg3-skill-banner";
+    banner.className = "t20-skill-banner";
     banner.innerHTML = `
-        <div class="bg3-banner-row">
+        <div class="t20-banner-row">
             ${imgHtml}
-            <div class="bg3-skill-name">${esc(label)}</div>
+            <div class="t20-skill-name">${esc(label)}</div>
         </div>
-        <div class="bg3-skill-divider"></div>
+        <div class="t20-skill-divider"></div>
     `;
 
     const target =
@@ -259,7 +259,7 @@ function syncContentHeight(appEl: HTMLElement): void {
 }
 
 function attachResizeDrag(handle: HTMLElement, appEl: HTMLElement): void {
-    handle.dataset.bg3Resize = "1";
+    handle.dataset.t20Resize = "1";
     handle.addEventListener("mousedown", (startEvent: MouseEvent) => {
         startEvent.preventDefault();
         startEvent.stopPropagation();
@@ -290,7 +290,7 @@ function ensureResizeHandle(appEl: HTMLElement): void {
         handle.className = "window-resizable-handle";
         appEl.appendChild(handle);
     }
-    if (!handle.dataset.bg3Resize) attachResizeDrag(handle, appEl);
+    if (!handle.dataset.t20Resize) attachResizeDrag(handle, appEl);
 }
 
 // ── Public setup ──────────────────────────────────────────────────────────────

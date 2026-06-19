@@ -97,7 +97,7 @@ const SAVE_SET = new Set(SAVES.map((s) => s.toLowerCase()));
 /**
  * Parse a Tormenta20 chat-message flavor string into RollMeta.
  * Returns null when the flavor does not correspond to a roll type that should
- * be intercepted by the BG3 overlay (e.g. plain damage rolls).
+ * be intercepted by the T20 overlay (e.g. plain damage rolls).
  */
 export function parseT20(input: { flavor?: string; html?: JQuery }): RollMeta | null {
     const raw = input.flavor?.trim();

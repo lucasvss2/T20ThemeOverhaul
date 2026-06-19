@@ -1,17 +1,17 @@
 
 /* ════════════════════════════════════════════════════════════════════════════
    TEMA GLOBAL — todas as chat messages
-   Aplica o BG3-dark em qualquer .chat-message (rolls genéricos, whispers,
+   Aplica o T20-dark em qualquer .chat-message (rolls genéricos, whispers,
    system messages, custom módulo, etc.). Especificidades pré-existentes
    (item-card, resistance-roll, condition-card) sobrepõem onde necessário.
    ════════════════════════════════════════════════════════════════════════════ */
 
 #chat-notifications .chat-message,
 #chat .chat-message {
-    background: radial-gradient(ellipse at top, var(--bg3-bg-dark) 0%, #090604 100%) !important;
+    background: radial-gradient(ellipse at top, var(--t20-bg-dark) 0%, #090604 100%) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
     border-radius: 4px !important;
-    box-shadow: 0 0 0 1px var(--bg3-bg-mid), 0 4px 14px rgba(0, 0, 0, 0.65) !important;
+    box-shadow: 0 0 0 1px var(--t20-bg-mid), 0 4px 14px rgba(0, 0, 0, 0.65) !important;
     margin: 4px 6px !important;
     padding: 4px 0 !important;
     color: #c0b49a !important;
@@ -52,12 +52,12 @@
 #chat .chat-message .message-metadata,
 #chat .chat-message .message-timestamp,
 #chat .chat-message .message-delete {
-    color: var(--bg3-text-disabled) !important;
+    color: var(--t20-text-disabled) !important;
     font-size: 0.62rem !important;
 }
 #chat-notifications .chat-message .message-delete:hover,
 #chat .chat-message .message-delete:hover {
-    color: var(--bg3-color-danger) !important;
+    color: var(--t20-color-danger) !important;
 }
 #chat-notifications .chat-message .message-content,
 #chat .chat-message .message-content {
@@ -66,7 +66,7 @@
 }
 #chat-notifications .chat-message .message-content a,
 #chat .chat-message .message-content a {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     text-decoration: none !important;
 }
 #chat-notifications .chat-message .message-content a:hover,
@@ -78,18 +78,18 @@
 #chat-notifications .chat-message .message-content strong,
 #chat .chat-message .message-content b,
 #chat .chat-message .message-content strong {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
 }
 #chat-notifications .chat-message .message-content em,
 #chat-notifications .chat-message .message-content i,
 #chat .chat-message .message-content em,
 #chat .chat-message .message-content i {
-    color: var(--bg3-text-muted) !important;
+    color: var(--t20-text-muted) !important;
 }
 #chat-notifications .chat-message .message-content hr,
 #chat .chat-message .message-content hr {
     border: none !important;
-    border-top: 1px solid var(--bg3-divider) !important;
+    border-top: 1px solid var(--t20-divider) !important;
     margin: 4px 0 !important;
 }
 
@@ -103,14 +103,14 @@
 }
 #chat-notifications .chat-message .dice-roll .dice-flavor,
 #chat .chat-message .dice-roll .dice-flavor {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.78rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.08em !important;
     text-align: center !important;
     margin: 4px 0 6px !important;
-    text-shadow: 0 0 10px rgba(var(--bg3-accent-rgb), 0.25) !important;
+    text-shadow: 0 0 10px rgba(var(--t20-accent-rgb), 0.25) !important;
 }
 #chat-notifications .chat-message .dice-roll .dice-formula,
 #chat .chat-message .dice-roll .dice-formula {
@@ -138,13 +138,13 @@
 }
 #chat-notifications .chat-message .dice-roll .dice-total.critical,
 #chat .chat-message .dice-roll .dice-total.critical {
-    color: var(--bg3-color-success) !important;
-    text-shadow: 0 0 24px rgba(var(--bg3-color-success-rgb), 0.6) !important;
+    color: var(--t20-color-success) !important;
+    text-shadow: 0 0 24px rgba(var(--t20-color-success-rgb), 0.6) !important;
 }
 #chat-notifications .chat-message .dice-roll .dice-total.fumble,
 #chat .chat-message .dice-roll .dice-total.fumble {
-    color: var(--bg3-color-danger) !important;
-    text-shadow: 0 0 24px rgba(var(--bg3-color-danger-rgb), 0.6) !important;
+    color: var(--t20-color-danger) !important;
+    text-shadow: 0 0 24px rgba(var(--t20-color-danger-rgb), 0.6) !important;
 }
 #chat-notifications .chat-message .dice-tooltip,
 #chat .chat-message .dice-tooltip {
@@ -155,8 +155,8 @@
 }
 #chat-notifications .chat-message .dice-tooltip .part-header,
 #chat .chat-message .dice-tooltip .part-header {
-    background: var(--bg3-divider-soft) !important;
-    border-bottom: 1px solid var(--bg3-divider-med) !important;
+    background: var(--t20-divider-soft) !important;
+    border-bottom: 1px solid var(--t20-divider-med) !important;
     padding: 3px 8px !important;
 }
 #chat-notifications .chat-message .dice-tooltip .part-formula,
@@ -173,7 +173,7 @@
 }
 #chat-notifications .chat-message .dice-tooltip .part-total,
 #chat .chat-message .dice-tooltip .part-total {
-    color: var(--bg3-text-bright) !important;
+    color: var(--t20-text-bright) !important;
     background: rgba(0, 0, 0, 0.3) !important;
     font-weight: 700 !important;
     font-size: 0.78rem !important;
@@ -189,9 +189,9 @@
 }
 #chat-notifications .chat-message .dice-tooltip .roll.die,
 #chat .chat-message .dice-tooltip .roll.die {
-    color: var(--bg3-text-bright) !important;
+    color: var(--t20-text-bright) !important;
     background: rgba(30, 20, 8, 0.9) !important;
-    border: 1px solid var(--bg3-divider) !important;
+    border: 1px solid var(--t20-divider) !important;
     border-radius: 3px !important;
     padding: 2px 6px !important;
     font-size: 0.78rem !important;
@@ -200,13 +200,13 @@
 }
 #chat-notifications .chat-message .dice-tooltip .roll.die.max,
 #chat .chat-message .dice-tooltip .roll.die.max {
-    color: var(--bg3-color-success) !important;
-    border-color: rgba(var(--bg3-color-success-rgb), 0.5) !important;
+    color: var(--t20-color-success) !important;
+    border-color: rgba(var(--t20-color-success-rgb), 0.5) !important;
 }
 #chat-notifications .chat-message .dice-tooltip .roll.die.min,
 #chat .chat-message .dice-tooltip .roll.die.min {
-    color: var(--bg3-color-danger) !important;
-    border-color: rgba(var(--bg3-color-danger-rgb), 0.5) !important;
+    color: var(--t20-color-danger) !important;
+    border-color: rgba(var(--t20-color-danger-rgb), 0.5) !important;
 }
 
 /* ── Chat input area (textarea + send button) ───────────────────────────── */
@@ -220,12 +220,12 @@ section#chat textarea#chat-message {
 }
 section#chat textarea#chat-message {
     background: rgba(10, 6, 2, 0.85) !important;
-    border: 1px solid var(--bg3-divider) !important;
+    border: 1px solid var(--t20-divider) !important;
     border-radius: 3px !important;
 }
 section#chat textarea#chat-message:focus {
     outline: none !important;
-    border-color: rgba(var(--bg3-accent-rgb), 0.6) !important;
+    border-color: rgba(var(--t20-accent-rgb), 0.6) !important;
 }
 
 /* ── Combat-tracker announcement (System messages) ──────────────────────── */
@@ -236,7 +236,7 @@ section#chat textarea#chat-message:focus {
     border-color: rgba(106, 78, 24, 0.3) !important;
 }
 
-/* ── BG3 Chat Card ──────────────────────────────────────────────────────── */
+/* ── T20 Chat Card ──────────────────────────────────────────────────────── */
 
 .chat-message:has(.tormenta20.chat-card.item-card) {
     background: transparent !important;
@@ -269,16 +269,16 @@ section#chat textarea#chat-message:focus {
     font-size: 0.62rem !important;
 }
 .chat-message:has(.tormenta20.chat-card.item-card) .message-delete:hover {
-    color: var(--bg3-color-danger) !important;
+    color: var(--t20-color-danger) !important;
 }
 
 /* ── Card base ───────────────────────────────────────────────────────────── */
 
 .tormenta20.chat-card.item-card {
-    background: radial-gradient(ellipse at top, var(--bg3-bg-dark) 0%, #090604 100%) !important;
+    background: radial-gradient(ellipse at top, var(--t20-bg-dark) 0%, #090604 100%) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
     border-radius: 4px !important;
-    box-shadow: 0 0 0 1px var(--bg3-bg-mid), 0 4px 18px rgba(0, 0, 0, 0.75) !important;
+    box-shadow: 0 0 0 1px var(--t20-bg-mid), 0 4px 18px rgba(0, 0, 0, 0.75) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     padding: 0 !important;
     overflow: hidden !important;
@@ -288,13 +288,13 @@ section#chat textarea#chat-message:focus {
 
 .tormenta20.chat-card.item-card .card-header {
     background: linear-gradient(to right, transparent, rgba(106, 78, 24, 0.14), transparent) !important;
-    border-bottom: 1px solid var(--bg3-divider) !important;
+    border-bottom: 1px solid var(--t20-divider) !important;
     padding: 8px 12px !important;
     gap: 8px !important;
     align-items: center !important;
 }
 .tormenta20.chat-card.item-card .card-header img {
-    border: 1px solid var(--bg3-divider) !important;
+    border: 1px solid var(--t20-divider) !important;
     border-radius: 3px !important;
     width: 32px !important;
     height: 32px !important;
@@ -302,13 +302,13 @@ section#chat textarea#chat-message:focus {
 }
 .tormenta20.chat-card.item-card .item-name,
 .tormenta20.chat-card.item-card .item-name div {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 1.05rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.1em !important;
     text-transform: uppercase !important;
-    text-shadow: 0 0 14px rgba(var(--bg3-accent-rgb), 0.35) !important;
+    text-shadow: 0 0 14px rgba(var(--t20-accent-rgb), 0.35) !important;
     margin: 0 !important;
     padding: 0 !important;
     border: none !important;
@@ -318,11 +318,11 @@ section#chat textarea#chat-message:focus {
 /* ── Spell / ability info (school, circle, attributes) ───────────────────── */
 
 .tormenta20.chat-card.item-card .card-item-header {
-    border-top: 1px solid var(--bg3-divider-med) !important;
+    border-top: 1px solid var(--t20-divider-med) !important;
     padding: 5px 12px !important;
 }
 .tormenta20.chat-card.item-card .card-item-header h4 {
-    color: var(--bg3-text-muted) !important;
+    color: var(--t20-text-muted) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.72rem !important;
     font-weight: normal !important;
@@ -337,7 +337,7 @@ section#chat textarea#chat-message:focus {
     margin: 0 !important;
 }
 .tormenta20.chat-card.item-card .card-item-header b {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     font-weight: normal !important;
 }
 
@@ -355,10 +355,10 @@ section#chat textarea#chat-message:focus {
     margin: 0 0 4px !important;
 }
 .tormenta20.chat-card.item-card .card-content em {
-    color: var(--bg3-text-muted) !important;
+    color: var(--t20-text-muted) !important;
 }
 .tormenta20.chat-card.item-card .card-content a {
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
 }
 
 /* ── Roll type label (Ataque, Dano) ─────────────────────────────────────── */
@@ -413,14 +413,14 @@ section#chat textarea#chat-message:focus {
     margin: 0 !important;
 }
 .tormenta20.chat-card.item-card .dice-total.critical {
-    color: var(--bg3-color-success) !important;
+    color: var(--t20-color-success) !important;
     background: transparent !important;
-    text-shadow: 0 0 24px rgba(var(--bg3-color-success-rgb), 0.6) !important;
+    text-shadow: 0 0 24px rgba(var(--t20-color-success-rgb), 0.6) !important;
 }
 .tormenta20.chat-card.item-card .dice-total.fumble {
-    color: var(--bg3-color-danger) !important;
+    color: var(--t20-color-danger) !important;
     background: transparent !important;
-    text-shadow: 0 0 24px rgba(var(--bg3-color-danger-rgb), 0.6) !important;
+    text-shadow: 0 0 24px rgba(var(--t20-color-danger-rgb), 0.6) !important;
 }
 
 /* ── Dice tooltip (expandable breakdown) ────────────────────────────────── */
@@ -432,8 +432,8 @@ section#chat textarea#chat-message:focus {
     padding: 6px 0 4px !important;
 }
 .tormenta20.chat-card.item-card .dice-tooltip .part-header {
-    background: var(--bg3-divider-soft) !important;
-    border-bottom: 1px solid var(--bg3-divider-med) !important;
+    background: var(--t20-divider-soft) !important;
+    border-bottom: 1px solid var(--t20-divider-med) !important;
     padding: 3px 8px !important;
     margin-bottom: 4px !important;
 }
@@ -448,7 +448,7 @@ section#chat textarea#chat-message:focus {
     font-size: 0.7rem !important;
 }
 .tormenta20.chat-card.item-card .dice-tooltip .part-total {
-    color: var(--bg3-text-bright) !important;
+    color: var(--t20-text-bright) !important;
     background: rgba(0, 0, 0, 0.3) !important;
     font-weight: 700 !important;
     font-size: 0.78rem !important;
@@ -464,9 +464,9 @@ section#chat textarea#chat-message:focus {
     gap: 4px !important;
 }
 .tormenta20.chat-card.item-card .dice-tooltip .roll.die {
-    color: var(--bg3-text-bright) !important;
+    color: var(--t20-text-bright) !important;
     background: rgba(30, 20, 8, 0.9) !important;
-    border: 1px solid var(--bg3-divider) !important;
+    border: 1px solid var(--t20-divider) !important;
     border-radius: 3px !important;
     padding: 2px 6px !important;
     font-size: 0.78rem !important;
@@ -474,18 +474,18 @@ section#chat textarea#chat-message:focus {
     text-align: center !important;
 }
 .tormenta20.chat-card.item-card .dice-tooltip .roll.die.max {
-    color: var(--bg3-color-success) !important;
-    border-color: rgba(var(--bg3-color-success-rgb), 0.5) !important;
+    color: var(--t20-color-success) !important;
+    border-color: rgba(var(--t20-color-success-rgb), 0.5) !important;
 }
 .tormenta20.chat-card.item-card .dice-tooltip .roll.die.min {
-    color: var(--bg3-color-danger) !important;
-    border-color: rgba(var(--bg3-color-danger-rgb), 0.5) !important;
+    color: var(--t20-color-danger) !important;
+    border-color: rgba(var(--t20-color-danger-rgb), 0.5) !important;
 }
 
 /* ── Enhancements / upgrades list ───────────────────────────────────────── */
 
 .tormenta20.chat-card.item-card .card-upgrades {
-    border-top: 1px solid var(--bg3-divider-med) !important;
+    border-top: 1px solid var(--t20-divider-med) !important;
     padding: 4px 10px !important;
 }
 .tormenta20.chat-card.item-card .card-upgrades ul {
@@ -507,7 +507,7 @@ section#chat textarea#chat-message:focus {
 /* ── Effect apply buttons ────────────────────────────────────────────────── */
 
 .tormenta20.chat-card.item-card .card-item-effects {
-    border-top: 1px solid var(--bg3-divider-med) !important;
+    border-top: 1px solid var(--t20-divider-med) !important;
     padding: 4px 8px !important;
 }
 .tormenta20.chat-card.item-card .chat-apply-ae {
@@ -517,8 +517,8 @@ section#chat textarea#chat-message:focus {
     overflow: hidden !important;
     position: relative !important;
     background: rgba(106, 78, 24, 0.15) !important;
-    border: 1px solid var(--bg3-divider) !important;
-    color: var(--bg3-accent) !important;
+    border: 1px solid var(--t20-divider) !important;
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.74rem !important;
     letter-spacing: 0.06em !important;
@@ -546,14 +546,14 @@ section#chat textarea#chat-message:focus {
 .tormenta20.chat-card.item-card .chat-spend-mana {
     background: rgba(106, 78, 24, 0.18) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.72rem !important;
     border-radius: 3px !important;
     padding: 2px 8px !important;
 }
 .tormenta20.chat-card.item-card .chat-spend-mana:hover {
-    background: var(--bg3-divider) !important;
+    background: var(--t20-divider) !important;
 }
 
 /* ── Damage apply buttons ────────────────────────────────────────────────── */
@@ -561,29 +561,29 @@ section#chat textarea#chat-message:focus {
 .tormenta20.chat-card.item-card .dice-btn button {
     background: rgba(106, 78, 24, 0.15) !important;
     border: 1px solid rgba(106, 78, 24, 0.35) !important;
-    color: var(--bg3-text-muted) !important;
+    color: var(--t20-text-muted) !important;
     border-radius: 3px !important;
 }
 .tormenta20.chat-card.item-card .dice-btn button:hover {
     background: rgba(106, 78, 24, 0.35) !important;
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
 }
 
 /* ── Resistance roll messages (flag: MODULE_ID.resistanceRoll) ───────────── */
 /* Class added by renderChatMessage hook when flag is present.               */
 
-.bg3-resistance-roll {
+.t20-resistance-roll {
     background: transparent !important;
     border-color: rgba(106, 78, 24, 0.3) !important;
     box-shadow: none !important;
     padding: 2px 0 !important;
 }
-.bg3-resistance-roll .message-header {
+.t20-resistance-roll .message-header {
     background: transparent !important;
     border: none !important;
     padding: 1px 6px !important;
 }
-.bg3-resistance-roll .message-sender {
+.t20-resistance-roll .message-sender {
     color: #d4c4a0 !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.68rem !important;
@@ -596,25 +596,25 @@ section#chat textarea#chat-message:focus {
          1px  1px 0 rgba(0,0,0,0.85),
         0 0 6px rgba(0,0,0,0.9) !important;
 }
-.bg3-resistance-roll .message-metadata,
-.bg3-resistance-roll .message-timestamp,
-.bg3-resistance-roll .message-delete {
+.t20-resistance-roll .message-metadata,
+.t20-resistance-roll .message-timestamp,
+.t20-resistance-roll .message-delete {
     color: #3a2e22 !important;
     font-size: 0.62rem !important;
 }
-.bg3-resistance-roll .message-delete:hover { color: var(--bg3-color-danger) !important; }
-.bg3-resistance-roll .message-content {
+.t20-resistance-roll .message-delete:hover { color: var(--t20-color-danger) !important; }
+.t20-resistance-roll .message-content {
     padding: 0 !important;
 }
-.bg3-resistance-roll .dice-roll {
-    background: radial-gradient(ellipse at top, var(--bg3-bg-dark) 0%, #090604 100%) !important;
+.t20-resistance-roll .dice-roll {
+    background: radial-gradient(ellipse at top, var(--t20-bg-dark) 0%, #090604 100%) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
     border-radius: 4px !important;
-    box-shadow: 0 0 0 1px var(--bg3-bg-mid), 0 4px 18px rgba(0,0,0,0.75) !important;
+    box-shadow: 0 0 0 1px var(--t20-bg-mid), 0 4px 18px rgba(0,0,0,0.75) !important;
     padding: 4px 12px 10px !important;
 }
-.bg3-resistance-roll .dice-flavor {
-    color: var(--bg3-color-info) !important;
+.t20-resistance-roll .dice-flavor {
+    color: var(--t20-color-info) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.78rem !important;
     font-weight: 700 !important;
@@ -624,13 +624,13 @@ section#chat textarea#chat-message:focus {
     padding: 0 !important;
     border: none !important;
 }
-.bg3-resistance-roll .dice-result {
+.t20-resistance-roll .dice-result {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     gap: 2px !important;
 }
-.bg3-resistance-roll .dice-formula {
+.t20-resistance-roll .dice-formula {
     color: #c8b896 !important;
     font-family: monospace !important;
     font-size: 0.78rem !important;
@@ -640,7 +640,7 @@ section#chat textarea#chat-message:focus {
     padding: 2px 10px !important;
     text-align: center !important;
 }
-.bg3-resistance-roll .dice-total {
+.t20-resistance-roll .dice-total {
     color: #f0ebe0 !important;
     background: transparent !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
@@ -652,54 +652,54 @@ section#chat textarea#chat-message:focus {
     padding: 4px 8px 2px !important;
     margin: 0 !important;
 }
-.bg3-resistance-roll .dice-tooltip {
+.t20-resistance-roll .dice-tooltip {
     background: rgba(10,6,2,0.85) !important;
     border-top: 1px solid rgba(106,78,24,0.25) !important;
     margin-top: 4px !important;
     padding: 6px 0 4px !important;
 }
-.bg3-resistance-roll .dice-tooltip .part-header {
-    background: var(--bg3-divider-soft) !important;
-    border-bottom: 1px solid var(--bg3-divider-med) !important;
+.t20-resistance-roll .dice-tooltip .part-header {
+    background: var(--t20-divider-soft) !important;
+    border-bottom: 1px solid var(--t20-divider-med) !important;
     padding: 3px 8px !important;
 }
-.bg3-resistance-roll .dice-tooltip .part-formula { color: #a89880 !important; font-family: monospace !important; font-size: 0.72rem !important; }
-.bg3-resistance-roll .dice-tooltip .part-total  { color: var(--bg3-text-bright) !important; background: rgba(0,0,0,0.3) !important; font-weight: 700 !important; font-size: 0.78rem !important; }
-.bg3-resistance-roll .dice-tooltip .dice-rolls  { list-style: none !important; padding: 2px 8px 4px !important; margin: 0 !important; display: flex !important; flex-wrap: wrap !important; gap: 4px !important; }
-.bg3-resistance-roll .dice-tooltip .roll.die {
-    color: var(--bg3-text-bright) !important;
+.t20-resistance-roll .dice-tooltip .part-formula { color: #a89880 !important; font-family: monospace !important; font-size: 0.72rem !important; }
+.t20-resistance-roll .dice-tooltip .part-total  { color: var(--t20-text-bright) !important; background: rgba(0,0,0,0.3) !important; font-weight: 700 !important; font-size: 0.78rem !important; }
+.t20-resistance-roll .dice-tooltip .dice-rolls  { list-style: none !important; padding: 2px 8px 4px !important; margin: 0 !important; display: flex !important; flex-wrap: wrap !important; gap: 4px !important; }
+.t20-resistance-roll .dice-tooltip .roll.die {
+    color: var(--t20-text-bright) !important;
     background: rgba(30,20,8,0.9) !important;
-    border: 1px solid var(--bg3-divider) !important;
+    border: 1px solid var(--t20-divider) !important;
     border-radius: 3px !important;
     padding: 2px 6px !important;
     font-size: 0.78rem !important;
     min-width: 22px !important;
     text-align: center !important;
 }
-.bg3-resistance-roll .dice-tooltip .roll.die.max { color: var(--bg3-color-success) !important; border-color: rgba(var(--bg3-color-success-rgb), 0.5) !important; }
-.bg3-resistance-roll .dice-tooltip .roll.die.min { color: var(--bg3-color-danger) !important; border-color: rgba(var(--bg3-color-danger-rgb), 0.5) !important; }
+.t20-resistance-roll .dice-tooltip .roll.die.max { color: var(--t20-color-success) !important; border-color: rgba(var(--t20-color-success-rgb), 0.5) !important; }
+.t20-resistance-roll .dice-tooltip .roll.die.min { color: var(--t20-color-danger) !important; border-color: rgba(var(--t20-color-danger-rgb), 0.5) !important; }
 
 /* ── T20 condition-card descendants (class added by JS) ──────────────────── */
 /* JS may fail to find the inner div (DOMPurify normalises the inline style   */
 /* or the check fails).  The outer message gets the dark background as        */
 /* primary fallback; JS overrides the inner div for additional styling.       */
 
-.bg3-t20-condition-message {
-    background: radial-gradient(ellipse at top, var(--bg3-bg-dark) 0%, #090604 100%) !important;
+.t20-condition-message {
+    background: radial-gradient(ellipse at top, var(--t20-bg-dark) 0%, #090604 100%) !important;
     border: 1px solid rgba(106, 78, 24, 0.45) !important;
     border-radius: 4px !important;
-    box-shadow: 0 0 0 1px var(--bg3-bg-mid), 0 4px 18px rgba(0, 0, 0, 0.75) !important;
+    box-shadow: 0 0 0 1px var(--t20-bg-mid), 0 4px 18px rgba(0, 0, 0, 0.75) !important;
     padding: 2px 0 !important;
 }
-.bg3-t20-condition-message .message-header {
+.t20-condition-message .message-header {
     background: transparent !important;
     border: none !important;
     padding: 1px 6px !important;
 }
-.bg3-t20-condition-message .message-content {
+.t20-condition-message .message-content {
     padding: 0 !important;
 }
-.bg3-t20-condition-message .message-sender {
+.t20-condition-message .message-sender {
     color: #d4c4a0 !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.68rem !important;
@@ -709,11 +709,11 @@ section#chat textarea#chat-message:focus {
                  -1px  1px 0 rgba(0,0,0,0.85), 1px  1px 0 rgba(0,0,0,0.85),
                  0 0 6px rgba(0,0,0,0.9) !important;
 }
-.bg3-t20-condition-card h1,
-.bg3-t20-condition-card h2,
-.bg3-t20-condition-card h3,
-.bg3-t20-condition-card h4 {
-    color: var(--bg3-accent) !important;
+.t20-condition-card h1,
+.t20-condition-card h2,
+.t20-condition-card h3,
+.t20-condition-card h4 {
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 1.0rem !important;
     font-weight: 700 !important;
@@ -724,55 +724,55 @@ section#chat textarea#chat-message:focus {
     padding: 0 !important;
 }
 /* T20 uses <label class="titulo"> for the condition name (not <h1>) */
-.bg3-t20-condition-card label.titulo {
+.t20-condition-card label.titulo {
     color: #b02b2e !important;
     background: transparent !important;
     text-shadow: 0 0 8px rgba(176,43,46,0.35) !important;
 }
 /* Plain <label> = subtitle (e.g. "Condição de Fadiga") */
-.bg3-t20-condition-card label:not(.titulo) {
-    color: var(--bg3-accent) !important;
+.t20-condition-card label:not(.titulo) {
+    color: var(--t20-accent) !important;
 }
-.bg3-t20-condition-card p {
+.t20-condition-card p {
     color: #7a6e5a !important;
     font-family: "Palatino Linotype", "Book Antiqua", serif !important;
     font-size: 0.76rem !important;
     line-height: 1.55 !important;
     margin: 0 0 4px !important;
 }
-.bg3-t20-condition-card li {
+.t20-condition-card li {
     color: #7a6e5a !important;
     font-family: "Palatino Linotype", "Book Antiqua", serif !important;
     font-size: 0.76rem !important;
     line-height: 1.5 !important;
 }
-.bg3-t20-condition-card ul,
-.bg3-t20-condition-card ol {
+.t20-condition-card ul,
+.t20-condition-card ol {
     margin: 2px 0 4px !important;
     padding-left: 18px !important;
 }
-.bg3-t20-condition-card b,
-.bg3-t20-condition-card strong { color: var(--bg3-accent) !important; }
-.bg3-t20-condition-card em,
-.bg3-t20-condition-card i     { color: #7a6e5a !important; }
-.bg3-t20-condition-card hr {
+.t20-condition-card b,
+.t20-condition-card strong { color: var(--t20-accent) !important; }
+.t20-condition-card em,
+.t20-condition-card i     { color: #7a6e5a !important; }
+.t20-condition-card hr {
     border: none !important;
-    border-top: 1px solid var(--bg3-divider) !important;
+    border-top: 1px solid var(--t20-divider) !important;
     margin: 4px 0 !important;
 }
 /* Journal content-link buttons inside condition cards */
-.bg3-t20-condition-card .content-link {
-    background: rgba(var(--bg3-accent-rgb), 0.12) !important;
-    border: 1px solid rgba(var(--bg3-accent-rgb), 0.4) !important;
-    color: var(--bg3-accent) !important;
+.t20-condition-card .content-link {
+    background: rgba(var(--t20-accent-rgb), 0.12) !important;
+    border: 1px solid rgba(var(--t20-accent-rgb), 0.4) !important;
+    color: var(--t20-accent) !important;
     border-radius: 3px !important;
     padding: 1px 5px !important;
     font-family: "Modesto Condensed", serif !important;
     font-size: 0.76rem !important;
 }
-.bg3-t20-condition-card .content-link:hover { background: rgba(var(--bg3-accent-rgb), 0.22) !important; }
-.bg3-t20-condition-card a {
-    color: var(--bg3-accent) !important;
+.t20-condition-card .content-link:hover { background: rgba(var(--t20-accent-rgb), 0.22) !important; }
+.t20-condition-card a {
+    color: var(--t20-accent) !important;
     text-decoration: none !important;
 }
-.bg3-t20-condition-card a:hover { color: #e0c489 !important; text-decoration: underline !important; }
+.t20-condition-card a:hover { color: #e0c489 !important; text-decoration: underline !important; }

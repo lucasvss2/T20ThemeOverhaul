@@ -1,17 +1,17 @@
-/* Duration manager — manual duration picker (supplements .bg3-dialog). */
+/* Duration manager — manual duration picker (supplements .t20-dialog). */
 
-.bg3-dur-dialog {
+.t20-dur-dialog {
     padding: 4px 2px;
 }
-.bg3-dur-dialog .bg3-dur-head {
-    color: var(--bg3-text-secondary, #e8e0d0);
+.t20-dur-dialog .t20-dur-head {
+    color: var(--t20-text-secondary, #e8e0d0);
     margin: 0 0 10px;
     font-size: 0.9rem;
 }
-.bg3-dur-dialog .bg3-dur-head b {
-    color: var(--bg3-accent, #c8a96e);
+.t20-dur-dialog .t20-dur-head b {
+    color: var(--t20-accent, #c8a96e);
 }
-.bg3-dur-dialog .bg3-dur-row {
+.t20-dur-dialog .t20-dur-row {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -19,23 +19,23 @@
     border: 1px solid transparent;
     border-radius: 4px;
     cursor: pointer;
-    color: var(--bg3-text-primary, #f0ebe0);
+    color: var(--t20-text-primary, #f0ebe0);
 }
-.bg3-dur-dialog .bg3-dur-row:hover {
+.t20-dur-dialog .t20-dur-row:hover {
     background: rgba(200, 169, 110, 0.1);
     border-color: rgba(200, 169, 110, 0.35);
 }
-.bg3-dur-dialog .bg3-dur-row em {
-    color: var(--bg3-text-muted, #9a8e7a);
+.t20-dur-dialog .t20-dur-row em {
+    color: var(--t20-text-muted, #9a8e7a);
     font-style: italic;
     font-size: 0.82em;
 }
-.bg3-dur-dialog .bg3-dur-rounds {
+.t20-dur-dialog .t20-dur-rounds {
     width: 54px;
     margin-left: auto;
     background: rgba(10, 6, 2, 0.85);
     border: 1px solid rgba(106, 78, 24, 0.5);
     border-radius: 3px;
-    color: var(--bg3-text-primary, #f0ebe0);
+    color: var(--t20-text-primary, #f0ebe0);
     text-align: center;
 }

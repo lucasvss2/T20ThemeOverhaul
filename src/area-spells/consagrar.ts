@@ -572,9 +572,9 @@ async function removeAEsForTemplate(templateId: string): Promise<void> {
 //   - GM: vê a ação se existir QUALQUER área Consagrar na cena
 //   - Jogador: vê a ação se for o creatorUserId de pelo menos uma área
 
-const CONSAGRAR_STYLES_ID = "bg3-t20-consagrar-styles";
+const CONSAGRAR_STYLES_ID = "t20-consagrar-styles";
 
-// CSS específico do dialog Consagrar — pequeno complemento ao tema bg3-dialog
+// CSS específico do dialog Consagrar — pequeno complemento ao tema t20-dialog
 // (que já cuida do gradiente, header, footer, botões e checkboxes).
 
 
@@ -642,7 +642,7 @@ function confirmSingleRemoval(tpl: ConsagrarTpl): Promise<string[] | null> {
         new Dialog({
             title: "Remover área de Consagrar",
             content: `
-                <div class="bg3-consagrar-remove">
+                <div class="t20-consagrar-remove">
                     <p>Remover a área de Consagrar de <b>${caster}</b>?</p>
                     <p class="hint">Os efeitos aplicados aos tokens dentro da área serão limpos.</p>
                 </div>`,
@@ -660,7 +660,7 @@ function confirmSingleRemoval(tpl: ConsagrarTpl): Promise<string[] | null> {
             },
             default: "remove",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }
 
@@ -679,7 +679,7 @@ function pickTemplatesDialog(templates: ConsagrarTpl[]): Promise<string[] | null
         new Dialog({
             title: "Remover áreas de Consagrar",
             content: `
-                <div class="bg3-consagrar-picker">
+                <div class="t20-consagrar-picker">
                     <p class="picker-intro">Selecione as áreas a remover</p>
                     ${rows}
                 </div>`,
@@ -705,14 +705,14 @@ function pickTemplatesDialog(templates: ConsagrarTpl[]): Promise<string[] | null
             },
             default: "remove",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }
 
 // ── Setup ────────────────────────────────────────────────────────────────────
 
 export function setupConsagrar(): void {
-    // CSS específico dos dialogs Consagrar (complementa o tema bg3-dialog)
+    // CSS específico dos dialogs Consagrar (complementa o tema t20-dialog)
     ensureConsagrarStyles();
 
     // Ação no skills-menu (botão único na toolbar)

@@ -36,10 +36,10 @@ const css = `
 ws.addEventListener('open', async () => {
     const r = await send('Runtime.evaluate', {
         expression: `(function(){
-            const existing = document.getElementById('bg3-chat-btn-fix');
+            const existing = document.getElementById('t20-chat-btn-fix');
             if (existing) existing.remove();
             const style = document.createElement('style');
-            style.id = 'bg3-chat-btn-fix';
+            style.id = 't20-chat-btn-fix';
             style.textContent = ${JSON.stringify(css)};
             document.head.appendChild(style);
             const btns = document.querySelectorAll('.tormenta20.chat-card.item-card .chat-apply-ae');

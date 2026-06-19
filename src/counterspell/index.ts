@@ -35,7 +35,7 @@ import { normalizeName, roundKey, reactionAvailable, consumeReaction } from "@/r
 
 const SOCKET_NEGATED = "counterspell/negated";
 const REACTION_USED_FLAG = "reactionUsedRound";
-const STYLE_ID = "bg3-counterspell-styles";
+const STYLE_ID = "t20-counterspell-styles";
 
 const POWER_APRIMORADA = "contramagica aprimorada";
 const POWER_SUPERIOR   = "contramagica superior";
@@ -254,7 +254,7 @@ function openCounterspellWindow(opts: WindowOpts): void {
 
     void foundry.applications.api.DialogV2.wait({
         id:      `counterspell-${opts.messageId}`,
-        classes: ["bg3-dialog", "cs-dialog"],
+        classes: ["t20-dialog", "cs-dialog"],
         window:  { title: `Contramágica — ${opts.spellName}` },
         position: { width: 420 },
         content,
@@ -308,15 +308,15 @@ function openCounterspellWindow(opts: WindowOpts): void {
                                     const cur = pmOf(reactor);
                                     const max = Number(((reactor.system?.["attributes"] as AnyObj)?.["pm"] as AnyObj)?.["max"] ?? cur);
                                     await reactor.update?.({ "system.attributes.pm.value": Math.min(max, cur + gain) });
-                                    tempNote = `<div class="bg3-reac-note">Contramágica Superior: +${gain} PM (temporário).</div>`;
+                                    tempNote = `<div class="t20-reac-note">Contramágica Superior: +${gain} PM (temporário).</div>`;
                                 }
                             }
                             await postCard(`
-                                <div class="bg3-reaction-block bg3-reaction-counter">
-                                  <div class="bg3-reac-title"><i class="fa-solid fa-ban"></i> Magia Anulada</div>
-                                  <div class="bg3-reac-line"><b>${escHtml(reactorName)}</b> anulou <b>${escHtml(opts.spellName)}</b> de ${escHtml(opts.casterName)} com Contramágica.</div>
-                                  <div class="bg3-reac-stat">Misticismo ${total} ≥ CD ${opts.cd} — a magia não tem efeito.</div>
-                                  <div class="bg3-reac-cost">−${DISSIPAR_COST} PM</div>
+                                <div class="t20-reaction-block t20-reaction-counter">
+                                  <div class="t20-reac-title"><i class="fa-solid fa-ban"></i> Magia Anulada</div>
+                                  <div class="t20-reac-line"><b>${escHtml(reactorName)}</b> anulou <b>${escHtml(opts.spellName)}</b> de ${escHtml(opts.casterName)} com Contramágica.</div>
+                                  <div class="t20-reac-stat">Misticismo ${total} ≥ CD ${opts.cd} — a magia não tem efeito.</div>
+                                  <div class="t20-reac-cost">−${DISSIPAR_COST} PM</div>
                                   ${tempNote}
                                 </div>`, { counterspellNegated: true });
 
@@ -331,11 +331,11 @@ function openCounterspellWindow(opts: WindowOpts): void {
                             try { (dialog as unknown as { close: () => void }).close(); } catch { /* ignore */ }
                         } else {
                             await postCard(`
-                                <div class="bg3-reaction-block bg3-reaction-fail">
-                                  <div class="bg3-reac-title"><i class="fa-solid fa-ban"></i> Contramágica Falhou</div>
-                                  <div class="bg3-reac-line"><b>${escHtml(reactorName)}</b> tentou anular <b>${escHtml(opts.spellName)}</b> mas falhou.</div>
-                                  <div class="bg3-reac-stat">Misticismo ${total} < CD ${opts.cd} — a magia prossegue.</div>
-                                  <div class="bg3-reac-cost">−${DISSIPAR_COST} PM</div>
+                                <div class="t20-reaction-block t20-reaction-fail">
+                                  <div class="t20-reac-title"><i class="fa-solid fa-ban"></i> Contramágica Falhou</div>
+                                  <div class="t20-reac-line"><b>${escHtml(reactorName)}</b> tentou anular <b>${escHtml(opts.spellName)}</b> mas falhou.</div>
+                                  <div class="t20-reac-stat">Misticismo ${total} < CD ${opts.cd} — a magia prossegue.</div>
+                                  <div class="t20-reac-cost">−${DISSIPAR_COST} PM</div>
                                 </div>`, { counterspellFail: true });
                             row.classList.add("cs-row-used");
                             const fb = root.querySelector<HTMLElement>("#cs-feedback");
@@ -360,21 +360,21 @@ function ensureStyles(): void {
     style.textContent = `
 .cs-dialog .cs-banner { text-align:center; padding:6px 0 8px; border-bottom:1px solid rgba(138,102,68,0.4); margin-bottom:8px; }
 .cs-dialog .cs-label { color:#b89bff; font-size:0.72rem; letter-spacing:0.1em; }
-.cs-dialog .cs-spell { color:var(--bg3-accent,#c8a96e); font-size:1.1rem; font-weight:700; }
-.cs-dialog .cs-caster { color:var(--bg3-text-muted,#9a8e7a); font-size:0.85rem; }
-.cs-dialog .cs-hint { color:var(--bg3-text-muted,#9a8e7a); font-size:0.8rem; margin-bottom:6px; }
+.cs-dialog .cs-spell { color:var(--t20-accent,#c8a96e); font-size:1.1rem; font-weight:700; }
+.cs-dialog .cs-caster { color:var(--t20-text-muted,#9a8e7a); font-size:0.85rem; }
+.cs-dialog .cs-hint { color:var(--t20-text-muted,#9a8e7a); font-size:0.8rem; margin-bottom:6px; }
 .cs-dialog .cs-row { border:1px solid rgba(138,102,68,0.35); border-left:3px solid #8a6ad0; border-radius:5px;
   padding:6px 8px; margin-bottom:6px; display:flex; flex-direction:column; gap:4px; }
 .cs-dialog .cs-row-used { opacity:0.45; }
 .cs-dialog .cs-row-main { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
-.cs-dialog .cs-name { color:var(--bg3-text-primary,#f0ebe0); font-weight:600; }
-.cs-dialog .cs-stat { color:var(--bg3-text-muted,#9a8e7a); font-size:0.8rem; }
+.cs-dialog .cs-name { color:var(--t20-text-primary,#f0ebe0); font-weight:600; }
+.cs-dialog .cs-stat { color:var(--t20-text-muted,#9a8e7a); font-size:0.8rem; }
 .cs-dialog .cs-elem { color:#b89bff; font-size:0.78rem; display:flex; align-items:center; gap:4px; }
 .cs-dialog .cs-react-btn { background:linear-gradient(to bottom, rgba(138,106,208,0.25), rgba(0,0,0,0.2));
   border:1px solid #8a6ad0; color:#e8dfff; border-radius:4px; padding:5px 8px; cursor:pointer; font-size:0.85rem; }
 .cs-dialog .cs-react-btn:hover { background:rgba(138,106,208,0.4); }
 .cs-dialog .cs-react-btn:disabled { opacity:0.4; cursor:default; }
-.cs-dialog .cs-feedback { display:none; color:var(--bg3-accent,#c8a96e); font-size:0.85rem; margin-top:4px; text-align:center; }
+.cs-dialog .cs-feedback { display:none; color:var(--t20-accent,#c8a96e); font-size:0.85rem; margin-top:4px; text-align:center; }
 `;
     document.head.appendChild(style);
 }

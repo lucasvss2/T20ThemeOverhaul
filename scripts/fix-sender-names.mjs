@@ -30,10 +30,10 @@ ws.addEventListener('open', async () => {
     const r = await send('Runtime.evaluate', {
         expression: `(function(){
             // Fix sender CSS
-            const ex = document.getElementById('bg3-sender-fix');
+            const ex = document.getElementById('t20-sender-fix');
             if (ex) ex.remove();
             const style = document.createElement('style');
-            style.id = 'bg3-sender-fix';
+            style.id = 't20-sender-fix';
             style.textContent = ${JSON.stringify(senderCss)};
             document.head.appendChild(style);
 

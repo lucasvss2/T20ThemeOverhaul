@@ -28,7 +28,7 @@ import { DUR_FLAG, type DurData } from "./types";
 import { promptDuration } from "./hud";
 import DUR_STYLES from "./duration.css?inline";
 
-const DUR_STYLES_ID = "bg3-t20-duration-styles";
+const DUR_STYLES_ID = "t20-duration-styles";
 const SECONDS_PER_DAY = 86_400;
 const SOCKET_SUSTAIN_PROMPT = "duration/sustain-prompt";
 
@@ -362,7 +362,7 @@ function sustainDialog(spell: string, targetName: string): Promise<boolean> {
                 default: "keep",
                 close: () => finish(false),
             },
-            { classes: ["bg3-dialog"], width: 380 },
+            { classes: ["t20-dialog"], width: 380 },
         ).render(true);
     });
 }
@@ -474,7 +474,7 @@ function doRest(): void {
             },
             default: "no",
         },
-        { classes: ["bg3-dialog"], width: 400 },
+        { classes: ["t20-dialog"], width: 400 },
     ).render(true);
 }
 

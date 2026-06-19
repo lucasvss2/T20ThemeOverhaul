@@ -16,7 +16,7 @@
  *    - Detectamos o card via `extractSpellName` ~ "disparo sublime" (autor = o
  *      próprio usuário). Pegamos o alvo de `game.user.targets` (1 criatura),
  *      debitamos 2 PM, rolamos Percepção (1d20 + perc) vs CD = 15 + ND do alvo,
- *      e postamos um card BG3 com o resultado.
+ *      e postamos um card T20 com o resultado.
  *    - Se PASSAR: criamos uma AE on-use TRANSIENTE no caster com
  *      `{key:"criticoM", value:"1", mode:OVERRIDE}` + flags
  *      `{onuse:true, attack:true}`. Com a margem de ameaça em 1, QUALQUER
@@ -57,7 +57,7 @@ const PM_COST            = 2;
 const BASE_CD            = 15;
 /** Margem de ameaça forçada quando armado — 1 = qualquer acerto vira crítico. */
 const FORCED_CRITICO_M   = "1";
-const STYLES_ID          = "bg3-t20-disparo-sublime-styles";
+const STYLES_ID          = "t20-disparo-sublime-styles";
 
 // ── CSS ─────────────────────────────────────────────────────────────────────────
 
@@ -306,7 +306,7 @@ function promptSkillBoosts(boosts: SkillBoost[], pm: number): Promise<string[]> 
             },
             default: "roll",
             close: () => { if (!done) resolve([]); },
-        }, { classes: ["bg3-dialog", "bg3-ds-dialog"] });
+        }, { classes: ["t20-dialog", "t20-ds-dialog"] });
         dlg.render(true);
     });
 }

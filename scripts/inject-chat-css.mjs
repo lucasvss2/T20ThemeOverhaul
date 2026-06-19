@@ -18,7 +18,7 @@ function getTabId() {
 }
 
 const css = `
-/* ── BG3 Chat Card Styling ────────────────────────────────────────────────── */
+/* ── T20 Chat Card Styling ────────────────────────────────────────────────── */
 
 .chat-message:has(.tormenta20.chat-card.item-card) {
     background: transparent !important;
@@ -215,7 +215,7 @@ const css = `
     // Use Node built-in WebSocket (Node 22 with --experimental-websocket)
     // Actually, let's use raw TCP since we don't have ws module
     const socket = net.connect(9222, '127.0.0.1', () => {
-        const wsKey = Buffer.from('bg3chat' + Date.now()).toString('base64');
+        const wsKey = Buffer.from('t20chat' + Date.now()).toString('base64');
         socket.write([
             `GET /devtools/page/${tabId} HTTP/1.1`,
             'Host: 127.0.0.1:9222',
@@ -273,10 +273,10 @@ const css = `
 
                     // Send inject CSS command
                     const code = `(function() {
-                        const existing = document.getElementById('bg3-chat-debug-css');
+                        const existing = document.getElementById('t20-chat-debug-css');
                         if (existing) existing.remove();
                         const style = document.createElement('style');
-                        style.id = 'bg3-chat-debug-css';
+                        style.id = 't20-chat-debug-css';
                         style.textContent = ${JSON.stringify(css)};
                         document.head.appendChild(style);
                         const count = document.querySelectorAll('.tormenta20.chat-card.item-card').length;

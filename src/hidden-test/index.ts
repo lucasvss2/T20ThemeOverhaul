@@ -1,5 +1,5 @@
 import { MODULE_ID } from "@/constants";
-import { BG3Overlay } from "@/overlay/BG3Overlay";
+import { T20Overlay } from "@/overlay/T20Overlay";
 import { onSocketReady } from "@/socket";
 import { openHiddenTestGMDialog } from "./HiddenTestGMDialog";
 import { openHiddenTestPlayerDialog } from "./HiddenTestPlayerDialog";
@@ -11,7 +11,7 @@ export const SOCKET_HIDDEN_TEST_REQUEST = "hidden-test/request";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
-const HIDDEN_TEST_STYLES_ID = "bg3-t20-hidden-test-styles";
+const HIDDEN_TEST_STYLES_ID = "t20-hidden-test-styles";
 
 function ensureHiddenTestStyles(): void {
     if (!document.getElementById(HIDDEN_TEST_STYLES_ID)) {
@@ -52,7 +52,7 @@ function setupChatHook(): void {
         const roll = rolls[0];
 
         const meta = { category: `Teste de ${flag.skillLabel}` };
-        setTimeout(() => BG3Overlay.show(meta, roll, flag.outcome), 1000);
+        setTimeout(() => T20Overlay.show(meta, roll, flag.outcome), 1000);
     });
 }
 
@@ -60,7 +60,7 @@ function setupChatHook(): void {
 
 function injectToolbarButton(): void {
     if (!game.user?.isGM) return;
-    if (document.getElementById("bg3-t20-hidden-test-btn")) return;
+    if (document.getElementById("t20-hidden-test-btn")) return;
 
     // Foundry v13: <aside id="scene-controls"> > <menu id="scene-controls-layers"> > <li> > <button>
     const menu =
@@ -71,7 +71,7 @@ function injectToolbarButton(): void {
     if (!menu) return;
 
     const btn = document.createElement("button");
-    btn.id = "bg3-t20-hidden-test-btn";
+    btn.id = "t20-hidden-test-btn";
     btn.type = "button";
     btn.className = "control ui-control layer icon fa-solid fa-dice-d20";
     btn.setAttribute("data-tooltip", "Solicitar Teste Secreto de Perícia");

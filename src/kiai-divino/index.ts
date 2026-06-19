@@ -24,7 +24,7 @@
  *      persistente com origin = poder.uuid.
  *
  *  (3) AE nossa criada por versões anteriores do módulo, também no ACTOR, com
- *      changes corretas (maximize) + flag `aeris-bg3-rolls-t20.kiai`.
+ *      changes corretas (maximize) + flag `t20-theme-overhaul.kiai`.
  *
  * O T20 AbilityUseDialog (linha 6193) itera `item.actor.effects.filter(...)`
  * e vê (2) E (3) → DOIS "Kiai Divino" no dialog (observado pelo usuário em v1.20.2).

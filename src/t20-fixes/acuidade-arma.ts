@@ -106,7 +106,7 @@ export function injectAcuidadeDano(item: ItemForAcuidade): () => void {
 
 type ItemProtoLike = {
     rollDamage?:             (this: ItemForAcuidade, arg?: Record<string, unknown>) => Promise<unknown>;
-    _bg3AcuidadePatched?:    boolean;
+    _t20AcuidadePatched?:    boolean;
 };
 
 export function setupAcuidadeArma(): void {
@@ -118,7 +118,7 @@ export function setupAcuidadeArma(): void {
             warn(`acuidade-arma: ItemT20.prototype.rollDamage não encontrado.`);
             return;
         }
-        if (proto._bg3AcuidadePatched) return;
+        if (proto._t20AcuidadePatched) return;
 
         const orig = proto.rollDamage;
         proto.rollDamage = async function (this: ItemForAcuidade, arg?: Record<string, unknown>) {
@@ -135,7 +135,7 @@ export function setupAcuidadeArma(): void {
                 try { restore(); } catch { /* ignore */ }
             }
         };
-        proto._bg3AcuidadePatched = true;
+        proto._t20AcuidadePatched = true;
         log(`ItemT20.rollDamage patched — Acuidade com Arma aplica @des no dano de armas leves/arremesso.`);
     });
 }

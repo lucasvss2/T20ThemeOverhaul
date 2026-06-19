@@ -70,7 +70,7 @@ export function closeSpellModalForMessage(messageId: string): void {
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
-const SPELL_RESIST_STYLES_ID = "bg3-t20-spell-resist-styles";
+const SPELL_RESIST_STYLES_ID = "t20-spell-resist-styles";
 
 function ensureStyles(): void {
     if (!document.getElementById(SPELL_RESIST_STYLES_ID)) {
@@ -936,7 +936,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
     let dlgRef: ClosableDialog | null = null;
     void foundry.applications.api.DialogV2.wait({
         id:      `spell-modal-${preReq.requestId}`,
-        classes: ["bg3-dialog", "smf-dialog"],
+        classes: ["t20-dialog", "smf-dialog"],
         window:  { title: `${preReq.spellName} \u2014 ${targetName}` },
         // Cura \u00e9 simples \u2192 1 coluna estreita; o modal cheio (resist\u00eancia + dano +
         // condi\u00e7\u00f5es) usa 2 colunas (a container query em .smf-body decide a partir
@@ -1200,7 +1200,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 if (!casterUuid && !casterActorId) { warn("reações-magia: conjurador não resolvido para reflexão"); return; }
                 await applySpellDamage(casterUuid, casterActorId, preReq.damageTotal);
                 await ChatMessage.create({
-                    content: `<div class="bg3-reaction-block bg3-reaction-counter"><div class="bg3-reac-title"><i class="fa-solid fa-arrows-rotate"></i> Magia Refletida</div><div class="bg3-reac-line"><b>${esc(targetName)}</b> reflete <b>${esc(preReq.spellName)}</b> (${preReq.damageTotal}) de volta em ${esc(preReq.casterName)} com <b>${esc(label)}</b>.</div></div>`,
+                    content: `<div class="t20-reaction-block t20-reaction-counter"><div class="t20-reac-title"><i class="fa-solid fa-arrows-rotate"></i> Magia Refletida</div><div class="t20-reac-line"><b>${esc(targetName)}</b> reflete <b>${esc(preReq.spellName)}</b> (${preReq.damageTotal}) de volta em ${esc(preReq.casterName)} com <b>${esc(label)}</b>.</div></div>`,
                     flags: { [MODULE_ID]: { reactionReflect: true } },
                 });
             };

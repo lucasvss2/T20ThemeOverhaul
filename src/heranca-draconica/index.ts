@@ -29,7 +29,7 @@ import {
 } from "./format";
 import STYLES from "./heranca-draconica.css?inline";
 
-const STYLES_ID = "bg3-t20-draconico-styles";
+const STYLES_ID = "t20-draconico-styles";
 const ELEMENT_FLAG = "draconicoElement";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ function openElementModal(item: ItemLike): void {
             },
         },
         default: "confirm",
-    }, { classes: ["bg3-dialog", "bg3-draconico-dialog"], width: 420 });
+    }, { classes: ["t20-dialog", "t20-draconico-dialog"], width: 420 });
     dlg.render(true);
 }
 

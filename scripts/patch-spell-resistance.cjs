@@ -27,7 +27,7 @@ const replacement = `
 
     void foundry.applications.api.DialogV2.wait({
         id:      \`spell-modal-\${preReq.requestId}\`,
-        classes: ["bg3-dialog", "smf-dialog"],
+        classes: ["t20-dialog", "smf-dialog"],
         window:  { title: \`\${preReq.spellName} \\u2014 \${targetName}\` },
         position: { width: 480 },
         content,

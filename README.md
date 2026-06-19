@@ -50,21 +50,21 @@ Se você já instalou a versão beta, basta clicar em **Verificar Atualizações
 |---|---|---|
 | Manifesto | `master/module.json` | `beta/module.json` |
 | Release | tag versionada (ex: `v1.18.6`) | tag `beta-latest` (sobrescrita a cada build) |
-| ZIP | `aeris-bg3-rolls-t20.zip` | `aeris-bg3-rolls-t20-beta.zip` |
+| ZIP | `t20-theme-overhaul.zip` | `t20-theme-overhaul-beta.zip` |
 | Indicado para | Sessões de jogo | Testes e feedback |
 
 ---
 
 ## Funcionalidades
 
-### Tema visual escuro (BG3-inspired)
+### Tema visual escuro (cinematográfico)
 
 Redesign completo das fichas do Tormenta20 com paleta preta e dourada inspirada em Baldur's Gate 3.
 
 - **Ficha de Personagem (Jogador)** — barras de PV/PM animadas, botões de colapso por seção, fonte adaptativa no nome
 - **Ficha Ameaça (NPC)** — mesmo tema; perícias customizadas sem label são ocultadas automaticamente; linhas de perícias reordenadas alfabeticamente
 - **Janelas de item/magia** — tamanho inicial otimizado para o conteúdo
-- **Diálogos AbilityUse** — estilo BG3 aplicado via hook `renderApplication`
+- **Diálogos AbilityUse** — estilo cinematográfico aplicado via hook `renderApplication`
 
 ---
 
@@ -89,7 +89,7 @@ Acerto crítico aparece em dourado — diferenciando **20 natural** de **margem 
 
 ### Chat cards estilizados
 
-O tema BG3 é aplicado a **todas** as mensagens do chat — não apenas cards T20:
+O tema escuro é aplicado a **todas** as mensagens do chat — não apenas cards T20:
 
 - Mensagens de rolagem de dados (total em destaque, fórmula, resultado individual do d20)
 - Whispers e mensagens OOC
@@ -311,11 +311,11 @@ src/
 ├── integration/
 │   └── index.ts                   Intercepta T20 chat messages e dispara o overlay
 ├── overlay/
-│   └── BG3Overlay.ts              Overlay cinemático full-screen
+│   └── T20Overlay.ts              Overlay cinemático full-screen
 ├── chat/
 │   └── chatStyles.ts              Tema global do chat (todos os tipos de mensagem)
 ├── dialogs/
-│   └── bg3-dialog.ts              Estilização de diálogos AbilityUse
+│   └── t20-dialog.ts              Estilização de diálogos AbilityUse
 ├── sheet/
 │   └── index.ts                   Tema visual das fichas T20
 ├── ui/

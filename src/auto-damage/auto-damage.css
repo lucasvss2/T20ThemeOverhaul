@@ -1,6 +1,6 @@
 
 /* ── Auto-damage prompt dialog ──────────────────────────────────────────── */
-/* MIGRADO PARA TOKENS: cores via var(--bg3-*) — ver src/theme/tokens.ts. */
+/* MIGRADO PARA TOKENS: cores via var(--t20-*) — ver src/theme/tokens.ts. */
 
 .aad-body {
     padding: 4px 0 2px;
@@ -11,23 +11,23 @@
     text-align: center;
 }
 .aad-label-sm {
-    color: var(--bg3-accent-muted);
+    color: var(--t20-accent-muted);
     font-size: 0.72rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     flex: 0 0 auto;
 }
 .aad-target-name {
-    color: var(--bg3-accent);
+    color: var(--t20-accent);
     font-size: clamp(1.3rem, 3vw, 1.8rem);
     font-weight: 700;
     letter-spacing: 0.14em;
-    text-shadow: 0 0 18px rgba(var(--bg3-accent-rgb), 0.55);
+    text-shadow: 0 0 18px rgba(var(--t20-accent-rgb), 0.55);
     text-transform: uppercase;
     margin: 4px 0 2px;
 }
 .aad-divider {
-    background: linear-gradient(to right, transparent, var(--bg3-tint-bold), transparent);
+    background: linear-gradient(to right, transparent, var(--t20-tint-bold), transparent);
     height: 1px;
     margin: 4px 16px;
 }
@@ -39,7 +39,7 @@
     flex-wrap: wrap;
 }
 .aad-value-lg {
-    color: var(--bg3-accent-bright);
+    color: var(--t20-accent-bright);
     font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -47,13 +47,13 @@
     text-align: right;
 }
 .aad-attack-val {
-    color: var(--bg3-color-success);
+    color: var(--t20-color-success);
     font-size: 1.1rem;
     font-weight: 900;
     letter-spacing: 0.04em;
 }
 .aad-def-val {
-    color: var(--bg3-accent);
+    color: var(--t20-accent);
     font-size: 1.05rem;
     font-weight: 700;
 }
@@ -65,7 +65,7 @@
     gap: 2px;
 }
 .aad-damage-total {
-    color: var(--bg3-color-danger);
+    color: var(--t20-color-danger);
     font-size: 3.4rem;
     font-weight: 900;
     line-height: 1;
@@ -81,9 +81,9 @@
     width: 70px;
     text-align: center;
     background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--bg3-border-strong);
+    border: 1px solid var(--t20-border-strong);
     border-radius: 3px;
-    color: var(--bg3-accent-bright);
+    color: var(--t20-accent-bright);
     font-family: "Modesto Condensed", monospace;
     font-size: 1rem;
     padding: 2px 6px;
@@ -91,22 +91,22 @@
 }
 .aad-pm-input:focus {
     outline: none;
-    border-color: rgba(var(--bg3-accent-rgb), 0.7);
+    border-color: rgba(var(--t20-accent-rgb), 0.7);
 }
 
 /* ── Reroll chat card header ───────────────────────────────────────────── */
 
-.bg3-reroll-header {
-    color: var(--bg3-accent);
+.t20-reroll-header {
+    color: var(--t20-accent);
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    text-shadow: 0 0 12px var(--bg3-tint-bold);
+    text-shadow: 0 0 12px var(--t20-tint-bold);
     text-align: center;
     padding: 4px 8px 6px;
-    border-bottom: 1px solid var(--bg3-border-strong);
+    border-bottom: 1px solid var(--t20-border-strong);
     margin-bottom: 4px;
 }
 
@@ -124,17 +124,17 @@
 .aad-invenc-badge {
     margin: 6px 12px 4px;
     padding: 8px 12px;
-    border-left: 3px solid var(--bg3-accent, #c8a96e);
+    border-left: 3px solid var(--t20-accent, #c8a96e);
     background: linear-gradient(135deg,
         rgba(200, 169, 110, 0.18),
         rgba(106, 78, 24, 0.12));
-    color: var(--bg3-text-primary, #f0ebe0);
+    color: var(--t20-text-primary, #f0ebe0);
     font-size: 0.82rem;
     line-height: 1.35;
     border-radius: 0 4px 4px 0;
 }
 .aad-invenc-badge b {
-    color: var(--bg3-accent-bright, #ffe89a);
+    color: var(--t20-accent-bright, #ffe89a);
 }
 /* ── Painel "Reações & Habilidades" — separa as skills do rodapé de aplicar dano ── */
 .aad-skills {
@@ -147,12 +147,12 @@
     font-size: 0.72rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--bg3-accent-muted, #9a8358);
+    color: var(--t20-accent-muted, #9a8358);
     margin: 2px 0 4px;
 }
 .aad-skills-title i {
     margin-right: 5px;
-    color: var(--bg3-accent, #c8a96e);
+    color: var(--t20-accent, #c8a96e);
 }
 .aad-skill-btn {
     display: flex;
@@ -167,10 +167,10 @@
     padding: 8px 12px 9px;
     border-radius: 4px;
     cursor: pointer;
-    border: 1px solid var(--bg3-divider, #3a2f1d);
+    border: 1px solid var(--t20-divider, #3a2f1d);
     border-left-width: 3px;
     background: rgba(0, 0, 0, 0.25);
-    color: var(--bg3-text-primary, #f0ebe0);
+    color: var(--t20-text-primary, #f0ebe0);
     font-family: "Palatino Linotype", serif;
     line-height: 1.35;
     white-space: normal;
@@ -178,12 +178,12 @@
     transition: all 0.15s;
 }
 .aad-skill-btn:hover {
-    border-color: var(--bg3-btn-border, #8b6914);
+    border-color: var(--t20-btn-border, #8b6914);
     background: rgba(200, 169, 110, 0.10);
 }
 .aad-skill-name { font-weight: 700; font-size: 0.88rem; line-height: 1.3; white-space: normal; word-break: break-word; }
 .aad-skill-name i { margin-right: 6px; }
-.aad-skill-sub { font-size: 0.74rem; color: var(--bg3-text-muted, #9a8e7a); line-height: 1.35; white-space: normal; word-break: break-word; }
+.aad-skill-sub { font-size: 0.74rem; color: var(--t20-text-muted, #9a8e7a); line-height: 1.35; white-space: normal; word-break: break-word; }
 .aad-skill-block  { border-left-color: #5a8bb8; }
 .aad-skill-block  .aad-skill-name i { color: #bcd9ff; }
 .aad-skill-reduce { border-left-color: #c8a96e; }
@@ -199,11 +199,11 @@
 }
 .aad-skill-btn.aad-skill-used:hover {
     background: rgba(0, 0, 0, 0.25);
-    border-color: var(--bg3-divider, #3a2f1d);
+    border-color: var(--t20-divider, #3a2f1d);
 }
 .aad-skill-btn.aad-skill-used .aad-skill-name::after {
     content: " ✓";
-    color: var(--bg3-accent, #c8a96e);
+    color: var(--t20-accent, #c8a96e);
 }
 .aad-skill-util   { border-left-color: #6a5a3a; }
 .aad-skill-util   .aad-skill-name i { color: #c8b890; }
@@ -211,8 +211,8 @@
     background: linear-gradient(180deg,
         rgba(200, 169, 110, 0.28),
         rgba(106, 78, 24, 0.16));
-    border-color: var(--bg3-accent, #c8a96e) !important;
-    color: var(--bg3-accent-bright, #ffe89a) !important;
+    border-color: var(--t20-accent, #c8a96e) !important;
+    color: var(--t20-accent-bright, #ffe89a) !important;
     font-weight: 700;
 }
 .aad-dialog button[data-button="invenc"]:hover {
@@ -228,9 +228,9 @@
     text-align: center;
     font-size: 0.72rem;
     font-style: italic;
-    color: var(--bg3-crit, #6ecf7a);
+    color: var(--t20-crit, #6ecf7a);
 }
 .aad-rd-note.aad-rd-immune {
-    color: var(--bg3-fumble, #cc4444);
+    color: var(--t20-fumble, #cc4444);
     font-weight: bold;
 }

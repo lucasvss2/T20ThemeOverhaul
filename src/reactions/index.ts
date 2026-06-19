@@ -41,7 +41,7 @@ export const DEFENSE_REACTIONS: Record<string, DefenseReaction> = {
 };
 
 const REACTION_USED_FLAG = "reactionUsedRound";
-const STYLE_ID = "bg3-reactions-styles";
+const STYLE_ID = "t20-reactions-styles";
 
 /* -------------------------------------------------------------------------- */
 /*  Núcleo (puro / testável)                                                  */
@@ -200,14 +200,14 @@ export async function applyDefenseReaction(opts: {
     }
 
     const newDef = opts.defesa + reg.bonus;
-    const moveNote = reg.moveM ? `<div class="bg3-reac-note">Salta ${reg.moveM}m (mova o token).</div>` : "";
-    const reflexNote = reg.reflex ? `<div class="bg3-reac-note">+${reg.reflex} em Reflexos contra o efeito.</div>` : "";
+    const moveNote = reg.moveM ? `<div class="t20-reac-note">Salta ${reg.moveM}m (mova o token).</div>` : "";
+    const reflexNote = reg.reflex ? `<div class="t20-reac-note">+${reg.reflex} em Reflexos contra o efeito.</div>` : "";
     const content = `
-<div class="bg3-reaction-block">
-  <div class="bg3-reac-title"><i class="fa-solid fa-shield-halved"></i> Ataque Bloqueado</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> reagiu com <b>${escHtml(reg.label)}</b> contra o ataque de ${escHtml(opts.attackerName)}.</div>
-  <div class="bg3-reac-stat">Defesa ${opts.defesa} <span class="bg3-reac-arrow">→</span> <b>${newDef}</b> · ataque ${opts.attackTotal} — <b>errou</b>.</div>
-  <div class="bg3-reac-cost">−${reg.pm} PM</div>
+<div class="t20-reaction-block">
+  <div class="t20-reac-title"><i class="fa-solid fa-shield-halved"></i> Ataque Bloqueado</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.targetName)}</b> reagiu com <b>${escHtml(reg.label)}</b> contra o ataque de ${escHtml(opts.attackerName)}.</div>
+  <div class="t20-reac-stat">Defesa ${opts.defesa} <span class="t20-reac-arrow">→</span> <b>${newDef}</b> · ataque ${opts.attackTotal} — <b>errou</b>.</div>
+  <div class="t20-reac-cost">−${reg.pm} PM</div>
   ${reflexNote}${moveNote}
 </div>`;
     try {
@@ -428,13 +428,13 @@ export async function finalizePostDamageReaction(opts: {
         warn(`reactions: falha ao marcar uso/condição pós-dano:`, err);
     }
 
-    const statusNote = reg.status === "caido" ? `<div class="bg3-reac-note">Fica Caído.</div>` : "";
+    const statusNote = reg.status === "caido" ? `<div class="t20-reac-note">Fica Caído.</div>` : "";
     const content = `
-<div class="bg3-reaction-block">
-  <div class="bg3-reac-title"><i class="fa-solid fa-shield-halved"></i> Dano Reduzido</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> reagiu com <b>${escHtml(reg.label)}</b> contra o ataque de ${escHtml(opts.attackerName)}.</div>
-  <div class="bg3-reac-stat">Dano ${opts.originalDamage} <span class="bg3-reac-arrow">→</span> <b>${opts.finalDamage}</b> (${escHtml(opts.desc)}).</div>
-  ${opts.pmSpent > 0 ? `<div class="bg3-reac-cost">−${opts.pmSpent} PM</div>` : ""}
+<div class="t20-reaction-block">
+  <div class="t20-reac-title"><i class="fa-solid fa-shield-halved"></i> Dano Reduzido</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.targetName)}</b> reagiu com <b>${escHtml(reg.label)}</b> contra o ataque de ${escHtml(opts.attackerName)}.</div>
+  <div class="t20-reac-stat">Dano ${opts.originalDamage} <span class="t20-reac-arrow">→</span> <b>${opts.finalDamage}</b> (${escHtml(opts.desc)}).</div>
+  ${opts.pmSpent > 0 ? `<div class="t20-reac-cost">−${opts.pmSpent} PM</div>` : ""}
   ${statusNote}
 </div>${opts.rollHtml ?? ""}`;
     try {
@@ -519,7 +519,7 @@ export async function resolveCounterAttack(opts: {
     if (reg.kind === "fixed-damage") {
         const { total, html } = await rollFormula(reg.damage ?? "1d6");
         damageToAttacker = total;
-        bodyHtml = `<div class="bg3-reac-stat"><b>${total}</b> de dano em ${escHtml(opts.attackerName)} (${escHtml(reg.damage ?? "")}).</div>${html ?? ""}`;
+        bodyHtml = `<div class="t20-reac-stat"><b>${total}</b> de dano em ${escHtml(opts.attackerName)} (${escHtml(reg.damage ?? "")}).</div>${html ?? ""}`;
     } else {
         const luta = pericValue(actor, "luta");
         const { total: atk, html: atkHtml } = await rollFormula(`1d20 + ${luta}`);
@@ -527,17 +527,17 @@ export async function resolveCounterAttack(opts: {
         if (hit) {
             const { total: dmg, html: dmgHtml } = await rollFormula(meleeDamageFormula(actor));
             damageToAttacker = dmg;
-            bodyHtml = `<div class="bg3-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>acertou!</b> ${dmg} de dano.</div>${atkHtml ?? ""}${dmgHtml ?? ""}`;
+            bodyHtml = `<div class="t20-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>acertou!</b> ${dmg} de dano.</div>${atkHtml ?? ""}${dmgHtml ?? ""}`;
         } else {
-            bodyHtml = `<div class="bg3-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>errou</b>.</div>${atkHtml ?? ""}`;
+            bodyHtml = `<div class="t20-reac-stat">Ataque ${atk} vs Defesa ${opts.attackerDefesa} — <b>errou</b>.</div>${atkHtml ?? ""}`;
         }
     }
     const content = `
-<div class="bg3-reaction-block bg3-reaction-counter">
-  <div class="bg3-reac-title"><i class="fa-solid fa-reply"></i> Contra-Ataque</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> revida com <b>${escHtml(reg.label)}</b> contra ${escHtml(opts.attackerName)}.</div>
+<div class="t20-reaction-block t20-reaction-counter">
+  <div class="t20-reac-title"><i class="fa-solid fa-reply"></i> Contra-Ataque</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.targetName)}</b> revida com <b>${escHtml(reg.label)}</b> contra ${escHtml(opts.attackerName)}.</div>
   ${bodyHtml}
-  ${reg.pm > 0 ? `<div class="bg3-reac-cost">−${reg.pm} PM</div>` : ""}
+  ${reg.pm > 0 ? `<div class="t20-reac-cost">−${reg.pm} PM</div>` : ""}
 </div>`;
     await postCard(content, { reactionCounter: true });
     return { damageToAttacker };
@@ -603,11 +603,11 @@ export async function applyContestReaction(opts: {
     } catch (err) { warn(`reactions: falha Aparar (PM/uso):`, err); }
 
     const content = `
-<div class="bg3-reaction-block ${blocked ? "" : "bg3-reaction-fail"}">
-  <div class="bg3-reac-title"><i class="fa-solid fa-hand-back-fist"></i> Aparar — ${blocked ? "Bloqueado" : "Falhou"}</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> apara o ataque de ${escHtml(opts.attackerName)}.</div>
-  <div class="bg3-reac-stat">Teste ${total} vs ataque ${opts.attackTotal} — <b>${blocked ? "evitou o ataque" : "não evitou"}</b>.</div>
-  <div class="bg3-reac-cost">−${reg.pm} PM</div>
+<div class="t20-reaction-block ${blocked ? "" : "t20-reaction-fail"}">
+  <div class="t20-reac-title"><i class="fa-solid fa-hand-back-fist"></i> Aparar — ${blocked ? "Bloqueado" : "Falhou"}</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.targetName)}</b> apara o ataque de ${escHtml(opts.attackerName)}.</div>
+  <div class="t20-reac-stat">Teste ${total} vs ataque ${opts.attackTotal} — <b>${blocked ? "evitou o ataque" : "não evitou"}</b>.</div>
+  <div class="t20-reac-cost">−${reg.pm} PM</div>
 </div>${html ?? ""}`;
     await postCard(content, { reactionContest: true, blocked });
     return { blocked };
@@ -799,10 +799,10 @@ export async function applyMissDebuff(opts: {
     try { await opts.attackerActor?.toggleStatusEffect?.(reg.status, { active: true }); }
     catch (err) { warn("reactions: falha ao aplicar status do debuff:", err); }
     const content = `
-<div class="bg3-reaction-block bg3-reaction-counter">
-  <div class="bg3-reac-title"><i class="fa-solid fa-bullseye"></i> ${escHtml(reg.label)}</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.targetName)}</b> deixa <b>${escHtml(opts.attackerName)}</b> Desprevenido até o fim do próximo turno.</div>
-  <div class="bg3-reac-cost">−${reg.pm} PM</div>
+<div class="t20-reaction-block t20-reaction-counter">
+  <div class="t20-reac-title"><i class="fa-solid fa-bullseye"></i> ${escHtml(reg.label)}</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.targetName)}</b> deixa <b>${escHtml(opts.attackerName)}</b> Desprevenido até o fim do próximo turno.</div>
+  <div class="t20-reac-cost">−${reg.pm} PM</div>
 </div>`;
     await postCard(content, { reactionMissDebuff: true });
 }
@@ -847,11 +847,11 @@ export async function resolveAmigoProtetor(opts: {
     if (!opts.holderActor) return;
     await consumeReaction(opts.holderActor, AMIGO_PROTETOR_PM);
     const content = `
-<div class="bg3-reaction-block">
-  <div class="bg3-reac-title"><i class="fa-solid fa-people-arrows"></i> Amigo Protetor</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.allyName)}</b> salta em defesa de <b>${escHtml(opts.targetName)}</b> contra ${escHtml(opts.attackerName)}.</div>
-  <div class="bg3-reac-stat">${escHtml(opts.targetName)}: <b>${opts.toHolder}</b> · ${escHtml(opts.allyName)}: <b>${opts.toAlly}</b>.</div>
-  <div class="bg3-reac-cost">−${AMIGO_PROTETOR_PM} PM</div>
+<div class="t20-reaction-block">
+  <div class="t20-reac-title"><i class="fa-solid fa-people-arrows"></i> Amigo Protetor</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.allyName)}</b> salta em defesa de <b>${escHtml(opts.targetName)}</b> contra ${escHtml(opts.attackerName)}.</div>
+  <div class="t20-reac-stat">${escHtml(opts.targetName)}: <b>${opts.toHolder}</b> · ${escHtml(opts.allyName)}: <b>${opts.toAlly}</b>.</div>
+  <div class="t20-reac-cost">−${AMIGO_PROTETOR_PM} PM</div>
 </div>`;
     await postCard(content, { reactionAmigoProtetor: true });
 }
@@ -946,11 +946,11 @@ export async function resolvePresenca(opts: {
     } catch (err) { warn("reactions: falha Presença (PM/uso):", err); }
 
     const content = `
-<div class="bg3-reaction-block ${negated ? "" : "bg3-reaction-fail"}">
-  <div class="bg3-reac-title"><i class="fa-solid fa-crown"></i> Presença Aristocrática — ${negated ? "Anulado" : "Resistido"}</div>
-  <div class="bg3-reac-line"><b>${escHtml(opts.attackerName)}</b> tenta machucar <b>${escHtml(opts.targetName)}</b> e faz Vontade (CD ${opts.cd}).</div>
-  <div class="bg3-reac-stat">Vontade ${total} vs CD ${opts.cd} — <b>${negated ? "falhou" : "passou"}</b>.${negated ? ` Não consegue machucar ${escHtml(opts.targetName)} e <b>perde a ação</b>.` : ""}</div>
-  <div class="bg3-reac-cost">−${PRESENCA_PM} PM</div>
+<div class="t20-reaction-block ${negated ? "" : "t20-reaction-fail"}">
+  <div class="t20-reac-title"><i class="fa-solid fa-crown"></i> Presença Aristocrática — ${negated ? "Anulado" : "Resistido"}</div>
+  <div class="t20-reac-line"><b>${escHtml(opts.attackerName)}</b> tenta machucar <b>${escHtml(opts.targetName)}</b> e faz Vontade (CD ${opts.cd}).</div>
+  <div class="t20-reac-stat">Vontade ${total} vs CD ${opts.cd} — <b>${negated ? "falhou" : "passou"}</b>.${negated ? ` Não consegue machucar ${escHtml(opts.targetName)} e <b>perde a ação</b>.` : ""}</div>
+  <div class="t20-reac-cost">−${PRESENCA_PM} PM</div>
 </div>${html ?? ""}`;
     await postCard(content, { reactionPresenca: true, negated });
     return { negated };
@@ -963,21 +963,21 @@ function injectStyles(): void {
     const style = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
-.bg3-reaction-block { border: 1px solid var(--bg3-btn-border, #8b6914); border-left: 4px solid var(--bg3-accent, #c8a96e);
+.t20-reaction-block { border: 1px solid var(--t20-btn-border, #8b6914); border-left: 4px solid var(--t20-accent, #c8a96e);
   border-radius: 5px; padding: 8px 12px; background: linear-gradient(to right, rgba(200,169,110,0.10), rgba(0,0,0,0.15));
-  color: var(--bg3-text-primary, #f0ebe0); font-family: "Palatino Linotype", serif; }
-.bg3-reaction-block .bg3-reac-title { color: var(--bg3-accent, #c8a96e); font-weight: 700; letter-spacing: 0.06em;
+  color: var(--t20-text-primary, #f0ebe0); font-family: "Palatino Linotype", serif; }
+.t20-reaction-block .t20-reac-title { color: var(--t20-accent, #c8a96e); font-weight: 700; letter-spacing: 0.06em;
   text-transform: uppercase; font-size: 0.9rem; margin-bottom: 4px; }
-.bg3-reaction-block .bg3-reac-title i { margin-right: 6px; }
-.bg3-reaction-block .bg3-reac-line { font-size: 0.9rem; }
-.bg3-reaction-block .bg3-reac-stat { font-size: 0.95rem; margin-top: 4px; }
-.bg3-reaction-block .bg3-reac-arrow { color: var(--bg3-accent, #c8a96e); }
-.bg3-reaction-block .bg3-reac-cost { color: #8fc8ff; font-size: 0.82rem; margin-top: 3px; }
-.bg3-reaction-block .bg3-reac-note { color: var(--bg3-text-muted, #9a8e7a); font-size: 0.8rem; margin-top: 2px; }
-.bg3-reaction-counter { border-left-color: #ff8a4a; }
-.bg3-reaction-counter .bg3-reac-title { color: #ff8a4a; }
-.bg3-reaction-fail { border-left-color: #cc4444; }
-.bg3-reaction-fail .bg3-reac-title { color: #e06666; }
+.t20-reaction-block .t20-reac-title i { margin-right: 6px; }
+.t20-reaction-block .t20-reac-line { font-size: 0.9rem; }
+.t20-reaction-block .t20-reac-stat { font-size: 0.95rem; margin-top: 4px; }
+.t20-reaction-block .t20-reac-arrow { color: var(--t20-accent, #c8a96e); }
+.t20-reaction-block .t20-reac-cost { color: #8fc8ff; font-size: 0.82rem; margin-top: 3px; }
+.t20-reaction-block .t20-reac-note { color: var(--t20-text-muted, #9a8e7a); font-size: 0.8rem; margin-top: 2px; }
+.t20-reaction-counter { border-left-color: #ff8a4a; }
+.t20-reaction-counter .t20-reac-title { color: #ff8a4a; }
+.t20-reaction-fail { border-left-color: #cc4444; }
+.t20-reaction-fail .t20-reac-title { color: #e06666; }
 `;
     document.head.appendChild(style);
 }

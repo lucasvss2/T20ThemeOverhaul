@@ -13,7 +13,7 @@ function send(method, params) {
 }
 
 const css = `
-/* ── BG3 Chat Card ──────────────────────────────────────────────────────── */
+/* ── T20 Chat Card ──────────────────────────────────────────────────────── */
 
 .chat-message:has(.tormenta20.chat-card.item-card) {
     background: transparent !important;
@@ -278,10 +278,10 @@ const css = `
 ws.addEventListener('open', async () => {
     const r = await send('Runtime.evaluate', {
         expression: `(function(){
-            const existing = document.getElementById('bg3-chat-debug-css');
+            const existing = document.getElementById('t20-chat-debug-css');
             if (existing) existing.remove();
             const style = document.createElement('style');
-            style.id = 'bg3-chat-debug-css';
+            style.id = 't20-chat-debug-css';
             style.textContent = ${JSON.stringify(css)};
             document.head.appendChild(style);
             const crit = document.querySelector('.dice-total.critical');

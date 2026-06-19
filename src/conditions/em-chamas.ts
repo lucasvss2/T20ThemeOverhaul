@@ -66,7 +66,7 @@ async function burnActor(actor: FoundryActor): Promise<void> {
                 <h3 class="item-name"><div><i class="fas fa-fire" style="color:#ff6a2a;"></i> Em Chamas — ${escHtml(actor.name ?? "Criatura")}</div></h3>
             </header>
             <div class="card-content" style="padding:6px 10px;">
-                <p style="margin:0 0 6px;color:var(--bg3-text-muted);font-size:0.82rem;">
+                <p style="margin:0 0 6px;color:var(--t20-text-muted);font-size:0.82rem;">
                     Dano de queima no início do turno:
                     <b style="color:#ff6a2a;">-${dealt}</b>
                 </p>

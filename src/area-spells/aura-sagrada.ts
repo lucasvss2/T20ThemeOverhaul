@@ -600,7 +600,7 @@ function confirmCancelAura(tpl: AuraTpl): Promise<string[] | null> {
         new Dialog({
             title: "Cancelar Aura Sagrada",
             content: `
-                <div class="bg3-aura-cancel">
+                <div class="t20-aura-cancel">
                     <p>Cancelar a aura sagrada de <b>${caster}</b>?</p>
                     <p class="hint">Os efeitos aplicados aos aliados dentro da aura serão removidos.</p>
                 </div>`,
@@ -618,7 +618,7 @@ function confirmCancelAura(tpl: AuraTpl): Promise<string[] | null> {
             },
             default: "cancel",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }
 
@@ -636,7 +636,7 @@ function pickAurasDialog(templates: AuraTpl[]): Promise<string[] | null> {
         new Dialog({
             title: "Cancelar auras sagradas",
             content: `
-                <div class="bg3-aura-picker">
+                <div class="t20-aura-picker">
                     <p class="picker-intro">Selecione as auras a cancelar</p>
                     ${rows}
                 </div>`,
@@ -660,13 +660,13 @@ function pickAurasDialog(templates: AuraTpl[]): Promise<string[] | null> {
             },
             default: "cancel",
             close:   () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
 }
 
 // Pequeno suplemento CSS pros dialogs de aura
 
-const AURA_STYLES_ID = "bg3-t20-aura-sagrada-styles";
+const AURA_STYLES_ID = "t20-aura-sagrada-styles";
 
 function ensureAuraStyles(): void {
     if (document.getElementById(AURA_STYLES_ID)) return;
@@ -722,11 +722,11 @@ async function spendSustainPM(caster: FoundryActor, auras: AuraTpl[]): Promise<{
         try {
             await ChatMessage.create({
                 content: `
-                    <div class="tormenta20 chat-card item-card" style="border-color:var(--bg3-color-danger);">
+                    <div class="tormenta20 chat-card item-card" style="border-color:var(--t20-color-danger);">
                         <header class="card-header flexrow">
                             <h3 class="item-name"><div>Aura Sagrada cancelada — sem PM</div></h3>
                         </header>
-                        <div class="card-content" style="padding:6px 10px;color:var(--bg3-text-primary);">
+                        <div class="card-content" style="padding:6px 10px;color:var(--t20-text-primary);">
                             <p style="margin:0;">
                                 <b>${escHtml(casterName)}</b> não tinha PM suficiente para sustentar
                                 a aura (precisava ${need}, tinha ${pmCur}).
@@ -890,7 +890,7 @@ async function onCombatTurnStart(actor: FoundryActor, combatantTokenId: string):
 //
 // Imprime no console um snapshot do estado completo das auras na cena:
 // templates ativos, caster, aprimoramentos detectados, candidatos a cura/dano.
-// Use: `game.modules.get('aeris-bg3-rolls-t20').api.diagnoseAuras()`
+// Use: `game.modules.get('t20-theme-overhaul').api.diagnoseAuras()`
 
 export function diagnoseAuras(): unknown {
     const auras = getAuraTemplates();

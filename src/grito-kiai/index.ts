@@ -64,7 +64,7 @@ const GRITO_PODER_NAME = "grito de kiai";
 const GRITO_AE_NAME    = "Grito de Kiai";
 const GRITO_NAME_REGEX = /grito\s*de\s*kiai/i;
 const KIAI_DIVINO_REGEX = /kiai\s*divino/i;
-const STYLES_ID        = "bg3-t20-grito-kiai-styles";
+const STYLES_ID        = "t20-grito-kiai-styles";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 

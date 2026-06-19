@@ -5,7 +5,7 @@
  * enxergam o token; os demais não o veem.
  *
  * ── Modelo ──────────────────────────────────────────────────────────────────
- * Flag no token: `flags.aeris-bg3-rolls-t20.visibleTo`.
+ * Flag no token: `flags.t20-theme-overhaul.visibleTo`.
  *   • ausente            → sem restrição do módulo (comportamento nativo).
  *   • array de userIds   → lista branca. GM sempre vê; um jogador não-GM só vê
  *                          se seu id estiver na lista (e a visão normal permitir).
@@ -28,7 +28,7 @@ import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
 
 const FLAG = "visibleTo";
-const STYLE_ID = "bg3-token-visibility-styles";
+const STYLE_ID = "t20-token-visibility-styles";
 
 /* -------------------------------------------------------------------------- */
 /*  Núcleo (puro / testável)                                                  */
@@ -98,7 +98,7 @@ function patchIsVisible(): void {
         warn(`token-visibility: CONFIG.Token.objectClass não encontrado.`);
         return;
     }
-    if ((start as AnyObj)["_bg3TokenVisPatched"]) return;
+    if ((start as AnyObj)["_t20TokenVisPatched"]) return;
 
     // Acha o protótipo dono do getter isVisible.
     let proto: object | null = start;
@@ -126,7 +126,7 @@ function patchIsVisible(): void {
             }
         },
     });
-    (start as AnyObj)["_bg3TokenVisPatched"] = true;
+    (start as AnyObj)["_t20TokenVisPatched"] = true;
     log(`Token.isVisible patched — visibilidade por jogador (lista branca).`);
 }
 
@@ -152,55 +152,55 @@ function injectStyles(): void {
     style.id = STYLE_ID;
     style.textContent = `
 /* HUD: botão destacado quando há restrição ativa no token */
-.control-icon.bg3-token-visibility.active { color: var(--bg3-accent, #c8a96e) !important; box-shadow: 0 0 10px rgba(200,169,110,0.55) inset !important; }
-.control-icon.bg3-token-visibility i { pointer-events: none; }
+.control-icon.t20-token-visibility.active { color: var(--t20-accent, #c8a96e) !important; box-shadow: 0 0 10px rgba(200,169,110,0.55) inset !important; }
+.control-icon.t20-token-visibility i { pointer-events: none; }
 
-/* Modal (dentro de .bg3-dialog) */
-.bg3-token-vis-dialog .window-content { padding: 0 !important; }
-.bg3-token-vis-dialog .bg3-tv-intro {
+/* Modal (dentro de .t20-dialog) */
+.t20-token-vis-dialog .window-content { padding: 0 !important; }
+.t20-token-vis-dialog .t20-tv-intro {
   margin: 0; padding: 16px 18px 12px; text-align: center;
-  color: var(--bg3-text-secondary, #e8e0d0); font-size: 0.98rem; letter-spacing: 0.02em;
+  color: var(--t20-text-secondary, #e8e0d0); font-size: 0.98rem; letter-spacing: 0.02em;
 }
-.bg3-token-vis-dialog .bg3-tv-intro b { color: var(--bg3-accent, #c8a96e); font-weight: 700; }
+.t20-token-vis-dialog .t20-tv-intro b { color: var(--t20-accent, #c8a96e); font-weight: 700; }
 
-.bg3-token-vis-dialog .bg3-tv-quick { display: flex; gap: 8px; padding: 0 18px 12px; }
-.bg3-token-vis-dialog .bg3-tv-quick button {
+.t20-token-vis-dialog .t20-tv-quick { display: flex; gap: 8px; padding: 0 18px 12px; }
+.t20-token-vis-dialog .t20-tv-quick button {
   flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  background: linear-gradient(to bottom, var(--bg3-btn-bg-top, #5a3c10), var(--bg3-btn-bg-bottom, #3a2408));
-  border: 1px solid var(--bg3-btn-border, #8b6914); border-radius: 4px;
-  color: var(--bg3-btn-text, #f0e0b0); cursor: pointer;
+  background: linear-gradient(to bottom, var(--t20-btn-bg-top, #5a3c10), var(--t20-btn-bg-bottom, #3a2408));
+  border: 1px solid var(--t20-btn-border, #8b6914); border-radius: 4px;
+  color: var(--t20-btn-text, #f0e0b0); cursor: pointer;
   font-family: "Modesto Condensed", "Palatino Linotype", serif;
   font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
   padding: 6px 10px; transition: all 0.15s;
 }
-.bg3-token-vis-dialog .bg3-tv-quick button:hover {
+.t20-token-vis-dialog .t20-tv-quick button:hover {
   background: linear-gradient(to bottom, #7c5218, #5a3210);
-  border-color: var(--bg3-accent, #c8a96e); color: var(--bg3-btn-text-hover, #fff3d6);
+  border-color: var(--t20-accent, #c8a96e); color: var(--t20-btn-text-hover, #fff3d6);
   box-shadow: 0 0 12px rgba(200,169,110,0.4);
 }
 
-.bg3-token-vis-dialog .bg3-tv-players {
+.t20-token-vis-dialog .t20-tv-players {
   display: flex; flex-direction: column; gap: 6px;
   padding: 0 18px 16px; max-height: 340px; overflow-y: auto;
 }
-.bg3-token-vis-dialog .bg3-tv-row {
+.t20-token-vis-dialog .t20-tv-row {
   display: flex; align-items: center; gap: 10px; padding: 8px 12px;
-  border: 1px solid var(--bg3-divider-soft, #2a2012); border-radius: 5px;
-  color: var(--bg3-text-primary, #f0ebe0); cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--t20-divider-soft, #2a2012); border-radius: 5px;
+  color: var(--t20-text-primary, #f0ebe0); cursor: pointer; transition: all 0.15s;
 }
-.bg3-token-vis-dialog .bg3-tv-row:hover {
-  border-color: var(--bg3-btn-border, #8b6914);
+.t20-token-vis-dialog .t20-tv-row:hover {
+  border-color: var(--t20-btn-border, #8b6914);
   background: rgba(200,169,110,0.06);
 }
-.bg3-token-vis-dialog .bg3-tv-row:has(input:checked) {
+.t20-token-vis-dialog .t20-tv-row:has(input:checked) {
   border-color: rgba(200,169,110,0.55);
   background: rgba(200,169,110,0.10);
 }
-.bg3-token-vis-dialog .bg3-tv-name {
+.t20-token-vis-dialog .t20-tv-name {
   font-size: 0.96rem; letter-spacing: 0.02em; flex: 1 1 auto;
 }
-/* checkbox herda o estilo dourado de .bg3-dialog input[type=checkbox]; só ajusta tamanho */
-.bg3-token-vis-dialog .bg3-tv-row input[type="checkbox"] { width: 16px !important; height: 16px !important; }
+/* checkbox herda o estilo dourado de .t20-dialog input[type=checkbox]; só ajusta tamanho */
+.t20-token-vis-dialog .t20-tv-row input[type="checkbox"] { width: 16px !important; height: 16px !important; }
 `;
     document.head.appendChild(style);
 }
@@ -230,17 +230,17 @@ function openDialog(hudObject: AnyObj | undefined): void {
     const rows = ps
         .map(
             (u) =>
-                `<label class="bg3-tv-row"><input type="checkbox" name="${u.id}" ${isChecked(u.id) ? "checked" : ""}/><span class="bg3-tv-name">${escapeHtml(u.name)}</span></label>`,
+                `<label class="t20-tv-row"><input type="checkbox" name="${u.id}" ${isChecked(u.id) ? "checked" : ""}/><span class="t20-tv-name">${escapeHtml(u.name)}</span></label>`,
         )
         .join("");
     const tokenName = escapeHtml(String((hudObject ?? tokens[0])?.["name"] ?? "este token"));
     const content = `
-<p class="bg3-tv-intro">Quais jogadores podem ver <b>${tokenName}</b>?</p>
-<div class="bg3-tv-quick">
+<p class="t20-tv-intro">Quais jogadores podem ver <b>${tokenName}</b>?</p>
+<div class="t20-tv-quick">
   <button type="button" data-all="1"><i class="fa-solid fa-check-double"></i> Marcar todos</button>
   <button type="button" data-all="0"><i class="fa-solid fa-eye-slash"></i> Desmarcar todos</button>
 </div>
-<div class="bg3-tv-players">${rows}</div>`;
+<div class="t20-tv-players">${rows}</div>`;
 
     const Dialog = (globalThis as unknown as { Dialog?: new (cfg: AnyObj, opts?: AnyObj) => { render: (b?: boolean) => void } })
         .Dialog;
@@ -278,14 +278,14 @@ function openDialog(hudObject: AnyObj | undefined): void {
                     b.addEventListener("click", (ev) => {
                         ev.preventDefault();
                         const val = b.dataset["all"] === "1";
-                        root.querySelectorAll<HTMLInputElement>('.bg3-tv-players input[type="checkbox"]').forEach(
+                        root.querySelectorAll<HTMLInputElement>('.t20-tv-players input[type="checkbox"]').forEach(
                             (cb) => (cb.checked = val),
                         );
                     });
                 });
             },
         } as unknown as AnyObj,
-        { classes: ["bg3-dialog", "bg3-token-vis-dialog"], width: 460 } as unknown as AnyObj,
+        { classes: ["t20-dialog", "t20-token-vis-dialog"], width: 460 } as unknown as AnyObj,
     );
     dlg.render(true);
 }
@@ -335,7 +335,7 @@ function onRenderTokenHUD(hud: AnyObj, html: unknown): void {
 
     const tag = (visBtn?.tagName ?? "DIV").toLowerCase();
     const btn = document.createElement(tag);
-    btn.classList.add("control-icon", "bg3-token-visibility");
+    btn.classList.add("control-icon", "t20-token-visibility");
     if (restricted) btn.classList.add("active");
     (btn as HTMLElement).dataset["tooltip"] = "Visível para… (por jogador)";
     btn.setAttribute("aria-label", "Visível para (por jogador)");

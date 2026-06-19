@@ -29,7 +29,7 @@ const SOCKET_MISS_COUNTER    = "auto-damage/miss-counter";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
-const AUTO_DAMAGE_STYLES_ID = "bg3-t20-auto-damage-styles";
+const AUTO_DAMAGE_STYLES_ID = "t20-auto-damage-styles";
 
 function ensureStyles(): void {
     if (!document.getElementById(AUTO_DAMAGE_STYLES_ID)) {
@@ -105,7 +105,7 @@ async function pickAllyDialog<T extends { id?: string; name?: string }>(allies: 
                 <span class="aad-skill-name"><i class="fas fa-user-shield"></i> ${esc(t.name ?? "Aliado")}</span></button>`).join("");
         let picked: T | null = null;
         void foundry.applications.api.DialogV2.wait({
-            classes: ["bg3-dialog", "aad-dialog"],
+            classes: ["t20-dialog", "aad-dialog"],
             window:  { title: "Amigo Protetor — escolher aliado" },
             position: { width: 320 },
             content: `<div class="aad-body"><div class="aad-skills"><div class="aad-skills-title"><i class="fas fa-people-arrows"></i> Quem salta em sua defesa?</div>${btns}</div></div>`,
@@ -172,7 +172,7 @@ async function applyDamage(
 async function buildRerollContent(rollLabel: string, attackRoll: Roll, damageRoll?: Roll): Promise<string> {
     const attackHtml = await attackRoll.render({ flavor: "Ataque" });
     const damageHtml = damageRoll ? await damageRoll.render({ flavor: "Dano" }) : "";
-    return `<div class="bg3-reroll-header">↺ Rerolagem — ${esc(rollLabel)}</div>${attackHtml}${damageHtml}`;
+    return `<div class="t20-reroll-header">↺ Rerolagem — ${esc(rollLabel)}</div>${attackHtml}${damageHtml}`;
 }
 
 /**
@@ -743,7 +743,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
 
     void foundry.applications.api.DialogV2.wait({
         id:      `auto-damage-${req.requestId}`,
-        classes: ["bg3-dialog", "aad-dialog"],
+        classes: ["t20-dialog", "aad-dialog"],
         window:  { title: `Dano — ${targetName}` },
         position: { width: 380 },
         content,
@@ -871,7 +871,7 @@ function openMissCounterPrompt(req: MissCounterRequest): void {
 
     void foundry.applications.api.DialogV2.wait({
         id:      `miss-counter-${req.requestId}`,
-        classes: ["bg3-dialog", "aad-dialog"],
+        classes: ["t20-dialog", "aad-dialog"],
         window:  { title: `Contra-Ataque — ${targetName}` },
         position: { width: 360 },
         content,

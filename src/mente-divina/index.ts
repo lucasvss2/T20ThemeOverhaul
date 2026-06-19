@@ -144,7 +144,7 @@ function handleApplyRequest(req: ApplyRequest): void {
             },
         },
         default: "ok",
-    }, { classes: ["bg3-dialog"], width: 400 }).render(true);
+    }, { classes: ["t20-dialog"], width: 400 }).render(true);
 }
 
 // ── Cast detection (cliente do conjurador) ─────────────────────────────────────

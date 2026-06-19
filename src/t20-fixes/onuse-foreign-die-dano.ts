@@ -235,13 +235,13 @@ export function setupOnUseForeignDieDano(): void {
         const docClass = (CONFIG as unknown as { Item?: { documentClass?: { prototype: Record<string, unknown> } } })
             .Item?.documentClass;
         const proto = docClass?.prototype as
-            | (Record<string, unknown> & { _bg3ForeignDiePatched?: boolean })
+            | (Record<string, unknown> & { _t20ForeignDiePatched?: boolean })
             | undefined;
         if (!proto || typeof proto["rollDamage"] !== "function") {
             warn(`onuse-foreign-die-dano: ItemT20.prototype.rollDamage não encontrado.`);
             return;
         }
-        if (proto._bg3ForeignDiePatched) return;
+        if (proto._t20ForeignDiePatched) return;
 
         const orig = proto["rollDamage"] as (this: ItemLike, arg?: Record<string, unknown>) => Promise<unknown>;
         proto["rollDamage"] = async function (this: ItemLike, arg?: Record<string, unknown>) {
@@ -254,7 +254,7 @@ export function setupOnUseForeignDieDano(): void {
             }
             return ret;
         };
-        proto._bg3ForeignDiePatched = true;
+        proto._t20ForeignDiePatched = true;
         log(`ItemT20.rollDamage patched (bônus de dano de face estrangeira).`);
     });
 }

@@ -476,5 +476,5 @@ function openMaintenanceDialog(): void {
             ok: { icon: '<i class="fas fa-check"></i>', label: "Entendi" },
         },
         default: "cancel",
-    }, { classes: ["bg3-dialog"], width: 420 }).render(true);
+    }, { classes: ["t20-dialog"], width: 420 }).render(true);
 }

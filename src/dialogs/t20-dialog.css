@@ -1,14 +1,14 @@
 
-/* ── BG3-style roll dialog ───────────────────────────────────────────────── */
+/* ── T20-style roll dialog ───────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog {
-    background: radial-gradient(ellipse at top, var(--bg3-bg-mid) 0%, var(--bg3-bg-deepest) 100%) !important;
+:is(.window-app, .application).t20-dialog {
+    background: radial-gradient(ellipse at top, var(--t20-bg-mid) 0%, var(--t20-bg-deepest) 100%) !important;
     border: none !important;
     border-radius: 6px !important;
     box-shadow:
-        0 0 0 1px var(--bg3-border-ambient),
+        0 0 0 1px var(--t20-border-ambient),
         0 0 0 3px #0a0704,
-        0 0 0 5px var(--bg3-border-ambient),
+        0 0 0 5px var(--t20-border-ambient),
         0 0 0 7px #0a0704,
         0 0 0 8px #4a360e,
         0 0 40px rgba(0, 0, 0, 0.95),
@@ -20,18 +20,18 @@
 /* Non-ability-use old-Application dialogs: auto-size to content.
    Scoped to .window-app only — ApplicationV2 (.application) positions
    via inline styles and !important overrides would break drag/resize. */
-.window-app.bg3-dialog:not(.ability-use-form) {
+.window-app.t20-dialog:not(.ability-use-form) {
     height: auto !important;
     width: auto !important;
 }
-.window-app.bg3-dialog:not(.ability-use-form) .window-content {
+.window-app.t20-dialog:not(.ability-use-form) .window-content {
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
 }
 
 /* AbilityUseDialog: scroll — height is set by JS (syncContentHeight) */
-.window-app.ability-use-form.bg3-dialog .window-content {
+.window-app.ability-use-form.t20-dialog .window-content {
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
@@ -40,7 +40,7 @@
    esconde o excesso SEM scroll, recortando o rodapé em telas menores. Garante
    um fallback de scroll pra TODOS os nossos modais DialogV2 (resistência,
    auto-dano, etc.). A regra .window-app acima não cobre .application. */
-.application.bg3-dialog .window-content {
+.application.t20-dialog .window-content {
     max-height: 90vh !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
@@ -70,20 +70,20 @@
     background:
         linear-gradient(135deg,
             transparent 0%,   transparent 38%,
-            rgba(var(--bg3-accent-rgb),0.65) 38%, rgba(var(--bg3-accent-rgb),0.65) 46%,
+            rgba(var(--t20-accent-rgb),0.65) 38%, rgba(var(--t20-accent-rgb),0.65) 46%,
             transparent 46%,  transparent 54%,
-            rgba(var(--bg3-accent-rgb),0.45) 54%, rgba(var(--bg3-accent-rgb),0.45) 62%,
+            rgba(var(--t20-accent-rgb),0.45) 54%, rgba(var(--t20-accent-rgb),0.45) 62%,
             transparent 62%,  transparent 70%,
-            rgba(var(--bg3-accent-rgb),0.28) 70%, rgba(var(--bg3-accent-rgb),0.28) 78%,
+            rgba(var(--t20-accent-rgb),0.28) 70%, rgba(var(--t20-accent-rgb),0.28) 78%,
             transparent 78%
         ) !important;
 }
 
-:is(.window-app, .application).bg3-dialog::before {
+:is(.window-app, .application).t20-dialog::before {
     content: "";
     position: absolute;
     inset: 8px;
-    border: 1px solid var(--bg3-border);
+    border: 1px solid var(--t20-border);
     border-radius: 3px;
     pointer-events: none;
     z-index: 0;
@@ -91,37 +91,37 @@
 
 /* ── Header ────────────────────────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog .window-header {
-    background: linear-gradient(to right, transparent, var(--bg3-divider-med), transparent) !important;
-    border-bottom: 1px solid var(--bg3-border-strong) !important;
+:is(.window-app, .application).t20-dialog .window-header {
+    background: linear-gradient(to right, transparent, var(--t20-divider-med), transparent) !important;
+    border-bottom: 1px solid var(--t20-border-strong) !important;
     padding: 6px 10px !important;
     position: relative;
     z-index: 1;
 }
 
-:is(.window-app, .application).bg3-dialog .window-title {
-    color: var(--bg3-accent) !important;
+:is(.window-app, .application).t20-dialog .window-title {
+    color: var(--t20-accent) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.95rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
-    text-shadow: 0 0 14px rgba(var(--bg3-accent-rgb), 0.55) !important;
+    text-shadow: 0 0 14px rgba(var(--t20-accent-rgb), 0.55) !important;
 }
 
-:is(.window-app, .application).bg3-dialog .header-button,
-:is(.window-app, .application).bg3-dialog .window-header > a {
-    color: var(--bg3-accent-muted) !important;
+:is(.window-app, .application).t20-dialog .header-button,
+:is(.window-app, .application).t20-dialog .window-header > a {
+    color: var(--t20-accent-muted) !important;
     transition: color 0.15s !important;
 }
-:is(.window-app, .application).bg3-dialog .header-button:hover,
-:is(.window-app, .application).bg3-dialog .window-header > a:hover {
-    color: var(--bg3-accent) !important;
+:is(.window-app, .application).t20-dialog .header-button:hover,
+:is(.window-app, .application).t20-dialog .window-header > a:hover {
+    color: var(--t20-accent) !important;
 }
 
 /* ── Skill name banner ───────────────────────────────────────────────────── */
 
-.bg3-skill-banner {
+.t20-skill-banner {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -131,54 +131,54 @@
     z-index: 1;
 }
 
-.bg3-banner-row {
+.t20-banner-row {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 14px;
 }
 
-.bg3-skill-img {
-    border: 1px solid var(--bg3-tint-bold);
+.t20-skill-img {
+    border: 1px solid var(--t20-tint-bold);
     border-radius: 4px;
-    box-shadow: 0 0 14px var(--bg3-tint-strong);
+    box-shadow: 0 0 14px var(--t20-tint-strong);
     flex-shrink: 0;
     height: 56px;
     object-fit: cover;
     width: 56px;
 }
 
-.bg3-skill-name {
+.t20-skill-name {
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: clamp(1.5rem, 4vw, 2.2rem);
     font-weight: 700;
-    color: var(--bg3-accent) !important;
+    color: var(--t20-accent) !important;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    text-shadow: 0 0 20px rgba(var(--bg3-accent-rgb), 0.65);
+    text-shadow: 0 0 20px rgba(var(--t20-accent-rgb), 0.65);
     line-height: 1.1;
 }
 
-.bg3-skill-divider {
+.t20-skill-divider {
     width: 180px;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(var(--bg3-accent-rgb), 0.55), transparent);
+    background: linear-gradient(to right, transparent, rgba(var(--t20-accent-rgb), 0.55), transparent);
     margin: 8px 0 0;
 }
 
 /* ── Form body ──────────────────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog .window-content,
-:is(.window-app, .application).bg3-dialog form,
-:is(.window-app, .application).bg3-dialog .dialog-content {
+:is(.window-app, .application).t20-dialog .window-content,
+:is(.window-app, .application).t20-dialog form,
+:is(.window-app, .application).t20-dialog .dialog-content {
     background: transparent !important;
-    color: var(--bg3-text-primary) !important;
+    color: var(--t20-text-primary) !important;
     position: relative;
     z-index: 1;
 }
 
-:is(.window-app, .application).bg3-dialog .form-group {
-    border-bottom: 1px solid var(--bg3-divider-soft) !important;
+:is(.window-app, .application).t20-dialog .form-group {
+    border-bottom: 1px solid var(--t20-divider-soft) !important;
     padding: 6px 16px !important;
     margin: 0 !important;
     display: flex;
@@ -186,13 +186,13 @@
     gap: 8px;
 }
 
-:is(.window-app, .application).bg3-dialog .form-group:last-of-type {
+:is(.window-app, .application).t20-dialog .form-group:last-of-type {
     border-bottom: none !important;
 }
 
 /* Direct-child labels = field names ("BÔNUS NO TESTE", "ROLL MODE") */
-:is(.window-app, .application).bg3-dialog .form-group > label {
-    color: var(--bg3-accent-muted) !important;
+:is(.window-app, .application).t20-dialog .form-group > label {
+    color: var(--t20-accent-muted) !important;
     font-size: 0.78rem !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     text-transform: uppercase !important;
@@ -201,14 +201,14 @@
     flex: 0 0 auto;
 }
 
-:is(.window-app, .application).bg3-dialog input[type="text"],
-:is(.window-app, .application).bg3-dialog input[type="number"],
-:is(.window-app, .application).bg3-dialog input:not([type]),
-:is(.window-app, .application).bg3-dialog select {
+:is(.window-app, .application).t20-dialog input[type="text"],
+:is(.window-app, .application).t20-dialog input[type="number"],
+:is(.window-app, .application).t20-dialog input:not([type]),
+:is(.window-app, .application).t20-dialog select {
     background: rgba(0, 0, 0, 0.55) !important;
     border: 1px solid #3a2a0e !important;
     border-radius: 3px !important;
-    color: var(--bg3-accent-bright) !important;
+    color: var(--t20-accent-bright) !important;
     font-family: "Palatino Linotype", serif !important;
     font-size: 0.9rem !important;
     padding: 3px 8px !important;
@@ -222,15 +222,15 @@
 .window-app.ability-use-form output,
 .window-app.ability-use-form progress,
 .window-app.ability-use-form meter {
-    color: var(--bg3-btn-text) !important;
+    color: var(--t20-btn-text) !important;
     font-weight: 700 !important;
     text-shadow: 0 0 4px rgba(0,0,0,0.6) !important;
     background-color: rgba(0, 0, 0, 0.55) !important;
 }
 .window-app.ability-use-form input[readonly],
 .window-app.ability-use-form output {
-    background: linear-gradient(to right, var(--bg3-divider-med), rgba(0,0,0,0.45)) !important;
-    border: 1px solid var(--bg3-border-strong) !important;
+    background: linear-gradient(to right, var(--t20-divider-med), rgba(0,0,0,0.45)) !important;
+    border: 1px solid var(--t20-border-strong) !important;
     border-radius: 3px !important;
 }
 /* T20 progress-bar style total-cost display (a styled <input> or <progress>) */
@@ -239,40 +239,40 @@
     background: rgba(0,0,0,0.55) !important;
 }
 .window-app.ability-use-form progress::-webkit-progress-value {
-    background: linear-gradient(to right, var(--bg3-btn-bg-top), var(--bg3-accent)) !important;
+    background: linear-gradient(to right, var(--t20-btn-bg-top), var(--t20-accent)) !important;
 }
 
-:is(.window-app, .application).bg3-dialog input:focus,
-:is(.window-app, .application).bg3-dialog select:focus {
-    border-color: var(--bg3-btn-border) !important;
+:is(.window-app, .application).t20-dialog input:focus,
+:is(.window-app, .application).t20-dialog select:focus {
+    border-color: var(--t20-btn-border) !important;
     box-shadow: 0 0 8px rgba(139, 105, 20, 0.4) !important;
     outline: none !important;
 }
 
-:is(.window-app, .application).bg3-dialog select option {
+:is(.window-app, .application).t20-dialog select option {
     background: #12100a !important;
-    color: var(--bg3-accent-bright) !important;
+    color: var(--t20-accent-bright) !important;
 }
 
 /* ── Footer / submit buttons ─────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog footer,
-:is(.window-app, .application).bg3-dialog .dialog-buttons {
+:is(.window-app, .application).t20-dialog footer,
+:is(.window-app, .application).t20-dialog .dialog-buttons {
     background: linear-gradient(to top, rgba(0,0,0,0.4), transparent) !important;
-    border-top: 1px solid var(--bg3-divider) !important;
+    border-top: 1px solid var(--t20-divider) !important;
     padding: 12px 16px !important;
     position: relative;
     z-index: 1;
 }
 
-:is(.window-app, .application).bg3-dialog footer button,
-:is(.window-app, .application).bg3-dialog .dialog-buttons button {
+:is(.window-app, .application).t20-dialog footer button,
+:is(.window-app, .application).t20-dialog .dialog-buttons button {
     align-items: center !important;
-    background: linear-gradient(to bottom, var(--bg3-btn-bg-top), var(--bg3-btn-bg-bottom)) !important;
-    border: 1px solid var(--bg3-btn-border) !important;
+    background: linear-gradient(to bottom, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom)) !important;
+    border: 1px solid var(--t20-btn-border) !important;
     border-radius: 4px !important;
     box-shadow: 0 0 16px rgba(139, 105, 20, 0.3), inset 0 1px rgba(255, 220, 150, 0.15) !important;
-    color: var(--bg3-btn-text) !important;
+    color: var(--t20-btn-text) !important;
     cursor: pointer !important;
     display: inline-flex !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
@@ -282,52 +282,52 @@
     letter-spacing: 0.2em !important;
     padding: 9px 16px !important;
     text-align: center !important;
-    text-shadow: 0 0 12px rgba(var(--bg3-accent-rgb), 0.5) !important;
+    text-shadow: 0 0 12px rgba(var(--t20-accent-rgb), 0.5) !important;
     text-transform: uppercase !important;
     transition: all 0.15s !important;
     width: 100% !important;
 }
 
-:is(.window-app, .application).bg3-dialog footer button:hover,
-:is(.window-app, .application).bg3-dialog .dialog-buttons button:hover {
+:is(.window-app, .application).t20-dialog footer button:hover,
+:is(.window-app, .application).t20-dialog .dialog-buttons button:hover {
     background: linear-gradient(to bottom, #7c5218, #5a3210) !important;
-    border-color: var(--bg3-accent) !important;
-    box-shadow: 0 0 24px rgba(var(--bg3-accent-rgb), 0.55), inset 0 1px rgba(255, 220, 150, 0.25) !important;
-    color: var(--bg3-btn-text-hover) !important;
+    border-color: var(--t20-accent) !important;
+    box-shadow: 0 0 24px rgba(var(--t20-accent-rgb), 0.55), inset 0 1px rgba(255, 220, 150, 0.25) !important;
+    color: var(--t20-btn-text-hover) !important;
 }
 
-:is(.window-app, .application).bg3-dialog footer button i,
-:is(.window-app, .application).bg3-dialog .dialog-buttons button i {
+:is(.window-app, .application).t20-dialog footer button i,
+:is(.window-app, .application).t20-dialog .dialog-buttons button i {
     margin-right: 6px !important;
     color: inherit !important;
 }
 
 /* ── Shared mixin for all small action buttons (counter +/-) ─────────────── */
 
-:is(.window-app, .application).bg3-dialog .minus,
-:is(.window-app, .application).bg3-dialog .plus,
-:is(.window-app, .application).bg3-dialog .decrease,
-:is(.window-app, .application).bg3-dialog .increase,
-:is(.window-app, .application).bg3-dialog .counter-down,
-:is(.window-app, .application).bg3-dialog .counter-up,
-:is(.window-app, .application).bg3-dialog [data-action="decrease"],
-:is(.window-app, .application).bg3-dialog [data-action="increase"],
-:is(.window-app, .application).bg3-dialog .form-group > a,
-:is(.window-app, .application).bg3-dialog .form-group > button:not([type="submit"]),
-:is(.window-app, .application).bg3-dialog .counter > a,
-:is(.window-app, .application).bg3-dialog .counter > button,
+:is(.window-app, .application).t20-dialog .minus,
+:is(.window-app, .application).t20-dialog .plus,
+:is(.window-app, .application).t20-dialog .decrease,
+:is(.window-app, .application).t20-dialog .increase,
+:is(.window-app, .application).t20-dialog .counter-down,
+:is(.window-app, .application).t20-dialog .counter-up,
+:is(.window-app, .application).t20-dialog [data-action="decrease"],
+:is(.window-app, .application).t20-dialog [data-action="increase"],
+:is(.window-app, .application).t20-dialog .form-group > a,
+:is(.window-app, .application).t20-dialog .form-group > button:not([type="submit"]),
+:is(.window-app, .application).t20-dialog .counter > a,
+:is(.window-app, .application).t20-dialog .counter > button,
 /* t20 aprimoramento +/- buttons (class numCtrl inside .item-cost) */
-:is(.window-app, .application).bg3-dialog .numCtrl,
-:is(.window-app, .application).bg3-dialog .item-cost > button,
-:is(.window-app, .application).bg3-dialog li.item button,
+:is(.window-app, .application).t20-dialog .numCtrl,
+:is(.window-app, .application).t20-dialog .item-cost > button,
+:is(.window-app, .application).t20-dialog li.item button,
 /* Buttons / anchors inside table cells */
-:is(.window-app, .application).bg3-dialog tbody td > button,
-:is(.window-app, .application).bg3-dialog tbody td > a {
-    background: linear-gradient(to bottom, var(--bg3-btn-bg-top), var(--bg3-btn-bg-bottom)) !important;
-    border: 1px solid var(--bg3-btn-border) !important;
+:is(.window-app, .application).t20-dialog tbody td > button,
+:is(.window-app, .application).t20-dialog tbody td > a {
+    background: linear-gradient(to bottom, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom)) !important;
+    border: 1px solid var(--t20-btn-border) !important;
     border-radius: 3px !important;
     box-shadow: 0 0 8px rgba(139, 105, 20, 0.25), inset 0 1px rgba(255, 220, 150, 0.12) !important;
-    color: var(--bg3-btn-text) !important;
+    color: var(--t20-btn-text) !important;
     cursor: pointer !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -344,32 +344,32 @@
     transition: all 0.15s !important;
 }
 
-:is(.window-app, .application).bg3-dialog .minus:hover,
-:is(.window-app, .application).bg3-dialog .plus:hover,
-:is(.window-app, .application).bg3-dialog .decrease:hover,
-:is(.window-app, .application).bg3-dialog .increase:hover,
-:is(.window-app, .application).bg3-dialog .counter-down:hover,
-:is(.window-app, .application).bg3-dialog .counter-up:hover,
-:is(.window-app, .application).bg3-dialog [data-action="decrease"]:hover,
-:is(.window-app, .application).bg3-dialog [data-action="increase"]:hover,
-:is(.window-app, .application).bg3-dialog .form-group > a:hover,
-:is(.window-app, .application).bg3-dialog .form-group > button:not([type="submit"]):hover,
-:is(.window-app, .application).bg3-dialog .counter > a:hover,
-:is(.window-app, .application).bg3-dialog .counter > button:hover,
-:is(.window-app, .application).bg3-dialog .numCtrl:hover,
-:is(.window-app, .application).bg3-dialog .item-cost > button:hover,
-:is(.window-app, .application).bg3-dialog li.item button:hover,
-:is(.window-app, .application).bg3-dialog tbody td > button:hover,
-:is(.window-app, .application).bg3-dialog tbody td > a:hover {
+:is(.window-app, .application).t20-dialog .minus:hover,
+:is(.window-app, .application).t20-dialog .plus:hover,
+:is(.window-app, .application).t20-dialog .decrease:hover,
+:is(.window-app, .application).t20-dialog .increase:hover,
+:is(.window-app, .application).t20-dialog .counter-down:hover,
+:is(.window-app, .application).t20-dialog .counter-up:hover,
+:is(.window-app, .application).t20-dialog [data-action="decrease"]:hover,
+:is(.window-app, .application).t20-dialog [data-action="increase"]:hover,
+:is(.window-app, .application).t20-dialog .form-group > a:hover,
+:is(.window-app, .application).t20-dialog .form-group > button:not([type="submit"]):hover,
+:is(.window-app, .application).t20-dialog .counter > a:hover,
+:is(.window-app, .application).t20-dialog .counter > button:hover,
+:is(.window-app, .application).t20-dialog .numCtrl:hover,
+:is(.window-app, .application).t20-dialog .item-cost > button:hover,
+:is(.window-app, .application).t20-dialog li.item button:hover,
+:is(.window-app, .application).t20-dialog tbody td > button:hover,
+:is(.window-app, .application).t20-dialog tbody td > a:hover {
     background: linear-gradient(to bottom, #7c5218, #5a3210) !important;
-    border-color: var(--bg3-accent) !important;
-    box-shadow: 0 0 14px var(--bg3-tint-bold), inset 0 1px rgba(var(--bg3-accent-rgb), 0.2) !important;
-    color: var(--bg3-btn-text-hover) !important;
+    border-color: var(--t20-accent) !important;
+    box-shadow: 0 0 14px var(--t20-tint-bold), inset 0 1px rgba(var(--t20-accent-rgb), 0.2) !important;
+    color: var(--t20-btn-text-hover) !important;
 }
 
 /* ── t20 enhancement list (ul.aprimoramentos-list) ──────────────────────── */
 
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list {
     list-style: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -377,16 +377,16 @@
 }
 
 /* Header row */
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list .items-header {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list .items-header {
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid var(--bg3-divider) !important;
+    border-bottom: 1px solid var(--t20-divider) !important;
     margin: 0 !important;
     padding: 4px 8px !important;
 }
 
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list .items-header h3 {
-    color: var(--bg3-accent-muted) !important;
+:is(.window-app, .application).t20-dialog .aprimoramentos-list .items-header h3 {
+    color: var(--t20-accent-muted) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.75rem !important;
     font-weight: normal !important;
@@ -396,27 +396,27 @@
 }
 
 /* Each enhancement row — vertically centered, padding simétrico 4px */
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list li.item {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list li.item {
     align-items: center !important;
-    border-bottom: 1px solid var(--bg3-divider-soft) !important;
+    border-bottom: 1px solid var(--t20-divider-soft) !important;
     min-height: 28px !important;
     padding: 4px 8px !important;
 }
 
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list li.item:last-child {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list li.item:last-child {
     border-bottom: none !important;
 }
 
 /* T20 às vezes insere <hr> entre os <li> — esconde para não duplicar o divisor */
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list hr,
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list li.item > hr {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list hr,
+:is(.window-app, .application).t20-dialog .aprimoramentos-list li.item > hr {
     display: none !important;
 }
 
 /* Botões +/- quadrados com ícone perfeitamente centralizado.
    Especificidade extra (.tormenta20 + .aprimoramentos-list) para vencer a
    regra genérica de botões em sheet/index.ts (.tormenta20:not(.sheet) button). */
-:is(.window-app, .application).bg3-dialog.tormenta20 .aprimoramentos-list button.numCtrl {
+:is(.window-app, .application).t20-dialog.tormenta20 .aprimoramentos-list button.numCtrl {
     width: 24px !important;
     height: 24px !important;
     min-width: 24px !important;
@@ -427,14 +427,14 @@
     justify-content: center !important;
     line-height: 1 !important;
 }
-:is(.window-app, .application).bg3-dialog.tormenta20 .aprimoramentos-list button.numCtrl i {
+:is(.window-app, .application).t20-dialog.tormenta20 .aprimoramentos-list button.numCtrl i {
     display: block !important;
     line-height: 1 !important;
     margin: 0 !important;
 }
 
 /* Input numérico no centro do +/- — tamanho de referência para os checkboxes */
-:is(.window-app, .application).bg3-dialog.tormenta20 .aprimoramentos-list .item-cost input.numInp {
+:is(.window-app, .application).t20-dialog.tormenta20 .aprimoramentos-list .item-cost input.numInp {
     width: 25px !important;
     height: 24px !important;
     padding: 0 !important;
@@ -444,7 +444,7 @@
 /* Checkboxes das linhas sem +/-: mesma dimensão do input numérico (25×24).
    Precisa min-width + flex-basis porque o input vira flex-item e width sozinho
    não vence o min-content default do checkbox (~20px). */
-:is(.window-app, .application).bg3-dialog.tormenta20 .aprimoramentos-list .item-cost > input[type="checkbox"] {
+:is(.window-app, .application).t20-dialog.tormenta20 .aprimoramentos-list .item-cost > input[type="checkbox"] {
     width: 25px !important;
     min-width: 25px !important;
     max-width: 25px !important;
@@ -458,14 +458,14 @@
 /* Botões de ação no rodapé do modal (Lançar Magia / Preparar Poção):
    T20 aplica margin-right: 5px no primeiro botão, deslocando o left-edge dele
    em relação aos demais. Como o pai já tem gap: 8px, zeramos todas as margens
-   para alinhar perfeitamente. Nota: .ability-use-form e .bg3-dialog ficam no
+   para alinhar perfeitamente. Nota: .ability-use-form e .t20-dialog ficam no
    MESMO elemento, então sem espaço entre eles no seletor. */
-:is(.window-app, .application).bg3-dialog.ability-use-form .dialog-buttons > button {
+:is(.window-app, .application).t20-dialog.ability-use-form .dialog-buttons > button {
     margin: 0 !important;
 }
 
 /* Left column: keep it compact, vertically center its own content */
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list .item-cost {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list .item-cost {
     align-items: center !important;
     flex-shrink: 0 !important;
     flex-wrap: nowrap !important;
@@ -474,7 +474,7 @@
 }
 
 /* Right column: item description */
-:is(.window-app, .application).bg3-dialog .aprimoramentos-list h4.item-name {
+:is(.window-app, .application).t20-dialog .aprimoramentos-list h4.item-name {
     border: none !important;       /* T20 default põe border-bottom no h4, duplicando o divisor do li.item */
     font-size: 0.82rem !important;
     font-weight: normal !important;
@@ -485,16 +485,16 @@
 
 /* ── Bonus table (enhancement list) ─────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog table {
+:is(.window-app, .application).t20-dialog table {
     background: transparent !important;
     border-collapse: collapse !important;
-    color: var(--bg3-text-secondary) !important;
+    color: var(--t20-text-secondary) !important;
     width: 100% !important;
 }
 
-:is(.window-app, .application).bg3-dialog thead th {
-    border-bottom: 1px solid var(--bg3-divider) !important;
-    color: var(--bg3-accent-muted) !important;
+:is(.window-app, .application).t20-dialog thead th {
+    border-bottom: 1px solid var(--t20-divider) !important;
+    color: var(--t20-accent-muted) !important;
     font-family: "Modesto Condensed", "Palatino Linotype", serif !important;
     font-size: 0.75rem !important;
     letter-spacing: 0.1em !important;
@@ -502,16 +502,16 @@
     text-transform: uppercase !important;
 }
 
-:is(.window-app, .application).bg3-dialog tbody tr {
-    border-bottom: 1px solid var(--bg3-divider-soft) !important;
+:is(.window-app, .application).t20-dialog tbody tr {
+    border-bottom: 1px solid var(--t20-divider-soft) !important;
 }
 
-:is(.window-app, .application).bg3-dialog tbody tr:last-child {
+:is(.window-app, .application).t20-dialog tbody tr:last-child {
     border-bottom: none !important;
 }
 
-:is(.window-app, .application).bg3-dialog tbody td {
-    color: var(--bg3-text-secondary) !important;
+:is(.window-app, .application).t20-dialog tbody td {
+    color: var(--t20-text-secondary) !important;
     font-size: 0.82rem !important;
     padding: 4px 8px !important;
     vertical-align: middle !important;
@@ -519,15 +519,15 @@
 
 /* ── Placeholders ───────────────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog input::placeholder,
-:is(.window-app, .application).bg3-dialog textarea::placeholder {
-    color: var(--bg3-text-muted) !important;
+:is(.window-app, .application).t20-dialog input::placeholder,
+:is(.window-app, .application).t20-dialog textarea::placeholder {
+    color: var(--t20-text-muted) !important;
     opacity: 1 !important;
 }
 
 /* ── Checkboxes ─────────────────────────────────────────────────────────── */
 
-:is(.window-app, .application).bg3-dialog input[type="checkbox"] {
+:is(.window-app, .application).t20-dialog input[type="checkbox"] {
     appearance: none !important;
     -webkit-appearance: none !important;
     background: rgba(0, 0, 0, 0.7) !important;
@@ -541,40 +541,40 @@
     width: 14px !important;
 }
 
-:is(.window-app, .application).bg3-dialog input[type="checkbox"]:checked {
+:is(.window-app, .application).t20-dialog input[type="checkbox"]:checked {
     background:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 7l3.5 3.5L12 4' stroke='%23f0e0b0' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
         center / 80% no-repeat,
         linear-gradient(to bottom, #6a4212, #3e2008) !important;
-    border-color: var(--bg3-accent) !important;
+    border-color: var(--t20-accent) !important;
 }
 
-:is(.window-app, .application).bg3-dialog input[type="checkbox"]:hover {
-    border-color: var(--bg3-btn-border) !important;
+:is(.window-app, .application).t20-dialog input[type="checkbox"]:hover {
+    border-color: var(--t20-btn-border) !important;
     box-shadow: 0 0 6px rgba(139, 105, 20, 0.35) !important;
 }
 
 /* ── Tormenta20 overrides ────────────────────────────────────────────────── */
 
-.window-app.bg3-dialog.tormenta20:not(.ability-use-form) .window-content {
+.window-app.t20-dialog.tormenta20:not(.ability-use-form) .window-content {
     padding: 0 !important;
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
 }
 /* ApplicationV2 variant: padding only, no size override */
-.application.bg3-dialog.tormenta20:not(.ability-use-form) .window-content {
+.application.t20-dialog.tormenta20:not(.ability-use-form) .window-content {
     padding: 0 !important;
 }
-:is(.window-app, .application).bg3-dialog.tormenta20.ability-use-form .window-content {
+:is(.window-app, .application).t20-dialog.tormenta20.ability-use-form .window-content {
     padding: 0 !important;
 }
 
-.window-app.bg3-dialog:not(.ability-use-form) form {
+.window-app.t20-dialog:not(.ability-use-form) form {
     overflow: visible !important;
     height: auto !important;
 }
-.window-app.ability-use-form.bg3-dialog form {
+.window-app.ability-use-form.t20-dialog form {
     height: auto !important;
     overflow: visible !important;
     /* form is taller than window-content → window-content scrolls */

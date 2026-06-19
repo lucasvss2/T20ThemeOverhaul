@@ -167,11 +167,11 @@ export async function markAuraInvencibilidadeUsed(opts: {
     try {
         await ChatMessage.create({
             content: `
-                <div class="tormenta20 chat-card item-card" style="border-color:var(--bg3-accent);">
+                <div class="tormenta20 chat-card item-card" style="border-color:var(--t20-accent);">
                     <header class="card-header flexrow">
                         <h3 class="item-name"><div>Aura de Invencibilidade — ${escHtml(casterName)}</div></h3>
                     </header>
-                    <div class="card-content" style="padding:6px 10px;color:var(--bg3-text-primary);">
+                    <div class="card-content" style="padding:6px 10px;color:var(--t20-text-primary);">
                         <p style="margin:0;">
                             <b>${escHtml(targetName)}</b> ignora <b>${damageIgnored}</b> de dano
                             (primeira vez nesta cena).

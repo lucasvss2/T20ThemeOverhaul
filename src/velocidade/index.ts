@@ -192,7 +192,7 @@ function openCancelDialog(): void {
                 no: { icon: '<i class="fas fa-times"></i>', label: "Manter" },
             },
             default: "no",
-        }, { classes: ["bg3-dialog"], width: 380 }).render(true);
+        }, { classes: ["t20-dialog"], width: 380 }).render(true);
         return;
     }
     const rows = targets.map((a) =>
@@ -215,7 +215,7 @@ function openCancelDialog(): void {
             no: { icon: '<i class="fas fa-times"></i>', label: "Voltar" },
         },
         default: "no",
-    }, { classes: ["bg3-dialog"], width: 400 }).render(true);
+    }, { classes: ["t20-dialog"], width: 400 }).render(true);
 }
 
 // ── Setup ─────────────────────────────────────────────────────────────────────

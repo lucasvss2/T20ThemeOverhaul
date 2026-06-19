@@ -166,7 +166,7 @@ export function broadenArmorPenaltyToStrDexSkills(
 /* -------------------------------------------------------------------------- */
 
 type GetAttackToHit = (this: ProfItem) => { rollData: unknown; parts: string[] } | undefined;
-type ItemProto = { getAttackToHit?: GetAttackToHit; _bg3ProfWeaponPatched?: boolean };
+type ItemProto = { getAttackToHit?: GetAttackToHit; _t20ProfWeaponPatched?: boolean };
 
 /** Modelo de dados (system) com `pericias` e `parent` (o ator dono). */
 interface CreatureDataLike {
@@ -174,7 +174,7 @@ interface CreatureDataLike {
     pericias?: Record<string, { atributo?: string; pda?: boolean }>;
 }
 type PrepareSkills = (this: CreatureDataLike, opts?: unknown) => unknown;
-type CreatureProto = { prepareSkills?: PrepareSkills; _bg3ProfArmorPatched?: boolean };
+type CreatureProto = { prepareSkills?: PrepareSkills; _t20ProfArmorPatched?: boolean };
 
 function patchWeaponPenalty(): void {
     const proto = (CONFIG as unknown as { Item?: { documentClass?: { prototype: ItemProto } } })
@@ -183,7 +183,7 @@ function patchWeaponPenalty(): void {
         warn(`proficiencia: ItemT20.prototype.getAttackToHit não encontrado.`);
         return;
     }
-    if (proto._bg3ProfWeaponPatched) return;
+    if (proto._t20ProfWeaponPatched) return;
     const orig = proto.getAttackToHit;
     proto.getAttackToHit = function (this: ProfItem) {
         const result = orig.call(this);
@@ -196,7 +196,7 @@ function patchWeaponPenalty(): void {
         }
         return result;
     };
-    proto._bg3ProfWeaponPatched = true;
+    proto._t20ProfWeaponPatched = true;
     log(`ItemT20.getAttackToHit patched — −5 de ataque para armas sem proficiência.`);
 }
 
@@ -213,7 +213,7 @@ function patchArmorPenalty(): void {
         warn(`proficiencia: CreatureData.prototype.prepareSkills não encontrado.`);
         return;
     }
-    if (proto._bg3ProfArmorPatched) return;
+    if (proto._t20ProfArmorPatched) return;
     const orig = proto.prepareSkills;
     proto.prepareSkills = function (this: CreatureDataLike, opts?: unknown) {
         try {
@@ -226,7 +226,7 @@ function patchArmorPenalty(): void {
         }
         return orig.call(this, opts);
     };
-    proto._bg3ProfArmorPatched = true;
+    proto._t20ProfArmorPatched = true;
     log(`CreatureData.prepareSkills patched — penalidade de armadura em todas perícias For/Des sem proficiência.`);
 }
 

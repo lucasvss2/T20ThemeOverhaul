@@ -1,70 +1,70 @@
 
-.window-app.bg3-dialog .bg3-aura-cancel { padding: 14px 16px 6px; }
-.window-app.bg3-dialog .bg3-aura-cancel p {
-    margin: 0 0 8px; color: var(--bg3-text-primary);
+.window-app.t20-dialog .t20-aura-cancel { padding: 14px 16px 6px; }
+.window-app.t20-dialog .t20-aura-cancel p {
+    margin: 0 0 8px; color: var(--t20-text-primary);
     font-family: "Palatino Linotype", "Book Antiqua", serif;
     font-size: 0.95rem; line-height: 1.4;
 }
-.window-app.bg3-dialog .bg3-aura-cancel p b { color: var(--bg3-accent); font-weight: 700; }
-.window-app.bg3-dialog .bg3-aura-cancel .hint {
-    color: var(--bg3-accent-muted); font-size: 0.82rem; font-style: italic; margin-top: 4px;
+.window-app.t20-dialog .t20-aura-cancel p b { color: var(--t20-accent); font-weight: 700; }
+.window-app.t20-dialog .t20-aura-cancel .hint {
+    color: var(--t20-accent-muted); font-size: 0.82rem; font-style: italic; margin-top: 4px;
 }
-.window-app.bg3-dialog .bg3-aura-picker { padding: 12px 16px 8px; }
-.window-app.bg3-dialog .bg3-aura-picker > .picker-intro {
-    color: var(--bg3-accent-muted);
+.window-app.t20-dialog .t20-aura-picker { padding: 12px 16px 8px; }
+.window-app.t20-dialog .t20-aura-picker > .picker-intro {
+    color: var(--t20-accent-muted);
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
     margin: 0 0 10px;
 }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row {
+.window-app.t20-dialog .t20-aura-picker .picker-row {
     display: flex; align-items: center; gap: 10px;
     padding: 6px 8px; cursor: pointer;
-    border-bottom: 1px solid var(--bg3-divider-med);
+    border-bottom: 1px solid var(--t20-divider-med);
     transition: background 0.15s;
 }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row:last-child { border-bottom: none; }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row:hover { background: var(--bg3-divider-soft); }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row .row-idx {
-    color: var(--bg3-accent-muted);
+.window-app.t20-dialog .t20-aura-picker .picker-row:last-child { border-bottom: none; }
+.window-app.t20-dialog .t20-aura-picker .picker-row:hover { background: var(--t20-divider-soft); }
+.window-app.t20-dialog .t20-aura-picker .picker-row .row-idx {
+    color: var(--t20-accent-muted);
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
     min-width: 56px;
 }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row .row-name {
-    color: var(--bg3-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
+.window-app.t20-dialog .t20-aura-picker .picker-row .row-name {
+    color: var(--t20-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
 }
-.window-app.bg3-dialog .bg3-aura-picker .picker-row .row-name b {
-    color: var(--bg3-accent); font-weight: 700;
+.window-app.t20-dialog .t20-aura-picker .picker-row .row-name b {
+    color: var(--t20-accent); font-weight: 700;
 }
-.window-app.bg3-dialog .bg3-aura-cura-picker { padding: 12px 16px 8px; }
-.window-app.bg3-dialog .bg3-aura-cura-picker .heal-row {
+.window-app.t20-dialog .t20-aura-cura-picker { padding: 12px 16px 8px; }
+.window-app.t20-dialog .t20-aura-cura-picker .heal-row {
     display: flex; align-items: center; gap: 10px;
-    padding: 6px 8px; border-bottom: 1px solid var(--bg3-divider-med);
-    color: var(--bg3-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
+    padding: 6px 8px; border-bottom: 1px solid var(--t20-divider-med);
+    color: var(--t20-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
 }
-.window-app.bg3-dialog .bg3-aura-cura-picker .heal-row:last-child { border-bottom: none; }
-.window-app.bg3-dialog .bg3-aura-cura-picker .heal-row .heal-amount {
-    color: var(--bg3-color-success); font-weight: 700; margin-left: auto;
+.window-app.t20-dialog .t20-aura-cura-picker .heal-row:last-child { border-bottom: none; }
+.window-app.t20-dialog .t20-aura-cura-picker .heal-row .heal-amount {
+    color: var(--t20-color-success); font-weight: 700; margin-left: auto;
 }
-.window-app.bg3-dialog .bg3-aura-cura-picker .intro {
-    color: var(--bg3-accent-muted);
+.window-app.t20-dialog .t20-aura-cura-picker .intro {
+    color: var(--t20-accent-muted);
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
     margin: 0 0 10px;
 }
 /* Aura Ardente: variação alaranjada (dano de luz) do mesmo layout */
-.window-app.bg3-dialog .bg3-aura-ardente-picker { padding: 12px 16px 8px; }
-.window-app.bg3-dialog .bg3-aura-ardente-picker .burn-row {
+.window-app.t20-dialog .t20-aura-ardente-picker { padding: 12px 16px 8px; }
+.window-app.t20-dialog .t20-aura-ardente-picker .burn-row {
     display: flex; align-items: center; gap: 10px;
-    padding: 6px 8px; border-bottom: 1px solid var(--bg3-divider-med);
-    color: var(--bg3-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
+    padding: 6px 8px; border-bottom: 1px solid var(--t20-divider-med);
+    color: var(--t20-text-primary); font-family: "Palatino Linotype", serif; font-size: 0.95rem;
 }
-.window-app.bg3-dialog .bg3-aura-ardente-picker .burn-row:last-child { border-bottom: none; }
-.window-app.bg3-dialog .bg3-aura-ardente-picker .burn-row .burn-amount {
+.window-app.t20-dialog .t20-aura-ardente-picker .burn-row:last-child { border-bottom: none; }
+.window-app.t20-dialog .t20-aura-ardente-picker .burn-row .burn-amount {
     color: #ff8a4a; font-weight: 700; margin-left: auto; /* Aura Ardente orange — feature color */
 }
-.window-app.bg3-dialog .bg3-aura-ardente-picker .intro {
-    color: var(--bg3-accent-muted);
+.window-app.t20-dialog .t20-aura-ardente-picker .intro {
+    color: var(--t20-accent-muted);
     font-family: "Modesto Condensed", "Palatino Linotype", serif;
     font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
     margin: 0 0 10px;

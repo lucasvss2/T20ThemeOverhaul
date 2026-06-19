@@ -705,18 +705,18 @@ async function postEsferaSummaryCard(
         trigger === "placed"     ? "Esfera invocada sobre a criatura" :
                                    "Movimento da esfera";
     const targetsHtml = targetNames.map(n =>
-        `<span style="display:inline-block; padding:2px 8px; margin:2px; background:rgba(var(--bg3-color-danger-rgb),0.12); border:1px solid rgba(var(--bg3-color-danger-rgb),0.35); border-radius:3px; color:var(--bg3-accent-bright); font-size:0.82rem;">${esc(n)}</span>`
+        `<span style="display:inline-block; padding:2px 8px; margin:2px; background:rgba(var(--t20-color-danger-rgb),0.12); border:1px solid rgba(var(--t20-color-danger-rgb),0.35); border-radius:3px; color:var(--t20-accent-bright); font-size:0.82rem;">${esc(n)}</span>`
     ).join("");
     const rollRendered = await dmgRoll.render();
 
     const content = `
-        <div class="t20-theme-chat-card" style="padding:10px 12px; background:linear-gradient(180deg, rgba(var(--bg3-color-danger-rgb),0.10) 0%, transparent 100%); border-left:3px solid #cc4422;">
+        <div class="t20-theme-chat-card" style="padding:10px 12px; background:linear-gradient(180deg, rgba(var(--t20-color-danger-rgb),0.10) 0%, transparent 100%); border-left:3px solid #cc4422;">
             <div style="color:#cc4422; font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; font-weight:700;">Esfera Flamejante — ${esc(casterName)}</div>
-            <div style="color:var(--bg3-accent-muted); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; font-style:italic; margin: 2px 0 8px;">${triggerLabel}</div>
+            <div style="color:var(--t20-accent-muted); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; font-style:italic; margin: 2px 0 8px;">${triggerLabel}</div>
             <div style="margin-bottom:8px;">${rollRendered}</div>
-            <div style="color:var(--bg3-accent-muted); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">Alvos atingidos (${targetNames.length}) — cada dono rola Reflexos no modal:</div>
+            <div style="color:var(--t20-accent-muted); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px;">Alvos atingidos (${targetNames.length}) — cada dono rola Reflexos no modal:</div>
             <div>${targetsHtml}</div>
-            <div style="color:var(--bg3-text-muted); font-size:0.75rem; font-style:italic; margin-top:6px;">CD ${cd} · Falhar = dano integral, passar = metade</div>
+            <div style="color:var(--t20-text-muted); font-size:0.75rem; font-style:italic; margin-top:6px;">CD ${cd} · Falhar = dano integral, passar = metade</div>
         </div>`;
     type CMCreate = { create(data: Record<string, unknown>): Promise<unknown> };
     await (ChatMessage as unknown as CMCreate).create({
@@ -776,7 +776,7 @@ const _pendingPedraCDs = new Map<string, PedraPendingCD>();
 
 function patchAbilityUseDialog(): void {
     type T20Global = {
-        applications?: { AbilityUseDialog?: AbilityUseDialogLike & { _bg3PatchedForAp3?: boolean } };
+        applications?: { AbilityUseDialog?: AbilityUseDialogLike & { _t20PatchedForAp3?: boolean } };
     };
     const t20 = (game as unknown as { tormenta20?: T20Global }).tormenta20;
     const Dlg = t20?.applications?.AbilityUseDialog;
@@ -784,7 +784,7 @@ function patchAbilityUseDialog(): void {
         warn(`AbilityUseDialog não encontrado — Pedra Flamejante (Ap3) desabilitada.`);
         return;
     }
-    if (Dlg._bg3PatchedForAp3) return;
+    if (Dlg._t20PatchedForAp3) return;
     const origCreate = Dlg.create.bind(Dlg);
     Dlg.create = async function(item: unknown, ...args: unknown[]) {
         const result = await origCreate(item, ...args);
@@ -893,7 +893,7 @@ function patchAbilityUseDialog(): void {
         }
         return result;
     };
-    Dlg._bg3PatchedForAp3 = true;
+    Dlg._t20PatchedForAp3 = true;
     log(`AbilityUseDialog patched (Pedra Flamejante Ap3 ativo).`);
 }
 
@@ -945,14 +945,14 @@ async function onClickCancelEsfera(): Promise<void> {
         const caster = escHtml((t.flags?.[MODULE_ID]?.["casterName"] as string | undefined) ?? "Lançador");
         return `<label class="picker-row" style="display:flex; align-items:center; gap:10px; padding:6px 8px; cursor:pointer;">
             <input type="checkbox" data-tid="${t.id}" checked />
-            <span style="color:var(--bg3-accent-muted); min-width:56px;">Esfera #${i + 1}</span>
-            <span style="color:var(--bg3-text-primary);"><b style="color:#cc4422;">${caster}</b></span>
+            <span style="color:var(--t20-accent-muted); min-width:56px;">Esfera #${i + 1}</span>
+            <span style="color:var(--t20-text-primary);"><b style="color:#cc4422;">${caster}</b></span>
         </label>`;
     }).join("");
     const ids = await new Promise<string[] | null>((resolve) => {
         new DialogCls({
             title: "Apagar esferas flamejantes",
-            content: `<div style="padding:8px 12px;"><p style="color:var(--bg3-accent-muted); font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;">Selecione as esferas a apagar</p>${rows}</div>`,
+            content: `<div style="padding:8px 12px;"><p style="color:var(--t20-accent-muted); font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;">Selecione as esferas a apagar</p>${rows}</div>`,
             buttons: {
                 remove: {
                     icon: '<i class="fas fa-fire-flame-curved"></i>', label: "Apagar selecionadas",
@@ -966,7 +966,7 @@ async function onClickCancelEsfera(): Promise<void> {
                 cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar", callback: () => resolve(null) },
             },
             default: "remove", close: () => resolve(null),
-        }, { classes: ["bg3-dialog"] }).render(true);
+        }, { classes: ["t20-dialog"] }).render(true);
     });
     if (!ids || ids.length === 0) return;
     try {

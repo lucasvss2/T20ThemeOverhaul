@@ -1,16 +1,16 @@
 /**
- * Standalone BG3-style cinematic roll overlay for Tormenta20.
+ * Standalone T20-style cinematic roll overlay for Tormenta20.
  * Injects its own CSS and renders a full-screen overlay when a T20 roll
  * is intercepted.
  */
 
 import type { TestOutcome } from "@/hidden-test/types";
-import STYLES from "./bg3-overlay.css?inline";
+import STYLES from "./t20-overlay.css?inline";
 
 // ── CSS ───────────────────────────────────────────────────────────────────────
 
-const STYLES_ID = "bg3-t20-styles";
-const OVERLAY_ID = "bg3-t20-overlay";
+const STYLES_ID = "t20-styles";
+const OVERLAY_ID = "t20-overlay";
 const DISMISS_DELAY_MS = 3000;
 const OVERLAY_Z = 99999;
 
@@ -90,19 +90,19 @@ export interface OverlayCritOpts {
 
 /** Monta o label de crítico/falha para a rolagem (ramo sem outcome explícito). */
 function buildCritLabel(kind: CritKind, isAttack: boolean, threshold: number): string {
-    const sub = (t: string) => `<span class="bg3-t20-crit-sub">${esc(t)}</span>`;
+    const sub = (t: string) => `<span class="t20-crit-sub">${esc(t)}</span>`;
     switch (kind) {
         case "crit-nat":
             return isAttack
-                ? `<div class="bg3-t20-crit-label is-crit">ACERTO CRÍTICO! ${sub("20 natural")}</div>`
-                : `<div class="bg3-t20-crit-label is-crit">Acerto Crítico!</div>`;
+                ? `<div class="t20-crit-label is-crit">ACERTO CRÍTICO! ${sub("20 natural")}</div>`
+                : `<div class="t20-crit-label is-crit">Acerto Crítico!</div>`;
         case "crit-margin":
-            return `<div class="bg3-t20-crit-label is-crit">ACERTO CRÍTICO! ${sub(`margem ampliada (≥${threshold})`)}</div>`;
+            return `<div class="t20-crit-label is-crit">ACERTO CRÍTICO! ${sub(`margem ampliada (≥${threshold})`)}</div>`;
         case "fumble":
-            return `<div class="bg3-t20-crit-label is-fumble">Falha Crítica</div>`;
+            return `<div class="t20-crit-label is-fumble">Falha Crítica</div>`;
         default:
             // Ataque sem crítico → diz explicitamente "sem crítico"; outras rolagens não poluem.
-            return isAttack ? `<div class="bg3-t20-crit-label bg3-t20-crit-none">Sem crítico</div>` : "";
+            return isAttack ? `<div class="t20-crit-label t20-crit-none">Sem crítico</div>` : "";
     }
 }
 
@@ -117,14 +117,14 @@ function buildGridCellHtml(e: GridRollEntry): string {
     const kind  = detectD20Outcome(e.roll); // iniciativa → margem 20 (só 20/1 natural)
     const totalCls = (kind === "crit-nat") ? "is-crit" : kind === "fumble" ? "is-fumble" : "";
     const critLabel =
-        kind === "crit-nat" ? `<div class="bg3-t20-grid-crit is-crit">CRÍTICO!</div>`
-      : kind === "fumble"   ? `<div class="bg3-t20-grid-crit is-fumble">FALHA!</div>`
+        kind === "crit-nat" ? `<div class="t20-grid-crit is-crit">CRÍTICO!</div>`
+      : kind === "fumble"   ? `<div class="t20-grid-crit is-fumble">FALHA!</div>`
       : "";
-    const formula = e.roll.formula ? `<div class="bg3-t20-grid-formula">${esc(e.roll.formula)} = ${total}</div>` : "";
+    const formula = e.roll.formula ? `<div class="t20-grid-formula">${esc(e.roll.formula)} = ${total}</div>` : "";
     return `
-        <div class="bg3-t20-grid-cell">
-            <div class="bg3-t20-grid-name">${esc(e.name)}</div>
-            <div class="bg3-t20-grid-total${totalCls ? " " + totalCls : ""}">${total}</div>
+        <div class="t20-grid-cell">
+            <div class="t20-grid-name">${esc(e.name)}</div>
+            <div class="t20-grid-total${totalCls ? " " + totalCls : ""}">${total}</div>
             ${critLabel}
             ${formula}
         </div>
@@ -135,12 +135,12 @@ function buildGridHtml(entries: GridRollEntry[], title: string): string {
     const cols = Math.min(entries.length, 4);
     const cellsHtml = entries.map(buildGridCellHtml).join("");
     return `
-        <div class="bg3-t20-grid-wrapper">
-            <div class="bg3-t20-category">${esc(title)}</div>
-            <div class="bg3-t20-divider"></div>
-            <div class="bg3-t20-grid" style="--cols: ${cols}">${cellsHtml}</div>
+        <div class="t20-grid-wrapper">
+            <div class="t20-category">${esc(title)}</div>
+            <div class="t20-divider"></div>
+            <div class="t20-grid" style="--cols: ${cols}">${cellsHtml}</div>
         </div>
-        <div class="bg3-t20-hint">clique para fechar</div>
+        <div class="t20-hint">clique para fechar</div>
     `;
 }
 
@@ -152,7 +152,7 @@ function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome, opts?: Ove
 
     if (outcome) {
         totalClass = ` ${OUTCOME_TOTAL_CLASS[outcome]}`;
-        resultHtml = `<div class="bg3-t20-crit-label ${OUTCOME_TOTAL_CLASS[outcome]}">${OUTCOME_LABEL[outcome]}</div>`;
+        resultHtml = `<div class="t20-crit-label ${OUTCOME_TOTAL_CLASS[outcome]}">${OUTCOME_LABEL[outcome]}</div>`;
     } else {
         const threshold = opts?.critThreshold ?? 20;
         const isAttack  = opts?.isAttack ?? false;
@@ -163,23 +163,23 @@ function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome, opts?: Ove
     }
 
     const subHtml = meta.subcategory
-        ? `<div class="bg3-t20-subcategory">${esc(meta.subcategory)}</div>`
+        ? `<div class="t20-subcategory">${esc(meta.subcategory)}</div>`
         : "";
 
     const formulaHtml = roll.formula
-        ? `<div class="bg3-t20-formula">${esc(roll.formula)} = ${total}</div>`
+        ? `<div class="t20-formula">${esc(roll.formula)} = ${total}</div>`
         : "";
 
     return `
-        <div class="bg3-t20-card">
-            <div class="bg3-t20-category">${esc(meta.category)}</div>
+        <div class="t20-card">
+            <div class="t20-category">${esc(meta.category)}</div>
             ${subHtml}
-            <div class="bg3-t20-divider"></div>
-            <div class="bg3-t20-total${totalClass}">${total}</div>
+            <div class="t20-divider"></div>
+            <div class="t20-total${totalClass}">${total}</div>
             ${resultHtml}
             ${formulaHtml}
         </div>
-        <div class="bg3-t20-hint">clique para fechar</div>
+        <div class="t20-hint">clique para fechar</div>
     `;
 }
 
@@ -188,7 +188,7 @@ function buildHtml(meta: RollMeta, roll: Roll, outcome?: TestOutcome, opts?: Ove
 // Selectors for 3D dice canvases that should always appear above the overlay
 const DICE_CANVAS_SELECTORS = ["#dice-box-canvas", "#dice-box", "canvas.dsn-canvas"];
 
-class BG3OverlaySingleton {
+class T20OverlaySingleton {
     private el: HTMLElement | null = null;
     private timer: ReturnType<typeof setTimeout> | null = null;
     private diceElevations: Array<{ el: HTMLElement; original: string }> = [];
@@ -262,4 +262,4 @@ class BG3OverlaySingleton {
     }
 }
 
-export const BG3Overlay = new BG3OverlaySingleton();
+export const T20Overlay = new T20OverlaySingleton();
