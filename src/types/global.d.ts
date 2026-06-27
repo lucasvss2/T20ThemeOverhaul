@@ -218,11 +218,17 @@ declare interface FoundryActor {
 }
 
 declare interface SettingConfig {
-    name: string;
+    /** Opcional: settings com `config:false` (armazenamento interno) não precisam de label. */
+    name?: string;
     hint?: string;
     scope: "world" | "client";
     config: boolean;
-    type: BooleanConstructor | StringConstructor | NumberConstructor;
+    type:
+        | BooleanConstructor
+        | StringConstructor
+        | NumberConstructor
+        | ObjectConstructor
+        | ArrayConstructor;
     default: unknown;
     onChange?: (value: unknown) => void;
 }

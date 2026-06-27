@@ -30,6 +30,7 @@ import { setupSheetRedesign } from "./sheet/index";
 import { setupEncounterRoller } from "./encounter-roller/index";
 import { setupTreasure } from "./treasure/index";
 import { setupSheetLog } from "./sheet-log/index";
+import { setupAnimPresets, captureActorAnimations } from "./anim-presets/index";
 import { setupHerancaDraconica } from "./heranca-draconica/index";
 import { setupTradicaoPerdida } from "./tradicao-perdida/index";
 import { setupBaforada } from "./baforada/index";
@@ -116,6 +117,7 @@ Hooks.once("setup", () => {
     setupCounterspell();      // Contramágica: janela GM no cast → Misticismo vs CD → anula a magia
     setupDurationManager();   // Gerencia duração (rodadas/cena/dia/sustentada) de buffs e condições em combate
     setupEmChamas();          // Condição Em Chamas: 1d6 de fogo no início do turno da criatura
+    setupAnimPresets();       // Memória de animações de skills (Automated Animations): oferece aplicar ao adicionar
 
 });
 
@@ -139,6 +141,7 @@ Hooks.once("ready", () => {
     if (mod) {
         (mod as unknown as { api: Record<string, unknown> }).api = {
             diagnoseAuras,
+            captureActorAnimations,
         };
     }
     log("Pronto — overlay cinemático de dados Tormenta20 ativo.");
