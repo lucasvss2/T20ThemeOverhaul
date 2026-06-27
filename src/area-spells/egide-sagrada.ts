@@ -266,19 +266,23 @@ async function syncTokenWithEgides(
     _syncInProgress.add(tokenId);
     try {
         const templates = getEgideTemplates();
-        if (templates.length === 0) {
-            const orphans = (token.actor.effects?.contents ?? []).filter(e =>
-                (e.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_ORIGIN] != null
-            );
-            if (orphans.length > 0) {
-                try {
-                    await (token.actor as FoundryActor & {
-                        deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
-                    }).deleteEmbeddedDocuments("ActiveEffect", orphans.map(e => e.id));
-                } catch { /* ignore */ }
-            }
-            return;
+        // Limpa AEs ÓRFÃS: efeito de Égide cujo template de origem não existe
+        // mais (template deletado/duplicado removido sem o cleanup pegar a AE —
+        // causa "buff persiste sem aura cobrindo"). Vale mesmo havendo outras
+        // Égides ativas, não só quando zero.
+        const validIds = new Set(templates.map(t => t.id));
+        const orphans = (token.actor.effects?.contents ?? []).filter(e => {
+            const origin = (e.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_ORIGIN];
+            return origin != null && !validIds.has(origin as string);
+        });
+        if (orphans.length > 0) {
+            try {
+                await (token.actor as FoundryActor & {
+                    deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
+                }).deleteEmbeddedDocuments("ActiveEffect", orphans.map(e => e.id));
+            } catch { /* ignore */ }
         }
+        if (templates.length === 0) return;
         for (const tpl of templates) {
             const casterTokenId = tpl.flags?.[MODULE_ID]?.[FLAG_CASTER] as string | undefined;
             if (!casterTokenId) continue;
@@ -440,9 +444,21 @@ async function endEgideAnimationsForCaster(casterTokenId: string, savedIds: stri
 
 // ── Pipeline de cast ─────────────────────────────────────────────────────────
 
+// Debounce de cast: mesmo problema da Aura Sagrada — o T20 posta >1 mensagem
+// por uso do poder, ambas passam pela detecção por item-id e disparam o handler
+// 2×; o fluxo assíncrono (deletar anterior → criar novo) corre e duplica o
+// template + a AE. Ignoramos re-disparos do mesmo caster dentro da janela.
+const _recentEgideCasts = new Map<string, number>();
+const EGIDE_CAST_DEBOUNCE_MS = 2000;
+
 async function onEgideSagradaCast(message: ChatMessage): Promise<void> {
     const casterActorId = message.speaker?.actor;
     if (!casterActorId) return;
+    // Guard síncrono ANTES de qualquer await — defeats a corrida de mensagens
+    // duplicadas do T20 (e re-disparos multi-cliente próximos no tempo).
+    const _now = Date.now();
+    if (_now - (_recentEgideCasts.get(casterActorId) ?? 0) < EGIDE_CAST_DEBOUNCE_MS) return;
+    _recentEgideCasts.set(casterActorId, _now);
     const casterActor = game.actors?.get(casterActorId);
     if (!casterActor) return;
     const casterToken = findTokenForActor(casterActorId);

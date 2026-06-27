@@ -236,20 +236,23 @@ async function syncTokenWithAuras(
     _syncInProgress.add(tokenId);
     try {
         const templates = getAuraTemplates();
-        if (templates.length === 0) {
-            // Sem auras ativas — limpa AEs órfãs deste sistema
-            const orphans = (token.actor.effects?.contents ?? []).filter(e =>
-                (e.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_ORIGIN] != null
-            );
-            if (orphans.length > 0) {
-                try {
-                    await (token.actor as FoundryActor & {
-                        deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
-                    }).deleteEmbeddedDocuments("ActiveEffect", orphans.map(e => e.id));
-                } catch { /* ignore */ }
-            }
-            return;
+        // Limpa AEs ÓRFÃS: efeito de aura deste sistema cujo template de origem
+        // não existe mais (template deletado/duplicado removido sem o cleanup
+        // ter pego a AE — causa "buff persiste sem aura cobrindo o token").
+        // Vale mesmo quando AINDA há outras auras ativas (não só quando zero).
+        const validIds = new Set(templates.map(t => t.id));
+        const orphans = (token.actor.effects?.contents ?? []).filter(e => {
+            const origin = (e.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_ORIGIN];
+            return origin != null && !validIds.has(origin as string);
+        });
+        if (orphans.length > 0) {
+            try {
+                await (token.actor as FoundryActor & {
+                    deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
+                }).deleteEmbeddedDocuments("ActiveEffect", orphans.map(e => e.id));
+            } catch { /* ignore */ }
         }
+        if (templates.length === 0) return;
         for (const tpl of templates) {
             const casterTokenId   = tpl.flags?.[MODULE_ID]?.[FLAG_CASTER] as string | undefined;
             if (!casterTokenId) continue;
@@ -438,9 +441,23 @@ async function endAuraAnimationsForCaster(casterTokenId: string, savedIds: strin
  * Regra "1 aura por caster": se o caster já tem aura ativa, ela é removida
  * primeiro (que limpa os AEs antigos) antes da nova ser criada.
  */
+// Debounce de cast: o T20 posta MAIS DE UMA mensagem por uso do poder e ambas
+// passam pela detecção por item-id, disparando este handler 2× no cliente do
+// autor. Como o fluxo é assíncrono (deletar anterior → criar novo), as duas
+// execuções correm (ambas leem "0 anteriores") e DUPLICAM o template + a AE
+// (buff dobrado; e no recast, a corrida pode deixar AE órfã = "buff fora da
+// área"). Ignoramos re-disparos do mesmo caster dentro da janela.
+const _recentAuraCasts = new Map<string, number>();
+const AURA_CAST_DEBOUNCE_MS = 2000;
+
 async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
     const casterActorId = message.speaker?.actor;
     if (!casterActorId) return;
+    // Guard síncrono ANTES de qualquer await — defeats a corrida de mensagens
+    // duplicadas do T20 (e re-disparos multi-cliente próximos no tempo).
+    const _now = Date.now();
+    if (_now - (_recentAuraCasts.get(casterActorId) ?? 0) < AURA_CAST_DEBOUNCE_MS) return;
+    _recentAuraCasts.set(casterActorId, _now);
     const casterActor = game.actors?.get(casterActorId);
     if (!casterActor) return;
     const casterToken = findTokenForActor(casterActorId);
