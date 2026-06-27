@@ -142,6 +142,25 @@ function getCasterTemplates(casterTokenId: string): AuraTpl[] {
     );
 }
 
+/**
+ * Dedup cross-client: colapsa templates de aura DUPLICADOS do mesmo caster
+ * (mantém 1, deleta o resto). O debounce só cobre 1 cliente; quando o mesmo
+ * usuário tem mais de uma aba / ou em race multi-GM, cada cliente pode criar o
+ * seu. Gated por isActiveGM → só UM cliente (o GM eleito) executa a colapsagem,
+ * o que dá idempotência global. Deletar o duplicado dispara o cleanup das AEs
+ * dele; o sync subsequente re-aplica a partir do sobrevivente.
+ */
+async function dedupeCasterTemplates(casterTokenId: string): Promise<void> {
+    if (!isActiveGM()) return;
+    const mine = getCasterTemplates(casterTokenId);
+    if (mine.length <= 1) return;
+    const toDelete = mine.slice(0, -1).map(t => t.id); // mantém o último, deleta o resto
+    try {
+        await canvas?.scene?.deleteEmbeddedDocuments?.("MeasuredTemplate", toDelete);
+    } catch { /* ignore */ }
+    void resyncAllTokens();
+}
+
 // ── AE apply / remove ────────────────────────────────────────────────────────
 
 const _applyInProgress = new Set<string>();
@@ -533,6 +552,10 @@ async function onAuraSagradaCast(message: ChatMessage): Promise<void> {
             warn(`Aura Sagrada: falha ao salvar sequencerEffectIds:`, err);
         }
     })();
+
+    // Dedup cross-client: após um curto delay (pra duplicatas de outras abas /
+    // race multi-GM aterrissarem), o GM eleito colapsa templates do mesmo caster.
+    setTimeout(() => void dedupeCasterTemplates(casterTokenId), 1500);
 
     ui.notifications?.info(
         `Aura Sagrada ativada (raio ${raioM}m${raioM === RAIO_PODEROSA_M ? " — Aura Poderosa" : ""}).`

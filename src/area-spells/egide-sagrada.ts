@@ -180,6 +180,24 @@ function getCasterTemplates(casterTokenId: string): EgideTpl[] {
     );
 }
 
+/**
+ * Dedup cross-client: colapsa Égides DUPLICADAS do mesmo caster (mantém 1).
+ * O debounce só cobre 1 cliente; com múltiplas abas do mesmo usuário ou race
+ * multi-GM, cada cliente pode criar a sua. Gated por isActiveGM → só o GM eleito
+ * colapsa (idempotência global). Deletar o duplicado limpa as AEs dele; o sync
+ * seguinte re-aplica do sobrevivente.
+ */
+async function dedupeCasterTemplates(casterTokenId: string): Promise<void> {
+    if (!isActiveGM()) return;
+    const mine = getCasterTemplates(casterTokenId);
+    if (mine.length <= 1) return;
+    const toDelete = mine.slice(0, -1).map(t => t.id);
+    try {
+        await canvas?.scene?.deleteEmbeddedDocuments?.("MeasuredTemplate", toDelete);
+    } catch { /* ignore */ }
+    void resyncAllTokens();
+}
+
 const _applyInProgress = new Set<string>();
 
 function tokenHasEgideEffectFrom(actor: FoundryActor, templateId: string): boolean {
@@ -526,6 +544,9 @@ async function onEgideSagradaCast(message: ChatMessage): Promise<void> {
             warn(`Égide Sagrada: falha ao salvar sequencerEffectIds:`, err);
         }
     })();
+
+    // Dedup cross-client (ver dedupeCasterTemplates): GM eleito colapsa após delay.
+    setTimeout(() => void dedupeCasterTemplates(casterTokenId), 1500);
 
     ui.notifications?.info(
         `Égide Sagrada ativada (raio ${raioM}m${withShield ? " — Escudo Fraterno" : " — adjacente"}).`
