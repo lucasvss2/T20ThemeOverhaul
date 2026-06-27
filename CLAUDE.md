@@ -106,6 +106,8 @@ src/
   duration-manager/classify.ts — Classificação pura da duração (effect.duration + system.duracao.units) — testável
   duration-manager/hud.ts      — Mini-dialog de duração ao aplicar condição manual (default rodadas=1)
   duration-manager/types.ts    — DurKind, DurData (flag flags.<MODULE_ID>.dur)
+  anim-presets/index.ts        — Memória de animações de skills (Automated Animations): captura/aplica flags.autoanimations por magia; prompt ao adicionar
+  anim-presets/bundled-presets.ts — Presets de animação EMPACOTADOS (camada bundled) + tipos AnimPreset/AnimPresetLibrary
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -235,6 +237,12 @@ Aura emitted FROM the paladin's token (no clickable grid). Currently implements 
 - **One aura per caster**: re-casting deletes the previous template (which cleans its AEs) then creates a new one.
 
 **Detection:** `normalizeCondName(extractSpellName(message)) === "aura sagrada"` (mind the SPACE — `normalizeCondName` does NOT replace spaces with hyphens).
+
+#### Anti-duplicação e AE órfã (v1.66.1 / v1.66.2) — vale p/ Aura E Égide
+
+- **Debounce de cast (v1.66.1):** o T20 posta MAIS DE UMA mensagem por uso do poder e ambas passam pela detecção por item-id, disparando `onAuraSagradaCast`/`onEgideSagradaCast` 2× no cliente do autor; como o fluxo é assíncrono (deletar anterior → criar novo), as duas execuções correm (leem "0 anteriores") e duplicam template+AE. Fix: `Map<casterActorId, ts>` com janela de 2s, checado/setado SÍNCRONO no topo do handler (antes de qualquer `await`).
+- **Limpeza de AE órfã (v1.66.1):** no `syncToken*`, remove efeitos de aura cujo template de origem (`FLAG_ORIGIN`) não existe mais — cobre "buff persiste com o token fora da área / sem aura cobrindo" (template removido sem o cleanup pegar a AE). Roda mesmo havendo OUTRAS auras ativas (antes só limpava quando havia ZERO).
+- **Dedup cross-client (v1.66.2):** o debounce só cobre 1 cliente; com múltiplas abas do mesmo usuário ou race multi-GM, cada cliente cria o seu template. `dedupeCasterTemplates()` (gated por `isActiveGM`, agendado ~1.5s após o cast) colapsa templates duplicados do mesmo caster (mantém 1, deleta o resto; sync re-aplica do sobrevivente). ⚠️ O GM eleito é o de MENOR id ordenado — se a aba dele rodar bundle antigo, o dedup não roda lá; todos os clientes precisam do bundle atual.
 
 **Template flags (`flags.t20-theme-overhaul`):**
 ```
@@ -482,6 +490,19 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Explosão de Chamas** (`explosao-de-chamas.ts`): Arcana 1, cone 6m PESSOAL (sempre do token do conjurador), Reflexos reduz à metade, `cleanup:after-resolve`. +1d6 (aprimoramento) já soma no roll do T20 → engine soma todos os rolls. O aprimoramento "Reflexos parcial" NÃO muda o dano (metade/integral); só adiciona **Em Chamas** ao FALHAR — entrada `"explosao de chamas"` no `conditions-map` (gated por regex `/em\s*chamas|reflexos\s*parcial/` em `onUseEffects`, `applyOn:"fail"`, `durKind:"indeterminate"`). Truque (alvo 1 objeto, sem área) NÃO automatizado — sem cone, sem template a reclamar.
 - **Condição Em Chamas** (`conditions/em-chamas.ts`): T20 **NÃO** automatiza a queima (status `emchamas` só carrega `changes:{key:"dano",value:"1d6[fogo]"}` vestigial). Implementamos: no início do turno de cada criatura Em Chamas (`combatTurnChange`, GM eleito), rola 1d6 e aplica via `actor.applyDamage(total,1,false)` (sem RD automática — ajuste manual do mestre, igual Aura Ardente) + chat card. Genérico p/ qualquer fonte da condição. Status id = **`emchamas`** (sem hífen/espaço).
 - **Migração futura**: Coluna de Chamas e o branch one-shot da Bola de Fogo podem migrar pro engine (não migrados ainda p/ evitar risco — eram a referência).
+
+
+### Memória de animações de skills (Automated Animations) (v1.67.0)
+
+`src/anim-presets/`. Memoriza a config de animação (`item.flags.autoanimations`, do módulo **Automated Animations** / `autoanimations`, sobre **Sequencer** + **JB2A**) por magia/poder e oferece reaplicá-la quando a skill é adicionada a um personagem (ou via scan, para magias já adicionadas sem animação).
+
+- **Duas camadas (decisão do usuário):** BUNDLED (`bundled-presets.ts`, distribuído no módulo) + OVERRIDE do mundo (setting `animPresets`, Object). World vence bundled no `getMergedPresets()`. Chave = `normalizeCondName(nome)`.
+- **Captura:** `game.modules.get(MODULE_ID).api.captureActorAnimations(actor)` lê os `flags.autoanimations` das magias/poderes do ator e grava no override; `requiredModules` é derivado dos paths `modules/<id>/` referenciados na config (+ sequencer/autoanimations). Captura inicial feita: 7 magias do Victor.
+- **Portabilidade (decisão):** guarda a config COMPLETA incluindo a referência de **macro** (as anims do Victor são tipo "macro" — rodam uma macro do mundo). O prompt avisa se módulos/macro faltarem, mas aplica a config mesmo assim.
+- **Prompt:** hook `createItem` (gated ao `userId` que adicionou) → `offerForItem` (defer 200ms). Dialog clássico (`Dialog`) mostra os módulos necessários (✓/✗ verde/vermelho), botões Aplicar/Agora não, e checkbox "não oferecer novamente" → setting `animPresetsDontAsk` (Object `{ [norm]: true }`). Aplicar = `item.update({ "flags.autoanimations": preset.autoanimations })`.
+- **Magias já adicionadas:** ação no skills-menu **"Animações: verificar ficha"** (`anim-presets-scan`) varre o ator do token controlado (ou `game.user.character`) e oferece, sequencialmente, para itens sem animação com preset e fora do dontAsk.
+- **Settings:** `animPresets.enabled` (Boolean world, config:true, gate do prompt), `animPresets` (Object world, config:false), `animPresetsDontAsk` (Object world, config:false). ⚠️ A ambient `SettingConfig` (global.d.ts) foi ampliada p/ aceitar `Object/Array` em `type` e `name` opcional (settings config:false não têm label).
+- **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`).
 
 
 ## Foundry v13 Gotchas
