@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     isAcuidadeWeapon, acuidadeActive, swapDanoForToDes, injectAcuidadeDano,
+    injectAcuidadeAtaque,
 } from "@/t20-fixes/acuidade-arma";
 
 type Roll = Parameters<typeof swapDanoForToDes>[0];
@@ -100,5 +101,67 @@ describe("injectAcuidadeDano (in-place + restore)", () => {
         const item = mkItem(false, 4, 1);
         injectAcuidadeDano(item);
         expect(danoParts(item)).toEqual([["1d4", "perfuracao", ""], ["@for", "", ""]]);
+    });
+});
+
+describe("injectAcuidadeAtaque (in-place + restore)", () => {
+    const mkItem = (
+        opts: { acuidade: boolean; des: number; forca: number; emp?: string; prop?: string; atributo?: string },
+    ) => ({
+        type: "arma",
+        system: {
+            empunhadura: opts.emp ?? "leve",
+            proposito: opts.prop ?? "corpo-a-corpo",
+            rolls: [
+                { type: "ataque", parts: [["1d20", "", ""], ["luta", opts.atributo ?? "", ""], ["0", "", ""]] },
+                { type: "dano", parts: [["1d4", "perfuracao", ""], ["@for", "", ""]] },
+            ],
+        },
+        actor: { flags: { tormenta20: { acuidade: opts.acuidade } }, system: { atributos: { des: { value: opts.des }, for: { value: opts.forca } } } },
+    }) as Parameters<typeof injectAcuidadeAtaque>[0];
+
+    const atkAtr = (item: Parameters<typeof injectAcuidadeAtaque>[0]) =>
+        item.system?.rolls?.[0]?.parts?.[1]?.[1];
+
+    it("força atributo 'des' no ataque de arma leve corpo-a-corpo e restaura depois", () => {
+        const item = mkItem({ acuidade: true, des: 4, forca: 1 });
+        const restore = injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("des");
+        restore();
+        expect(atkAtr(item)).toBe("");
+    });
+
+    it("cobre arma de arremesso (que o T20 não trata no ataque)", () => {
+        const item = mkItem({ acuidade: true, des: 4, forca: 1, emp: "uma", prop: "arremesso" });
+        injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("des");
+    });
+
+    it("sobrescreve atributo explícito 'for' (que o T20 pularia)", () => {
+        const item = mkItem({ acuidade: true, des: 4, forca: 1, atributo: "for" });
+        const restore = injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("des");
+        restore();
+        expect(atkAtr(item)).toBe("for");
+    });
+
+    it("é no-op se já for 'des'", () => {
+        const item = mkItem({ acuidade: true, des: 4, forca: 1, atributo: "des" });
+        const restore = injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("des");
+        restore();
+        expect(atkAtr(item)).toBe("des");
+    });
+
+    it("é no-op quando Acuidade inativa (Des <= For)", () => {
+        const item = mkItem({ acuidade: true, des: 1, forca: 3 });
+        injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("");
+    });
+
+    it("é no-op para arma pesada de corpo-a-corpo (não elegível)", () => {
+        const item = mkItem({ acuidade: true, des: 4, forca: 1, emp: "uma", prop: "corpo-a-corpo" });
+        injectAcuidadeAtaque(item);
+        expect(atkAtr(item)).toBe("");
     });
 });

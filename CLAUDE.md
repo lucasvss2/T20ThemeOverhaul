@@ -108,6 +108,8 @@ src/
   duration-manager/types.ts    — DurKind, DurData (flag flags.<MODULE_ID>.dur)
   anim-presets/index.ts        — Memória de animações de skills (Automated Animations): captura/aplica flags.autoanimations por magia; prompt ao adicionar
   anim-presets/bundled-presets.ts — Presets de animação EMPACOTADOS (camada bundled) + tipos AnimPreset/AnimPresetLibrary
+  adamante/index.ts            — Material Adamante: injeta templates de upgrade (arma=passo de dano, armadura/escudo=RD, esotérico=marker) em CONFIG.T20.upgrades
+  adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -502,7 +504,27 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Prompt:** hook `createItem` (gated ao `userId` que adicionou) → `offerForItem` (defer 200ms). Dialog clássico (`Dialog`) mostra os módulos necessários (✓/✗ verde/vermelho), botões Aplicar/Agora não, e checkbox "não oferecer novamente" → setting `animPresetsDontAsk` (Object `{ [norm]: true }`). Aplicar = `item.update({ "flags.autoanimations": preset.autoanimations })`.
 - **Magias já adicionadas:** ação no skills-menu **"Animações: verificar ficha"** (`anim-presets-scan`) varre o ator do token controlado (ou `game.user.character`) e oferece, sequencialmente, para itens sem animação com preset e fora do dontAsk.
 - **Settings:** `animPresets.enabled` (Boolean world, config:true, gate do prompt), `animPresets` (Object world, config:false), `animPresetsDontAsk` (Object world, config:false). ⚠️ A ambient `SettingConfig` (global.d.ts) foi ampliada p/ aceitar `Object/Array` em `type` e `name` opcional (settings config:false não têm label).
-- **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`).
+- **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`). (Feito em v1.67.1 — os 7 já estão no bundled.)
+
+
+### Acuidade com Arma — fix do ATAQUE (v1.68.0)
+
+`src/t20-fixes/acuidade-arma.ts`. Antes só patcheava o DANO; o ataque dependia do T20 nativo, que tem dois buracos (descobertos lendo `getAttackToHit` no `tormenta20.mjs`):
+- O T20 só troca For→Des no ataque quando `roll.parts[1][1]` (atributo) está **vazio** E a arma é `empunhadura:"leve"` de `corpo-a-corpo`.
+- **Arremesso** nunca recebe Des no ataque (o `case "arremesso"` só trata `arremessoPotente`); e armas com **atributo explícito** (`parts[1][1]==="for"`, comum em armas importadas do bestiário) fazem o T20 PULAR a lógica de acuidade.
+
+Fix: `injectAcuidadeAtaque` embrulha `getAttackToHit` forçando `roll.parts[1][1]="des"` (in-place, restaurado no `finally`) para armas elegíveis (leve corpo-a-corpo OU arremesso) com a flag `flags.tormenta20.acuidade` e Des>For. Cobre arremesso E atributo explícito; é no-op se já for `des` ou para corpo-a-corpo leve com atributo vazio (mesmo resultado do caminho nativo, sem dupla aplicação). O patch de DANO (swap `@for`→`@des` em parts literais) continua — parts `"padrao"` o T20 já trata. ⚠️ **A part de dano nativa é o sentinela `"padrao"`** (escolha "Padrão" no item), que o T20 resolve p/ `@for`/`@des` com acuidade no roll; só armas com atributo de dano EXPLÍCITO guardam `@for` literal (caso que o swap cobre).
+
+### Material Adamante — arma/armadura/escudo/esotérico (v1.68.0)
+
+`src/adamante/`. O T20 já tem **"Adamante"** (`CONFIG.T20.specialMaterials.adamant`) como opção no slot dedicado de MATERIAL (`system.upgrades.material`) da aba "Aprimoramentos" — mas SEM efeito mecânico (não havia template em `T20.upgrades.<cat>`, então selecionar não criava AE). Damos efeito a esse material já existente.
+
+- **`setupAdamante()` / `injectAdamanteUpgrades`** (`index.ts`): injeta templates de AE keyed `adamant` em `CONFIG.T20.upgrades` no hook `setup` + status `"DONE"`:
+  - `weapon.adamant` — change `{key:"passos", value:"1", mode:CUSTOM(0)}` → **+1 passo de dano** (o T20 resolve `passos` via `CONFIG.T20.passosDano` no roll; `applyOnUseEffects`, `onuse:true`).
+  - `armor.leve.adamant` / `armor.escudo.adamant` — `system.tracos.resistencias.dano.bonus += 2` (mode ADD). `armor.pesada.adamant` — `+= 5`. `transfer:true` (persistente); o T20 já **suprime quando o item não está equipado** (`isSuppressedUnnequipped`). RD física = `tracos.resistencias.dano` (somada em `prepareDamageResistances` de `base + bonus[]`; subtraída do dano em `applyDamage`).
+  - `esoteric.adamant` — **marcador** (sem changes); o reroll é lógica custom.
+- **Fluxo nativo reaproveitado**: com a Automação do item ligada, escolher "Adamante" no slot de material dispara `_createEffect("adamant")` (lê `_availableEffects[upgrade]` = `T20.upgrades.<cat>` por tipo) e `_deleteEffect` (filtra por `flags.tormenta20.upgrade`). Não tocamos no dropdown — `specialMaterials.adamant` já existe.
+- **Esotérico (reroll de 1s)** (`esoteric.ts`): "ao lançar magia que causa dano, pague +1 PM para rolar novamente qualquer 1 na rolagem de dano". Integrado em `spell-resistance` (`processSpellMessage`, lado conjurador, ANTES do loop de alvos → o modal de resistência já usa o dano corrigido). `maybeApplyAdamanteEsoteric`: detecta esotérico **equipado** com `upgrades.material==="adamant"` (`findAdamanteEsoteric`), coleta as faces de cada dado ativo que rolou 1 (`collectActiveOnes`), se há PM≥1 abre Dialog (pagar 1 PM e rerolar), rola `1d{faces}` por 1, `computeRerollDelta = Σ(novo-1)`, debita 1 PM, posta card e retorna o novo dano. Helpers puros são testáveis; só single-target via spell-resistance (magias de área que dão `return` cedo — Bola de Fogo/Coluna/Miasma — não cobertas nesta fase). **Decisão do usuário:** prompt automático no cast.
 
 
 ## Foundry v13 Gotchas

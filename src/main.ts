@@ -43,6 +43,7 @@ import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
 import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
+import { setupAdamante } from "./adamante/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
@@ -103,6 +104,7 @@ Hooks.once("setup", () => {
     setupEstiloDisparoDano();     // Estilo de Disparo aplica @des em armas de disparo (ex: Arco de Guerra)
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
+    setupAdamante();              // Material Adamante: arma (+1 passo de dano), armadura/escudo (RD), esotérico (reroll 1s)
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu

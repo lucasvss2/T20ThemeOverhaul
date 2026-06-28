@@ -5,23 +5,32 @@
  * Regra: "Quando usa uma arma corpo a corpo leve ou uma arma de arremesso, você
  * pode usar sua Destreza em vez de Força nos testes de ataque e rolagens de dano."
  *
- * ── O que o T20 já faz ─────────────────────────────────────────────────────────
- * O poder seta `flags.tormenta20.acuidade = true` no ator. No `getAttackToHit`,
- * o T20 troca a Força pela Destreza no TESTE DE ATAQUE de armas `empunhadura:
- * "leve"` (corpo-a-corpo) quando a flag está ativa e Des > For. Armas de
- * arremesso já usam a perícia Pontaria (Destreza) no ataque. Logo o ATAQUE já
- * fica correto nativamente.
+ * ── O que o T20 já faz (e onde falha) ──────────────────────────────────────────
+ * O poder seta `flags.tormenta20.acuidade = true` no ator.
  *
- * ── O gap ──────────────────────────────────────────────────────────────────────
- * O T20 NÃO troca o atributo das ROLAGENS DE DANO: a part de dano usa o token
- * literal `@for` e permanece em Força mesmo com Acuidade. O personagem de
- * Destreza perde o bônus de dano inteiro.
+ * ATAQUE (`getAttackToHit`): o T20 só troca For→Des quando o atributo do roll
+ * (`roll.parts[1][1]`) está VAZIO **e** a arma é `empunhadura:"leve"` de
+ * `corpo-a-corpo`. Isso deixa DOIS buracos:
+ *   1. Armas de ARREMESSO — o `case "arremesso"` do T20 nunca seta `des` no
+ *      ataque (só trata `arremessoPotente`). Uma adaga arremessada com perícia
+ *      Luta (Força) ataca com Força mesmo com Acuidade.
+ *   2. Armas com atributo EXPLÍCITO (`parts[1][1] === "for"`, comum em armas
+ *      importadas do bestiário) — o T20 vê o atributo preenchido e PULA a lógica
+ *      de Acuidade por completo.
+ *
+ * DANO (`rollDamage`): o T20 troca For→Des nativamente SÓ quando a part de dano
+ * é o sentinela `"padrao"` (escolha "Padrão" no item). Armas configuradas com o
+ * atributo de dano explícito guardam o literal `@for` nas parts, e aí o T20 não
+ * aplica Acuidade — fica em Força.
  *
  * ── A correção ────────────────────────────────────────────────────────────────
- * Embrulhamos `ItemT20.prototype.rollDamage`. Antes de chamar o original, para
- * armas elegíveis (leve corpo-a-corpo OU arremesso) cujo ator tem
- * `flags.tormenta20.acuidade` e Des > For, trocamos `@for` → `@des` nas parts de
- * dano. As parts originais são restauradas no `finally`. Mesma condição do T20
+ * Para armas elegíveis (leve corpo-a-corpo OU arremesso) cujo ator tem
+ * `flags.tormenta20.acuidade` e Des > For:
+ *   • `getAttackToHit` — embrulhamos forçando `roll.parts[1][1] = "des"` antes do
+ *     original (cobre arremesso E atributo explícito; é no-op se já for `des`).
+ *   • `rollDamage` — embrulhamos trocando `@for` → `@des` nas parts de dano com
+ *     literal `@for` (parts `"padrao"` continuam tratadas nativamente pelo T20).
+ * As mutações são in-place e restauradas no `finally`. Mesma condição do T20
  * (flag + Des>For), então ataque e dano ficam consistentes.
  */
 
@@ -104,8 +113,35 @@ export function injectAcuidadeDano(item: ItemForAcuidade): () => void {
     };
 }
 
+/**
+ * Força (mutando in-place) o atributo do TESTE DE ATAQUE para `des` na arma
+ * elegível e retorna uma função que restaura o atributo original. No-op se não
+ * elegível, se já for `des`, ou se a part de ataque não tiver perícia.
+ *
+ * `roll.parts[1]` = `[pericia, atributo, extra]`. Setar `atributo = "des"` faz o
+ * T20 (getAttackToHit) computar a perícia trocando o atributo base por Destreza
+ * — cobre arremesso (que o T20 não trata) e armas com atributo explícito `for`
+ * (que o T20 pularia). Para corpo-a-corpo leve com atributo vazio o resultado é
+ * idêntico ao caminho nativo (sem dupla aplicação — é seleção de atributo).
+ */
+export function injectAcuidadeAtaque(item: ItemForAcuidade): () => void {
+    const noop = (): void => {};
+    if (!isAcuidadeWeapon(item) || !acuidadeActive(item.actor)) return noop;
+
+    const rolls = item.system?.rolls ?? [];
+    const atk = rolls.find(r => r.type === "ataque");
+    const part1 = atk?.parts?.[1];
+    if (!part1 || !part1[0]) return noop;     // precisa de perícia em parts[1][0]
+    if (part1[1] === "des") return noop;      // já é Destreza
+
+    const orig = part1[1];
+    part1[1] = "des";
+    return () => { part1[1] = orig; };
+}
+
 type ItemProtoLike = {
     rollDamage?:             (this: ItemForAcuidade, arg?: Record<string, unknown>) => Promise<unknown>;
+    getAttackToHit?:         (this: ItemForAcuidade, ...args: unknown[]) => unknown;
     _t20AcuidadePatched?:    boolean;
 };
 
@@ -120,22 +156,45 @@ export function setupAcuidadeArma(): void {
         }
         if (proto._t20AcuidadePatched) return;
 
-        const orig = proto.rollDamage;
+        // ── DANO: troca @for → @des nas parts literais ───────────────────────────
+        const origDano = proto.rollDamage;
         proto.rollDamage = async function (this: ItemForAcuidade, arg?: Record<string, unknown>) {
             let restore = (): void => {};
             try {
                 restore = injectAcuidadeDano(this);
             } catch (err) {
-                warn(`acuidade-arma: troca abortada (dano intacto):`, err);
+                warn(`acuidade-arma: troca de dano abortada (dano intacto):`, err);
                 restore = () => {};
             }
             try {
-                return await orig.call(this, arg);
+                return await origDano.call(this, arg);
             } finally {
                 try { restore(); } catch { /* ignore */ }
             }
         };
+
+        // ── ATAQUE: força atributo "des" (arremesso + atributo explícito) ────────
+        if (typeof proto.getAttackToHit === "function") {
+            const origAtk = proto.getAttackToHit;
+            proto.getAttackToHit = function (this: ItemForAcuidade, ...args: unknown[]) {
+                let restore = (): void => {};
+                try {
+                    restore = injectAcuidadeAtaque(this);
+                } catch (err) {
+                    warn(`acuidade-arma: troca de ataque abortada (ataque intacto):`, err);
+                    restore = () => {};
+                }
+                try {
+                    return origAtk.apply(this, args);
+                } finally {
+                    try { restore(); } catch { /* ignore */ }
+                }
+            };
+        } else {
+            warn(`acuidade-arma: ItemT20.prototype.getAttackToHit não encontrado — ataque não patcheado.`);
+        }
+
         proto._t20AcuidadePatched = true;
-        log(`ItemT20.rollDamage patched — Acuidade com Arma aplica @des no dano de armas leves/arremesso.`);
+        log(`ItemT20 patched — Acuidade com Arma aplica @des no ataque E no dano de armas leves/arremesso.`);
     });
 }

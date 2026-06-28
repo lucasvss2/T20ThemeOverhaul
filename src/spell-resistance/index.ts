@@ -13,6 +13,7 @@ import type {
 } from "./types";
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
+import { maybeApplyAdamanteEsoteric } from "@/adamante/esoteric";
 import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, getEvasaoLevel, actorHasActiveEffectNamed, type EvasaoLevel, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 import { registerExpectedCondition } from "@/duration-manager/index";
@@ -1732,6 +1733,24 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
             type:    5,
             speaker: message.speaker,
         });
+    }
+
+    // ── Adamante (esotérico): rolar novamente os 1s do dano por +1 PM ─────────
+    // Só p/ dano direto (não cura/truque). Atualiza effectiveDamage ANTES de
+    // despachar aos alvos, então o modal de resistência já usa o valor corrigido.
+    if (!isHeal && !truqueAtivo && damageRoll && effectiveDamage > 0) {
+        try {
+            effectiveDamage = await maybeApplyAdamanteEsoteric({
+                casterActor:   casterActor as unknown as Parameters<typeof maybeApplyAdamanteEsoteric>[0]["casterActor"],
+                damageRoll:    damageRoll as unknown as Parameters<typeof maybeApplyAdamanteEsoteric>[0]["damageRoll"],
+                currentDamage: effectiveDamage,
+                casterName,
+                spellName,
+                speaker:       message.speaker,
+            });
+        } catch (err) {
+            warn(`spell-resistance: Adamante esotérico falhou (dano original mantido):`, err);
+        }
     }
 
     for (const token of effectiveTargets) {
