@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-    isAcuidadeWeapon, acuidadeActive, swapDanoForToDes, injectAcuidadeDano,
+    isAcuidadeWeapon, isAgilWeapon, acuidadeActive, swapDanoForToDes, injectAcuidadeDano,
     injectAcuidadeAtaque,
 } from "@/t20-fixes/acuidade-arma";
 
@@ -28,6 +28,24 @@ describe("isAcuidadeWeapon", () => {
     });
     it("não-armas não são elegíveis", () => {
         expect(isAcuidadeWeapon({ type: "poder", system: { empunhadura: "leve", proposito: "corpo-a-corpo" } } as Item)).toBe(false);
+    });
+    it("arma Ágil de uma mão é elegível (ex.: Katana Ágil) — agi e agil", () => {
+        expect(isAcuidadeWeapon({ type: "arma", system: { empunhadura: "uma", proposito: "corpo-a-corpo", propriedades: { agi: true } } } as Item)).toBe(true);
+        expect(isAcuidadeWeapon({ type: "arma", system: { empunhadura: "uma", proposito: "corpo-a-corpo", propriedades: { agil: true } } } as Item)).toBe(true);
+    });
+    it("arma de uma mão SEM Ágil não é elegível", () => {
+        expect(isAcuidadeWeapon({ type: "arma", system: { empunhadura: "uma", proposito: "corpo-a-corpo", propriedades: { agi: false, leve: false } } } as Item)).toBe(false);
+    });
+});
+
+describe("isAgilWeapon", () => {
+    it("detecta propriedade Ágil via agi (legado) ou agil", () => {
+        expect(isAgilWeapon({ type: "arma", system: { propriedades: { agi: true } } } as Item)).toBe(true);
+        expect(isAgilWeapon({ type: "arma", system: { propriedades: { agil: true } } } as Item)).toBe(true);
+    });
+    it("false sem a propriedade", () => {
+        expect(isAgilWeapon({ type: "arma", system: { propriedades: { agi: false } } } as Item)).toBe(false);
+        expect(isAgilWeapon({ type: "arma", system: {} } as Item)).toBe(false);
     });
 });
 
@@ -163,5 +181,26 @@ describe("injectAcuidadeAtaque (in-place + restore)", () => {
         const item = mkItem({ acuidade: true, des: 4, forca: 1, emp: "uma", prop: "corpo-a-corpo" });
         injectAcuidadeAtaque(item);
         expect(atkAtr(item)).toBe("");
+    });
+
+    it("cobre Katana Ágil de uma mão (caso Asuka)", () => {
+        const item = {
+            type: "arma",
+            system: {
+                empunhadura: "uma", proposito: "corpo-a-corpo", propriedades: { agi: true },
+                rolls: [
+                    { type: "ataque", parts: [["1d20", "", ""], ["luta", "", ""], ["0", "", ""]] },
+                    { type: "dano", parts: [["1d8", "corte", ""], ["@for", "", ""]] },
+                ],
+            },
+            actor: { flags: { tormenta20: { acuidade: true } }, system: { atributos: { des: { value: 5 }, for: { value: 0 } } } },
+        } as Parameters<typeof injectAcuidadeAtaque>[0];
+        const restore = injectAcuidadeAtaque(item);
+        expect(item.system?.rolls?.[0]?.parts?.[1]?.[1]).toBe("des");
+        restore();
+        // e o dano também troca @for→@des
+        const restoreDano = injectAcuidadeDano(item);
+        expect(item.system?.rolls?.[1]?.parts).toEqual([["1d8", "corte", ""], ["@des", "", ""]]);
+        restoreDano();
     });
 });

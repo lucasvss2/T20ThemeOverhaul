@@ -23,8 +23,14 @@
  * atributo de dano explícito guardam o literal `@for` nas parts, e aí o T20 não
  * aplica Acuidade — fica em Força.
  *
+ * ELEGIBILIDADE: além de leve corpo-a-corpo e arremesso, conta a propriedade
+ * **Ágil** (`system.propriedades.agi`/`agil`) — "Pode ser usada com Acuidade com
+ * Arma, mesmo não sendo uma arma leve" (ex.: Katana de uma mão Ágil). O T20 tem
+ * a propriedade no dado mas NÃO a implementa, então sem isso uma arma Ágil de
+ * uma mão ficava em Força.
+ *
  * ── A correção ────────────────────────────────────────────────────────────────
- * Para armas elegíveis (leve corpo-a-corpo OU arremesso) cujo ator tem
+ * Para armas elegíveis (leve corpo-a-corpo, arremesso OU Ágil) cujo ator tem
  * `flags.tormenta20.acuidade` e Des > For:
  *   • `getAttackToHit` — embrulhamos forçando `roll.parts[1][1] = "des"` antes do
  *     original (cobre arremesso E atributo explícito; é no-op se já for `des`).
@@ -45,16 +51,36 @@ interface DanoRollLike {
 
 interface ItemForAcuidade {
     type?:   string;
-    system?: { empunhadura?: string; proposito?: string; rolls?: DanoRollLike[] };
+    system?: {
+        empunhadura?:  string;
+        proposito?:    string;
+        rolls?:        DanoRollLike[];
+        propriedades?: Record<string, unknown>;
+    };
     actor?:  {
         flags?:  { tormenta20?: { acuidade?: unknown } };
         system?: { atributos?: { for?: { value?: number }; des?: { value?: number } } };
     } | null;
 }
 
-/** A arma é elegível à Acuidade? Leve de corpo-a-corpo OU de arremesso. */
+/**
+ * A arma tem a propriedade **Ágil**? ("Pode ser usada com Acuidade com Arma,
+ * mesmo não sendo uma arma leve.") O T20 guarda isso em `system.propriedades`
+ * com as chaves `agi` (legado) e/ou `agil`, mas NÃO implementa o efeito —
+ * por isso uma katana Ágil de uma mão não recebia Destreza.
+ */
+export function isAgilWeapon(item: ItemForAcuidade): boolean {
+    const p = item.system?.propriedades;
+    return p?.["agi"] === true || p?.["agil"] === true;
+}
+
+/**
+ * A arma é elegível à Acuidade? Leve de corpo-a-corpo, de arremesso, OU com a
+ * propriedade **Ágil** (que estende a Acuidade a armas não-leves).
+ */
 export function isAcuidadeWeapon(item: ItemForAcuidade): boolean {
     if (item.type !== "arma") return false;
+    if (isAgilWeapon(item)) return true;                              // arma Ágil (vale mesmo não-leve)
     const prop = item.system?.proposito ?? "";
     const emp  = item.system?.empunhadura ?? "";
     if (prop.includes("arremesso")) return true;                       // arma de arremesso
