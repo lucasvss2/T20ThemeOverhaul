@@ -33,8 +33,7 @@
 
 import { log, warn } from "@/utils/logging";
 
-/** Modos de Active Effect usados (espelha CONST.ACTIVE_EFFECT_MODES). */
-const MODE_CUSTOM = 0;
+/** Modo de Active Effect ADD (espelha CONST.ACTIVE_EFFECT_MODES.ADD). */
 const MODE_ADD = 2;
 
 /** Key do material no T20 (`CONFIG.T20.specialMaterials.adamant`). */
@@ -52,14 +51,23 @@ interface UpgradeTemplate {
 
 const TINT = "#7d7f8c"; // cinza-azulado metálico
 
-/** Template do Adamante para ARMA: +1 passo de dano. */
+/**
+ * Template do Adamante para ARMA: **marcador** (sem changes).
+ *
+ * O "+1 passo de dano" NÃO é feito pela change `passos` do T20 — na prática o
+ * T20 não aplica o `passos` de forma confiável em armas (testado ao vivo: 1d8
+ * permanecia 1d8 / 4d8 no crítico). O passo real é aplicado pelo nosso patch de
+ * `rollDamage` (`injectAdamanteWeaponStep`), que sobe o dado ANTES do roll —
+ * assim o multiplicador de crítico do T20 incide sobre o dado já elevado. O AE
+ * existe só como marcador visual/UI (status DONE).
+ */
 export function buildWeaponAdamante(): UpgradeTemplate {
     return {
         name: "Adamante",
         description: "Adamante: aumenta o dano da arma em um passo.",
         tint: TINT,
-        changes: [{ key: "passos", value: "1", mode: MODE_CUSTOM, priority: 0 }],
-        flags: { tormenta20: { onuse: true, durationScene: false, upgrade: ADAMANTE_KEY, self: true } },
+        changes: [],
+        flags: { tormenta20: { onuse: false, durationScene: false, upgrade: ADAMANTE_KEY, self: false } },
         disabled: false,
         transfer: false,
     };
@@ -147,17 +155,106 @@ export function injectAdamanteUpgrades(upgrades: T20UpgradesConfig | undefined):
     return n;
 }
 
+// ── Adamante ARMA: +1 passo de dano (implementação própria no rollDamage) ───────
+
+/**
+ * Sobe um dado `NdF` um passo na tabela `passosDano` do T20. Mantém qualquer
+ * sufixo (ex.: `[corte]`, `+2`). Retorna a string original se não houver dado
+ * `NdF` no início ou se o dado não estiver na tabela. Puro/testável.
+ */
+export function stepDie(die: string, table: string[][], steps = 1): string {
+    const s = String(die);
+    const m = s.match(/^(\d+d\d+)/);
+    if (!m) return die;
+    const base = m[1];
+    const row = table.find(r => r.includes(base));
+    if (!row) return die;
+    const idx = row.indexOf(base);
+    const ni = Math.max(0, Math.min(idx + steps, row.length - 1));
+    return s.replace(/^\d+d\d+/, row[ni] ?? base);
+}
+
+interface DanoRoll { type?: string; parts?: Array<[string, string?, string?]> }
+interface WeaponForStep {
+    type?: string;
+    system?: { upgrades?: { material?: string }; rolls?: DanoRoll[] };
+}
+
+/** A arma tem material Adamante selecionado? */
+export function isAdamanteWeapon(item: WeaponForStep): boolean {
+    return item.type === "arma" && item.system?.upgrades?.material === ADAMANTE_KEY;
+}
+
+/**
+ * Sobe (in-place) o PRIMEIRO dado de cada roll de dano da arma Adamante um passo
+ * e retorna uma função que restaura. No-op se não for arma Adamante. Roda ANTES
+ * do `rollDamage` original — o multiplicador de crítico do T20 incide depois,
+ * sobre o dado já elevado (1d8→1d10; no crítico ×N → Nd10).
+ */
+export function injectAdamanteWeaponStep(item: WeaponForStep, table: string[][]): () => void {
+    const noop = (): void => {};
+    if (!isAdamanteWeapon(item) || !table?.length) return noop;
+    const touched: Array<[[string, string?, string?], string]> = [];
+    for (const r of item.system?.rolls ?? []) {
+        if (r.type !== "dano") continue;
+        const part = (r.parts ?? []).find(p => /^\d+d\d+/.test(String(p?.[0] ?? "")));
+        if (!part) continue;
+        const orig = part[0];
+        const next = stepDie(orig, table);
+        if (next !== orig) { part[0] = next; touched.push([part, orig]); }
+    }
+    if (!touched.length) return noop;
+    return () => { for (const [p, o] of touched) p[0] = o; };
+}
+
+type ItemProtoStep = {
+    rollDamage?: (this: WeaponForStep, arg?: Record<string, unknown>) => Promise<unknown>;
+    _t20AdamanteStepPatched?: boolean;
+};
+
+function setupAdamanteWeaponStep(): void {
+    Hooks.once("ready", () => {
+        const proto = (CONFIG as unknown as { Item?: { documentClass?: { prototype: object } } })
+            .Item?.documentClass?.prototype as ItemProtoStep | undefined;
+        if (!proto || typeof proto.rollDamage !== "function") {
+            warn(`adamante: ItemT20.prototype.rollDamage não encontrado — passo de dano não patcheado.`);
+            return;
+        }
+        if (proto._t20AdamanteStepPatched) return;
+        const orig = proto.rollDamage;
+        proto.rollDamage = async function (this: WeaponForStep, arg?: Record<string, unknown>) {
+            let restore = (): void => {};
+            try {
+                const table = (CONFIG as unknown as { T20?: { passosDano?: string[][] } }).T20?.passosDano ?? [];
+                restore = injectAdamanteWeaponStep(this, table);
+            } catch (err) {
+                warn(`adamante: step de dano abortado (dano intacto):`, err);
+                restore = () => {};
+            }
+            try {
+                return await orig.call(this, arg);
+            } finally {
+                try { restore(); } catch { /* ignore */ }
+            }
+        };
+        proto._t20AdamanteStepPatched = true;
+        log(`ItemT20.rollDamage patched — Adamante sobe o dado da arma um passo.`);
+    });
+}
+
 export function setupAdamante(): void {
     const cfg = (CONFIG as unknown as { T20?: { upgrades?: T20UpgradesConfig } }).T20;
     const upgrades = cfg?.upgrades;
     if (!upgrades) {
         warn(`adamante: CONFIG.T20.upgrades não encontrado — melhoria Adamante não registrada.`);
-        return;
+    } else {
+        try {
+            const n = injectAdamanteUpgrades(upgrades);
+            log(`Adamante registrado em ${n} categoria(s) de melhoria (arma/armadura/escudo/esotérico).`);
+        } catch (err) {
+            warn(`adamante: falha ao injetar templates:`, err);
+        }
     }
-    try {
-        const n = injectAdamanteUpgrades(upgrades);
-        log(`Adamante registrado em ${n} categoria(s) de melhoria (arma/armadura/escudo/esotérico).`);
-    } catch (err) {
-        warn(`adamante: falha ao injetar templates:`, err);
-    }
+    // Passo de dano da arma Adamante: patch próprio (T20 não aplica o passos nativo).
+    setupAdamanteWeaponStep();
 }

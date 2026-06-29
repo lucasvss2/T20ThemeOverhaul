@@ -17,7 +17,7 @@ Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"
 
 ```bash
 npm run typecheck   # tsc --noEmit — must pass before any commit/tag
-npm test            # vitest run — 632 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
+npm test            # vitest run — 640 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
 npm run build       # Vite → dist/main.bundle.js
 npm run build:packs # compila packs-src/ → packs/ (compêndios LevelDB, via @foundryvtt/foundryvtt-cli)
 npm run dev         # watch mode
@@ -413,7 +413,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
   - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 632 testes / 37 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 640 testes / 37 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
@@ -522,7 +522,7 @@ Fix: `injectAcuidadeAtaque` embrulha `getAttackToHit` forçando `roll.parts[1][1
 `src/adamante/`. O T20 já tem **"Adamante"** (`CONFIG.T20.specialMaterials.adamant`) como opção no slot dedicado de MATERIAL (`system.upgrades.material`) da aba "Aprimoramentos" — mas SEM efeito mecânico (não havia template em `T20.upgrades.<cat>`, então selecionar não criava AE). Damos efeito a esse material já existente.
 
 - **`setupAdamante()` / `injectAdamanteUpgrades`** (`index.ts`): injeta templates de AE keyed `adamant` em `CONFIG.T20.upgrades` no hook `setup` + status `"DONE"`:
-  - `weapon.adamant` — change `{key:"passos", value:"1", mode:CUSTOM(0)}` → **+1 passo de dano** (o T20 resolve `passos` via `CONFIG.T20.passosDano` no roll; `applyOnUseEffects`, `onuse:true`).
+  - `weapon.adamant` — **marcador** (sem changes). **+1 passo de dano feito por patch próprio** (`injectAdamanteWeaponStep` embrulha `rollDamage`), NÃO pela change `passos` nativa. ⚠️ Testado ao vivo (Katana Adamante da Asuka): o `passos` do T20 via AE onuse **não aplica** (o dado ficava 1d8/4d8 no crítico, nunca 1d10/4d10) — formato do change idêntico ao `passos` nativo de "Saque Celestial"/"Truque da Mão Lesta", mas não surte efeito no dano da arma. O patch sobe o PRIMEIRO dado `NdF` de cada roll de dano um passo via `CONFIG.T20.passosDano` ANTES do `rollDamage` original → o multiplicador de crítico do T20 (`criticoX`, `alter()`) incide depois, sobre o dado já elevado (1d8→1d10; crítico ×4 → 4d10). Detecção por `system.upgrades.material === "adamant"` (não depende de Automação/seleção no dialog). `stepDie` é puro/testável.
   - `armor.leve.adamant` / `armor.escudo.adamant` — `system.tracos.resistencias.dano.bonus += 2` (mode ADD). `armor.pesada.adamant` — `+= 5`. `transfer:true` (persistente); o T20 já **suprime quando o item não está equipado** (`isSuppressedUnnequipped`). RD física = `tracos.resistencias.dano` (somada em `prepareDamageResistances` de `base + bonus[]`; subtraída do dano em `applyDamage`).
   - `esoteric.adamant` — **marcador** (sem changes); o reroll é lógica custom.
 - **Fluxo nativo reaproveitado**: com a Automação do item ligada, escolher "Adamante" no slot de material dispara `_createEffect("adamant")` (lê `_availableEffects[upgrade]` = `T20.upgrades.<cat>` por tipo) e `_deleteEffect` (filtra por `flags.tormenta20.upgrade`). Não tocamos no dropdown — `specialMaterials.adamant` já existe.

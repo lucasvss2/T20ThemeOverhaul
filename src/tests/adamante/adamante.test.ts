@@ -2,17 +2,79 @@ import { describe, it, expect } from "vitest";
 import {
     buildWeaponAdamante, buildArmorAdamante, buildEsotericAdamante,
     injectAdamanteUpgrades, ADAMANTE_KEY,
+    stepDie, isAdamanteWeapon, injectAdamanteWeaponStep,
 } from "@/adamante/index";
 import {
     collectActiveOnes, computeRerollDelta, isEsotericoEquipped, findAdamanteEsoteric,
 } from "@/adamante/esoteric";
 
 describe("buildWeaponAdamante", () => {
-    it("aumenta o dano em um passo via change 'passos' (mode CUSTOM)", () => {
+    it("é um marcador (sem changes) — o passo é feito pelo patch de rollDamage", () => {
         const t = buildWeaponAdamante();
-        expect(t.changes).toEqual([{ key: "passos", value: "1", mode: 0, priority: 0 }]);
-        expect(t.flags.tormenta20).toMatchObject({ onuse: true, upgrade: ADAMANTE_KEY });
+        expect(t.changes).toEqual([]);
+        expect(t.flags.tormenta20).toMatchObject({ upgrade: ADAMANTE_KEY });
         expect(t.transfer).toBe(false);
+    });
+});
+
+const PASSOS = [
+    ["1", "1d2", "1d3", "1d4", "1d6", "1d8", "1d10", "1d12", "3d6", "4d6", "4d8", "4d10", "4d12"],
+    ["1", "1d2", "1d3", "1d4", "1d6", "1d8", "1d10", "2d6", "2d8", "3d8", "4d8", "4d10", "4d12"],
+    ["1", "1d2", "1d3", "1d4", "1d6", "1d8", "1d10", "2d6", "2d8", "2d10", "3d10", "4d10", "4d12"],
+];
+
+describe("stepDie", () => {
+    it("sobe um passo (1d8→1d10)", () => {
+        expect(stepDie("1d8", PASSOS)).toBe("1d10");
+    });
+    it("preserva sufixo de tipo/bônus", () => {
+        expect(stepDie("1d8[corte]", PASSOS)).toBe("1d10[corte]");
+        expect(stepDie("2d6+3", PASSOS)).toBe("2d8+3");
+    });
+    it("satura no topo da linha", () => {
+        expect(stepDie("4d12", PASSOS)).toBe("4d12");
+    });
+    it("no-op se não começar com NdF ou dado fora da tabela", () => {
+        expect(stepDie("@for", PASSOS)).toBe("@for");
+        expect(stepDie("1d7", PASSOS)).toBe("1d7");
+    });
+});
+
+describe("isAdamanteWeapon", () => {
+    it("true só p/ arma com material adamant", () => {
+        expect(isAdamanteWeapon({ type: "arma", system: { upgrades: { material: ADAMANTE_KEY } } })).toBe(true);
+        expect(isAdamanteWeapon({ type: "arma", system: { upgrades: { material: "mithril" } } })).toBe(false);
+        expect(isAdamanteWeapon({ type: "equipamento", system: { upgrades: { material: ADAMANTE_KEY } } })).toBe(false);
+    });
+});
+
+describe("injectAdamanteWeaponStep (in-place + restore)", () => {
+    type StepItem = Parameters<typeof injectAdamanteWeaponStep>[0];
+    const mk = (material: string, die = "1d8") => ({
+        type: "arma",
+        system: { upgrades: { material }, rolls: [
+            { type: "ataque", parts: [["1d20", "", ""], ["luta", "", ""]] },
+            { type: "dano", parts: [[die, "corte", ""], ["@for", "", ""]] },
+        ] },
+    } as StepItem);
+    const danoDie = (it: StepItem) => it.system?.rolls?.[1]?.parts?.[0]?.[0];
+
+    it("sobe o dado da arma Adamante e restaura", () => {
+        const it = mk(ADAMANTE_KEY);
+        const restore = injectAdamanteWeaponStep(it, PASSOS);
+        expect(danoDie(it)).toBe("1d10");
+        restore();
+        expect(danoDie(it)).toBe("1d8");
+    });
+    it("no-op p/ arma sem Adamante", () => {
+        const it = mk("mithril");
+        injectAdamanteWeaponStep(it, PASSOS);
+        expect(danoDie(it)).toBe("1d8");
+    });
+    it("só mexe na part do dado, não no @for", () => {
+        const it = mk(ADAMANTE_KEY);
+        injectAdamanteWeaponStep(it, PASSOS);
+        expect(it.system?.rolls?.[1]?.parts?.[1]?.[0]).toBe("@for");
     });
 });
 
