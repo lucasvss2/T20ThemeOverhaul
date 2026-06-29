@@ -17,7 +17,7 @@ Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"
 
 ```bash
 npm run typecheck   # tsc --noEmit — must pass before any commit/tag
-npm test            # vitest run — 653 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
+npm test            # vitest run — 656 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
 npm run build       # Vite → dist/main.bundle.js
 npm run build:packs # compila packs-src/ → packs/ (compêndios LevelDB, via @foundryvtt/foundryvtt-cli)
 npm run dev         # watch mode
@@ -413,7 +413,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
   - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 653 testes / 38 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 656 testes / 39 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
@@ -522,6 +522,10 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Eleição de GM** (`isActiveGM`): mecânica 2 (combate) usa o GM de MENOR id ordenado — ⚠️ se a aba dele estiver em bundle antigo, não roda (gotcha multi-GM conhecido). Mecânicas 1/3/4 rodam no cliente do dono/autor (sem election).
 - **API de diagnóstico:** `game.modules.get(MODULE_ID).api.diagnoseCruzado(actor)` e `.cruzadoGrantAlmaGuerreira(actor)`.
 - **Estrutura de item de classe** (lida do Clérigo ao vivo): `{niveis, pvPorNivel, pmPorNivel, inicial, pericias:{inatas,numero}, rolls, ...}`. Item `poder`: `{ativacao:{custo,...}, duracao, efeito, tipo, subtipo, ...}` + AEs em `effects` (`flags.tormenta20.{onuse,self,custo,...}`).
+
+### Aspirante a herói — escolha de atributo (v1.71.0)
+
+`src/aspirante-heroi/index.ts`. Poder do **Atlas de Arton** ("Você recebe +1 em um atributo à sua escolha") sem mecânica nativa. Damos a ele o comportamento das raças que escolhem atributo (ex.: Humano): ao adicionar o poder a um personagem, abre um modal (Dialog) pra escolher 1 atributo e aplica **+1 PERMANENTE** via AE no ATOR (`system.atributos.<attr>.bonus` +1, mode ADD, `transfer:false`, `origin`=uuid do poder, flag `flags.t20-theme-overhaul.aspiranteHeroi`). Detecção por NOME (`isAspiranteHeroiPoder`, `normalizeCondName().includes("aspirante a heroi")`) — NÃO editamos o compêndio do outro módulo; é código do nosso bundle (funciona em instalação limpa). Hooks `createItem` (gated `userId`==quem adicionou; só em `character`) e `deleteItem` (limpa a AE). Verificado ao vivo (Everton: Força 0→1; remover o poder zera). Mesmo molde do [[deformidade]] (`src/deformidade/`).
 
 ### Acuidade com Arma — fix do ATAQUE (v1.68.0)
 
