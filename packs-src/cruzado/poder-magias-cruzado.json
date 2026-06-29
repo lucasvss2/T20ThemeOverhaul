@@ -1,5 +1,5 @@
 {
-  "name": "Magias Divinas",
+  "name": "Magias (Cruzado)",
   "type": "poder",
   "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
   "system": {
@@ -43,7 +43,32 @@
     "rolltags": [],
     "automationtags": []
   },
-  "effects": [],
+  "effects": [
+    {
+      "name": "Magias (Cruzado)",
+      "img": "icons/magic/holy/yin-yang-balance-symbol.webp",
+      "changes": [
+        {
+          "key": "system.attributes.pm.atributos.sab",
+          "value": "true",
+          "mode": 5,
+          "priority": null
+        }
+      ],
+      "disabled": false,
+      "transfer": true,
+      "duration": {},
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false
+        }
+      },
+      "_id": "MagCruzadoPMsab1",
+      "_key": "!items.effects!muBHyDy3Wh4FFXcC.MagCruzadoPMsab1"
+    }
+  ],
   "folder": null,
   "sort": 0,
   "ownership": {

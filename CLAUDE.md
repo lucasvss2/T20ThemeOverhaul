@@ -507,12 +507,13 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`). (Feito em v1.67.1 — os 7 já estão no bundled.)
 
 
-### Classe Cruzado — Clérigo variante (v1.69.0 compêndio · v1.70.0 mecânicas)
+### Classe Cruzado — Clérigo variante (v1.69.0 compêndio · v1.70.0 mecânicas · v1.70.1 Magias→PM)
 
 Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVER) com a classe + 7 poderes + mecânicas em `src/cruzado/index.ts`.
 
 - **Classe Cruzado** (`type:"classe"`): copia PV/PM do Clérigo (`pvPorNivel:4`, `pmPorNivel:5` — base 16+Con no 1º nível é regra do sistema), `pericias.numero:2`, `pericias.inatas` (Luta/Pontaria + Religião + 2), proficiências (marciais/pesadas/escudos) e a tabela de progressão na `description.value` (HTML). ⚠️ O Foundry T20 NÃO auto-concede habilidades — a tabela é descritiva; os poderes são itens separados que o jogador arrasta.
-- **Poderes** (`type:"poder"`, `tipo:"ability"`, `subtipo:"Cruzado"`): Devoto Fiel, Magias Divinas, Presente dos Deuses, Alma Guerreira, Fé Inabalável, Oração Marcial (`ativacao.custo:5`), Guerreiro Santificado.
+- **Poderes** (`type:"poder"`, `tipo:"ability"`, `subtipo:"Cruzado"`): Devoto Fiel, **Magias (Cruzado)**, Presente dos Deuses, Alma Guerreira, Fé Inabalável, Oração Marcial (`ativacao.custo:5`), Guerreiro Santificado.
+- **Magias (Cruzado) soma Sabedoria ao PM (v1.70.1):** o poder carrega um AE embutido `transfer:true` com change `{key:"system.attributes.pm.atributos.sab", value:"true", mode:OVERRIDE}` — idêntico ao "Magias (Clérigo)" nativo. `preparePVPM` soma ao PM cada atributo com `pm.atributos.<X>` truthy. ⚠️ **GOTCHA (T20):** o T20 NÃO usa o transfer nativo do Foundry — ele **copia** os efeitos `transfer:true` pro `actor.effects` no momento da CRIAÇÃO do item (cada cópia com `origin:Item.<id>`); efeitos de item NÃO aparecem em `allApplicableEffects()`. Logo, um AE adicionado a um item que JÁ está na ficha **não aplica** até re-adicionar o item. Cruzados que já tinham o antigo "Magias Divinas" (sem AE): apagar e re-arrastar "Magias (Cruzado)" do compêndio.
 - **Mecânicas (`src/cruzado/index.ts`, `setupCruzado()`), verificadas ao vivo no Everton (Cruzado nv8):**
   1. **Presente dos Deuses** — checkbox injetado na aba Aprimoramentos da arma (`renderItemSheet`, padrão do manopla), grava `flags.t20-theme-overhaul.presenteDosDeuses=true`. NÃO ocupa os 4 slots nem o de material; combina com Adamante. Base de detecção (`isGiftWeapon`+`isWeaponEquipped`→`findEquippedGift`) p/ as mecânicas 2 e 4.
   2. **Alma Guerreira** — `grantAlmaGuerreira`: com o presente EQUIPADO + o poder, ao entrar em combate (`combatStart`/`createCombatant`, GM eleito) ou ao equipar durante o combate (`updateItem`), PV temp = nível + Sab (não acumula: `max(curTemp, want)`; posta chat card). `computeAlmaGuerreiraTempHP` puro.
