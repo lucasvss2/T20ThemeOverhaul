@@ -507,6 +507,15 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`). (Feito em v1.67.1 — os 7 já estão no bundled.)
 
 
+### Classe Cruzado — Clérigo variante (v1.69.0, Fase 1: compêndio)
+
+Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVER) com a classe + 7 poderes, distribuído no módulo p/ instalação limpa. **Fase 1 = só os dados/itens** (arrastáveis pra ficha); as 4 mecânicas vêm na Fase 2.
+
+- **Classe Cruzado** (`type:"classe"`): copia PV/PM do Clérigo (`pvPorNivel:4`, `pmPorNivel:5` — base 16+Con no 1º nível é regra do sistema), `pericias.numero:2`, `pericias.inatas` (Luta/Pontaria + Religião + 2), proficiências (marciais/pesadas/escudos) e a tabela de progressão na `description.value` (HTML). ⚠️ O Foundry T20 NÃO auto-concede habilidades — a tabela é descritiva; os poderes são itens separados que o jogador arrasta.
+- **Poderes** (`type:"poder"`, `tipo:"ability"`, `subtipo:"Cruzado"`): Devoto Fiel, Magias Divinas, Presente dos Deuses, Alma Guerreira, Fé Inabalável, Oração Marcial (`ativacao.custo:5`), Guerreiro Santificado.
+- **Fase 2 (mecânicas, pendente):** (1) checkbox "Presente dos Deuses" na aba Aprimoramentos da arma (flag `flags.t20-theme-overhaul`, não ocupa os 4 slots nem o de material) — base p/ detectar "o presente"; (2) Alma Guerreira: presente equipado + entrar em combate → PV temp = nível+Sab; (3) Oração Marcial: clicar → 5 PM → buff (AE); (4) Guerreiro Santificado: presente equipado → −1 PM em habilidades que custam mana (estilo upgrade `harmonized`, `flags.tormenta20.custo:"-1"`).
+- **Estrutura de item de classe** (lida do Clérigo ao vivo): `{niveis, pvPorNivel, pmPorNivel, inicial, pericias:{inatas,numero}, rolls, ...}`. Item `poder`: `{ativacao:{custo,...}, duracao, efeito, tipo, subtipo, ...}` + AEs em `effects` (`flags.tormenta20.{onuse,self,custo,...}`).
+
 ### Acuidade com Arma — fix do ATAQUE (v1.68.0)
 
 `src/t20-fixes/acuidade-arma.ts`. Antes só patcheava o DANO; o ataque dependia do T20 nativo, que tem dois buracos (descobertos lendo `getAttackToHit` no `tormenta20.mjs`):
