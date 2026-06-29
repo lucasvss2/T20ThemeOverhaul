@@ -44,6 +44,7 @@ import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 import { setupAdamante } from "./adamante/index";
+import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
@@ -105,6 +106,7 @@ Hooks.once("setup", () => {
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
     setupAdamante();              // Material Adamante: arma (+1 passo de dano), armadura/escudo (RD), esotérico (reroll 1s)
+    setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
@@ -144,6 +146,8 @@ Hooks.once("ready", () => {
         (mod as unknown as { api: Record<string, unknown> }).api = {
             diagnoseAuras,
             captureActorAnimations,
+            cruzadoGrantAlmaGuerreira: grantAlmaGuerreira,
+            diagnoseCruzado,
         };
     }
     log("Pronto — overlay cinemático de dados Tormenta20 ativo.");

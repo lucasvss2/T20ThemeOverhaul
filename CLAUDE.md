@@ -17,7 +17,7 @@ Foundry VTT module for the **Tormenta20** system (`game.system.id = "tormenta20"
 
 ```bash
 npm run typecheck   # tsc --noEmit — must pass before any commit/tag
-npm test            # vitest run — 640 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
+npm test            # vitest run — 653 tests must pass (vitest exclui .claude/** — worktrees antigos poluem a suíte)
 npm run build       # Vite → dist/main.bundle.js
 npm run build:packs # compila packs-src/ → packs/ (compêndios LevelDB, via @foundryvtt/foundryvtt-cli)
 npm run dev         # watch mode
@@ -413,7 +413,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
   - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 640 testes / 37 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 653 testes / 38 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
@@ -507,13 +507,19 @@ No modal de resistência (`spell-resistance/index.ts`), reusando os helpers de `
 - **Promover bundled:** os 7 presets do Victor estão no override do mundo; para distribuí-los aos jogadores, mover a config pra `bundled-presets.ts` (`BUNDLED_ANIM_PRESETS.presets`). (Feito em v1.67.1 — os 7 já estão no bundled.)
 
 
-### Classe Cruzado — Clérigo variante (v1.69.0, Fase 1: compêndio)
+### Classe Cruzado — Clérigo variante (v1.69.0 compêndio · v1.70.0 mecânicas)
 
-Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVER) com a classe + 7 poderes, distribuído no módulo p/ instalação limpa. **Fase 1 = só os dados/itens** (arrastáveis pra ficha); as 4 mecânicas vêm na Fase 2.
+Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVER) com a classe + 7 poderes + mecânicas em `src/cruzado/index.ts`.
 
 - **Classe Cruzado** (`type:"classe"`): copia PV/PM do Clérigo (`pvPorNivel:4`, `pmPorNivel:5` — base 16+Con no 1º nível é regra do sistema), `pericias.numero:2`, `pericias.inatas` (Luta/Pontaria + Religião + 2), proficiências (marciais/pesadas/escudos) e a tabela de progressão na `description.value` (HTML). ⚠️ O Foundry T20 NÃO auto-concede habilidades — a tabela é descritiva; os poderes são itens separados que o jogador arrasta.
 - **Poderes** (`type:"poder"`, `tipo:"ability"`, `subtipo:"Cruzado"`): Devoto Fiel, Magias Divinas, Presente dos Deuses, Alma Guerreira, Fé Inabalável, Oração Marcial (`ativacao.custo:5`), Guerreiro Santificado.
-- **Fase 2 (mecânicas, pendente):** (1) checkbox "Presente dos Deuses" na aba Aprimoramentos da arma (flag `flags.t20-theme-overhaul`, não ocupa os 4 slots nem o de material) — base p/ detectar "o presente"; (2) Alma Guerreira: presente equipado + entrar em combate → PV temp = nível+Sab; (3) Oração Marcial: clicar → 5 PM → buff (AE); (4) Guerreiro Santificado: presente equipado → −1 PM em habilidades que custam mana (estilo upgrade `harmonized`, `flags.tormenta20.custo:"-1"`).
+- **Mecânicas (`src/cruzado/index.ts`, `setupCruzado()`), verificadas ao vivo no Everton (Cruzado nv8):**
+  1. **Presente dos Deuses** — checkbox injetado na aba Aprimoramentos da arma (`renderItemSheet`, padrão do manopla), grava `flags.t20-theme-overhaul.presenteDosDeuses=true`. NÃO ocupa os 4 slots nem o de material; combina com Adamante. Base de detecção (`isGiftWeapon`+`isWeaponEquipped`→`findEquippedGift`) p/ as mecânicas 2 e 4.
+  2. **Alma Guerreira** — `grantAlmaGuerreira`: com o presente EQUIPADO + o poder, ao entrar em combate (`combatStart`/`createCombatant`, GM eleito) ou ao equipar durante o combate (`updateItem`), PV temp = nível + Sab (não acumula: `max(curTemp, want)`; posta chat card). `computeAlmaGuerreiraTempHP` puro.
+  3. **Oração Marcial** — `createChatMessage` (autor) detecta o uso do poder (`data-item-id`→item `oracao marcial`) e aplica um AE buff "Oração Marcial" (`duration.seconds:86400`) no conjurador. O T20 já debita os 5 PM (`ativacao.custo`). Buff genérico (o poder concedido é escolhido manualmente). Dedup se já houver buff ativo.
+  4. **Guerreiro Santificado** — `syncGuerreiroSantificado` (gated `isMyUser`, em `createItem`/`deleteItem`/`updateItem` equip+flag, e `ready`): com o presente equipado + o poder, cria um AE no ator `system.modificadores.custoPM = -1` (mode ADD) → o T20 soma `custoPM` no custo de qualquer uso com mana (`manaCost = max(ativacao.custo,0) + custoPM`), reduzindo −1 em "habilidades que custam mana" (estilo upgrade `harmonized`). Some ao desequipar/remover o poder. A 1ª parte (Ataque Especial como guerreiro nv 20) é manual. ⚠️ Interpretação ampla (todo uso com mana, não só Ataque Especial), por pedido do usuário.
+- **Eleição de GM** (`isActiveGM`): mecânica 2 (combate) usa o GM de MENOR id ordenado — ⚠️ se a aba dele estiver em bundle antigo, não roda (gotcha multi-GM conhecido). Mecânicas 1/3/4 rodam no cliente do dono/autor (sem election).
+- **API de diagnóstico:** `game.modules.get(MODULE_ID).api.diagnoseCruzado(actor)` e `.cruzadoGrantAlmaGuerreira(actor)`.
 - **Estrutura de item de classe** (lida do Clérigo ao vivo): `{niveis, pvPorNivel, pmPorNivel, inicial, pericias:{inatas,numero}, rolls, ...}`. Item `poder`: `{ativacao:{custo,...}, duracao, efeito, tipo, subtipo, ...}` + AEs em `effects` (`flags.tormenta20.{onuse,self,custo,...}`).
 
 ### Acuidade com Arma — fix do ATAQUE (v1.68.0)
