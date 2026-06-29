@@ -16,10 +16,10 @@ describe("isAspiranteHeroiPoder", () => {
 });
 
 describe("buildAttrBonusChange", () => {
-    it("monta change +1 no bonus do atributo (mode ADD)", () => {
+    it("monta change +1 no .value do atributo (mode ADD, igual Aumento de Atributo)", () => {
         expect(buildAttrBonusChange("for")).toEqual({
-            key: "system.atributos.for.bonus", value: "1", mode: 2, priority: 20,
+            key: "system.atributos.for.value", value: "1", mode: 2, priority: null,
         });
-        expect(buildAttrBonusChange("sab").key).toBe("system.atributos.sab.bonus");
+        expect(buildAttrBonusChange("sab").key).toBe("system.atributos.sab.value");
     });
 });

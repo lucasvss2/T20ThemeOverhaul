@@ -35,11 +35,16 @@ export function isAspiranteHeroiPoder(item: ItemLike | null | undefined): boolea
     return normalizeCondName(item.name ?? "").includes(ASPIRANTE_NAME);
 }
 
-interface AEChange { key: string; value: string; mode: number; priority: number }
+interface AEChange { key: string; value: string; mode: number; priority: number | null }
 
-/** Change de AE para +1 no atributo escolhido (`system.atributos.<attr>.bonus`). */
+/**
+ * Change de AE para +1 no atributo escolhido. Mira `system.atributos.<attr>.value`
+ * (mode ADD) — EXATAMENTE como o poder nativo "Aumento de Atributo". É o `.value`
+ * (não `.bonus`) que as derivadas leem (PM/PV/perícias/Defesa), então só assim o
+ * bônus cascateia pra mana e afins. (`.bonus` é recomputado tarde demais.)
+ */
 export function buildAttrBonusChange(attrKey: string): AEChange {
-    return { key: `system.atributos.${attrKey}.bonus`, value: String(ATTR_BONUS), mode: 2, priority: 20 };
+    return { key: `system.atributos.${attrKey}.value`, value: String(ATTR_BONUS), mode: 2, priority: null };
 }
 
 /** Os atributos válidos do T20 (chaves de `CONFIG.T20.atributos`). */
