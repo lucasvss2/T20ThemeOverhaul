@@ -147,12 +147,41 @@ export function injectGiftCheckbox(root: ParentNode, item: ItemLike): boolean {
     else (tab as Element).insertAdjacentHTML("afterbegin", html);
 
     const input = tab.querySelector<HTMLInputElement>(`.${CHECKBOX_CLASS}-input`);
-    input?.addEventListener("change", () => {
-        const val = input.checked;
-        const it = item as unknown as { setFlag?: (s: string, k: string, v: unknown) => Promise<unknown> };
-        void it.setFlag?.(MODULE_ID, GIFT_FLAG, val);
-    });
+    input?.addEventListener("change", () => { void setGiftFlag(item, input.checked); });
     return true;
+}
+
+interface GiftToggleItem {
+    system?: { espacos?: number };
+    getFlag?: (scope: string, key: string) => unknown;
+    update?: (data: Record<string, unknown>) => Promise<unknown>;
+}
+
+/**
+ * Marca/desmarca a arma como Presente dos Deuses. Ao MARCAR, zera os espaços de
+ * inventário (regra "não ocupa espaços") guardando o valor original em
+ * `flags.<MODULE_ID>.espacosOrig`; ao DESMARCAR, restaura. Tudo num update só.
+ */
+async function setGiftFlag(item: ItemLike, val: boolean): Promise<void> {
+    const it = item as unknown as GiftToggleItem;
+    try {
+        if (val) {
+            const cur = Number(it.system?.espacos ?? 0) || 0;
+            await it.update?.({
+                [`flags.${MODULE_ID}.${GIFT_FLAG}`]: true,
+                [`flags.${MODULE_ID}.espacosOrig`]: cur,
+                "system.espacos": 0,
+            });
+        } else {
+            const orig = Number(it.getFlag?.(MODULE_ID, "espacosOrig") ?? it.system?.espacos ?? 0) || 0;
+            await it.update?.({
+                [`flags.${MODULE_ID}.${GIFT_FLAG}`]: false,
+                "system.espacos": orig,
+            });
+        }
+    } catch (err) {
+        warn(`cruzado: falha ao alternar Presente dos Deuses:`, err);
+    }
 }
 
 // ── Mecânica 2: Alma Guerreira (PV temporários ao entrar em combate) ─────────────

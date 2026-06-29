@@ -579,3 +579,32 @@
     overflow: visible !important;
     /* form is taller than window-content → window-content scrolls */
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * Selects / dropdowns legíveis no tema escuro (v1.72.0)
+ * As fichas de item do T20 (poder/magia/etc.) e os diálogos do módulo têm fundo
+ * escuro, mas o popup nativo de <option> herdava o "theme-light" (fundo claro,
+ * texto apagado — péssima legibilidade). Forçamos cores escuras + texto claro.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.tormenta20.sheet select,
+.application.tormenta20.sheet select,
+.t20-dialog select {
+    background-color: #1c1209 !important;
+    color: #f0ebe0 !important;
+    border: 1px solid #6a4e18 !important;
+}
+.tormenta20.sheet select option,
+.tormenta20.sheet select optgroup,
+.application.tormenta20.sheet select option,
+.application.tormenta20.sheet select optgroup,
+.t20-dialog select option,
+.t20-dialog select optgroup {
+    background-color: #1c1209 !important;
+    color: #f0ebe0 !important;
+}
+.tormenta20.sheet select option:checked,
+.application.tormenta20.sheet select option:checked,
+.t20-dialog select option:checked {
+    background-color: #6a4e18 !important;
+    color: #fff !important;
+}

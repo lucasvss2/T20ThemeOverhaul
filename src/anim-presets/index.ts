@@ -164,7 +164,7 @@ async function offerForItem(item: AAItem): Promise<void> {
 
     return new Promise<void>((resolve) => {
         const DialogCls = (globalThis as { Dialog?: unknown }).Dialog as {
-            new (cfg: unknown): { render(force: boolean): void };
+            new (cfg: unknown, opts?: unknown): { render(force: boolean): void };
         };
         const readDontAsk = (html: unknown): boolean => {
             const root = (html as { find?: (s: string) => { is?: (s: string) => boolean }[] });
@@ -197,7 +197,7 @@ async function offerForItem(item: AAItem): Promise<void> {
             },
             default: "apply",
             close: () => resolve(),
-        });
+        }, { classes: ["t20-dialog", "t20-anim-preset-dialog"] });
         dlg.render(true);
     });
 }
