@@ -46,6 +46,7 @@ import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
+import { setupEscudoLeve } from "./escudo-leve/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
@@ -109,6 +110,7 @@ Hooks.once("setup", () => {
     setupAdamante();              // Material Adamante: arma (+1 passo de dano), armadura/escudo (RD), esotérico (reroll 1s)
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
+    setupEscudoLeve();            // Escudo Leve: ocupa o antebraço (mão livre p/ objeto/arma/desarmado 2 mãos)
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
