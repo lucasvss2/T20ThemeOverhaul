@@ -82,6 +82,31 @@ function sceneFlag(eff: EffectDoc): boolean {
     return f?.durationScene === true;
 }
 
+/** "Efeitos de Uso": T20 applies these only during a roll — never durational. */
+function isOnUseEffect(eff: EffectDoc): boolean {
+    const f = eff.flags?.["tormenta20"] as { onuse?: unknown } | undefined;
+    return f?.onuse === true;
+}
+
+/** Genuine, finite `duracao.units` we auto-manage for status-less buffs. */
+const FINITE_BUFF_UNITS = new Set(["round", "turn", "scene", "sust", "day"]);
+
+/**
+ * A status-less BUFF is auto-managed ONLY when it carries a genuine finite
+ * duration: a real spell/power `duracao.units` (round/turn/scene/sust/day)
+ * resolved via origin, or a real turns-based effect duration.
+ *
+ * We deliberately do NOT trust `units: "inst"/"perm"/"special"` nor the bare
+ * `durationScene` flag: passive powers default to `duracao.units: "inst"`
+ * (e.g. Insolência, Golpista Divino, Resistência Elemental — permanent class/
+ * racial features), and `durationScene` is an unreliable T20 default that also
+ * lands on passive item/actor features. Trusting either previously tagged those
+ * passives as "scene" and DELETED them at encounter end (deleteCombat).
+ */
+export function hasFiniteBuffDuration(units: string | null | undefined, effDurationType?: string | null): boolean {
+    return FINITE_BUFF_UNITS.has((units ?? "").toLowerCase()) || effDurationType === "turns";
+}
+
 /** Resolve the source spell info from the effect `origin` (owned-item UUID). */
 function originInfo(eff: EffectDoc): {
     units?: string;
@@ -216,6 +241,7 @@ async function onCreateEffect(eff: EffectDoc, userId: string): Promise<void> {
     const actor = eff.parent;
     if (!actor || !actor.effects) return; // only actor-owned effects
     if (eff.transfer) return; // passive item-transferred features — not managed
+    if (isOnUseEffect(eff)) return; // "Efeitos de Uso" (onuse) — roll-time only, never durational
     // Derived/linked conditions (origin = another ActiveEffect) cascade with
     // their parent — T20 removes them when the parent goes. Never manage/prompt.
     if (isDerivedConditionOrigin(eff.origin)) return;
@@ -261,17 +287,17 @@ async function onCreateEffect(eff: EffectDoc, userId: string): Promise<void> {
         return;
     }
 
-    // 4) Buff (no statuses) with a temporal signal → auto-classify silently.
-    const hasTemporalSignal = !!info.units || sceneFlag(eff) || eff.duration?.type === "turns";
-    if (!hasTemporalSignal) return; // passive/permanent buff — leave it alone
+    // 4) Buff (no statuses). Manage ONLY with a genuine finite duration — see
+    // hasFiniteBuffDuration for why "inst"/"perm"/durationScene are ignored.
+    if (!hasFiniteBuffDuration(info.units, eff.duration?.type)) return; // passive/permanent feature — leave it alone
     const c = classifyDuration({
         effDuration: eff.duration,
         durationSceneFlag: sceneFlag(eff),
         parentUnits: info.units,
         parentValue: info.value,
     });
-    // Don't manage a buff we can't time (no parent units & landed on indeterminate).
-    if (c.kind === "indeterminate" && !info.units) return;
+    // Nothing timeable after classification → don't manage.
+    if (c.kind === "indeterminate") return;
     const dur = toDur(c, "spell", eff.name);
     if (c.kind === "sustained") dur.casterActorId = info.casterActorId;
     await applyClassified(eff, dur);
@@ -478,6 +504,36 @@ function doRest(): void {
     ).render(true);
 }
 
+// ── Migration: repair effects mis-tagged by earlier builds ───────────────────────
+
+/**
+ * Earlier builds mis-tagged PASSIVE features (powers with `duracao.units:"inst"`,
+ * equipment) and "Efeitos de Uso" (onuse) as scene-managed, which then DELETED
+ * them at encounter end (deleteCombat → onCombatEnd). Strip the `dur` flag from
+ * any managed effect the current rules would not manage. Idempotent; conditions
+ * (with statuses) and genuinely-timed buffs are left intact.
+ */
+async function healMistaggedEffects(): Promise<void> {
+    if (!isActiveGM()) return;
+    let healed = 0;
+    for (const actor of relevantActors()) {
+        for (const eff of ((actor.effects?.contents ?? []) as EffectDoc[])) {
+            if (!getDur(eff)) continue;
+            const statuses = effStatuses(eff);
+            const timeable = statuses.length > 0
+                || hasFiniteBuffDuration(originInfo(eff).units, eff.duration?.type);
+            if (!isOnUseEffect(eff) && timeable) continue;
+            try {
+                await eff.update({ [`flags.${MODULE_ID}.-=${DUR_FLAG}`]: null }, { render: false });
+                healed++;
+            } catch (e) {
+                warn("duration: heal falhou", e);
+            }
+        }
+    }
+    if (healed > 0) log(`duration: destagueados ${healed} efeito(s) passivo(s)/de-uso marcados por engano.`);
+}
+
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 function ensureStyles(): void {
@@ -531,6 +587,6 @@ export function setupDurationManager(): void {
         onClick: () => doRest(),
     });
 
-    Hooks.once("ready", () => refreshSkillsMenu());
+    Hooks.once("ready", () => { void healMistaggedEffects(); refreshSkillsMenu(); });
     log("Gerenciador de duração de buffs/condições instalado.");
 }

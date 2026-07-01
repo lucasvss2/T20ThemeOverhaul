@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { classifyDuration, manualChoice, isDerivedConditionOrigin } from "@/duration-manager/classify";
+import { hasFiniteBuffDuration } from "@/duration-manager/index";
 
 describe("classifyDuration", () => {
     it("classifies a real round-based effect (Adaga Mental → Atordoado)", () => {
@@ -99,6 +100,38 @@ describe("manualChoice", () => {
         expect(manualChoice("scene")).toEqual({ kind: "scene" });
         expect(manualChoice("day")).toEqual({ kind: "day" });
         expect(manualChoice("indeterminate")).toEqual({ kind: "indeterminate" });
+    });
+});
+
+describe("hasFiniteBuffDuration", () => {
+    it("manages status-less buffs with a real finite spell duration", () => {
+        for (const u of ["round", "turn", "scene", "sust", "day", "SCENE", "Day"]) {
+            expect(hasFiniteBuffDuration(u)).toBe(true);
+        }
+    });
+
+    it("does NOT manage passive powers whose duracao defaults to inst", () => {
+        // Regression: Insolência/Golpista Divino/Resistência Elemental are
+        // passive powers with units "inst" — must never be scene-managed/deleted.
+        expect(hasFiniteBuffDuration("inst")).toBe(false);
+    });
+
+    it("does NOT manage perm/special/empty/unknown units", () => {
+        expect(hasFiniteBuffDuration("perm")).toBe(false);
+        expect(hasFiniteBuffDuration("special")).toBe(false);
+        expect(hasFiniteBuffDuration("")).toBe(false);
+        expect(hasFiniteBuffDuration(null)).toBe(false);
+        expect(hasFiniteBuffDuration(undefined)).toBe(false);
+    });
+
+    it("manages a genuine turns-based effect duration even without units", () => {
+        expect(hasFiniteBuffDuration(null, "turns")).toBe(true);
+        expect(hasFiniteBuffDuration("inst", "turns")).toBe(true);
+    });
+
+    it("ignores non-turns effect duration types", () => {
+        expect(hasFiniteBuffDuration("inst", "none")).toBe(false);
+        expect(hasFiniteBuffDuration(undefined, "seconds")).toBe(false);
     });
 });
 
