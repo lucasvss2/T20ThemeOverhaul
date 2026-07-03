@@ -69,6 +69,40 @@ export function steppedWeaponDie(die: string, steps: number): string {
     return stepDie(die, table, steps);
 }
 
+// ── Proficiência (pura, testável) ─────────────────────────────────────────────
+
+export interface WeaponProficiency {
+    categories: Set<string>; // simples/marcial/exotica/fogo (system.tracos.profArmas.value)
+    custom: string[];        // nomes normalizados de armas específicas (profArmas.custom)
+    known: boolean;          // o personagem tem ALGUMA proficiência registrada?
+}
+
+interface ActorProfShape { system?: { tracos?: { profArmas?: { value?: unknown; custom?: unknown } } } }
+
+/** Lê as proficiências de arma do personagem (categorias + nomes específicos). */
+export function getActorWeaponProficiencies(actor: ActorProfShape | null | undefined): WeaponProficiency {
+    const p = actor?.system?.tracos?.profArmas;
+    const categories = new Set<string>(Array.isArray(p?.value) ? (p!.value as unknown[]).map(String) : []);
+    const custom = String(p?.custom ?? "")
+        .split(/[;,/\n]+/)
+        .map(s => normalizeCondName(s))
+        .filter(Boolean);
+    return { categories, custom, known: categories.size > 0 || custom.length > 0 };
+}
+
+/**
+ * O personagem é proficiente com esta arma? Por CATEGORIA (simples/marcial/…) ou
+ * por NOME específico (campo custom). Se o personagem NÃO tem nenhuma
+ * proficiência registrada (`known === false`), não escondemos nada (fallback:
+ * ficha incompleta não deve zerar a lista).
+ */
+export function isProficientWith(w: AberrantWeapon, prof: WeaponProficiency): boolean {
+    if (!prof.known) return true;
+    if (prof.categories.has(w.prof)) return true;
+    const wn = normalizeCondName(w.name);
+    return prof.custom.some(tok => wn === tok || (tok.length >= 4 && wn.includes(tok)));
+}
+
 // ── Construção do item de arma ────────────────────────────────────────────────
 
 function part(a: string, b = "", c = ""): string[] { return [a, b, c]; }
@@ -155,6 +189,7 @@ const STYLES = `
 .t20-aa-picker { display:flex; flex-direction:column; gap:.5em; max-height:70vh; }
 .t20-aa-picker .aa-search { width:100%; box-sizing:border-box; padding:.4em .6em; background:#1c1209; color:#f0ebe0; border:1px solid #6a4e18; border-radius:4px; }
 .t20-aa-picker .aa-info { color:#c8a96e; font-size:.85em; letter-spacing:.03em; }
+.t20-aa-picker .aa-prof { color:#9a8e7a; font-size:.8em; margin-top:-.2em; }
 .t20-aa-picker .aa-list { overflow-y:auto; max-height:56vh; padding-right:.3em; }
 .t20-aa-picker .aa-group { color:#9a8e7a; text-transform:uppercase; font-size:.72em; letter-spacing:.08em; margin:.6em 0 .2em; border-bottom:1px solid #6a4e18; padding-bottom:.15em; }
 .t20-aa-weapon { display:grid; grid-template-columns:1.4em 1fr auto; align-items:center; gap:.5em; padding:.25em .4em; border-radius:4px; cursor:pointer; }
@@ -191,11 +226,11 @@ function weaponRowHtml(w: AberrantWeapon, steps: number, fav: boolean): string {
     </div>`;
 }
 
-function renderList(root: HTMLElement, steps: number, filter: string): void {
+function renderList(root: HTMLElement, steps: number, filter: string, weapons: AberrantWeapon[]): void {
     const favs = getFavorites();
     const q = normalizeCondName(filter);
     const match = (w: AberrantWeapon): boolean => !q || normalizeCondName(w.name).includes(q);
-    const listed = ABERRANT_WEAPONS.filter(match);
+    const listed = weapons.filter(match);
 
     let html = "";
     const favWeapons = listed.filter(w => favs.has(normalizeCondName(w.name)));
@@ -217,13 +252,21 @@ function renderList(root: HTMLElement, steps: number, filter: string): void {
 async function openWeaponPicker(actor: ActorLike, steps: number): Promise<void> {
     ensureStyles();
     const otherCount = countOtherTormentaPowers(actorItems(actor));
-    const info = steps > 0
+    const prof = getActorWeaponProficiencies(actor as ActorProfShape);
+    const allowed = ABERRANT_WEAPONS.filter(w => isProficientWith(w, prof));
+
+    const stepInfo = steps > 0
         ? `+${steps} passo${steps > 1 ? "s" : ""} de dano (${otherCount} outros poderes da Tormenta)`
         : `Sem passo extra (${otherCount} outro${otherCount === 1 ? "" : "s"} poder${otherCount === 1 ? "" : "es"} da Tormenta — precisa de 2 por passo)`;
+    const CAT_LABEL: Record<string, string> = { simples: "simples", marcial: "marciais", exotica: "exóticas", fogo: "de fogo" };
+    const profInfo = prof.known
+        ? `Proficiente em: ${[...prof.categories].map(c => CAT_LABEL[c] ?? c).join(", ")}${prof.custom.length ? ` (+específicas)` : ""}`
+        : `⚠️ Nenhuma proficiência de arma registrada na ficha — exibindo todas`;
 
     const content = `<div class="t20-aa-picker">
         <input type="text" class="aa-search" placeholder="Buscar arma..." autofocus />
-        <div class="aa-info">${escHtml(info)}</div>
+        <div class="aa-info">${escHtml(stepInfo)}</div>
+        <div class="aa-info aa-prof">${escHtml(profInfo)}</div>
         <div class="aa-list"></div>
     </div>`;
 
@@ -235,21 +278,21 @@ async function openWeaponPicker(actor: ActorLike, steps: number): Promise<void> 
     const wire = (html: unknown): void => {
         const root = ((html as { 0?: HTMLElement })[0] ?? html) as HTMLElement;
         const el = root.querySelector<HTMLElement>(".t20-aa-picker") ?? root;
-        renderList(el, steps, "");
+        renderList(el, steps, "", allowed);
         const search = el.querySelector<HTMLInputElement>(".aa-search");
-        search?.addEventListener("input", () => renderList(el, steps, search.value));
+        search?.addEventListener("input", () => renderList(el, steps, search.value, allowed));
         el.addEventListener("click", (ev) => {
             const t = ev.target as HTMLElement;
             const star = t.closest<HTMLElement>("[data-star]");
             if (star) {
                 ev.stopPropagation();
-                void toggleFavorite(star.dataset["star"] ?? "").then(() => renderList(el, steps, search?.value ?? ""));
+                void toggleFavorite(star.dataset["star"] ?? "").then(() => renderList(el, steps, search?.value ?? "", allowed));
                 return;
             }
             const row = t.closest<HTMLElement>(".t20-aa-weapon");
             if (row) {
                 const key = row.dataset["key"];
-                const w = ABERRANT_WEAPONS.find(x => normalizeCondName(x.name) === key);
+                const w = allowed.find(x => normalizeCondName(x.name) === key);
                 if (w) { void createAberrantWeapon(actor, w, steps); dlg.close(); }
             }
         });

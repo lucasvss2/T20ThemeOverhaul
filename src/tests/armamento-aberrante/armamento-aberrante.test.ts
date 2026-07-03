@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import {
     countOtherTormentaPowers, computeDamageSteps, steppedWeaponDie, buildAberrantWeaponData,
+    getActorWeaponProficiencies, isProficientWith,
 } from "@/armamento-aberrante/index";
 import { ABERRANT_WEAPONS } from "@/armamento-aberrante/weapons";
 
@@ -83,6 +84,41 @@ describe("buildAberrantWeaponData", () => {
         };
         const dano = data.system.rolls.find(r => r.type === "dano")!;
         expect(dano.parts.length).toBe(1); // só o dado, sem @attr
+    });
+});
+
+describe("getActorWeaponProficiencies + isProficientWith", () => {
+    const w = (name: string) => ABERRANT_WEAPONS.find(x => x.name === name)!;
+
+    it("filtra por categoria (Everton: simples+marcial)", () => {
+        const prof = getActorWeaponProficiencies({ system: { tracos: { profArmas: { value: ["marcial", "simples"] } } } });
+        expect(prof.known).toBe(true);
+        expect(isProficientWith(w("Adaga"), prof)).toBe(true);      // simples
+        expect(isProficientWith(w("Katana"), prof)).toBe(false);    // exótica
+        expect(isProficientWith(w("Pistola"), prof)).toBe(false);   // fogo
+        expect(isProficientWith(w("Alabarda"), prof)).toBe(true);   // marcial
+    });
+
+    it("inclui armas de fogo/exóticas quando o personagem tem a categoria", () => {
+        const prof = getActorWeaponProficiencies({ system: { tracos: { profArmas: { value: ["exotica", "fogo"] } } } });
+        expect(isProficientWith(w("Katana"), prof)).toBe(true);
+        expect(isProficientWith(w("Mosquete"), prof)).toBe(true);
+        expect(isProficientWith(w("Adaga"), prof)).toBe(false);
+    });
+
+    it("honra proficiências específicas no campo custom (por nome)", () => {
+        const prof = getActorWeaponProficiencies({ system: { tracos: { profArmas: { value: [], custom: "Katana; Rapieira" } } } });
+        expect(prof.known).toBe(true);
+        expect(isProficientWith(w("Katana"), prof)).toBe(true);
+        expect(isProficientWith(w("Rapieira"), prof)).toBe(true);
+        expect(isProficientWith(w("Adaga"), prof)).toBe(false);
+    });
+
+    it("ficha SEM proficiência registrada → known=false → não esconde nada (fallback)", () => {
+        const prof = getActorWeaponProficiencies({ system: { tracos: { profArmas: { value: [] } } } }); // caso Lancry
+        expect(prof.known).toBe(false);
+        expect(isProficientWith(w("Katana"), prof)).toBe(true);
+        expect(isProficientWith(w("Bacamarte"), prof)).toBe(true);
     });
 });
 
