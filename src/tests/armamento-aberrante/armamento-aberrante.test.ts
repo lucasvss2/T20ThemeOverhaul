@@ -123,8 +123,15 @@ describe("getActorWeaponProficiencies + isProficientWith", () => {
 });
 
 describe("ABERRANT_WEAPONS", () => {
-    it("tem as 96 armas da lista", () => {
-        expect(ABERRANT_WEAPONS.length).toBe(96);
+    it("tem as 100 armas da lista", () => {
+        expect(ABERRANT_WEAPONS.length).toBe(100);
+    });
+    it("inclui as armas adicionadas dos suplementos", () => {
+        const names = new Set(ABERRANT_WEAPONS.map(w => w.name));
+        expect(names.has("Maça de guerra")).toBe(true);
+        expect(names.has("Cajado de batalha")).toBe(true);
+        expect(names.has("Machado de Lenha")).toBe(true);
+        expect(names.has("Pistola Tambor")).toBe(true);
     });
     it("todas têm categoria de proficiência válida", () => {
         const valid = new Set(["simples", "marcial", "exotica", "fogo"]);

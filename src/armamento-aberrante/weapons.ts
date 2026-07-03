@@ -131,6 +131,11 @@ const ROWS: Row[] = [
     ["Traque", "simples", "disparo", "leve", 19, 3, "", "2d6", "perfuracao", "", "pont"],
     ["Arcabuz", "fogo", "disparo", "duas", 19, 3, "medium", "2d10", "perfuracao", "", "pont"],
     ["Bacamarte", "fogo", "disparo", "duas", 19, 3, "", "4d6", "perfuracao", "", "pont"],
+    // Adições (compêndios T20/Suplementos — faltantes na lista original)
+    ["Maça de guerra", "exotica", "corpo-a-corpo", "uma", 20, 3, "", "1d12", "impacto", "@for", "luta"],
+    ["Cajado de batalha", "marcial", "corpo-a-corpo", "duas", 20, 2, "", "1d8", "impacto", "@for", "luta"],
+    ["Machado de Lenha", "simples", "corpo-a-corpo", "uma", 20, 3, "", "1d6", "corte", "", "luta"],
+    ["Pistola Tambor", "fogo", "disparo", "uma", 19, 3, "short", "2d6", "perfuracao", "", "pont"],
 ];
 
 export const ABERRANT_WEAPONS: AberrantWeapon[] = ROWS.map(([name, prof, proposito, empunhadura, criticoM, criticoX, alcance, die, tipoDano, danoAttr, ataqueAttr]) => ({
