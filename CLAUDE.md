@@ -111,6 +111,8 @@ src/
   adamante/index.ts            — Material Adamante: injeta templates de upgrade (arma=passo de dano, armadura/escudo=RD, esotérico=marker) em CONFIG.T20.upgrades
   adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
+  armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
+  armamento-aberrante/weapons.ts — Base EMPACOTADA de 96 armas (stats colhidos dos compêndios T20) p/ o seletor
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -414,7 +416,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
   - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 667 testes / 40 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 676 testes / 41 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
@@ -529,6 +531,18 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 ### Aspirante a herói — escolha de atributo (v1.71.0)
 
 `src/aspirante-heroi/index.ts`. Poder do **Atlas de Arton** ("Você recebe +1 em um atributo à sua escolha") sem mecânica nativa. Damos a ele o comportamento das raças que escolhem atributo (ex.: Humano): ao adicionar o poder a um personagem, abre um modal (Dialog) pra escolher 1 atributo e aplica **+1 PERMANENTE** via AE no ATOR (`system.atributos.<attr>.value` +1, mode ADD, `transfer:false`, `origin`=uuid do poder, flag `flags.t20-theme-overhaul.aspiranteHeroi`). ⚠️ **Mira `.value`, NÃO `.bonus`** (v1.71.1) — idêntico ao poder nativo "Aumento de Atributo". O `.value` é o que as derivadas leem (PM/PV/perícias/Defesa), então só assim o +1 cascateia pra "mana e afins"; AE em `.bonus` sobe o atributo mas é recomputado tarde demais e NÃO afeta as derivadas. Verificado ao vivo (Everton +1 Sab → PM 47→48, Vontade 16→17). Detecção por NOME (`isAspiranteHeroiPoder`, `normalizeCondName().includes("aspirante a heroi")`) — NÃO editamos o compêndio do outro módulo; é código do nosso bundle (funciona em instalação limpa). Hooks `createItem` (gated `userId`==quem adicionou; só em `character`) e `deleteItem` (limpa a AE). Verificado ao vivo (Everton: Força 0→1; remover o poder zera). Mesmo molde do [[deformidade]] (`src/deformidade/`).
+
+### Armamento Aberrante — arma orgânica (v1.74.0)
+
+`src/armamento-aberrante/`. Poder da Tormenta: gasta ação de movimento + 1 PM p/ produzir uma arma orgânica; **dano +1 passo para cada DOIS OUTROS poderes da Tormenta**; dura a cena.
+
+- **Trigger:** `createChatMessage` → `data-item-id` → item do ator com nome normalizado incluindo "armamento aberrante". O T20 **debita 1 PM nativo** (`ativacao.custo:1`, `automaticManaSpend` ON) — verificado ao vivo (Lancry PM 25→24). Gate ao autor + debounce 2s (o T20 pode postar >1 msg).
+- **Poderes da Tormenta = `system.subtipo === "Tormenta"`.** `countOtherTormentaPowers` exclui o próprio AA; `computeDamageSteps = floor(outros/2)` (Lancry: 3 outros → +1 passo).
+- **Passo de dano CRAVADO no item** (sem AE): `steppedWeaponDie` reusa `stepDie(die, CONFIG.T20.passosDano, steps)` do [[adamante]] e grava no `rolls[dano].parts[0][0]` do item criado. **⚠️ Sem Active Effects de propósito** (pedido do usuário: nada que possa remover passivos/atributos de outros poderes) — verificado: criar/dissolver NÃO toca nos poderes/itens existentes.
+- **Base de armas EMPACOTADA** (`weapons.ts`, 96 armas): stats colhidos ao vivo dos compêndios T20 instalados (base + Atlas/Heróis de Arton), tupla `[nome,prof,proposito,emp,critM,critX,alc,dado,tipoDano,danoAttr,ataqueAttr]`. **Regra de bundle** — não depende de compêndio de suplemento em instalação limpa. Reharvestar se precisar atualizar.
+- **Seletor** (Dialog `.t20-aa-dialog`): busca + **favoritos** (client setting `armamentoAberranteFavorites`, ★ persiste por usuário) + agrupado por proficiência; mostra o dado JÁ stepado (ex.: Katana 1d8→1d10). Selecionar cria a arma (`Nome (Aberrante)`, `espacos:0`, flag `flags.<MODULE_ID>.armamentoAberrante = {sceneId, createdWorldTime, baseDie, steps}`) + card verde. Verificado: T20 resolve `dano "1d10 + 6"`, crít 19, toHit +1.
+- **"Dura a cena":** dissolve manual via skills-menu (`armamento-aberrante-dissolver`) OU auto no `deleteCombat` (GM eleito = fim do encontro). Dissolve deleta APENAS itens com nossa flag + card cinza "se desfaz numa poça de gosma". Verificado ao vivo (Lancry, Katana criada/dissolvida sem colateral).
+- **Espada-Calibre**: incluída (proficiência exótica). Armas sem dado (Rede, Desmontador) entram sem passo.
 
 ### Escudo Leve — mão livre (v1.73.0)
 
