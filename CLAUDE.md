@@ -113,6 +113,7 @@ src/
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
   armamento-aberrante/weapons.ts — Base EMPACOTADA de 100 armas (stats colhidos dos compêndios T20) p/ o seletor
+  economia-habilidade/index.ts — Economia de Habilidade: reduz −1 PM (mín 1) de um poder escolhido; modal ao adicionar; restaura ao remover
   tests/
     parser/t20.test.ts         — Vitest unit tests for parseT20 (75 tests)
     setup.ts                   — Test environment setup
@@ -416,7 +417,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
   - **REGRA (sempre, a partir de v1.65.2):** imagens de atores/compêndio são **empacotadas no módulo** pra serem distribuídas aos jogadores. PNG vai em `public/assets/<subpasta>/...` (Vite copia `public/` → `dist/assets`; `release.yml` empacota `dist/assets` → `modules/t20-theme-overhaul/assets/...`) e o ator referencia **module-relative**: `modules/t20-theme-overhaul/assets/Amea%C3%A7as/<...>`. Arquivo no disco fica acentuado (`Ameaças`); referência no JSON fica URL-encoded.
   - **Legado:** atores antigos do bestiário ainda usam `assets/...` (resolve pra raiz do `Data/assets/Ameaças/`, exige cópia manual do usuário). Não migrados retroativamente — migrar sob demanda. Ex. já no padrão novo: Briar Casca-Pálida.
 - **`resolveNotify`** no `SpellResistPreRollRequest`: magias de área (Coluna de Chamas, Miasma) removem grid+animação quando TODOS os alvos resolvem o modal (socket por alvo → contagem no caster; fallback 90s; linger 2,5s sem alvos).
-- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 687 testes / 41 arquivos.
+- **vitest exclui `.claude/**`** — worktrees antigos do Claude carregavam cópias velhas dos testes contra o src ATUAL (via alias `@`), inflando/quebrando a suíte. Contagem real: 693 testes / 42 arquivos.
 - **`getTargetUserId`** (spell-resistance) = primeiro player dono ativo, senão PRIMEIRO GM ativo (ordem da coleção — qualquer GM); **`isActiveGM()`** (eleição p/ mutações) usa MENOR id ORDENADO entre GMs ativos — critérios DIFERENTES, não confundir. Os ids de usuário podem MUDAR (mundo recriado) — nunca hardcode.
 
 ### Reações — Parte 2b: Contramágica (v1.58.0)
@@ -543,6 +544,16 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Seletor** (Dialog `.t20-aa-dialog`): busca + **favoritos** (client setting `armamentoAberranteFavorites`, ★ persiste por usuário) + agrupado por proficiência; mostra o dado JÁ stepado (ex.: Katana 1d8→1d10). **Filtra por proficiência do personagem (v1.74.1):** `getActorWeaponProficiencies` lê `system.tracos.profArmas.value` (categorias simples/marcial/exotica/fogo) + `.custom` (armas específicas por nome); `isProficientWith` mostra só as proficientes. ⚠️ **Fallback:** ficha SEM nenhuma proficiência registrada (`known===false`, ex.: Lancry com `value:[]`) NÃO zera a lista — exibe todas + aviso "nenhuma proficiência registrada". Verificado ao vivo: simples+marcial → 59/96 armas, sem exóticas/fogo. Selecionar cria a arma (`Nome (Aberrante)`, `espacos:0`, flag `flags.<MODULE_ID>.armamentoAberrante = {sceneId, createdWorldTime, baseDie, steps}`) + card verde. Verificado: T20 resolve `dano "1d10 + 6"`, crít 19, toHit +1.
 - **"Dura a cena":** dissolve manual via skills-menu (`armamento-aberrante-dissolver`) OU auto no `deleteCombat` (GM eleito = fim do encontro). Dissolve deleta APENAS itens com nossa flag + card cinza "se desfaz numa poça de gosma". Verificado ao vivo (Lancry, Katana criada/dissolvida sem colateral).
 - **Espada-Calibre**: incluída (proficiência exótica). Armas sem dado (Rede, Desmontador) entram sem passo.
+
+### Economia de Habilidade — reduz PM de um poder (v1.75.0)
+
+`src/economia-habilidade/index.ts` + compêndio bundled `poderes` (`packs-src/poderes/economia-de-habilidade.json`, pack "T20 Overhaul — Poderes", type Item, ownership OBSERVER). Poder: "Escolha uma habilidade não mágica; seu custo em PM é reduzido em −1. Pode escolher outras vezes para habilidades diferentes."
+
+- **Trigger:** `createItem` (gated ao autor, só em `character`) do poder cujo nome normalizado inclui "economia de habilidade" → modal (Dialog `.t20-economia-dialog`) lista poderes candidatos → usuário escolhe.
+- **Candidato (`isEligibleTarget`):** `type:"poder"`, `ativacao.custo >= 2` (senão −1 zeraria — proibido), não é outro Economia, e não vinculado por outro Economia (`linkedItemIds`).
+- **Aplicar:** reduz `system.ativacao.custo` do alvo em 1 (`computeReducedCusto = max(1, orig-1)`) — é o que o T20 debita; **sem AE** (não mexe em passivos/atributos). Guarda `flags.<MODULE_ID>.economiaHabilidade = {linkedItemId, originalCusto, reducedCusto}` no Economia.
+- **Restaurar:** `deleteItem` do Economia → volta o custo do alvo ao `originalCusto`, MAS só se o custo atual ainda for o `reducedCusto` (não sobrescreve edição manual). Múltiplos Economia → cada um vincula um poder diferente.
+- **Limitação:** se não há candidato ao adicionar, avisa e fica sem vínculo (re-adicionar p/ vincular depois). Helpers puros `isEconomiaPower`/`computeReducedCusto`/`isEligibleTarget` testados. ⚠️ verificação ao vivo pendente (mundo estava trocando/instável na sessão).
 
 ### Escudo Leve — mão livre (v1.73.0)
 
