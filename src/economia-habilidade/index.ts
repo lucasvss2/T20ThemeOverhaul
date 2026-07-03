@@ -31,14 +31,25 @@ const FLAG = "economiaHabilidade";
 
 // ── Detecção / regras (puras, testáveis) ──────────────────────────────────────
 
+interface EffectLike {
+    id?: string | null;
+    flags?: { tormenta20?: { custo?: unknown; onuse?: unknown } };
+}
 interface ItemLike {
     id?: string | null;
     type?: string;
     name?: string;
     system?: { ativacao?: { custo?: number | null } };
+    effects?: { contents?: EffectLike[] } | EffectLike[];
     flags?: Record<string, Record<string, unknown> | undefined>;
 }
-interface EconLink { linkedItemId: string; originalCusto: number; reducedCusto: number }
+interface EffectCustoChange { effectId: string; original: string; reduced: string }
+interface EconLink {
+    linkedItemId: string;
+    originalCusto: number;
+    reducedCusto: number;
+    effectCustos?: EffectCustoChange[];
+}
 
 export function isEconomiaPower(item: ItemLike | null | undefined): boolean {
     return item?.type === "poder" && normalizeCondName(item.name ?? "").includes(POWER_NAME);
@@ -52,19 +63,37 @@ export function computeReducedCusto(original: number): number {
 function powerCusto(it: ItemLike): number {
     return Number(it?.system?.ativacao?.custo ?? 0) || 0;
 }
+function powerEffects(it: ItemLike): EffectLike[] {
+    const e = it?.effects;
+    return Array.isArray(e) ? e : (e?.contents ?? []);
+}
+function effectCusto(e: EffectLike): number {
+    return Number(e.flags?.tormenta20?.custo ?? 0) || 0;
+}
+/**
+ * Custo EFETIVO do poder = maior entre `ativacao.custo` e o custo dos "Efeitos de
+ * Uso" (`flags.tormenta20.custo`). Poderes de perícia/ataque (ex.: Audácia)
+ * cobram o PM pelo EFEITO, não pelo `ativacao.custo` — é o que os modais de teste
+ * mostram. Por isso a economia precisa reduzir os dois.
+ */
+export function powerEffectiveCusto(it: ItemLike): number {
+    let max = powerCusto(it);
+    for (const e of powerEffects(it)) max = Math.max(max, effectCusto(e));
+    return max;
+}
 function econLink(it: ItemLike): EconLink | undefined {
     return (it.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG] as EconLink | undefined;
 }
 
 /**
- * Um poder é candidato a receber a economia? Poder não-mágico (type poder),
- * custa 2+ PM (senão −1 zeraria), não é outro Economia de Habilidade, e ainda
- * não foi vinculado por outro Economia.
+ * Um poder é candidato a receber a economia? Poder não-mágico (type poder), com
+ * custo EFETIVO 2+ PM (senão −1 zeraria), não é outro Economia de Habilidade, e
+ * ainda não foi vinculado por outro Economia.
  */
 export function isEligibleTarget(it: ItemLike, linkedIds: Set<string>): boolean {
     if (it?.type !== "poder") return false;
     if (isEconomiaPower(it)) return false;
-    if (powerCusto(it) < 2) return false;
+    if (powerEffectiveCusto(it) < 2) return false;
     if (it.id && linkedIds.has(it.id)) return false;
     return true;
 }
@@ -79,6 +108,7 @@ interface ActorLike {
 interface ItemLikeRT extends ItemLike {
     parent?: ActorLike | null;
     update?(data: object, ctx?: object): Promise<unknown>;
+    updateEmbeddedDocuments?(type: string, updates: object[], ctx?: object): Promise<unknown>;
 }
 
 function actorItems(actor: ActorLike): ItemLikeRT[] {
@@ -112,18 +142,41 @@ export function economiaDisplayName(targetName: string): string {
     return `Economia de Habilidade (${targetName})`;
 }
 
-async function applyLink(econItem: ItemLikeRT, target: ItemLikeRT): Promise<void> {
+/** Reduz o custo dos "Efeitos de Uso" (custo 2+) do poder e retorna o que mudar. */
+function computeEffectReductions(target: ItemLikeRT): { updates: object[]; changes: EffectCustoChange[] } {
+    const updates: object[] = [];
+    const changes: EffectCustoChange[] = [];
+    for (const e of powerEffects(target)) {
+        const c = effectCusto(e);
+        if (c < 2 || !e.id) continue;
+        const rc = Math.max(1, c - 1);
+        updates.push({ _id: e.id, "flags.tormenta20.custo": String(rc) });
+        changes.push({ effectId: e.id, original: String(c), reduced: String(rc) });
+    }
+    return { updates, changes };
+}
+
+/** Aplica a redução no poder (ativacao.custo E custo dos Efeitos de Uso). */
+async function reduceTarget(target: ItemLikeRT): Promise<EconLink> {
     const original = powerCusto(target);
-    const reduced = computeReducedCusto(original);
+    const reduced = original >= 2 ? computeReducedCusto(original) : original;
+    if (original >= 2) await target.update?.({ "system.ativacao.custo": reduced });
+    const { updates, changes } = computeEffectReductions(target);
+    if (updates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", updates, { render: false });
+    return { linkedItemId: target.id ?? "", originalCusto: original, reducedCusto: reduced, effectCustos: changes };
+}
+
+async function applyLink(econItem: ItemLikeRT, target: ItemLikeRT): Promise<void> {
     try {
-        await target.update?.({ "system.ativacao.custo": reduced });
+        const link = await reduceTarget(target);
         // Renomeia SÓ esta instância (pode haver várias, cada uma p/ um poder).
         await econItem.update?.({
             name: economiaDisplayName(target.name ?? ""),
-            [`flags.${MODULE_ID}.${FLAG}`]: { linkedItemId: target.id, originalCusto: original, reducedCusto: reduced },
+            [`flags.${MODULE_ID}.${FLAG}`]: link,
         });
-        ui.notifications?.info(`Economia de Habilidade: "${target.name}" agora custa ${reduced} PM (era ${original}).`);
-        log(`Economia de Habilidade: ${target.name} ${original}→${reduced} PM.`);
+        const eff = powerEffectiveCusto(target);
+        ui.notifications?.info(`Economia de Habilidade: "${target.name}" agora custa ${Math.max(1, eff - 1)} PM (era ${eff}).`);
+        log(`Economia de Habilidade: ${target.name} custo efetivo ${eff}→${Math.max(1, eff - 1)}.`);
     } catch (e) {
         warn("economia-habilidade: falha ao aplicar", e);
     }
@@ -135,13 +188,47 @@ async function restoreLink(econItem: ItemLikeRT): Promise<void> {
     if (!actor || !link?.linkedItemId) return;
     const target = getItem(actor, link.linkedItemId);
     if (!target) return;
-    // Só restaura se ainda está no valor que reduzimos (não sobrescreve edição manual).
-    if (powerCusto(target) !== link.reducedCusto) return;
     try {
-        await target.update?.({ "system.ativacao.custo": link.originalCusto });
-        log(`Economia de Habilidade: restaurado "${target.name}" para ${link.originalCusto} PM.`);
+        // ativacao.custo — só restaura se ainda está no valor reduzido (não sobrescreve edição manual).
+        if (link.reducedCusto !== link.originalCusto && powerCusto(target) === link.reducedCusto) {
+            await target.update?.({ "system.ativacao.custo": link.originalCusto });
+        }
+        // Efeitos de Uso — restaura os custos reduzidos.
+        const effUpdates: object[] = [];
+        for (const ec of link.effectCustos ?? []) {
+            const e = powerEffects(target).find(x => x.id === ec.effectId);
+            if (e && String(effectCusto(e)) === ec.reduced) effUpdates.push({ _id: ec.effectId, "flags.tormenta20.custo": ec.original });
+        }
+        if (effUpdates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", effUpdates, { render: false });
+        log(`Economia de Habilidade: restaurado "${target.name}".`);
     } catch (e) {
         warn("economia-habilidade: falha ao restaurar", e);
+    }
+}
+
+/**
+ * Reconcilia vínculos existentes cujo custo de Efeito de Uso ainda não foi
+ * reduzido (links criados antes de v1.75.2). Idempotente. Roda no `ready` p/
+ * cada ator que o usuário possui.
+ */
+async function reconcileActor(actor: ActorLike & { isOwner?: boolean }): Promise<void> {
+    if (actor.type !== "character" || !actor.isOwner) return;
+    for (const econ of actorItems(actor)) {
+        if (!isEconomiaPower(econ)) continue;
+        const link = econLink(econ);
+        if (!link?.linkedItemId) continue;
+        if (link.effectCustos && link.effectCustos.length) continue; // já reconciliado
+        const target = getItem(actor, link.linkedItemId);
+        if (!target) continue;
+        const { updates, changes } = computeEffectReductions(target);
+        if (!changes.length) continue; // alvo não tem Efeito de Uso com custo
+        try {
+            await target.updateEmbeddedDocuments?.("ActiveEffect", updates, { render: false });
+            await (econ as ItemLikeRT).update?.({ [`flags.${MODULE_ID}.${FLAG}.effectCustos`]: changes });
+            log(`Economia de Habilidade: reconciliado custo de efeito de "${target.name}".`);
+        } catch (e) {
+            warn("economia-habilidade: falha ao reconciliar", e);
+        }
     }
 }
 
@@ -160,7 +247,7 @@ function openTargetModal(econItem: ItemLikeRT): void {
         return;
     }
     const options = targets.map(t => {
-        const c = powerCusto(t);
+        const c = powerEffectiveCusto(t);
         return `<option value="${esc(t.id ?? "")}">${esc(t.name ?? "")} — ${c} → ${computeReducedCusto(c)} PM</option>`;
     }).join("");
     const content = `
@@ -214,6 +301,12 @@ export function setupEconomiaHabilidade(): void {
         if (hookUserId(args) !== game.user?.id) return;
         if (!isEconomiaPower(item)) return;
         void restoreLink(item);
+    });
+
+    // Reconcilia vínculos antigos (que só reduziram ativacao.custo, não o Efeito de Uso).
+    Hooks.once("ready", () => {
+        const actors = (game.actors?.contents ?? []) as Array<ActorLike & { isOwner?: boolean }>;
+        for (const a of actors) void reconcileActor(a);
     });
 
     log("Economia de Habilidade: redução de custo de PM por habilidade ativa.");

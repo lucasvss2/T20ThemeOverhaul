@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { isEconomiaPower, computeReducedCusto, isEligibleTarget, economiaDisplayName } from "@/economia-habilidade/index";
+import { isEconomiaPower, computeReducedCusto, isEligibleTarget, economiaDisplayName, powerEffectiveCusto } from "@/economia-habilidade/index";
+
+// Poder com Efeito de Uso (onuse) que cobra PM pelo efeito — ex.: Audácia.
+const onusePoder = (name: string, ativCusto: number | null, effCusto: string, id = name) =>
+    ({ id, type: "poder", name, system: { ativacao: { custo: ativCusto } }, effects: { contents: [{ id: id + "-e", flags: { tormenta20: { custo: effCusto, onuse: true } } }] } });
 
 const poder = (name: string, custo: number | null = null, id = name) =>
     ({ id, type: "poder", name, system: { ativacao: { custo } } });
@@ -33,11 +37,23 @@ describe("computeReducedCusto", () => {
     });
 });
 
+describe("powerEffectiveCusto", () => {
+    it("usa o maior entre ativacao.custo e o custo do Efeito de Uso", () => {
+        // Audácia: ativacao já reduzido p/ 1, mas o efeito ainda cobra 2 → efetivo 2.
+        expect(powerEffectiveCusto(onusePoder("Audácia", 1, "2"))).toBe(2);
+        expect(powerEffectiveCusto(onusePoder("Audácia", 2, "2"))).toBe(2);
+        expect(powerEffectiveCusto(poder("Oração Marcial", 5))).toBe(5);
+    });
+});
+
 describe("isEligibleTarget", () => {
     const none = new Set<string>();
     it("aceita poderes que custam 2+ PM", () => {
         expect(isEligibleTarget(poder("Oração Marcial", 5), none)).toBe(true);
         expect(isEligibleTarget(poder("Presente dos Deuses", 2), none)).toBe(true);
+    });
+    it("aceita poder cujo custo vem do Efeito de Uso (Audácia), mesmo com ativacao 1", () => {
+        expect(isEligibleTarget(onusePoder("Audácia", 1, "2"), none)).toBe(true);
     });
     it("rejeita custo < 2 (reduzir zeraria) e sem custo", () => {
         expect(isEligibleTarget(poder("Armamento Aberrante", 1), none)).toBe(false);

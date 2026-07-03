@@ -203,6 +203,14 @@ export function openHiddenTestPlayerDialog(request: HiddenTestRequest): void {
             ${powersHtml}
             <div class="htg-divider"></div>
             <div class="form-group">
+                <label>MELHOR/PIOR DE 2D20</label>
+                <select name="roll2d20">
+                    <option value="normal">Normal</option>
+                    <option value="melhor">Melhor de 2d20</option>
+                    <option value="pior">Pior de 2d20</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>BÔNUS NO TESTE</label>
                 <input type="text" name="bonusExtra" value="" placeholder="ex. +1d4 ou -3" />
             </div>
@@ -225,6 +233,7 @@ export function openHiddenTestPlayerDialog(request: HiddenTestRequest): void {
                 callback: (_event, _button, dialog) => {
                     const root = dialog.element;
                     const bonusExtra = (root.querySelector<HTMLInputElement>('[name="bonusExtra"]')?.value ?? "").trim();
+                    const roll2d20 = (root.querySelector<HTMLSelectElement>('[name="roll2d20"]')?.value ?? "normal") as Roll2d20Mode;
                     const selected = Array.from(root.querySelectorAll<HTMLElement>(".htg-power-check:checked")).map((el) => ({
                         pm:         parseInt(el.dataset["pm"]       ?? "0", 10),
                         bonus:      el.dataset["bonus"]     ?? "",
@@ -232,7 +241,7 @@ export function openHiddenTestPlayerDialog(request: HiddenTestRequest): void {
                         bonusLabel: el.dataset["label"]     ?? "",
                         name:       el.dataset["name"]      ?? "",
                     }));
-                    void executeHiddenTestRoll(request, actorName, skillTotal, bonusExtra, selected);
+                    void executeHiddenTestRoll(request, actorName, skillTotal, bonusExtra, selected, roll2d20);
                 },
             },
         ],
@@ -253,18 +262,30 @@ export function openHiddenTestPlayerDialog(request: HiddenTestRequest): void {
 
 // ── Roll execution ────────────────────────────────────────────────────────────
 
+type Roll2d20Mode = "normal" | "melhor" | "pior";
+
+/** Dado-base do teste combinando vantagem (poder ou "Melhor") e desvantagem ("Pior"). */
+export function resolveRoll2d20(mode: Roll2d20Mode, powerAdvantage: boolean): string {
+    const adv = powerAdvantage || mode === "melhor";
+    const dis = mode === "pior";
+    if (adv && !dis) return "2d20kh1"; // melhor de 2d20
+    if (dis && !adv) return "2d20kl1"; // pior de 2d20
+    return "1d20";                      // normal (ou vantagem+desvantagem se anulam)
+}
+
 async function executeHiddenTestRoll(
     request: HiddenTestRequest,
     actorName: string,
     skillTotal: number,
     extraBonus: string,
     selectedPowers: Array<{ pm: number; bonus: string; advantage: boolean; bonusLabel: string; name: string }>,
+    roll2d20: Roll2d20Mode = "normal",
 ): Promise<void> {
     const gmBonus = request.gmBonus ?? 0;
     const baseBonus = skillTotal + gmBonus;
 
-    const hasAdvantage = selectedPowers.some((p) => p.advantage);
-    const parts: string[] = [hasAdvantage ? "2d20kh1" : "1d20"];
+    const powerAdvantage = selectedPowers.some((p) => p.advantage);
+    const parts: string[] = [resolveRoll2d20(roll2d20, powerAdvantage)];
 
     if (baseBonus !== 0) parts.push(baseBonus > 0 ? `+ ${baseBonus}` : `- ${Math.abs(baseBonus)}`);
 
