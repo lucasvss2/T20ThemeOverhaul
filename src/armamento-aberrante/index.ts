@@ -42,17 +42,48 @@ const WEAPON_IMG = "icons/magic/nature/root-vine-fire-entangled-hand.webp";
 
 // ── Regra de passos (pura, testável) ──────────────────────────────────────────
 
-interface PoderItem { type?: string; system?: { subtipo?: string }; name?: string }
+interface PoderItem { type?: string; name?: string; system?: { subtipo?: string; description?: { value?: string } } }
 
-/** Conta OUTROS poderes da Tormenta (subtipo "Tormenta") — exclui o próprio Armamento Aberrante. */
+/**
+ * Cláusula que faz um poder "contar como um poder da Tormenta" mesmo sem ter
+ * `subtipo:"Tormenta"`. Ex.: Couraça Rubra/Disforme (Kaijin), Deformidade
+ * (Lefou), Linhagem Rubra (+ Aprimorada/Superior), Apoteose Rubra — todos dizem
+ * "…conta como um poder da Tormenta…" na descrição. Genérico p/ pegar futuros.
+ */
+const TORMENTA_CLAUSE = /cont(a|am|ando)?\s+como\s+(um\s+|dois\s+)?poder(es)?\s+da\s+tormenta/;
+
+/** Descrição do poder sem HTML, normalizada (lower + sem acentos). */
+function powerDescNorm(it: PoderItem): string {
+    const raw = String(it.system?.description?.value ?? "").replace(/<[^>]+>/g, " ");
+    return normalizeCondName(raw);
+}
+
+/** O poder conta como "da Tormenta"? (subtipo OU cláusula na descrição). */
+export function isTormentaPower(it: PoderItem | null | undefined): boolean {
+    if (!it || it.type !== "poder") return false;
+    if (it.system?.subtipo === "Tormenta") return true;
+    return TORMENTA_CLAUSE.test(powerDescNorm(it));
+}
+
+/**
+ * Peso de um poder na contagem de "outros poderes da Tormenta":
+ *  - 0 se não conta (ou se for o próprio Armamento Aberrante).
+ *  - 2 para a Deformidade do Lefou ("cada um desses bônus [em DUAS perícias]
+ *    conta como um poder da Tormenta").
+ *  - 1 nos demais casos.
+ */
+export function tormentaPowerWeight(it: PoderItem): number {
+    if (!isTormentaPower(it)) return 0;
+    const name = normalizeCondName(it.name ?? "");
+    if (name.includes(POWER_NAME)) return 0;   // não conta a si mesmo
+    if (name.includes("deformidade")) return 2; // Lefou: dois bônus = dois poderes
+    return 1;
+}
+
+/** Conta OUTROS poderes da Tormenta (subtipo OU cláusula) — exclui o próprio AA. */
 export function countOtherTormentaPowers(items: PoderItem[]): number {
     let n = 0;
-    for (const it of items) {
-        if (it.type !== "poder") continue;
-        if (it.system?.subtipo !== "Tormenta") continue;
-        if (normalizeCondName(it.name ?? "").includes(POWER_NAME)) continue; // não conta a si mesmo
-        n++;
-    }
+    for (const it of items) n += tormentaPowerWeight(it);
     return n;
 }
 

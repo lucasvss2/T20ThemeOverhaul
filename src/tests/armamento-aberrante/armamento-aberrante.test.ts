@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import {
     countOtherTormentaPowers, computeDamageSteps, steppedWeaponDie, buildAberrantWeaponData,
-    getActorWeaponProficiencies, isProficientWith,
+    getActorWeaponProficiencies, isProficientWith, isTormentaPower, tormentaPowerWeight,
 } from "@/armamento-aberrante/index";
 import { ABERRANT_WEAPONS } from "@/armamento-aberrante/weapons";
 
@@ -18,6 +18,36 @@ beforeAll(() => {
     };
 });
 
+const mkPower = (name: string, subtipo?: string, desc?: string, type = "poder") =>
+    ({ type, name, system: { subtipo, description: { value: desc } } });
+
+describe("isTormentaPower + tormentaPowerWeight (cláusula)", () => {
+    it("detecta por subtipo Tormenta", () => {
+        expect(isTormentaPower(mkPower("Olhos Vermelhos", "Tormenta"))).toBe(true);
+    });
+    it("detecta pela cláusula na descrição (sem subtipo Tormenta)", () => {
+        const cour = mkPower("Couraça Rubra", "Kaijin", "<p>Você recebe RD 2. Sua couraça <b>conta como um poder da Tormenta</b>, exceto para perda de Carisma.</p>");
+        const disf = mkPower("Disforme", "Kaijin", "<p>Esta habilidade conta como um poder da Tormenta, exceto para perda de Carisma.</p>");
+        const linh = mkPower("Linhagem Rubra", "Arcanista", "<p>Esta herança conta como um poder da Tormenta.</p>");
+        expect(isTormentaPower(cour)).toBe(true);
+        expect(isTormentaPower(disf)).toBe(true);
+        expect(isTormentaPower(linh)).toBe(true);
+        expect(tormentaPowerWeight(cour)).toBe(1);
+    });
+    it("Deformidade (Lefou) pesa 2", () => {
+        const def = mkPower("Deformidade", "Lefou", "<p>+2 em duas perícias. Cada um desses bônus conta como um poder da Tormenta.</p>");
+        expect(isTormentaPower(def)).toBe(true);
+        expect(tormentaPowerWeight(def)).toBe(2);
+    });
+    it("não conta poderes sem subtipo nem cláusula", () => {
+        expect(isTormentaPower(mkPower("Ataque Poderoso", "Combate", "<p>+2 de dano.</p>"))).toBe(false);
+        expect(tormentaPowerWeight(mkPower("Ataque Poderoso", "Combate", "<p>+2 de dano.</p>"))).toBe(0);
+    });
+    it("o próprio Armamento Aberrante pesa 0 (não conta a si mesmo)", () => {
+        expect(tormentaPowerWeight(mkPower("Armamento Aberrante", "Tormenta"))).toBe(0);
+    });
+});
+
 describe("countOtherTormentaPowers", () => {
     const mk = (name: string, subtipo?: string, type = "poder") => ({ type, name, system: { subtipo } });
     it("conta poderes subtipo Tormenta, excluindo o próprio Armamento Aberrante", () => {
@@ -30,6 +60,15 @@ describe("countOtherTormentaPowers", () => {
             mk("Adaga", undefined, "arma"),    // não poder
         ];
         expect(countOtherTormentaPowers(items)).toBe(3);
+    });
+    it("soma poderes por cláusula + Deformidade(2)", () => {
+        const items = [
+            mkPower("Armamento Aberrante", "Tormenta"),
+            mkPower("Olhos Vermelhos", "Tormenta"),
+            mkPower("Couraça Rubra", "Kaijin", "<p>conta como um poder da Tormenta</p>"),
+            mkPower("Deformidade", "Lefou", "<p>Cada um desses bônus conta como um poder da Tormenta.</p>"),
+        ];
+        expect(countOtherTormentaPowers(items)).toBe(4); // 1 (Olhos) + 1 (Couraça) + 2 (Deformidade)
     });
     it("é 0 quando só tem o próprio poder", () => {
         expect(countOtherTormentaPowers([mk("Armamento Aberrante", "Tormenta")])).toBe(0);
