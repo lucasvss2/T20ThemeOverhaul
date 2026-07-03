@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isEconomiaPower, computeReducedCusto, isEligibleTarget } from "@/economia-habilidade/index";
+import { isEconomiaPower, computeReducedCusto, isEligibleTarget, economiaDisplayName } from "@/economia-habilidade/index";
 
 const poder = (name: string, custo: number | null = null, id = name) =>
     ({ id, type: "poder", name, system: { ativacao: { custo } } });
@@ -10,6 +10,17 @@ describe("isEconomiaPower", () => {
         expect(isEconomiaPower({ type: "poder", name: "Economia de Habilidade (2)" })).toBe(true);
         expect(isEconomiaPower(poder("Oração Marcial", 5))).toBe(false);
         expect(isEconomiaPower({ type: "magia", name: "Economia de Habilidade" })).toBe(false);
+    });
+});
+
+describe("economiaDisplayName", () => {
+    it("marca a habilidade afetada e continua sendo detectado como o poder", () => {
+        const name = economiaDisplayName("Oração Marcial");
+        expect(name).toBe("Economia de Habilidade (Oração Marcial)");
+        // o item renomeado ainda é reconhecido (detecção por includes)
+        expect(isEconomiaPower({ type: "poder", name })).toBe(true);
+        // e continua inelegível como alvo (não vincula um Economia a outro)
+        expect(isEligibleTarget({ id: "x", type: "poder", name, system: { ativacao: { custo: 3 } } }, new Set())).toBe(false);
     });
 });
 

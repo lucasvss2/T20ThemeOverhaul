@@ -551,9 +551,9 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 
 - **Trigger:** `createItem` (gated ao autor, só em `character`) do poder cujo nome normalizado inclui "economia de habilidade" → modal (Dialog `.t20-economia-dialog`) lista poderes candidatos → usuário escolhe.
 - **Candidato (`isEligibleTarget`):** `type:"poder"`, `ativacao.custo >= 2` (senão −1 zeraria — proibido), não é outro Economia, e não vinculado por outro Economia (`linkedItemIds`).
-- **Aplicar:** reduz `system.ativacao.custo` do alvo em 1 (`computeReducedCusto = max(1, orig-1)`) — é o que o T20 debita; **sem AE** (não mexe em passivos/atributos). Guarda `flags.<MODULE_ID>.economiaHabilidade = {linkedItemId, originalCusto, reducedCusto}` no Economia.
-- **Restaurar:** `deleteItem` do Economia → volta o custo do alvo ao `originalCusto`, MAS só se o custo atual ainda for o `reducedCusto` (não sobrescreve edição manual). Múltiplos Economia → cada um vincula um poder diferente.
-- **Limitação:** se não há candidato ao adicionar, avisa e fica sem vínculo (re-adicionar p/ vincular depois). Helpers puros `isEconomiaPower`/`computeReducedCusto`/`isEligibleTarget` testados. ⚠️ verificação ao vivo pendente (mundo estava trocando/instável na sessão).
+- **Aplicar:** reduz `system.ativacao.custo` do alvo em 1 (`computeReducedCusto = max(1, orig-1)`) — é o que o T20 debita; **sem AE** (não mexe em passivos/atributos). Guarda `flags.<MODULE_ID>.economiaHabilidade = {linkedItemId, originalCusto, reducedCusto}` no Economia + **renomeia SÓ esta instância** para `Economia de Habilidade (nome do alvo)` (`economiaDisplayName`, v1.75.1) — o `.includes("economia de habilidade")` continua detectando o item renomeado.
+- **Restaurar:** `deleteItem` do Economia → volta o custo do alvo ao `originalCusto`, MAS só se o custo atual ainda for o `reducedCusto` (não sobrescreve edição manual). Múltiplos Economia → cada um vincula um poder diferente (exclui já vinculados; renomeia independente).
+- **Limitação:** se não há candidato ao adicionar, avisa e fica sem vínculo (re-adicionar p/ vincular depois). Helpers puros `isEconomiaPower`/`computeReducedCusto`/`isEligibleTarget`/`economiaDisplayName` testados. **Verificado ao vivo (Aller, v1.75.1):** modal lista "Percepção Temporal 3→2 PM", reduz + renomeia "Economia de Habilidade (Percepção Temporal)"; 2º Economia exclui o já vinculado, renomeia independente; deletar restaura 3/4.
 
 ### Escudo Leve — mão livre (v1.73.0)
 

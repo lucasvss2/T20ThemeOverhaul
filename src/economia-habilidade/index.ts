@@ -107,12 +107,21 @@ function eligibleTargets(actor: ActorLike): ItemLikeRT[] {
 
 // ── Aplicar / restaurar ───────────────────────────────────────────────────────
 
+/** Nome desta instância do poder, marcando a habilidade que ela afeta. */
+export function economiaDisplayName(targetName: string): string {
+    return `Economia de Habilidade (${targetName})`;
+}
+
 async function applyLink(econItem: ItemLikeRT, target: ItemLikeRT): Promise<void> {
     const original = powerCusto(target);
     const reduced = computeReducedCusto(original);
     try {
         await target.update?.({ "system.ativacao.custo": reduced });
-        await econItem.update?.({ [`flags.${MODULE_ID}.${FLAG}`]: { linkedItemId: target.id, originalCusto: original, reducedCusto: reduced } });
+        // Renomeia SÓ esta instância (pode haver várias, cada uma p/ um poder).
+        await econItem.update?.({
+            name: economiaDisplayName(target.name ?? ""),
+            [`flags.${MODULE_ID}.${FLAG}`]: { linkedItemId: target.id, originalCusto: original, reducedCusto: reduced },
+        });
         ui.notifications?.info(`Economia de Habilidade: "${target.name}" agora custa ${reduced} PM (era ${original}).`);
         log(`Economia de Habilidade: ${target.name} ${original}→${reduced} PM.`);
     } catch (e) {
