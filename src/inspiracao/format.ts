@@ -118,12 +118,21 @@ export function arteMagicaCdChanges(hasArteMagica: boolean): AEChangeLike[] {
     return hasArteMagica ? [{ key: "system.attributes.cd", mode: 2, value: "2", priority: 20 }] : [];
 }
 
-// ── Instrumentos ───────────────────────────────────────────────────────────────
+// ── Instrumentos / materiais ────────────────────────────────────────────────
 
-/** Cornamusa de Doherimm: custo da Inspiração reduzido em −1 PM (mín. 1). */
-export function cornamusaAdjustedCost(baseCost: number, hasCornamusa: boolean): number {
+/**
+ * Custo da Inspiração com reduções (Cornamusa −1, Madeira Tollon −1) — **nunca
+ * abaixo de 1 PM** (regra do usuário: custo de habilidade não fica < 1).
+ */
+export function adjustInspiracaoCost(baseCost: number, reductions: number): number {
     const c = Math.max(0, Math.floor(baseCost || 0));
-    return hasCornamusa ? Math.max(1, c - 1) : c;
+    const r = Math.max(0, Math.floor(reductions || 0));
+    return Math.max(1, c - r);
+}
+
+/** Aço-Rubi: no 1d4, um resultado 1 evita o dano extra do crítico. */
+export function acoRubiNegatesCrit(d4: number): boolean {
+    return Math.floor(d4 || 0) === 1;
 }
 
 /** Clarim Deheoni: +1 em testes de resistência das criaturas sob a Inspiração. */

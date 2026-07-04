@@ -36,7 +36,7 @@ import {
     computeFinalBonus,
     espirituosaPmTemp,
     arteMagicaCdChanges,
-    cornamusaAdjustedCost,
+    adjustInspiracaoCost,
     clarimResistChanges,
     tamboreteMoveChanges,
     norm,
@@ -74,6 +74,7 @@ interface ApplyPayload {
     casterExtraChanges: AEChange[]; // Arte Mágica: +2 CD SÓ na AE do bardo
     tempPv: number;      // Revigorante: 5× bônus (0 = sem)
     tempPm: number;      // Espirituosa: = bônus, 1ª vez no combate (0 = sem)
+    acoRubi: boolean;    // Aço-Rubi: marca a AE do alvo com proteção vs crítico
     aeName: string;
     aeIcon: string;
     createdWorldTime: number;
@@ -162,18 +163,31 @@ function hasEquippedInstrument(actor: FoundryActor, key: string): boolean {
 }
 
 /**
- * Algum instrumento musical EQUIPADO com material Adamante? O +1 fica **ligado
- * ao item** pelo slot de material do T20 (`system.upgrades.material === "adamant"`,
- * igual às armas) e só vale com o item equipado — NÃO detectamos por nome (o
- * material tem que estar selecionado no aprimoramento). Ver `src/adamante`
- * (`tools.adamant`) que registra o material como Automatizado para ferramentas.
+ * Algum instrumento musical EQUIPADO com o material `materialKey` no slot de
+ * material do T20 (`system.upgrades.material`, igual às armas). O efeito fica
+ * **ligado ao item** — NÃO detectamos por nome (o material tem que estar
+ * selecionado no aprimoramento). Ver `src/adamante`, que registra os materiais
+ * (`tools.<key>`) como Automatizado para ferramentas.
+ * Keys T20 (`CONFIG.T20.specialMaterials`): adamant, ruby-steel, dark-wood, mithril.
  */
-function hasAdamanteInstrument(actor: FoundryActor): boolean {
+function hasInstrumentMaterial(actor: FoundryActor, materialKey: string): boolean {
     return actorItems(actor).some((it) => {
         if (!isEquipped(it) || !isInstrumentName(it.name)) return false;
         const mat = (it.system as { upgrades?: { material?: string } } | undefined)?.upgrades?.material;
-        return mat === "adamant";
+        return mat === materialKey;
     });
+}
+
+const hasAdamanteInstrument = (actor: FoundryActor): boolean => hasInstrumentMaterial(actor, "adamant");
+
+/**
+ * Reduções de custo da Inspiração: Cornamusa de Doherimm (instrumento vestido)
+ * e Madeira Tollon (material). −1 PM cada; o piso de 1 é aplicado por
+ * `adjustInspiracaoCost`.
+ */
+function costReductions(actor: FoundryActor): number {
+    return (hasEquippedInstrument(actor, "cornamusa") ? 1 : 0)
+        + (hasInstrumentMaterial(actor, "dark-wood") ? 1 : 0);
 }
 
 /** Nomes de instrumentos musicais reconhecidos (para o gate do Adamante). */
@@ -211,8 +225,8 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     const level = bardLevel(actor);
     const pm = currentPm(actor);
     const maxByLevel = maxBonusForLevel(level);
-    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
-    const costFor = (b: number): number => cornamusaAdjustedCost(pmCostForBonus(b), cornamusa);
+    const reductions = costReductions(actor); // Cornamusa + Madeira Tollon (−1 cada)
+    const costFor = (b: number): number => adjustInspiracaoCost(pmCostForBonus(b), reductions);
 
     // Maior bônus base (limitado por nível) que os PM pagam já com o desconto.
     let maxBase = 0;
@@ -227,6 +241,10 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     const adam = hasAdamanteInstrument(actor);
     const clarim = hasEquippedInstrument(actor, "clarim");
     const tamborete = hasEquippedInstrument(actor, "tamborete");
+    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
+    const madeiraTollon = hasInstrumentMaterial(actor, "dark-wood");
+    const mitral = hasInstrumentMaterial(actor, "mithril");
+    const acoRubi = hasInstrumentMaterial(actor, "ruby-steel");
     const imps = knownImprovements(actor);
     const extraNotes: string[] = [];
     if (imps.has("marcial")) extraNotes.push("Marcial (+bônus no dano)");
@@ -239,6 +257,9 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     if (clarim) extraNotes.push("Clarim (+1 resistência)");
     if (tamborete) extraNotes.push("Tamborete (+3 m deslocamento)");
     if (cornamusa) extraNotes.push("Cornamusa (custo −1 PM, −2 Defesa)");
+    if (madeiraTollon) extraNotes.push("Madeira Tollon (custo −1 PM)");
+    if (acoRubi) extraNotes.push("Aço-Rubi (25% de evitar dano extra de crítico)");
+    if (mitral) extraNotes.push("Mitral (ação de movimento)");
 
     const options = [];
     for (let b = 1; b <= maxByLevel; b++) {
@@ -287,8 +308,7 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
 // ── Execução ──────────────────────────────────────────────────────────────────
 
 async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: number): Promise<void> {
-    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
-    const totalPm = cornamusaAdjustedCost(pmCostForBonus(base), cornamusa); // Cornamusa: −1 PM
+    const totalPm = adjustInspiracaoCost(pmCostForBonus(base), costReductions(actor)); // Cornamusa/Madeira Tollon
     const gaitaEquipped = hasGaitaDeFoles(actor);
     const adam = hasAdamanteInstrument(actor);
 
@@ -353,9 +373,13 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
     ];
     if (imps.has("marcial")) changes.push({ key: "system.modificadores.dano.geral", mode: 2, value: String(bonus), priority: 20 });
     if (imps.has("resoluta")) changes.push({ key: "system.attributes.defesa.bonus", mode: 2, value: String(bonus), priority: 20 });
-    // Instrumentos que buffam os alvos sob a Inspiração.
+    // Instrumentos/materiais que buffam os alvos sob a Inspiração.
     const clarim = hasEquippedInstrument(actor, "clarim");
     const tamborete = hasEquippedInstrument(actor, "tamborete");
+    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
+    const madeiraTollon = hasInstrumentMaterial(actor, "dark-wood");
+    const mitral = hasInstrumentMaterial(actor, "mithril");
+    const acoRubi = hasInstrumentMaterial(actor, "ruby-steel");
     changes.push(...clarimResistChanges(clarim));    // Clarim: +1 resistência
     changes.push(...tamboreteMoveChanges(tamborete)); // Tamborete: +3 m deslocamento
     const tempPv = imps.has("revigorante") ? 5 * bonus : 0;
@@ -378,6 +402,7 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         casterExtraChanges,
         tempPv,
         tempPm,
+        acoRubi, // Aço-Rubi: proteção 25% vs dano extra de crítico (marcada na AE do alvo)
         aeName: `Inspiração (+${bonus})`,
         aeIcon: realItem.img || "icons/svg/sound.svg",
         createdWorldTime: game.time?.worldTime ?? 0,
@@ -392,7 +417,7 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         tempPv,
         tempPm,
         arteMagica: casterExtraChanges.length > 0,
-        clarim, tamborete, cornamusa,
+        clarim, tamborete, cornamusa, madeiraTollon, mitral, acoRubi,
         targets: targetTokens.map((t) => t.actor?.name ?? "?"),
     });
     refreshSkillsMenu();
@@ -435,6 +460,7 @@ async function applyInspiracaoGM(payload: ApplyPayload): Promise<void> {
                             casterName: payload.casterName,
                             bonus: payload.bonus,
                             createdWorldTime: payload.createdWorldTime,
+                            acoRubi: payload.acoRubi,
                         },
                     },
                 },
@@ -473,6 +499,25 @@ function inspEffectsOf(actor: FoundryActor, casterActorId?: string): InspEffect[
         if (!meta) return false;
         return casterActorId ? meta.casterActorId === casterActorId : true;
     });
+}
+
+/**
+ * Aço-Rubi — contexto de proteção do ATOR (alvo). Retorna os casters cujas
+ * Inspirações ativas nele têm o material Aço-Rubi (`acoRubi:true`). Consumido
+ * pelo auto-damage: no crítico, oferece 1d4 → no 1, ignora o dano extra.
+ * Prefere resolver o ator pelo TOKEN (NPCs unlinked têm actor sintético).
+ */
+export function getAcoRubiContextForActor(actorId: string, tokenId?: string): Array<{ casterName: string }> {
+    const tok = tokenId ? canvas?.tokens?.get(tokenId) : null;
+    const actor = (tok?.actor ?? game.actors?.get(actorId)) as FoundryActor | null;
+    if (!actor) return [];
+    const out: Array<{ casterName: string }> = [];
+    for (const e of inspEffectsOf(actor)) {
+        const meta = (e.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[FLAG_KEY] as
+            | { acoRubi?: boolean; casterName?: string } | undefined;
+        if (meta?.acoRubi) out.push({ casterName: meta.casterName ?? "Bardo" });
+    }
+    return out;
 }
 
 async function removeInspiracaoFrom(actor: FoundryActor, casterActorId?: string): Promise<number> {
@@ -541,6 +586,9 @@ interface CardInfo {
     clarim?: boolean;
     tamborete?: boolean;
     cornamusa?: boolean;
+    madeiraTollon?: boolean;
+    mitral?: boolean;
+    acoRubi?: boolean;
     targets: string[];
 }
 
@@ -566,6 +614,9 @@ async function postCard(casterName: string, info: CardInfo): Promise<void> {
     if (info.clarim) extras.push("+1 resist. (Clarim)");
     if (info.tamborete) extras.push("+3 m desloc. (Tamborete)");
     if (info.cornamusa) extras.push("custo −1 (Cornamusa)");
+    if (info.madeiraTollon) extras.push("custo −1 (Madeira Tollon)");
+    if (info.acoRubi) extras.push("25% vs crítico (Aço-Rubi)");
+    if (info.mitral) extras.push("ação de movimento (Mitral)");
     const extraHtml = extras.length ? `<div class="insp-card-extra">${esc(extras.join(" · "))}</div>` : "";
     const tgts = info.targets.length ? esc(info.targets.join(", ")) : "nenhum alvo em alcance";
     const content =
@@ -669,6 +720,32 @@ async function onCombatEnd(): Promise<void> {
     refreshSkillsMenu();
 }
 
+// ── Materiais de instrumento: registra em CONFIG.T20.upgrades.tools ────────────
+// Faz "Aço-Rubi / Madeira Tollon / Mitral" aparecerem como Automatizado no slot
+// de material das ferramentas (igual ao `tools.adamant` do src/adamante). São
+// MARCADORES (sem changes) — os efeitos reais são lógica custom (Aço-Rubi no
+// auto-damage; Madeira Tollon no custo; Mitral é informativo).
+
+function injectInspiracaoMaterials(): void {
+    const upgrades = (CONFIG as unknown as { T20?: { upgrades?: { tools?: Record<string, unknown> & { status?: Record<string, string> } } } }).T20?.upgrades;
+    const tools = upgrades?.tools;
+    if (!tools) { warn("Inspiração: CONFIG.T20.upgrades.tools não encontrado — materiais não registrados."); return; }
+    const mats: Array<[string, string, string]> = [
+        ["ruby-steel", "Aço-Rubi", "Aço-Rubi: criaturas sob sua Inspiração têm 25% de evitar o dano extra de acerto crítico e ataques furtivos."],
+        ["dark-wood", "Madeira Tollon", "Madeira Tollon: reduz em −1 PM (mín. 1) o custo das habilidades de bardo."],
+        ["mithril", "Mitral", "Mitral: a ação para usar Inspiração é reduzida em um passo (padrão → movimento)."],
+    ];
+    tools.status ??= {};
+    for (const [key, label, desc] of mats) {
+        tools[key] = {
+            name: label, description: desc, tint: "#8a2b3a", changes: [],
+            flags: { tormenta20: { onuse: false, durationScene: false, upgrade: key, self: false } },
+            disabled: false, transfer: true,
+        };
+        tools.status[key] = "DONE";
+    }
+}
+
 // ── Cornamusa de Doherimm: −2 Defesa enquanto vestida ─────────────────────────
 // Penalidade PERSISTENTE do instrumento (não do cast). Sincronizada por equip:
 // AE no ator com nosso flag, criada quando a cornamusa está equipada e removida
@@ -710,6 +787,10 @@ function isMyUser(userId: string | undefined): boolean {
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 export function setupInspiracao(): void {
+    // Registra os materiais de instrumento (Aço-Rubi/Madeira Tollon/Mitral) como
+    // Automatizado — mesmo momento (hook setup) em que o src/adamante roda.
+    try { injectInspiracaoMaterials(); } catch (e) { warn("Inspiração: injeção de materiais falhou:", e); }
+
     onSocketReady((socket) => {
         socket.register(SOCKET_APPLY, (payload: unknown) => applyInspiracaoGM(payload as ApplyPayload));
     });

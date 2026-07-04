@@ -16,6 +16,8 @@ import {
     getAmigoProtetorOption, resolveAmigoProtetor, splitAmigoProtetor,
 } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
+import { getAcoRubiContextForActor } from "@/inspiracao/index";
+import { acoRubiNegatesCrit } from "@/inspiracao/format";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
 import { extractDamageType, computeTargetRd } from "./rd";
 import AUTO_DAMAGE_STYLES from "./auto-damage.css?inline";
@@ -416,6 +418,25 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
 
 // ── Damage prompt dialog ──────────────────────────────────────────────────────
 
+async function postAcoRubiCard(
+    negated: boolean, d4: number, critDmg: number, finalDmg: number,
+    targetName: string, casters: string,
+): Promise<void> {
+    const border = negated ? "#c8a96e" : "#9a8e7a";
+    const title = `💎 Aço-Rubi — ${esc(targetName)}`;
+    const body = negated
+        ? `Rolou <b>1</b> no 1d4 — dano extra do crítico <b>ignorado</b> (${critDmg} → <b>${finalDmg}</b>). <i>${esc(casters)}</i>`
+        : `Rolou <b>${d4}</b> no 1d4 — não evitou; o crítico causa dano normal (${critDmg}).`;
+    const content =
+        `<div class="t20-inspiracao-card"${negated ? "" : ' style="border-color:' + border + '"'}>` +
+        `<div class="insp-card-title">${title}</div>` +
+        `<div class="insp-card-sub">${body}</div>` +
+        `</div>`;
+    try {
+        await ChatMessage.create({ speaker: { alias: targetName }, content, flags: { [MODULE_ID]: { acoRubiCard: true } } } as Record<string, unknown>);
+    } catch { /* ignore */ }
+}
+
 function openDamagePrompt(req: AutoDamageRequest): void {
     ensureStyles();
 
@@ -447,6 +468,14 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const invencContext = getAuraInvencibilidadeContextForActor(req.targetActorId, req.targetTokenId);
     const hasInvenc     = invencContext.length > 0;
     const invencCasters = invencContext.map(c => c.casterName).join(" + ");
+
+    // Aço-Rubi (Inspiração do Bardo) — só em CRÍTICO (req.baseDamageFormula só é
+    // setado quando o ataque original foi crítico). No 1d4, um 1 ignora o dano
+    // EXTRA do crítico (o alvo sofre só o dano base, não-multiplicado).
+    const acoRubiCtx     = getAcoRubiContextForActor(req.targetActorId, req.targetTokenId);
+    const wasCrit        = !!req.baseDamageFormula;
+    const hasAcoRubi     = wasCrit && acoRubiCtx.length > 0;
+    const acoRubiCasters = acoRubiCtx.map(c => c.casterName).join(" + ");
 
     // Reações de defesa (bloqueio pré-rolagem) — só quando o bônus transformaria
     // o acerto em erro. E reações pós-dano (redução) que o alvo possa usar.
@@ -516,6 +545,11 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-invenc" data-skill="invenc">
             <span class="aad-skill-name"><i class="fas fa-shield-heart"></i> Aura de Invencibilidade</span>
             <span class="aad-skill-sub">ignora o dano · ${esc(invencCasters)}</span></button>`);
+    }
+    if (hasAcoRubi) {
+        skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-reduce" data-skill="acorubi">
+            <span class="aad-skill-name"><i class="fas fa-gem"></i> Aço-Rubi (crítico)</span>
+            <span class="aad-skill-sub">1d4 → no 1, ignora o dano extra do crítico · ${esc(acoRubiCasters)}</span></button>`);
     }
     if (presencaOption) {
         skillBtns.push(`<button type="button" class="aad-skill-btn aad-skill-counter" data-skill="presenca">
@@ -621,6 +655,29 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         });
         if (pm > 0) void applyDamage(req.targetTokenId, req.targetActorId, 0, pm,
             { kind: "pm-cost", source: req.attackerName });
+    };
+
+    // Aço-Rubi: rola 1d4; no 1, o alvo sofre só o dano BASE (não-crítico) —
+    // ignora o dano extra do crítico. Fora do 1, não muda nada (o rodapé aplica
+    // o dano do crítico normalmente).
+    const doAcoRubi = async (root: HTMLElement): Promise<void> => {
+        const d4 = new Roll("1d4");
+        await d4.evaluate();
+        const r = d4.total ?? 0;
+        const negates = acoRubiNegatesCrit(r);
+        if (negates) {
+            const baseRoll = new Roll(req.baseDamageFormula ?? req.damageFormula);
+            await baseRoll.evaluate();
+            const baseDmg = applyRd(Math.max(0, baseRoll.total ?? 0), readRdInput(root));
+            await applyDamage(req.targetTokenId, req.targetActorId, baseDmg, readPmInput(root),
+                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+            // trava o rodapé — o dano já foi aplicado (base, sem o extra do crítico).
+            root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
+                .forEach((b) => { b.disabled = true; });
+            await postAcoRubiCard(true, r, req.damageTotal, baseDmg, targetName, acoRubiCasters);
+        } else {
+            await postAcoRubiCard(false, r, req.damageTotal, req.damageTotal, targetName, acoRubiCasters);
+        }
     };
 
     const doBlock = (key: string): void => {
@@ -776,6 +833,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     else if (skill === "presenca") void doPresenca(root);
                     else if (skill === "amigo") void doAmigoProtetor(root);
                     else if (skill === "invenc") doInvenc(root);
+                    else if (skill === "acorubi") void doAcoRubi(root);
                     else if (skill.startsWith("block:")) doBlock(skill.slice(6));
                     else if (skill.startsWith("reduce:")) void doReduce(skill.slice(7), root);
                     else if (skill.startsWith("aparar:")) void doAparar(skill.slice(7), root);
@@ -794,7 +852,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     // invencibilidade/rerolar) travam os botões de aplicar para evitar
                     // dupla aplicação. Contra-ataques mantêm o rodapé ativo; a Presença
                     // controla o rodapé sozinha (trava só se anular).
-                    if (!skill.startsWith("counter:") && skill !== "presenca" && skill !== "amigo") {
+                    if (!skill.startsWith("counter:") && skill !== "presenca" && skill !== "amigo" && skill !== "acorubi") {
                         root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
                             .forEach((b) => { b.disabled = true; });
                     }

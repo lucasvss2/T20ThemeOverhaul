@@ -10,7 +10,8 @@ import {
     computeFinalBonus,
     espirituosaPmTemp,
     arteMagicaCdChanges,
-    cornamusaAdjustedCost,
+    adjustInspiracaoCost,
+    acoRubiNegatesCrit,
     clarimResistChanges,
     tamboreteMoveChanges,
 } from "@/inspiracao/format";
@@ -114,12 +115,22 @@ describe("arteMagicaCdChanges", () => {
     });
 });
 
-describe("cornamusaAdjustedCost", () => {
-    it("−1 PM (mín. 1) só com a Cornamusa", () => {
-        expect(cornamusaAdjustedCost(4, true)).toBe(3);
-        expect(cornamusaAdjustedCost(2, true)).toBe(1);
-        expect(cornamusaAdjustedCost(1, true)).toBe(1); // não zera
-        expect(cornamusaAdjustedCost(4, false)).toBe(4);
+describe("adjustInspiracaoCost", () => {
+    it("aplica reduções (Cornamusa/Madeira Tollon), nunca abaixo de 1", () => {
+        expect(adjustInspiracaoCost(4, 0)).toBe(4);
+        expect(adjustInspiracaoCost(4, 1)).toBe(3);
+        expect(adjustInspiracaoCost(4, 2)).toBe(2); // Cornamusa + Madeira Tollon
+        expect(adjustInspiracaoCost(2, 1)).toBe(1);
+        expect(adjustInspiracaoCost(2, 2)).toBe(1); // piso 1
+        expect(adjustInspiracaoCost(1, 3)).toBe(1);
+    });
+});
+
+describe("acoRubiNegatesCrit", () => {
+    it("só o 1 no 1d4 evita o dano extra do crítico", () => {
+        expect(acoRubiNegatesCrit(1)).toBe(true);
+        expect(acoRubiNegatesCrit(2)).toBe(false);
+        expect(acoRubiNegatesCrit(4)).toBe(false);
     });
 });
 
