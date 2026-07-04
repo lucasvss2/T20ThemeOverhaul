@@ -1,0 +1,93 @@
+import { describe, it, expect } from "vitest";
+import {
+    isInspiracaoPower,
+    inspiracaoImprovementOf,
+    maxBonusForLevel,
+    maxAffordableBonus,
+    resolveBaseBonus,
+    pmCostForBonus,
+    gaitaCD,
+    computeFinalBonus,
+} from "@/inspiracao/format";
+
+describe("isInspiracaoPower", () => {
+    it("detecta o poder base por igualdade (e sufixo p/ prefixo de categoria)", () => {
+        expect(isInspiracaoPower({ type: "poder", name: "Inspiração" })).toBe(true);
+        expect(isInspiracaoPower({ type: "poder", name: "Música: Inspiração" })).toBe(true);
+    });
+    it("NÃO casa as melhorias nem outros tipos", () => {
+        expect(isInspiracaoPower({ type: "poder", name: "Inspiração Marcial" })).toBe(false);
+        expect(isInspiracaoPower({ type: "poder", name: "Inspiração Resoluta" })).toBe(false);
+        expect(isInspiracaoPower({ type: "magia", name: "Inspiração" })).toBe(false);
+    });
+});
+
+describe("inspiracaoImprovementOf", () => {
+    it("classifica as melhorias por nome", () => {
+        expect(inspiracaoImprovementOf("Inspiração Marcial")).toBe("marcial");
+        expect(inspiracaoImprovementOf("Inspiração Resoluta")).toBe("resoluta");
+        expect(inspiracaoImprovementOf("Inspiração Revigorante")).toBe("revigorante");
+        expect(inspiracaoImprovementOf("Inspiração Espirituosa")).toBe("espirituosa");
+        expect(inspiracaoImprovementOf("Arte Mágica")).toBe("artemagica");
+        expect(inspiracaoImprovementOf("Inspiração")).toBe(null);
+        expect(inspiracaoImprovementOf("Ataque Poderoso")).toBe(null);
+    });
+});
+
+describe("maxBonusForLevel", () => {
+    it("segue a tabela 1/5/9/13/17", () => {
+        expect(maxBonusForLevel(1)).toBe(1);
+        expect(maxBonusForLevel(4)).toBe(1);
+        expect(maxBonusForLevel(5)).toBe(2);
+        expect(maxBonusForLevel(8)).toBe(2);
+        expect(maxBonusForLevel(9)).toBe(3);
+        expect(maxBonusForLevel(13)).toBe(4);
+        expect(maxBonusForLevel(17)).toBe(5);
+        expect(maxBonusForLevel(20)).toBe(5); // teto em +5
+    });
+    it("nível inválido → mínimo +1", () => {
+        expect(maxBonusForLevel(0)).toBe(1);
+    });
+});
+
+describe("pmCostForBonus / maxAffordableBonus", () => {
+    it("2 PM por ponto de bônus", () => {
+        expect(pmCostForBonus(1)).toBe(2);
+        expect(pmCostForBonus(3)).toBe(6);
+    });
+    it("bônus pagável = floor(PM/2)", () => {
+        expect(maxAffordableBonus(1)).toBe(0); // não paga nem o mínimo
+        expect(maxAffordableBonus(2)).toBe(1);
+        expect(maxAffordableBonus(7)).toBe(3);
+    });
+});
+
+describe("resolveBaseBonus", () => {
+    it("limita pela escolha, teto de nível e PM disponível", () => {
+        // nível 20 (teto 5), PM 20 (paga 10) → escolha manda
+        expect(resolveBaseBonus(3, 20, 20)).toBe(3);
+        // escolha 5, nível 5 (teto 2) → 2
+        expect(resolveBaseBonus(5, 5, 20)).toBe(2);
+        // escolha 5, nível 20, PM 6 (paga 3) → 3
+        expect(resolveBaseBonus(5, 20, 6)).toBe(3);
+        // PM insuficiente → 0 (caller avisa)
+        expect(resolveBaseBonus(2, 20, 1)).toBe(0);
+    });
+});
+
+describe("gaitaCD", () => {
+    it("20 + PM total gasto", () => {
+        expect(gaitaCD(2)).toBe(22);
+        expect(gaitaCD(6)).toBe(26);
+        expect(gaitaCD(0)).toBe(20);
+    });
+});
+
+describe("computeFinalBonus", () => {
+    it("Gaita e Adamante somam acima da base", () => {
+        expect(computeFinalBonus({ base: 2 })).toBe(2);
+        expect(computeFinalBonus({ base: 2, gaitaPassed: true })).toBe(3);
+        expect(computeFinalBonus({ base: 2, adamante: true })).toBe(3);
+        expect(computeFinalBonus({ base: 2, gaitaPassed: true, adamante: true })).toBe(4);
+    });
+});
