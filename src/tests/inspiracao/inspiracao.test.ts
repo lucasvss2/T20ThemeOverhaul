@@ -8,6 +8,8 @@ import {
     pmCostForBonus,
     gaitaCD,
     computeFinalBonus,
+    espirituosaPmTemp,
+    arteMagicaCdChanges,
 } from "@/inspiracao/format";
 
 describe("isInspiracaoPower", () => {
@@ -89,5 +91,22 @@ describe("computeFinalBonus", () => {
         expect(computeFinalBonus({ base: 2, gaitaPassed: true })).toBe(3);
         expect(computeFinalBonus({ base: 2, adamante: true })).toBe(3);
         expect(computeFinalBonus({ base: 2, gaitaPassed: true, adamante: true })).toBe(4);
+    });
+});
+
+describe("espirituosaPmTemp", () => {
+    it("PM temp = bônus só na 1ª vez no combate", () => {
+        expect(espirituosaPmTemp(3, true)).toBe(3);
+        expect(espirituosaPmTemp(3, false)).toBe(0);
+        expect(espirituosaPmTemp(0, true)).toBe(0);
+    });
+});
+
+describe("arteMagicaCdChanges", () => {
+    it("+2 em system.attributes.cd só com o poder", () => {
+        expect(arteMagicaCdChanges(false)).toEqual([]);
+        expect(arteMagicaCdChanges(true)).toEqual([
+            { key: "system.attributes.cd", mode: 2, value: "2", priority: 20 },
+        ]);
     });
 });

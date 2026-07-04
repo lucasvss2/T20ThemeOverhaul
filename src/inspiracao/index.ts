@@ -36,6 +36,8 @@ import {
     pmCostForBonus,
     gaitaCD,
     computeFinalBonus,
+    espirituosaPmTemp,
+    arteMagicaCdChanges,
     norm,
     type InspiracaoImprovement,
 } from "./format";
@@ -43,6 +45,7 @@ import STYLES from "./inspiracao.css?inline";
 
 const STYLES_ID = "t20-inspiracao-styles";
 const FLAG_KEY = "inspiracao"; // flags.<MODULE_ID>.inspiracao (na AE)
+const ESPIRITUOSA_FLAG = "inspEspirituosaCombat"; // flags.<MODULE_ID> (no bardo): combatId da última Espirituosa
 const SOCKET_APPLY = "inspiracao/apply";
 const RANGE_SQUARES = 6; // 9 m = 6 quadrados (independente da escala da cena)
 
@@ -66,7 +69,9 @@ interface ApplyPayload {
     bonus: number;
     targetUuids: string[];
     changes: AEChange[];
+    casterExtraChanges: AEChange[]; // Arte Mágica: +2 CD SÓ na AE do bardo
     tempPv: number;      // Revigorante: 5× bônus (0 = sem)
+    tempPm: number;      // Espirituosa: = bônus, 1ª vez no combate (0 = sem)
     aeName: string;
     aeIcon: string;
     createdWorldTime: number;
@@ -113,6 +118,29 @@ function knownImprovements(actor: FoundryActor): Set<InspiracaoImprovement> {
         if (imp) set.add(imp);
     }
     return set;
+}
+
+/** Combate ATIVO em andamento → seu id, ou null (fora de combate). */
+function activeCombatId(): string | null {
+    const c = (game as unknown as { combat?: { id?: string; started?: boolean } }).combat;
+    return c?.started ? (c.id ?? null) : null;
+}
+
+/**
+ * Inspiração Espirituosa: é a 1ª vez que este bardo usa Inspiração NESTE combate?
+ * Fora de combate → false (a regra é "em cada combate").
+ */
+function isFirstEspirituosaUseInCombat(actor: FoundryActor): boolean {
+    const cid = activeCombatId();
+    if (!cid) return false;
+    const last = (actor.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[ESPIRITUOSA_FLAG];
+    return last !== cid;
+}
+
+async function markEspirituosaUsed(actor: FoundryActor): Promise<void> {
+    const cid = activeCombatId();
+    if (!cid) return;
+    await actor.update({ [`flags.${MODULE_ID}.${ESPIRITUOSA_FLAG}`]: cid });
 }
 
 /** True se `it` é um equipamento equipado. */
@@ -191,6 +219,8 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     if (imps.has("marcial")) extraNotes.push("Marcial (+bônus no dano)");
     if (imps.has("resoluta")) extraNotes.push("Resoluta (+bônus na Defesa)");
     if (imps.has("revigorante")) extraNotes.push("Revigorante (PV temp. 5×)");
+    if (imps.has("espirituosa")) extraNotes.push("Espirituosa (PM temp. na 1ª do combate)");
+    if (imps.has("artemagica")) extraNotes.push("Arte Mágica (+2 CD das habilidades)");
     if (adam) extraNotes.push("Adamante (+1)");
     if (gaita) extraNotes.push("Gaita de Foles (teste de Atuação → +1)");
 
@@ -307,6 +337,14 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
     if (imps.has("resoluta")) changes.push({ key: "system.attributes.defesa.bonus", mode: 2, value: String(bonus), priority: 20 });
     const tempPv = imps.has("revigorante") ? 5 * bonus : 0;
 
+    // Arte Mágica: +2 CD só na AE do bardo (enquanto sob a própria Inspiração).
+    const casterExtraChanges = arteMagicaCdChanges(imps.has("artemagica"));
+
+    // Inspiração Espirituosa: PM temp = bônus na 1ª vez do combate (caster + aliados).
+    const firstEspirituosa = imps.has("espirituosa") && isFirstEspirituosaUseInCombat(actor);
+    const tempPm = espirituosaPmTemp(bonus, firstEspirituosa);
+    if (firstEspirituosa) await markEspirituosaUsed(actor);
+
     // 7. Aplica (GM-side; roteia via socket se jogador).
     const payload: ApplyPayload = {
         casterActorId: actor.id ?? "",
@@ -314,7 +352,9 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         bonus,
         targetUuids: targetTokens.map((t) => t.actor?.uuid).filter(Boolean) as string[],
         changes,
+        casterExtraChanges,
         tempPv,
+        tempPm,
         aeName: `Inspiração (+${bonus})`,
         aeIcon: realItem.img || "icons/svg/sound.svg",
         createdWorldTime: game.time?.worldTime ?? 0,
@@ -327,6 +367,8 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         adamante: adam,
         imps: Array.from(imps),
         tempPv,
+        tempPm,
+        arteMagica: casterExtraChanges.length > 0,
         targets: targetTokens.map((t) => t.actor?.name ?? "?"),
     });
     refreshSkillsMenu();
@@ -341,7 +383,7 @@ async function applyInspiracao(payload: ApplyPayload): Promise<void> {
     await sock.executeAsGM(SOCKET_APPLY, payload);
 }
 
-/** Execução GM-side: cria a AE + seta PV temp (Revigorante) em cada alvo. */
+/** Execução GM-side: cria a AE + seta PV/PM temp em cada alvo. */
 async function applyInspiracaoGM(payload: ApplyPayload): Promise<void> {
     if (!game.user?.isGM) return;
     for (const uuid of payload.targetUuids) {
@@ -350,12 +392,17 @@ async function applyInspiracaoGM(payload: ApplyPayload): Promise<void> {
         try {
             // Remove Inspiração anterior deste caster no alvo (não empilha).
             await removeInspiracaoFrom(actor, payload.casterActorId);
+            // Arte Mágica: changes extras (+2 CD) só vão na AE do PRÓPRIO bardo.
+            const isCaster = actor.id === payload.casterActorId;
+            const aeChanges = isCaster && payload.casterExtraChanges.length
+                ? [...payload.changes, ...payload.casterExtraChanges]
+                : payload.changes;
             const ae = {
                 name: payload.aeName,
                 label: payload.aeName, // compat legada
                 icon: payload.aeIcon,
                 img: payload.aeIcon,
-                changes: payload.changes,
+                changes: aeChanges,
                 duration: { seconds: 86400, startTime: game.time?.worldTime ?? 0 },
                 flags: {
                     [MODULE_ID]: {
@@ -372,10 +419,17 @@ async function applyInspiracaoGM(payload: ApplyPayload): Promise<void> {
                 createEmbeddedDocuments(t: string, d: unknown[], o?: Record<string, unknown>): Promise<unknown>;
             }).createEmbeddedDocuments("ActiveEffect", [ae]);
 
+            const attrs = actor.system?.attributes as { pv?: { temp?: number }; pm?: { temp?: number } } | undefined;
+            const upd: Record<string, unknown> = {};
             if (payload.tempPv > 0) {
-                const cur = Number((actor.system?.attributes as { pv?: { temp?: number } } | undefined)?.pv?.temp ?? 0);
-                if (payload.tempPv > cur) await actor.update({ "system.attributes.pv.temp": payload.tempPv });
+                const cur = Number(attrs?.pv?.temp ?? 0);
+                if (payload.tempPv > cur) upd["system.attributes.pv.temp"] = payload.tempPv;
             }
+            if (payload.tempPm > 0) {
+                const cur = Number(attrs?.pm?.temp ?? 0);
+                if (payload.tempPm > cur) upd["system.attributes.pm.temp"] = payload.tempPm;
+            }
+            if (Object.keys(upd).length) await actor.update(upd);
         } catch (err) {
             warn(`Inspiração: falha ao aplicar em ${actor.name}:`, err);
         }
@@ -458,6 +512,8 @@ interface CardInfo {
     adamante?: boolean;
     imps?: InspiracaoImprovement[];
     tempPv?: number;
+    tempPm?: number;
+    arteMagica?: boolean;
     targets: string[];
 }
 
@@ -478,6 +534,8 @@ async function postCard(casterName: string, info: CardInfo): Promise<void> {
     if (info.imps?.includes("marcial")) extras.push("dano");
     if (info.imps?.includes("resoluta")) extras.push("Defesa");
     if (info.tempPv) extras.push(`PV temp. ${info.tempPv}`);
+    if (info.tempPm) extras.push(`PM temp. ${info.tempPm}`);
+    if (info.arteMagica) extras.push("+2 CD (Arte Mágica)");
     const extraHtml = extras.length ? `<div class="insp-card-extra">${esc(extras.join(" · "))}</div>` : "";
     const tgts = info.targets.length ? esc(info.targets.join(", ")) : "nenhum alvo em alcance";
     const content =

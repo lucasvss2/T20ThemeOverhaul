@@ -97,3 +97,23 @@ export interface FinalBonusInput {
 export function computeFinalBonus(i: FinalBonusInput): number {
     return Math.max(0, Math.floor(i.base || 0)) + (i.gaitaPassed ? 1 : 0) + (i.adamante ? 1 : 0);
 }
+
+export interface AEChangeLike { key: string; mode: number; value: string; priority: number }
+
+/**
+ * Inspiração Espirituosa: PM temporários = bônus, mas SÓ na 1ª vez que a
+ * Inspiração é usada em cada combate. Fora dessa condição → 0.
+ */
+export function espirituosaPmTemp(bonus: number, firstUseInCombat: boolean): number {
+    return firstUseInCombat ? Math.max(0, Math.floor(bonus || 0)) : 0;
+}
+
+/**
+ * Arte Mágica: enquanto o bardo está sob a PRÓPRIA Inspiração, a CD para resistir
+ * às suas habilidades de bardo aumenta em +2. Modelamos como change extra na AE
+ * do PRÓPRIO bardo (`system.attributes.cd += 2`) — o T20 lê `actor.attributes.cd`
+ * ao computar a CD das magias, então cai/volta junto com a Inspiração.
+ */
+export function arteMagicaCdChanges(hasArteMagica: boolean): AEChangeLike[] {
+    return hasArteMagica ? [{ key: "system.attributes.cd", mode: 2, value: "2", priority: 20 }] : [];
+}
