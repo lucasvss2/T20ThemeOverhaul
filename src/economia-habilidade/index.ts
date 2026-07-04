@@ -214,9 +214,14 @@ async function applyLink(econItem: ItemLikeRT, target: ItemLikeRT): Promise<void
     }
 }
 
-async function restoreLink(econItem: ItemLikeRT): Promise<void> {
-    const actor = econItem.parent;
-    const link = econLink(econItem);
+/**
+ * Restaura os custos reduzidos do poder-alvo. Recebe `actor` e `link` CAPTURADOS
+ * no hook (o item Economia já foi deletado). ⚠️ Deve rodar DEPOIS que a transação
+ * de delete terminou (deferido no hook) — atualizar `actor.effects` no meio do
+ * `deleteItem` faz a atualização da cópia no ator ser perdida (o `ativacao.custo`
+ * e o efeito do item, que são de OUTRO documento, aplicam; a do ator não).
+ */
+async function restoreLink(actor: ActorLike, link: EconLink): Promise<void> {
     if (!actor || !link?.linkedItemId) return;
     const target = getItem(actor, link.linkedItemId);
     if (!target) return;
@@ -231,9 +236,13 @@ async function restoreLink(econItem: ItemLikeRT): Promise<void> {
         for (const ec of link.effectCustos ?? []) {
             const where = ec.where ?? "item";
             const pool = where === "actor" ? actorEffects(actor) : powerEffects(target);
-            const e = pool.find(x => x.id === ec.effectId);
-            if (e && String(effectCusto(e)) === ec.reduced) {
-                (where === "actor" ? actorUpd : itemUpd).push({ _id: ec.effectId, "flags.tormenta20.custo": ec.original });
+            // Casa pelo id; se o id mudou (cópia regenerada), casa pela origem+custo.
+            const e = pool.find(x => x.id === ec.effectId)
+                ?? (where === "actor"
+                    ? actorEffects(actor).find(x => String((x as ActorEffectLike).origin ?? "").includes(target.id ?? "") && String(effectCusto(x)) === ec.reduced)
+                    : undefined);
+            if (e && e.id && String(effectCusto(e)) === ec.reduced) {
+                (where === "actor" ? actorUpd : itemUpd).push({ _id: e.id, "flags.tormenta20.custo": ec.original });
             }
         }
         if (itemUpd.length) await target.updateEmbeddedDocuments?.("ActiveEffect", itemUpd, { render: false });
@@ -342,7 +351,12 @@ export function setupEconomiaHabilidade(): void {
         const item = args[0] as ItemLikeRT;
         if (hookUserId(args) !== game.user?.id) return;
         if (!isEconomiaPower(item)) return;
-        void restoreLink(item);
+        // Captura SÍNCRONO (o item some) e DEFERE p/ rodar após a transação de
+        // delete — senão a atualização da cópia do efeito no ator se perde.
+        const actor = item.parent;
+        const link = econLink(item);
+        if (!actor || !link?.linkedItemId) return;
+        setTimeout(() => void restoreLink(actor, link), 100);
     });
 
     // Reconcilia vínculos antigos (que só reduziram ativacao.custo, não o Efeito de Uso).
