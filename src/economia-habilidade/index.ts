@@ -43,7 +43,7 @@ interface ItemLike {
     effects?: { contents?: EffectLike[] } | EffectLike[];
     flags?: Record<string, Record<string, unknown> | undefined>;
 }
-interface EffectCustoChange { effectId: string; original: string; reduced: string }
+interface EffectCustoChange { effectId: string; original: string; reduced: string; where?: "item" | "actor" }
 interface EconLink {
     linkedItemId: string;
     originalCusto: number;
@@ -100,15 +100,23 @@ export function isEligibleTarget(it: ItemLike, linkedIds: Set<string>): boolean 
 
 // ── Runtime shapes ─────────────────────────────────────────────────────────────
 
+interface ActorEffectLike extends EffectLike { origin?: string | null }
 interface ActorLike {
     id?: string;
     type?: string;
     items?: { contents?: ItemLikeRT[]; get?(id: string): ItemLikeRT | undefined } | ItemLikeRT[];
+    effects?: { contents?: ActorEffectLike[] } | ActorEffectLike[];
+    updateEmbeddedDocuments?(type: string, updates: object[], ctx?: object): Promise<unknown>;
 }
 interface ItemLikeRT extends ItemLike {
     parent?: ActorLike | null;
     update?(data: object, ctx?: object): Promise<unknown>;
     updateEmbeddedDocuments?(type: string, updates: object[], ctx?: object): Promise<unknown>;
+}
+
+function actorEffects(actor: ActorLike): ActorEffectLike[] {
+    const e = actor.effects;
+    return Array.isArray(e) ? e : (e?.contents ?? []);
 }
 
 function actorItems(actor: ActorLike): ItemLikeRT[] {
@@ -142,33 +150,57 @@ export function economiaDisplayName(targetName: string): string {
     return `Economia de Habilidade (${targetName})`;
 }
 
-/** Reduz o custo dos "Efeitos de Uso" (custo 2+) do poder e retorna o que mudar. */
-function computeEffectReductions(target: ItemLikeRT): { updates: object[]; changes: EffectCustoChange[] } {
-    const updates: object[] = [];
+/**
+ * Coleta as reduções de custo dos "Efeitos de Uso" (custo 2+) do poder, em DUAS
+ * fontes:
+ *   - `item` — os efeitos do próprio poder (o que nosso teste secreto lê);
+ *   - `actor` — as CÓPIAS que o T20 põe em `actor.effects` (legacyTransferral,
+ *     origin apontando pro item). ⚠️ O modal NATIVO de uso de perícia lê o custo
+ *     DESSAS cópias (T20 usa `item.actor.effects` p/ perícia), por isso as duas
+ *     precisam ser reduzidas.
+ */
+export function collectEffectReductions(target: ItemLikeRT, actor: ActorLike): {
+    itemUpdates: object[]; actorUpdates: object[]; changes: EffectCustoChange[];
+} {
+    const itemUpdates: object[] = [];
+    const actorUpdates: object[] = [];
     const changes: EffectCustoChange[] = [];
     for (const e of powerEffects(target)) {
         const c = effectCusto(e);
         if (c < 2 || !e.id) continue;
         const rc = Math.max(1, c - 1);
-        updates.push({ _id: e.id, "flags.tormenta20.custo": String(rc) });
-        changes.push({ effectId: e.id, original: String(c), reduced: String(rc) });
+        itemUpdates.push({ _id: e.id, "flags.tormenta20.custo": String(rc) });
+        changes.push({ effectId: e.id, original: String(c), reduced: String(rc), where: "item" });
     }
-    return { updates, changes };
+    const tid = target.id ?? "";
+    for (const e of actorEffects(actor)) {
+        if (!e.id || !tid) continue;
+        if (!String(e.origin ?? "").includes(tid)) continue; // cópia deste poder
+        const c = effectCusto(e);
+        if (c < 2) continue;
+        const rc = Math.max(1, c - 1);
+        actorUpdates.push({ _id: e.id, "flags.tormenta20.custo": String(rc) });
+        changes.push({ effectId: e.id, original: String(c), reduced: String(rc), where: "actor" });
+    }
+    return { itemUpdates, actorUpdates, changes };
 }
 
-/** Aplica a redução no poder (ativacao.custo E custo dos Efeitos de Uso). */
-async function reduceTarget(target: ItemLikeRT): Promise<EconLink> {
+/** Aplica a redução no poder (ativacao.custo + custo dos Efeitos de Uso item/actor). */
+async function reduceTarget(target: ItemLikeRT, actor: ActorLike): Promise<EconLink> {
     const original = powerCusto(target);
     const reduced = original >= 2 ? computeReducedCusto(original) : original;
     if (original >= 2) await target.update?.({ "system.ativacao.custo": reduced });
-    const { updates, changes } = computeEffectReductions(target);
-    if (updates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", updates, { render: false });
+    const { itemUpdates, actorUpdates, changes } = collectEffectReductions(target, actor);
+    if (itemUpdates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", itemUpdates, { render: false });
+    if (actorUpdates.length) await actor.updateEmbeddedDocuments?.("ActiveEffect", actorUpdates, { render: false });
     return { linkedItemId: target.id ?? "", originalCusto: original, reducedCusto: reduced, effectCustos: changes };
 }
 
 async function applyLink(econItem: ItemLikeRT, target: ItemLikeRT): Promise<void> {
+    const actor = econItem.parent ?? target.parent;
+    if (!actor) return;
     try {
-        const link = await reduceTarget(target);
+        const link = await reduceTarget(target, actor);
         // Renomeia SÓ esta instância (pode haver várias, cada uma p/ um poder).
         await econItem.update?.({
             name: economiaDisplayName(target.name ?? ""),
@@ -193,13 +225,19 @@ async function restoreLink(econItem: ItemLikeRT): Promise<void> {
         if (link.reducedCusto !== link.originalCusto && powerCusto(target) === link.reducedCusto) {
             await target.update?.({ "system.ativacao.custo": link.originalCusto });
         }
-        // Efeitos de Uso — restaura os custos reduzidos.
-        const effUpdates: object[] = [];
+        // Efeitos de Uso — restaura os custos reduzidos (item E cópias no ator).
+        const itemUpd: object[] = [];
+        const actorUpd: object[] = [];
         for (const ec of link.effectCustos ?? []) {
-            const e = powerEffects(target).find(x => x.id === ec.effectId);
-            if (e && String(effectCusto(e)) === ec.reduced) effUpdates.push({ _id: ec.effectId, "flags.tormenta20.custo": ec.original });
+            const where = ec.where ?? "item";
+            const pool = where === "actor" ? actorEffects(actor) : powerEffects(target);
+            const e = pool.find(x => x.id === ec.effectId);
+            if (e && String(effectCusto(e)) === ec.reduced) {
+                (where === "actor" ? actorUpd : itemUpd).push({ _id: ec.effectId, "flags.tormenta20.custo": ec.original });
+            }
         }
-        if (effUpdates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", effUpdates, { render: false });
+        if (itemUpd.length) await target.updateEmbeddedDocuments?.("ActiveEffect", itemUpd, { render: false });
+        if (actorUpd.length) await actor.updateEmbeddedDocuments?.("ActiveEffect", actorUpd, { render: false });
         log(`Economia de Habilidade: restaurado "${target.name}".`);
     } catch (e) {
         warn("economia-habilidade: falha ao restaurar", e);
@@ -217,14 +255,18 @@ async function reconcileActor(actor: ActorLike & { isOwner?: boolean }): Promise
         if (!isEconomiaPower(econ)) continue;
         const link = econLink(econ);
         if (!link?.linkedItemId) continue;
-        if (link.effectCustos && link.effectCustos.length) continue; // já reconciliado
         const target = getItem(actor, link.linkedItemId);
         if (!target) continue;
-        const { updates, changes } = computeEffectReductions(target);
-        if (!changes.length) continue; // alvo não tem Efeito de Uso com custo
+        // Re-deriva o que AINDA está com custo 2+ (item e/ou cópia no ator) e reduz.
+        const { itemUpdates, actorUpdates, changes } = collectEffectReductions(target, actor);
+        if (!changes.length) continue; // já tudo reduzido
         try {
-            await target.updateEmbeddedDocuments?.("ActiveEffect", updates, { render: false });
-            await (econ as ItemLikeRT).update?.({ [`flags.${MODULE_ID}.${FLAG}.effectCustos`]: changes });
+            if (itemUpdates.length) await target.updateEmbeddedDocuments?.("ActiveEffect", itemUpdates, { render: false });
+            if (actorUpdates.length) await actor.updateEmbeddedDocuments?.("ActiveEffect", actorUpdates, { render: false });
+            // Mescla no flag (dedup por effectId) p/ a restauração cobrir tudo.
+            const merged = [...(link.effectCustos ?? [])];
+            for (const c of changes) if (!merged.some(m => m.effectId === c.effectId)) merged.push(c);
+            await (econ as ItemLikeRT).update?.({ [`flags.${MODULE_ID}.${FLAG}.effectCustos`]: merged });
             log(`Economia de Habilidade: reconciliado custo de efeito de "${target.name}".`);
         } catch (e) {
             warn("economia-habilidade: falha ao reconciliar", e);

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isEconomiaPower, computeReducedCusto, isEligibleTarget, economiaDisplayName, powerEffectiveCusto } from "@/economia-habilidade/index";
+import { isEconomiaPower, computeReducedCusto, isEligibleTarget, economiaDisplayName, powerEffectiveCusto, collectEffectReductions } from "@/economia-habilidade/index";
 
 // Poder com Efeito de Uso (onuse) que cobra PM pelo efeito — ex.: Audácia.
 const onusePoder = (name: string, ativCusto: number | null, effCusto: string, id = name) =>
@@ -14,6 +14,42 @@ describe("isEconomiaPower", () => {
         expect(isEconomiaPower({ type: "poder", name: "Economia de Habilidade (2)" })).toBe(true);
         expect(isEconomiaPower(poder("Oração Marcial", 5))).toBe(false);
         expect(isEconomiaPower({ type: "magia", name: "Economia de Habilidade" })).toBe(false);
+    });
+});
+
+describe("collectEffectReductions", () => {
+    it("reduz o custo do efeito NO ITEM e da CÓPIA no ator (origin aponta pro item)", () => {
+        const target = {
+            id: "AUD1",
+            type: "poder",
+            name: "Audácia",
+            system: { ativacao: { custo: 2 } },
+            effects: { contents: [{ id: "AUD1-e", flags: { tormenta20: { custo: "2", onuse: true } } }] },
+        } as never;
+        const actor = {
+            id: "ACT1",
+            effects: { contents: [
+                // cópia (legacyTransferral) do efeito da Audácia — o modal nativo lê esta.
+                { id: "actorCopy", origin: "Actor.ACT1.Item.AUD1", flags: { tormenta20: { custo: "2", onuse: true } } },
+                // efeito de OUTRO poder — não deve ser tocado.
+                { id: "other", origin: "Actor.ACT1.Item.ZZZ", flags: { tormenta20: { custo: "3", onuse: true } } },
+            ] },
+        } as never;
+        const { itemUpdates, actorUpdates, changes } = collectEffectReductions(target, actor);
+        expect(itemUpdates).toEqual([{ _id: "AUD1-e", "flags.tormenta20.custo": "1" }]);
+        expect(actorUpdates).toEqual([{ _id: "actorCopy", "flags.tormenta20.custo": "1" }]);
+        expect(changes.map(c => `${c.effectId}:${c.where}:${c.original}->${c.reduced}`)).toEqual([
+            "AUD1-e:item:2->1",
+            "actorCopy:actor:2->1",
+        ]);
+    });
+    it("não reduz efeitos com custo < 2", () => {
+        const target = { id: "T", type: "poder", name: "X", system: { ativacao: { custo: 5 } }, effects: { contents: [{ id: "e", flags: { tormenta20: { custo: "1" } } }] } } as never;
+        const actor = { id: "A", effects: { contents: [] } } as never;
+        const { itemUpdates, actorUpdates, changes } = collectEffectReductions(target, actor);
+        expect(itemUpdates).toEqual([]);
+        expect(actorUpdates).toEqual([]);
+        expect(changes).toEqual([]);
     });
 });
 
