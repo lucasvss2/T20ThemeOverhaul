@@ -117,3 +117,21 @@ export function espirituosaPmTemp(bonus: number, firstUseInCombat: boolean): num
 export function arteMagicaCdChanges(hasArteMagica: boolean): AEChangeLike[] {
     return hasArteMagica ? [{ key: "system.attributes.cd", mode: 2, value: "2", priority: 20 }] : [];
 }
+
+// ── Instrumentos ───────────────────────────────────────────────────────────────
+
+/** Cornamusa de Doherimm: custo da Inspiração reduzido em −1 PM (mín. 1). */
+export function cornamusaAdjustedCost(baseCost: number, hasCornamusa: boolean): number {
+    const c = Math.max(0, Math.floor(baseCost || 0));
+    return hasCornamusa ? Math.max(1, c - 1) : c;
+}
+
+/** Clarim Deheoni: +1 em testes de resistência das criaturas sob a Inspiração. */
+export function clarimResistChanges(has: boolean): AEChangeLike[] {
+    return has ? [{ key: "system.modificadores.pericias.resistencia", mode: 2, value: "1", priority: 20 }] : [];
+}
+
+/** Tamborete Marcial: +3 m de deslocamento das criaturas sob a Inspiração. */
+export function tamboreteMoveChanges(has: boolean): AEChangeLike[] {
+    return has ? [{ key: "system.attributes.movement.walk.bonus", mode: 2, value: "3", priority: 20 }] : [];
+}

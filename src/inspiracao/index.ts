@@ -31,13 +31,14 @@ import {
     isInspiracaoPower,
     inspiracaoImprovementOf,
     maxBonusForLevel,
-    maxAffordableBonus,
-    resolveBaseBonus,
     pmCostForBonus,
     gaitaCD,
     computeFinalBonus,
     espirituosaPmTemp,
     arteMagicaCdChanges,
+    cornamusaAdjustedCost,
+    clarimResistChanges,
+    tamboreteMoveChanges,
     norm,
     type InspiracaoImprovement,
 } from "./format";
@@ -46,6 +47,7 @@ import STYLES from "./inspiracao.css?inline";
 const STYLES_ID = "t20-inspiracao-styles";
 const FLAG_KEY = "inspiracao"; // flags.<MODULE_ID>.inspiracao (na AE)
 const ESPIRITUOSA_FLAG = "inspEspirituosaCombat"; // flags.<MODULE_ID> (no bardo): combatId da última Espirituosa
+const CORNAMUSA_FLAG = "cornamusaPenalty"; // flag na AE de −2 Defesa da Cornamusa
 const SOCKET_APPLY = "inspiracao/apply";
 const RANGE_SQUARES = 6; // 9 m = 6 quadrados (independente da escala da cena)
 
@@ -154,6 +156,11 @@ function hasGaitaDeFoles(actor: FoundryActor): boolean {
     return actorItems(actor).some((it) => isEquipped(it) && norm(it.name).includes("gaita de foles"));
 }
 
+/** Algum instrumento equipado cujo nome normalizado inclui `key`? */
+function hasEquippedInstrument(actor: FoundryActor, key: string): boolean {
+    return actorItems(actor).some((it) => isEquipped(it) && norm(it.name).includes(key));
+}
+
 /**
  * Algum instrumento musical EQUIPADO com material Adamante? O +1 fica **ligado
  * ao item** pelo slot de material do T20 (`system.upgrades.material === "adamant"`,
@@ -204,16 +211,22 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     const level = bardLevel(actor);
     const pm = currentPm(actor);
     const maxByLevel = maxBonusForLevel(level);
-    const maxAfford = maxAffordableBonus(pm);
-    const maxBase = Math.min(maxByLevel, maxAfford);
+    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
+    const costFor = (b: number): number => cornamusaAdjustedCost(pmCostForBonus(b), cornamusa);
+
+    // Maior bônus base (limitado por nível) que os PM pagam já com o desconto.
+    let maxBase = 0;
+    for (let b = 1; b <= maxByLevel; b++) if (costFor(b) <= pm) maxBase = b;
 
     if (maxBase < 1) {
-        ui.notifications?.warn(`Inspiração: PM insuficiente (precisa de 2 PM; você tem ${pm}).`);
+        ui.notifications?.warn(`Inspiração: PM insuficiente (precisa de ${costFor(1)} PM; você tem ${pm}).`);
         return;
     }
 
     const gaita = hasGaitaDeFoles(actor);
     const adam = hasAdamanteInstrument(actor);
+    const clarim = hasEquippedInstrument(actor, "clarim");
+    const tamborete = hasEquippedInstrument(actor, "tamborete");
     const imps = knownImprovements(actor);
     const extraNotes: string[] = [];
     if (imps.has("marcial")) extraNotes.push("Marcial (+bônus no dano)");
@@ -223,10 +236,14 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
     if (imps.has("artemagica")) extraNotes.push("Arte Mágica (+2 CD das habilidades)");
     if (adam) extraNotes.push("Adamante (+1)");
     if (gaita) extraNotes.push("Gaita de Foles (teste de Atuação → +1)");
+    if (clarim) extraNotes.push("Clarim (+1 resistência)");
+    if (tamborete) extraNotes.push("Tamborete (+3 m deslocamento)");
+    if (cornamusa) extraNotes.push("Cornamusa (custo −1 PM, −2 Defesa)");
 
     const options = [];
-    for (let b = 1; b <= maxBase; b++) {
-        options.push(`<option value="${b}" ${b === maxBase ? "selected" : ""}>+${b} (custo ${pmCostForBonus(b)} PM)</option>`);
+    for (let b = 1; b <= maxByLevel; b++) {
+        if (costFor(b) > pm) continue;
+        options.push(`<option value="${b}" ${b === maxBase ? "selected" : ""}>+${b} (custo ${costFor(b)} PM)</option>`);
     }
 
     const notesHtml = extraNotes.length
@@ -255,8 +272,8 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
                 callback: (($html: JQuery) => {
                     const root = ($html as unknown as { 0?: HTMLElement })[0] ?? ($html as unknown as HTMLElement);
                     const chosen = Number(root.querySelector<HTMLSelectElement>('select[name="insp-bonus"]')?.value ?? "1");
-                    const base = resolveBaseBonus(chosen, level, currentPm(actor));
-                    if (base < 1) { ui.notifications?.warn("Inspiração: PM insuficiente."); return; }
+                    const base = Math.max(1, Math.min(Math.floor(chosen || 0), maxByLevel));
+                    if (costFor(base) > currentPm(actor)) { ui.notifications?.warn("Inspiração: PM insuficiente."); return; }
                     void fireInspiracao(actor, realItem, base);
                 }) as (html: JQuery) => void,
             },
@@ -270,7 +287,8 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
 // ── Execução ──────────────────────────────────────────────────────────────────
 
 async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: number): Promise<void> {
-    const totalPm = pmCostForBonus(base);
+    const cornamusa = hasEquippedInstrument(actor, "cornamusa");
+    const totalPm = cornamusaAdjustedCost(pmCostForBonus(base), cornamusa); // Cornamusa: −1 PM
     const gaitaEquipped = hasGaitaDeFoles(actor);
     const adam = hasAdamanteInstrument(actor);
 
@@ -335,6 +353,11 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
     ];
     if (imps.has("marcial")) changes.push({ key: "system.modificadores.dano.geral", mode: 2, value: String(bonus), priority: 20 });
     if (imps.has("resoluta")) changes.push({ key: "system.attributes.defesa.bonus", mode: 2, value: String(bonus), priority: 20 });
+    // Instrumentos que buffam os alvos sob a Inspiração.
+    const clarim = hasEquippedInstrument(actor, "clarim");
+    const tamborete = hasEquippedInstrument(actor, "tamborete");
+    changes.push(...clarimResistChanges(clarim));    // Clarim: +1 resistência
+    changes.push(...tamboreteMoveChanges(tamborete)); // Tamborete: +3 m deslocamento
     const tempPv = imps.has("revigorante") ? 5 * bonus : 0;
 
     // Arte Mágica: +2 CD só na AE do bardo (enquanto sob a própria Inspiração).
@@ -369,6 +392,7 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         tempPv,
         tempPm,
         arteMagica: casterExtraChanges.length > 0,
+        clarim, tamborete, cornamusa,
         targets: targetTokens.map((t) => t.actor?.name ?? "?"),
     });
     refreshSkillsMenu();
@@ -514,6 +538,9 @@ interface CardInfo {
     tempPv?: number;
     tempPm?: number;
     arteMagica?: boolean;
+    clarim?: boolean;
+    tamborete?: boolean;
+    cornamusa?: boolean;
     targets: string[];
 }
 
@@ -536,6 +563,9 @@ async function postCard(casterName: string, info: CardInfo): Promise<void> {
     if (info.tempPv) extras.push(`PV temp. ${info.tempPv}`);
     if (info.tempPm) extras.push(`PM temp. ${info.tempPm}`);
     if (info.arteMagica) extras.push("+2 CD (Arte Mágica)");
+    if (info.clarim) extras.push("+1 resist. (Clarim)");
+    if (info.tamborete) extras.push("+3 m desloc. (Tamborete)");
+    if (info.cornamusa) extras.push("custo −1 (Cornamusa)");
     const extraHtml = extras.length ? `<div class="insp-card-extra">${esc(extras.join(" · "))}</div>` : "";
     const tgts = info.targets.length ? esc(info.targets.join(", ")) : "nenhum alvo em alcance";
     const content =
@@ -639,6 +669,44 @@ async function onCombatEnd(): Promise<void> {
     refreshSkillsMenu();
 }
 
+// ── Cornamusa de Doherimm: −2 Defesa enquanto vestida ─────────────────────────
+// Penalidade PERSISTENTE do instrumento (não do cast). Sincronizada por equip:
+// AE no ator com nosso flag, criada quando a cornamusa está equipada e removida
+// quando não está. Roda no cliente do DONO (idempotente pelo check de existência).
+
+function cornamusaPenaltyAE(actor: FoundryActor): InspEffect | undefined {
+    const effects = (actor as { effects?: { contents: InspEffect[] } }).effects?.contents ?? [];
+    return effects.find((e) => (e.flags?.[MODULE_ID] as { [k: string]: unknown } | undefined)?.[CORNAMUSA_FLAG]);
+}
+
+async function syncCornamusaPenalty(actor: FoundryActor | null | undefined): Promise<void> {
+    if (!actor || actor.type !== "character") return;
+    const has = hasEquippedInstrument(actor, "cornamusa");
+    const existing = cornamusaPenaltyAE(actor);
+    try {
+        if (has && !existing) {
+            await (actor as FoundryActor & {
+                createEmbeddedDocuments(t: string, d: unknown[]): Promise<unknown>;
+            }).createEmbeddedDocuments("ActiveEffect", [{
+                name: "Cornamusa de Doherimm (−2 Defesa)",
+                label: "Cornamusa de Doherimm (−2 Defesa)",
+                icon: "icons/svg/downgrade.svg",
+                img: "icons/svg/downgrade.svg",
+                changes: [{ key: "system.attributes.defesa.bonus", mode: 2, value: "-2", priority: 20 }],
+                flags: { [MODULE_ID]: { [CORNAMUSA_FLAG]: true } },
+            }]);
+        } else if (!has && existing?.id) {
+            await (actor as FoundryActor & {
+                deleteEmbeddedDocuments(t: string, ids: string[]): Promise<unknown>;
+            }).deleteEmbeddedDocuments("ActiveEffect", [existing.id]);
+        }
+    } catch (err) { warn(`Inspiração: sync da penalidade da Cornamusa falhou:`, err); }
+}
+
+function isMyUser(userId: string | undefined): boolean {
+    return !!userId && userId === game.user?.id;
+}
+
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
 export function setupInspiracao(): void {
@@ -648,7 +716,19 @@ export function setupInspiracao(): void {
 
     registerCancelAction();
 
-    Hooks.once("ready", () => { ensureStyles(); patchAbilityUseDialog(); });
+    Hooks.once("ready", () => {
+        ensureStyles();
+        patchAbilityUseDialog();
+        // Sincroniza a penalidade da Cornamusa nos personagens que possuo.
+        for (const a of (game.actors?.contents ?? [])) {
+            if (a.type === "character" && (a as { isOwner?: boolean }).isOwner) void syncCornamusaPenalty(a);
+        }
+    });
+
+    // Cornamusa: (des)equipar / adicionar / remover → re-sincroniza a −2 Defesa.
+    Hooks.on("createItem", (...a: unknown[]) => { if (isMyUser(a[2] as string)) void syncCornamusaPenalty((a[0] as { parent?: FoundryActor })?.parent); });
+    Hooks.on("deleteItem", (...a: unknown[]) => { if (isMyUser(a[2] as string)) void syncCornamusaPenalty((a[0] as { parent?: FoundryActor })?.parent); });
+    Hooks.on("updateItem", (...a: unknown[]) => { if (isMyUser(a[3] as string)) void syncCornamusaPenalty((a[0] as { parent?: FoundryActor })?.parent); });
 
     Hooks.on("deleteCombat", () => { void onCombatEnd(); });
 

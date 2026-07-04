@@ -10,6 +10,9 @@ import {
     computeFinalBonus,
     espirituosaPmTemp,
     arteMagicaCdChanges,
+    cornamusaAdjustedCost,
+    clarimResistChanges,
+    tamboreteMoveChanges,
 } from "@/inspiracao/format";
 
 describe("isInspiracaoPower", () => {
@@ -107,6 +110,30 @@ describe("arteMagicaCdChanges", () => {
         expect(arteMagicaCdChanges(false)).toEqual([]);
         expect(arteMagicaCdChanges(true)).toEqual([
             { key: "system.attributes.cd", mode: 2, value: "2", priority: 20 },
+        ]);
+    });
+});
+
+describe("cornamusaAdjustedCost", () => {
+    it("−1 PM (mín. 1) só com a Cornamusa", () => {
+        expect(cornamusaAdjustedCost(4, true)).toBe(3);
+        expect(cornamusaAdjustedCost(2, true)).toBe(1);
+        expect(cornamusaAdjustedCost(1, true)).toBe(1); // não zera
+        expect(cornamusaAdjustedCost(4, false)).toBe(4);
+    });
+});
+
+describe("clarimResistChanges / tamboreteMoveChanges", () => {
+    it("Clarim → +1 resistência só com o instrumento", () => {
+        expect(clarimResistChanges(false)).toEqual([]);
+        expect(clarimResistChanges(true)).toEqual([
+            { key: "system.modificadores.pericias.resistencia", mode: 2, value: "1", priority: 20 },
+        ]);
+    });
+    it("Tamborete → +3 m de deslocamento só com o instrumento", () => {
+        expect(tamboreteMoveChanges(false)).toEqual([]);
+        expect(tamboreteMoveChanges(true)).toEqual([
+            { key: "system.attributes.movement.walk.bonus", mode: 2, value: "3", priority: 20 },
         ]);
     });
 });
