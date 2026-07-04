@@ -295,7 +295,11 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
                     const chosen = Number(root.querySelector<HTMLSelectElement>('select[name="insp-bonus"]')?.value ?? "1");
                     const base = Math.max(1, Math.min(Math.floor(chosen || 0), maxByLevel));
                     if (costFor(base) > currentPm(actor)) { ui.notifications?.warn("Inspiração: PM insuficiente."); return; }
-                    void fireInspiracao(actor, realItem, base);
+                    // Qualquer erro no fluxo vira notificação (nunca falha em silêncio).
+                    fireInspiracao(actor, realItem, base).catch((e) => {
+                        warn("Inspiração: fireInspiracao falhou:", e);
+                        ui.notifications?.error(`Inspiração falhou: ${String((e as { message?: string })?.message ?? e)}`);
+                    });
                 }) as (html: JQuery) => void,
             },
             cancel: { icon: '<i class="fas fa-times"></i>', label: "Cancelar" },
@@ -346,6 +350,7 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
 
     // 3. Gaita falhou → habilidade sem efeito (PM já gastos). Aborta a aplicação.
     if (gaitaEquipped && !gaitaPassed) {
+        ui.notifications?.warn(`Inspiração: Gaita de Foles falhou no teste de Atuação — nenhum efeito (${totalPm} PM gastos).`);
         await postCard(actor.name, { failed: true, base, totalPm, gaita: "falha", targets: [] });
         return;
     }
@@ -353,18 +358,24 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
     // 4. Bônus final.
     const bonus = computeFinalBonus({ base, gaitaPassed, adamante: adam });
 
-    // 5. Alvos: caster + tokens T a ≤9 m.
+    // 5. Alvos: o bardo (VOCÊ) SEMPRE — via ATOR, independente de ter token na
+    //    cena (ex.: GM conjura de uma cena sem o token do bardo) — + tokens T a
+    //    ≤6 quadrados. Dedupe por uuid de ator.
     const cToken = casterToken(actor);
-    const targetTokens: FoundryToken[] = [];
+    const targetsList: Array<{ uuid: string; name: string }> = [];
+    const seen = new Set<string>();
+    if (actor.uuid) { targetsList.push({ uuid: actor.uuid, name: actor.name }); seen.add(actor.uuid); }
     const dropped: string[] = [];
-    if (cToken) targetTokens.push(cToken);
     for (const t of Array.from(game.user?.targets ?? []) as FoundryToken[]) {
-        if (cToken && t.id === cToken.id) continue; // já incluído
-        if (!t.actor) continue;
-        if (cToken && squaresBetween(cToken, t) > RANGE_SQUARES + 0.05) { dropped.push(t.actor.name); continue; }
-        targetTokens.push(t);
+        const ta = t.actor;
+        if (!ta || !ta.uuid) continue;
+        if (seen.has(ta.uuid)) continue; // já incluído (é o próprio bardo)
+        // Filtro de alcance só é possível com o token do bardo na cena.
+        if (cToken && t.id !== cToken.id && squaresBetween(cToken, t) > RANGE_SQUARES + 0.05) { dropped.push(ta.name); continue; }
+        targetsList.push({ uuid: ta.uuid, name: ta.name });
+        seen.add(ta.uuid);
     }
-    if (dropped.length) ui.notifications?.warn(`Inspiração: fora de 9 m / 6 quadrados (ignorado): ${dropped.join(", ")}.`);
+    if (dropped.length) ui.notifications?.warn(`Inspiração: alvo(s) fora de 9 m / 6 quadrados (ignorado): ${dropped.join(", ")}.`);
 
     // 6. Monta changes conforme melhorias.
     const imps = knownImprovements(actor);
@@ -397,7 +408,7 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         casterActorId: actor.id ?? "",
         casterName: actor.name,
         bonus,
-        targetUuids: targetTokens.map((t) => t.actor?.uuid).filter(Boolean) as string[],
+        targetUuids: targetsList.map((t) => t.uuid),
         changes,
         casterExtraChanges,
         tempPv,
@@ -418,10 +429,11 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
         tempPm,
         arteMagica: casterExtraChanges.length > 0,
         clarim, tamborete, cornamusa, madeiraTollon, mitral, acoRubi,
-        targets: targetTokens.map((t) => t.actor?.name ?? "?"),
+        targets: targetsList.map((t) => t.name),
     });
     refreshSkillsMenu();
-    log(`Inspiração: +${bonus} (base ${base}, ${totalPm} PM) em ${targetTokens.length} alvo(s).`);
+    ui.notifications?.info(`Inspiração +${bonus} aplicada em: ${targetsList.map((t) => t.name).join(", ")}.`);
+    log(`Inspiração: +${bonus} (base ${base}, ${totalPm} PM) em ${targetsList.length} alvo(s).`);
 }
 
 /** Aplica GM-side ou delega ao GM via socket. */
