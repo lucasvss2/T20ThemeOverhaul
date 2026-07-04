@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
-    buildWeaponAdamante, buildArmorAdamante, buildEsotericAdamante,
+    buildWeaponAdamante, buildArmorAdamante, buildEsotericAdamante, buildToolAdamante,
     injectAdamanteUpgrades, ADAMANTE_KEY,
     stepDie, isAdamanteWeapon, injectAdamanteWeaponStep,
 } from "@/adamante/index";
@@ -100,8 +100,17 @@ describe("buildEsotericAdamante", () => {
     });
 });
 
+describe("buildToolAdamante", () => {
+    it("é um marcador (sem changes), transferível", () => {
+        const t = buildToolAdamante();
+        expect(t.changes).toEqual([]);
+        expect(t.flags.tormenta20).toMatchObject({ upgrade: ADAMANTE_KEY });
+        expect(t.transfer).toBe(true);
+    });
+});
+
 describe("injectAdamanteUpgrades", () => {
-    it("injeta em weapon, armor (leve/pesada/escudo) e esoteric com status DONE", () => {
+    it("injeta em weapon, armor (leve/pesada/escudo), esoteric e tools com status DONE", () => {
         const upgrades = {
             weapon: { status: {} as Record<string, string> },
             armor: {
@@ -109,15 +118,17 @@ describe("injectAdamanteUpgrades", () => {
                 general: {}, leve: {}, pesada: {}, escudo: {},
             },
             esoteric: { status: {} as Record<string, string> },
+            tools: { status: {} as Record<string, string> },
         };
         const n = injectAdamanteUpgrades(upgrades);
-        expect(n).toBe(5); // weapon + leve + escudo + pesada + esoteric
+        expect(n).toBe(6); // weapon + leve + escudo + pesada + esoteric + tools
 
         expect((upgrades.weapon as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
         expect((upgrades.armor.leve as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
         expect((upgrades.armor.escudo as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
         expect((upgrades.armor.pesada as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
         expect((upgrades.esoteric as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
+        expect((upgrades.tools as Record<string, unknown>)[ADAMANTE_KEY]).toBeTruthy();
 
         // RD por tipo
         const leve = (upgrades.armor.leve as Record<string, { changes: { value: string }[] }>)[ADAMANTE_KEY];
@@ -128,6 +139,7 @@ describe("injectAdamanteUpgrades", () => {
         expect(upgrades.weapon.status[ADAMANTE_KEY]).toBe("DONE");
         expect(upgrades.armor.status[ADAMANTE_KEY]).toBe("DONE");
         expect(upgrades.esoteric.status[ADAMANTE_KEY]).toBe("DONE");
+        expect(upgrades.tools.status[ADAMANTE_KEY]).toBe("DONE");
     });
 
     it("cria o objeto status quando ausente e é seguro com config vazio", () => {

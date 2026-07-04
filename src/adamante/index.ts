@@ -24,6 +24,10 @@
  *     suprime o efeito quando o item NÃO está equipado via isSuppressedUnnequipped).
  *   • esoteric.adamant — marcador (sem changes); o reroll é lógica custom em
  *     `adamante/esoteric.ts` integrada ao fluxo de magia do spell-resistance.
+ *   • tools.adamant — marcador (categoria `tools` do T20 = ferramenta/traje,
+ *     inclui instrumentos musicais). Efeito "+1 no bônus da Inspiração" é lógica
+ *     custom em `src/inspiracao`; o template só faz o material aparecer como
+ *     Automatizado (mesmo tratamento das armas) e ser gated por equipado.
  *
  * Com isso, escolher "Adamante" no slot de material (com a Automação do item
  * ligada) passa pelo fluxo NATIVO do T20 (`_createEffect`/`_deleteEffect` +
@@ -88,6 +92,27 @@ export function buildArmorAdamante(rd: number): UpgradeTemplate {
     };
 }
 
+/**
+ * Template do Adamante para FERRAMENTA/TRAJE (categoria `tools` do T20).
+ * **Marcador** (sem changes): cobre instrumentos musicais de Adamante, cujo
+ * efeito ("+1 no bônus da Inspiração") é lógica custom em `src/inspiracao`. O
+ * template existe pra que a seleção "Material Especial: Adamante" apareça como
+ * **Automatizado** no item (mesmo tratamento das armas) e seja gated por
+ * equipado pelo fluxo nativo (`isSuppressedUnnequipped`).
+ */
+export function buildToolAdamante(): UpgradeTemplate {
+    return {
+        name: "Adamante",
+        description:
+            "Adamante: um instrumento musical de Adamante aumenta em +1 o bônus concedido pela Inspiração do bardo.",
+        tint: TINT,
+        changes: [],
+        flags: { tormenta20: { onuse: false, durationScene: false, upgrade: ADAMANTE_KEY, self: false } },
+        disabled: false,
+        transfer: true,
+    };
+}
+
 /** Template do Adamante para ESOTÉRICO: marcador (reroll de 1s é lógica custom). */
 export function buildEsotericAdamante(): UpgradeTemplate {
     return {
@@ -116,6 +141,7 @@ interface T20UpgradesConfig {
     weapon?: UpgradeCategory;
     armor?: ArmorUpgradeCategory;
     esoteric?: UpgradeCategory;
+    tools?: UpgradeCategory;
 }
 
 /**
@@ -149,6 +175,15 @@ export function injectAdamanteUpgrades(upgrades: T20UpgradesConfig | undefined):
     if (upgrades.esoteric) {
         upgrades.esoteric[ADAMANTE_KEY] = buildEsotericAdamante();
         setStatus(upgrades.esoteric);
+        n++;
+    }
+
+    if (upgrades.tools) {
+        // Ferramentas/trajes (inclui instrumentos musicais). O efeito mecânico
+        // (Inspiração +1) é custom em src/inspiracao; aqui só marcamos como
+        // Automatizado + status DONE.
+        upgrades.tools[ADAMANTE_KEY] = buildToolAdamante();
+        setStatus(upgrades.tools);
         n++;
     }
 

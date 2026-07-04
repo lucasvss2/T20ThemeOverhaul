@@ -127,16 +127,17 @@ function hasGaitaDeFoles(actor: FoundryActor): boolean {
 }
 
 /**
- * Algum instrumento equipado de Adamante? Detecta pelo slot de material do T20
- * (`upgrades.material === "adamant"`) OU pelo NOME (ex.: "Gaita de Foles de
- * Adamante") — muitos itens do usuário trazem o material só no nome, sem o
- * upgrade nativo preenchido.
+ * Algum instrumento musical EQUIPADO com material Adamante? O +1 fica **ligado
+ * ao item** pelo slot de material do T20 (`system.upgrades.material === "adamant"`,
+ * igual às armas) e só vale com o item equipado — NÃO detectamos por nome (o
+ * material tem que estar selecionado no aprimoramento). Ver `src/adamante`
+ * (`tools.adamant`) que registra o material como Automatizado para ferramentas.
  */
 function hasAdamanteInstrument(actor: FoundryActor): boolean {
     return actorItems(actor).some((it) => {
         if (!isEquipped(it) || !isInstrumentName(it.name)) return false;
         const mat = (it.system as { upgrades?: { material?: string } } | undefined)?.upgrades?.material;
-        return mat === "adamant" || norm(it.name).includes("adamant");
+        return mat === "adamant";
     });
 }
 
