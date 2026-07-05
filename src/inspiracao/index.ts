@@ -26,7 +26,6 @@ import { computeSkillTotal } from "@/hidden-test/skills";
 import { T20Overlay } from "@/overlay/T20Overlay";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
 import { getSocket, onSocketReady } from "@/socket";
-import { getTokenCenterPx } from "@/_shared";
 import {
     isInspiracaoPower,
     inspiracaoImprovementOf,
@@ -49,7 +48,6 @@ const FLAG_KEY = "inspiracao"; // flags.<MODULE_ID>.inspiracao (na AE)
 const ESPIRITUOSA_FLAG = "inspEspirituosaCombat"; // flags.<MODULE_ID> (no bardo): combatId da última Espirituosa
 const CORNAMUSA_FLAG = "cornamusaPenalty"; // flag na AE de −2 Defesa da Cornamusa
 const SOCKET_APPLY = "inspiracao/apply";
-const RANGE_SQUARES = 6; // 9 m = 6 quadrados (independente da escala da cena)
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
@@ -200,24 +198,6 @@ function isInstrumentName(name: string | undefined): boolean {
     return INSTRUMENT_NAMES.some((k) => n.includes(k));
 }
 
-// ── Distância (token → token) em QUADRADOS ─────────────────────────────────────
-// Contagem em quadrados (Chebyshev) — casa com a regra "9 m = 6 quadrados" e é
-// robusta à escala da cena (`grid.distance` varia: 1,5 m, 50, etc.).
-
-function squaresBetween(a: FoundryToken, b: FoundryToken): number {
-    const ca = getTokenCenterPx(a);
-    const cb = getTokenCenterPx(b);
-    const size = canvas?.scene?.grid?.size ?? 100;
-    const dxSq = Math.abs(ca.x - cb.x) / size;
-    const dySq = Math.abs(ca.y - cb.y) / size;
-    return Math.max(dxSq, dySq);
-}
-
-function casterToken(actor: FoundryActor): FoundryToken | null {
-    const active = (actor as { getActiveTokens?: () => FoundryToken[] }).getActiveTokens?.() ?? [];
-    return active[0] ?? null;
-}
-
 // ── Diálogo de uso (imagem 1 reformulada) ─────────────────────────────────────
 
 function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
@@ -273,7 +253,7 @@ function openUseDialog(actor: FoundryActor, realItem: ItemLike): void {
 
     const content = `
         <div class="insp-modal">
-            <div class="insp-intro">Inspire aliados a até <b>9 m</b> (marque com <b>T</b>). Você sempre é incluído.
+            <div class="insp-intro">Inspire aliados: <b>marque-os com T</b> (o alcance de 9 m é controlado por você). Você sempre é incluído.
             Bônus base por nível: até <b>+${maxByLevel}</b> (nível de bardo ${level}).</div>
             <div class="insp-row">
                 <label>Bônus / gasto de PM:</label>
@@ -359,23 +339,19 @@ async function fireInspiracao(actor: FoundryActor, realItem: ItemLike, base: num
     const bonus = computeFinalBonus({ base, gaitaPassed, adamante: adam });
 
     // 5. Alvos: o bardo (VOCÊ) SEMPRE — via ATOR, independente de ter token na
-    //    cena (ex.: GM conjura de uma cena sem o token do bardo) — + tokens T a
-    //    ≤6 quadrados. Dedupe por uuid de ator.
-    const cToken = casterToken(actor);
+    //    cena — + TODOS os tokens marcados com T. **Sem filtro de alcance**: o
+    //    controle de alcance (9 m) é feito manualmente pelo usuário ao escolher
+    //    quem marca com T (pedido do usuário). Dedupe por uuid de ator.
     const targetsList: Array<{ uuid: string; name: string }> = [];
     const seen = new Set<string>();
     if (actor.uuid) { targetsList.push({ uuid: actor.uuid, name: actor.name }); seen.add(actor.uuid); }
-    const dropped: string[] = [];
     for (const t of Array.from(game.user?.targets ?? []) as FoundryToken[]) {
         const ta = t.actor;
         if (!ta || !ta.uuid) continue;
         if (seen.has(ta.uuid)) continue; // já incluído (é o próprio bardo)
-        // Filtro de alcance só é possível com o token do bardo na cena.
-        if (cToken && t.id !== cToken.id && squaresBetween(cToken, t) > RANGE_SQUARES + 0.05) { dropped.push(ta.name); continue; }
         targetsList.push({ uuid: ta.uuid, name: ta.name });
         seen.add(ta.uuid);
     }
-    if (dropped.length) ui.notifications?.warn(`Inspiração: alvo(s) fora de 9 m / 6 quadrados (ignorado): ${dropped.join(", ")}.`);
 
     // 6. Monta changes conforme melhorias.
     const imps = knownImprovements(actor);
