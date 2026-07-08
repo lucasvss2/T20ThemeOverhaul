@@ -14,6 +14,7 @@ import type {
 import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
 import { maybeApplyAdamanteEsoteric } from "@/adamante/esoteric";
+import { maybeBoostLuvaEffects } from "@/luva-de-ferro/index";
 import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, getEvasaoLevel, actorHasActiveEffectNamed, type EvasaoLevel, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 import { registerExpectedCondition } from "@/duration-manager/index";
@@ -540,12 +541,18 @@ async function applyBuffEffect(messageId: string, effectIndex: number, actor: Fo
     const allEffects = msg.getFlag("tormenta20", "effects") as EffectEntry[][] | undefined;
     const chatEffect = allEffects?.[effectIndex];
     if (!chatEffect?.length) return;
-    const toApply = chatEffect.map(e => {
+    let toApply = chatEffect.map(e => {
         if (e.duration?.seconds) {
             return { ...e, duration: { ...e.duration, startTime: (game as Record<string, unknown>)["time"] != null ? ((game as Record<string, unknown>)["time"] as { worldTime: number }).worldTime : 0 } };
         }
         return { ...e };
     });
+    // Luva de Ferro: +1 nos bônus de Defesa/resistência de magia arcana pessoal.
+    const luva = maybeBoostLuvaEffects(msg as unknown as Parameters<typeof maybeBoostLuvaEffects>[0], [toApply] as never);
+    if (luva.boosted) {
+        toApply = (luva.groups as unknown as EffectEntry[][])[0];
+        ui.notifications?.info("Luva de Ferro: bônus de Defesa/resistência aumentado em +1.");
+    }
     await (actor as ActorWithCreate).createEmbeddedDocuments("ActiveEffect", toApply, { toChat: true });
 }
 
@@ -1690,7 +1697,13 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     // ── Auto-apply buff puro (sem modal) — GM aplica direto; player delega ao GM ─
     if (isPureBuff && autoEnabled && effectiveTargets.length > 0) {
         type EffectData = Record<string, unknown>;
-        const effectGroups = (message.getFlag("tormenta20", "effects") as EffectData[][] | undefined) ?? [];
+        let effectGroups = (message.getFlag("tormenta20", "effects") as EffectData[][] | undefined) ?? [];
+        // Luva de Ferro: +1 nos bônus de Defesa/resistência de magia arcana pessoal.
+        const luva = maybeBoostLuvaEffects(message as unknown as Parameters<typeof maybeBoostLuvaEffects>[0], effectGroups as never);
+        if (luva.boosted) {
+            effectGroups = luva.groups as unknown as EffectData[][];
+            ui.notifications?.info("Luva de Ferro: bônus de Defesa/resistência aumentado em +1.");
+        }
         const casterName   = message.speaker?.alias ?? "Lançador";
         await autoApplyBuffEffects(effectGroups, effectiveTargets, casterName);
         return;

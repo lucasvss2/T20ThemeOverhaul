@@ -113,6 +113,7 @@ src/
   t20-fixes/poderoso-upgrade.ts — Poderoso (esotérico): template +1 CD (AE em attributes.cd, só cópia no ATOR) + migração/dedup + reset p/ labels
   adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
+  luva-de-ferro/index.ts       — Luva de Ferro: +1 nos bônus de Defesa/resistência de magias ARCANAS PESSOAIS (boost nas changes antes de aplicar; consumido pelo spell-resistance)
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
   armamento-aberrante/weapons.ts — Base EMPACOTADA de 100 armas (stats colhidos dos compêndios T20) p/ o seletor
   economia-habilidade/index.ts — Economia de Habilidade: reduz −1 PM (mín 1) de um poder escolhido; modal ao adicionar; restaura ao remover
@@ -594,6 +595,15 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Mitral** (`mithril`) → **informativo**: "ação de movimento" no dialog/card (economia de ações não é rastreada pelo Foundry). Só marca Automatizado.
 - **Matéria Vermelha** (`red-matter`) → **NÃO implementado**: a CD do T20 é global (`attributes.cd`); não dá pra subir só as habilidades "exceto magias" sem afetar as magias. Não registrado (ficaria "Automatizado" enganoso).
 - **Verificado ao vivo (Allegro + materiais temporários):** dialog lista Madeira Tollon/Aço-Rubi/Mitral; custo +2 → 3 PM (Madeira Tollon −1); Everton recebe AE com `acoRubi:true`; os 3 materiais aparecem como Automatizado na ficha.
+
+### Luva de Ferro (v1.81.0)
+
+`src/luva-de-ferro/index.ts`. Item: "Suas magias arcanas pessoais que concedem bônus na Defesa ou em testes de resistência têm esse bônus aumentado em +1." Sem automação nativa (nome não existe no tormenta20.mjs).
+
+- **Elegibilidade:** caster com equipamento equipado cujo nome normalizado inclui "luva de ferro" (`equipado` OU `equipado2.slot>0`) + magia com `itemData.tipo==="arc"` e `itemData.alcance==="self"` (⚠️ `itemData` do flag é o `.system` ACHATADO — alcance em `.alcance`, não `.system.alcance`; pessoal = key `"self"` de `T20.distanceUnits`).
+- **Boost (`boostDefenseResistGroups`, puro):** +1 em changes `mode ADD` com valor > 0 cuja key: `system.attributes.defesa.*` (EXCETO `.pda`), `system.modificadores.pericias.resistencia*`, `system.pericias.(fort|refl|vont).*`. Deep-clone (não muta a entrada).
+- **Integração (2 pontos em `spell-resistance`):** `maybeBoostLuvaEffects(message, groups)` chamado no auto-apply de buff puro (⚡) e no `applyBuffEffect` (botões `.smf-buff-btn` do modal). Notificação "Luva de Ferro: bônus +1" quando boosta. **Limitação:** o botão nativo `chat-apply-ae` do card T20 não passa pelo módulo — sem boost por lá.
+- **Verificado ao vivo (Aller, Luva de Ferro Vigilante equipada):** Armadura Arcana (arc/self, base `defesa.bonus=5` no grupo do flag) aplicada pelo botão do modal → AE com **6**.
 
 ### Upgrades Ajustada + Poderoso (v1.80.0)
 
