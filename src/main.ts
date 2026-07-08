@@ -43,6 +43,8 @@ import { setupOnUseForeignDieDano } from "./t20-fixes/onuse-foreign-die-dano";
 import { setupEstiloDisparoDano } from "./t20-fixes/estilo-disparo-dano";
 import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
+import { setupAjustadaFix } from "./t20-fixes/ajustada-upgrade";
+import { setupPoderosoUpgrade } from "./t20-fixes/poderoso-upgrade";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
@@ -68,6 +70,10 @@ import { log, warn } from "./utils/logging";
 // Registrada no top-level para poder instalar os patches no hook `init` — ANTES
 // da primeira preparação dos atores (ver nota em t20-fixes/proficiencia.ts).
 setupProeficiencia();
+
+// Ajustada: patch de prepareDerivedData do item também precisa entrar no `init`
+// (a penalidade corrigida tem que valer já na primeira preparação do mundo).
+setupAjustadaFix();
 
 // ── Init: sanity checks ───────────────────────────────────────────────────────
 
@@ -111,6 +117,7 @@ Hooks.once("setup", () => {
     setupAcuidadeArma();          // Acuidade com Arma aplica @des no dano de armas leves/arremesso
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
     setupAdamante();              // Material Adamante: arma (+1 passo de dano), armadura/escudo (RD), esotérico (reroll 1s)
+    setupPoderosoUpgrade();       // Poderoso (esotérico): +1 CD via AE em attributes.cd + migração
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
     setupEscudoLeve();            // Escudo Leve: ocupa o antebraço (mão livre p/ objeto/arma/desarmado 2 mãos)

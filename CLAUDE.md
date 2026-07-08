@@ -109,6 +109,8 @@ src/
   anim-presets/index.ts        — Memória de animações de skills (Automated Animations): captura/aplica flags.autoanimations por magia; prompt ao adicionar
   anim-presets/bundled-presets.ts — Presets de animação EMPACOTADOS (camada bundled) + tipos AnimPreset/AnimPresetLibrary
   adamante/index.ts            — Material Adamante: injeta templates de upgrade (arma=passo de dano, armadura/escudo=RD, esotérico=marker) em CONFIG.T20.upgrades
+  t20-fixes/ajustada-upgrade.ts — Ajustada: fix do bug de sinal nativo — penalidade de armadura do ITEM reduzida em derived data (mín 0); AE vira marcador; migração
+  t20-fixes/poderoso-upgrade.ts — Poderoso (esotérico): template +1 CD (AE em attributes.cd, só cópia no ATOR) + migração/dedup + reset p/ labels
   adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
@@ -592,6 +594,14 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Mitral** (`mithril`) → **informativo**: "ação de movimento" no dialog/card (economia de ações não é rastreada pelo Foundry). Só marca Automatizado.
 - **Matéria Vermelha** (`red-matter`) → **NÃO implementado**: a CD do T20 é global (`attributes.cd`); não dá pra subir só as habilidades "exceto magias" sem afetar as magias. Não registrado (ficaria "Automatizado" enganoso).
 - **Verificado ao vivo (Allegro + materiais temporários):** dialog lista Madeira Tollon/Aço-Rubi/Mitral; custo +2 → 3 PM (Madeira Tollon −1); Everton recebe AE com `acoRubi:true`; os 3 materiais aparecem como Automatizado na ficha.
+
+### Upgrades Ajustada + Poderoso (v1.80.0)
+
+`src/t20-fixes/ajustada-upgrade.ts` + `src/t20-fixes/poderoso-upgrade.ts`. Dois aprimoramentos de item que não funcionavam.
+
+- **Ajustada (armadura/escudo)** — regra: penalidade de armadura do item **reduzida em 1, nunca acima de 0**. O template nativo (`T20.upgrades.armor.general.adjusted`, mjs ~L844) aplica `defesa.pda += "-1"` — **bug de sinal** (Escudo Leve −1 virava −2). **⚠️ NÃO dá pra consertar só o valor da change:** `defesa.pda` (ator) e `armadura.penalidade` (item) são **`PenaltyField`** (mjs ~L12118) — TODA atribuição vira `-Math.abs(v)`; uma AE `ADD +1` produz 0+1=1 → cast **−1** (verificado ao vivo: pda −1→−2 com a AE "+1"). Nenhuma change consegue SUBIR o pda. Fix: template vira **marcador** (changes vazias; fluxo nativo de criar/deletar a AE preservado) + **patch em `Item.prepareDerivedData`** que faz `armadura.penalidade = min(0, pen+1)` p/ equipamento com armadura + "adjusted" em melhoria1..4 + `enableAutoUpgrades` (derived only, nada persiste; o `prepareDefense` do ator lê o valor já corrigido). **⚠️ O patch é instalado no `init` via chamada TOP-LEVEL no main.ts** (padrão proficiencia.ts) — no setup/ready seria tarde: a 1ª preparação do mundo já teria rodado sem ele (bug pego ao vivo: pda voltava a −1 em load fresco). Migração no ready (GM): AEs "adjusted" existentes (ator + item — o `_createEffect` nativo cria NOS DOIS) têm as changes de pda removidas.
+- **Poderoso (esotérico)** — regra: +1 na CD das magias do portador. Nativo é só `status.powerful="MANUAL"` (sem template/AE). Fix: injeta `T20.upgrades.esoteric.powerful` (change `system.attributes.cd += 1`, transfer:true, status DONE) — a CD das magias flui pelo patch existente `spell-cd-formula` (lê `actor.attributes.cd`); supressão por desequipar é nativa (`isSuppressedUnnequipped`; com `equipmentSlots` ON checa `equipado2.slot === 0`, NÃO `system.equipado`). Migração no ready (GM): esotéricos com "powerful" já selecionado ganham a AE — **⚠️ SÓ a cópia no ATOR** (origin = uuid do item): o T20 RE-COPIA efeitos do item pro ator no toggle de `system.equipado` (verificado: duplicou → CD +2) e `isSuppressedDuplicated` só protege efeitos de STATUS; sem cópia no item não há o que re-copiar. Migração também **deduplica** por origem e dá `actor.reset()` nos portadores — o label `resistencia.cd` das magias é computado 1 preparação ANTES da AE aplicar no load (ficava 1 abaixo até re-preparar).
+- **Verificado ao vivo (world arton):** Aller (Escudo leve Ajustado) pda −2 → **0** já no load; Al'gazaha (Bolsa de Pó Poderoso, esotérico equipado) cd 11 → **12**, Adaga Mental CD 17 → **18**; desequipar via `equipado2.slot=0` suprime (cd 11); template Ajustada em armadura −2 → −1 (via `ajustadaPenalty`).
 
 ### Escudo Leve — mão livre (v1.73.0)
 
