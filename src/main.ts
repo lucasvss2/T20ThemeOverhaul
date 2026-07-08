@@ -45,6 +45,7 @@ import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 import { setupAjustadaFix } from "./t20-fixes/ajustada-upgrade";
 import { setupPoderosoUpgrade } from "./t20-fixes/poderoso-upgrade";
+import { setupNpcEquipadoFix } from "./t20-fixes/npc-equipado";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
@@ -75,6 +76,10 @@ setupProeficiencia();
 // Ajustada: patch de prepareDerivedData do item também precisa entrar no `init`
 // (a penalidade corrigida tem que valer já na primeira preparação do mundo).
 setupAjustadaFix();
+
+// Defesa de Ameaças: NPC com armadura `equipado:true` mas `equipado2.slot:0`
+// não somava a armadura na Defesa com equipmentSlots ON. Patch no init idem.
+setupNpcEquipadoFix();
 
 // ── Init: sanity checks ───────────────────────────────────────────────────────
 

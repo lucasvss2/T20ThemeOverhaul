@@ -111,6 +111,7 @@ src/
   adamante/index.ts            — Material Adamante: injeta templates de upgrade (arma=passo de dano, armadura/escudo=RD, esotérico=marker) em CONFIG.T20.upgrades
   t20-fixes/ajustada-upgrade.ts — Ajustada: fix do bug de sinal nativo — penalidade de armadura do ITEM reduzida em derived data (mín 0); AE vira marcador; migração
   t20-fixes/poderoso-upgrade.ts — Poderoso (esotérico): template +1 CD (AE em attributes.cd, só cópia no ATOR) + migração/dedup + reset p/ labels
+  t20-fixes/npc-equipado.ts    — Defesa de Ameaças: NPC com armadura equipado:true + slot 0 ganha slot DERIVADO sintético (equipmentSlots ON exige slot truthy)
   adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   luva-de-ferro/index.ts       — Luva de Ferro: +1 nos bônus de Defesa/resistência de magias ARCANAS PESSOAIS (boost nas changes antes de aplicar; consumido pelo spell-resistance)
@@ -596,6 +597,10 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Mitral** (`mithril`) → **informativo**: "ação de movimento" no dialog/card (economia de ações não é rastreada pelo Foundry). Só marca Automatizado.
 - **Matéria Vermelha** (`red-matter`) → **NÃO implementado**: a CD do T20 é global (`attributes.cd`); não dá pra subir só as habilidades "exceto magias" sem afetar as magias. Não registrado (ficaria "Automatizado" enganoso).
 - **Verificado ao vivo (Allegro + materiais temporários):** dialog lista Madeira Tollon/Aço-Rubi/Mitral; custo +2 → 3 PM (Madeira Tollon −1); Everton recebe AE com `acoRubi:true`; os 3 materiais aparecem como Automatizado na ficha.
+
+### Defesa de Ameaças — armadura equipada de NPC (v1.82.1)
+
+`src/t20-fixes/npc-equipado.ts`. Com `equipmentSlots` LIGADO, o `prepareDefense` (mjs ~L16851) só conta como equipado item com `equipado2.slot` truthy — e NPCs (StatblockParser/compêndios/Bestiário) vêm com `equipado:true` + `slot:0` → armadura/escudo NÃO somavam na Defesa (Sargento-mor 13 em vez de 24; Recruta Purista 11 em vez de 16). Fix: wrapper em `Item.prepareDerivedData` (instalado no `init` via top-level, encadeado com o do Ajustada) — item `equipamento` de ATOR NPC com `equipado` truthy e slot 0 recebe slot DERIVADO sintético (`body`→1.2, senão 1.1; nada persiste). PCs intactos. De quebra conserta `areEffectsSuppressed` p/ upgrades em itens de NPC (mesmo critério de slot). **Verificado ao vivo (world arton):** Sargento-mor 13→**24**, Recruta Purista ×2 11→**16** (números do livro); Aller (PC) inalterado (Defesa 25, pda 0). Cobre packs/imports futuros sem migração de dados.
 
 ### Bolsa de Pó (v1.82.0)
 
