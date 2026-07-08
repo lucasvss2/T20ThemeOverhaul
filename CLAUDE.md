@@ -114,6 +114,7 @@ src/
   adamante/esoteric.ts         — Adamante esotérico: reroll de 1s no dano da magia por +1 PM (helpers puros + integração no spell-resistance)
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   luva-de-ferro/index.ts       — Luva de Ferro: +1 nos bônus de Defesa/resistência de magias ARCANAS PESSOAIS (boost nas changes antes de aplicar; consumido pelo spell-resistance)
+  bolsa-de-po/index.ts         — Bolsa de Pó: −2 PM no custo dos APRIMORAMENTOS de magias enc/ilu (wrapper AbilityUseDialog.create mede o delta do clone; display via ajustecusto)
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
   armamento-aberrante/weapons.ts — Base EMPACOTADA de 100 armas (stats colhidos dos compêndios T20) p/ o seletor
   economia-habilidade/index.ts — Economia de Habilidade: reduz −1 PM (mín 1) de um poder escolhido; modal ao adicionar; restaura ao remover
@@ -595,6 +596,15 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Mitral** (`mithril`) → **informativo**: "ação de movimento" no dialog/card (economia de ações não é rastreada pelo Foundry). Só marca Automatizado.
 - **Matéria Vermelha** (`red-matter`) → **NÃO implementado**: a CD do T20 é global (`attributes.cd`); não dá pra subir só as habilidades "exceto magias" sem afetar as magias. Não registrado (ficaria "Automatizado" enganoso).
 - **Verificado ao vivo (Allegro + materiais temporários):** dialog lista Madeira Tollon/Aço-Rubi/Mitral; custo +2 → 3 PM (Madeira Tollon −1); Everton recebe AE com `acoRubi:true`; os 3 materiais aparecem como Automatizado na ficha.
+
+### Bolsa de Pó (v1.82.0)
+
+`src/bolsa-de-po/index.ts`. Item: "−2 PM no custo dos APRIMORAMENTOS de magias de **Encantamento/Ilusão**" — NÃO desconta o custo base; total nunca < 1 (piso nativo).
+
+- **Mecânica do T20 explorada:** o `applyOnUseEffects` SOMA o custo dos aprimoramentos selecionados no `ativacao.custo` do **CLONE** do item (mjs ~L5884); o débito real lê esse total com piso 1 (mjs ~L6983 `max(custo,1)`); o card de chat também lê o clone. → **Wrapper em `AbilityUseDialog.create`** (encadeável com Baforada/Inspiração): mede `custoBefore` do clone, chama o nativo, e no retorno aplica `custo −= min(2, delta)` — `delta` = exatamente o que os aprimoramentos somaram (delta 0 → sem desconto; base intacta por construção).
+- **Display:** hook `renderAbilityUseDialog` injeta nota + `input[name=ajustecusto]` oculto — o `_onInputChange` NATIVO já soma esse campo no total exibido (mjs ~L6132) e aplica o piso `max(total,1)`. Listener nos inputs da `.aprimoramentos-list` (+ botões `.numCtrl`) recalcula `ajustecusto = −min(2, Σ custos selecionados)`.
+- **Detecção:** magia `escola ∈ {enc, ilu}` + equipamento equipado com nome incluindo "bolsa de po" (cobre "Bolsa de Pó Poderoso"). ⚠️ `ajustecusto` NÃO é consumido pelo débito (só display) — o débito vem 100% do wrapper no clone; os dois calculam o mesmo desconto.
+- **Verificado ao vivo (Al'gazaha, Bolsa de Pó Poderoso equipada):** Adaga Mental (enc, base 1) + aprimoramento +1d6 (2 PM) → display "1", débito **1 PM**, card "1 PM"; sem aprimoramento → 1 PM; Armadura Arcana (abj) → sem nota/desconto.
 
 ### Luva de Ferro (v1.81.0)
 

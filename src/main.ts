@@ -52,6 +52,7 @@ import { setupEscudoLeve } from "./escudo-leve/index";
 import { setupArmamentoAberrante } from "./armamento-aberrante/index";
 import { setupEconomiaHabilidade } from "./economia-habilidade/index";
 import { setupInspiracao } from "./inspiracao/index";
+import { setupBolsaDePo } from "./bolsa-de-po/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
@@ -124,6 +125,7 @@ Hooks.once("setup", () => {
     setupArmamentoAberrante();    // Armamento Aberrante (Tormenta): seletor de arma orgânica (dano +1 passo/2 poderes), dura a cena
     setupEconomiaHabilidade();    // Economia de Habilidade: reduz −1 PM de um poder escolhido (mín. 1); restaura ao remover
     setupInspiracao();            // Inspiração do Bardo: dialog reformulado + auto-apply (perícia/dano/Defesa/PV temp) + Gaita/Adamante
+    setupBolsaDePo();             // Bolsa de Pó: −2 PM no custo dos aprimoramentos de magias enc/ilu (não afeta o custo base)
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu
