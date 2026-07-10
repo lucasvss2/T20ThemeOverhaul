@@ -8,11 +8,19 @@
  *    como o "presente" (flag `flags.t20-theme-overhaul.presenteDosDeuses`). NÃO
  *    ocupa os 4 slots de melhoria nem o slot de material. É a base p/ detectar o
  *    presente nas mecânicas 2 e 4.
- * 2. **Alma Guerreira** — com o presente EQUIPADO, ao entrar em combate, PV
- *    temporários = nível + Sabedoria (não acumula: pega o maior).
+ *    **(v1.86.0)** USAR o PODER "Presente dos Deuses" (clique; o T20 debita os
+ *    2 PM nativos) também INVOCA o presente: flag `presenteInvocado`
+ *    {ts, sceneId} no ATOR, válida na cena atual — os buffs (Alma Guerreira e
+ *    Guerreiro Santificado) ativam DESACOPLADOS da arma no inventário
+ *    (`giftActive` = arma-presente equipada OU invocação ativa). Termina:
+ *    dispensa manual (skills-menu), fim do combate (deleteCombat) ou troca de
+ *    cena (sceneId).
+ * 2. **Alma Guerreira** — com o presente ATIVO (equipado ou invocado), ao entrar
+ *    em combate OU ao invocar, PV temporários = nível + Sabedoria (não acumula:
+ *    pega o maior).
  * 3. **Oração Marcial** — ao usar o poder (gasta 5 PM nativo), aplica um AE buff
  *    "Oração Marcial" no conjurador (o poder concedido escolhido é manual).
- * 4. **Guerreiro Santificado** — com o presente equipado, −1 PM no custo de
+ * 4. **Guerreiro Santificado** — com o presente ATIVO, −1 PM no custo de
  *    habilidades que custam mana, via AE `system.modificadores.custoPM = -1` no
  *    ator (modelo do upgrade `harmonized`). A 1ª parte (Ataque Especial como
  *    guerreiro nv 20) é manual.
@@ -20,15 +28,18 @@
 
 import { MODULE_ID } from "@/constants";
 import { normalizeCondName } from "@/spell-resistance/index";
+import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
 
 const GIFT_FLAG = "presenteDosDeuses";
 const GS_AE_FLAG = "guerreiroSantificado";
 const ORACAO_AE_FLAG = "oracaoMarcial";
+const PRESENTE_FLAG = "presenteInvocado";
 
 const POWER_ALMA = "alma guerreira";
 const POWER_ORACAO = "oracao marcial";
 const POWER_GS = "guerreiro santificado";
+const POWER_GIFT = "presente dos deuses";
 
 // ── Helpers de detecção (puros/testáveis) ───────────────────────────────────────
 
@@ -49,6 +60,30 @@ interface ActorLike {
         attributes?: { nivel?: { value?: number }; pv?: { value?: number; temp?: number; max?: number } };
         nivel?: { value?: number };
     };
+    getFlag?: (scope: string, key: string) => unknown;
+    setFlag?: (scope: string, key: string, value: unknown) => Promise<unknown>;
+    unsetFlag?: (scope: string, key: string) => Promise<unknown>;
+}
+
+interface PresenteFlag { ts?: number; sceneId?: string }
+
+function currentSceneId(): string {
+    return (canvas as unknown as { scene?: { id?: string } }).scene?.id ?? "";
+}
+
+/** A invocação do Presente dos Deuses (uso do PODER) está ativa nesta cena? */
+export function isPresenteInvocado(actor: ActorLike | null | undefined): boolean {
+    const f = (actor?.getFlag?.(MODULE_ID, PRESENTE_FLAG) ?? null) as PresenteFlag | null;
+    if (!f?.ts) return false;
+    return !f.sceneId || f.sceneId === currentSceneId();
+}
+
+/**
+ * O presente está ATIVO? Arma-presente equipada no inventário OU invocação
+ * pelo PODER (desacoplada da presença da arma) — gate das mecânicas 2 e 4.
+ */
+export function giftActive(actor: ActorLike | null | undefined): boolean {
+    return !!findEquippedGift(actor) || isPresenteInvocado(actor);
 }
 
 /** A arma está marcada como Presente dos Deuses? */
@@ -195,7 +230,7 @@ interface ActorWithUpdate extends ActorLike {
 export async function grantAlmaGuerreira(actor: ActorWithUpdate | null | undefined): Promise<boolean> {
     if (!actor) return false;
     if (!actorHasPowerNamed(actor, POWER_ALMA)) return false;
-    if (!findEquippedGift(actor)) return false;
+    if (!giftActive(actor)) return false;
     const want = computeAlmaGuerreiraTempHP(actor);
     if (want <= 0) return false;
     const curTemp = Number(actor.system?.attributes?.pv?.temp ?? 0) || 0;
@@ -271,6 +306,75 @@ async function onOracaoMarcialCast(message: MessageLike): Promise<void> {
     }
 }
 
+// ── Invocação: usar o PODER Presente dos Deuses ativa os buffs (v1.86.0) ─────────
+
+let _lastGiftCastTs = 0; // debounce — o T20 pode postar >1 mensagem por uso
+
+async function onPresenteDosDeusesCast(message: MessageLike): Promise<void> {
+    const actor = game.actors?.get(message.speaker?.actor ?? "") as (ActorForSync & {
+        items?: { get?: (id: string) => ItemLike | undefined };
+    }) | undefined;
+    if (!actor) return;
+    const itemId = extractItemIdFromContent(message.content ?? "");
+    const item = itemId ? actor.items?.get?.(itemId) : undefined;
+    if (!item || item.type !== "poder" || !normalizeCondName(item.name ?? "").includes(POWER_GIFT)) return;
+    const now = Date.now();
+    if (now - _lastGiftCastTs < 2000) return;
+    _lastGiftCastTs = now;
+
+    try {
+        await actor.setFlag?.(MODULE_ID, PRESENTE_FLAG, { ts: now, sceneId: currentSceneId() });
+        // Buffs desacoplados da arma no inventário: ativam no uso do poder.
+        const almaOk = await grantAlmaGuerreira(actor);
+        await syncGuerreiroSantificado(actor);
+        refreshSkillsMenu();
+        const buffs: string[] = [];
+        if (almaOk) buffs.push("Alma Guerreira (PV temporários)");
+        if (actorHasPowerNamed(actor, POWER_GS)) buffs.push("Guerreiro Santificado (−1 PM)");
+        await ChatMessage.create({
+            content:
+                `<div class="t20-reaction-block" style="border-left:3px solid #c8a96e">` +
+                `<div class="t20-reac-title"><i class="fa-solid fa-hammer"></i> Presente dos Deuses</div>` +
+                `<div class="t20-reac-line"><b>${esc(actor.name ?? "Cruzado")}</b> invoca sua arma divina.` +
+                (buffs.length ? ` Ativos: <b>${buffs.join("</b>, <b>")}</b>.` : "") +
+                ` Dura até dispensar (menu de skills), o fim do combate ou a troca de cena.</div>` +
+                `</div>`,
+            speaker: { alias: actor.name ?? "Cruzado" } as never,
+        });
+        log(`Presente dos Deuses invocado por ${actor.name}.`);
+    } catch (err) {
+        warn(`cruzado: falha ao invocar Presente dos Deuses:`, err);
+    }
+}
+
+/** Encerra a invocação: remove a flag e re-sincroniza os buffs dependentes. */
+export async function dispensarPresente(actor: ActorForSync, opts: { card?: boolean } = {}): Promise<void> {
+    if (!isPresenteInvocado(actor) && !(actor.getFlag?.(MODULE_ID, PRESENTE_FLAG))) return;
+    try {
+        await actor.unsetFlag?.(MODULE_ID, PRESENTE_FLAG);
+        await syncGuerreiroSantificado(actor);
+        refreshSkillsMenu();
+        if (opts.card !== false) {
+            await ChatMessage.create({
+                content:
+                    `<div class="t20-reaction-block" style="border-left:3px solid #9a8e7a">` +
+                    `<div class="t20-reac-line">O Presente dos Deuses de <b>${esc(actor.name ?? "Cruzado")}</b> se dissipa.</div>` +
+                    `</div>`,
+                speaker: { alias: actor.name ?? "Cruzado" } as never,
+            });
+        }
+        log(`Presente dos Deuses dispensado (${actor.name}).`);
+    } catch (err) {
+        warn(`cruzado: falha ao dispensar Presente dos Deuses:`, err);
+    }
+}
+
+/** Atores do usuário atual com invocação ativa (p/ skills-menu). */
+function myInvokedActors(): ActorForSync[] {
+    const actors = (game.actors?.contents ?? []) as Array<ActorForSync & { type?: string; isOwner?: boolean }>;
+    return actors.filter((a) => a.type === "character" && a.isOwner && isPresenteInvocado(a));
+}
+
 // ── Mecânica 4: Guerreiro Santificado (−1 PM via custoPM com o presente equipado) ─
 
 interface ActorForSync extends ActorWithUpdate {
@@ -281,9 +385,9 @@ interface ActorForSync extends ActorWithUpdate {
     deleteEmbeddedDocuments?: (t: string, ids: string[], c?: object) => Promise<unknown>;
 }
 
-/** Deve o ator ter o efeito −1 PM ativo? (tem o poder + presente equipado) */
+/** Deve o ator ter o efeito −1 PM ativo? (tem o poder + presente ATIVO — equipado ou invocado) */
 export function shouldHaveGuerreiroSantificado(actor: ActorLike | null | undefined): boolean {
-    return actorHasPowerNamed(actor, POWER_GS) && !!findEquippedGift(actor);
+    return actorHasPowerNamed(actor, POWER_GS) && giftActive(actor);
 }
 
 /** Reconcilia (idempotente) o AE −1 PM no ator conforme elegibilidade. */
@@ -357,7 +461,8 @@ export function setupCruzado(): void {
         if (actor) void grantAlmaGuerreira(actor);
     });
 
-    // Mecânica 3 — Oração Marcial: buff ao usar o poder (só o autor processa).
+    // Mecânica 3 — Oração Marcial + invocação do Presente dos Deuses: buffs ao
+    // usar o poder (só o autor processa).
     Hooks.on("createChatMessage", (...args: unknown[]) => {
         const message = args[0] as MessageLike;
         const m = message as { author?: { id?: string }; user?: { id?: string } | string };
@@ -366,6 +471,30 @@ export function setupCruzado(): void {
         if (authorId !== game.user?.id) return;
         if (!/data-item-id=/.test(message.content ?? "")) return;
         void onOracaoMarcialCast(message);
+        void onPresenteDosDeusesCast(message);
+    });
+
+    // Fim do combate encerra a invocação (idempotente; roda no GM).
+    Hooks.on("deleteCombat", () => {
+        if (!game.user?.isGM) return;
+        const actors = (game.actors?.contents ?? []) as Array<ActorForSync & { type?: string }>;
+        for (const a of actors) {
+            if (a.type === "character" && a.getFlag?.(MODULE_ID, PRESENTE_FLAG)) {
+                void dispensarPresente(a);
+            }
+        }
+    });
+
+    // Skills-menu: dispensar a invocação manualmente.
+    registerSkillAction({
+        id: "cruzado-presente-dispensar",
+        label: "Dispensar Presente dos Deuses",
+        icon: "fa-solid fa-hammer",
+        color: "#c8a96e",
+        isVisible: () => myInvokedActors().length > 0,
+        onClick: async () => {
+            for (const a of myInvokedActors()) await dispensarPresente(a);
+        },
     });
 
     // Mecânica 4 — Guerreiro Santificado: sincroniza o −1 PM ao equipar/desequipar
@@ -426,6 +555,7 @@ export function diagnoseCruzado(actor: ActorLike | null | undefined): Record<str
         temOracaoMarcial: actorHasPowerNamed(actor, POWER_ORACAO),
         temGuerreiroSantificado: actorHasPowerNamed(actor, POWER_GS),
         presenteEquipado: gift ? (gift.name ?? true) : null,
+        presenteInvocado: isPresenteInvocado(actor),
         almaGuerreiraTempHP: computeAlmaGuerreiraTempHP(actor),
         guerreiroSantificadoAtivo: shouldHaveGuerreiroSantificado(actor),
     };
