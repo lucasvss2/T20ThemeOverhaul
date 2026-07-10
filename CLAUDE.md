@@ -116,6 +116,7 @@ src/
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   luva-de-ferro/index.ts       — Luva de Ferro: +1 nos bônus de Defesa/resistência de magias ARCANAS PESSOAIS (boost nas changes antes de aplicar; consumido pelo spell-resistance)
   bolsa-de-po/index.ts         — Bolsa de Pó: −2 PM no custo dos APRIMORAMENTOS de magias enc/ilu (wrapper AbilityUseDialog.create mede o delta do clone; display via ajustecusto)
+  iniciativa-buff/index.ts     — Iniciativa pelo tracker oferece Efeitos de Uso de perícia (Audácia etc.): wrapper Combat.rollInitiative → redirect p/ rollPericia("inic") nativo
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
   armamento-aberrante/weapons.ts — Base EMPACOTADA de 100 armas (stats colhidos dos compêndios T20) p/ o seletor
   economia-habilidade/index.ts — Economia de Habilidade: reduz −1 PM (mín 1) de um poder escolhido; modal ao adicionar; restaura ao remover
@@ -619,6 +620,17 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Boost (`boostDefenseResistGroups`, puro):** +1 em changes `mode ADD` com valor > 0 cuja key: `system.attributes.defesa.*` (EXCETO `.pda`), `system.modificadores.pericias.resistencia*`, `system.pericias.(fort|refl|vont).*`. Deep-clone (não muta a entrada).
 - **Integração (2 pontos em `spell-resistance`):** `maybeBoostLuvaEffects(message, groups)` chamado no auto-apply de buff puro (⚡) e no `applyBuffEffect` (botões `.smf-buff-btn` do modal). Notificação "Luva de Ferro: bônus +1" quando boosta. **Limitação:** o botão nativo `chat-apply-ae` do card T20 não passa pelo módulo — sem boost por lá.
 - **Verificado ao vivo (Aller, Luva de Ferro Vigilante equipada):** Armadura Arcana (arc/self, base `defesa.bonus=5` no grupo do flag) aplicada pelo botão do modal → AE com **6**.
+
+### Iniciativa com Efeitos de Uso de perícia (v1.84.0)
+
+`src/iniciativa-buff/index.ts`. A iniciativa rolada pelo TRACKER (dado do combatente, "Rolar Todos"/"Rolar NPCs") usa `Combat.rollInitiative` → `_getInitiativeFormula` (roll seco `1d20 + inic`) — poderes que buffam teste de perícia gastando PM (Audácia, Engenhosidade, Fé Guerreira, Eclético...) nunca eram oferecidos.
+
+- **Fix:** wrapper em `Combat.prototype.rollInitiative` (via `CONFIG.Combat.documentClass`, hook setup). Combatente com `initiative === null` cujo ator tem Efeito de Uso de perícia PAGÁVEL → redirecionado p/ `actor.rollPericia("inic")` — fluxo NATIVO da ficha: AbilityUseDialog (checkboxes + custo), débito automático de PM, card, e o `toInitiative` do T20 grava a iniciativa. Demais ids seguem o `orig` intocado. Redirecionados rodam em SEQUÊNCIA (evita pilha de modais no Rolar Todos).
+- **⚠️ Filtro de elegibilidade** (= o do AbilityUseDialog p/ `type:"pericia"`, mjs ~L6180): cópias em `actor.effects` com flags `onuse` E **`skill`** truthy — a flag é `skill`, NÃO `pericia` (o branch sem-dialog do rollPericia usa `pericia`, que não existe nas cópias reais — pegadinha); `disabled:true` NÃO exclui (onuse ficam disabled por default — é o estado do checkbox). Restrição opcional `flags.tormenta20.items` ("Percepção;Sobrevivência") precisa incluir "Iniciativa". Corte adicional nosso: custo (`flags.tormenta20.custo`) ≤ PM disponível (value+temp).
+- **Fallback pós-roll:** `toInitiative` acha o combatente por `actor.id` (falha c/ gêmeos unlinked/combate não-ativo) — se ESTE combatente segue null, extrai `msg.rolls[0].total` do ChatMessage retornado e chama `combat.setInitiative` direto.
+- **Cancelar o dialog aborta** (paridade com a ficha); o dado do tracker continua disponível.
+- **Setting world** `iniciativaBuffEnabled` (Boolean, config:true, default true).
+- **Verificado ao vivo (Asuka + Audácia temporária):** dado do tracker → dialog "Uso de Perícia: Iniciativa" com "Audácia 2 PM"; marcar → PM 14→12, iniciativa gravada, card com o buff; Audácia = `roll += @car` (com Car 4 → init 22); Korin (Fé Guerreira 2 PM; Conhecimento das Rochas restrito a Percepção;Sobrevivência NÃO listado) → rolar sem marcar não debita PM; Rolar Todos misto → dialogs sequenciais; cancelar aborta limpo; Gnoll sem efeito → roll seco sem dialog.
 
 ### Upgrades Ajustada + Poderoso (v1.80.0)
 
