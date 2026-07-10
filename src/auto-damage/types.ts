@@ -1,3 +1,5 @@
+import type { GolpePayload } from "@/golpe-pessoal/index";
+
 export interface AutoDamageRequest {
     type: "auto-damage-request";
     requestId: string;
@@ -39,6 +41,8 @@ export interface AutoDamageRequest {
     effectiveCriticoX?: number;
     /** Effective criticoM (base from itemData + onUseEffects AE deltas). */
     effectiveCriticoM?: number;
+    /** Golpe Pessoal ativo neste ataque (Penetrante/Sifão/Atordoante/Impactante/tracking). */
+    golpe?: GolpePayload;
 }
 
 export interface AttackRerollRequest {

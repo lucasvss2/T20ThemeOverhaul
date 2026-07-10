@@ -17,6 +17,7 @@ import {
 } from "@/reactions";
 import { getMsgAuthorId } from "@/spell-resistance/index";
 import { getAcoRubiContextForActor } from "@/inspiracao/index";
+import { getGolpePayloadForMessage, handleGolpePostDamage } from "@/golpe-pessoal/index";
 import { acoRubiNegatesCrit } from "@/inspiracao/format";
 import { isGritoOnUseActive, getSamuraiLevel, getBonusDie, getBonusDieMax, computeEffectiveCriticoX, computeEffectiveCriticoM, getKeptD20Natural } from "@/grito-kiai/index";
 import { extractDamageType, computeTargetRd } from "./rd";
@@ -444,22 +445,40 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     const targetName  = targetActor?.name ?? "Alvo";
     const halfDmg     = Math.floor(req.damageTotal / 2);
 
+    // Golpe Pessoal — pós-dano (Sifão/Atordoante/Impactante/Sequencial/Truque)
+    const golpePost = (applied: number): void => {
+        if (!req.golpe) return;
+        void handleGolpePostDamage({
+            golpe: req.golpe,
+            targetActor: targetActor as never,
+            targetTokenId: req.targetTokenId,
+            targetName,
+            appliedDamage: applied,
+            rolledDamage: req.damageTotal,
+        });
+    };
+
     // ── RD automática por tipo de dano ──────────────────────────────────────────
     const tsys   = targetActor?.system as {
         tracos?: { resistencias?: Record<string, { value?: number | string; base?: number | string; imunidade?: boolean } | undefined> };
         detalhes?: { resistencias?: string };
     } | undefined;
-    const { rd: autoRd, immune } = computeTargetRd(
+    const { rd: rawAutoRd, immune } = computeTargetRd(
         tsys?.tracos?.resistencias, tsys?.detalhes?.resistencias, req.damageType ?? null,
     );
+    // Golpe Pessoal — Penetrante: ignora 10 pontos de RD (imunidade prevalece).
+    const golpeRdCut = req.golpe?.penetrante ? Math.min(10, rawAutoRd) : 0;
+    const autoRd = Math.max(0, rawAutoRd - golpeRdCut);
     const typeLabel = req.damageType
         ? ((CONFIG as unknown as { T20?: { damageTypes?: Record<string, string> } }).T20?.damageTypes?.[req.damageType] ?? req.damageType)
         : "";
     const rdDefault = immune ? req.damageTotal : autoRd;
+    const golpeRdNote = golpeRdCut > 0
+        ? `<div class="aad-rd-note">Golpe Pessoal — Penetrante: ignora ${golpeRdCut} de RD.</div>` : "";
     const rdNote = immune
         ? `<div class="aad-rd-note aad-rd-immune">Imune${typeLabel ? ` a ${esc(typeLabel)}` : ""} — dano anulado.</div>`
-        : autoRd > 0
-            ? `<div class="aad-rd-note">RD automática: −${autoRd}${typeLabel ? ` (${esc(typeLabel)})` : ""}.</div>`
+        : autoRd > 0 || golpeRdCut > 0
+            ? `<div class="aad-rd-note">RD automática: −${autoRd}${typeLabel ? ` (${esc(typeLabel)})` : ""}.</div>${golpeRdNote}`
             : "";
 
     // Aura de Invencibilidade — quando o alvo está dentro de uma aura cujo
@@ -618,6 +637,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 const finalDmg = applyRd(req.damageTotal, readRdInput(root));
                 void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
                     { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                golpePost(finalDmg);
             },
         },
         {
@@ -630,6 +650,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 const finalDmg = applyRd(halfDmg, readRdInput(root));
                 void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
                     { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                golpePost(finalDmg);
             },
         },
         {
@@ -671,6 +692,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             const baseDmg = applyRd(Math.max(0, baseRoll.total ?? 0), readRdInput(root));
             await applyDamage(req.targetTokenId, req.targetActorId, baseDmg, readPmInput(root),
                 { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+            golpePost(baseDmg);
             // trava o rodapé — o dano já foi aplicado (base, sem o extra do crítico).
             root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
                 .forEach((b) => { b.disabled = true; });
@@ -695,6 +717,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         );
         await applyDamage(req.targetTokenId, req.targetActorId, r.final, r.pmSpent,
             { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+        golpePost(r.final);
         await finalizePostDamageReaction({
             actor: targetActor as unknown as Parameters<typeof finalizePostDamageReaction>[0]["actor"],
             key, originalDamage: dmgAfterRd, finalDamage: r.final, desc: r.desc,
@@ -1124,6 +1147,7 @@ function setupCreateChatHook(): void {
                 samuraiLevel:       samuraiLvl,
                 effectiveCriticoX:  effCriticoX,
                 effectiveCriticoM:  effCriticoM,
+                golpe:              getGolpePayloadForMessage(message) ?? undefined,
             };
 
             if (targetUserId === game.user?.id) {
