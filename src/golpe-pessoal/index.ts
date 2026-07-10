@@ -125,8 +125,13 @@ const pmAvailable = (a: ActorLike): number =>
     (Number(a.system?.attributes?.pm?.value) || 0) + (Number(a.system?.attributes?.pm?.temp) || 0);
 
 function equippedWeapons(actor: ActorLike): ItemLike[] {
-    return (actor.items?.contents ?? []).filter((i) =>
-        i.type === "arma" && !!(i.system?.equipado || (i.system?.equipado2?.slot ?? 0) > 0));
+    return (actor.items?.contents ?? []).filter((i) => {
+        if (i.type !== "arma") return false;
+        if (i.system?.equipado || (i.system?.equipado2?.slot ?? 0) > 0) return true;
+        // Armas do Armamento Aberrante nascem desequipadas mas estão "na mão"
+        // por construção (o poder as invoca) — contam para o golpe.
+        return !!i.getFlag?.(MODULE_ID, "armamentoAberrante");
+    });
 }
 
 function weaponsForBuild(actor: ActorLike, build: GolpeBuild): ItemLike[] {
@@ -552,13 +557,60 @@ async function postGolpeCard(m: MessageLike, fired: FiredUse): Promise<void> {
         // Conjurador: botão de lançar a magia sem custo base
         const conj = fired.build.effects.find((e) => e.key === "conjurador");
         if (conj?.spellName) {
-            parts.push(`<button type="button" class="t20-golpe-cast" data-actor-id="${esc(fired.actorId)}" data-spell-id="${esc(conj.spellId ?? "")}" data-spell-name="${esc(conj.spellName)}" data-spell-cost="${conj.spellCost ?? 0}" style="margin-top:6px;"><i class="fas fa-magic"></i> Lançar ${esc(conj.spellName)} (custo já pago)</button>`);
+            parts.push(`<button type="button" class="t20-golpe-cast" data-actor-id="${esc(fired.actorId)}" data-spell-id="${esc(conj.spellId ?? "")}" data-spell-uuid="${esc(conj.spellUuid ?? "")}" data-spell-name="${esc(conj.spellName)}" data-spell-cost="${conj.spellCost ?? 0}" style="margin-top:6px;"><i class="fas fa-magic"></i> Lançar ${esc(conj.spellName)} (custo já pago)</button>`);
         }
         await (ChatMessage as unknown as { create: (d: Record<string, unknown>) => Promise<unknown> }).create({
             content: `<div class="t20-golpe-card" style="border:1px solid #c8a96e;border-radius:4px;padding:6px 8px;background:rgba(28,18,9,.35);">${parts.join("")}</div>`,
             speaker: { actor: fired.actorId },
         });
     } catch (e) { warn("golpe-pessoal: card suplementar falhou:", e); }
+}
+
+/**
+ * Botão do Conjurador: resolve a magia na FICHA (id → nome); se veio de
+ * compêndio e não está na ficha, IMPORTA (item marcado como temporário do
+ * golpe, removido ~2 min depois) e lança sem o custo base.
+ */
+async function castGolpeSpell(btn: HTMLButtonElement): Promise<void> {
+    const actorId = btn.dataset.actorId ?? "";
+    const actor = (game.actors as unknown as { get: (id: string) => ActorLike | undefined }).get(actorId);
+    if (!actor) return;
+    if (!(actor.isOwner || game.user?.isGM)) {
+        ui.notifications?.warn("Só o dono do personagem (ou o GM) pode lançar a magia do golpe.");
+        return;
+    }
+    let spell = (btn.dataset.spellId ? actor.items?.get?.(btn.dataset.spellId) : null)
+        ?? (actor.items?.contents ?? []).find((i) => i.type === "magia" && norm(i.name) === norm(btn.dataset.spellName));
+    let importedId: string | null = null;
+    if (!spell && btn.dataset.spellUuid) {
+        try {
+            const fromUuidFn = (globalThis as unknown as { fromUuid?: (u: string) => Promise<unknown> }).fromUuid;
+            const src = await fromUuidFn?.(btn.dataset.spellUuid) as { toObject?: () => Record<string, unknown> } | null;
+            const data = src?.toObject?.();
+            if (data) {
+                const flags = (data["flags"] ?? {}) as Record<string, Record<string, unknown>>;
+                flags[MODULE_ID] = { ...(flags[MODULE_ID] ?? {}), golpeConjuradorTemp: true };
+                data["flags"] = flags;
+                const created = await (actor as unknown as { createEmbeddedDocuments: (t: string, d: unknown[]) => Promise<Array<{ id?: string }>> })
+                    .createEmbeddedDocuments("Item", [data]);
+                importedId = created?.[0]?.id ?? null;
+                spell = importedId ? actor.items?.get?.(importedId) : undefined;
+            }
+        } catch (e) { warn("golpe-pessoal: import da magia do compêndio falhou:", e); }
+    }
+    if (!spell) { ui.notifications?.warn(`Magia "${btn.dataset.spellName}" não encontrada na ficha nem nos compêndios.`); return; }
+    pendingFreeSpell = {
+        actorId, spellId: spell.id ?? "", baseCost: Math.max(0, Number(btn.dataset.spellCost) || 0), ts: Date.now(),
+    };
+    try { await spell.roll?.({}); } finally {
+        if (importedId) {
+            // remove a cópia temporária depois do fluxo (o card já foi postado)
+            setTimeout(() => {
+                void (actor as unknown as { deleteEmbeddedDocuments?: (t: string, ids: string[]) => Promise<unknown> })
+                    .deleteEmbeddedDocuments?.("Item", [importedId!])?.catch?.(() => { /* já removida */ });
+            }, 120_000);
+        }
+    }
 }
 
 function setupChatHooks(): void {
@@ -576,22 +628,7 @@ function setupChatHooks(): void {
             root.querySelectorAll<HTMLButtonElement>(".t20-golpe-cast").forEach((btn) => {
                 if ((btn as unknown as { _gpBound?: boolean })._gpBound) return;
                 (btn as unknown as { _gpBound?: boolean })._gpBound = true;
-                btn.addEventListener("click", () => {
-                    const actorId = btn.dataset.actorId ?? "";
-                    const actor = (game.actors as unknown as { get: (id: string) => ActorLike | undefined }).get(actorId);
-                    if (!actor) return;
-                    if (!(actor.isOwner || game.user?.isGM)) {
-                        ui.notifications?.warn("Só o dono do personagem (ou o GM) pode lançar a magia do golpe.");
-                        return;
-                    }
-                    const spell = (btn.dataset.spellId ? actor.items?.get?.(btn.dataset.spellId) : null)
-                        ?? (actor.items?.contents ?? []).find((i) => i.type === "magia" && i.name === btn.dataset.spellName);
-                    if (!spell) { ui.notifications?.warn(`Magia "${btn.dataset.spellName}" não encontrada na ficha.`); return; }
-                    pendingFreeSpell = {
-                        actorId, spellId: spell.id ?? "", baseCost: Math.max(0, Number(btn.dataset.spellCost) || 0), ts: Date.now(),
-                    };
-                    void spell.roll?.({});
-                });
+                btn.addEventListener("click", () => { void castGolpeSpell(btn); });
             });
         } catch { /* render deve nunca quebrar */ }
     });

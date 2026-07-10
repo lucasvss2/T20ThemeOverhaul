@@ -67,8 +67,10 @@ export interface GolpeEffectPick {
     qty?: number;
     /** Elemental: um elemento por pick (qty do pick multiplica o MESMO elemento). */
     element?: GolpeElement;
-    /** Conjurador: magia escolhida do grimório do ator. */
+    /** Conjurador: magia escolhida (da ficha OU de compêndio). */
     spellId?: string;
+    /** uuid do doc de compêndio — importado na hora do cast se não estiver na ficha. */
+    spellUuid?: string;
     spellName?: string;
     spellCost?: number;
 }
