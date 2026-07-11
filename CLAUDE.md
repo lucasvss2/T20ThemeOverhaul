@@ -625,6 +625,10 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Integração (2 pontos em `spell-resistance`):** `maybeBoostLuvaEffects(message, groups)` chamado no auto-apply de buff puro (⚡) e no `applyBuffEffect` (botões `.smf-buff-btn` do modal). Notificação "Luva de Ferro: bônus +1" quando boosta. **Limitação:** o botão nativo `chat-apply-ae` do card T20 não passa pelo módulo — sem boost por lá.
 - **Verificado ao vivo (Aller, Luva de Ferro Vigilante equipada):** Armadura Arcana (arc/self, base `defesa.bonus=5` no grupo do flag) aplicada pelo botão do modal → AE com **6**.
 
+### CD de magia usa o atributo de CONJURAÇÃO do ator (v1.86.1)
+
+`src/t20-fixes/spell-cd-formula.ts`. O nativo (e o patch até v1.86.0) computava a CD com `atributos[resistencia.atributo]` **do ITEM** — e as magias dos compêndios vêm com o atributo da classe "típica" (arcanas=`int`, divinas=`sab`). Conjurador de OUTRO atributo pegava CD errada: Allegro (bardo, Car 9, `attributes.conjuracao="car"`) tinha Sono/Enfeitiçar/etc. com CD **15** (14+Int 1) enquanto a ficha mostra 23. Fix: `castingAttr = attrs.conjuracao || resist.atributo` (o dropdown "CD de Magias" da ficha vence o item; fallback pro item se o ator não define; Tradição Perdida override continua vencendo tudo). Verificado ao vivo: Sono do Allegro 15→**23** (card do cast e modal de resistência idem); Korin (conjuração `sab`) teve "Luz" corrigida 15→22 de tabela; magias sem resistência intactas. Não precisa migração — `resistencia.cd` é derivado a cada preparação.
+
 ### Golpe Pessoal (v1.85.0)
 
 `src/golpe-pessoal/` (`effects.ts` puro + `build-dialog.ts` + `index.ts`). Poder do guerreiro (5º): golpe construído com efeitos de uma lista de 24; custo = Σ efeitos (mín 1 PM); arma específica (salvo Qualquer Arma); reconstrói ao subir de nível; limite de PM/rodada em golpes = nível.

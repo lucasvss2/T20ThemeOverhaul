@@ -70,7 +70,6 @@ export function patchT20SpellCDFormula(): void {
         const resist = this.resistencia;
         if (!resist) return;
         if (!resist.txt) return;
-        if (!resist.atributo && actor.type !== "npc") return;
 
         const actorSys = actor.system ?? {};
         if (actor.type === "npc") {
@@ -80,13 +79,19 @@ export function patchT20SpellCDFormula(): void {
         }
 
         // PC: usa actor.attributes.cd (que JÁ tem Foco Arcano, AEs, etc.)
-        const attrs   = actorSys["attributes"] as { cd?: number; nivel?: { value?: number } } | undefined;
+        const attrs   = actorSys["attributes"] as { cd?: number; nivel?: { value?: number }; conjuracao?: string } | undefined;
         const atrs    = actorSys["atributos"]  as Record<string, { value?: number } | undefined> | undefined;
         const actorCD = Number(attrs?.cd ?? 0);
 
-        // Tradição Perdida Aprimorada: o atributo-chave de conjuração passa a ser
-        // o atributo escolhido no poder.
-        let castingAttr = resist.atributo ?? "";
+        // Atributo-chave: o de CONJURAÇÃO do ATOR (dropdown "CD de Magias" da
+        // ficha) tem precedência sobre o `resistencia.atributo` gravado no ITEM —
+        // magias importadas do compêndio vêm com o atributo da classe "típica"
+        // (arcanas=int, divinas=sab), o que quebrava conjuradores de outro
+        // atributo (ex.: bardo/Carisma via magias arcanas com CD de Int).
+        // Fallback: atributo do item (ator sem conjuração definida).
+        let castingAttr = (attrs?.conjuracao || resist.atributo) ?? "";
+        if (!castingAttr) return;
+        // Tradição Perdida Aprimorada: o atributo escolhido no poder vence tudo.
         const override = getCastingAttrOverride(actor as unknown as FoundryActor);
         if (override) castingAttr = override.attr;
         const atrVal  = Number(atrs?.[castingAttr]?.value ?? 0);
