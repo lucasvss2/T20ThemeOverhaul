@@ -196,14 +196,47 @@ async function removeManaged(actor: FoundryActor, eff: EffectDoc, dur: DurData, 
     }
 }
 
-async function postExpiry(actorName: string, label: string): Promise<void> {
+async function postExpiry(actorName: string, label: string, successorLabel?: string): Promise<void> {
     await ChatMessage.create({
         content:
             `<div style="border-left:3px solid #c8a96e;padding:5px 10px;">` +
             `<div style="color:#c8a96e;font-weight:700;letter-spacing:0.05em;">⏱️ ${escHtml(label)} expirou</div>` +
-            `<div style="color:#9a8e7a;font-size:0.85em;">${escHtml(actorName)}</div>` +
-            `</div>`,
+            `<div style="color:#9a8e7a;font-size:0.85em;">${escHtml(actorName)}` +
+            (successorLabel ? ` — agora <b style="color:#c8a96e;">${escHtml(successorLabel)}</b>` : "") +
+            `</div></div>`,
     });
+}
+
+function statusName(statusId: string): string {
+    const list = (CONFIG as { statusEffects?: Array<{ id: string; name?: string; label?: string }> }).statusEffects ?? [];
+    const s = list.find((e) => e.id === statusId);
+    const raw = s?.name ?? s?.label ?? statusId;
+    return game.i18n?.localize(raw) ?? raw;
+}
+
+/**
+ * Aplica a condição SUCESSORA (`dur.then`) quando a condição base expira —
+ * ex.: Amedrontar (Apavorado → Abalado cena), Sono em combate (Exausto →
+ * Fatigado cena). Rola a fórmula de rodadas se houver, registra a duração pro
+ * próprio manager (via `expected`, evitando o prompt) e liga o status.
+ */
+async function applySuccessor(actor: FoundryActor, then: NonNullable<DurData["then"]>): Promise<string | undefined> {
+    const withToggle = actor as FoundryActor & {
+        toggleStatusEffect?: (id: string, opts?: Record<string, unknown>) => Promise<void>;
+    };
+    if (typeof withToggle.toggleStatusEffect !== "function") return undefined;
+    let rounds = then.rounds;
+    if (then.formula) {
+        try { const r = new Roll(then.formula); await r.evaluate(); rounds = r.total ?? 1; } catch { rounds = 1; }
+    }
+    const dur: DurData = { managed: true, kind: then.durKind, source: "spell", label: statusName(then.statusId) };
+    if (then.durKind === "rounds") dur.rounds = rounds ?? 1;
+    registerExpectedCondition(actor.id, then.statusId, dur);
+    try {
+        await withToggle.toggleStatusEffect(then.statusId, { active: true });
+    } catch (e) { warn("duration: falha ao aplicar condição sucessora", e); return undefined; }
+    const suffix = then.durKind === "rounds" ? ` (${dur.rounds} rod.)` : then.durKind === "scene" ? " (cena)" : "";
+    return `${statusName(then.statusId)}${suffix}`;
 }
 
 // ── Suppression map (spell flow applies conditions with a known duration) ────────
@@ -332,7 +365,9 @@ async function onTurnChange(combat: CombatLike): Promise<void> {
         const rem = (dur.remaining ?? dur.rounds ?? 1) - 1;
         if (rem <= 0) {
             await removeManaged(actor, eff, dur, "expirou");
-            void postExpiry(actor.name, dur.label ?? eff.name);
+            // Encadeamento: ao expirar, aplica a condição sucessora (se houver).
+            const successorLabel = dur.then ? await applySuccessor(actor, dur.then) : undefined;
+            void postExpiry(actor.name, dur.label ?? eff.name, successorLabel);
         } else {
             dur.remaining = rem;
             await writeDur(eff, dur);

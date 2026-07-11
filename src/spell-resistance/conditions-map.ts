@@ -37,6 +37,12 @@ export interface MappedCondition {
     suggest?: boolean;
     /** Só se aplica em combate / fora de combate (ex.: Sono). Ausente = sempre. */
     when?: "combat" | "no-combat";
+    /**
+     * Condição SUCESSORA aplicada quando ESTA (kind=rounds) expira — encadeamento
+     * como Amedrontar (Apavorado → Abalado cena). Evita aplicar as duas juntas
+     * (a superior suprimiria a base via `stack`).
+     */
+    then?: { statusId: string; durKind: DurKind; rounds?: number; formula?: string };
 }
 
 export interface AprimoramentoOverride {
@@ -104,16 +110,27 @@ export const SPELL_CONDITIONS: Record<string, SpellConditionEntry> = {
     "amedrontar": {
         conditions: [
             { statusId: "abalado", applyOn: "pass", durKind: "rounds", formula: "1d4" },
-            { statusId: "apavorado", applyOn: "fail", durKind: "rounds", rounds: 1 },
-            { statusId: "abalado", applyOn: "fail", durKind: "scene" },
+            // Falha: SÓ Apavorado (1 rod). Ao expirar, o encadeamento aplica
+            // Abalado pela cena (aplicar as duas juntas suprimiria o Abalado —
+            // ele tem `stack:"apavorado"`, é a versão inferior).
+            {
+                statusId: "apavorado", applyOn: "fail", durKind: "rounds", rounds: 1,
+                then: { statusId: "abalado", durKind: "scene" },
+            },
         ],
         aprimoramentos: [
             {
                 match: /1d4\s*\+\s*1/i,
-                replace: [{ statusId: "apavorado", with: { statusId: "apavorado", applyOn: "fail", durKind: "rounds", formula: "1d4+1" } }],
+                replace: [{
+                    statusId: "apavorado",
+                    with: {
+                        statusId: "apavorado", applyOn: "fail", durKind: "rounds", formula: "1d4+1",
+                        then: { statusId: "abalado", durKind: "scene" },
+                    },
+                }],
             },
         ],
-        note: "Alvo: 1 animal ou humanoide (outros tipos exigem o aprimoramento \"+2 PM: muda o alvo para criatura\"). Na falha, quando o Apavorado expirar o Abalado continua até o fim da cena.",
+        note: "Alvo: 1 animal ou humanoide (outros tipos exigem o aprimoramento \"+2 PM: muda o alvo para criatura\"). Na falha: Apavorado primeiro; quando ele expira, o alvo fica Abalado até o fim da cena.",
     },
     // Enfeitiçar (lote 2) — Vontade anula. Falha: Enfeitiçado pela cena. Alvo
     // hostil OU em combate: +5 na resistência (o modal soma o +5 quando há
@@ -156,16 +173,26 @@ export const SPELL_CONDITIONS: Record<string, SpellConditionEntry> = {
             { statusId: "fatigado", applyOn: "pass", durKind: "rounds", formula: "1d4" },
             { statusId: "inconsciente", applyOn: "fail", durKind: "indeterminate", when: "no-combat" },
             { statusId: "caido", applyOn: "fail", durKind: "indeterminate", when: "no-combat" },
-            { statusId: "exausto", applyOn: "fail", durKind: "rounds", rounds: 1, when: "combat" },
-            { statusId: "fatigado", applyOn: "fail", durKind: "scene", when: "combat" },
+            // Em combate: SÓ Exausto (1 rod); ao expirar, encadeia Fatigado cena
+            // (Fatigado é a versão inferior — `stack:"exausto"` — não pode ir junto).
+            {
+                statusId: "exausto", applyOn: "fail", durKind: "rounds", rounds: 1, when: "combat",
+                then: { statusId: "fatigado", durKind: "scene" },
+            },
         ],
         aprimoramentos: [
             {
                 match: /1d4\s*\+\s*1/i,
-                replace: [{ statusId: "exausto", with: { statusId: "exausto", applyOn: "fail", durKind: "rounds", formula: "1d4+1", when: "combat" } }],
+                replace: [{
+                    statusId: "exausto",
+                    with: {
+                        statusId: "exausto", applyOn: "fail", durKind: "rounds", formula: "1d4+1", when: "combat",
+                        then: { statusId: "fatigado", durKind: "scene" },
+                    },
+                }],
             },
         ],
-        note: "Fora de combate a falha derruba o alvo Inconsciente e Caído (acorda com dano ou com uma ação para sacudi-lo — remoção manual). Em combate, quando o Exausto expirar o Fatigado continua pela cena. Alvo: 1 humanoide (+2 PM: criatura).",
+        note: "Fora de combate a falha derruba o alvo Inconsciente e Caído (acorda com dano ou com uma ação para sacudi-lo — remoção manual). Em combate: Exausto primeiro; quando ele expira, o alvo fica Fatigado pela cena. Alvo: 1 humanoide (+2 PM: criatura).",
     },
 
     // Explosão de Chamas — base: só dano (Reflexos reduz à metade), sem
@@ -188,6 +215,7 @@ export interface ResolvedCondition {
     durKind: DurKind;
     rounds?: number;
     formula?: string;
+    then?: { statusId: string; durKind: DurKind; rounds?: number; formula?: string };
 }
 
 export function lookupSpellEntry(spellName: string): SpellConditionEntry | null {
@@ -252,7 +280,7 @@ export function resolveSpellConditions(
     const suggest: string[] = [];
     for (const c of matching) {
         if (c.suggest) suggest.push(c.statusId);
-        else apply.push({ statusId: c.statusId, durKind: c.durKind, rounds: c.rounds, formula: c.formula });
+        else apply.push({ statusId: c.statusId, durKind: c.durKind, rounds: c.rounds, formula: c.formula, then: c.then });
     }
     return { apply, suggest };
 }

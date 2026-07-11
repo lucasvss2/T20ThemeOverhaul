@@ -35,6 +35,21 @@ export interface DurData {
     label?: string;
     /** How the effect was applied (for diagnostics). */
     source?: "spell" | "power" | "manual" | "native";
+    /**
+     * Condição SUCESSORA: aplicada quando ESTA (kind=rounds) expira. Usada para
+     * encadeamentos como Amedrontar (Apavorado 1 rod → ao expirar → Abalado
+     * cena) e Sono em combate (Exausto → Fatigado). Evita aplicar as duas
+     * juntas — a "superior" (stack) suprimiria a base enquanto durasse.
+     */
+    then?: DurThen;
+}
+
+export interface DurThen {
+    statusId: string;
+    durKind: DurKind;
+    rounds?: number;
+    /** Fórmula rolada p/ a contagem de rodadas (kind=rounds), ex.: "1d4". */
+    formula?: string;
 }
 
 export const DUR_FLAG = "dur";

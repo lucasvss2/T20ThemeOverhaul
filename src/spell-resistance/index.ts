@@ -1047,6 +1047,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     }
                     const dur: DurData = { managed: true, kind: c.durKind, source: "spell", label: statusLabel(c.statusId) };
                     if (c.durKind === "rounds") dur.rounds = rounds ?? 1;
+                    if (c.then) dur.then = c.then; // encadeamento (ex.: Apavorado → Abalado cena)
                     registerExpectedCondition(preReq.targetActorId, c.statusId, dur);
                     await applyCondition(preReq.targetActorUuid, preReq.targetActorId, c.statusId);
                     autoAppliedConds.add(c.statusId);

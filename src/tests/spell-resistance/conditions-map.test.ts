@@ -109,18 +109,21 @@ describe("resolveSpellConditions", () => {
         expect(resolveSpellConditions("Explosão de Chamas", true, apr).apply).toEqual([]);
     });
 
-    it("Amedrontar: passa→Abalado 1d4; falha→Apavorado 1 rod + Abalado cena; +2 PM→Apavorado 1d4+1", () => {
+    it("Amedrontar: passa→Abalado 1d4; falha→SÓ Apavorado 1 rod com then=Abalado cena; +2 PM→Apavorado 1d4+1", () => {
         const pass = resolveSpellConditions("Amedrontar", true, []);
-        expect(pass.apply).toEqual([{ statusId: "abalado", durKind: "rounds", rounds: undefined, formula: "1d4" }]);
+        expect(pass.apply).toEqual([{ statusId: "abalado", durKind: "rounds", rounds: undefined, formula: "1d4", then: undefined }]);
 
+        // Falha aplica APENAS Apavorado (o Abalado vem pelo encadeamento `then`,
+        // ao expirar — aplicar juntos suprimiria o Abalado via `stack`).
         const fail = resolveSpellConditions("Amedrontar", false, []);
-        expect(fail.apply.map((c) => c.statusId).sort()).toEqual(["abalado", "apavorado"]);
-        expect(fail.apply.find((c) => c.statusId === "apavorado")!.rounds).toBe(1);
-        expect(fail.apply.find((c) => c.statusId === "abalado")!.durKind).toBe("scene");
+        expect(fail.apply.map((c) => c.statusId)).toEqual(["apavorado"]);
+        expect(fail.apply[0]!.rounds).toBe(1);
+        expect(fail.apply[0]!.then).toEqual({ statusId: "abalado", durKind: "scene" });
 
         const apr = [{ description: "alvos que falhem ficam apavorados por 1d4+1 rodadas, em vez de apenas 1", qty: 1 }];
         const boosted = resolveSpellConditions("Amedrontar", false, apr);
-        expect(boosted.apply.find((c) => c.statusId === "apavorado")!.formula).toBe("1d4+1");
+        expect(boosted.apply[0]!.formula).toBe("1d4+1");
+        expect(boosted.apply[0]!.then).toEqual({ statusId: "abalado", durKind: "scene" });
     });
 
     it("Enfeitiçar: falha→Enfeitiçado cena; +2 PM sugestão remove a condição; +5 em combate registrado", () => {
@@ -155,12 +158,13 @@ describe("resolveSpellConditions", () => {
         expect(failFora.apply.every((c) => c.durKind === "indeterminate")).toBe(true);
 
         const failDentro = resolveSpellConditions("Sono", false, [], { inCombat: true });
-        expect(failDentro.apply.map((c) => c.statusId).sort()).toEqual(["exausto", "fatigado"]);
-        expect(failDentro.apply.find((c) => c.statusId === "fatigado")!.durKind).toBe("scene");
+        expect(failDentro.apply.map((c) => c.statusId)).toEqual(["exausto"]);
+        expect(failDentro.apply[0]!.then).toEqual({ statusId: "fatigado", durKind: "scene" });
 
         const apr = [{ description: "alvos que falhem ficam exaustos por 1d4+1 rodadas, em vez de apenas 1", qty: 1 }];
         const boosted = resolveSpellConditions("Sono", false, apr, { inCombat: true });
-        expect(boosted.apply.find((c) => c.statusId === "exausto")!.formula).toBe("1d4+1");
+        expect(boosted.apply[0]!.formula).toBe("1d4+1");
+        expect(boosted.apply[0]!.then).toEqual({ statusId: "fatigado", durKind: "scene" });
     });
 
     it("routes suggest-flagged conditions to the suggest list", () => {
