@@ -109,6 +109,60 @@ describe("resolveSpellConditions", () => {
         expect(resolveSpellConditions("Explosão de Chamas", true, apr).apply).toEqual([]);
     });
 
+    it("Amedrontar: passa→Abalado 1d4; falha→Apavorado 1 rod + Abalado cena; +2 PM→Apavorado 1d4+1", () => {
+        const pass = resolveSpellConditions("Amedrontar", true, []);
+        expect(pass.apply).toEqual([{ statusId: "abalado", durKind: "rounds", rounds: undefined, formula: "1d4" }]);
+
+        const fail = resolveSpellConditions("Amedrontar", false, []);
+        expect(fail.apply.map((c) => c.statusId).sort()).toEqual(["abalado", "apavorado"]);
+        expect(fail.apply.find((c) => c.statusId === "apavorado")!.rounds).toBe(1);
+        expect(fail.apply.find((c) => c.statusId === "abalado")!.durKind).toBe("scene");
+
+        const apr = [{ description: "alvos que falhem ficam apavorados por 1d4+1 rodadas, em vez de apenas 1", qty: 1 }];
+        const boosted = resolveSpellConditions("Amedrontar", false, apr);
+        expect(boosted.apply.find((c) => c.statusId === "apavorado")!.formula).toBe("1d4+1");
+    });
+
+    it("Enfeitiçar: falha→Enfeitiçado cena; +2 PM sugestão remove a condição; +5 em combate registrado", () => {
+        expect(resolveSpellConditions("Enfeitiçar", true, []).apply).toEqual([]);
+        const fail = resolveSpellConditions("Enfeitiçar", false, []);
+        expect(fail.apply).toEqual([{ statusId: "enfeiticado", durKind: "scene", rounds: undefined, formula: undefined }]);
+
+        const sugestao = [{ description: "em vez do normal, você sugere uma ação para o alvo e ele obedece", qty: 1 }];
+        expect(resolveSpellConditions("Enfeitiçar", false, sugestao).apply).toEqual([]);
+
+        expect(lookupSpellEntry("Enfeitiçar")!.resistBonusInCombat).toBe(5);
+    });
+
+    it("Hipnotismo: falha→Fascinado 1d4; Truque→Pasmo 1 rod; sustentada via aprimoramento", () => {
+        const fail = resolveSpellConditions("Hipnotismo", false, []);
+        expect(fail.apply).toEqual([{ statusId: "fascinado", durKind: "rounds", rounds: undefined, formula: "1d4" }]);
+
+        const truque = resolveSpellConditions("Hipnotismo", false, [], { truque: true });
+        expect(truque.apply).toEqual([{ statusId: "pasmo", durKind: "rounds", rounds: 1, formula: undefined }]);
+
+        const sust = resolveSpellConditions("Hipnotismo", false, [{ description: "muda a duração para sustentada", qty: 1 }]);
+        expect(sust.apply[0]!.durKind).toBe("sustained");
+        expect(lookupSpellEntry("Hipnotismo")!.resistBonusInCombat).toBe(5);
+    });
+
+    it("Sono: ramifica por combate — fora: Inconsciente+Caído; dentro: Exausto 1 rod + Fatigado cena", () => {
+        const pass = resolveSpellConditions("Sono", true, []);
+        expect(pass.apply).toEqual([{ statusId: "fatigado", durKind: "rounds", rounds: undefined, formula: "1d4" }]);
+
+        const failFora = resolveSpellConditions("Sono", false, [], { inCombat: false });
+        expect(failFora.apply.map((c) => c.statusId).sort()).toEqual(["caido", "inconsciente"]);
+        expect(failFora.apply.every((c) => c.durKind === "indeterminate")).toBe(true);
+
+        const failDentro = resolveSpellConditions("Sono", false, [], { inCombat: true });
+        expect(failDentro.apply.map((c) => c.statusId).sort()).toEqual(["exausto", "fatigado"]);
+        expect(failDentro.apply.find((c) => c.statusId === "fatigado")!.durKind).toBe("scene");
+
+        const apr = [{ description: "alvos que falhem ficam exaustos por 1d4+1 rodadas, em vez de apenas 1", qty: 1 }];
+        const boosted = resolveSpellConditions("Sono", false, apr, { inCombat: true });
+        expect(boosted.apply.find((c) => c.statusId === "exausto")!.formula).toBe("1d4+1");
+    });
+
     it("routes suggest-flagged conditions to the suggest list", () => {
         SPELL_CONDITIONS["__test_sug"] = {
             conditions: [{ statusId: "enfeiticado", applyOn: "fail", durKind: "scene", suggest: true }],

@@ -20,7 +20,7 @@ import { warn } from "@/utils/logging";
 import { registerExpectedCondition } from "@/duration-manager/index";
 import { classifyDuration } from "@/duration-manager/classify";
 import type { DurData } from "@/duration-manager/types";
-import { resolveSpellConditions } from "./conditions-map";
+import { resolveSpellConditions, lookupSpellEntry } from "./conditions-map";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
@@ -569,7 +569,13 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
     const skillKey   = preReq.resistSkill;
     const skillLabel = skillKey ? SKILL_LABELS[skillKey] : "";
     const breakdown  = (targetActor && skillKey) ? computeSkillBreakdown(targetActor, skillKey) : null;
-    const baseBonus  = breakdown?.total ?? 0;
+    // Bônus situacional da PRÓPRIA magia (ex.: Enfeitiçar/Hipnotismo: alvo em
+    // combate recebe +5 na resistência) — somado quando há combate ativo.
+    const condEntry  = lookupSpellEntry(preReq.spellName);
+    const combatSituBonus = (condEntry?.resistBonusInCombat
+        && (game as unknown as { combat?: { started?: boolean } }).combat?.started)
+        ? condEntry.resistBonusInCombat : 0;
+    const baseBonus  = (breakdown?.total ?? 0) + combatSituBonus;
     const bonusStr   = baseBonus >= 0 ? `+${baseBonus}` : `${baseBonus}`;
     // Tooltip detalhado: mostra a composição do bônus. Quando T20 já consolidou
     // em .value (fromValue:true), mostramos os componentes individuais como
@@ -592,6 +598,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             if (breakdown.outros)    lines.push(`  Outros: ${fmt(breakdown.outros)}`);
             if (breakdown.condi)     lines.push(`  Condição: ${fmt(breakdown.condi)}`);
         }
+        if (combatSituBonus) lines.push(`  Alvo em combate (regra da magia): +${combatSituBonus}`);
         return lines.join("\n");
     })();
     const pmActual   = targetActor?.system?.attributes?.pm?.value ?? 0;
@@ -660,6 +667,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 <span class="smf-resist-bonus smf-bonus-tooltip-host" title="${esc(bonusTooltip)}" tabindex="0">${bonusStr}</span>
                 <span class="smf-resist-outcome">${esc(outcomeHint)}</span>
             </div>
+            ${combatSituBonus ? `<div class="smf-cond-note" style="font-size:11px;color:#c8a96e;padding:2px 0;"><i class="fas fa-swords"></i> Alvo em combate: +${combatSituBonus} na resistência já somado (regra da magia).</div>` : ""}
+            ${condEntry?.note ? `<div class="smf-cond-note" style="font-size:11px;color:#9a8e7a;padding:2px 0;">${esc(condEntry.note)}</div>` : ""}
             ${powersHtml}
             <div id="smf-extra-wrap">
                 <div class="smf-label-sm" style="padding-bottom:4px;">BÔNUS EXTRA (opcional)</div>
@@ -1008,8 +1017,13 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             const autoAppliedConds = new Set<string>();
             const doAutoApplyConditions = async (passed: boolean): Promise<void> => {
                 if (preReq.isHeal) return;
-                const onUse = game.messages?.get(preReq.messageId)?.getFlag("tormenta20", "onUseEffects");
-                const { apply, suggest } = resolveSpellConditions(preReq.spellName, passed, onUse);
+                const srcMsg = game.messages?.get(preReq.messageId);
+                const onUse = srcMsg?.getFlag("tormenta20", "onUseEffects");
+                // Contexto: combate ativo (Sono ramifica) + cast como Truque
+                // (Hipnotismo → Pasmo; heurística pelo card).
+                const inCombat = !!(game as unknown as { combat?: { started?: boolean } }).combat?.started;
+                const truque = /truque/i.test(((srcMsg as { content?: string } | undefined)?.content ?? ""));
+                const { apply, suggest } = resolveSpellConditions(preReq.spellName, passed, onUse, { inCombat, truque });
                 const want = new Set(apply.map((a) => a.statusId));
 
                 const tActor = resolveTargetActor(preReq.targetActorUuid, preReq.targetActorId) as
@@ -1039,6 +1053,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     labels.push(
                         c.durKind === "rounds" ? `${statusLabel(c.statusId)} (${dur.rounds} rod.)`
                         : c.durKind === "scene" ? `${statusLabel(c.statusId)} (cena)`
+                        : c.durKind === "sustained" ? `${statusLabel(c.statusId)} (sustentada)`
                         : statusLabel(c.statusId),
                     );
                 }
