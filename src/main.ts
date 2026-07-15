@@ -45,7 +45,9 @@ import { setupAcuidadeArma } from "./t20-fixes/acuidade-arma";
 import { setupManoplaUpgrades } from "./t20-fixes/manopla-upgrades";
 import { setupAjustadaFix } from "./t20-fixes/ajustada-upgrade";
 import { setupPoderosoUpgrade } from "./t20-fixes/poderoso-upgrade";
+import { setupEnergeticoUpgrade } from "./t20-fixes/energetico-upgrade";
 import { setupNpcEquipadoFix } from "./t20-fixes/npc-equipado";
+import { setupEssenciaMana } from "./essencia-mana/index";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
@@ -126,6 +128,8 @@ Hooks.once("setup", () => {
     setupManoplaUpgrades();       // Manopla exibe aprimoramentos de arma (weaponUpgrades) na aba enhancements
     setupAdamante();              // Material Adamante: arma (+1 passo de dano), armadura/escudo (RD), esotérico (reroll 1s)
     setupPoderosoUpgrade();       // Poderoso (esotérico): +1 CD via AE em attributes.cd + migração
+    setupEnergeticoUpgrade();     // Energético (esotérico): custo undefined → "0" (evita a magia virar truque) + migração
+    setupEssenciaMana();          // Essência de Mana: consumível recupera 1d4 PM ao usar + consome 1 dose
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
     setupEscudoLeve();            // Escudo Leve: ocupa o antebraço (mão livre p/ objeto/arma/desarmado 2 mãos)
