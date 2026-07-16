@@ -273,7 +273,10 @@ async function openDivindadeModal(actor: ActorLike, item: ItemLike): Promise<voi
     dlg.render(true);
 }
 
-// ── Finalizar: poderes + complicação + campo da ficha + AE do Nimb ───────────
+// ── Finalizar: poderes + campo da ficha + AE do Nimb ─────────────────────────
+// O PRÓPRIO item da divindade é o portador único das Obrigações & Restrições
+// (descrição + flag automacao) — NÃO criamos uma complicação separada
+// (v1.89.1: gerava dois itens quase idênticos na ficha).
 
 async function finalizeDivindade(
     actor: ActorLike, item: ItemLike, flag: DivindadeFlag,
@@ -287,22 +290,7 @@ async function finalizeDivindade(
             if (p) toCreate.push(p.doc.toObject());
         }
         if (toCreate.length) await actor.createEmbeddedDocuments?.("Item", toCreate);
-
-        // 2) complicação "Obrigações e Restrições — <Deus>"
-        const [comp] = await actor.createEmbeddedDocuments?.("Item", [{
-            name: `Obrigações e Restrições — ${flag.nome}`,
-            type: "poder",
-            img: item.img,
-            system: {
-                description: { value: extractOerHtml(item), unidentified: "" },
-                ativacao: { execucao: "passive", custo: null, condicao: "", qtd: "", special: "" },
-                duracao: { units: "inst", value: 0, special: "" },
-                alcance: "none", area: "", efeito: "",
-                resistencia: { pericia: "", atributo: "", bonus: 0, txt: "" },
-                rolls: [], tipo: "geral", subtipo: "Complicação",
-            },
-            flags: { [MODULE_ID]: { [FLAG_COMP]: { deus: flag.nome, automacao: flag.automacao ?? null } } },
-        }]) ?? [];
+        const comp = item; // origem/ícone dos efeitos derivados = o item da divindade
 
         // 3) campo da ficha
         await actor.update?.({ "system.detalhes.divindade": flag.nome });
@@ -326,7 +314,7 @@ async function finalizeDivindade(
                 `<div style="display:flex;align-items:center;gap:8px;">` +
                 `<img src="${esc(item.img ?? "")}" style="width:32px;height:32px;border:none;">` +
                 `<b style="color:#c8a96e;">${esc(actor.name ?? "")} torna-se devoto de ${esc(flag.nome)}</b></div>` +
-                `<div style="font-size:12px;color:#9a8e7a;">Poderes concedidos: ${esc(names)}. A complicação "Obrigações e Restrições — ${esc(flag.nome)}" foi adicionada à ficha.</div>` +
+                `<div style="font-size:12px;color:#9a8e7a;">Poderes concedidos: ${esc(names)}. As Obrigações e Restrições de ${esc(flag.nome)} constam no item da divindade na ficha.</div>` +
                 `</div>`,
             speaker: { alias: actor.name ?? "" } as never,
         });
@@ -375,6 +363,10 @@ function isActiveGM(): boolean {
 
 function complicacaoAutomacao(actor: ActorLike): { deus: string; automacao: string } | null {
     for (const i of actor.items?.contents ?? []) {
+        // Fonte primária: o próprio item da divindade (v1.89.1).
+        const d = getDivindadeFlag(i);
+        if (d?.automacao) return { deus: d.nome, automacao: d.automacao };
+        // Legado: complicação separada criada pela v1.89.0.
         const c = (i.getFlag?.(MODULE_ID, FLAG_COMP)
             ?? (i.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_COMP]) as { deus?: string; automacao?: string | null } | undefined;
         if (c?.automacao) return { deus: c.deus ?? "", automacao: c.automacao };
@@ -431,9 +423,11 @@ function patchSheetDivindade(app: { actor?: ActorLike }, root: HTMLElement): voi
     if (!li || li.querySelector(".t20-div-field")) return;
     const wrap = document.createElement("div");
     wrap.className = "t20-div-field";
-    wrap.style.cssText = "display:flex;align-items:center;gap:5px;cursor:pointer;";
-    wrap.innerHTML = `<img src="${esc(item.img ?? "")}" style="width:22px;height:22px;border:none;object-fit:contain;">`
-        + `<span style="color:#c8a96e;font-weight:bold;">${esc(item.name ?? "")}</span>`;
+    // inline-flex + flex:0 nos filhos: ícone imediatamente ao lado do nome
+    // (o <li> do header estica os filhos — v1.89.1 corrige o espaçamento).
+    wrap.style.cssText = "display:inline-flex;align-items:center;justify-content:flex-end;gap:6px;cursor:pointer;width:100%;";
+    wrap.innerHTML = `<img src="${esc(item.img ?? "")}" style="width:22px;height:22px;border:none;object-fit:contain;flex:0 0 auto;margin:0;">`
+        + `<span style="color:#c8a96e;font-weight:bold;flex:0 0 auto;">${esc(item.name ?? "")}</span>`;
     wrap.title = "Divindade — clique para abrir";
     wrap.addEventListener("click", () => item.sheet?.render(true));
     input.replaceWith(wrap);
@@ -441,7 +435,32 @@ function patchSheetDivindade(app: { actor?: ActorLike }, root: HTMLElement): voi
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
 
+/**
+ * Migração v1.89.1: atores que ganharam a complicação separada na v1.89.0
+ * (item duplicado — a divindade JÁ carrega as O&R) têm a complicação removida.
+ * Idempotente; roda no ready (GM).
+ */
+async function migrateComplicacoesDuplicadas(): Promise<void> {
+    if (!game.user?.isGM) return;
+    let removed = 0;
+    for (const a of (game.actors?.contents ?? []) as unknown as ActorLike[]) {
+        if (a.type !== "character") continue;
+        const hasDiv = !!actorDivindadeItem(a);
+        if (!hasDiv) continue;
+        const comps = (a.items?.contents ?? []).filter((i) =>
+            !!((i.flags?.[MODULE_ID] as Record<string, unknown> | undefined)?.[FLAG_COMP]));
+        const ids = comps.map((c) => c.id ?? "").filter(Boolean) as string[];
+        if (ids.length) {
+            try { await a.deleteEmbeddedDocuments?.("Item", ids); removed += ids.length; }
+            catch (err) { warn(`divindades: migração falhou em ${a.name}:`, err); }
+        }
+    }
+    if (removed) log(`Divindades: migração removeu ${removed} complicação(ões) duplicada(s).`);
+}
+
 export function setupDivindades(): void {
+    Hooks.once("ready", () => { void migrateComplicacoesDuplicadas(); });
+
     Hooks.on("createItem", (...args: unknown[]) => {
         try {
             const item = args[0] as ItemLike & { parent?: ActorLike | null };
