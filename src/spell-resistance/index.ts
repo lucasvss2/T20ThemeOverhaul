@@ -15,6 +15,8 @@ import SPELL_RESIST_STYLES from "./spell-resistance.css?inline";
 import { computeTargetRd, damageTypeFromFormula, extractDamageType } from "@/auto-damage/rd";
 import { maybeApplyAdamanteEsoteric } from "@/adamante/esoteric";
 import { maybeBoostLuvaEffects } from "@/luva-de-ferro/index";
+import { notifySuperiorKillIfDead } from "@/linhagem-draconica/index";
+import { sanitizeBuffEffectGroups, isArmaMagicaSpell, buildAtributoAtqEffect } from "@/t20-fixes/arma-magica";
 import { getMagicReactions, consumeReaction, getPresencaOption, resolvePresenca, getEvasaoLevel, actorHasActiveEffectNamed, type EvasaoLevel, type MagicReactionOption } from "@/reactions";
 import { warn } from "@/utils/logging";
 import { registerExpectedCondition } from "@/duration-manager/index";
@@ -528,6 +530,18 @@ async function removeFadigaCondition(actorUuid: string, actorId: string): Promis
     }
 }
 
+/**
+ * Effect onuse de atributo-chave da Arma Mágica p/ o conjurador — lê o atributo
+ * de conjuração do ator (dropdown "CD de Magias" da ficha). null se indefinido.
+ */
+function buildCasterAtributoAtqEffect(caster: FoundryActor): Record<string, unknown> | null {
+    const attrs = caster.system?.attributes as { conjuracao?: string } | undefined;
+    const attr = attrs?.conjuracao;
+    if (!attr) return null;
+    const labels = (CONFIG as unknown as { T20?: { atributos?: Record<string, string> } }).T20?.atributos;
+    return buildAtributoAtqEffect(attr, labels?.[attr] ?? attr.toUpperCase()) as unknown as Record<string, unknown>;
+}
+
 async function applyBuffEffect(messageId: string, effectIndex: number, actor: FoundryActor): Promise<void> {
     type ActorWithCreate = FoundryActor & {
         createEmbeddedDocuments(type: string, data: unknown[], opts?: Record<string, unknown>): Promise<unknown>;
@@ -547,6 +561,18 @@ async function applyBuffEffect(messageId: string, effectIndex: number, actor: Fo
         }
         return { ...e };
     });
+    // Deep-clone antes de sanitizar (o shallow-copy acima compartilha `changes`
+    // com o flag da mensagem — mutar quebraria aplicações futuras).
+    toApply = JSON.parse(JSON.stringify(toApply)) as EffectEntry[];
+    // Sanitização de changes quebradas do compêndio (keys "?"* lançam
+    // SyntaxError no applyRollChanges; Arma Mágica: dano&magico → dano).
+    const spellNameForFix = extractSpellName(msg);
+    sanitizeBuffEffectGroups(spellNameForFix, [toApply] as never);
+    // Arma Mágica no PRÓPRIO conjurador: oferece o checkbox de atributo-chave.
+    if (isArmaMagicaSpell(spellNameForFix) && actor.id && actor.id === msg.speaker?.actor) {
+        const atqEff = buildCasterAtributoAtqEffect(actor);
+        if (atqEff) toApply.push(atqEff as EffectEntry);
+    }
     // Luva de Ferro: +1 nos bônus de Defesa/resistência de magia arcana pessoal.
     const luva = maybeBoostLuvaEffects(msg as unknown as Parameters<typeof maybeBoostLuvaEffects>[0], [toApply] as never);
     if (luva.boosted) {
@@ -1501,7 +1527,15 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         const rdInput = root.querySelector<HTMLInputElement>("#smf-rd-input");
                         const rdVal = Math.max(0, parseInt(rdInput?.value ?? "0", 10) || 0);
                         const finalAmt = dmgImmune ? 0 : Math.max(0, amt - rdVal);
-                        if (finalAmt > 0) await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, finalAmt);
+                        if (finalAmt > 0) {
+                            await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, finalAmt);
+                            // Linhagem Dracônica Superior: PM temp p/ o conjurador
+                            // se o alvo caiu a 0 PV com magia do elemento dele.
+                            notifySuperiorKillIfDead(
+                                resolveTargetActor(preReq.targetActorUuid, preReq.targetActorId),
+                                { messageId: preReq.messageId, damageType: preReq.damageType ?? null },
+                            );
+                        }
                         label = dmgImmune
                             ? `\u2713 Imune a ${dmgTypeLabel} \u2014 0 de dano`
                             : finalAmt > 0
@@ -1714,6 +1748,11 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     if (isPureBuff && autoEnabled && effectiveTargets.length > 0) {
         type EffectData = Record<string, unknown>;
         let effectGroups = (message.getFlag("tormenta20", "effects") as EffectData[][] | undefined) ?? [];
+        // Deep-clone + sanitização de changes quebradas do compêndio (keys "?"*
+        // lançam SyntaxError no applyRollChanges; Arma Mágica: dano&magico→dano).
+        effectGroups = JSON.parse(JSON.stringify(effectGroups)) as EffectData[][];
+        const spellNameForFix = extractSpellName(message);
+        sanitizeBuffEffectGroups(spellNameForFix, effectGroups as never);
         // Luva de Ferro: +1 nos bônus de Defesa/resistência de magia arcana pessoal.
         const luva = maybeBoostLuvaEffects(message as unknown as Parameters<typeof maybeBoostLuvaEffects>[0], effectGroups as never);
         if (luva.boosted) {
@@ -1721,6 +1760,20 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
             ui.notifications?.info("Luva de Ferro: bônus de Defesa/resistência aumentado em +1.");
         }
         const casterName   = message.speaker?.alias ?? "Lançador";
+        // Arma Mágica no PRÓPRIO conjurador: checkbox extra de atributo-chave —
+        // só nos tokens do caster (os demais alvos recebem os grupos normais).
+        if (isArmaMagicaSpell(spellNameForFix) && casterActor) {
+            const atqEff = buildCasterAtributoAtqEffect(casterActor);
+            const casterTokens = effectiveTargets.filter(t => t.actor?.id === casterActorId);
+            const otherTokens  = effectiveTargets.filter(t => t.actor?.id !== casterActorId);
+            if (atqEff && casterTokens.length) {
+                const casterGroups = JSON.parse(JSON.stringify(effectGroups)) as EffectData[][];
+                (casterGroups[0] ??= []).push(atqEff as EffectData);
+                await autoApplyBuffEffects(casterGroups, casterTokens, casterName);
+                if (otherTokens.length) await autoApplyBuffEffects(effectGroups, otherTokens, casterName);
+                return;
+            }
+        }
         await autoApplyBuffEffects(effectGroups, effectiveTargets, casterName);
         return;
     }

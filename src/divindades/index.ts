@@ -388,11 +388,14 @@ async function rollDivindadeCombat(actor: ActorLike, combatId: string): Promise<
     if (auto.automacao === "aharadak" && r % 2 === 1) applied = "fascinado";
     if (auto.automacao === "nimb" && r === 1) applied = "confuso";
 
+    // Aharadak: "fica fascinado NA PRIMEIRA RODADA" → 1 rodada, não cena.
+    // Nimb: "fica confuso" (sem duração explícita) → cena.
+    const durLabel = applied === "fascinado" ? "1 rodada" : "cena";
     if (applied) {
         try {
-            registerExpectedCondition(actor.id ?? "", applied, {
-                managed: true, kind: "scene", source: "power", label: applied === "fascinado" ? "Fascinado" : "Confuso",
-            } as never);
+            registerExpectedCondition(actor.id ?? "", applied, (applied === "fascinado"
+                ? { managed: true, kind: "rounds", rounds: 1, source: "power", label: "Fascinado" }
+                : { managed: true, kind: "scene", source: "power", label: "Confuso" }) as never);
             await actor.toggleStatusEffect?.(applied, { active: true });
         } catch (err) { warn("divindades: aplicar condição da O&R falhou:", err); }
     }
@@ -402,7 +405,7 @@ async function rollDivindadeCombat(actor: ActorLike, combatId: string): Promise<
             `<div style="font-weight:bold;color:#c8a96e;">Obrigações e Restrições — ${esc(auto.deus)}</div>` +
             `<div style="font-size:12px;color:#e8e0d0;">${esc(actor.name ?? "")} rola 1d6: <b>${r}</b> — ` +
             (applied
-                ? `fica <b style="color:#cc4444;">${applied === "fascinado" ? "Fascinado" : "Confuso"}</b> (cena).`
+                ? `fica <b style="color:#cc4444;">${applied === "fascinado" ? "Fascinado" : "Confuso"}</b> (${durLabel}).`
                 : "sem efeito nesta cena.") +
             `</div></div>`,
         rolls: [roll] as never,

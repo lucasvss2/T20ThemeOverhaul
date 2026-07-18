@@ -32,6 +32,8 @@ import { setupTreasure } from "./treasure/index";
 import { setupSheetLog } from "./sheet-log/index";
 import { setupAnimPresets, captureActorAnimations } from "./anim-presets/index";
 import { setupHerancaDraconica } from "./heranca-draconica/index";
+import { setupLinhagemDraconica } from "./linhagem-draconica/index";
+import { setupCoragemLiquida } from "./coragem-liquida/index";
 import { setupTradicaoPerdida } from "./tradicao-perdida/index";
 import { setupBaforada } from "./baforada/index";
 import { setupVelocidade } from "./velocidade/index";
@@ -121,6 +123,8 @@ Hooks.once("setup", () => {
     setupDeformidade();           // Lefou: modal de escolha de perícias (+2) ao adicionar Deformidade
     setupBriga();                 // Lutador: escala o dano do ataque desarmado pela tabela de Briga
     setupHerancaDraconica();      // Dracônico: Herança (RD elemental + tipo monstro) + Escamas (+2 Def, RD→10)
+    setupLinhagemDraconica();     // Linhagem Dracônica (Básica/Aprimorada/Superior): elemento único + PV/RD/imunidade + onuse −1 PM/+1 por dado
+    setupCoragemLiquida();        // Coragem Líquida (Bucaneiro): 1d4 no início do turno; no 1 → beber (popup) ou Pasmo 1 rodada
     setupTradicaoPerdida();       // Tradição Perdida: PM pelo atributo escolhido (+ Aprimorada: CD de conjuração)
     setupBaforada();              // Baforada Dracônica: sopro elemental (gasta PM → Nd10 + Reflexos CD Con)
     setupOnUseForeignDieDano();   // corrige bônus de dano on-use com face de dado diferente da base

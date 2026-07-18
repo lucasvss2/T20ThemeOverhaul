@@ -55,12 +55,13 @@ interface ProfActor {
     type?: string;
     system?: {
         tracos?: {
-            profArmas?:     { value?: string[] | string };
+            profArmas?:     { value?: string[] | string; custom?: string };
             profArmaduras?: { value?: string[] | string };
         };
         pericias?: Record<string, { atributo?: string; pda?: boolean }>;
     };
     itemTypes?: { equipamento?: ProfItem[] };
+    items?: { contents: Array<{ type?: string; name?: string }> };
 }
 
 /** Normaliza nomes (lowercase, sem acentos) para comparação tolerante. */
@@ -94,10 +95,49 @@ export function isUnarmedOrNatural(item: ProfItem): boolean {
 }
 
 /**
+ * Poderes que reclassificam a proficiência de uma família de armas.
+ * Ex.: Arquearia Élfica (Elfo) — "Para você, todos os arcos são armas simples"
+ * → um elfo com proficiência em armas simples é proficiente com QUALQUER arco
+ * (inclusive exóticos como o Arco de Guerra). Extensível para futuros poderes.
+ */
+export const PROF_POWER_OVERRIDES: ReadonlyArray<{
+    power: string; // nome normalizado (includes)
+    appliesTo: (weaponNameNorm: string) => boolean;
+}> = [
+    { power: "arquearia elfica", appliesTo: (n) => n.includes("arco") },
+];
+
+/** O ator tem um poder cujo override de proficiência cobre esta arma? */
+export function powerGrantsWeaponProficiency(
+    powerNamesNorm: readonly string[],
+    weaponNameNorm: string,
+): boolean {
+    return PROF_POWER_OVERRIDES.some(
+        (ov) => ov.appliesTo(weaponNameNorm) && powerNamesNorm.some((p) => p.includes(ov.power)));
+}
+
+/**
+ * Proficiências por NOME de arma (`profArmas.custom`, ex.: "Katana; Chicote") —
+ * cobre poderes/origens que dão proficiência numa arma exótica específica.
+ */
+export function customGrantsWeaponProficiency(
+    custom: string | undefined,
+    weaponNameNorm: string,
+): boolean {
+    if (!custom || !weaponNameNorm) return false;
+    return custom.split(/[;,]/)
+        .map((s) => normalizeName(s))
+        .filter(Boolean)
+        .some((n) => weaponNameNorm.includes(n) || n.includes(weaponNameNorm));
+}
+
+/**
  * O ator é proficiente com esta arma?
  * NPCs e itens não-arma nunca recebem penalidade (retorna true).
  * Desarmado/natural sempre proficiente. Caso a proficiência da arma seja
- * desconhecida (vazia), não penalizamos.
+ * desconhecida (vazia), não penalizamos. Além da categoria (`profArmas.value`),
+ * conta proficiência por nome (`profArmas.custom`) e overrides por poder
+ * (ex.: Arquearia Élfica → arcos).
  */
 export function isWeaponProficient(actor: ProfActor | null | undefined, item: ProfItem): boolean {
     if (!actor || actor.type !== "character") return true;
@@ -105,7 +145,13 @@ export function isWeaponProficient(actor: ProfActor | null | undefined, item: Pr
     if (isUnarmedOrNatural(item)) return true;
     const prof = item.system?.proficiencia;
     if (!prof) return true;
-    return getActorWeaponProfs(actor).has(prof);
+    if (getActorWeaponProfs(actor).has(prof)) return true;
+    const wname = normalizeName(item.name ?? "");
+    if (customGrantsWeaponProficiency(actor.system?.tracos?.profArmas?.custom, wname)) return true;
+    const powerNames = (actor.items?.contents ?? [])
+        .filter((i) => i.type === "poder")
+        .map((i) => normalizeName(i.name ?? ""));
+    return powerGrantsWeaponProficiency(powerNames, wname);
 }
 
 /** Tipo de item de equipamento → código de proficiência de armadura exigido (ou null). */

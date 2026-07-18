@@ -76,6 +76,31 @@ describe("isWeaponProficient", () => {
     });
 });
 
+describe("isWeaponProficient — custom e overrides por poder", () => {
+    const withCustom = (custom: string, powers: string[] = []) => {
+        const a = character(["simples", "marcial"], []) as unknown as {
+            system: { tracos: { profArmas: { value: string[]; custom?: string } } };
+            items?: { contents: Array<{ type: string; name: string }> };
+        };
+        a.system.tracos.profArmas.custom = custom;
+        a.items = { contents: powers.map((name) => ({ type: "poder", name })) };
+        return a as unknown as Actor;
+    };
+
+    it("profArmas.custom com o nome da arma → proficiente", () => {
+        expect(isWeaponProficient(withCustom("Katana; Chicote"), weapon("exotica", "Katana"))).toBe(true);
+        expect(isWeaponProficient(withCustom("Katana"), weapon("exotica", "Chicote"))).toBe(false);
+    });
+    it("Arquearia Élfica → qualquer arco vira proficiente (caso Lancry)", () => {
+        const lancry = withCustom("", ["Arquearia Élfica"]);
+        expect(isWeaponProficient(lancry, weapon("exotica", "Arco de Guerra"))).toBe(true);
+        expect(isWeaponProficient(lancry, weapon("exotica", "Katana"))).toBe(false);
+    });
+    it("sem o poder, arco exótico continua não-proficiente", () => {
+        expect(isWeaponProficient(withCustom("", []), weapon("exotica", "Arco de Guerra"))).toBe(false);
+    });
+});
+
 describe("armorTipoToProf", () => {
     it("mapeia tipos de armadura para códigos de proficiência", () => {
         expect(armorTipoToProf("leve")).toBe("lev");
