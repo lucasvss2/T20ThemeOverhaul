@@ -1,324 +1,703 @@
 /**
- * Tabela de encontros aleatórios (Tormenta20) — dados + lookup.
+ * Encontros Aleatórios (Tormenta20, Apêndice D — Ameaças de Arton).
  *
- * Seis ambientes, cada um com 7 faixas de 1d100 (01-15, 16-30, 31-45, 46-60,
- * 61-75, 76-90, 91-100). Cada faixa tem um título, um texto de ambientação e
- * quatro entradas por bracket de nível: 1-2, 3-4, 5-6, 7-8.
+ * 18 tabelas de terreno, cada uma com 28 faixas de d% (1-2 … 201+). Cada faixa
+ * tem UM encontro. O patamar do grupo desloca a rolagem de d100:
+ *   Iniciante +0 · Veterano +30 · Campeão +70 · Lenda +110.
  *
- * O GM informa um nível de 1 a 8 → mapeado ao bracket; o 1d100 escolhe a faixa.
+ * Fluxo (ver index.ts): gatilho 1d20 + modificador acumulado (persistente); em
+ * 20+ ocorre encontro e o d100+patamar resolve a tabela do terreno. No patamar
+ * Lenda, um 100 natural no d100 dispara o Rhandomm (1d4, no 1 substitui).
  *
- * Fonte: documento de tabela fornecido pelo mestre do mundo.
- *
- * ──────────────────────────────────────────────────────────────────────────────
- * COMO ADICIONAR/EXPANDIR UM AMBIENTE (basta editar ESTE arquivo):
- *
- * 1. Acrescente um objeto ao array `ENVIRONMENTS` seguindo o template abaixo.
- *    Nada mais precisa mudar — o dropdown do modal e o lookup são gerados a
- *    partir deste array automaticamente.
- *
- *    {
- *        id: "pantano",            // minúsculas, sem espaços, único
- *        label: "Pântano",          // texto exibido no dropdown
- *        rows: [
- *            { min: 1,  max: 15,  title: "...", flavor: "...",
- *                levels: ["<Nv 1-2>", "<Nv 3-4>", "<Nv 5-6>", "<Nv 7-8>"] },
- *            // ... faixas seguintes ...
- *            { min: 91, max: 100, title: "...", flavor: "",
- *                levels: ["...", "...", "...", "..."] },
- *        ],
- *    }
- *
- * 2. Regras do formato (validadas por `validateEnvironments()` no setup e nos
- *    testes): as faixas (`min`..`max`) devem cobrir 1–100 sem buracos nem
- *    sobreposições; cada faixa tem EXATAMENTE 4 brackets de nível não vazios
- *    (1-2, 3-4, 5-6, 7-8); `flavor` pode ser "" se a tabela não tiver.
- *
- * 3. As faixas não precisam ser sempre 7 nem do mesmo tamanho — qualquer
- *    partição contígua de 1 a 100 funciona (ex.: 01-20, 21-50, 51-100).
- * ──────────────────────────────────────────────────────────────────────────────
+ * Fonte gerada por scratchpad/gen_encounters.py — NÃO editar à mão; ajuste os
+ * dados no gerador e regenere.
  */
 
-/** Id de ambiente (string livre, ex.: "esgoto"). String — não union — para que
- *  adicionar um ambiente exija editar APENAS o array `ENVIRONMENTS`. */
-export type EnvironmentId = string;
+export type PatamarId = "iniciante" | "veterano" | "campeao" | "lenda";
 
-export interface EncounterRow {
+export interface PatamarDef { id: PatamarId; label: string; mod: number; }
+
+/** Modificador somado ao d100 por patamar (livro, p.422). */
+export const PATAMARES: PatamarDef[] = [
+    { id: "iniciante", label: "Iniciante (1\u00ba\u20134\u00ba)", mod: 0 },
+    { id: "veterano",  label: "Veterano (5\u00ba\u201310\u00ba)", mod: 30 },
+    { id: "campeao",   label: "Campe\u00e3o (11\u00ba\u201316\u00ba)", mod: 70 },
+    { id: "lenda",     label: "Lenda (17\u00ba\u201320\u00ba)", mod: 110 },
+];
+
+export function getPatamar(id: string): PatamarDef | undefined {
+    return PATAMARES.find((p) => p.id === id);
+}
+
+export interface EncounterRange {
+    /** Limite inferior da faixa (inclusivo). */
     min: number;
-    max: number;
-    title: string;
-    flavor: string;
-    /** Encontro por bracket de nível: [1-2, 3-4, 5-6, 7-8]. */
-    levels: [string, string, string, string];
-}
-
-export interface EnvironmentDef {
-    id: EnvironmentId;
+    /** Limite superior (inclusivo). null = sem teto (faixa "201+"). */
+    max: number | null;
+    /** Rótulo exibido, ex.: "1-2", "201+". */
     label: string;
-    /**
-     * Teto de nível de cada bracket (ascendente). Default [2, 4, 6, 8]
-     * (níveis 1-8). O deserto usa [2, 5, 8, 10] → níveis 1-10 com cortes
-     * 1-2 / 3-5 / 6-8 / 9-10. O último valor define o nível máximo aceito
-     * pelo modal para este ambiente.
-     */
-    bracketMax?: number[];
-    rows: EncounterRow[];
+    /** Texto do encontro. */
+    encounter: string;
 }
 
-/** Brackets padrão (níveis 1-8: 1-2 / 3-4 / 5-6 / 7-8). */
-export const DEFAULT_BRACKET_MAX = [2, 4, 6, 8];
+export interface TerrainDef {
+    id: string;
+    label: string;
+    rows: EncounterRange[];
+}
 
-export const ENVIRONMENTS: EnvironmentDef[] = [
+/**
+ * Texto do Rhandomm (livro, p.422) — usado apenas no patamar Lenda quando o
+ * d100 sai 100 natural e o 1d4 de confirmação cai em 1.
+ */
+export const RHANDOMM_TEXT =
+    "O Rhandomm \u2014 uma for\u00e7a do caos que se manifesta nos momentos e lugares menos esperados.";
+
+export const TERRAINS: TerrainDef[] = [
     {
-        id: "esgoto",
-        label: "Esgotos",
+        id: "aquatico",
+        label: "Aquático",
         rows: [
-            { min: 1, max: 15, title: "Pragas Rastejantes", flavor: "O cheiro atrai os famintos.",
-                levels: ["1 Enxame de Ratos", "2 Ratos Atrozes + Enxame", "3 Homens-Rato (Licantropos)", "1 Rei Rato (Monstro) + 3 Enxames"] },
-            { min: 16, max: 30, title: "Contrabandistas", flavor: "A Guilda movendo cargas ilegais.",
-                levels: ["2 Capangas da Guilda", "4 Capangas + 1 Atirador", "1 Assassino + 4 Capangas Veteranos", "3 Assassinos de Elite da Guilda"] },
-            { min: 31, max: 45, title: "Ameaça Amorfa", flavor: "Lixo mágico descartado ganhou vida.",
-                levels: ["1 Gosma Verde", "1 Cubo Gelatinoso", "1 Limo Ocre", "1 Pudim Negro"] },
-            { min: 46, max: 60, title: "Corrupção Rubra", flavor: "Áreas tocadas pela Tormenta.",
-                levels: ["2 Lefou Recém-transformados", "1 Uktril (Demônio da Tormenta)", "2 Uktril", "1 Tarelaf (Demônio) + 2 Lefou"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Mendigo cego oferecendo segredos por comida", "Cadáver de um nobre com um mapa do esgoto e ouro", "Encontro com O Rato (Hynne) vendendo poções roubadas", "Acampamento secreto de rebeldes/estivadores"] },
-            { min: 76, max: 90, title: "Culto Secreto", flavor: "Adoradores de Sszzaas (Deus da Traição).",
-                levels: ["3 Cultistas Menores", "1 Sacerdote + 3 Cultistas", "1 Sacerdote + 2 Cobras Gigantes", "1 Sumo-sacerdote Sszzaazita + 1 Naga"] },
-            { min: 91, max: 100, title: "Predador do Fosso", flavor: "O ápice alimentar do esgoto.",
-                levels: ["1 Crocodilo faminto", "1 Otyugh (Devorador de lixo)", "1 Hidra Jovem (3 cabeças)", "1 Hidra Adulta (5 cabeças)"] },
+            { min: 1, max: 2, label: "1-2", encounter: "1 hynne dormente se afogando" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d3 bandidos comuns" },
+            { min: 7, max: 10, label: "7-10", encounter: "1d3 piratas" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 baú de tesouro (ND 2; Percepção CD 15 para achar)" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 baú de tesouro (ND 3) e 1d4+2 piratas que o acharam antes" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 elfo-do-mar pescador e 1 escudeiro" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 canceronte" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 dragão filhote dos rios" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 lacedons" },
+            { min: 61, max: 65, label: "61-65", encounter: "1d3 platans" },
+            { min: 66, max: 70, label: "66-70", encounter: "Tempestade em alto-mar*" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 enxame de águas-vivas" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 capitão pirata" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 homem-piranha capitão e 1d6+1 homens-piranhas" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 moreau da raposa bucaneira enfrentando 1d4 afogados" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 águas-vivas gigantes" },
+            { min: 111, max: 115, label: "111-115", encounter: "1d4+1 corganns" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 nereida" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 peixe-recife sendo atacado por 2 pliorex abissais" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 namasqall" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 dragão venerável dos recifes" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 canceronte de guerra" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 dragões veneráveis* (frio)" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 lobo do mar, 2 capitães piratas e 2d8 piratas" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 Enguia Rainha" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 kraken" },
+            { min: 186, max: 200, label: "186-200", encounter: "1 kaiju com deslocamento de natação" },
+            { min: 201, max: null, label: "201+", encounter: "1 Dragão-Real* (frio) e 1d4 dragões veneráveis* (frio)" },
         ],
     },
     {
-        id: "caverna",
-        label: "Cavernas",
+        id: "artico",
+        label: "Ártico",
         rows: [
-            { min: 1, max: 15, title: "Ataque Aéreo", flavor: "Criaturas de teto.",
-                levels: ["1 Enxame de Morcegos", "3 Morcegos Gigantes", "2 Feras Aladas das Cavernas", "4 Feras Aladas + Enxames"] },
-            { min: 16, max: 30, title: "Habitantes das Sombras", flavor: "Povo lagarto territorial.",
-                levels: ["3 Trogloditas", "5 Trogloditas + 1 Líder", "1 Xamã Trog + 5 Trogloditas", "Tribo: 1 Xamã, 2 Brutos, 6 Trogloditas"] },
-            { min: 31, max: 45, title: "Perigo Natural", flavor: "Armadilha do ambiente (Teste de Ref/Fort).",
-                levels: ["Teto falso cede (Dano leve)", "Gás tóxico natural (Fadiga/Dano)", "Desmoronamento grave (Soterrados)", "Fissura de magma (Dano maciço/Fogo)"] },
-            { min: 46, max: 60, title: "Teias Negras", flavor: "Aracnídeos caçando.",
-                levels: ["2 Aranhas Gigantes", "4 Aranhas Gigantes", "2 Aranhas-Fase (Mágicas)", "1 Aranha-Rainha Atroz + Filhotes"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Minerador com a perna quebrada pedindo resgate", "Veio de minério exposto (teste de Ofício para extrair T$)", "Eremita anão louco que esculpe o futuro nas pedras", "Ruína soterrada contendo um altar profanado de Khalmyr"] },
-            { min: 76, max: 90, title: "Fúria da Terra", flavor: "A própria pedra ataca.",
-                levels: ["1 Elemental da Terra Pequeno", "2 Elementais da Terra Pequenos", "1 Elemental da Terra Médio", "1 Elemental da Terra Grande"] },
-            { min: 91, max: 100, title: "O Olho Petrificante", flavor: "Covil do monstro letal.",
-                levels: ["1 Fera das Rochas Menor", "1 Basilisco (Cuidado com ND!)", "2 Basiliscos", "1 Gorgon (Touro de metal/pedra)"] },
+            { min: 1, max: 2, label: "1-2", encounter: "1 sílfide de cabelo rosa morrendo de frio" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d4 zumbis*" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 carcaju" },
+            { min: 11, max: 20, label: "11-20", encounter: "1d3+1 lobos*" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 aquin’ne" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 soterrado vagante" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 minotauro da Manada com 1 lobo das cavernas*" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 chefe de gangue e 1d3+1 bandidos selvagens" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 ogro" },
+            { min: 61, max: 65, label: "61-65", encounter: "Avalanche*" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 glacioll*" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 minotauro chefe da Manada" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 gigantes esqueletos" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 mamute" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 troll das cavernas*" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 golens de Nor enormes" },
+            { min: 111, max: 115, label: "111-115", encounter: "1d4+1 mamutes esqueletos" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 dragão bicéfalo (eletricidade e frio)" },
+            { min: 126, max: 130, label: "126-130", encounter: "1d4+2 vermes do gelo larvas" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 fantasma ancestral e 2 fantasmas guardando um templo de Beluhga com 1d4 riquezas médias" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 hallus'tir" },
+            { min: 146, max: 150, label: "146-150", encounter: "2 dracomantes superiores (frio)" },
+            { min: 151, max: 155, label: "151-155", encounter: "2d4 lyubas com 1d3 riquezas menores presas nas patas de um deles" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 verme do gelo adulto" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 ezzayn" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 necrodraco lich" },
+            { min: 186, max: 200, label: "186-200", encounter: "Ninho de vermes do gelo (2 adultos e 2d4 larvas)" },
+            { min: 201, max: null, label: "201+", encounter: "Corte rubra invernal (templo de Aharadak com 1 reishid líder de culto, 1 avatar de Aharadak e 2d4 aspectos de Aharadak)" },
         ],
     },
     {
-        id: "estrada",
-        label: "Estradas",
+        id: "area_tormenta",
+        label: "Área de Tormenta",
         rows: [
-            { min: 1, max: 15, title: "Emboscada Clássica", flavor: "",
-                levels: ["3 Salteadores", "5 Salteadores", "4 Cavaleiros Mercenários", "6 Cavaleiros Mercenários + 1 Mago"] },
-            { min: 16, max: 30, title: "Goblins da Estrada", flavor: "",
-                levels: ["4 Goblins saqueadores", "1 Chefe Goblin + 6 Goblins", "Bando montado em Wargs", "Engenho de Guerra Goblin + Tropa"] },
-            { min: 31, max: 45, title: "Milícia Corrupta", flavor: "",
-                levels: ["2 Guardas cobrando T$ 10", "4 Guardas Veteranos", "1 Capitão + 4 Guardas Montados", "Inquisidor/Magistrado de Elite + Escolta"] },
-            { min: 46, max: 60, title: "Fúria Selvagem", flavor: "",
-                levels: ["1 Javali Furioso", "2 Javalis Atrozes", "1 Urso-Coruja", "2 Ursos-Coruja"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Carroça com roda quebrada", "Bardo viajante contando histórias", "Procissão de devotos de Marah", "Caravana diplomática"] },
-            { min: 76, max: 90, title: "Batedores Puristas", flavor: "",
-                levels: ["2 Recrutas Puristas", "4 Soldados Puristas", "1 Oficial Purista + 4 Soldados", "1 Mecha/Golem de Batalha Purista"] },
-            { min: 91, max: 100, title: "A Sombra no Céu", flavor: "",
-                levels: ["1 Grifo Caçando", "2 Grifos", "1 Serpe (Wyvern)", "1 Dragão Jovem"] },
+            { min: 1, max: 2, label: "1-2", encounter: "Chuva ácida cai por 1d4+1 rodadas" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 armadilha viva (arame farpado* ou virote*)" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 armadilha viva (fosso profundo* ou lâmina na parede*)" },
+            { min: 11, max: 20, label: "11-20", encounter: "Insanidade da Tormenta* 1d6 PM (Von CD 14 evita)" },
+            { min: 21, max: 30, label: "21-30", encounter: "Fenômeno rubro (temperaturas implacáveis)" },
+            { min: 31, max: 35, label: "31-35", encounter: "1d2 maníacos lefou*" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 árvore rubra (contém 1d3 sementes rubras)" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 uktril*" },
+            { min: 51, max: 60, label: "51-60", encounter: "1d3 infectos" },
+            { min: 61, max: 65, label: "61-65", encounter: "1d4 iniciados da agonia" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 grifo*" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 rinoceronte lanoso" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 alma acorrentada" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 enxame infernal" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 senhor do gigante rubro forma inicial" },
+            { min: 101, max: 110, label: "101-110", encounter: "1d4 veridak" },
+            { min: 111, max: 115, label: "111-115", encounter: "Role novamente, o próximo encontro inclui 1 fenômeno rubro aleatório" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 dragão feral corrompido (sopro de ácido, acrescente Habilidades Lefeu*, Insanidade da Tormenta 3d6 PM, Von CD 30 evita)" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 morgadrel" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 arquibruxo da Tormenta e 2 turbas de infectos" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 reishid líder de culto, 1 sacerdote de Aharadak*, 2d4 zyrrinaz e 2d4 fanáticos lefou* em um templo de Aharadak" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 thuwarokk*" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 esmagadores coletivos" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 ezzayn especial" },
+            { min: 161, max: 170, label: "161-170", encounter: "1d4+1 elementais corrompidos" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 Dragão-Real* (eletricidade)" },
+            { min: 186, max: 200, label: "186-200", encounter: "Templo de Aharadak com um avatar de Aharadak e 2d4 ezzayn especiais" },
+            { min: 201, max: null, label: "201+", encounter: "Gatzvalith faz promessas de poder aos personagens" },
         ],
     },
     {
-        id: "floresta",
-        label: "Florestas",
+        id: "colina",
+        label: "Colina",
         rows: [
-            { min: 1, max: 15, title: "Predadores Selvagens", flavor: "Lobos e feras famintas.",
-                levels: ["3 Lobos", "1 Lobo Atroz + 3 Lobos", "3 Lobos Atrozes", "1 Quimera ou Fera Mágica"] },
-            { min: 16, max: 30, title: "Bandoleiros da Mata", flavor: "Escondidos nas folhagens.",
-                levels: ["3 Bandidos com arcos", "1 Tenente + 4 Bandidos", "1 Mago Bandoleiro + 4 Arqueiros", "Grupo Mercenário de Elite (5 membros)"] },
-            { min: 31, max: 45, title: "Flora Assassina", flavor: "A natureza revida.",
-                levels: ["1 Arbusto Assassino", "2 Arbustos Assassinos", "1 Ente Jovem corrompido", "1 Ente Ancião Furioso"] },
-            { min: 46, max: 60, title: "Peças Feéricas", flavor: "Fadas e ilusões.",
-                levels: ["2 Duendes pregando peças mortais (Armadilhas)", "3 Sílfides irritadas (Magias)", "1 Dríade territorial + feras", "1 Fado Sombrio (Eiradaan)"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Fonte de água mágica (Cura 1d8 PV, 1 vez)", "Druida curando um urso; oferece abrigo se forem pacíficos", "Círculo de fadas oferecendo um pacto perigoso", "Ruína élfica coberta de musgo com um item mágico consumível"] },
-            { min: 76, max: 90, title: "Sombras Noturnas", flavor: "Mortos-vivos do pântano.",
-                levels: ["3 Zumbis de pântano", "1 Fogo-Fátuo", "2 Fogos-Fátuos + Zumbis", "1 Aparição da Floresta + Fátuos"] },
-            { min: 91, max: 100, title: "A Maldição da Lua", flavor: "Caçador implacável.",
-                levels: ["1 Bárbaro Enlouquecido", "1 Lobisomem (Licantropo)", "2 Lobisomens", "1 Senhor dos Lobisomens + Alcateia"] },
-        ],
-    },
-    {
-        id: "becos",
-        label: "Becos",
-        rows: [
-            { min: 1, max: 15, title: "Mãos Leves", flavor: "Crianças ou batedores de carteira (Teste de Percepção).",
-                levels: ["2 Pivetes armados com adagas", "1 Batedor Veterano + 2 Pivetes", "1 Mestre Ladrão (Ladino de nível alto)", "Guilda Inteira cercando o beco (8+ NPCs)"] },
-            { min: 16, max: 30, title: "Cobrança de Dívida", flavor: "Agiotas extorquindo alguém.",
-                levels: ["2 Capangas Brutamontes", "4 Brutamontes", "1 Minotauro Gladiador + 2 Capangas", "2 Minotauros + 1 Mago Ilusionista"] },
-            { min: 31, max: 45, title: "Morte Silenciosa", flavor: "Emboscada de telhado.",
-                levels: ["1 Assassino Solitário", "2 Assassinos + Fio de tropeço", "1 Franco-atirador + 2 Assassinos", "1 Assassino de Elite da Guilda das Sombras"] },
-            { min: 46, max: 60, title: "Luta Ilegal de Animais", flavor: "Rua bloqueada por um ringue de apostas.",
-                levels: ["3 Cães de Rua Raivosos", "1 Fera Exótica Escapando", "1 Mantícora enjaulada que se solta", "Fera Mágica Implacável + Donos armados"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Nobre bêbado e perdido (se ajudado, deve um favor; se roubado, dá ouro)", "Vendedor de poções ilegais (50% de chance da poção ter efeito colateral)", "Contrabandista trocando a carga sob efeito de invisibilidade (apenas barulhos)", "Oficial da guarda comprando achbuld (droga); ótima chantagem"] },
-            { min: 76, max: 90, title: "A Lei Injusta", flavor: "Patrulha procurando bodes expiatórios.",
-                levels: ["3 Guardas da Cidade", "1 Sargento + 4 Guardas", "Patrulha Antimagia (Guardas com itens que anulam magia)", "Guarda Pessoal do Rei / Inquisidores"] },
-            { min: 91, max: 100, title: "Oculto nas Pedras", flavor: "Algo que não deveria estar na cidade.",
-                levels: ["1 Gárgula Jovem", "2 Gárgulas", "1 Demônio Invocado em ritual de beco", "1 Vampiro (Morto-vivo de alto nível)"] },
-        ],
-    },
-    {
-        id: "ruinas",
-        label: "Ruínas",
-        rows: [
-            { min: 1, max: 15, title: "Patrulha Tola", flavor: "",
-                levels: ["4 Goblins Saqueadores", "6 Goblins + 1 Chefe", "Bando Goblin + 1 Golem de Sucata", "Esquadrão Goblin de Demolição (Explosivos)"] },
-            { min: 16, max: 30, title: "Vigias Ossudos", flavor: "",
-                levels: ["3 Esqueletos", "6 Esqueletos", "1 Cavaleiro Esqueleto + 4 Esqueletos", "3 Cavaleiros Esqueletos + Mago Morto-vivo"] },
-            { min: 31, max: 45, title: "Defesa Mecânica", flavor: "",
-                levels: ["Dardos Envenenados (Reflexo ou Dano+Veneno)", "Fosso com Espinhos (Profundo, Reflexo/Acrobacia)", "Sala que se enche de água ou areia (Desafio de Perícias)", "Estátuas que cospem fogo contínuo (Dano mágico)"] },
-            { min: 46, max: 60, title: "Almas Inquietas", flavor: "",
-                levels: ["1 Sombra", "2 Sombras", "1 Aparição (Drenar Carisma/Força)", "2 Aparições"] },
-            { min: 61, max: 75, title: "Interação", flavor: "Roleplay/Não-combativo.",
-                levels: ["Diário rasgado com senhas de portas", "Estátua mágica oferecendo charada/bênção", "Acampamento abandonado (suprimentos grátis)", "Espelho mágico aprisionando alma"] },
-            { min: 76, max: 90, title: "Vigilantes Eternos", flavor: "",
-                levels: ["1 Golem de Barro (Fraco)", "1 Golem de Barro (Normal)", "1 Golem de Pedra", "2 Golens de Pedra"] },
-            { min: 91, max: 100, title: "O Mestre do Túmulo", flavor: "",
-                levels: ["1 Necromante Jovem", "1 Necromante + 2 Zumbis", "1 Múmia + Servos", "1 Lich (Enfraquecido) ou Alto-Sacerdote das Trevas"] },
+            { min: 1, max: 2, label: "1-2", encounter: "2 boguns brigando para ver quem é o favorito de seu druida" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d4+2 cascavéis*" },
+            { min: 7, max: 10, label: "7-10", encounter: "1d4+2 gali-gali" },
+            { min: 11, max: 20, label: "11-20", encounter: "2 gambás" },
+            { min: 21, max: 30, label: "21-30", encounter: "4 gnolls capangas" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 jagunço e 1 capanga" },
+            { min: 36, max: 40, label: "36-40", encounter: "2 perdigueiros trolls atacando um viajante" },
+            { min: 41, max: 50, label: "41-50", encounter: "Grama carnívora" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 kobold veterano e 4 kobolds patrulheiros" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 gorlogg alfa com uma perna presa em uma armadilha" },
+            { min: 66, max: 70, label: "66-70", encounter: "Ninho de simbiontes (Conhecimento ou Misticismo CD 25 encontra 1 dádiva de Aharadak)" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 geraktril* e 2 maníacos lefou* escoltando 2d4+2 prisioneiros para sacrifícios" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 leões caçando 1 rinoceronte" },
+            { min: 91, max: 98, label: "91-98", encounter: "2 tendrículos" },
+            { min: 99, max: 100, label: "99-100", encounter: "4 serpes" },
+            { min: 101, max: 110, label: "101-110", encounter: "1 gnoll xamã de Megalokk, 1 gnoll xamã de Marah, 2 gnolls líderes de alcateia e 1 totem risonho" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 keylor e 2 minotauros chefes da Manada" },
+            { min: 116, max: 125, label: "116-125", encounter: "2d4+2 entes discutindo sobre uma longa lista de nomes" },
+            { min: 126, max: 130, label: "126-130", encounter: "2 ogros capangas" },
+            { min: 131, max: 135, label: "131-135", encounter: "2 matronas gnolls, 2d4+2 gnolls filibusteiros e 1 xamã de Marah celebrando um casamento" },
+            { min: 136, max: 145, label: "136-145", encounter: "O mausoléu de um antigo herói contendo uma espada baronial e 1d4 riquezas maiores. Quem toca nos itens é afetado por uma maldição mortuária" },
+            { min: 146, max: 150, label: "146-150", encounter: "2 mantícoras primais" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 golens de ferro superiores com mal-funcionamento (troque os elementos de sua Imunidade a Magia)" },
+            { min: 156, max: 160, label: "156-160", encounter: "2 nuvens de estirges" },
+            { min: 161, max: 170, label: "161-170", encounter: "4 golens de pedra protegendo um monólito, que se tocado invoca 1 gnoll Vuul'rak que estava preso" },
+            { min: 171, max: 185, label: "171-185", encounter: "Fábrica de esmagadores (2d4 sacerdotes de Aharadak e uma forja rubra; um sacerdote pode gastar uma ação padrão para criar um esmagador coletivo ao fim da rodada. A forja pode ser reativada em 1d4 rodadas)" },
+            { min: 186, max: 200, label: "186-200", encounter: "A Catástrofe Rara (4 nuvens de estirges)" },
+            { min: 201, max: null, label: "201+", encounter: "A Horda Risonha (2 gnolls Vuul'rak, 1 totem de Sarana, 1 totem do Rei-Tirano, 1d6 xamãs de Marah, 1d6 xamãs de Megalokk, 2d6 gnolls líderes de alcateia e 2 totens risonhos)" },
         ],
     },
     {
         id: "deserto",
         label: "Deserto",
-        // Níveis 1-10 (cortes da planilha: 1-2 / 3-5 / 6-8 / 9-10).
-        bracketMax: [2, 5, 8, 10],
         rows: [
-            { min: 1, max: 15, title: "Feras das Areias", flavor: "A fauna local tentando sobreviver.",
-                levels: ["3 Coiotes/Hienas (use a ficha de Lobo, p. 283)", "1 Escorpião Gigante (use a ficha de Aranha Gigante, p. 284) + 2 Coiotes", "2 Basiliscos (Livro Básico, p. 285)", "1 Quimera do Deserto (Livro Básico, p. 289)"] },
-            { min: 16, max: 30, title: "Saqueadores Desesperados", flavor: "Nômades sedentos ou bandoleiros.",
-                levels: ["3 Bandidos (Livro Básico, p. 301)", "1 Capanga (como Líder) (p. 302) + 4 Bandidos (p. 301)", "1 Mago (p. 304) + 4 Bandidos (p. 301)", "2 Cavaleiros (p. 302) + 1 Mago (p. 304) + 6 Bandidos"] },
-            { min: 31, max: 45, title: "A Fúria do Deserto", flavor: "A letalidade do clima árido.",
-                levels: ["Tempestade de Areia: Teste de Fortitude. Falha causa condição Fatigado.", "Areia Movediça: Teste de Acrobacia/Atletismo ou soterramento.", "Fissura de Fogo: Teste de Reflexos contra 6d6 de dano de Fogo.", "Tornado Infernal: Perigo Complexo. 10d6 de dano de Fogo e Esmagamento."] },
-            { min: 46, max: 60, title: "O Clima Rubro", flavor: "A tempestade aberrante da Tormenta.",
-                levels: ["Chuva Ácida: Dano leve (1d6 ácido) por rodada sem abrigo.", "Tempestade de Matéria: Teste de Vontade. Falha perde 1d4 PM.", "Névoa Enlouquecedora: Teste de Vontade ou fica Apavorado (p. 393).", "Anomalia Gravitacional: Quedas para cima (dano de queda massivo de impacto)."] },
-            { min: 61, max: 75, title: "Interação", flavor: "Oásis, miragens e viajantes insólitos.",
-                levels: ["Oásis Puro: Água fresca (Cura PV/PM). Atrai NPCs suspeitos.", "Ruína Aberrante: Estátua coberta de Tormenta. Tocar exige Vontade (Insanidade).", "Mercador Qareen: Voando em um tapete. Vende poções caras (dobro do preço).", "Refugiados Lefou: Acampamento pedindo ajuda e curas (bons informantes)."] },
-            { min: 76, max: 90, title: "Os Cultistas do Devorador", flavor: "Adoradores de Aharadak.",
-                levels: ["2 Cultistas (Livro Básico, p. 302)", "1 Sacerdote (p. 304) + 4 Cultistas (p. 302)", "2 Sacerdotes (p. 304) + 2 Capangas Lefou (p. 302)", "1 Sumo-Sacerdote (Sacerdote ND alto) + 1 Assassino (p. 301)"] },
-            { min: 91, max: 100, title: "A Verdadeira Tormenta", flavor: "Demônios Lefeu cruzando as areias.",
-                levels: ["2 Cultistas Lefou (Livro Básico, p. 302)", "1 Uktril (Demônio da Tormenta, p. 293)", "2 Uktril (Livro Básico, p. 293)", "1 Tarelaf (p. 293) + 1 Uktril (p. 293)"] },
+            { min: 1, max: 2, label: "1-2", encounter: "Uma caravana de negociantes (fornece descanso confortável)" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d4 cascavéis*" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 pakk" },
+            { min: 11, max: 20, label: "11-20", encounter: "2 gnolls capangas" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 trog e 1 terrier" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 trog caçador" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 iniciado da agonia" },
+            { min: 41, max: 50, label: "41-50", encounter: "1d4 enxames larvais" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 chacais zumbis disputando 1 garra-zumbi" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 iniciado de Sszzass e 1d4 najas*" },
+            { min: 66, max: 70, label: "66-70", encounter: "Ciclone arcano" },
+            { min: 71, max: 80, label: "71-80", encounter: "2 feras-vassalo" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 gatunos (depois de 3 rodadas, inicia-se uma tempestade de areia)" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 ber-baram" },
+            { min: 99, max: 100, label: "99-100", encounter: "2 iniciadas de Sszzaas e 1 cultista de Sszzaas se passando por peregrinos" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 pamgras e 1 trog anão eremita" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 bruxa goblin" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 sacerdote da agonia e 1d6+2 fanáticos lefou" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 lagash*" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 serpentaar" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 fera-mãe e 2d6 feras-líder" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 gnoll Vuul'rak" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 senhores das múmias" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 golem de matéria vermelha" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 górgona matriarca e 4 elementais do veneno grandes lutando entre si" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 Dragão-Real*" },
+            { min: 186, max: 200, label: "186-200", encounter: "Grande Enxame (1 avatar de Aharadak, 4 ezzayn e 2d10 líderes fanáticos lefou)" },
+            { min: 201, max: null, label: "201+", encounter: "Novos Zarkhassianos (1 Nastarrath, 1d6+2 sszzaazitas celebrantes, 1d4 nagahs místicas e 2d6 nagahs defensores)" },
+        ],
+    },
+    {
+        id: "floresta",
+        label: "Floresta",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1 gambá correndo atrás de um gato" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 kobold patrulheiro aparentemente perdido" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 terrier" },
+            { min: 11, max: 20, label: "11-20", encounter: "1d3+1 bandidos comuns sar-allan (não roubam ouro de devotos de Azgher)" },
+            { min: 21, max: 30, label: "21-30", encounter: "1d4 ursos pandas" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 tropa de tentacutes (ei, aquele colar na mão deles não é de vocês?)" },
+            { min: 36, max: 40, label: "36-40", encounter: "Grama carnívora" },
+            { min: 41, max: 50, label: "41-50", encounter: "4 bandidos ligeiros sar-allan (não roubam ouro de devotos de Azgher)" },
+            { min: 51, max: 60, label: "51-60", encounter: "2d4 capivaras (…capivárias?)" },
+            { min: 61, max: 65, label: "61-65", encounter: "1d4+1 lagartos perseguidores" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 tigre-de-Hyninn" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 carrasco de Lena" },
+            { min: 81, max: 90, label: "81-90", encounter: "1d6+2 aranhas gigantes* (metade do terreno ao redor é coberto de teia)" },
+            { min: 91, max: 98, label: "91-98", encounter: "2 defeituosos" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 gnoll xamã de Megalokk, 1 gorlogg alfa, 1 serpe* e 1 ganchador*" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 entes conversando sobre uma longa lista de deuses" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 hidra* (substitua o bônus de Furtividade para deserto)" },
+            { min: 116, max: 125, label: "116-125", encounter: "1d4+2 tendrículos" },
+            { min: 126, max: 130, label: "126-130", encounter: "Caçada Primal (1 centauro chefe, 2 centauros xamãs de Megalokk e 4 ursos das cavernas)" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 górgona matriarca" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 dragão venerável* (veneno)" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 reishid líder de culto e 1d4 sacerdotes de Aharadak" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 ezzayn explorando a região para seu lorde" },
+            { min: 156, max: 160, label: "156-160", encounter: "2 razza'kham" },
+            { min: 161, max: 170, label: "161-170", encounter: "4 dragões veneráveis* (elementos variados)" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 gnoll Vuul'rakk combatendo 1 nuvem de estirges" },
+            { min: 186, max: 200, label: "186-200", encounter: "Coração da Selva (santuário de Allihanna com 1 dragão venerável* (ácido), 4 totens da Divina Serpente, 4 tanaloom e 2d6 gnolls xamãs de Allihanna)" },
+            { min: 201, max: null, label: "201+", encounter: "Fúria Monstruosa (4 totens do Rei-Tirano, 2 nuvens de estirges e 2d6 centauros xamãs de Megalokk)" },
+        ],
+    },
+    {
+        id: "montanha",
+        label: "Montanha",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Uma druida de cabelos cacheados protegida por 3 ursos-coruja* (ela possui itens de cura para negociar)" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 lobo*" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 carcaju (em seu tesouro há uma neko-te)" },
+            { min: 11, max: 20, label: "11-20", encounter: "Uma pedra solta rolando montanha abaixo (1 armadilha de bloco de pedra*)" },
+            { min: 21, max: 30, label: "21-30", encounter: "4 lobos*" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 pantera espreitando" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 chefe de gangue e 1d4 capangas" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 urso pardo" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 orc chefe e 1d4+1 orcs combatentes" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 ogro" },
+            { min: 66, max: 70, label: "66-70", encounter: "2d6 lobos*" },
+            { min: 71, max: 80, label: "71-80", encounter: "3 ursos-corujas* acuando uma jovem de cabelos cacheados (se for salva, é uma aliada médica iniciante)" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 ogro caçador" },
+            { min: 91, max: 98, label: "91-98", encounter: "1d4+1 cães do inferno*" },
+            { min: 99, max: 100, label: "99-100", encounter: "1d4 serpes e 1 serpe anciã" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 tengu bandoleiros e 1 daitengu" },
+            { min: 111, max: 115, label: "111-115", encounter: "1d4+2 ogros furiosos e 1 keylor" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 dragão bicéfalo" },
+            { min: 126, max: 130, label: "126-130", encounter: "1d3+2 raagorans em fuga" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 concílio forjador combatendo 1 dragão feral" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 fantasma ancestral de um aventureiro cercado por 1d4 runas de desintegração" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 grande tachygloss" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 tiranos do Terceiro* montados em 2 dragões adultos dos segredos e 1 alto clérigo de Kally guardando um covil." },
+            { min: 156, max: 160, label: "156-160", encounter: "2 razza'kham lutando entre si" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 hobgoblins gladiadores e 1 horda goblin" },
+            { min: 171, max: 185, label: "171-185", encounter: "2 vermes do gelo adultos" },
+            { min: 186, max: 200, label: "186-200", encounter: "Ateliê Rubro (2 golens de matéria vermelha, 1 senhor do gigante rubro forma final, 1d4+2 reishid líderes de culto, 1d6 esmagadores coletivos e 1d3+1 simbiontes diversos)" },
+            { min: 201, max: null, label: "201+", encounter: "O Despertar dos Monstros (1d4 kaiju)" },
+        ],
+    },
+    {
+        id: "pantano",
+        label: "Pântano",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1d6+3 capivaras nadando" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d3 glops" },
+            { min: 7, max: 10, label: "7-10", encounter: "1d4+1 garras-zumbi" },
+            { min: 11, max: 20, label: "11-20", encounter: "2 gambás" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 trog caçador preparando uma emboscada" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 elemental do veneno pequeno" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 área de dejetos alquímicos (Percepção CD 22 evita)" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 garra-zumbi enxame" },
+            { min: 51, max: 60, label: "51-60", encounter: "1d4 gnolls saqueadores e 1 gnoll xamã de Allihanna" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 basilisco*" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 ninhada de dragões filhotes (ácido)" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 finntroll caçador e 4 perdigueiros troll" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 fantasma de um viajante em busca do seu anel de casamento" },
+            { min: 91, max: 98, label: "91-98", encounter: "1d6+2 tatus-montanha" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 cocatriz-real e 1d3+1 cocatrizes em seu ninho" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 elementais do veneno médios" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 hidra* escondida submersa em um lago" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 serpe anciã e 1d4+2 serpes" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 necrodraco esqueleto (metade da área ao redor dele é areia movediça)" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 necrodraco zumbi" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 alto sacerdote finntroll, 2 finntroll senhores de estábulo e 1 elemental do veneno grande" },
+            { min: 146, max: 150, label: "146-150", encounter: "2 serpentaar" },
+            { min: 151, max: 155, label: "151-155", encounter: "Santuário antigo guardado por 2 tanaloom e 1 dragão da equidade venerável" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 horda de otyughs e 1 elemental corrompido" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 cemitérios vivos" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 necrodraco lich" },
+            { min: 186, max: 200, label: "186-200", encounter: "Laboratório… abandonado? (1 lich de Aslothia, 1 cemitério vivo e 4 vampiros*)" },
+            { min: 201, max: null, label: "201+", encounter: "1 Dragão-Real* (ácido) e 1d6+2 dracomantes superiores" },
+        ],
+    },
+    {
+        id: "planicie",
+        label: "Planície",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1d4 bandidos comuns" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 bandido ligeiro" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 t'peel carregando um medalhão com um sol desenhado no valor de T$ 25" },
+            { min: 11, max: 20, label: "11-20", encounter: "Um tropel de 2d4 cavalos de carga selvagens" },
+            { min: 21, max: 30, label: "21-30", encounter: "1d4 gnoll capanga" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 pantera furtiva caçando" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 gnoll xamã de Allihanna e 1 hiena" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 leão caçando 1 trobo" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 duplo se passando por um conhecido do grupo" },
+            { min: 61, max: 65, label: "61-65", encounter: "3 goblins de sombreiro num impasse" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 líder pistoleiro e 2 pistoleiros" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 gnoll xamã de Marah oferece cura ao grupo se eles entregarem suas armas a ela" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 gnoll xamã de Megalokk e 4 gnolls saqueadores" },
+            { min: 91, max: 98, label: "91-98", encounter: "1d6+1 elefantes pastando" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 golem de bronze enguiçado (passar em um teste de Percepção contra CD 25 revela vestígios de uma batalha antiga na região)" },
+            { min: 101, max: 110, label: "101-110", encounter: "1 cavaleiro de Kally e 1 clérigo de Kally" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 tigre-de-Hyninn primordial" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 matrona gnoll e 1d6+1 gnolls caçadores de cabeças" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 concílio forjador procurando pelo grupo" },
+            { min: 131, max: 135, label: "131-135", encounter: "Duelo entre 1 chapéu-preto e 1 demônio da pólvora" },
+            { min: 136, max: 145, label: "136-145", encounter: "2 golens de pedra em cima de 1 grama carnívora extensa" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 gnoll Vuul'rak" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 dragões veneráveis (eletricidade)" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 nuvem de estirges" },
+            { min: 161, max: 170, label: "161-170", encounter: "1d6+2 hallus'tir" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 Dragão-Real* (eletricidade)" },
+            { min: 186, max: 200, label: "186-200", encounter: "2d6 dracomantes superiores que invocam o avatar de Kallydranoch em 1d4 rodadas" },
+            { min: 201, max: null, label: "201+", encounter: "A Horda Risonha (2 gnolls Vuul'rak, 1 totem de Sarana, 1 totem do Rei-Tirano, 1d6 xamãs de Marah, 1d6 xamãs de Megalokk, 2d6 gnolls líderes de alcateia e 2 totens risonhos)" },
+        ],
+    },
+    {
+        id: "subterraneo",
+        label: "Subterrâneo",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Uma fazenda de mycotann livres, permitindo descanso luxuoso pela noite (ou será uma armadilha?)" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 kill'bone lutando contra 1 perdigueiro troll" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 slark pendurado no teto" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 enxame larval explodindo de uma das paredes" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 turba de zumbis*" },
+            { min: 31, max: 35, label: "31-35", encounter: "1d6+2 fofos" },
+            { min: 36, max: 40, label: "36-40", encounter: "4 orcs combatentes* e 1 orc veterano" },
+            { min: 41, max: 50, label: "41-50", encounter: "Uma aventureira perdida (na verdade 1 nagah dormente)" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 basilisco" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 finntroll caçador* arrastando 1 mycotann labutador em uma corrente" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 trog rei dos túneis" },
+            { min: 71, max: 80, label: "71-80", encounter: "Um labirinto de túneis naturais" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 cavaleiro finntroll" },
+            { min: 91, max: 98, label: "91-98", encounter: "2 armeiros de Tenebra devotos" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 troll das cavernas" },
+            { min: 101, max: 110, label: "101-110", encounter: "1 orc mutante superior" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 mortalha" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 golem de pedra" },
+            { min: 126, max: 130, label: "126-130", encounter: "Cabala Tenebrista (2 armeiros de Tenebra clérigos e 6 armeiros de Tenebra devotos)" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 golem de ferro superior" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 arcanista finntroll, 1 finntroll senhor de estábulo e 1 alto sacerdote finntroll" },
+            { min: 146, max: 150, label: "146-150", encounter: "2 brawar protegendo a entrada de um Athrid" },
+            { min: 151, max: 155, label: "151-155", encounter: "2 arcanistas finntroll e 4 trolls das cavernas*" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 cemitério vivo (de anões) num local sob efeito de Profanar* com área dobrada" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 rival espelho para cada membro do grupo" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 necrodraco lich" },
+            { min: 186, max: 200, label: "186-200", encounter: "Conventículo Escravagista (1 Dragão-Real* (psíquico) e 2d6 finntroll arcanistas negociando 4d6x10 escravos)" },
+            { min: 201, max: null, label: "201+", encounter: "1 Dragão-Real* (psíquico) e 1d4 dragões veneráveis* (psíquico)" },
+        ],
+    },
+    {
+        id: "urbano",
+        label: "Urbano",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Uma carroça de verduras desgovernada" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d3+1 bandidos comuns" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 t'peel carregando os pertences de um bardo" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 devoto de Hyninn simão e 1 tentacute" },
+            { min: 21, max: 30, label: "21-30", encounter: "4 devotos de Hyninn manhosos" },
+            { min: 31, max: 35, label: "31-35", encounter: "1d4 pakks causando um incêndio" },
+            { min: 36, max: 40, label: "36-40", encounter: "1d4 gnolls saqueadores dividindo um saque" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 mashin monge ensinando meditação (concede +2 em Vontade até o fim da aventura)" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 gárgulas" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 chefe de gangue e 2d4 bandidos ligeiros" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 gangue goblin" },
+            { min: 71, max: 80, label: "71-80", encounter: "4 jagunços" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 iniciados de Sszzaas (fingindo) que estão atacando 1 hynne dormente" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 caçador de impuros atrás de um não humano" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 forjador litúrgico oferencendo uma arma com um encanto para quem o derrotar" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 fantasmas em conflito, um é o memento do outro" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 dragão adulto dos segredos" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 chapéu-preto" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 minauro arcanista e 1d6+2 centuriões, com 1 minauro ladino prisioneiro" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 fantasma ancestral" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 alto clérigo de Kally, 2 clérigos de Kally e 1d6 acólitos de Kally atacando a cidade" },
+            { min: 146, max: 150, label: "146-150", encounter: "3 tanaloom disfarçados como pilares de uma igreja" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 dragão venerável* (trevas), 1 governador corrupto e 2 gladiadores táuricos" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 cemitério vivo" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 soldados superiores" },
+            { min: 171, max: 185, label: "171-185", encounter: "2 liches de Aslothia" },
+            { min: 186, max: 200, label: "186-200", encounter: "Falsa Congregação (2 sszzaazitas celebrantes que em 1d4 rodadas invocarão 1 Nastarrath numa multidão)" },
+            { min: 201, max: null, label: "201+", encounter: "Invasão do Templo da Pureza Divina (1d6 soldados superiores, 1d6 colossos supremos e 2d6 cavaleiros do leopardo sangrento*)" },
+        ],
+    },
+    {
+        id: "aslothia",
+        label: "Aslothia",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "2 garras-zumbi" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 esqueleto* sem crânio (se reunido com seu crânio, ele entrega 1 riqueza média como agradecimento)" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 carniçal" },
+            { min: 11, max: 20, label: "11-20", encounter: "1d4 zumbis*" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 lacedon" },
+            { min: 31, max: 35, label: "31-35", encounter: "2 esqueletos*" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 garra-zumbi enxame" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 ogro esqueleto" },
+            { min: 51, max: 60, label: "51-60", encounter: "1d4 chacais zumbi" },
+            { min: 61, max: 65, label: "61-65", encounter: "4 carniçais e 1 lívido" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 aparição" },
+            { min: 71, max: 80, label: "71-80", encounter: "4 mercenários de Aslothia" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 mercenários de Aslothia e 1 líder mercenário de Aslothia" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 wisphago" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 morgue'raz" },
+            { min: 101, max: 110, label: "101-110", encounter: "4 kappa brigões e 1 nezumi ninja enfrentando 1 coletor de Arsenal" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 mortalha" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 capitão afogado e 2d4+1 afogados" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 centurião de elite, 2 decúrias, 2 alzeras" },
+            { min: 131, max: 135, label: "131-135", encounter: "2 vampiros" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 senhor das múmias e 2 múmias" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 lich e 1 necrodraco esqueleto" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 cemitério vivo" },
+            { min: 156, max: 160, label: "156-160", encounter: "2 senhores das múmias e 4 necrodracos esqueletos" },
+            { min: 161, max: 170, label: "161-170", encounter: "4 necrodracos zumbis" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 lich de Aslothia e 4 necrodracos zumbis" },
+            { min: 186, max: 200, label: "186-200", encounter: "1 necrodraco lich" },
+            { min: 201, max: null, label: "201+", encounter: "Festa Fúnebre (1d4 liches de Aslothia, 2d6 vampiros* e 1 cemitério vivo)" },
+        ],
+    },
+    {
+        id: "estradas_reinado",
+        label: "Estradas do Reinado",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Uma taverna lotada" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 pirata vendendo um mapa do tesouro (falso)" },
+            { min: 7, max: 10, label: "7-10", encounter: "4 bandidos comuns tentam roubar o grupo" },
+            { min: 11, max: 20, label: "11-20", encounter: "2 guardas de cidade* patrulhando" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 chefe bandido e 2 capangas" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 sacerdote de Hyninn em forma de macaco pungando algo valioso do grupo" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 grifo* atacando 1 cavalo pertencente a um mercador" },
+            { min: 41, max: 50, label: "41-50", encounter: "2 gorloggs fugindo" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 ogro guardando uma ponte e cobrando um pedágio de T$ 15 por pessoa" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 bugbear sentinela e 4 goblins salteadores" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 gangue goblin" },
+            { min: 71, max: 80, label: "71-80", encounter: "3 goblins de sombreiro escondidos" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 chefe de quadrilha, 1 capanga minotauro e 2 jagunços" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 líder pistoleiro e 3 pistoleiros" },
+            { min: 99, max: 100, label: "99-100", encounter: "Uma caravana de mercadores (vende itens com até duas melhorias e tem T$ 1.000 para fazer compras) protegida por 4 capangas minotauros" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 altos sacerdotes de Hyninn recolhendo doações para sua igreja (nem sempre intencionais)" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 gnoll caçador de cabeças, 1 bugbear guarda-costas e 1 ogro caçador" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 dragão bicéfalo" },
+            { min: 126, max: 130, label: "126-130", encounter: "1d4+1 golens de bronze transportando 1d3+1 riquezas médias roubadas" },
+            { min: 131, max: 135, label: "131-135", encounter: "Grama carnívora extensa" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 devorador de medos* e 2 bruxas goblins" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 hobgoblin gladiador" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 dragão celestial adulto tentando capturar 3 kaijin ninjas" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 nagah encantadora escoltada por 4 nagahs retalhadores" },
+            { min: 161, max: 170, label: "161-170", encounter: "4 golens de ferro superiores enviados para eliminar os aventureiros" },
+            { min: 171, max: 185, label: "171-185", encounter: "2 sszzaazitas celebrantes (um disfarçado de clérigo de Tenebra, o outro, de Azgher) acusando um ao outro de ser um impostor" },
+            { min: 186, max: 200, label: "186-200", encounter: "Conflagração Elemental (1 hallus'tir, 1 namasqall, 1 serpentaar e 1 tanaloom)" },
+            { min: 201, max: null, label: "201+", encounter: "Tarso pedindo um sorvete" },
+        ],
+    },
+    {
+        id: "galrasia",
+        label: "Galrasia",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1 pirata fugindo de 1 enxame de gali-gali" },
+            { min: 3, max: 6, label: "3-6", encounter: "1d4 jiboias*" },
+            { min: 7, max: 10, label: "7-10", encounter: "Uma voracis drogadora (possui 1d4 bálsamos de drogadora à venda)" },
+            { min: 11, max: 20, label: "11-20", encounter: "1d4+1 piratas enterrando 1 riqueza menor" },
+            { min: 21, max: 30, label: "21-30", encounter: "2 najas*" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 galhada fêmea" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 alcateia com 1 lobo das cavernas* e 1d4+1 lobos*" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 sucuri* estrangulando um gorlogg*" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 pteros ceifadores" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 espada-da-floresta montado em 1 galhada macho" },
+            { min: 66, max: 70, label: "66-70", encounter: "1d3+1 ceratops guerreiros" },
+            { min: 71, max: 80, label: "71-80", encounter: "2 burafontes pastando" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 ptero do céu infinito e 2 pteros ceifadores" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 gorlogg alfa e 1d4+2 gorloggs" },
+            { min: 99, max: 100, label: "99-100", encounter: "1d3+1 uraghians jovens" },
+            { min: 101, max: 110, label: "101-110", encounter: "1 xamã de Sarana e 1d3+1 velocis caçadores" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 ceratops chefe da tribo e 2d4 ceratops guerreiros" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 árvore-matilha" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 rei-tirano e 1 tuntram batalhando" },
+            { min: 131, max: 135, label: "131-135", encounter: "Um obelisco misterioso obra de uma civilização antiga (na verdade é 1 tanaloom)" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 dragão venerável da equidade em seu covil" },
+            { min: 146, max: 150, label: "146-150", encounter: "1d3+1 grande battham de passagem" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 razza'kham*" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 voracis rainha e 2d6 voracis caçadoras que vão invocar um totem da Divina Serpente em 1d4+1 rodadas" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 Dragão-Real (veneno)" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 kaiju (ferrão peçonhento e sopro corrosivo) adormecido que acordará em 1d3 dias" },
+            { min: 186, max: 200, label: "186-200", encounter: "Conflagração Elemental (1 hallus'tir, 1 namasqall, 1 serpentaar e 1 tanaloom)" },
+            { min: 201, max: null, label: "201+", encounter: "1 Rubi da Virtude* protegido por uma armadilha sussurro de Sszzaas (aumente a CD em 10)" },
+        ],
+    },
+    {
+        id: "tauron",
+        label: "Império de Tauron",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Uma família com 1d10+2 membros fugindo de Tiberus" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 capanga" },
+            { min: 7, max: 10, label: "7-10", encounter: "2 piratas" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 legionário" },
+            { min: 21, max: 30, label: "21-30", encounter: "2 bandidos selvagens" },
+            { min: 31, max: 35, label: "31-35", encounter: "4 cavalos de carga desgovernados" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 infecto" },
+            { min: 41, max: 50, label: "41-50", encounter: "2 capangas minotauros" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 maníacos lefou* e 1 iniciado da agonia" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 capelão de guerra pregando a palavra de Arsenal" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 minauro arcanista estudando 2 fúrias de Tauron" },
+            { min: 71, max: 80, label: "71-80", encounter: "3 pistoleiros atrás de um tesouro de ND 8 em um cemitério tapistano" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 decúrias" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 gladiador lefou oferecendo abrigo contra uma tempestade (descanso confortável)" },
+            { min: 99, max: 100, label: "99-100", encounter: "4 arqueiros escravos e 1 governador corrupto" },
+            { min: 101, max: 110, label: "101-110", encounter: "Uma arena com lutas individuais contra gladiadores táuricos" },
+            { min: 111, max: 115, label: "111-115", encounter: "1 armadilha viva" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 chapéu-preto atrás de um escravo foragido" },
+            { min: 126, max: 130, label: "126-130", encounter: "Role novamente, o próximo encontro está sob efeito de 1 fenômeno rubro aleatório" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 morgadrel" },
+            { min: 136, max: 145, label: "136-145", encounter: "Uma formação rubra que infecta quem a tocar com náusea antinatural" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 mantícora primal" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 arquibruxo da Tormenta e 4 geraktril*" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 senhor do gigante rubro forma final" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 ezzayn" },
+            { min: 171, max: 185, label: "171-185", encounter: "2 elementais corrompidos enfrentando 2d4+2 centuriões de elite" },
+            { min: 186, max: 200, label: "186-200", encounter: "1 avatar de Aharadak em uma manifestação da Tormenta" },
+            { min: 201, max: null, label: "201+", encounter: "A Marcha da Centúria Rubra (1 avatar de Aharadak, 20 zyrrinaz, 2d4 reishid líderes de culto, 2d6+2 legionários insanos e 2 arquibruxos da Tormenta conjurando Momento de Tormenta)" },
+        ],
+    },
+    {
+        id: "sanguinarias",
+        label: "Sanguinárias",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "Ninho com 1d4+1 cascavéis*" },
+            { min: 3, max: 6, label: "3-6", encounter: "1 trog anão bruto caçando" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 terrier querendo brincar" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 leão cochilando" },
+            { min: 21, max: 30, label: "21-30", encounter: "1d4 enxames larvais" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 aranha gigante* em seu covil" },
+            { min: 36, max: 40, label: "36-40", encounter: "1d3+1 lagartos perseguidores" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 lobo-das-cavernas* e 2 lobos*" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 avalanche" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 gigante esqueleto" },
+            { min: 66, max: 70, label: "66-70", encounter: "1d3+1 grifos*" },
+            { min: 71, max: 80, label: "71-80", encounter: "1d4+1 cerianthar preparando uma emboscada" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 centopeia-dragão*" },
+            { min: 91, max: 98, label: "91-98", encounter: "4 cães do inferno*" },
+            { min: 99, max: 100, label: "99-100", encounter: "1d4+2 basiliscos*" },
+            { min: 101, max: 110, label: "101-110", encounter: "2 serpes anciãs" },
+            { min: 111, max: 115, label: "111-115", encounter: "1d3+1 uraghians adultos" },
+            { min: 116, max: 125, label: "116-125", encounter: "2 oxxdons imensos" },
+            { min: 126, max: 130, label: "126-130", encounter: "Role novamente, o próximo encontro está sob efeito de 1 fenômeno rubro aleatório" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 mantícora primal" },
+            { min: 136, max: 145, label: "136-145", encounter: "Um templo de Kallyadranoch defendido por 1 alto clérigo de Kally e 2 cavaleiros de Kally" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 grande tachygloss" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 vagalhão kobold" },
+            { min: 156, max: 160, label: "156-160", encounter: "2 razza'kham caçando" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 ezzayn especiais" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 Dragão-Real* (fogo)" },
+            { min: 186, max: 200, label: "186-200", encounter: "2 kaiju brigando por território" },
+            { min: 201, max: null, label: "201+", encounter: "O Kishinauros em seu local de descanso" },
+        ],
+    },
+    {
+        id: "supremacia_purista",
+        label: "Supremacia Purista",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1 recruta purista*" },
+            { min: 3, max: 6, label: "3-6", encounter: "Um clérigo de Tanna-Toh ferido (se for auxiliado, torna-se um parceiro ajudante iniciante até o fim da aventura)" },
+            { min: 7, max: 10, label: "7-10", encounter: "4 goblins salteadores* fugitivos" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 chefe bandido" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 purificado fugitivo" },
+            { min: 31, max: 35, label: "31-35", encounter: "1d4+2 recrutas puristas*" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 sargento-mor*" },
+            { min: 41, max: 50, label: "41-50", encounter: "1d4 soldados puristas*" },
+            { min: 51, max: 60, label: "51-60", encounter: "2 corcéis de comando" },
+            { min: 61, max: 65, label: "61-65", encounter: "1d4+2 recrutas puristas* e 1 sargento-mor*" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 dançarino de guerra e 2 bandidos selvagens" },
+            { min: 71, max: 80, label: "71-80", encounter: "2 capelães de guerra*" },
+            { min: 81, max: 90, label: "81-90", encounter: "2 soldados blindados" },
+            { min: 91, max: 98, label: "91-98", encounter: "1 dançarino de guerra veterano e 2 capelães de guerra*" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 capelão de guerra*, 1 capitão-baluarte* e 2 sargentos-mor*" },
+            { min: 101, max: 110, label: "101-110", encounter: "1d6+1 guerreiros perpétuos" },
+            { min: 111, max: 115, label: "111-115", encounter: "2 caçadores de impuros e 1 cavaleiro do leopardo sangrento*" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 companhia blindada de elite e 1 arcano de guerra veterano" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 arcano de guerra veterano e 2 golens de bronze" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 fantasma ancestral, morto na Batalha do Vale do Baixo Iörvaen" },
+            { min: 136, max: 145, label: "136-145", encounter: "1 kishin e 1d6+2 bispos de guerra" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 concílio forjador combatendo 1 alto clérigo de Kally montado em 1 dragão adulto*" },
+            { min: 151, max: 155, label: "151-155", encounter: "1 golem de ferro superior e 1 colosso supremo*" },
+            { min: 156, max: 160, label: "156-160", encounter: "4 arcanos de guerra veteranos, dois deles montados em 2 carruagens de comando, escoltando 4 colossos supremos* desativados" },
+            { min: 161, max: 170, label: "161-170", encounter: "2 golens de ferro superiores e 1 soldado superior" },
+            { min: 171, max: 185, label: "171-185", encounter: "4 colossos supremos*, 2 golens de ferro superiores e 1 soldado superior" },
+            { min: 186, max: 200, label: "186-200", encounter: "1d6+2 soldados superiores" },
+            { min: 201, max: null, label: "201+", encounter: "Comando do Templo da Pureza Divina (1d6 soldados superiores, 1d6 colossos supremos* e 2d6 bispos de guerra)" },
+        ],
+    },
+    {
+        id: "tyrondir_lamnor",
+        label: "Ruínas de Tyrondir/Lamnor",
+        rows: [
+            { min: 1, max: 2, label: "1-2", encounter: "1d4+1 goblins salteadores" },
+            { min: 3, max: 6, label: "3-6", encounter: "2d4 ratos gigantes" },
+            { min: 7, max: 10, label: "7-10", encounter: "1 bandido ligeiro e 2 bandidos comuns" },
+            { min: 11, max: 20, label: "11-20", encounter: "1 zumbi peçonha" },
+            { min: 21, max: 30, label: "21-30", encounter: "1 turba de zumbis*" },
+            { min: 31, max: 35, label: "31-35", encounter: "1 leão disputando uma carcaça com 1 pantera" },
+            { min: 36, max: 40, label: "36-40", encounter: "1 ogro esqueleto" },
+            { min: 41, max: 50, label: "41-50", encounter: "1 goblin engenhoqueiro* querendo trocar descobertas científicas" },
+            { min: 51, max: 60, label: "51-60", encounter: "1 imediato e 1d4+1 piratas" },
+            { min: 61, max: 65, label: "61-65", encounter: "1 arauto de Thwor em peregrinação" },
+            { min: 66, max: 70, label: "66-70", encounter: "1 tigre-de-Hyninn" },
+            { min: 71, max: 80, label: "71-80", encounter: "1 hobgoblin mago de batalha e 2 hobgoblins soldados" },
+            { min: 81, max: 90, label: "81-90", encounter: "1 bugbear guarda-costas e 1d3+1 bugbears sentinelas" },
+            { min: 91, max: 98, label: "91-98", encounter: "Ruínas com 1d4+1 riquezas menores começam a desabar (use o perigo complexo construção em colapso)" },
+            { min: 99, max: 100, label: "99-100", encounter: "1 goblin de ferro mark II e 4 goblins-bomba" },
+            { min: 101, max: 110, label: "101-110", encounter: "1 devorador de medos* e 2 bugbears guarda-costas" },
+            { min: 111, max: 115, label: "111-115", encounter: "2 sombras de Thwor* tentam assassinar um dos aventureiros" },
+            { min: 116, max: 125, label: "116-125", encounter: "1 engenho de guerra goblin* escoltado por 1 hobgoblin comandante tático e 2 hobgoblins atiradores" },
+            { min: 126, max: 130, label: "126-130", encounter: "1 lodo negro surge em um espaço desocupado e dobra sua área a cada rodada, por 1d4+1 rodadas (role novamente outro encontro)" },
+            { min: 131, max: 135, label: "131-135", encounter: "1 horda goblin" },
+            { min: 136, max: 145, label: "136-145", encounter: "Ruínas de uma cidade com 1 fantasma ancestral e 4 fantasmas" },
+            { min: 146, max: 150, label: "146-150", encounter: "1 necrodraco zumbi submerso num lago de lodo negro" },
+            { min: 151, max: 155, label: "151-155", encounter: "1d4+2 tigres-de-Hyninn primordiais" },
+            { min: 156, max: 160, label: "156-160", encounter: "1 cemitério vivo" },
+            { min: 161, max: 170, label: "161-170", encounter: "1 lobo do mar e 4 capitães da Frota Áurea carregando um baú com 1d3 riquezas maiores protegida por 1 runa de desintegração (aumente a CD em 5)" },
+            { min: 171, max: 185, label: "171-185", encounter: "1 hobgoblin gladiador aconselhado por um clérigo de Thwor (1 sszzaazita celebrante disfarçado)" },
+            { min: 186, max: 200, label: "186-200", encounter: "1 necrodraco lich tentando reerguer uma vila, ele invoca 1 falange a cada 1d4 rodadas" },
+            { min: 201, max: null, label: "201+", encounter: "1 sangue do Ayrrak, 4 hobgoblins gladiadores e 2 bruxas goblins convidam os aventureiros a se juntarem a suas tropas... à força" },
         ],
     },
 ];
 
-// ── Lookup (puro, testável) ───────────────────────────────────────────────────
-
-/**
- * Bracket (0..3) para um nível, segundo os tetos `bracketMax` do ambiente.
- * Default [2,4,6,8]: 1-2→0, 3-4→1, 5-6→2, 7-8→3.
- * Deserto [2,5,8,10]: 1-2→0, 3-5→1, 6-8→2, 9-10→3.
- */
-export function bracketIndexForLevel(level: number, bracketMax: number[] = DEFAULT_BRACKET_MAX): number {
-    const maxLv = bracketMax[bracketMax.length - 1] ?? 8;
-    const lv = Math.max(1, Math.min(maxLv, Math.floor(level)));
-    for (let i = 0; i < bracketMax.length; i++) {
-        if (lv <= bracketMax[i]) return i;
-    }
-    return bracketMax.length - 1;
+export function getTerrain(id: string): TerrainDef | undefined {
+    return TERRAINS.find((t) => t.id === id);
 }
 
-/** Nível máximo aceito para um ambiente (último teto de bracket). */
-export function maxLevelFor(env: EnvironmentDef): number {
-    const bm = env.bracketMax ?? DEFAULT_BRACKET_MAX;
-    return bm[bm.length - 1] ?? 8;
+/** Faixa correspondente ao total (d100 + modificador de patamar). */
+export function findEncounterRow(terrain: TerrainDef, total: number): EncounterRange | null {
+    return terrain.rows.find((r) => total >= r.min && (r.max === null || total <= r.max)) ?? null;
 }
 
-export function getEnvironment(id: string): EnvironmentDef | null {
-    return ENVIRONMENTS.find(e => e.id === id) ?? null;
-}
-
-/** Faixa de d100 (1-100) correspondente ao rolamento, ou null. */
-export function findRow(env: EnvironmentDef, roll: number): EncounterRow | null {
-    return env.rows.find(r => roll >= r.min && roll <= r.max) ?? null;
-}
-
-/** Formata um número de faixa com 2 dígitos (1→"01", 100→"100"). */
-export function padRange(n: number): string {
-    return n < 10 ? `0${n}` : `${n}`;
-}
-
-export interface EncounterResult {
-    envLabel: string;
-    roll: number;
-    level: number;
-    rangeLabel: string;
-    title: string;
-    flavor: string;
-    encounter: string;
-}
-
-/** Resolve o encontro para (ambiente, nível 1..maxLevelFor(env), rolamento 1-100). */
-export function lookupEncounter(envId: string, level: number, roll: number): EncounterResult | null {
-    const env = getEnvironment(envId);
-    if (!env) return null;
-    const row = findRow(env, roll);
-    if (!row) return null;
-    return {
-        envLabel: env.label,
-        roll,
-        level,
-        rangeLabel: `${padRange(row.min)}-${padRange(row.max)}`,
-        title: row.title,
-        flavor: row.flavor,
-        encounter: row.levels[bracketIndexForLevel(level, env.bracketMax ?? DEFAULT_BRACKET_MAX)],
-    };
-}
-
-// ── Validação (segurança ao expandir a tabela) ────────────────────────────────
-
-/**
- * Valida a estrutura de uma lista de ambientes e retorna a lista de problemas
- * encontrados (vazia = tudo certo). Checa: ids únicos/não-vazios, faixas
- * cobrindo 1–100 sem buracos/sobreposições, e 4 brackets de nível não vazios
- * por faixa. Chamada no setup (avisa no console) e exercida nos testes — assim,
- * ao colar uma nova tabela, erros de formato são apontados na hora.
- */
-export function validateEnvironments(envs: EnvironmentDef[] = ENVIRONMENTS): string[] {
+// \u2500\u2500 Valida\u00e7\u00e3o (exercida nos testes) \u2500\u2500
+export function validateTerrains(terrains: TerrainDef[] = TERRAINS): string[] {
     const problems: string[] = [];
     const seen = new Set<string>();
-    for (const env of envs) {
-        const tag = env.id || `(label: ${env.label})`;
-        if (!env.id) problems.push(`Ambiente sem id (label: "${env.label}").`);
-        else if (seen.has(env.id)) problems.push(`Id duplicado: "${env.id}".`);
-        if (env.id) seen.add(env.id);
-
-        const bm = env.bracketMax;
-        if (bm !== undefined) {
-            if (!Array.isArray(bm) || bm.length !== 4) {
-                problems.push(`"${tag}": bracketMax precisa de exatamente 4 tetos.`);
-            } else if (bm.some((n, i) => !Number.isInteger(n) || n < 1 || (i > 0 && n <= bm[i - 1]))) {
-                problems.push(`"${tag}": bracketMax deve ser inteiros positivos ascendentes.`);
-            }
-        }
-
-        const rows = env.rows ?? [];
-        if (!rows.length) { problems.push(`"${tag}": nenhuma faixa definida.`); continue; }
-
+    for (const t of terrains) {
+        if (!t.id) problems.push(`Terreno sem id (label "${t.label}").`);
+        else if (seen.has(t.id)) problems.push(`Id duplicado: "${t.id}".`);
+        if (t.id) seen.add(t.id);
+        const rows = t.rows ?? [];
+        if (rows.length !== 28) problems.push(`"${t.id}": ${rows.length} faixas (esperado 28).`);
         const sorted = [...rows].sort((a, b) => a.min - b.min);
-        if (sorted[0].min !== 1) problems.push(`"${tag}": a primeira faixa deve começar em 1 (está em ${sorted[0].min}).`);
-        if (sorted[sorted.length - 1].max !== 100) problems.push(`"${tag}": a última faixa deve terminar em 100 (está em ${sorted[sorted.length - 1].max}).`);
+        if (sorted.length && sorted[0].min !== 1) problems.push(`"${t.id}": primeira faixa deve come\u00e7ar em 1.`);
+        if (sorted.length && sorted[sorted.length - 1].max !== null) problems.push(`"${t.id}": \u00faltima faixa deve ser aberta (201+).`);
         for (let i = 1; i < sorted.length; i++) {
-            if (sorted[i].min !== sorted[i - 1].max + 1) {
-                problems.push(`"${tag}": buraco/sobreposição entre ${sorted[i - 1].max} e ${sorted[i].min}.`);
+            const prevMax = sorted[i - 1].max;
+            if (prevMax !== null && sorted[i].min !== prevMax + 1) {
+                problems.push(`"${t.id}": buraco/sobreposi\u00e7\u00e3o entre ${prevMax} e ${sorted[i].min}.`);
             }
         }
-        for (const row of rows) {
-            if (!Array.isArray(row.levels) || row.levels.length !== 4) {
-                problems.push(`"${tag}" faixa ${row.min}-${row.max}: precisa de exatamente 4 brackets de nível.`);
-            } else if (row.levels.some(l => !l || !l.trim())) {
-                problems.push(`"${tag}" faixa ${row.min}-${row.max}: há bracket de nível vazio.`);
-            }
+        for (const r of rows) {
+            if (!r.encounter || !r.encounter.trim()) problems.push(`"${t.id}" faixa ${r.label}: encontro vazio.`);
         }
     }
     return problems;

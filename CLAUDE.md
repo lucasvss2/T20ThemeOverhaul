@@ -420,7 +420,7 @@ Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `
 | 1.45 | Mente Divina: alvo escolhe atributo via socket pop-up (`executeAsUser`); "nos três" aplica direto; AE `system.atributos.X.bonus` +2/+4 durationScene | `mente-divina/` |
 | 1.46 | Miasma Mefítico: área (molde Coluna de Chamas/resolveNotify), trevas via `tipoDano`, Truque (pó de ônix consumido, morte/imunidade 1 dia/+2 CD caster) | `miasma/` |
 | 1.47 | RD automática no modal de spell-resistance (`damageType` no preReq + fallback `damageTypeFromFormula`) | `spell-resistance/` |
-| 1.48 | Encounter-roller: ambiente Deserto, `bracketMax` por ambiente (deserto [2,5,8,10] → níveis 1-10) | `encounter-roller/` |
+| 1.48 | Encounter-roller: ambiente Deserto, `bracketMax` por ambiente (deserto [2,5,8,10] → níveis 1-10) — **substituído na v1.92.0** | `encounter-roller/` |
 | 1.49 | Compêndio do módulo "T20 Overhaul — Ameaças" (100 atores c/ árvore de pastas) | `packs-src/`, `scripts/build-packs.mjs` |
 
 ### Gotchas críticos (v1.32+)
@@ -666,6 +666,16 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Automações O&R** (hooks `combatStart`/`createCombatant`, gate `isActiveGM()`, 1×/combate via flag `divindadeCombatRoll {combatId}`): **Aharadak** 1d6 ÍMPAR→Fascinado (cena); **Nimb** 1d6==1→Confuso (cena) — via `registerExpectedCondition` kind scene + toggleStatusEffect + card com o roll. **Nimb** também ganha AE persistente `system.modificadores.pericias.atr.car −5` (criada no Finalizar, origin = complicação, flag `divindadeNimbAE`).
 - **⚠️ Nomes de poderes corrigidos** (usuário → compêndio): Espalhar Corrupção, Trilha Desempedida (typo do compêndio), **Armas da Destuição** (typo do compêndio, pack suplementos deuses-de-arton), Inimigo das Trevas, Aura de Medo, Curar o Espirto (typo do compêndio), Tradição de Samurai, Perceber Farsa, Tropas Goblinóides. Poderes de Arsenal vivem em `suplementos-de-arton.deuses-de-arton`; sem esse módulo instalado, o modal marca "não encontrado" e segue.
 - **Verificado ao vivo (arton, Al Simmons):** modal 2 colunas c/ expand; limite 1→2 com Devoto Fiel; Finalizar importa poderes + complicação + campo; ficha mostra símbolo+nome; 2ª divindade bloqueada; delete limpa tudo (poderes ficam); Nimb: Enganação/Diplomacia −4 (Car 1 −5) e combate rolou 1d6=6 com card; regenerar pack = `node scratchpad/gen-divindades.mjs` (dados no plano `C:\Users\lucas\.claude\plans\divindades.md`).
+
+### Encontros Aleatórios — Apêndice D (v1.92.0)
+
+`src/encounter-roller/` reescrito a partir do **Apêndice D (Ameaças de Arton, p.422-431)** — substitui as 6 tabelas antigas (ambientes×níveis).
+- **`encounter-data.ts` é GERADO** por `scripts/gen-encounters.py` (dados transcritos do PDF; NÃO editar à mão — ajustar o gerador e rodar `python scripts/gen-encounters.py`). **18 terrenos** (aquatico, artico, area_tormenta, colina, deserto, floresta, montanha, pantano, planicie, subterraneo, urbano, aslothia, estradas_reinado, galrasia, tauron, sanguinarias, supremacia_purista, tyrondir_lamnor), cada um com **28 faixas d%** (`1-2`…`201+`; a última faixa tem `max:null`). 504 encontros no total.
+- **Patamar** desloca o d100: Iniciante +0, Veterano +30, Campeão +70, Lenda +110. `resolveEncounter(terrain, patamar, d100?, d4?)` (d100/d4 injetáveis p/ teste): `total = d100 + patamar.mod` → `findEncounterRow`. **Rhandomm** só no Lenda: `d100===100` natural → 1d4, no 1 substitui o encontro por `RHANDOMM_TEXT`.
+- **Gatilho persistente** (`index.ts`): 1d20 + modificador acumulado (setting **world** `encounterTriggerMod`, config:false — sobrevive a reiniciar o Foundry). `≥20` → encontro + zera o mod; senão mod+1. Botão **Resetar contador** no modal. Botão **Forçar encontro** rola o d100 direto (não mexe no contador).
+- **Modal**: seletor de terreno + patamar, barra do gatilho (mostra o mod atual), botões, e **Consultar tabela** (dialog com as 28 faixas + coluna que mostra o intervalo de d100 que cai em cada faixa PARA O PATAMAR escolhido — `d100Hint = [min-mod, max-mod] ∩ [1,100]`). GM-only, resultado sussurrado (blind) só pro GM.
+- **Testes**: `resolveEncounter` é exportado de `index.ts` e testado (patamar shift, Rhandomm gated no Lenda, faixa aberta 201+). `validateTerrains` exercido (28 faixas, cobertura contígua 1..201+).
+- Verificado ao vivo (arton): 18 terrenos/4 patamares no modal; gatilho mod 19 → 1d20=9=28≥20 → Deserto/Veterano d100 94+30=124 → faixa 116-125 correta + reset; acúmulo sem-encontro persistindo no setting; consulta 28 linhas com coluna d100 do patamar.
 
 ### Linhagem Dracônica + Coragem Líquida + fixes (v1.90.0)
 

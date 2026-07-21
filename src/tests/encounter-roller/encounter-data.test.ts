@@ -1,193 +1,147 @@
 import { describe, it, expect } from "vitest";
 import {
-    ENVIRONMENTS,
-    bracketIndexForLevel,
-    maxLevelFor,
-    findRow,
-    padRange,
-    getEnvironment,
-    lookupEncounter,
-    validateEnvironments,
-    type EnvironmentDef,
+    TERRAINS,
+    PATAMARES,
+    getTerrain,
+    getPatamar,
+    findEncounterRow,
+    validateTerrains,
+    type TerrainDef,
 } from "@/encounter-roller/encounter-data";
+import { resolveEncounter } from "@/encounter-roller/index";
 
-// ── data integrity ────────────────────────────────────────────────────────────
+// ── dataset integrity ─────────────────────────────────────────────────────────
 
-describe("ENVIRONMENTS data", () => {
-    // Expansion-friendly: assert the core six are PRESENT (não lista exata),
-    // de modo que adicionar um novo ambiente não quebre este teste.
-    it("includes the six core environments and has unique ids", () => {
-        const ids = ENVIRONMENTS.map(e => e.id);
-        for (const core of ["esgoto", "caverna", "estrada", "floresta", "becos", "ruinas"]) {
+describe("TERRAINS data", () => {
+    it("tem 18 terrenos com ids únicos", () => {
+        expect(TERRAINS.length).toBe(18);
+        const ids = TERRAINS.map(t => t.id);
+        expect(new Set(ids).size).toBe(ids.length);
+        for (const core of ["aquatico", "deserto", "floresta", "urbano", "subterraneo"]) {
             expect(ids).toContain(core);
         }
-        expect(new Set(ids).size).toBe(ids.length);
     });
 
-    it("every environment passes validateEnvironments (1-100 coverage, 4 brackets)", () => {
-        // Validação genérica → cobre automaticamente qualquer ambiente novo.
-        expect(validateEnvironments()).toEqual([]);
-    });
-});
-
-// ── bracketIndexForLevel ──────────────────────────────────────────────────────
-
-describe("bracketIndexForLevel", () => {
-    const idx = (lv: number) => bracketIndexForLevel(lv);
-
-    it("maps 1-2→0, 3-4→1, 5-6→2, 7-8→3 (brackets padrão)", () => {
-        expect([1, 2].map(idx)).toEqual([0, 0]);
-        expect([3, 4].map(idx)).toEqual([1, 1]);
-        expect([5, 6].map(idx)).toEqual([2, 2]);
-        expect([7, 8].map(idx)).toEqual([3, 3]);
+    it("cada terreno tem 28 faixas cobrindo 1..201+ sem buracos", () => {
+        expect(validateTerrains()).toEqual([]);
+        for (const t of TERRAINS) {
+            expect(t.rows.length).toBe(28);
+            expect(t.rows[0].min).toBe(1);
+            expect(t.rows[t.rows.length - 1].max).toBeNull();  // 201+
+        }
     });
 
-    it("clamps out-of-range levels", () => {
-        expect(idx(0)).toBe(0);
-        expect(idx(-5)).toBe(0);
-        expect(idx(99)).toBe(3);
-    });
-
-    it("brackets do deserto [2,5,8,10]: 1-2→0, 3-5→1, 6-8→2, 9-10→3", () => {
-        const dz = [2, 5, 8, 10];
-        expect([1, 2].map(l => bracketIndexForLevel(l, dz))).toEqual([0, 0]);
-        expect([3, 4, 5].map(l => bracketIndexForLevel(l, dz))).toEqual([1, 1, 1]);
-        expect([6, 7, 8].map(l => bracketIndexForLevel(l, dz))).toEqual([2, 2, 2]);
-        expect([9, 10].map(l => bracketIndexForLevel(l, dz))).toEqual([3, 3]);
-        expect(bracketIndexForLevel(15, dz)).toBe(3);   // clamp em 10
+    it("504 encontros no total, nenhum vazio", () => {
+        let count = 0;
+        for (const t of TERRAINS) for (const r of t.rows) {
+            expect(r.encounter.trim().length).toBeGreaterThan(0);
+            count++;
+        }
+        expect(count).toBe(18 * 28);
     });
 });
 
-// ── maxLevelFor / deserto ─────────────────────────────────────────────────────
+// ── patamares ─────────────────────────────────────────────────────────────────
 
-describe("deserto (níveis 1-10)", () => {
-    it("ambiente existe, com bracketMax [2,5,8,10] e 7 faixas", () => {
-        const dz = getEnvironment("deserto")!;
-        expect(dz).not.toBeNull();
-        expect(dz.bracketMax).toEqual([2, 5, 8, 10]);
-        expect(dz.rows.length).toBe(7);
-        expect(maxLevelFor(dz)).toBe(10);
-    });
-
-    it("ambientes sem bracketMax continuam com máx 8", () => {
-        expect(maxLevelFor(getEnvironment("esgoto")!)).toBe(8);
-    });
-
-    it("lookup usa os cortes do deserto (nível 5 → bracket 3-5; nível 9 → 9-10)", () => {
-        // d100=1 → "Feras das Areias"
-        const lv5 = lookupEncounter("deserto", 5, 1)!;
-        expect(lv5.encounter).toContain("Escorpião Gigante");
-        const lv9 = lookupEncounter("deserto", 9, 1)!;
-        expect(lv9.encounter).toContain("Quimera");
-        const lv10 = lookupEncounter("deserto", 10, 95)!;
-        expect(lv10.encounter).toContain("Tarelaf");
+describe("PATAMARES", () => {
+    it("Iniciante/Veterano/Campeão/Lenda com +0/+30/+70/+110", () => {
+        expect(getPatamar("iniciante")?.mod).toBe(0);
+        expect(getPatamar("veterano")?.mod).toBe(30);
+        expect(getPatamar("campeao")?.mod).toBe(70);
+        expect(getPatamar("lenda")?.mod).toBe(110);
+        expect(PATAMARES.length).toBe(4);
     });
 });
 
-// ── findRow ───────────────────────────────────────────────────────────────────
+// ── findEncounterRow ──────────────────────────────────────────────────────────
 
-describe("findRow", () => {
-    const esgoto = getEnvironment("esgoto")!;
+describe("findEncounterRow", () => {
+    const aq = getTerrain("aquatico")!;
 
-    it("finds the row containing the roll (inclusive bounds)", () => {
-        expect(findRow(esgoto, 1)?.title).toBe("Pragas Rastejantes");
-        expect(findRow(esgoto, 15)?.title).toBe("Pragas Rastejantes");
-        expect(findRow(esgoto, 16)?.title).toBe("Contrabandistas");
-        expect(findRow(esgoto, 100)?.title).toBe("Predador do Fosso");
+    it("acha a faixa contendo o total (bordas inclusivas)", () => {
+        expect(findEncounterRow(aq, 1)?.label).toBe("1-2");
+        expect(findEncounterRow(aq, 2)?.label).toBe("1-2");
+        expect(findEncounterRow(aq, 3)?.label).toBe("3-6");
+        expect(findEncounterRow(aq, 100)?.label).toBe("99-100");
     });
 
-    it("returns null for out-of-range rolls", () => {
-        expect(findRow(esgoto, 0)).toBeNull();
-        expect(findRow(esgoto, 101)).toBeNull();
+    it("faixa aberta 201+ pega qualquer total ≥ 201", () => {
+        expect(findEncounterRow(aq, 201)?.label).toBe("201+");
+        expect(findEncounterRow(aq, 999)?.label).toBe("201+");
     });
-});
 
-// ── padRange ──────────────────────────────────────────────────────────────────
-
-describe("padRange", () => {
-    it("pads single digits to two", () => {
-        expect(padRange(1)).toBe("01");
-        expect(padRange(9)).toBe("09");
-    });
-    it("leaves multi-digit numbers unchanged", () => {
-        expect(padRange(15)).toBe("15");
-        expect(padRange(100)).toBe("100");
+    it("total < 1 não casa nenhuma faixa", () => {
+        expect(findEncounterRow(aq, 0)).toBeNull();
     });
 });
 
-// ── lookupEncounter ───────────────────────────────────────────────────────────
+// ── resolveEncounter (patamar shift + Rhandomm) ───────────────────────────────
 
-describe("lookupEncounter", () => {
-    it("resolves environment + level bracket + d100 range", () => {
-        // Esgotos, 91-100 "Predador do Fosso", level 7 → bracket 3
-        const r = lookupEncounter("esgoto", 7, 95);
-        expect(r).toMatchObject({
-            envLabel: "Esgotos",
-            roll: 95,
-            level: 7,
-            rangeLabel: "91-100",
-            title: "Predador do Fosso",
-            encounter: "1 Hidra Adulta (5 cabeças)",
-        });
+describe("resolveEncounter", () => {
+    const aq = getTerrain("aquatico")!;
+    const inic = getPatamar("iniciante")!;
+    const veterano = getPatamar("veterano")!;
+    const lenda = getPatamar("lenda")!;
+
+    it("Iniciante: d100 puro resolve a faixa", async () => {
+        const out = (await resolveEncounter(aq, inic, 1))!;
+        expect(out.total).toBe(1);
+        expect(out.rangeLabel).toBe("1-2");
+        expect(out.encounter).toContain("hynne");
     });
 
-    it("picks the correct bracket entry for low levels", () => {
-        // Florestas, 01-15 "Predadores Selvagens", level 1 → bracket 0
-        expect(lookupEncounter("floresta", 1, 5)?.encounter).toBe("3 Lobos");
+    it("Veterano: soma +30 ao d100 (10 → 40 → faixa 36-40)", async () => {
+        const out = (await resolveEncounter(aq, veterano, 10))!;
+        expect(out.total).toBe(40);
+        expect(out.rangeLabel).toBe("36-40");
     });
 
-    it("returns null for an unknown environment", () => {
-        expect(lookupEncounter("vulcao", 3, 50)).toBeNull();
+    it("Lenda: 100 natural + 1d4=1 vira Rhandomm", async () => {
+        const out = (await resolveEncounter(aq, lenda, 100, 1))!;
+        expect(out.rhandomm).toBe(true);
+        expect(out.encounter).toContain("Rhandomm");
+        expect(out.total).toBe(210); // 100 + 110 → faixa 201+
+        expect(out.rangeLabel).toBe("201+");
     });
 
-    it("returns null for an out-of-range roll", () => {
-        expect(lookupEncounter("becos", 3, 0)).toBeNull();
+    it("Lenda: 100 natural mas 1d4≠1 mantém o encontro da tabela", async () => {
+        const out = (await resolveEncounter(aq, lenda, 100, 3))!;
+        expect(out.rhandomm).toBe(false);
+        expect(out.encounter).not.toContain("Rhandomm");
+    });
+
+    it("Rhandomm NÃO ocorre fora do patamar Lenda (Veterano, 100 nat)", async () => {
+        const out = (await resolveEncounter(aq, veterano, 100, 1))!;
+        expect(out.rhandomm).toBe(false);
     });
 });
 
-// ── validateEnvironments ──────────────────────────────────────────────────────
+// ── validateTerrains ──────────────────────────────────────────────────────────
 
-describe("validateEnvironments", () => {
-    const row = (min: number, max: number): EnvironmentDef["rows"][number] => ({
-        min, max, title: "T", flavor: "",
-        levels: ["a", "b", "c", "d"],
+describe("validateTerrains", () => {
+    const mk = (rows: TerrainDef["rows"]): TerrainDef => ({ id: "x", label: "X", rows });
+
+    it("aceita uma partição contígua 1..201+", () => {
+        const rows = [
+            { min: 1, max: 100, label: "1-100", encounter: "a" },
+            { min: 101, max: null, label: "101+", encounter: "b" },
+        ];
+        // 2 faixas não passa na regra de 28, mas cobertura contígua ok:
+        const out = validateTerrains([mk(rows)]);
+        expect(out.some(p => /esperado 28/.test(p))).toBe(true);
+        expect(out.some(p => /buraco|sobreposi/i.test(p))).toBe(false);
     });
 
-    it("accepts a well-formed environment (any contiguous 1-100 partition)", () => {
-        const env: EnvironmentDef = { id: "pantano", label: "Pântano", rows: [row(1, 20), row(21, 50), row(51, 100)] };
-        expect(validateEnvironments([env])).toEqual([]);
+    it("acusa buraco na cobertura", () => {
+        const rows = [
+            { min: 1, max: 40, label: "1-40", encounter: "a" },
+            { min: 50, max: null, label: "50+", encounter: "b" },
+        ];
+        expect(validateTerrains([mk(rows)]).some(p => /buraco|sobreposi/i.test(p))).toBe(true);
     });
 
-    it("flags a gap in d100 coverage", () => {
-        const env: EnvironmentDef = { id: "x", label: "X", rows: [row(1, 40), row(50, 100)] };
-        const out = validateEnvironments([env]);
-        expect(out.some(p => /buraco|sobreposi/i.test(p))).toBe(true);
-    });
-
-    it("flags coverage not starting at 1 or not ending at 100", () => {
-        const env: EnvironmentDef = { id: "x", label: "X", rows: [row(5, 100)] };
-        expect(validateEnvironments([env]).some(p => /começar em 1/i.test(p))).toBe(true);
-    });
-
-    it("flags a row without 4 level brackets", () => {
-        const env: EnvironmentDef = {
-            id: "x", label: "X",
-            rows: [{ min: 1, max: 100, title: "T", flavor: "", levels: ["a", "b"] as unknown as [string, string, string, string] }],
-        };
-        expect(validateEnvironments([env]).some(p => /4 brackets/i.test(p))).toBe(true);
-    });
-
-    it("flags an empty level bracket", () => {
-        const env: EnvironmentDef = {
-            id: "x", label: "X",
-            rows: [{ min: 1, max: 100, title: "T", flavor: "", levels: ["a", " ", "c", "d"] }],
-        };
-        expect(validateEnvironments([env]).some(p => /vazio/i.test(p))).toBe(true);
-    });
-
-    it("flags duplicate ids", () => {
-        const env: EnvironmentDef = { id: "dup", label: "A", rows: [row(1, 100)] };
-        const env2: EnvironmentDef = { id: "dup", label: "B", rows: [row(1, 100)] };
-        expect(validateEnvironments([env, env2]).some(p => /duplicad/i.test(p))).toBe(true);
+    it("acusa encontro vazio", () => {
+        const rows = [{ min: 1, max: null, label: "1+", encounter: "  " }];
+        expect(validateTerrains([mk(rows)]).some(p => /vazio/i.test(p))).toBe(true);
     });
 });
