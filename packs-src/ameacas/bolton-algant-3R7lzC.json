@@ -1,0 +1,1221 @@
+{
+  "name": "Bolton Al'Gant",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Ahlen/Bolton%20Al'Gant.png",
+  "prototypeToken": {
+    "name": "Bolton Al'Gant",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Ahlen/Bolton%20Al'Gant.png",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "sight": {
+      "enabled": true,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "displayName": 0,
+    "width": 1,
+    "height": 1,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "base": 0,
+        "racial": 0,
+        "bonus": 0
+      },
+      "des": {
+        "value": 3,
+        "base": 3,
+        "racial": 0,
+        "bonus": 0
+      },
+      "con": {
+        "value": 1,
+        "base": 1,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 4,
+        "base": 4,
+        "racial": 0,
+        "bonus": 0
+      },
+      "sab": {
+        "value": 2,
+        "base": 2,
+        "racial": 0,
+        "bonus": 0
+      },
+      "car": {
+        "value": 0,
+        "base": 0,
+        "racial": 0,
+        "bonus": 0
+      }
+    },
+    "attributes": {
+      "cd": 19,
+      "conjuracao": "int",
+      "pv": {
+        "value": 74,
+        "max": 74,
+        "min": -37,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "max": 0,
+        "min": 0,
+        "temp": 0
+      },
+      "defesa": {
+        "atributo": "des",
+        "pda": 0,
+        "outros": 6,
+        "condi": 0,
+        "bonus": [],
+        "value": 10,
+        "base": 10
+      },
+      "movement": {
+        "walk": {
+          "base": 9,
+          "bonus": []
+        },
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "unit": "m",
+        "hover": false,
+        "tags": []
+      },
+      "sentidos": {
+        "value": [
+          "Visão na penumbra"
+        ],
+        "custom": ""
+      },
+      "nd": "3",
+      "carga": {
+        "value": 0,
+        "atributo": "for",
+        "base": 10,
+        "bonus": [],
+        "limit": 0,
+        "max": 0,
+        "pct": 0,
+        "encumbered": false
+      },
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "treino": 0
+    },
+    "pericias": {
+      "acro": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "outros": 7,
+        "treinado": false,
+        "atributo": "con",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "outros": 6,
+        "treinado": true,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "outros": 11,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "alqu": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "detalhes": {
+      "role": "special",
+      "tipo": "hum",
+      "raca": "Elfo",
+      "ataquescac": "",
+      "ataquesad": "Frasco de ácido +12 (2d6+7 ácido, 19, alcance médio)",
+      "tesouro": "Padrão",
+      "biography": {
+        "value": "<p>Um alquimista elfo meticuloso, especialista em ácidos corrosivos e bombas explosivas. Prefere lutar à distância, corroendo defesas e cobrindo o campo com fumaça tóxica. Faz dupla frequente com Efira Silvertongue.</p>",
+        "public": ""
+      },
+      "origem": "",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "movimento": ""
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": []
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      },
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      }
+    },
+    "dinheiro": {
+      "tc": 0,
+      "tl": 0,
+      "to": 0,
+      "tp": 0
+    },
+    "modificadores": {
+      "custoPM": 0,
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      }
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Frasco de Ácido",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "proposito": "disparo",
+        "proficiencia": "simples",
+        "empunhadura": "uma",
+        "criticoM": 19,
+        "criticoX": 2,
+        "tipoUso": "sim",
+        "equipado": 1,
+        "description": {
+          "value": "<p>Um frasco de vidro grosso com ácido corrosivo, arremessado com precisão élfica.</p>",
+          "unidentified": ""
+        },
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+7",
+                "acido",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "carregado": true,
+        "espacos": 0,
+        "peso": 0,
+        "qtd": 1,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "alcance": "medium",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "ataques": 1,
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "size": "normal",
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": ""
+      },
+      "_id": "ElwEiH872gM1s2Xo",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": "vUkXgOl2DmxdhT9q",
+        "modifiedTime": 1784668140009
+      },
+      "_key": "!actors.items!3R7lzCHQohmnPhCo.ElwEiH872gM1s2Xo"
+    },
+    {
+      "name": "Ácido Corrosivo",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Passiva.</strong> Os ataques de ácido de Bolton <strong>ignoram redução de dano</strong>. Uma criatura atingida por seu ácido sofre mais <strong>1d6 pontos de dano de ácido</strong> no início de seu próximo turno, a menos que gaste uma ação padrão para se limpar.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "u8Of9gssg1lXG1E0",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!3R7lzCHQohmnPhCo.u8Of9gssg1lXG1E0"
+    },
+    {
+      "name": "Bomba Explosiva",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "standard",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "Médio",
+        "area": "Esfera 3m",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "refl",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos CD 19 reduz à metade"
+        },
+        "rolls": [
+          {
+            "key": "dano0",
+            "name": "Dano",
+            "type": "dano",
+            "adaptavel": "",
+            "versatil": "",
+            "parts": [
+              [
+                "4d6",
+                "fogo",
+                ""
+              ]
+            ]
+          }
+        ],
+        "description": {
+          "value": "<p><strong>Padrão.</strong> Bolton arremessa uma bomba em alcance médio que explode num raio de 3m: cada criatura na área sofre <strong>4d6 pontos de dano de fogo</strong> (<strong>Reflexos CD 19</strong> reduz à metade).</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "hqXcgRkw31eIV64B",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!3R7lzCHQohmnPhCo.hqXcgRkw31eIV64B"
+    },
+    {
+      "name": "Fumaça Alquímica",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "Médio",
+        "area": "Esfera 6m",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "fort",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Fortitude CD 19 evita Enjoado"
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Movimento, 1×/cena.</strong> Bolton quebra um frasco que libera uma nuvem de fumaça alquímica num raio de 6m, concedendo camuflagem. Uma criatura que inicia seu turno dentro da nuvem deve passar em <strong>Fortitude CD 19</strong> ou fica <strong>Enjoada</strong> por 1 rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "ABom6Msy7hWne5Lc",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!3R7lzCHQohmnPhCo.ABom6Msy7hWne5Lc"
+    }
+  ],
+  "_id": "3R7lzCHQohmnPhCo",
+  "effects": [],
+  "folder": "FMIEwltYudrY66ci",
+  "sort": 200000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015",
+    "createdTime": 1784665733270,
+    "modifiedTime": 1784728916026,
+    "lastModifiedBy": "gDmZ0Qc21RFXS3VW"
+  },
+  "_key": "!actors!3R7lzCHQohmnPhCo"
+}

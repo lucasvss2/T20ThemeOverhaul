@@ -1,0 +1,1272 @@
+{
+  "name": "Efira Silvertongue",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Ahlen/Edara%20Silvertongue.png",
+  "prototypeToken": {
+    "name": "Efira Silvertongue",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Ahlen/Edara%20Silvertongue.png",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "sight": {
+      "enabled": true,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "displayName": 0,
+    "width": 1,
+    "height": 1,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "value": -1,
+        "base": -1,
+        "racial": 0,
+        "bonus": 0
+      },
+      "des": {
+        "value": 1,
+        "base": 1,
+        "racial": 0,
+        "bonus": 0
+      },
+      "con": {
+        "value": 2,
+        "base": 2,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 4,
+        "base": 4,
+        "racial": 0,
+        "bonus": 0
+      },
+      "sab": {
+        "value": 1,
+        "base": 1,
+        "racial": 0,
+        "bonus": 0
+      },
+      "car": {
+        "value": 3,
+        "base": 3,
+        "racial": 0,
+        "bonus": 0
+      }
+    },
+    "attributes": {
+      "cd": 19,
+      "conjuracao": "int",
+      "pv": {
+        "value": 74,
+        "max": 74,
+        "min": -37,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "max": 0,
+        "min": 0,
+        "temp": 0
+      },
+      "defesa": {
+        "atributo": "des",
+        "pda": 0,
+        "outros": 8,
+        "condi": 0,
+        "bonus": [],
+        "value": 10,
+        "base": 10
+      },
+      "movement": {
+        "walk": {
+          "base": 9,
+          "bonus": []
+        },
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "unit": "m",
+        "hover": false,
+        "tags": []
+      },
+      "sentidos": {
+        "value": [
+          "Visão no escuro"
+        ],
+        "custom": ""
+      },
+      "nd": "3",
+      "carga": {
+        "value": 0,
+        "atributo": "for",
+        "base": 10,
+        "bonus": [],
+        "limit": 0,
+        "max": 0,
+        "pct": 0,
+        "encumbered": false
+      },
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "treino": 0
+    },
+    "pericias": {
+      "acro": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "outros": 6,
+        "treinado": false,
+        "atributo": "con",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "outros": 0,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "outros": 8,
+        "treinado": true,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "outros": 1,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "outros": 13,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "detalhes": {
+      "role": "special",
+      "tipo": "mor",
+      "raca": "Morto-vivo",
+      "ataquescac": "",
+      "ataquesad": "Raio de gema +12 (2d6+7, 19, alcance médio)",
+      "tesouro": "Dobro",
+      "biography": {
+        "value": "<p>Uma nobre esqueleta, outrora colecionadora de joias, agora arcanista que aprisiona a magia em gemas. Refina cristais em armas e prisões, e sua língua de prata ainda desarma incautos.</p>",
+        "public": ""
+      },
+      "origem": "",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "movimento": ""
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 5,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": []
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tc": 0,
+      "tl": 0,
+      "to": 0,
+      "tp": 0
+    },
+    "modificadores": {
+      "custoPM": 0,
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      }
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Raio de Gema",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "proposito": "disparo",
+        "proficiencia": "simples",
+        "empunhadura": "uma",
+        "criticoM": 19,
+        "criticoX": 2,
+        "tipoUso": "sim",
+        "equipado": 1,
+        "description": {
+          "value": "<p>Um facho de luz refratado por uma gema que Efira ergue como foco arcano.</p>",
+          "unidentified": ""
+        },
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+7",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "carregado": true,
+        "espacos": 0,
+        "peso": 0,
+        "qtd": 1,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "alcance": "medium",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "ataques": 1,
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "size": "normal",
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": ""
+      },
+      "_id": "IMYpfzsZ0JQNlIPO",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": "vUkXgOl2DmxdhT9q",
+        "modifiedTime": 1784668153733
+      },
+      "_key": "!actors.items!A1OU2d0AGyE7yDx0.IMYpfzsZ0JQNlIPO"
+    },
+    {
+      "name": "Explosão de Estilhaços",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "standard",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "Pessoal (raio 6m)",
+        "area": "Esfera 6m",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "refl",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos CD 19 reduz à metade"
+        },
+        "rolls": [
+          {
+            "key": "dano0",
+            "name": "Dano",
+            "type": "dano",
+            "adaptavel": "",
+            "versatil": "",
+            "parts": [
+              [
+                "4d6",
+                "corte",
+                ""
+              ]
+            ]
+          }
+        ],
+        "description": {
+          "value": "<p><strong>Padrão.</strong> Efira estilhaça gemas ao redor num raio de 6m: cada criatura na área sofre <strong>4d6 pontos de dano de corte</strong> (<strong>Reflexos CD 19</strong> reduz à metade). Habilidade mágica.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "n0Oi1ln7ugqJmZG5",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!A1OU2d0AGyE7yDx0.n0Oi1ln7ugqJmZG5"
+    },
+    {
+      "name": "Prisão de Âmbar",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "standard",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "Curto (9m)",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "fort",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Fortitude CD 19 evita"
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Padrão, 1×/cena.</strong> Um alvo em alcance curto é encasulado em cristal de âmbar. <strong>Fortitude CD 19</strong> ou fica <strong>Paralisado</strong> por 1 minuto; o alvo pode repetir o teste no fim de cada turno para se libertar. Habilidade mágica.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "FDaOUNyMMexdgUQR",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!A1OU2d0AGyE7yDx0.FDaOUNyMMexdgUQR"
+    },
+    {
+      "name": "Pele de Gema",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Passiva.</strong> O corpo esquelético de Efira é encrustado de gemas endurecidas, concedendo <strong>Redução de Dano 5</strong>.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "53YT12jmzLD1gYaK",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!A1OU2d0AGyE7yDx0.53YT12jmzLD1gYaK"
+    },
+    {
+      "name": "Imunidades de Morto-Vivo",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Passiva.</strong> Como uma morta-viva, Efira é imune a veneno, doença, cansaço e sono, e não precisa respirar, comer ou dormir.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "8mSc7tVjPjG9agF8",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!A1OU2d0AGyE7yDx0.8mSc7tVjPjG9agF8"
+    }
+  ],
+  "_id": "A1OU2d0AGyE7yDx0",
+  "effects": [],
+  "folder": "FMIEwltYudrY66ci",
+  "sort": 150000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015",
+    "createdTime": 1784665654755,
+    "modifiedTime": 1784728916011,
+    "lastModifiedBy": "gDmZ0Qc21RFXS3VW"
+  },
+  "_key": "!actors!A1OU2d0AGyE7yDx0"
+}
