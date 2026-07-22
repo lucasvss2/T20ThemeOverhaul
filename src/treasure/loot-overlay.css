@@ -60,6 +60,7 @@
 #t20-loot-overlay .lo-body {
     padding: 10px 22px;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1 1 auto;
 }
 #t20-loot-overlay .lo-item {
@@ -70,7 +71,7 @@
     border-bottom: 1px dashed rgba(106, 78, 24, 0.3);
 }
 #t20-loot-overlay .lo-item:last-child { border-bottom: none; }
-#t20-loot-overlay .lo-item-name { flex: 1 1 auto; color: #f0ebe0; font-size: 0.98rem; }
+#t20-loot-overlay .lo-item-name { flex: 1 1 auto; min-width: 0; color: #f0ebe0; font-size: 0.98rem; overflow-wrap: anywhere; }
 #t20-loot-overlay .lo-item-cat {
     font-size: 0.72rem;
     color: #9a8e7a;
@@ -81,7 +82,9 @@
 
 #t20-loot-overlay select.lo-assign {
     flex: 0 0 auto;
-    min-width: 150px;
+    width: 250px;
+    max-width: 250px;
+    min-width: 0;
     background: #0d0904;
     color: #e8e0d0;
     border: 1px solid #6a4e18;
