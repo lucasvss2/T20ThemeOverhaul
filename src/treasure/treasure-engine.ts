@@ -22,11 +22,36 @@ export type MagicTier = "menor" | "medio" | "maior";
 /** Categoria de riqueza (chaves dos dados: menor/media/maior). */
 export type RiquezaCat = "menor" | "media" | "maior";
 
+/** Info de um item atribuível (para saque/distribuição). */
+export interface AssignItemInfo {
+    /** Nome-base do item (ex.: "Espada longa"). */
+    name: string;
+    /** Categoria: arma/armadura/esoterico/acessorio/pocao/item/riqueza. */
+    category: string;
+    /** Melhorias/encantos aplicados (nomes). */
+    upgrades: string[];
+    /** Preço de tabela (T$), se houver. */
+    preco?: string;
+    /** Referência de livro/página. */
+    ref?: string;
+}
+
 /** Linha de resultado (árvore): um rótulo + detalhe opcional + filhos. */
 export interface ResultLine {
     label: string;
     detail?: string;
     children?: ResultLine[];
+    /** Valor monetário desta linha em T$ (prata), quando for dinheiro/riqueza. */
+    tibar?: number;
+    /** Item atribuível representado por esta linha (equipamento/poção/item diverso). */
+    assign?: AssignItemInfo;
+}
+
+/** Conversão de moeda T20 → T$ (prata): TO=10, T$/TP=1, TC=0,1. */
+export function currencyToTibar(amount: number, cur: string): number {
+    const c = cur.toUpperCase();
+    const rate = c === "TO" ? 10 : c === "TC" ? 0.1 : 1;
+    return amount * rate;
 }
 
 // ── Helpers de rolagem ────────────────────────────────────────────────────────
@@ -74,7 +99,7 @@ export function resolveMoney(result: string, roll: DieRoller, half: boolean): Re
         const full = rollFormula(dice, roll) * mult;
         const value = half ? Math.floor(full / 2) : full;
         const label = half ? `${value} ${cur} (metade de ${full} ${cur})` : `${value} ${cur}`;
-        return { label: `Dinheiro: ${label}`, detail: `${dice}×${mult} ${cur}` };
+        return { label: `Dinheiro: ${label}`, detail: `${dice}×${mult} ${cur}`, tibar: currencyToTibar(value, cur) };
     }
 
     // "C riqueza(s) CATEGORIA [+%]" também pode aparecer na coluna Dinheiro
@@ -117,6 +142,8 @@ export function resolveRiquezas(count: string, cat: RiquezaCat, plus: boolean, r
         children.push({
             label: `Riqueza ${catLabel}: ${value > 0 ? `${value} T$` : row.valor}`,
             detail: row.exemplos || undefined,
+            tibar: value,
+            assign: { name: `Riqueza ${catLabel}`, category: "riqueza", upgrades: [], preco: value > 0 ? String(value) : row.valor },
         });
     }
     return { label: `${n} riqueza${n > 1 ? "s" : ""} ${catLabel}${plus ? " (+%)" : ""}`, children };
@@ -158,6 +185,17 @@ function itemName(row: ItemRow | null): string {
     return row ? (row.nome || row.item || "?") : "(sem entrada)";
 }
 
+/** Constrói o AssignItemInfo de uma linha de item a partir da row da tabela. */
+function assignFromRow(row: ItemRow | null, category: string, upgrades: string[] = []): AssignItemInfo {
+    return {
+        name: itemName(row),
+        category,
+        upgrades,
+        preco: row?.preco || undefined,
+        ref: row ? (row.livro ? `${row.livro}${row.pagina ? `, p.${row.pagina}` : ""}` : undefined) : undefined,
+    };
+}
+
 function rollItemTable(rows: ItemRow[], roll: DieRoller, plus = false): ItemRow | null {
     const d = Math.min(120, roll(100) + (plus ? 20 : 0));
     return findRow(rows, d);
@@ -171,7 +209,7 @@ export function resolveItem(result: string, roll: DieRoller): ResultLine | null 
 
     if (n === "item diverso") {
         const row = rollItemTable(TREASURE.itensDiversos, roll);
-        return { label: `Item diverso: ${itemName(row)}`, detail: bookRef(row) };
+        return { label: `Item diverso: ${itemName(row)}`, detail: bookRef(row), assign: assignFromRow(row, "item") };
     }
 
     if (n.startsWith("equipamento")) {
@@ -187,7 +225,7 @@ export function resolveItem(result: string, roll: DieRoller): ResultLine | null 
         const children: ResultLine[] = [];
         for (let i = 0; i < count; i++) {
             const row = rollItemTable(TREASURE.pocoes, roll, plus);
-            children.push({ label: `Poção: ${itemName(row)}`, detail: bookRef(row) });
+            children.push({ label: `Poção: ${itemName(row)}`, detail: bookRef(row), assign: assignFromRow(row, "pocao") });
         }
         return { label: `${count} poção${count > 1 ? "/poções" : ""}${plus ? " (+%)" : ""}`, children };
     }
@@ -201,11 +239,13 @@ export function resolveItem(result: string, roll: DieRoller): ResultLine | null 
         for (const type of rollTypes(roll, twoD, equipTypeFromDie)) {
             const eq = rollItemTable(TREASURE.equipamentos[type] ?? [], roll);
             const melhorias: ResultLine[] = [];
+            const melNames: string[] = [];
             for (let i = 0; i < nMelhorias; i++) {
                 const mel = rollItemTable(TREASURE.superiores[type] ?? [], roll);
                 melhorias.push({ label: `Melhoria: ${itemName(mel)}`, detail: bookRef(mel) });
+                melNames.push(itemName(mel));
             }
-            children.push({ label: `${itemName(eq)} (${TYPE_LABEL[type]}) — ${nMelhorias} melhoria${nMelhorias > 1 ? "s" : ""}`, detail: bookRef(eq), children: melhorias });
+            children.push({ label: `${itemName(eq)} (${TYPE_LABEL[type]}) — ${nMelhorias} melhoria${nMelhorias > 1 ? "s" : ""}`, detail: bookRef(eq), children: melhorias, assign: assignFromRow(eq, type, melNames) });
         }
         return { label: `Superior (${nMelhorias} melhoria${nMelhorias > 1 ? "s" : ""})${twoD ? " (2D — escolha um)" : ""}`, children };
     }
@@ -224,7 +264,7 @@ export function resolveItem(result: string, roll: DieRoller): ResultLine | null 
 function resolveEquipamentos(roll: DieRoller, twoD: boolean): ResultLine[] {
     return rollTypes(roll, twoD, equipTypeFromDie).map(type => {
         const row = rollItemTable(TREASURE.equipamentos[type] ?? [], roll);
-        return { label: `${itemName(row)} (${TYPE_LABEL[type]})`, detail: bookRef(row) };
+        return { label: `${itemName(row)} (${TYPE_LABEL[type]})`, detail: bookRef(row), assign: assignFromRow(row, type) };
     });
 }
 
@@ -234,16 +274,18 @@ function resolveMagicos(tier: MagicTier, roll: DieRoller, twoD: boolean): Result
     return rollTypes(roll, twoD, magicTypeFromDie).map(type => {
         if (type === "acessorio") {
             const row = rollItemTable(TREASURE.acessorios[tier] ?? [], roll);
-            return { label: `Acessório ${tier === "medio" ? "médio" : tier}: ${itemName(row)}`, detail: bookRef(row) };
+            return { label: `Acessório ${tier === "medio" ? "médio" : tier}: ${itemName(row)}`, detail: bookRef(row), assign: assignFromRow(row, "acessorio") };
         }
         const nEnc = ENCANTOS_POR_TIER[tier];
         const eq = rollItemTable(TREASURE.equipamentos[type] ?? [], roll);
         const encantos: ResultLine[] = [];
+        const encNames: string[] = [];
         for (let i = 0; i < nEnc; i++) {
             const enc = rollItemTable(TREASURE.magicos[type] ?? [], roll);
             encantos.push({ label: `Encanto: ${itemName(enc)}`, detail: bookRef(enc) });
+            encNames.push(itemName(enc));
         }
-        return { label: `${itemName(eq)} (${TYPE_LABEL[type]} mágico) — ${nEnc} encanto${nEnc > 1 ? "s" : ""}`, detail: bookRef(eq), children: encantos };
+        return { label: `${itemName(eq)} (${TYPE_LABEL[type]} mágico) — ${nEnc} encanto${nEnc > 1 ? "s" : ""}`, detail: bookRef(eq), children: encantos, assign: assignFromRow(eq, type, encNames) };
     });
 }
 

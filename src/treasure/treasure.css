@@ -151,3 +151,37 @@
 }
 .t20-treasure-sheet-btn:hover { color: #f5c842; }
 .t20-treasure-sheet-btn > i { margin: 0; }
+
+/* ── modal de riqueza ─────────────────────────────────────────────────────── */
+.t20-riqueza-dialog .riq-hint { color: #c8a96e; font-size: 0.85rem; margin-bottom: 10px; }
+.t20-riqueza-dialog .riq-list { display: flex; flex-direction: column; gap: 4px; }
+.t20-riqueza-dialog .riq-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid rgba(106, 78, 24, 0.4);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.t20-riqueza-dialog .riq-row:hover { border-color: #c8a96e; }
+.t20-riqueza-dialog .riq-space {
+    flex: 0 0 auto;
+    min-width: 42px;
+    font-weight: 700;
+    color: #ffd97a;
+    text-align: center;
+}
+.t20-riqueza-dialog .riq-items { flex: 1 1 auto; color: #e8e0d0; font-size: 0.85rem; }
+
+/* botão de distribuição no resultado do gerador */
+.t20-treasure-dialog .tre-distribute-btn {
+    margin-top: 8px;
+    background: linear-gradient(180deg, #5a4212 0%, #3a2a0c 100%);
+    color: #f0ebe0;
+    border: 1px solid #6a4e18;
+    border-radius: 6px;
+    padding: 7px 14px;
+    cursor: pointer;
+}
+.t20-treasure-dialog .tre-distribute-btn:hover { border-color: #c8a96e; color: #ffd97a; }

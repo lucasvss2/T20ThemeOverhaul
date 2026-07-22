@@ -13,6 +13,11 @@
  * sussurrado só para o GM como registro.
  */
 
+import { deliverItemToActor } from "./item-resolver";
+import { perShareTibar, summarizeLoot, tibarToCoins, type LootItem } from "./loot";
+import { showLootOverlay, type LootOverlayPlayer } from "./loot-overlay";
+import { clearLootLog, getLootLog, getPresentPlayers, recordLoot, type PresentPlayer } from "./loot-store";
+import { parseRiquezaCategories, pickRiquezaItem } from "./riqueza-picker";
 import { TREASURE } from "./treasure-data";
 import {
     generateTreasure, listNDs, type DieRoller, type Quantity, type ResultLine, type TreasureResult,
@@ -26,7 +31,17 @@ const SIDEBAR_BTN_ID = "t20-treasure-btn";
 const SHEET_BTN_CLASS = "t20-treasure-sheet-btn";
 const STYLES_ID = "t20-treasure-styles";
 const LOOT_SOCKET = "treasure/loot-token";
+const LOOT_OVERLAY_SOCKET = "treasure/loot-overlay";
 const LOOTED_FLAG = "treasureLooted";
+
+/** Payload transmitido a todos os clientes para exibir o overlay de resumo. */
+interface LootBroadcast {
+    title: string;
+    subtitle?: string;
+    totalTibar: number;
+    items: LootItem[];
+    players: PresentPlayer[];
+}
 
 // ── infra ─────────────────────────────────────────────────────────────────────
 
@@ -73,16 +88,32 @@ async function whisperResult(res: TreasureResult): Promise<void> {
     }
 }
 
-function rollInto(nd: string, quantity: Quantity, resultBox: HTMLElement): void {
+/** Presentes para distribuição no modal de geração: combate atual, senão todos os PJs. */
+function presentPlayersForDistribution(): PresentPlayer[] {
+    const combat = game.combat as unknown as Parameters<typeof getPresentPlayers>[0] | null;
+    if (combat) { const p = getPresentPlayers(combat); if (p.length) return p; }
+    const actors = (game.actors?.contents ?? []) as Array<{ id?: string; type?: string; name?: string; hasPlayerOwner?: boolean }>;
+    return actors.filter(a => a.id && a.type === "character" && a.hasPlayerOwner).map(a => ({ actorId: a.id!, name: a.name ?? "Jogador" }));
+}
+
+async function rollInto(nd: string, quantity: Quantity, resultBox: HTMLElement): Promise<void> {
     const res = generateTreasure(nd, quantity, roller);
     if (!res) {
         resultBox.innerHTML = `<div class="tre-empty">ND inválido.</div>`;
         return;
     }
+    await resolveRiquezasInteractive(res.lines);
     resultBox.innerHTML = `
         <div class="tre-result-head">ND ${esc(nd)} · ${esc(QTY_LABEL[quantity])}</div>
-        <div class="tre-card">${renderTree(res.lines)}</div>`;
+        <div class="tre-card">${renderTree(res.lines)}</div>
+        <div class="tre-actions"><button type="button" class="tre-distribute-btn"><i class="fas fa-people-arrows"></i> Distribuir / Atribuir</button></div>`;
     void whisperResult(res);
+    const summary = summarizeLoot(res.lines, "gen");
+    resultBox.querySelector<HTMLButtonElement>(".tre-distribute-btn")?.addEventListener("click", () => {
+        const players = presentPlayersForDistribution();
+        if (!players.length) { ui.notifications?.warn("Nenhum personagem de jogador para distribuir."); return; }
+        presentLootOverlay({ title: "Tesouro Gerado", subtitle: `ND ${nd} · ${QTY_LABEL[quantity]}`, totalTibar: summary.totalTibar, items: summary.items, players });
+    });
     log(`Tesouro gerado: ND ${nd} (${quantity}) — ${res.lines.length} linha(s).`);
 }
 
@@ -134,7 +165,7 @@ function openGenerateDialog(prefill: Prefill = {}): void {
 
             const doRoll = (): void => {
                 resultBox.dataset["empty"] = "false";
-                rollInto(ndSel.value, qtySel.value as Quantity, resultBox);
+                void rollInto(ndSel.value, qtySel.value as Quantity, resultBox);
             };
             rollBtn.addEventListener("click", doRoll);
             consultBtn.addEventListener("click", () => openConsultDialog());
@@ -348,6 +379,10 @@ function requestLoot(token: TokenLike): void {
         ui.notifications?.info("Este inimigo já foi saqueado.");
         return;
     }
+    if (!playerHasArmsReach(token)) {
+        ui.notifications?.warn("Você precisa estar ao alcance do inimigo para saqueá-lo.");
+        return;
+    }
     const socket = getSocket();
     if (!socket) { ui.notifications?.warn("Saque indisponível (socket não pronto)."); return; }
     ui.notifications?.info("Saqueando tesouro…");
@@ -391,11 +426,43 @@ async function lootTokenAsGM(payload: LootPayload): Promise<void> {
     }
     const res = generateTreasure(nd, qty, roller);
     if (!res) { whisper(`Tesouro de ${name}: falha ao gerar.`); return; }
-    await ChatMessage.create({
-        content: `<div class="tre-result-head">${esc(name)} · ND ${esc(nd)} · ${esc(QTY_LABEL[qty])}</div><div class="tre-card">${renderTree(res.lines)}</div>`,
-        speaker: { alias: `Tesouro de ${name}` },
-    } as unknown as Record<string, unknown>);
+    await resolveRiquezasInteractive(res.lines);
+    const summary = summarizeLoot(res.lines, `t-${payload.tokenId}`);
+    const combat = game.combat as unknown as (Parameters<typeof recordLoot>[0] & { started?: boolean }) | undefined;
+    if (combat?.started) {
+        await recordLoot(combat, { tokenId: payload.tokenId, name, nd, totalTibar: summary.totalTibar, items: summary.items });
+        await ChatMessage.create({
+            content: `<div class="tre-card"><i class="fas fa-coins"></i> <strong>${esc(name)}</strong> saqueado — guardado para o resumo do fim do combate (${summary.totalTibar} T$${summary.items.length ? `, ${summary.items.length} item(ns)` : ""}).</div>`,
+            speaker: { alias: `Tesouro de ${name}` },
+        } as unknown as Record<string, unknown>);
+    } else {
+        await ChatMessage.create({
+            content: `<div class="tre-result-head">${esc(name)} · ND ${esc(nd)} · ${esc(QTY_LABEL[qty])}</div><div class="tre-card">${renderTree(res.lines)}</div>`,
+            speaker: { alias: `Tesouro de ${name}` },
+        } as unknown as Record<string, unknown>);
+    }
     log(`Tesouro saqueado de ${name} (ND ${nd}, ${qty}).`);
+}
+
+// ── fim de combate: agrega o loot e transmite o overlay ───────────────────────
+
+async function onCombatEnd(combat: unknown): Promise<void> {
+    if (!game.user?.isGM) return;
+    const c = combat as Parameters<typeof getLootLog>[0] & Parameters<typeof getPresentPlayers>[0];
+    const logEntries = getLootLog(c);
+    if (!logEntries.length) return;
+    const players = getPresentPlayers(c);
+    const totalTibar = Math.round(logEntries.reduce((s, e) => s + (e.totalTibar || 0), 0) * 100) / 100;
+    const items = logEntries.flatMap(e => e.items);
+    const payload: LootBroadcast = {
+        title: "Tesouro do Combate",
+        subtitle: `${logEntries.length} inimigo(s) saqueado(s)`,
+        totalTibar, items, players,
+    };
+    try { await clearLootLog(c as Parameters<typeof clearLootLog>[0]); } catch { /* combate já deletado */ }
+    const socket = getSocket();
+    if (socket) socket.executeForEveryone(LOOT_OVERLAY_SOCKET, payload);
+    else presentLootOverlay(payload); // fallback sem socket
 }
 
 /**
@@ -438,7 +505,10 @@ function bindTokenLoot(token: LootBoundToken | null | undefined): void {
 }
 
 function setupTokenLoot(): void {
-    onSocketReady((socket) => socket.register(LOOT_SOCKET, (p: unknown) => lootTokenAsGM(p as LootPayload)));
+    onSocketReady((socket) => {
+        socket.register(LOOT_SOCKET, (p: unknown) => lootTokenAsGM(p as LootPayload));
+        socket.register(LOOT_OVERLAY_SOCKET, (p: unknown) => presentLootOverlay(p as LootBroadcast));
+    });
     const bindAll = (): void => {
         const placeables = (canvas as unknown as { tokens?: { placeables?: LootBoundToken[] } }).tokens?.placeables ?? [];
         for (const t of placeables) bindTokenLoot(t);
@@ -448,6 +518,154 @@ function setupTokenLoot(): void {
     Hooks.on("canvasReady", bindAll);
 }
 
+// ── distribuição de tibares + entrega de itens (GM) ───────────────────────────
+
+interface DinheiroActor {
+    name?: string;
+    system?: { dinheiro?: { tp?: number; tc?: number } };
+    update: (d: Record<string, unknown>) => Promise<unknown>;
+    createEmbeddedDocuments: (type: string, data: Array<Record<string, unknown>>) => Promise<unknown>;
+}
+
+/** GM: soma T$/N no dinheiro (prata+cobre) de cada personagem presente. */
+async function distributeTibarToPlayers(totalTibar: number, players: PresentPlayer[]): Promise<void> {
+    if (!game.user?.isGM || !players.length || totalTibar <= 0) return;
+    const share = perShareTibar(totalTibar, players.length);
+    const { tp, tc } = tibarToCoins(share);
+    const done: string[] = [];
+    for (const p of players) {
+        const actor = game.actors?.get(p.actorId) as unknown as DinheiroActor | undefined;
+        if (!actor) continue;
+        const curTp = actor.system?.dinheiro?.tp ?? 0;
+        const curTc = actor.system?.dinheiro?.tc ?? 0;
+        await actor.update({ "system.dinheiro.tp": curTp + tp, "system.dinheiro.tc": curTc + tc });
+        done.push(p.name);
+    }
+    await ChatMessage.create({
+        content: `<div class="tre-card"><strong><i class="fas fa-coins"></i> Tibares distribuídos:</strong> ${share} T$ para cada — ${esc(done.join(", "))}.</div>`,
+        speaker: { alias: "Distribuição de Tesouro" },
+    } as unknown as Record<string, unknown>);
+}
+
+/** GM: entrega itens às fichas escolhidas (resolve compêndio / placeholder). */
+async function deliverItems(items: LootItem[], assignments: Array<{ uid: string; actorId: string }>): Promise<void> {
+    if (!game.user?.isGM) return;
+    const byUid = new Map(items.map(i => [i.uid, i]));
+    const lines: string[] = [];
+    const attention: string[] = [];
+    for (const a of assignments) {
+        const item = byUid.get(a.uid);
+        const actor = game.actors?.get(a.actorId) as unknown as (DinheiroActor & Parameters<typeof deliverItemToActor>[0]) | undefined;
+        if (!item || !actor) continue;
+        try {
+            const res = await deliverItemToActor(actor, item);
+            lines.push(`${esc(res.itemName)} → ${esc(actor.name ?? "?")}`);
+            if (res.needsAttention) attention.push(res.itemName + (res.found ? " (aplicar melhorias)" : " (preencher atributos)"));
+        } catch (err) { warn("treasure: falha ao entregar item:", err); }
+    }
+    if (lines.length) {
+        await ChatMessage.create({
+            content: `<div class="tre-card"><strong><i class="fas fa-hand-holding"></i> Itens entregues:</strong><br>${lines.join("<br>")}</div>`,
+            speaker: { alias: "Distribuição de Tesouro" },
+        } as unknown as Record<string, unknown>);
+    }
+    if (attention.length) ui.notifications?.warn(`Atenção do GM: ${attention.join("; ")}.`);
+}
+
+/** Mostra o overlay (todos os clientes) com handlers do GM ligados localmente. */
+function presentLootOverlay(b: LootBroadcast): void {
+    const players: LootOverlayPlayer[] = b.players.map(p => ({ actorId: p.actorId, tokenId: p.tokenId, name: p.name }));
+    showLootOverlay(
+        {
+            title: b.title, subtitle: b.subtitle, totalTibar: b.totalTibar,
+            items: b.items.map(i => ({ uid: i.uid, display: i.display, category: i.category, ref: i.ref })),
+            players,
+        },
+        {
+            onDistribute: () => distributeTibarToPlayers(b.totalTibar, b.players),
+            onDeliver: (a) => deliverItems(b.items, a),
+        },
+    );
+}
+
+// ── modal interativo de Riqueza (o que a riqueza "é") ─────────────────────────
+
+/** Abre o picker de categoria para uma riqueza; resolve com o texto do item (ou null). */
+function openRiquezaPicker(exemplos: string, valorLabel: string): Promise<string | null> {
+    const cats = parseRiquezaCategories(exemplos);
+    if (!cats.length) return Promise.resolve(null);
+    return new Promise((resolve) => {
+        const rows = cats.map((c, i) =>
+            `<label class="riq-row"><input type="checkbox" data-i="${i}" checked><span class="riq-space">${esc(c.space)}</span><span class="riq-items">${esc(c.items.join(", "))}</span></label>`).join("");
+        const content = `<div class="riq-modal">
+            <div class="riq-hint">Marque as categorias de espaço cabíveis (${esc(valorLabel)}). Será sorteada 1 categoria (1d${cats.length}) e depois 1 item.</div>
+            <div class="riq-list">${rows}</div>
+        </div>`;
+        let resolved = false;
+        const finish = (v: string | null): void => { if (!resolved) { resolved = true; resolve(v); } };
+        const dlg = new Dialog({
+            title: "Riqueza — o que é?",
+            content,
+            buttons: {
+                roll: {
+                    icon: '<i class="fas fa-dice"></i>', label: "Sortear",
+                    callback: (html: JQuery) => {
+                        const root = (html as unknown as { 0?: HTMLElement })[0] ?? (html as unknown as HTMLElement);
+                        const checked = Array.from(root.querySelectorAll<HTMLInputElement>("input[type=checkbox]:checked")).map(el => Number(el.dataset["i"]));
+                        if (!checked.length) { ui.notifications?.warn("Marque ao menos uma categoria."); return; }
+                        const lineRoll = 1 + Math.floor(Math.random() * checked.length);
+                        const cat = cats[checked[lineRoll - 1]];
+                        const itemRoll = 1 + Math.floor(Math.random() * cat.items.length);
+                        const pick = pickRiquezaItem(cat, itemRoll, roller);
+                        const unit = (cat.space === "—" || cat.space === "1") ? "espaço" : "espaços";
+                        finish(`${pick.text}${cat.space === "—" ? "" : ` (${cat.space} ${unit})`}`);
+                    },
+                },
+                skip: { icon: '<i class="fas fa-forward"></i>', label: "Pular", callback: () => finish(null) },
+            },
+            default: "roll",
+            close: () => finish(null),
+        }, { classes: ["t20-dialog", "t20-treasure-dialog", "t20-riqueza-dialog"], width: 560 });
+        dlg.render(true);
+    });
+}
+
+/** Para cada riqueza na árvore, abre o picker (GM) e troca a descrição pelo item escolhido. */
+async function resolveRiquezasInteractive(lines: ResultLine[]): Promise<void> {
+    const walk = async (arr: ResultLine[]): Promise<void> => {
+        for (const l of arr) {
+            if (l.assign?.category === "riqueza" && l.detail) {
+                const chosen = await openRiquezaPicker(l.detail, l.label);
+                if (chosen) {
+                    const head = l.label.split(":")[0];
+                    l.label = `${head}: ${chosen}${typeof l.tibar === "number" && l.tibar > 0 ? ` — ${l.tibar} T$` : ""}`;
+                    l.detail = undefined;
+                    if (l.assign) { l.assign.name = chosen; l.assign.upgrades = []; }
+                }
+            }
+            if (l.children?.length) await walk(l.children);
+        }
+    };
+    await walk(lines);
+}
+
+// ── Arms Reach: gate de alcance para saque ────────────────────────────────────
+
+interface ArmsReachApi { isReachable?: (source: unknown, target: unknown, ...rest: unknown[]) => boolean }
+
+/** Se o módulo arms-reach estiver ativo, o alvo precisa estar ao alcance de um token do jogador. */
+function playerHasArmsReach(targetToken: TokenLike): boolean {
+    const mod = game.modules?.get?.("arms-reach") as unknown as { active?: boolean; api?: ArmsReachApi } | undefined;
+    if (!mod?.active || typeof mod.api?.isReachable !== "function") return true; // não instalado → sem gate
+    const target = (targetToken as { object?: unknown }).object ?? targetToken;
+    const myTokens = ((canvas as unknown as { tokens?: { placeables?: Array<{ isOwner?: boolean; actor?: { type?: string } }> } }).tokens?.placeables ?? [])
+        .filter(t => t.isOwner && t.actor?.type === "character");
+    if (!myTokens.length) return true; // jogador sem token na cena → não bloqueia
+    try {
+        return myTokens.some(src => mod.api!.isReachable!(src, target));
+    } catch (err) { warn("arms-reach: falha em isReachable, liberando:", err); return true; }
+}
+
 // ── setup ─────────────────────────────────────────────────────────────────────
 
 export function setupTreasure(): void {
@@ -455,6 +673,7 @@ export function setupTreasure(): void {
     Hooks.once("ready", () => { ensureStyles(); injectSidebarBtn(); });
     Hooks.on("renderSceneControls", () => { ensureStyles(); injectSidebarBtn(); });
     Hooks.on("canvasReady", () => injectSidebarBtn());
+    Hooks.on("deleteCombat", (c: unknown) => void onCombatEnd(c));
 
     Hooks.on("renderActorSheet", (...args: unknown[]) => {
         const app = args[0] as { actor?: { type?: string; system?: Record<string, unknown>; name?: string } };

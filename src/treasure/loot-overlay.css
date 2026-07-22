@@ -1,0 +1,117 @@
+#t20-loot-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(28, 18, 9, 0.82) 0%, rgba(9, 6, 4, 0.94) 100%);
+    backdrop-filter: blur(3px);
+    animation: t20loot-in 0.35s ease;
+    font-family: "Signika", sans-serif;
+}
+#t20-loot-overlay.leaving { animation: t20loot-out 0.4s ease forwards; }
+@keyframes t20loot-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes t20loot-out { to { opacity: 0; } }
+
+#t20-loot-overlay .lo-panel {
+    width: min(680px, 92vw);
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #1c1209 0%, #120b05 100%);
+    border: 1px solid #6a4e18;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(200, 169, 110, 0.15);
+    overflow: hidden;
+}
+
+#t20-loot-overlay .lo-head {
+    padding: 16px 22px 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(106, 78, 24, 0.5);
+}
+#t20-loot-overlay .lo-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #c8a96e;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(200, 169, 110, 0.35);
+}
+#t20-loot-overlay .lo-sub { font-size: 0.82rem; color: #9a8e7a; margin-top: 3px; }
+
+#t20-loot-overlay .lo-total {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 22px;
+    border-bottom: 1px solid rgba(106, 78, 24, 0.35);
+}
+#t20-loot-overlay .lo-total-val {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #ffd97a;
+    text-shadow: 0 0 10px rgba(255, 200, 80, 0.35);
+}
+#t20-loot-overlay .lo-total-val i { margin-right: 6px; color: #e8c860; }
+
+#t20-loot-overlay .lo-body {
+    padding: 10px 22px;
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+#t20-loot-overlay .lo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(106, 78, 24, 0.3);
+}
+#t20-loot-overlay .lo-item:last-child { border-bottom: none; }
+#t20-loot-overlay .lo-item-name { flex: 1 1 auto; color: #f0ebe0; font-size: 0.98rem; }
+#t20-loot-overlay .lo-item-cat {
+    font-size: 0.72rem;
+    color: #9a8e7a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+#t20-loot-overlay .lo-item-ref { font-size: 0.75rem; color: #8a7e6a; margin-left: 6px; }
+
+#t20-loot-overlay select.lo-assign {
+    flex: 0 0 auto;
+    min-width: 150px;
+    background: #0d0904;
+    color: #e8e0d0;
+    border: 1px solid #6a4e18;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 0.85rem;
+}
+
+#t20-loot-overlay .lo-empty { color: #9a8e7a; font-style: italic; text-align: center; padding: 14px; }
+
+#t20-loot-overlay .lo-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 14px 22px 18px;
+    border-top: 1px solid rgba(106, 78, 24, 0.5);
+    flex-wrap: wrap;
+}
+#t20-loot-overlay button.lo-btn {
+    background: linear-gradient(180deg, #3a2a10 0%, #241706 100%);
+    color: #f0ebe0;
+    border: 1px solid #6a4e18;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+#t20-loot-overlay button.lo-btn:hover { border-color: #c8a96e; color: #ffd97a; box-shadow: 0 0 10px rgba(200, 169, 110, 0.25); }
+#t20-loot-overlay button.lo-btn.lo-primary { background: linear-gradient(180deg, #5a4212 0%, #3a2a0c 100%); }
+#t20-loot-overlay button.lo-btn.lo-close { background: linear-gradient(180deg, #2a1a0c 0%, #1a1006 100%); }
+#t20-loot-overlay button.lo-btn:disabled { opacity: 0.5; cursor: default; }
+#t20-loot-overlay button.lo-distribute { font-size: 0.82rem; padding: 5px 12px; }
