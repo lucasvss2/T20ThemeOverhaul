@@ -259,7 +259,10 @@
     text-overflow: ellipsis; padding: 0 2px; margin-top: auto; margin-bottom: 2px;
 }
 .t20-hud-slot-total {
-    position: absolute; bottom: 1px; right: 3px; font-family: "Cormorant Garamond", serif;
+    /* Canto superior direito (simétrico ao número no canto superior
+       esquerdo) — no canto inferior direito ele se sobrepunha ao nome da
+       perícia, que também fica ancorado na base do slot. */
+    position: absolute; top: 2px; right: 3px; font-family: "Cormorant Garamond", serif;
     font-weight: 700; font-size: 10px; color: var(--t20-accent-gold);
 }
 
