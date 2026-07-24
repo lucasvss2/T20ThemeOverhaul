@@ -27,7 +27,7 @@ export const SKILL_ICONS: SkillIcon[] = [
     { name: "Luta", inner: '<line x1="5" y1="19" x2="17" y2="7"/><path d="M14 4l6 6"/><path d="M13 8l3 3"/>' },
     { name: "Misticismo", inner: '<path d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3Z"/>' },
     { name: "Nobreza", inner: '<path d="M4 18h16l-1-9-4 4-3-6-3 6-4-4-1 9Z"/>' },
-    { name: "Ofício", inner: '<path d="M20 4a5 5 0 0 1-6.9 6.9L6 18l-2-2 7.1-7.1A5 5 0 0 1 20 4Z"/>' },
+    { name: "Ofício", inner: '<path d="M13 7l4-4 4 4-4 4-4-4Z"/><line x1="13" y1="11" x2="5" y2="19"/><path d="M3 21l2-2 2 2-2 2Z"/>' },
     { name: "Percepção", inner: '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>' },
     { name: "Pilotagem", inner: '<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="1" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="1" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="23" y2="12"/>' },
     { name: "Pontaria", inner: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>' },

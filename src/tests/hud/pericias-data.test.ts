@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { buildSkillSlots, ofiOficioIcon } from "@/hud/pericias-data";
+import { buildOficioSlots, buildSkillSlots, ofiOficioIcon } from "@/hud/pericias-data";
 import { iconDataUri, iconForLabel, SKILL_ICONS } from "@/hud/skill-icons";
 import { T20_SKILLS } from "@/hidden-test/skills";
 
-function fakeActor(pericias: Record<string, { value?: number; outros?: number; atributo?: string; treino?: number }>): FoundryActor {
+function fakeActor(pericias: Record<string, { value?: number; outros?: number; atributo?: string; treino?: number; treinado?: boolean; label?: string }>): FoundryActor {
     return {
         id: "a1", uuid: "Actor.a1", name: "Teste", ownership: {},
         system: { pericias, atributos: { for: { value: 2 } }, nivel: { value: 4 } },
@@ -51,6 +51,42 @@ describe("buildSkillSlots", () => {
         const actor = fakeActor({});
         const slots = buildSkillSlots(actor);
         expect(slots.every(s => typeof s.total === "number")).toBe(true);
+    });
+
+    it("anexa as perícias de Ofício TREINADAS após as 28 fixas", () => {
+        const actor = fakeActor({
+            luta: { value: 12 },
+            arme: { value: 5, treinado: true, label: "Ofício: Armeiro" },
+            alqu: { value: 3, treinado: false }, // não treinada → fora
+        });
+        const slots = buildSkillSlots(actor);
+        expect(slots).toHaveLength(T20_SKILLS.length + 1);
+        const arme = slots.find(s => s.key === "arme");
+        expect(arme?.label).toBe("Armeiro");
+        expect(arme?.total).toBe(5);
+    });
+});
+
+describe("buildOficioSlots", () => {
+    it("só inclui variantes com treinado=true", () => {
+        const actor = fakeActor({
+            alfa: { treinado: true, label: "Ofício: Alfaiate", value: 4 },
+            alqu: { treinado: false, label: "Ofício: Alquimista", value: 2 },
+            arme: { treinado: true, value: 7 }, // sem label → cai no fallback
+        });
+        const slots = buildOficioSlots(actor);
+        expect(slots.map(s => s.key).sort()).toEqual(["alfa", "arme"]);
+    });
+
+    it("remove o prefixo 'Ofício: ' do label e usa o ícone Ofício", () => {
+        const actor = fakeActor({ cozi: { treinado: true, label: "Ofício: Cozinheiro", value: 6 } });
+        const [slot] = buildOficioSlots(actor);
+        expect(slot?.label).toBe("Cozinheiro");
+        expect(slot?.iconSvgDataUri).toBe(iconForLabel("Ofício"));
+    });
+
+    it("sem perícias de Ofício treinadas retorna vazio", () => {
+        expect(buildOficioSlots(fakeActor({ luta: { value: 10 } }))).toEqual([]);
     });
 });
 
