@@ -307,7 +307,14 @@
    pra não colidir com mais nada (inclusive o stepper de linhas, que agora
    tem coluna própria). */
 .t20-hud-next-turn {
-    position: absolute; left: 50%; top: 0; z-index: 5;
+    /* z-index NEGATIVO: o botão pinta ATRÁS do fundo/borda do painel
+       (`.t20-hud-panel` não cria stacking context — position:relative sem
+       z-index/transform/opacity), então a borda dourada do topo da barra
+       fica NA FRENTE da base do meio-círculo. Resultado: o botão "sai de
+       trás da barra" sem cobrir a linha superior (o overlap de ~5px fica
+       escondido). A parte que salta acima do painel continua clicável
+       (nada na frente dela; verificado com elementFromPoint). */
+    position: absolute; left: 50%; top: 0; z-index: -1;
     transform: translate(-50%, -88%);
     width: 84px; height: 42px;
     border-radius: 42px 42px 0 0;
