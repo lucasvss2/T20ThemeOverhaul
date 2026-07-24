@@ -188,6 +188,18 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         wireOrbInteractions(this.element, getActiveActor, () => void this.render());
         this.#wireTabsAndSlots();
         if (getRightTab() === "macros") wireMacroDragDrop(this.element);
+        this.#updateHudHeightVar();
+    }
+
+    /**
+     * Expõe a altura real da HUD como `--t20-hud-height` no `:root` para o CSS
+     * levantar o input flutuante de chat (`#chat-notifications`) acima da barra.
+     * A altura varia com o nº de linhas (stepper) e com o ator ativo (colapsa a
+     * ~0 sem ator) — por isso é medida a cada render e a cada resize.
+     */
+    #updateHudHeightVar(): void {
+        const h = Math.round(this.element.getBoundingClientRect().height);
+        document.documentElement.style.setProperty("--t20-hud-height", `${h + 6}px`);
     }
 
     /**
@@ -199,6 +211,7 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
     #connectResizeObserver(): void {
         this.#resizeObserver?.disconnect();
         this.#resizeObserver = new ResizeObserver((entries) => {
+            this.#updateHudHeightVar(); // altura pode mudar sem re-render (fontes/imagens/altura de linha)
             const width = entries[0]?.contentRect.width;
             if (width === undefined) return;
             const next = colsForWidth(width);

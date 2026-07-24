@@ -19,7 +19,15 @@
     min-width: 0;
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
+    /* `overflow: clip` (não `hidden`) + `overflow-clip-margin` continua
+       protegendo contra vazamento HORIZONTAL sobre a sidebar (o motivo do
+       overflow original), mas deixa o botão "Finalizar Turno" ESCAPAR pra
+       cima (ele salta ~37px acima da borda superior do #hotbar; com
+       `hidden` era cortado). A margem de 64px cobre o botão sem revelar
+       nada lateralmente (o conteúdo já é centralizado e limitado por
+       min-width:0 + minmax(0,1fr), as bordas são vazias). */
+    overflow: clip;
+    overflow-clip-margin: 64px;
     padding: 0;
     align-items: flex-end;
     pointer-events: none; /* só os elementos interativos internos recebem clique */
@@ -36,6 +44,15 @@
    resultado visual — nada quebra, a barra já não fica perto da sidebar
    mesmo sem esse deslocamento, dado seu próprio max-width).  */
 #hotbar.t20-footer-hud.offset { transform: none !important; }
+
+/* O input flutuante de chat (`#chat-notifications`, que o Foundry mostra
+   quando a sidebar está numa aba que NÃO é o chat) fica ancorado no fundo da
+   coluna direita e cai EXATAMENTE na faixa inferior ocupada pela nossa HUD
+   (larga), sobrepondo o painel direito. Levanta a coluna de notificações
+   pela altura real da HUD (`--t20-hud-height`, setada no `_onRender`/resize
+   do T20FooterHud) + folga. Quando não há ator ativo a HUD colapsa e a var
+   vai a ~0 → sem deslocamento. */
+#chat-notifications { margin-bottom: var(--t20-hud-height, 0px); }
 
 .t20-hud-root {
     display: flex;
