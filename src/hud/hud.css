@@ -140,7 +140,12 @@
     position: relative;
     width: 56px; height: 56px; aspect-ratio: 1/1; border-radius: 6px;
     border: 2px solid var(--t20-accent); box-shadow: 0 0 0 2px var(--t20-bg-dark), 0 0 10px var(--t20-tint-med);
-    background-size: cover; background-position: center;
+    /* Mesmo comportamento da ficha padrão (img.profile: object-fit:contain +
+       fundo sólido) — cover cortava retratos de corpo inteiro (retrato
+       natural bem mais alto que largo); contain mostra a arte completa,
+       letterboxed, igual ao header da ficha. */
+    background-size: contain; background-repeat: no-repeat; background-position: center;
+    background-color: var(--t20-bg-deepest);
     overflow: hidden;
 }
 .t20-hud-portrait-name {
