@@ -11,3 +11,8 @@ export function getActiveActor(): FoundryActor | null {
     const ch = (game.user as unknown as { character?: FoundryActor | null } | null)?.character;
     return ch ?? null;
 }
+
+/** Id do token atualmente controlado na cena (null se nenhum — ex.: ator ativo veio de `game.user.character`). */
+export function getActiveTokenId(): string | null {
+    return canvas?.tokens?.controlled?.[0]?.id ?? null;
+}

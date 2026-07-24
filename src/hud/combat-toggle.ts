@@ -13,7 +13,7 @@ export interface CombatVM {
     canToggle: boolean;
 }
 
-interface CombatantLike { players?: Array<{ id: string }> }
+interface CombatantLike { players?: Array<{ id: string }>; actorId?: string | null; tokenId?: string | null }
 interface CombatLike {
     started: boolean;
     combatant?: CombatantLike | null;
@@ -27,11 +27,29 @@ function getCombat(): CombatLike | null {
     return (game as unknown as { combat?: CombatLike | null }).combat ?? null;
 }
 
-export function getCombatState(): CombatVM {
+/**
+ * "Meu turno" = true em duas situações (qualquer uma vale):
+ * 1. `Combatant#players` (nativo — `game.users.filter(u => !u.isGM && ...)`,
+ *    ver `client/documents/combatant.mjs`) inclui o usuário atual — cobre o
+ *    jogador dono do personagem, mesmo sem token selecionado na cena.
+ * 2. O TOKEN atualmente controlado na HUD (`active-actor.ts`) é exatamente
+ *    o token do combatente ativo — cobre o GM manobrando esse combatente
+ *    diretamente (comum em teste solo/mesa onde o GM controla os PCs), e
+ *    também joga certo com NPCs unlinked duplicados (compara por `tokenId`,
+ *    não por `actorId` — múltiplas instâncias do mesmo monstro compartilham
+ *    `actor.id`, ver gotcha em CLAUDE.md).
+ * `players` nativo SEMPRE exclui GMs (`!u.isGM`) — por isso a condição 1
+ * sozinha nunca acendia o botão quando o GM testava controlando o próprio
+ * personagem; a condição 2 cobre esse caso sem depender de ownership.
+ */
+export function getCombatState(activeTokenId?: string | null): CombatVM {
     const combat = getCombat();
     const active = !!combat?.started;
     const myId = game.user?.id;
-    const isMyTurn = !!myId && !!combat?.combatant?.players?.some(p => p.id === myId);
+    const combatant = combat?.combatant;
+    const ownsAsPlayer = !!myId && !!combatant?.players?.some(p => p.id === myId);
+    const controllingToken = !!activeTokenId && !!combatant?.tokenId && activeTokenId === combatant.tokenId;
+    const isMyTurn = ownsAsPlayer || controllingToken;
     return { active, isMyTurn, canToggle: !!game.user?.isGM };
 }
 

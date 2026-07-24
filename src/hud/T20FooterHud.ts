@@ -15,7 +15,7 @@
  * (`playlist-directory.mjs` ao destilenciar o volume global). Por isso
  * `_updateToggles()` é sobrescrito como no-op (confirmado sem erro ao vivo).
  */
-import { getActiveActor } from "./active-actor";
+import { getActiveActor, getActiveTokenId } from "./active-actor";
 import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
@@ -145,7 +145,7 @@ function buildHudContext(): HudRenderContext | null {
         skills: buildSkillSlots(actor),
         rightTabs: RIGHT_TABS.map(t => ({ key: t.key, label: t.label, active: t.key === activeTab })),
         rightItems: slotsForTab(actor, activeTab).map(s => ({ id: s.key, name: s.label, img: s.iconUrl, type: activeTab })),
-        combat: getCombatState(),
+        combat: getCombatState(getActiveTokenId()),
     };
 }
 

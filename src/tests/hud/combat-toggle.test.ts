@@ -44,6 +44,30 @@ describe("getCombatState", () => {
         expect(getCombatState().isMyTurn).toBe(false);
     });
 
+    it("GM controlando o token do combatente ativo: isMyTurn=true mesmo sem estar em `players` (nativo sempre exclui GM)", () => {
+        mockGame({
+            userId: "gm1", isGM: true,
+            combat: { started: true, combatant: { players: [], tokenId: "tok-1" } },
+        });
+        expect(getCombatState("tok-1").isMyTurn).toBe(true);
+    });
+
+    it("GM controlando um token diferente do combatente ativo: isMyTurn=false", () => {
+        mockGame({
+            userId: "gm1", isGM: true,
+            combat: { started: true, combatant: { players: [], tokenId: "tok-1" } },
+        });
+        expect(getCombatState("tok-2").isMyTurn).toBe(false);
+    });
+
+    it("sem token controlado (activeTokenId undefined): não conta como match de token", () => {
+        mockGame({
+            userId: "gm1", isGM: true,
+            combat: { started: true, combatant: { players: [], tokenId: "tok-1" } },
+        });
+        expect(getCombatState().isMyTurn).toBe(false);
+    });
+
     it("GM sempre pode alternar (canToggle=true), independente do turno", () => {
         mockGame({ isGM: true, combat: null });
         expect(getCombatState().canToggle).toBe(true);

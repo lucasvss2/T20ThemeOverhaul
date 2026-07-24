@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { getActiveActor } from "@/hud/active-actor";
+import { getActiveActor, getActiveTokenId } from "@/hud/active-actor";
 
 type G = Record<string, unknown>;
 const g = globalThis as unknown as G;
@@ -43,5 +43,22 @@ describe("getActiveActor", () => {
         g["canvas"] = { tokens: { controlled: [{ actor: null }] } };
         g["game"] = { user: { character: fakeActor("char-actor") } };
         expect(getActiveActor()?.id).toBe("char-actor");
+    });
+});
+
+describe("getActiveTokenId", () => {
+    it("retorna o id do token controlado", () => {
+        g["canvas"] = { tokens: { controlled: [{ id: "tok-1", actor: fakeActor("a") }] } };
+        expect(getActiveTokenId()).toBe("tok-1");
+    });
+
+    it("sem token controlado → null", () => {
+        g["canvas"] = { tokens: { controlled: [] } };
+        expect(getActiveTokenId()).toBeNull();
+    });
+
+    it("canvas indefinido não lança erro", () => {
+        g["canvas"] = undefined;
+        expect(getActiveTokenId()).toBeNull();
     });
 });
