@@ -67,6 +67,7 @@ import { setupReactions } from "./reactions";
 import { setupCounterspell } from "./counterspell";
 import { setupDurationManager } from "./duration-manager/index";
 import { setupEmChamas } from "./conditions/em-chamas";
+import { registerFooterHud, setupFooterHud } from "./hud/index";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -101,6 +102,10 @@ Hooks.once("init", () => {
         );
         return;
     }
+
+    // Precisa rodar aqui (init), ANTES de Game#initializeUI() instanciar
+    // ui.hotbar a partir de CONFIG.ui.hotbar — no hook `setup` seria tarde.
+    registerFooterHud();
 });
 
 // ── Setup: wire up roll integration and dialog styling ────────────────────────
@@ -160,6 +165,7 @@ Hooks.once("setup", () => {
     setupDurationManager();   // Gerencia duração (rodadas/cena/dia/sustentada) de buffs e condições em combate
     setupEmChamas();          // Condição Em Chamas: 1d6 de fogo no início do turno da criatura
     setupAnimPresets();       // Memória de animações de skills (Automated Animations): oferece aplicar ao adicionar
+    setupFooterHud();         // HUD de rodapé (substitui a hotbar nativa) — orbes PV/PM, perícias/poderes/magias/inventário/macros
 
 });
 
