@@ -1,5 +1,7 @@
 /** View models e contrato de contexto do Footer HUD. */
 
+export interface ClassLevelVM { name: string; level: number }
+
 export interface SkillSlotVM {
     key: string;
     label: string;
@@ -30,6 +32,7 @@ export interface HudRenderContext {
     pm: Pool;
     portraitUrl: string;
     charName: string;
+    classes: ClassLevelVM[];
     skills: SkillSlotVM[];
     rightTabs: RightTabVM[];
     rightItems: ItemSlotVM[];

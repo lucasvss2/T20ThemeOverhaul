@@ -16,6 +16,7 @@
  * `_updateToggles()` é sobrescrito como no-op (confirmado sem erro ao vivo).
  */
 import { getActiveActor } from "./active-actor";
+import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
 import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
@@ -78,6 +79,11 @@ function buildRightSectionBody(context: HudRenderContext, macroSlots: foundry.ap
     return buildSlotGridHtml(rightSlots, cols, rows, getRightPage(), "item-id");
 }
 
+function buildClassesHtml(classes: HudRenderContext["classes"]): string {
+    if (!classes.length) return "";
+    return `<div class="t20-hud-classes">${classes.map(c => `${esc(c.name)} ${c.level}`).join(" · ")}</div>`;
+}
+
 function buildStepperHtml(rows: number): string {
     return `
         <div class="t20-hud-divider">
@@ -105,6 +111,7 @@ function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.appli
                     <div class="t20-hud-portrait" style="background-image:url('${esc(context.portraitUrl)}')">
                         <div class="t20-hud-portrait-name">${esc(context.charName)}</div>
                     </div>
+                    ${buildClassesHtml(context.classes)}
                 </div>
                 <div class="t20-hud-divider"></div>
                 <div class="t20-hud-section">
@@ -134,6 +141,7 @@ function buildHudContext(): HudRenderContext | null {
         pm: { value: pm.value ?? 0, max: pm.max ?? 0, temp: pm.temp ?? 0 },
         portraitUrl: portraitUrlFor(actor),
         charName: actor.name,
+        classes: classesForActor(actor),
         skills: buildSkillSlots(actor),
         rightTabs: RIGHT_TABS.map(t => ({ key: t.key, label: t.label, active: t.key === activeTab })),
         rightItems: slotsForTab(actor, activeTab).map(s => ({ id: s.key, name: s.label, img: s.iconUrl, type: activeTab })),
