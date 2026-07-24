@@ -124,6 +124,7 @@
 
 /* ── Painel central ───────────────────────────────────────────────────────── */
 .t20-hud-panel {
+    position: relative; /* âncora do botão Finalizar Turno, que fica preso ao topo DESTE painel */
     flex: 1 1 auto; min-width: 0;
     background: linear-gradient(180deg, var(--t20-bg-mid) 0%, var(--t20-bg-dark) 60%, var(--t20-bg-deepest) 100%);
     border: 2px solid var(--t20-border-ambient);
@@ -170,9 +171,26 @@
 /* ── Divisor ──────────────────────────────────────────────────────────────── */
 .t20-hud-divider { position: relative; width: 2px; align-self: stretch; flex: 0 0 auto; background: linear-gradient(180deg, transparent, var(--t20-border-ambient) 15%, var(--t20-border-ambient) 85%, transparent); }
 
+/* O divisor que carrega o stepper precisa de largura PRÓPRIA — o stepper
+   (pill com +/-, ~34px) não cabe nos 2px do divisor decorativo comum;
+   ele era `position:absolute` centralizado ali, e por não ter coluna
+   reservada vazava por cima do painel vizinho (perícias à esquerda,
+   inventário/poderes/magias à direita), cobrindo os slots clicáveis. Dar
+   min-width real à coluna elimina a possibilidade estrutural de overlap. */
+.t20-hud-divider.has-stepper {
+    width: auto; min-width: 34px; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: none;
+}
+.t20-hud-divider.has-stepper::before {
+    content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 2px; transform: translateX(-50%);
+    background: linear-gradient(180deg, transparent, var(--t20-border-ambient) 15%, var(--t20-border-ambient) 85%, transparent);
+}
+
 /* ── Stepper de linhas ────────────────────────────────────────────────────── */
 .t20-hud-stepper {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    position: relative; z-index: 1;
     display: flex; flex-direction: column; align-items: center; gap: 3px;
     background: var(--t20-bg-dark); border: 1px solid var(--t20-border-ambient);
     border-radius: 20px; padding: 5px 4px; white-space: nowrap;
@@ -265,12 +283,23 @@
 
 /* ── Botão Finalizar Turno ────────────────────────────────────────────────── */
 .t20-hud-root { position: relative; }
+/* Centralizado no topo DO PAINEL (não do root — o root inclui os orbes dos
+   dois lados), meio-círculo (largura = 2× altura, raio do topo = altura)
+   saltando pra fora da borda superior. Ficava um círculo cheio grudado no
+   canto direito, sobrepondo o orbe de PM/coluna direita — reposicionado
+   pra não colidir com mais nada (inclusive o stepper de linhas, que agora
+   tem coluna própria). */
 .t20-hud-next-turn {
-    position: absolute; right: -8px; bottom: 78px; z-index: 4;
-    width: 60px; height: 60px; border-radius: 50%;
-    background: radial-gradient(circle at 40% 32%, #2a4f6e, #0e2436 70%, #081018 100%);
-    border: 3px solid var(--t20-color-info); color: #e6f0fb;
-    font-family: "Cormorant Garamond", serif; font-weight: 700; font-size: 11px;
+    position: absolute; left: 50%; top: 0; z-index: 5;
+    transform: translate(-50%, -88%);
+    width: 84px; height: 42px;
+    border-radius: 42px 42px 0 0;
+    background: radial-gradient(circle at 50% 25%, #2a4f6e, #0e2436 70%, #081018 100%);
+    border: 3px solid var(--t20-color-info); border-bottom: none;
+    color: #e6f0fb;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 6px;
+    font-family: "Cormorant Garamond", serif; font-weight: 700; font-size: 10.5px; line-height: 1.15; text-align: center;
     cursor: pointer; animation: t20HudRingGlow 2.2s ease-in-out infinite;
 }
 @keyframes t20HudRingGlow {

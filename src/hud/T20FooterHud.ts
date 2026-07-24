@@ -86,7 +86,7 @@ function buildClassesHtml(classes: HudRenderContext["classes"]): string {
 
 function buildStepperHtml(rows: number): string {
     return `
-        <div class="t20-hud-divider">
+        <div class="t20-hud-divider has-stepper">
             <div class="t20-hud-stepper">
                 <button type="button" class="t20-hud-stepper-btn" data-rows-dir="1" ${rows >= MAX_ROWS ? "disabled" : ""}>+</button>
                 <span class="t20-hud-stepper-label">${rows}</span>
