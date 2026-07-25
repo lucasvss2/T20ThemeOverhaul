@@ -59,6 +59,7 @@ import { setupArmamentoAberrante } from "./armamento-aberrante/index";
 import { setupEconomiaHabilidade } from "./economia-habilidade/index";
 import { setupInspiracao } from "./inspiracao/index";
 import { setupBolsaDePo } from "./bolsa-de-po/index";
+import { setupConcentracaoCombate } from "./concentracao-combate/index";
 import { setupIniciativaBuff } from "./iniciativa-buff/index";
 import { setupGolpePessoal } from "./golpe-pessoal/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
@@ -148,6 +149,7 @@ Hooks.once("setup", () => {
     setupEconomiaHabilidade();    // Economia de Habilidade: reduz −1 PM de um poder escolhido (mín. 1); restaura ao remover
     setupInspiracao();            // Inspiração do Bardo: dialog reformulado + auto-apply (perícia/dano/Defesa/PV temp) + Gaita/Adamante
     setupBolsaDePo();             // Bolsa de Pó: −2 PM no custo dos aprimoramentos de magias enc/ilu (não afeta o custo base)
+    setupConcentracaoCombate();   // Concentração de Combate: vantagem no ataque (+tiers: desvantagem/alvos/+10 Def-Refl)
     setupIniciativaBuff();        // Iniciativa pelo tracker oferece Efeitos de Uso de perícia (Audácia, Engenhosidade, ...)
     setupGolpePessoal();          // Golpe Pessoal (guerreiro): build de efeitos + uso com PM + injeção no ataque + pós-dano
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu

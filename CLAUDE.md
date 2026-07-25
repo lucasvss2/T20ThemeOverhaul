@@ -116,6 +116,7 @@ src/
   escudo-leve/index.ts         — Escudo Leve: ocupa slot de ANTEBRAÇO (além das mãos) → mão livre p/ objeto/arma/desarmado 2 mãos; patches em ActorSheetT20 + migração
   luva-de-ferro/index.ts       — Luva de Ferro: +1 nos bônus de Defesa/resistência de magias ARCANAS PESSOAIS (boost nas changes antes de aplicar; consumido pelo spell-resistance)
   bolsa-de-po/index.ts         — Bolsa de Pó: −2 PM no custo dos APRIMORAMENTOS de magias enc/ilu (wrapper AbilityUseDialog.create mede o delta do clone; display via ajustecusto)
+  concentracao-combate/index.ts — Concentração de Combate: vantagem no ataque (patch rollAttack → rollKeep khd20); +tiers desvantagem/alvos/+10 Def-Refl/imunidades
   iniciativa-buff/index.ts     — Iniciativa pelo tracker oferece Efeitos de Uso de perícia (Audácia etc.): wrapper Combat.rollInitiative → redirect p/ rollPericia("inic") nativo
   t20-fixes/energetico-upgrade.ts — Energético (esotérico): custo undefined→"0" no template CONFIG + migração (evita a magia virar truque pelo Number(undefined+1)=NaN nativo)
   essencia-mana/index.ts       — Essência de Mana: consumível recupera 1d4 PM ao usar (hook createChatMessage, cap no máximo; consumo da dose é nativo)
@@ -651,6 +652,18 @@ Compêndio bundled `cruzado` (`packs-src/cruzado/`, type Item, ownership OBSERVE
 - **Boost (`boostDefenseResistGroups`, puro):** +1 em changes `mode ADD` com valor > 0 cuja key: `system.attributes.defesa.*` (EXCETO `.pda`), `system.modificadores.pericias.resistencia*`, `system.pericias.(fort|refl|vont).*`. Deep-clone (não muta a entrada).
 - **Integração (2 pontos em `spell-resistance`):** `maybeBoostLuvaEffects(message, groups)` chamado no auto-apply de buff puro (⚡) e no `applyBuffEffect` (botões `.smf-buff-btn` do modal). Notificação "Luva de Ferro: bônus +1" quando boosta. **Limitação:** o botão nativo `chat-apply-ae` do card T20 não passa pelo módulo — sem boost por lá.
 - **Verificado ao vivo (Aller, Luva de Ferro Vigilante equipada):** Armadura Arcana (arc/self, base `defesa.bonus=5` no grupo do flag) aplicada pelo botão do modal → AE com **6**.
+- **⚠️ Duplicata de aprimoramento (v1.97.2):** a implementação é 100% código (acima). Se o item tiver AEs `onuse` manuais nomeadas "Luva de Ferro: …" (Defesa/resistência), elas são REDUNDANTES e aparecem como aprimoramentos-fantasma em TODA lista de uso (têm todos os type-flags true). Não são o mecanismo funcional (o código é) — removidas ao vivo do item do Aller (mundo). Não criamos/nem migramos essas AEs automaticamente.
+
+### Concentração de Combate (v1.98.0)
+
+`src/concentracao-combate/index.ts` + `tests/`. Magia Arcana 1 (Adivinhação, livre, pessoal, 1 rodada): quando VOCÊ faz um teste de ataque, rola dois dados e usa o MELHOR. Aprimoramentos aditivos.
+
+- **Mecanismo (vantagem/desvantagem):** patch em `Item.prototype.rollAttack` (instalado no setup, encadeável, try/catch) — injeta `options.rollKeep` (o `d20Roll` nativo lê `rollKeep` em mjs ~4819: `"khd20"`→melhor de 2d20, `"kld20"`→pior). `resolveAttackRollKeep(atacanteTemVantagem, alvoImpoeDesvantagem)`: **desvantagem imposta pelo alvo PREVALECE** sobre a vantagem do atacante (o texto crava "o inimigo usa o pior"). `anyTargetImposesDisadvantage` lê `game.user.targets` no cliente que rola.
+- **Estado = AE flagada** `flags.<MODULE_ID>.concentracaoCombate = {advantage, imposesDisadvantage, casterActorId, expireKind, combatId, appliedRound}`. `actorHasAdvantage`/`actorImposesDisadvantage` leem os effects ativos.
+- **Tiers (puros/testados `parseTiers`/`computeConfig`):** por CUSTO do onUseEffects (fallback descrição). +2→cena; +5→desvantagem nos atacantes; +9→alvos escolhidos (`game.user.targets`) em vez de você + cena; +14→1 dia + AE `defesa.bonus`/`refl.bonus` +10 + imune surpreendido/desprevenido (remove os status ao aplicar) + sexto sentido (informativo). Aditivos; +14 vence na duração.
+- **Detecção do cast:** `createChatMessage` (autor, debounce 2s/ator). ⚠️ `flags.tormenta20.itemData` de MAGIA **NÃO traz `name`/`type`** — resolve via `data-item-id`/`data-actor-id` do `content` (`resolveCastItem`, igual `extractSpellName`). Aplica via socket `executeAsGM` (`concentracao/apply`), posta card.
+- **Limpeza:** skills-menu "Cancelar" (`concentracao/remove` GM); `deleteCombat`→remove de `relevantActors()` (world ∪ sintéticos, gate `game.user.isGM`); base "1 rodada" expira no `combatTurnChange` (início do turno do dono, rodada > appliedRound, gate `isActiveGM`). Cena→deleteCombat; 1 dia→manual/deleteCombat.
+- **Verificado ao vivo (Al'gazaha, Magias compêndio):** base → AE advantage + Arco longo vira `2d20kh` (19 vs 4, mantém 19); alvo com +5 → atacante rola `2d20kl` (4 vs 17, mantém 4, sobrepõe a própria vantagem); +14 → AE 1 dia com Defesa 19→29 e Reflexos 4→14. Detecção por `data-item-id` (magia sem name no flag).
 
 ### CD de magia usa o atributo de CONJURAÇÃO do ator (v1.86.1)
 
