@@ -59,8 +59,8 @@ describe("computeConfig", () => {
 });
 
 describe("resolveAttackRollKeep", () => {
-    it("desvantagem imposta prevalece sobre vantagem", () => {
-        expect(resolveAttackRollKeep(true, true)).toBe("kld20");
+    it("vantagem + desvantagem se CANCELAM → normal (sem empilhar)", () => {
+        expect(resolveAttackRollKeep(true, true)).toBeUndefined();
     });
     it("só vantagem → khd20", () => {
         expect(resolveAttackRollKeep(true, false)).toBe("khd20");

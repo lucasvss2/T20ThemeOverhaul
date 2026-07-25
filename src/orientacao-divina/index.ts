@@ -28,12 +28,17 @@
  * Mecanismo de vantagem: `Actor.prototype.rollPericia` NÃO propaga
  * `options.rollKeep` pro `d20Roll` nativo (ao contrário de `rollAttack`, que
  * faz `mergeObject({...}, options)` direto) — só propaga `options.event`
- * inteiro pro `rollConfig.event`, e `d20Roll` lê `event.altKey` como vantagem
- * (mjs ~4819: `options.rollKeep === "khd20" || event.altKey || ...`). Por
- * isso o patch injeta `altKey:true` num `event` sintético em vez de setar
- * `rollKeep` — é o único gancho que de fato chega no `d20Roll` sem reescrever
- * `rollPericia` inteiro.
+ * inteiro pro `rollConfig.event`, e `d20Roll` lê `event.altKey`/`event.ctrlKey`
+ * como vantagem/desvantagem (mjs ~4819: `options.rollKeep==="khd20" ||
+ * event.altKey || ...`). Por isso o patch injeta `altKey`/`ctrlKey` num
+ * `event` sintético em vez de setar `rollKeep` — é o único gancho que de fato
+ * chega no `d20Roll` sem reescrever `rollPericia` inteiro.
+ *
+ * Cancelamento cross-feature: registra uma fonte em `@/_shared/advantage` —
+ * se algum dia outra feature conceder desvantagem em teste de perícia, ela
+ * cancela com o buff daqui automaticamente (mesma regra do ataque).
  */
+import { registerAdvantageSource, resolveRollKeep } from "@/_shared/advantage";
 import { escHtml } from "@/_shared/html";
 import { MODULE_ID } from "@/constants";
 import { norm } from "@/inspiracao/format";
@@ -176,8 +181,15 @@ function installPericiaPatch(): void {
             if (isEligibleSkill(key)) {
                 const eff = findApplicableEffect(this, key);
                 if (eff) {
-                    const ev = (options["event"] as Record<string, unknown> | undefined) ?? {};
-                    options["event"] = { ...ev, altKey: true };
+                    // Via registro compartilhado: cancela com qualquer desvantagem de
+                    // OUTRA feature aplicável a este mesmo teste (nenhuma hoje, mas a
+                    // regra já vale "não importa de onde vier").
+                    const rk = resolveRollKeep({ actor: this, kind: "pericia", skillKey: key });
+                    if (rk) {
+                        const ev = (options["event"] as Record<string, unknown> | undefined) ?? {};
+                        options["event"] = { ...ev, altKey: rk === "khd20", ctrlKey: rk === "kld20" };
+                    }
+                    // Consome o buff "once" mesmo se cancelado — a chance foi usada.
                     if (actorFlag(eff).mode === "once") consumeAfter = eff;
                 }
             }
@@ -188,6 +200,14 @@ function installPericiaPatch(): void {
         }
         return result;
     } as RollPericiaFn;
+}
+
+function registerAdvantageSourceOrientacao(): void {
+    registerAdvantageSource({
+        id: "orientacao-divina",
+        hasAdvantage: (q) => q.kind === "pericia" && !!q.skillKey && isEligibleSkill(q.skillKey) && !!findApplicableEffect(q.actor as ActorLike, q.skillKey),
+        hasDisadvantage: () => false,
+    });
 }
 
 // ── Aplicação do buff ─────────────────────────────────────────────────────────
@@ -489,6 +509,7 @@ async function removeOrientacaoGM(payload: { targetUuids: string[] }): Promise<v
 
 export function setupOrientacaoDivina(): void {
     installPericiaPatch();
+    registerAdvantageSourceOrientacao();
     registerCancelAction();
 
     onSocketReady((socket) => {

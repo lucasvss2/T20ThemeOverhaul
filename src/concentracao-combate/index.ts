@@ -17,6 +17,7 @@
  * template. Detecção por nome; funciona em instalação limpa (o conteúdo da
  * magia vem do compêndio do sistema/suplemento; o CÓDIGO é bundled).
  */
+import { combineAdvantage, registerAdvantageSource, resolveRollKeep } from "@/_shared/advantage";
 import { MODULE_ID } from "@/constants";
 import { norm } from "@/inspiracao/format";
 import { getSocket, onSocketReady } from "@/socket";
@@ -78,17 +79,17 @@ export function computeConfig(t: Tiers): ConcentracaoConfig {
 }
 
 /**
- * Qual `rollKeep` aplicar num teste de ataque. Desvantagem imposta pelo alvo
- * (Concentração +5 dele) PREVALECE sobre a vantagem do atacante — o texto crava
- * que o inimigo "usa o pior resultado".
+ * Qual `rollKeep` aplicar num teste de ataque. Vantagem (própria) e
+ * desvantagem (imposta pelo alvo, ex.: Concentração +5 dele) se CANCELAM
+ * quando as duas estão presentes — teste normal (1d20), igual a qualquer
+ * outro par vantagem/desvantagem no jogo (ver `@/_shared/advantage`). Não
+ * empilha: múltiplas fontes do mesmo sinal continuam valendo como uma só.
  */
 export function resolveAttackRollKeep(
     attackerHasAdvantage: boolean,
     targetImposesDisadvantage: boolean,
 ): "khd20" | "kld20" | undefined {
-    if (targetImposesDisadvantage) return "kld20";
-    if (attackerHasAdvantage) return "khd20";
-    return undefined;
+    return combineAdvantage(attackerHasAdvantage, targetImposesDisadvantage);
 }
 
 // ── Estado no ator (Active Effect flagada) ────────────────────────────────────
@@ -163,12 +164,22 @@ function installAttackPatch(): void {
             const options = (arg.options ??= {});
             if (!options["rollKeep"]) {
                 const attacker = this.actor;
-                const rk = resolveAttackRollKeep(actorHasAdvantage(attacker), anyTargetImposesDisadvantage(attacker?.id));
+                // Via registro compartilhado: agrega TODAS as fontes de vantagem/desvantagem
+                // de ataque (não só a nossa) e cancela quando ambas presentes.
+                const rk = resolveRollKeep({ actor: attacker, kind: "attack" });
                 if (rk) options["rollKeep"] = rk;
             }
         } catch (e) { warn("concentracao: patch de ataque falhou (seguindo nativo):", e); }
         return orig.call(this, arg);
     };
+}
+
+function registerAdvantageSourceConcentracao(): void {
+    registerAdvantageSource({
+        id: "concentracao-combate",
+        hasAdvantage: (q) => q.kind === "attack" && actorHasAdvantage(q.actor as ActorLike),
+        hasDisadvantage: (q) => q.kind === "attack" && anyTargetImposesDisadvantage((q.actor as ActorLike)?.id),
+    });
 }
 
 // ── Aplicação do buff ─────────────────────────────────────────────────────────
@@ -417,6 +428,7 @@ async function removeConcentracaoGM(payload: { targetUuids: string[] }): Promise
 
 export function setupConcentracaoCombate(): void {
     installAttackPatch();
+    registerAdvantageSourceConcentracao();
     registerCancelAction();
 
     onSocketReady((socket) => {
