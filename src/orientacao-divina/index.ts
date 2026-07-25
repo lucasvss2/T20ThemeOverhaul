@@ -1,5 +1,11 @@
 /**
- * Orientação Divina (Divina 1, Adivinhação) — automação.
+ * Orientação (Divina 1, Adivinhação) — automação.
+ *
+ * ⚠️ O item do compêndio chama-se só **"Orientação"** — "Divina" descreve o
+ * TIPO da magia (`itemData.system.tipo==="div"`), não faz parte do nome.
+ * Detecção por nome deve casar "orientacao", NUNCA "orientacao divina" (não
+ * bate com nada — bug real da v1.100.0: o cast nunca era detectado, com ou
+ * sem aprimoramentos, porque a string procurada não existe no nome real).
  *
  * Base (padrão, curto, 1 criatura, 1 rodada): no PRÓXIMO teste de PERÍCIA do
  * alvo (nunca ataque — mecanismo separado — nem Fortitude/Reflexos/Vontade,
@@ -35,9 +41,9 @@ import { getSocket, onSocketReady } from "@/socket";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
 
-const SPELL_NAME = "orientacao divina";
+const SPELL_NAME = "orientacao";
 const FLAG = "orientacaoDivina";
-const AE_NAME = "Orientação Divina";
+const AE_NAME = "Orientação";
 const AE_ICON = "icons/magic/holy/prayer-hands-glowing-yellow.webp";
 
 const RESIST_KEYS = new Set(["fort", "refl", "vont"]);
@@ -48,7 +54,7 @@ const MENTAL_ATTRS = ["int", "sab", "car"];
 
 export interface OnUseEntry { cost?: unknown; description?: string; qty?: number }
 
-/** É a magia Orientação Divina? (nome normalizado) */
+/** É a magia Orientação? (nome normalizado — o item do compêndio NÃO tem "Divina" no nome) */
 export function isOrientacaoDivina(name: string | undefined | null): boolean {
     return norm(name ?? "").includes(SPELL_NAME);
 }

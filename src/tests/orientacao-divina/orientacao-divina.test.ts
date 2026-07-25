@@ -9,9 +9,15 @@ import {
 } from "@/orientacao-divina/index";
 
 describe("isOrientacaoDivina", () => {
-    it("detecta por nome normalizado (com/sem acento)", () => {
+    it("detecta o nome REAL do compêndio — só \"Orientação\", sem \"Divina\"", () => {
+        expect(isOrientacaoDivina("Orientação")).toBe(true);
+        expect(isOrientacaoDivina("orientacao")).toBe(true);
+    });
+    it("também casa variantes com sufixo (ex.: prefixo/sufixo de categoria)", () => {
         expect(isOrientacaoDivina("Orientação Divina")).toBe(true);
         expect(isOrientacaoDivina("orientacao divina")).toBe(true);
+    });
+    it("não casa magias/poderes não relacionados", () => {
         expect(isOrientacaoDivina("Bola de Fogo")).toBe(false);
         expect(isOrientacaoDivina(null)).toBe(false);
     });
