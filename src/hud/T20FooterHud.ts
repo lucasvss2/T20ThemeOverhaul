@@ -23,6 +23,7 @@ import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
 import { wireOrbInteractions } from "./orb";
 import { buildSkillSlots } from "./pericias-data";
 import { portraitUrlFor } from "./portrait";
+import { hidePortraitHoverPreview, showPortraitHoverPreview } from "./portrait-hover";
 import { colsForWidth } from "./responsive";
 import { RIGHT_TABS, slotsForTab } from "./right-panel";
 import { buildSlotGridHtml } from "./slots-grid";
@@ -271,6 +272,14 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
 
         root.querySelector<HTMLElement>("[data-next-turn]")?.addEventListener("click", () => {
             void nextTurn().catch((err) => warn("hud: falha ao avançar turno:", err));
+        });
+
+        const portrait = root.querySelector<HTMLElement>(".t20-hud-portrait");
+        portrait?.addEventListener("mouseenter", () => showPortraitHoverPreview(getActiveActor()));
+        portrait?.addEventListener("mouseleave", () => hidePortraitHoverPreview());
+        portrait?.addEventListener("click", () => {
+            const actor = getActiveActor() as (FoundryActor & { sheet?: { render: (force?: boolean) => unknown } }) | null;
+            try { actor?.sheet?.render(true); } catch (err) { warn("hud: falha ao abrir a ficha:", err); }
         });
     }
 
