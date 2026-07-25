@@ -16,6 +16,7 @@
  * `_updateToggles()` é sobrescrito como no-op (confirmado sem erro ao vivo).
  */
 import { getActiveActor, getActiveTokenId } from "./active-actor";
+import { buildCargaVM } from "./capacity";
 import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
@@ -24,12 +25,13 @@ import { wireOrbInteractions } from "./orb";
 import { buildSkillSlots } from "./pericias-data";
 import { portraitUrlFor } from "./portrait";
 import { hidePortraitHoverPreview, showPortraitHoverPreview } from "./portrait-hover";
+import { applyCustomOrder, computeReorderedKeys } from "./reorder";
 import { colsForWidth } from "./responsive";
-import { RIGHT_TABS, slotsForTab } from "./right-panel";
+import { RIGHT_TABS, slotsForTab, type RightTabKey } from "./right-panel";
 import { buildSlotGridHtml } from "./slots-grid";
 import {
-    getRightPage, getRightTab, getRows, getSkillsPage,
-    MAX_ROWS, MIN_ROWS, setRightPage, setRightTab, setRows, setSkillsPage,
+    getCustomOrder, getRightPage, getRightTab, getRows, getSkillsPage,
+    MAX_ROWS, MIN_ROWS, setCustomOrder, setRightPage, setRightTab, setRows, setSkillsPage,
 } from "./state";
 import type { HudRenderContext } from "./types";
 import { warn } from "@/utils/logging";
@@ -75,9 +77,10 @@ function buildTabsHtml(context: HudRenderContext): string {
 }
 
 function buildRightSectionBody(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], rows: number, cols: number): string {
-    if (getRightTab() === "macros") return buildMacroSlotsHtml(macroSlots);
+    const tab = getRightTab();
+    if (tab === "macros") return buildMacroSlotsHtml(macroSlots);
     const rightSlots = context.rightItems.map(i => ({ key: i.id, label: i.name, iconUrl: i.img }));
-    return buildSlotGridHtml(rightSlots, cols, rows, getRightPage(), "item-id");
+    return buildSlotGridHtml(rightSlots, cols, rows, getRightPage(), "item-id", tab);
 }
 
 function buildClassesHtml(classes: HudRenderContext["classes"]): string {
@@ -101,6 +104,18 @@ function buildNextTurnBtnHtml(combat: HudRenderContext["combat"]): string {
     return `<button type="button" class="t20-hud-next-turn" data-next-turn="1">Finalizar<br/>Turno</button>`;
 }
 
+/** Barra de capacidade (Carga/Sobrecarga/Limite), ao lado do título "Perícias" — mesmos dados de `system.attributes.carga` da ficha nativa. */
+function buildCargaHtml(carga: HudRenderContext["carga"]): string {
+    if (!carga) return "";
+    const pct = Math.max(0, Math.min(100, carga.pct));
+    return `
+        <span class="t20-hud-title-sep">|</span>
+        <div class="t20-hud-carga${carga.encumbered ? " encumbered" : ""}" title="Carga: ${carga.value} / Sobrecarga: ${carga.limit} — Limite: ${carga.max}">
+            <span class="t20-hud-carga-fill" style="width:${pct}%"></span>
+            <span class="t20-hud-carga-label">${carga.value} / ${carga.limit}</span>
+        </div>`;
+}
+
 function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
     const rows = getRows();
     const skillSlots = context.skills.map(s => ({ key: s.key, label: s.label, iconUrl: s.iconSvgDataUri, extra: `${s.total >= 0 ? "+" : ""}${s.total}` }));
@@ -116,8 +131,11 @@ function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.appli
                 </div>
                 <div class="t20-hud-divider"></div>
                 <div class="t20-hud-section">
-                    <div class="t20-hud-section-title">Perícias</div>
-                    ${buildSlotGridHtml(skillSlots, cols, rows, getSkillsPage(), "skill-key")}
+                    <div class="t20-hud-section-title-row">
+                        <span class="t20-hud-section-title">Perícias</span>
+                        ${buildCargaHtml(context.carga)}
+                    </div>
+                    ${buildSlotGridHtml(skillSlots, cols, rows, getSkillsPage(), "skill-key", "skills")}
                 </div>
                 ${buildStepperHtml(rows)}
                 <div class="t20-hud-section">
@@ -136,6 +154,8 @@ function buildHudContext(): HudRenderContext | null {
     const pv = actor.system?.attributes?.pv ?? {};
     const pm = actor.system?.attributes?.pm ?? {};
     const activeTab = getRightTab();
+    const orderedSkills = applyCustomOrder(buildSkillSlots(actor), getCustomOrder(actor.id, "skills"));
+    const orderedRightItems = applyCustomOrder(slotsForTab(actor, activeTab), getCustomOrder(actor.id, activeTab));
     return {
         actor,
         pv: { value: pv.value ?? 0, max: pv.max ?? 0, temp: pv.temp ?? 0 },
@@ -143,9 +163,10 @@ function buildHudContext(): HudRenderContext | null {
         portraitUrl: portraitUrlFor(actor),
         charName: actor.name,
         classes: classesForActor(actor),
-        skills: buildSkillSlots(actor),
+        skills: orderedSkills,
+        carga: buildCargaVM(actor),
         rightTabs: RIGHT_TABS.map(t => ({ key: t.key, label: t.label, active: t.key === activeTab })),
-        rightItems: slotsForTab(actor, activeTab).map(s => ({ id: s.key, name: s.label, img: s.iconUrl, type: activeTab })),
+        rightItems: orderedRightItems.map(s => ({ id: s.key, name: s.label, img: s.iconUrl, type: activeTab })),
         combat: getCombatState(getActiveTokenId()),
     };
 }
@@ -188,8 +209,61 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         this.element.classList.add(ROOT_CLASS);
         wireOrbInteractions(this.element, getActiveActor, () => void this.render());
         this.#wireTabsAndSlots();
+        this.#wireDragReorder();
         if (getRightTab() === "macros") wireMacroDragDrop(this.element);
         this.#updateHudHeightVar();
+    }
+
+    /**
+     * Drag-and-drop de REORDENAÇÃO (Perícias e painel direito — Inventário/
+     * Poderes/Magias; Macros fica de fora, tem seu próprio drag-and-drop de
+     * atribuição em `macros-tab.ts`). Cada slot elegível carrega
+     * `data-drag-key`/`data-drag-list` (ver `slots-grid.ts`); soltar um sobre
+     * o outro recalcula a ordem completa (`computeReorderedKeys`) e persiste
+     * por ator+lista (`state.ts`).
+     */
+    #wireDragReorder(): void {
+        const root = this.element;
+        let draggedKey: string | null = null;
+        root.querySelectorAll<HTMLElement>("[data-drag-key]").forEach((slot) => {
+            slot.addEventListener("dragstart", (e) => {
+                draggedKey = slot.dataset["dragKey"] ?? null;
+                const dt = (e as DragEvent).dataTransfer;
+                if (dt) { dt.setData("text/plain", draggedKey ?? ""); dt.effectAllowed = "move"; }
+                slot.classList.add("dragging");
+            });
+            slot.addEventListener("dragend", () => slot.classList.remove("dragging"));
+            slot.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                const dt = (e as DragEvent).dataTransfer;
+                if (dt) dt.dropEffect = "move";
+                slot.classList.add("drag-over");
+            });
+            slot.addEventListener("dragleave", () => slot.classList.remove("drag-over"));
+            slot.addEventListener("drop", (e) => {
+                e.preventDefault();
+                slot.classList.remove("drag-over");
+                const targetKey = slot.dataset["dragKey"];
+                const listKey = slot.dataset["dragList"];
+                const dKey = draggedKey ?? (e as DragEvent).dataTransfer?.getData("text/plain") ?? null;
+                draggedKey = null;
+                if (!dKey || !targetKey || !listKey || dKey === targetKey) return;
+                void this.#reorderList(listKey, dKey, targetKey).catch((err) => warn("hud: falha ao reordenar:", err));
+            });
+        });
+    }
+
+    async #reorderList(listKey: string, draggedKey: string, targetKey: string): Promise<void> {
+        const actor = getActiveActor();
+        if (!actor) return;
+        const naturalItems: Array<{ key: string }> = listKey === "skills"
+            ? buildSkillSlots(actor)
+            : slotsForTab(actor, listKey as RightTabKey);
+        const currentKeys = applyCustomOrder(naturalItems, getCustomOrder(actor.id, listKey)).map((i) => i.key);
+        const next = computeReorderedKeys(currentKeys, draggedKey, targetKey);
+        if (!next) return;
+        await setCustomOrder(actor.id, listKey, next);
+        void this.render();
     }
 
     /**

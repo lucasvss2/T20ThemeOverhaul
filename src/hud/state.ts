@@ -13,6 +13,9 @@ export const MIN_ROWS = 1;
 export const MAX_ROWS = 4;
 export const DEFAULT_ROWS = 2;
 
+const CUSTOM_ORDER_SETTING = "hud.customOrder";
+type CustomOrderMap = Record<string, Record<string, string[]>>; // actorId -> listKey ("skills"|RightTabKey) -> ordered keys
+
 interface HudUiState {
     rightTab: RightTabKey;
     skillsPage: number;
@@ -47,4 +50,28 @@ export async function setRows(rows: number): Promise<void> {
     await game.settings.set(MODULE_ID, ROWS_SETTING, clamped);
     state.skillsPage = 0;
     state.rightPage = 0;
+}
+
+/** Registra o client setting de ordem customizada (drag-and-drop) dos grids. Chamar em `setupFooterHud()`. */
+export function registerCustomOrderSetting(): void {
+    game.settings.register(MODULE_ID, CUSTOM_ORDER_SETTING, {
+        scope: "client", config: false, type: Object, default: {},
+    });
+}
+
+function readOrderMap(): CustomOrderMap {
+    const raw = game.settings.get(MODULE_ID, CUSTOM_ORDER_SETTING);
+    return raw && typeof raw === "object" ? raw as CustomOrderMap : {};
+}
+
+/** Ordem customizada (chaves) salva pro `actorId`+`listKey` ("skills" ou uma `RightTabKey"). Vazio = sem customização. */
+export function getCustomOrder(actorId: string | undefined, listKey: string): string[] {
+    if (!actorId) return [];
+    return readOrderMap()[actorId]?.[listKey] ?? [];
+}
+
+export async function setCustomOrder(actorId: string, listKey: string, order: string[]): Promise<void> {
+    const map = readOrderMap();
+    map[actorId] = { ...(map[actorId] ?? {}), [listKey]: order };
+    await game.settings.set(MODULE_ID, CUSTOM_ORDER_SETTING, map);
 }

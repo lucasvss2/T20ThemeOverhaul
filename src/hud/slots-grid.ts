@@ -32,17 +32,21 @@ function esc(s: string): string {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-/** Monta o HTML de um grid de slots (linhas × colunas) + paginador se necessário. */
+/** Monta o HTML de um grid de slots (linhas × colunas) + paginador se necessário. `dragList`, se informado, marca cada slot como arrastável (drag-and-drop de reordenação — ver `reorder.ts`) sob essa chave de lista ("skills" ou uma `RightTabKey`). */
 export function buildSlotGridHtml(
     items: GenericSlot[],
     cols: number,
     rows: number,
     page: number,
     dataAttr: string,
+    dragList?: string,
 ): string {
     const { pageItems, totalPages, page: clamped } = paginate(items, cols, rows, page);
+    const dragAttrs = (key: string): string => dragList
+        ? ` data-drag-key="${esc(key)}" data-drag-list="${esc(dragList)}" draggable="true"`
+        : "";
     const cells = pageItems.map((s, i) => `
-        <div class="t20-hud-slot" data-${dataAttr}="${esc(s.key)}" title="${esc(s.label)}">
+        <div class="t20-hud-slot" data-${dataAttr}="${esc(s.key)}"${dragAttrs(s.key)} title="${esc(s.label)}">
             <span class="t20-hud-slot-num">${i + 1}</span>
             <div class="t20-hud-slot-icon" style="background-image:url('${s.iconUrl}')"></div>
             <span class="t20-hud-slot-name">${esc(s.label)}</span>

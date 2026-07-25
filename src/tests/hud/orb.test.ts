@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { adjustPool, computePoolAfterDelta } from "@/hud/orb";
+import { adjustPool, computePoolAfterDelta, flashClassFor, parseSignedDelta } from "@/hud/orb";
 
 describe("computePoolAfterDelta", () => {
     it("dano consome temp antes de value", () => {
@@ -57,5 +57,39 @@ describe("adjustPool", () => {
             "system.attributes.pm.value": 0,
             "system.attributes.pm.temp": 0,
         });
+    });
+});
+
+describe("parseSignedDelta", () => {
+    it("com sinal + → positivo (cura/recupera)", () => {
+        expect(parseSignedDelta("+5")).toBe(5);
+        expect(parseSignedDelta("+12")).toBe(12);
+    });
+    it("com sinal - → negativo (dano/gasto)", () => {
+        expect(parseSignedDelta("-3")).toBe(-3);
+    });
+    it("sem sinal → negativo (dano/gasto — compatível com o comportamento antigo)", () => {
+        expect(parseSignedDelta("5")).toBe(-5);
+    });
+    it("zero, vazio ou não-numérico → null", () => {
+        expect(parseSignedDelta("0")).toBeNull();
+        expect(parseSignedDelta("")).toBeNull();
+        expect(parseSignedDelta("   ")).toBeNull();
+        expect(parseSignedDelta("abc")).toBeNull();
+    });
+});
+
+describe("flashClassFor", () => {
+    it("PV perde → vermelho", () => {
+        expect(flashClassFor("pv", -5)).toBe("t20-flash-danger");
+    });
+    it("PM perde → azul", () => {
+        expect(flashClassFor("pm", -5)).toBe("t20-flash-info");
+    });
+    it("PV ganha (cura) → verde", () => {
+        expect(flashClassFor("pv", 5)).toBe("t20-flash-success");
+    });
+    it("PM ganha (recupera) → sem brilho, de propósito", () => {
+        expect(flashClassFor("pm", 5)).toBeNull();
     });
 });

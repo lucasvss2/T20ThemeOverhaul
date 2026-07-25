@@ -1,4 +1,5 @@
 /** View models e contrato de contexto do Footer HUD. */
+import type { CargaVM } from "./capacity";
 
 export interface ClassLevelVM { name: string; level: number }
 
@@ -34,6 +35,7 @@ export interface HudRenderContext {
     charName: string;
     classes: ClassLevelVM[];
     skills: SkillSlotVM[];
+    carga: CargaVM | null;
     rightTabs: RightTabVM[];
     rightItems: ItemSlotVM[];
     combat: { active: boolean; isMyTurn: boolean; canToggle: boolean };

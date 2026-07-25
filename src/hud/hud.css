@@ -108,9 +108,45 @@
 .t20-hud-orb-label {
     font-family: "Cormorant Garamond", serif; font-size: 9px;
     letter-spacing: .1em; text-transform: uppercase;
+    text-shadow: 0 1px 2px #000;
 }
 .t20-hud-orb-label.pv { color: var(--t20-color-danger); }
 .t20-hud-orb-label.pm { color: var(--t20-color-info); }
+
+/* ── Líquido (fill) — leve ondulação contínua + "splash" no momento da mudança ── */
+.t20-hud-orb-fill::before {
+    /* brilho de superfície do líquido, ondulando devagar — dá a impressão de
+       um fluido vivo mesmo parado, sem precisar de imagem/SVG externo. */
+    content: ""; position: absolute; top: -3px; left: -30%; width: 160%; height: 8px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,.4) 0%, rgba(255,255,255,0) 70%);
+    animation: t20HudLiquidWave 3.2s ease-in-out infinite;
+    pointer-events: none;
+}
+@keyframes t20HudLiquidWave {
+    0%, 100% { transform: translateX(-6%) scaleX(1); }
+    50%      { transform: translateX(6%) scaleX(1.15); }
+}
+/* "Splash" — pisca de brilho no instante em que o nível muda (subindo ou descendo). */
+.t20-hud-orb-fill.t20-liquid-pulse { animation: t20HudLiquidWave 3.2s ease-in-out infinite, t20HudLiquidPulse .6s ease-out; }
+@keyframes t20HudLiquidPulse {
+    0%   { filter: brightness(1); }
+    25%  { filter: brightness(1.7) saturate(1.3); }
+    100% { filter: brightness(1); }
+}
+
+/* ── Brilho ao redor do orbe (dano/cura/gasto) ────────────────────────────── */
+.t20-hud-orb::after {
+    content: ""; position: absolute; inset: -5px; border-radius: 50%;
+    opacity: 0; pointer-events: none;
+}
+.t20-hud-orb.t20-flash-danger::after  { animation: t20HudFlashRing .7s ease-out; --t20-flash-rgb: var(--t20-color-danger-rgb); }
+.t20-hud-orb.t20-flash-success::after { animation: t20HudFlashRing .7s ease-out; --t20-flash-rgb: var(--t20-color-success-rgb); }
+.t20-hud-orb.t20-flash-info::after    { animation: t20HudFlashRing .7s ease-out; --t20-flash-rgb: var(--t20-color-info-rgb); }
+@keyframes t20HudFlashRing {
+    0%   { opacity: 0; box-shadow: 0 0 0 0 rgba(var(--t20-flash-rgb), 0); }
+    35%  { opacity: 1; box-shadow: 0 0 22px 7px rgba(var(--t20-flash-rgb), .85); }
+    100% { opacity: 0; box-shadow: 0 0 0 0 rgba(var(--t20-flash-rgb), 0); }
+}
 
 @keyframes t20HudFloat {
     0%   { opacity: 0; transform: translate(-50%, 4px) scale(.9); }
@@ -133,11 +169,12 @@
     background: rgba(0,0,0,.72);
 }
 .t20-hud-orb-prompt input {
-    width: 52px; text-align: center; font-family: "Cormorant Garamond", serif;
-    font-weight: 700; font-size: 16px;
+    width: 44px; text-align: center; font-family: "Cormorant Garamond", serif;
+    font-weight: 700; font-size: 14px;
     background: var(--t20-bg-deepest); color: var(--t20-text-bright);
-    border: 1px solid var(--t20-accent); border-radius: 5px; padding: 2px 4px;
+    border: 1px solid var(--t20-accent); border-radius: 5px; padding: 2px 3px;
 }
+.t20-hud-orb-prompt input::placeholder { font-size: 9px; opacity: .65; }
 
 /* ── Painel central ───────────────────────────────────────────────────────── */
 .t20-hud-panel {
@@ -226,10 +263,37 @@
 
 /* ── Grid de perícias / itens ─────────────────────────────────────────────── */
 .t20-hud-section { display: flex; flex-direction: column; flex: 1 1 0; min-width: 0; gap: 5px; }
+.t20-hud-section-title-row { display: flex; align-items: center; min-width: 0; }
 .t20-hud-section-title {
     font-family: "Cormorant Garamond", serif; font-weight: 600; font-size: 13px;
     color: var(--t20-accent); letter-spacing: .1em; text-transform: uppercase;
+    flex: 0 0 auto;
 }
+/* "|" separando o título da barra de capacidade — 16px de espaçamento de
+   cada lado, cor das bordas (mesma var. usada nos contornos do painel). */
+.t20-hud-title-sep { margin: 0 16px; color: var(--t20-border-ambient); flex: 0 0 auto; }
+
+/* ── Barra de capacidade (Carga/Sobrecarga/Limite) — mesmos dados de
+   `system.attributes.carga` que a ficha nativa já expõe. ─────────────────── */
+.t20-hud-carga {
+    position: relative; flex: 1 1 auto; min-width: 0; height: 13px;
+    border: 1px solid var(--t20-border); border-radius: 4px;
+    background: var(--t20-bg-deepest); overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--t20-tint-subtle);
+}
+.t20-hud-carga-fill {
+    position: absolute; inset: 0 auto 0 0;
+    background: linear-gradient(90deg, var(--t20-accent-muted), var(--t20-accent));
+    transition: width .4s ease;
+}
+.t20-hud-carga.encumbered .t20-hud-carga-fill { background: linear-gradient(90deg, #6e1f1f, var(--t20-color-danger)); }
+.t20-hud-carga-label {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Lora", serif; font-size: 8.5px; color: var(--t20-text-bright);
+    text-shadow: 0 1px 2px #000; white-space: nowrap;
+}
+
 .t20-hud-grid-wrap { display: flex; flex-direction: column; gap: 5px; }
 .t20-hud-grid-row {
     display: grid;
@@ -252,6 +316,9 @@
     cursor: pointer;
 }
 .t20-hud-slot:hover { border-color: var(--t20-accent); }
+.t20-hud-slot[draggable="true"] { cursor: grab; }
+.t20-hud-slot.dragging { opacity: .4; }
+.t20-hud-slot.drag-over { border-color: var(--t20-accent-gold); box-shadow: 0 0 0 1px var(--t20-accent-gold), inset 0 0 8px var(--t20-tint-strong); }
 .t20-hud-slot-num { position: absolute; top: 2px; left: 3px; font-family: "Cormorant Garamond", serif; font-size: 9px; color: var(--t20-accent-muted); }
 .t20-hud-slot-icon { flex: 1 1 auto; width: 100%; background-repeat: no-repeat; background-position: center; background-size: 56% 56%; }
 .t20-hud-slot-name {

@@ -60,4 +60,17 @@ describe("buildSlotGridHtml", () => {
         const html = buildSlotGridHtml(mkItems(1), 6, 1, 0, "item-id");
         expect(html).toContain('data-item-id="k0"');
     });
+
+    it("sem dragList: não marca os slots como arrastáveis", () => {
+        const html = buildSlotGridHtml(mkItems(1), 6, 1, 0, "skill-key");
+        expect(html).not.toContain("draggable");
+        expect(html).not.toContain("data-drag-key");
+    });
+
+    it("com dragList: marca os slots como arrastáveis com a chave da lista", () => {
+        const html = buildSlotGridHtml(mkItems(1), 6, 1, 0, "skill-key", "skills");
+        expect(html).toContain('data-drag-key="k0"');
+        expect(html).toContain('data-drag-list="skills"');
+        expect(html).toContain('draggable="true"');
+    });
 });

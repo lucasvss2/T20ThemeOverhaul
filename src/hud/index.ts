@@ -8,7 +8,7 @@
  * é chamado a partir do hook `init` já existente em `main.ts`, não do `setup`.
  */
 import { getActiveActor } from "./active-actor";
-import { registerRowsSetting } from "./state";
+import { registerCustomOrderSetting, registerRowsSetting } from "./state";
 import { T20FooterHud } from "./T20FooterHud";
 
 /** Registra a classe da HUD em CONFIG.ui.hotbar. Chamar no hook `init`. */
@@ -37,6 +37,7 @@ function affectsActiveActor(candidateActorId: string | undefined | null): boolea
 /** Liga listeners/hooks adicionais da HUD. Chamar no hook `setup`. */
 export function setupFooterHud(): void {
     registerRowsSetting();
+    registerCustomOrderSetting();
 
     Hooks.on("controlToken", () => scheduleHudRefresh());
     Hooks.on("canvasReady", () => scheduleHudRefresh());
