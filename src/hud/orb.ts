@@ -102,25 +102,47 @@ function closePrompt(orbEl: HTMLElement): void {
     orbEl.querySelector(".t20-hud-orb-prompt")?.remove();
 }
 
+/**
+ * ⚠️ Depender só de `keydown`/Enter mostrou-se frágil (reportado ao vivo:
+ * "aperto enter e nada acontece") — por isso tem um botão ✓ explícito como
+ * caminho garantido, além do Enter (com fallback de `code`/`keyCode`, não só
+ * `key`, cobrindo layouts/navegadores que não populam `key` de forma
+ * confiável). `resolved` evita disparo duplo entre o Enter (que remove o
+ * prompt, o que por si só dispara `blur` de forma SÍNCRONA) e o próprio
+ * listener de `blur`. O botão usa `mousedown`+`preventDefault` (não `click`)
+ * pra não deixar o input perder o foco (blur) ANTES do clique terminar —
+ * blur fecharia o prompt primeiro e o clique nunca confirmaria.
+ */
 function openPrompt(orbEl: HTMLElement, onConfirm: (delta: number) => void): void {
     closePrompt(orbEl);
     const wrap = document.createElement("div");
     wrap.className = "t20-hud-orb-prompt";
-    wrap.innerHTML = `<input type="text" inputmode="numeric" placeholder="+5 ou -3" />`;
+    wrap.innerHTML = `
+        <input type="text" inputmode="numeric" placeholder="+5 ou -3" />
+        <button type="button" class="t20-hud-orb-confirm" title="Confirmar">✓</button>`;
     orbEl.appendChild(wrap);
     const input = wrap.querySelector("input")!;
+    const confirmBtn = wrap.querySelector("button")!;
     input.focus();
+
+    let resolved = false;
     const finish = (confirm: boolean): void => {
+        if (resolved) return;
+        resolved = true;
         const delta = parseSignedDelta(input.value);
         wrap.remove();
         if (confirm && delta !== null) onConfirm(delta);
     };
+
     input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") finish(true);
-        else if (e.key === "Escape") finish(false);
+        const isEnter = e.key === "Enter" || e.code === "Enter" || e.code === "NumpadEnter" || e.keyCode === 13;
+        const isEscape = e.key === "Escape" || e.code === "Escape" || e.keyCode === 27;
+        if (isEnter) { e.preventDefault(); finish(true); }
+        else if (isEscape) { finish(false); }
         e.stopPropagation();
     });
     input.addEventListener("blur", () => finish(false));
+    confirmBtn.addEventListener("mousedown", (e) => { e.preventDefault(); finish(true); });
 }
 
 /** Liga os listeners de clique nos orbes PV/PM presentes em `root`. */

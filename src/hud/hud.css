@@ -165,7 +165,7 @@
 
 .t20-hud-orb-prompt {
     position: absolute; inset: 0; z-index: 6; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
     background: rgba(0,0,0,.72);
 }
 .t20-hud-orb-prompt input {
@@ -175,6 +175,15 @@
     border: 1px solid var(--t20-accent); border-radius: 5px; padding: 2px 3px;
 }
 .t20-hud-orb-prompt input::placeholder { font-size: 9px; opacity: .65; }
+/* Botão ✓ — caminho de confirmação garantido (não depende só do Enter). */
+.t20-hud-orb-confirm {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(180deg, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom));
+    border: 1px solid var(--t20-btn-border); color: var(--t20-btn-text);
+    font-size: 11px; line-height: 1; cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+.t20-hud-orb-confirm:hover { color: var(--t20-btn-text-hover); }
 
 /* ── Painel central ───────────────────────────────────────────────────────── */
 .t20-hud-panel {
