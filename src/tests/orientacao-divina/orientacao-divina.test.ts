@@ -72,15 +72,21 @@ describe("computeConfig", () => {
 });
 
 describe("isEligibleSkill", () => {
-    it("exclui Fortitude/Reflexos/Vontade (testes de resistência)", () => {
-        expect(isEligibleSkill("fort")).toBe(false);
-        expect(isEligibleSkill("refl")).toBe(false);
-        expect(isEligibleSkill("vont")).toBe(false);
+    it("modo PERSISTENTE (+2/+5 PM) exclui Fortitude/Reflexos/Vontade — só aqui o texto da magia ressalva isso", () => {
+        expect(isEligibleSkill("fort", "persistent")).toBe(false);
+        expect(isEligibleSkill("refl", "persistent")).toBe(false);
+        expect(isEligibleSkill("vont", "persistent")).toBe(false);
     });
-    it("qualquer outra perícia é elegível", () => {
-        expect(isEligibleSkill("perc")).toBe(true);
-        expect(isEligibleSkill("atua")).toBe(true);
-        expect(isEligibleSkill("inic")).toBe(true);
+    it("modo BASE (\"once\") NÃO exclui Fort/Refl/Vont — a ressalva só existe no texto dos aprimoramentos", () => {
+        expect(isEligibleSkill("fort", "once")).toBe(true);
+        expect(isEligibleSkill("refl", "once")).toBe(true);
+        expect(isEligibleSkill("vont", "once")).toBe(true);
+    });
+    it("qualquer outra perícia é elegível em ambos os modos", () => {
+        expect(isEligibleSkill("perc", "once")).toBe(true);
+        expect(isEligibleSkill("perc", "persistent")).toBe(true);
+        expect(isEligibleSkill("atua", "once")).toBe(true);
+        expect(isEligibleSkill("inic", "persistent")).toBe(true);
     });
 });
 

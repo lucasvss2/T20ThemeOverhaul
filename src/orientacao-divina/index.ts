@@ -8,14 +8,20 @@
  * sem aprimoramentos, porque a string procurada não existe no nome real).
  *
  * Base (padrão, curto, 1 criatura, 1 rodada): no PRÓXIMO teste de PERÍCIA do
- * alvo (nunca ataque — mecanismo separado — nem Fortitude/Reflexos/Vontade,
- * que no T20 são "testes de resistência" apesar de viverem em `pericias`), ele
- * rola dois dados e fica com o melhor. Consumida no 1º teste elegível ou
- * expira em 1 rodada.
+ * alvo, ele rola dois dados e fica com o melhor. ⚠️ A base NÃO exclui
+ * Fortitude/Reflexos/Vontade — a ressalva "não se aplica a testes de ataque
+ * ou resistência" só existe no texto dos aprimoramentos +2/+5 PM (a base é
+ * ambígua o bastante sem ela: "next teste de perícia" já cobre qualquer
+ * perícia rolada via `rollPericia`, incluindo as de resistência). Ataque
+ * nunca é afetado em NENHUM modo — mecanismo totalmente separado
+ * (`rollAttack`), nem passa por `rollPericia`. Consumida no 1º teste
+ * elegível ou expira em 1 rodada.
  *
  * Aprimoramentos (aditivos):
  *  - +2 PM: duração CENA; em vez de "próximo teste", TODO teste baseado num
- *    ATRIBUTO escolhido (não ataque/resistência). Requer 2º círculo.
+ *    ATRIBUTO escolhido — e AQUI SIM, explicitamente, não se aplica a
+ *    ataque/resistência (Fort/Refl/Vont ficam de fora só neste modo).
+ *    Requer 2º círculo.
  *  - +5 PM: como acima, mas escolhe um GRUPO (Físicos: For/Des/Con ou
  *    Mentais: Int/Sab/Car) em vez de um atributo único. Requer 3º círculo.
  *  - +5 PM (independente): muda o alvo para CRIATURAS ESCOLHIDAS (múltiplos).
@@ -108,9 +114,16 @@ export function computeConfig(t: Tiers): OrientacaoConfig {
     };
 }
 
-/** Testes de ataque nem passam por `rollPericia`; só resta excluir Fort/Refl/Vont ("testes de resistência"). */
-export function isEligibleSkill(key: string): boolean {
-    return !RESIST_KEYS.has(key);
+/**
+ * Fort/Refl/Vont só são excluídos no modo PERSISTENTE (+2/+5 PM) — é onde o
+ * texto da magia diz "não se aplica a testes de ataque ou resistência". A
+ * base ("próximo teste de perícia") não tem essa ressalva e cobre qualquer
+ * perícia, incluindo as de resistência. Ataque nunca passa por aqui (roll
+ * separado) — não precisa de exclusão explícita.
+ */
+export function isEligibleSkill(key: string, mode: "once" | "persistent"): boolean {
+    if (mode === "persistent" && RESIST_KEYS.has(key)) return false;
+    return true;
 }
 
 /** Sem escopo (buff "próximo teste" ou sem restrição) → qualquer perícia elegível serve. */
@@ -153,11 +166,12 @@ function actorFlag(e: EffectLike): FlagData {
     return ((e.flags?.[MODULE_ID] as { [FLAG]?: FlagData } | undefined)?.[FLAG]) ?? {};
 }
 
-/** Primeiro buff ativo cujo escopo (se houver) cobre esta perícia. */
+/** Primeiro buff ativo cujo escopo (se houver) cobre esta perícia — respeita a exclusão de Fort/Refl/Vont por-modo. */
 function findApplicableEffect(actor: ActorLike, key: string): EffectLike | null {
     const attr = actor.system?.pericias?.[key]?.atributo;
     for (const e of orientacaoEffects(actor)) {
         const f = actorFlag(e);
+        if (!isEligibleSkill(key, f.mode ?? "once")) continue;
         if (attrInScope(attr, f.scopeAttrs)) return e;
     }
     return null;
@@ -178,20 +192,18 @@ function installPericiaPatch(): void {
     proto["rollPericia"] = async function (this: ActorLike, key: string, options: Record<string, unknown> = {}) {
         let consumeAfter: EffectLike | null = null;
         try {
-            if (isEligibleSkill(key)) {
-                const eff = findApplicableEffect(this, key);
-                if (eff) {
-                    // Via registro compartilhado: cancela com qualquer desvantagem de
-                    // OUTRA feature aplicável a este mesmo teste (nenhuma hoje, mas a
-                    // regra já vale "não importa de onde vier").
-                    const rk = resolveRollKeep({ actor: this, kind: "pericia", skillKey: key });
-                    if (rk) {
-                        const ev = (options["event"] as Record<string, unknown> | undefined) ?? {};
-                        options["event"] = { ...ev, altKey: rk === "khd20", ctrlKey: rk === "kld20" };
-                    }
-                    // Consome o buff "once" mesmo se cancelado — a chance foi usada.
-                    if (actorFlag(eff).mode === "once") consumeAfter = eff;
+            const eff = findApplicableEffect(this, key);
+            if (eff) {
+                // Via registro compartilhado: cancela com qualquer desvantagem de
+                // OUTRA feature aplicável a este mesmo teste (nenhuma hoje, mas a
+                // regra já vale "não importa de onde vier").
+                const rk = resolveRollKeep({ actor: this, kind: "pericia", skillKey: key });
+                if (rk) {
+                    const ev = (options["event"] as Record<string, unknown> | undefined) ?? {};
+                    options["event"] = { ...ev, altKey: rk === "khd20", ctrlKey: rk === "kld20" };
                 }
+                // Consome o buff "once" mesmo se cancelado — a chance foi usada.
+                if (actorFlag(eff).mode === "once") consumeAfter = eff;
             }
         } catch (e) { warn("orientacao-divina: patch de perícia falhou (seguindo nativo):", e); }
         const result = await orig.call(this, key, options);
@@ -205,7 +217,7 @@ function installPericiaPatch(): void {
 function registerAdvantageSourceOrientacao(): void {
     registerAdvantageSource({
         id: "orientacao-divina",
-        hasAdvantage: (q) => q.kind === "pericia" && !!q.skillKey && isEligibleSkill(q.skillKey) && !!findApplicableEffect(q.actor as ActorLike, q.skillKey),
+        hasAdvantage: (q) => q.kind === "pericia" && !!q.skillKey && !!findApplicableEffect(q.actor as ActorLike, q.skillKey),
         hasDisadvantage: () => false,
     });
 }
