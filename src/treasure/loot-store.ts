@@ -14,6 +14,8 @@ export interface LootEntry {
     name: string;
     nd: string;
     totalTibar: number;
+    /** Fração de `totalTibar` que veio especificamente de moeda TO (tibares de ouro). */
+    totalOuroTibar?: number;
     items: LootItem[];
 }
 

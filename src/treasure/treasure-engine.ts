@@ -43,6 +43,8 @@ export interface ResultLine {
     children?: ResultLine[];
     /** Valor monetário desta linha em T$ (prata), quando for dinheiro/riqueza. */
     tibar?: number;
+    /** Fração de `tibar` que veio especificamente de moeda TO (tibares de ouro). */
+    tibarOuro?: number;
     /** Item atribuível representado por esta linha (equipamento/poção/item diverso). */
     assign?: AssignItemInfo;
 }
@@ -99,7 +101,9 @@ export function resolveMoney(result: string, roll: DieRoller, half: boolean): Re
         const full = rollFormula(dice, roll) * mult;
         const value = half ? Math.floor(full / 2) : full;
         const label = half ? `${value} ${cur} (metade de ${full} ${cur})` : `${value} ${cur}`;
-        return { label: `Dinheiro: ${label}`, detail: `${dice}×${mult} ${cur}`, tibar: currencyToTibar(value, cur) };
+        const tibar = currencyToTibar(value, cur);
+        const isOuro = cur.toUpperCase() === "TO";
+        return { label: `Dinheiro: ${label}`, detail: `${dice}×${mult} ${cur}`, tibar, tibarOuro: isOuro ? tibar : undefined };
     }
 
     // "C riqueza(s) CATEGORIA [+%]" também pode aparecer na coluna Dinheiro

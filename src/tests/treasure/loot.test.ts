@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { perShareTibar, summarizeLoot, tibarToCoins } from "@/treasure/loot";
+import { perShareTibar, splitGoldShare, summarizeLoot, tibarToCoins } from "@/treasure/loot";
 import { parseRiquezaCategories, pickRiquezaItem, splitItems } from "@/treasure/riqueza-picker";
 import { currencyToTibar, generateTreasure, type DieRoller, type ResultLine } from "@/treasure/treasure-engine";
 
@@ -36,6 +36,16 @@ describe("summarizeLoot", () => {
         ];
         expect(summarizeLoot(lines).items[0].display).toBe("Espada longa (Afiada, Vorpal)");
     });
+
+    it("soma tibarOuro separado (só a parte que veio de TO)", () => {
+        const lines: ResultLine[] = [
+            { label: "Dinheiro: 90 TO", tibar: 900, tibarOuro: 900 },
+            { label: "Dinheiro: 50 T$", tibar: 50 },
+        ];
+        const s = summarizeLoot(lines);
+        expect(s.totalTibar).toBe(950);
+        expect(s.totalOuroTibar).toBe(900);
+    });
 });
 
 describe("tibarToCoins / perShareTibar", () => {
@@ -48,6 +58,25 @@ describe("tibarToCoins / perShareTibar", () => {
         expect(perShareTibar(100, 4)).toBe(25);
         expect(perShareTibar(10, 3)).toBeCloseTo(3.33);
         expect(perShareTibar(50, 0)).toBe(0);
+    });
+});
+
+describe("splitGoldShare", () => {
+    it("90 TO / 4 jogadores -> 22 TO + 5 TP por cabeça (caso do usuário)", () => {
+        expect(splitGoldShare(90, 4)).toEqual({ to: 22, tp: 5 });
+    });
+    it("divisão exata sem resto -> sem prata", () => {
+        expect(splitGoldShare(100, 4)).toEqual({ to: 25, tp: 0 });
+    });
+    it("resto que arredonda pra 10 TP vira +1 TO", () => {
+        // 39/4 = 9.75 -> 9 TO + 7.5 TP -> arredonda 8 TP (não deveria virar TO)
+        expect(splitGoldShare(39, 4)).toEqual({ to: 9, tp: 8 });
+        // caso de fronteira: share fracionário cujo resto arredonda para 10 TP -> vira +1 TO
+        expect(splitGoldShare(9.92, 2)).toEqual({ to: 5, tp: 0 });
+    });
+    it("zero jogadores ou zero ouro -> zero", () => {
+        expect(splitGoldShare(50, 0)).toEqual({ to: 0, tp: 0 });
+        expect(splitGoldShare(0, 4)).toEqual({ to: 0, tp: 0 });
     });
 });
 

@@ -14,7 +14,7 @@
  */
 
 import { deliverItemToActor } from "./item-resolver";
-import { perShareTibar, summarizeLoot, tibarToCoins, type LootItem } from "./loot";
+import { perShareTibar, splitGoldShare, summarizeLoot, tibarToCoins, type LootItem } from "./loot";
 import { showLootOverlay, type LootOverlayPlayer } from "./loot-overlay";
 import { clearLootLog, getLootLog, getPresentPlayers, recordLoot, type PresentPlayer } from "./loot-store";
 import { parseRiquezaCategories, pickRiquezaItem } from "./riqueza-picker";
@@ -39,6 +39,8 @@ interface LootBroadcast {
     title: string;
     subtitle?: string;
     totalTibar: number;
+    /** Fração de `totalTibar` que veio especificamente de moeda TO (tibares de ouro). */
+    totalOuroTibar?: number;
     items: LootItem[];
     players: PresentPlayer[];
 }
@@ -112,7 +114,7 @@ async function rollInto(nd: string, quantity: Quantity, resultBox: HTMLElement):
     resultBox.querySelector<HTMLButtonElement>(".tre-distribute-btn")?.addEventListener("click", () => {
         const players = presentPlayersForDistribution();
         if (!players.length) { ui.notifications?.warn("Nenhum personagem de jogador para distribuir."); return; }
-        presentLootOverlay({ title: "Tesouro Gerado", subtitle: `ND ${nd} · ${QTY_LABEL[quantity]}`, totalTibar: summary.totalTibar, items: summary.items, players });
+        presentLootOverlay({ title: "Tesouro Gerado", subtitle: `ND ${nd} · ${QTY_LABEL[quantity]}`, totalTibar: summary.totalTibar, totalOuroTibar: summary.totalOuroTibar, items: summary.items, players });
     });
     log(`Tesouro gerado: ND ${nd} (${quantity}) — ${res.lines.length} linha(s).`);
 }
@@ -430,7 +432,7 @@ async function lootTokenAsGM(payload: LootPayload): Promise<void> {
     const summary = summarizeLoot(res.lines, `t-${payload.tokenId}`);
     const combat = game.combat as unknown as (Parameters<typeof recordLoot>[0] & { started?: boolean }) | undefined;
     if (combat?.started) {
-        await recordLoot(combat, { tokenId: payload.tokenId, name, nd, totalTibar: summary.totalTibar, items: summary.items });
+        await recordLoot(combat, { tokenId: payload.tokenId, name, nd, totalTibar: summary.totalTibar, totalOuroTibar: summary.totalOuroTibar, items: summary.items });
         await ChatMessage.create({
             content: `<div class="tre-card"><i class="fas fa-coins"></i> <strong>${esc(name)}</strong> saqueado — guardado para o resumo do fim do combate (${summary.totalTibar} T$${summary.items.length ? `, ${summary.items.length} item(ns)` : ""}).</div>`,
             speaker: { alias: `Tesouro de ${name}` },
@@ -453,11 +455,12 @@ async function onCombatEnd(combat: unknown): Promise<void> {
     if (!logEntries.length) return;
     const players = getPresentPlayers(c);
     const totalTibar = Math.round(logEntries.reduce((s, e) => s + (e.totalTibar || 0), 0) * 100) / 100;
+    const totalOuroTibar = Math.round(logEntries.reduce((s, e) => s + (e.totalOuroTibar || 0), 0) * 100) / 100;
     const items = logEntries.flatMap(e => e.items);
     const payload: LootBroadcast = {
         title: "Tesouro do Combate",
         subtitle: `${logEntries.length} inimigo(s) saqueado(s)`,
-        totalTibar, items, players,
+        totalTibar, totalOuroTibar, items, players,
     };
     try { await clearLootLog(c as Parameters<typeof clearLootLog>[0]); } catch { /* combate já deletado */ }
     const socket = getSocket();
@@ -522,27 +525,42 @@ function setupTokenLoot(): void {
 
 interface DinheiroActor {
     name?: string;
-    system?: { dinheiro?: { tp?: number; tc?: number } };
+    system?: { dinheiro?: { to?: number; tp?: number; tc?: number } };
     update: (d: Record<string, unknown>) => Promise<unknown>;
     createEmbeddedDocuments: (type: string, data: Array<Record<string, unknown>>) => Promise<unknown>;
 }
 
-/** GM: soma T$/N no dinheiro (prata+cobre) de cada personagem presente. */
-async function distributeTibarToPlayers(totalTibar: number, players: PresentPlayer[]): Promise<void> {
+/**
+ * GM: soma dinheiro/N em cada personagem presente. Se o loot trouxe tibares de
+ * ouro (TO), esses são distribuídos em ouro primeiro (quinhão fracionário vira
+ * prata — ver `splitGoldShare`); o restante do total (T$/TP/TC) é distribuído
+ * como antes.
+ */
+async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: number, players: PresentPlayer[]): Promise<void> {
     if (!game.user?.isGM || !players.length || totalTibar <= 0) return;
-    const share = perShareTibar(totalTibar, players.length);
-    const { tp, tc } = tibarToCoins(share);
+    const ouro = Math.min(Math.max(totalOuroTibar || 0, 0), totalTibar);
+    const restante = totalTibar - ouro;
+    const { to, tp: tpFromGold } = splitGoldShare(ouro / 10, players.length);
+    const share = perShareTibar(restante, players.length);
+    const { tp: tpFromRest, tc } = tibarToCoins(share);
+    const tp = tpFromGold + tpFromRest;
     const done: string[] = [];
     for (const p of players) {
         const actor = game.actors?.get(p.actorId) as unknown as DinheiroActor | undefined;
         if (!actor) continue;
+        const curTo = actor.system?.dinheiro?.to ?? 0;
         const curTp = actor.system?.dinheiro?.tp ?? 0;
         const curTc = actor.system?.dinheiro?.tc ?? 0;
-        await actor.update({ "system.dinheiro.tp": curTp + tp, "system.dinheiro.tc": curTc + tc });
+        await actor.update({ "system.dinheiro.to": curTo + to, "system.dinheiro.tp": curTp + tp, "system.dinheiro.tc": curTc + tc });
         done.push(p.name);
     }
+    const parts: string[] = [];
+    if (to) parts.push(`${to} TO`);
+    if (tp) parts.push(`${tp} T$`);
+    if (tc) parts.push(`${tc} TC`);
+    const shareLabel = parts.length ? parts.join(" + ") : "0 T$";
     await ChatMessage.create({
-        content: `<div class="tre-card"><strong><i class="fas fa-coins"></i> Tibares distribuídos:</strong> ${share} T$ para cada — ${esc(done.join(", "))}.</div>`,
+        content: `<div class="tre-card"><strong><i class="fas fa-coins"></i> Tibares distribuídos:</strong> ${shareLabel} para cada — ${esc(done.join(", "))}.</div>`,
         speaker: { alias: "Distribuição de Tesouro" },
     } as unknown as Record<string, unknown>);
 }
@@ -582,7 +600,7 @@ function presentLootOverlay(b: LootBroadcast): void {
             players,
         },
         {
-            onDistribute: () => distributeTibarToPlayers(b.totalTibar, b.players),
+            onDistribute: () => distributeTibarToPlayers(b.totalTibar, b.totalOuroTibar ?? 0, b.players),
             onDeliver: (a) => deliverItems(b.items, a),
         },
     );

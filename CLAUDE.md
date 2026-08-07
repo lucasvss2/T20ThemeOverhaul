@@ -785,6 +785,15 @@ Expande o `src/treasure/` (gerador de tesouro + saque por right-click).
 - **Arms Reach**: se `game.modules.get("arms-reach").active`, `requestLoot` (jogador) chama `playerHasArmsReach` → `api.isReachable(tokenDoJogador, alvo)`; sem alcance → bloqueia. Sem o módulo ou sem token do jogador na cena → não bloqueia.
 - **Verificado ao vivo (arton)**: overlay GM (total 100 T$, 2 dropdowns c/ PJs, distribuir/entregar); distribuir → +50 T$ em cada PJ; entregar "Espada longa" → resolvida do compêndio pra ficha; gerador sem regressão + botão distribuir; picker de riqueza (ND16 dobro) com 4 categorias/checkboxes/Sortear. Testes: `loot.test.ts` + `loot-store.test.ts` (15 casos).
 
+### Distribuição de tibares de ouro fracionados (v1.103.0)
+
+Antes de v1.103.0, TODA moeda do loot (TO/T$/TC) virava um número escalar `tibar` (T$) logo em `resolveMoney` — o tipo original de moeda era descartado, então "Distribuir igualmente" sempre soltava prata+cobre, mesmo quando o tesouro trazia tibares de ouro (TO).
+
+- **`ResultLine.tibarOuro?`** (`treasure-engine.ts`): preenchido em `resolveMoney` só quando a moeda rolada é `TO` (valor já em T$-equivalente, igual ao `tibar` da mesma linha — não é um campo novo de unidade, é só "quanto do `tibar` veio de ouro"). `LootSummary.totalOuroTibar` (`loot.ts`, `summarizeLoot`) soma essa fração através da árvore, em paralelo ao `totalTibar` existente (que não muda de significado).
+- **`splitGoldShare(totalTO, n)`** (puro, `loot.ts`): divide o total de TO (não de T$-equivalente — a chamada em `distributeTibarToPlayers` já faz `/10`) igualmente por cabeça; a parte inteira do quinhão fica em TO, a fração vira prata (`(share-to)*10`, 1 TO = 10 TP) — ex.: 90 TO / 4 → 22 TO + 5 TP por jogador (caso citado pelo usuário). Resto que arredonda pra 10 TP carrega +1 TO.
+- **`distributeTibarToPlayers`** (`treasure/index.ts`) separa `totalOuroTibar` (→ TO via `splitGoldShare`) do restante (`totalTibar - totalOuroTibar`, T$/TP/TC como antes) e agora também escreve em `system.dinheiro.to` (campo que já existia no ator mas nunca era tocado pela distribuição — só tp/tc). Card de chat mostra "TO + T$ + TC" separados quando aplicável.
+- `LootBroadcast`/`LootEntry` (loot-store) carregam `totalOuroTibar` opcional através do fluxo saque→combate→overlay, mesma forma que `totalTibar` já trafegava.
+
 ### Linhagem Dracônica + Coragem Líquida + fixes (v1.90.0)
 
 **Linhagem Dracônica (Básica/Aprimorada/Superior)** — `src/linhagem-draconica/`. As AEs do compêndio nativo são QUEBRADAS: Básica tem key `system.tracos.resistencias.???.bonus` (placeholder literal) + `transfer:false` (nunca copia pro ator — não aplica nada); Aprimorada tem 2 onuse separadas (custo e dano +1 FLAT); Superior não tem effect.
