@@ -46,6 +46,20 @@ function randomId(len = 16) {
     return s;
 }
 
+function norm(s) {
+    return (s ?? "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+}
+
+/**
+ * Nome do item: "<label> de <magia>", MAS sem repetir o rótulo se a magia já
+ * o contém no nome (ex.: magia "Poção Explosiva" → item "Poção Explosiva",
+ * NÃO "Poção de Poção Explosiva"; idem "Pergaminho"/"Granada"/"Óleo").
+ */
+function buildItemName(label, spellName) {
+    if (norm(spellName).includes(norm(label))) return spellName;
+    return `${label} de ${spellName}`;
+}
+
 function slugify(s) {
     return s
         .toLowerCase()
@@ -154,7 +168,7 @@ function baseItemDoc({ name, img, tipo, price, description, flagData }) {
 
 function buildPergaminho(spell) {
     const price = craftPrice(spell.custo);
-    const name = `Pergaminho de ${spell.name}`;
+    const name = buildItemName("Pergaminho", spell.name);
     const flagData = {
         kind: "pergaminho",
         spellUuid: spell.uuid,
@@ -172,7 +186,7 @@ function buildPergaminho(spell) {
 
 function buildPocaoBase(spell) {
     const price = craftPrice(spell.custo);
-    const name = `${potionKindLabel(spell)} de ${spell.name}`;
+    const name = buildItemName(potionKindLabel(spell), spell.name);
     const flagData = {
         kind: "pocao",
         spellUuid: spell.uuid,
@@ -192,7 +206,7 @@ function buildPocaoAprimorada(spell, aprimoramento, index) {
     const custoEfetivo = spell.custo + (aprimoramento.custo || 0);
     const price = craftPrice(custoEfetivo);
     const label = `Aprimorada ${index + 1}`;
-    const name = `${potionKindLabel(spell)} de ${spell.name} (${label})`;
+    const name = `${buildItemName(potionKindLabel(spell), spell.name)} (${label})`;
     const flagData = {
         kind: "pocao",
         spellUuid: spell.uuid,

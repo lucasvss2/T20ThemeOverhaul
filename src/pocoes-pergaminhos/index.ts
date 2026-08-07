@@ -32,6 +32,15 @@ const FLAG_KEY = "pocaoPergaminho";
 const TEMP_FLAG_KEY = "pocaoPergaminhoTemp";
 const CLEANUP_DELAY_MS = 120_000; // 2 min — dá tempo do card/automação processarem antes de apagar o clone
 
+/**
+ * Marcador de contexto (2º arg de `createEmbeddedDocuments`) que o entregador
+ * de loot (`treasure/item-resolver.ts`) usa pra sinalizar "este item veio do
+ * gerador de loot" — sempre nasce não identificado, sem perguntar nada ao GM.
+ * Sem o marcador (ex.: GM arrastando do compêndio pra ficha manualmente), o
+ * hook de criação ABRE um diálogo perguntando identificado/não.
+ */
+export const LOOT_DELIVERY_CONTEXT_KEY = "t20LootDelivery";
+
 export const UNIDENTIFIED_NAME: Record<"pocao" | "pergaminho", string> = {
     pocao: "Poção desconhecida",
     pergaminho: "Pergaminho desconhecido",
@@ -115,15 +124,67 @@ function hookUserId(args: unknown[]): string | undefined {
     return undefined;
 }
 
+/**
+ * Diálogo "entregar identificado ou não" — só quando o item chega por uma via
+ * QUE NÃO o gerador de loot (esse sempre mascara direto, sem perguntar). Ex.:
+ * GM arrastando o item do compêndio pra ficha de um jogador manualmente.
+ */
+function escHtml(s: string): string {
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+async function promptIdentifiedChoice(item: ItemLike): Promise<void> {
+    const flag = getPocaoPergaminhoFlag(item);
+    if (!flag || flag.identificado || flag.realName) return; // já identificado ou já mascarado
+    const DialogCls = (globalThis as unknown as { Dialog?: new (data: Record<string, unknown>, opts?: Record<string, unknown>) => { render: (force: boolean) => void } }).Dialog;
+    if (!DialogCls) { void maskAsUnidentified(item); return; }
+    const label = item.name ?? flag.spellName;
+    await new Promise<void>((resolve) => {
+        let resolved = false;
+        const finish = () => { if (resolved) return; resolved = true; resolve(); };
+        new DialogCls({
+            title: "Entregar item mágico",
+            content: `<p>Entregar <strong>${escHtml(label)}</strong> já identificado, ou como item desconhecido?</p>`,
+            buttons: {
+                identified: {
+                    icon: '<i class="fas fa-eye"></i>',
+                    label: "Identificado",
+                    callback: async () => {
+                        try {
+                            await item.update?.({ [`flags.${MODULE_ID}.${FLAG_KEY}.identificado`]: true });
+                        } catch (e) { warn("pocoes-pergaminhos: falha ao marcar como identificado:", e); }
+                        finish();
+                    },
+                },
+                unidentified: {
+                    icon: '<i class="fas fa-question"></i>',
+                    label: "Não identificado",
+                    callback: async () => { await maskAsUnidentified(item); finish(); },
+                },
+            },
+            default: "unidentified",
+            close: () => {
+                if (resolved) return; // já resolvido por um botão — não sobrescrever a escolha
+                void maskAsUnidentified(item).finally(finish);
+            },
+        }, { classes: ["dialog", "t20-dialog"] }).render(true);
+    });
+}
+
 function setupMaskingHook(): void {
     Hooks.on("createItem", (...args: unknown[]) => {
         const item = args[0] as ItemLike & { parent?: unknown };
+        const options = args[1] as Record<string, unknown> | undefined;
         const userId = hookUserId(args);
         if (!userId || userId !== game.user?.id) return;
         const actor = item.parent as ActorLike | undefined;
         if (!actor || !isPlayerCharacter(actor)) return;
         if (!isPocaoPergaminhoItem(item)) return;
-        void maskAsUnidentified(item);
+        if (options?.[LOOT_DELIVERY_CONTEXT_KEY]) {
+            void maskAsUnidentified(item);
+        } else {
+            void promptIdentifiedChoice(item);
+        }
     });
 }
 

@@ -9,6 +9,7 @@
  */
 
 import type { LootItem } from "./loot";
+import { LOOT_DELIVERY_CONTEXT_KEY } from "@/pocoes-pergaminhos/index";
 import { warn } from "@/utils/logging";
 
 const norm = (s: string): string =>
@@ -98,7 +99,7 @@ export async function findPocaoPergaminhoBase(spellNameRaw: string): Promise<Rec
 
 interface ActorLike {
     name?: string;
-    createEmbeddedDocuments: (type: string, data: Array<Record<string, unknown>>) => Promise<unknown>;
+    createEmbeddedDocuments: (type: string, data: Array<Record<string, unknown>>, context?: Record<string, unknown>) => Promise<unknown>;
 }
 
 function upgradeNote(upgrades: string[]): string {
@@ -127,7 +128,7 @@ export async function deliverItemToActor(actor: ActorLike, item: LootItem): Prom
             base["name"] = `${item.name} (${item.upgrades.join(", ")})`;
             appendDescription(base, upgradeNote(item.upgrades));
         }
-        await actor.createEmbeddedDocuments("Item", [base]);
+        await actor.createEmbeddedDocuments("Item", [base], { [LOOT_DELIVERY_CONTEXT_KEY]: true });
         return { itemName: String(base["name"]), found: true, needsAttention: !!withUpg };
     }
     // placeholder
