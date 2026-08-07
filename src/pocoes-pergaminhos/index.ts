@@ -140,8 +140,14 @@ async function promptIdentifiedChoice(item: ItemLike): Promise<void> {
     if (!DialogCls) { void maskAsUnidentified(item); return; }
     const label = item.name ?? flag.spellName;
     await new Promise<void>((resolve) => {
+        // ⚠️ Dialog#submit (dialog-v1.mjs) chama `button.callback.call(...)` SEM
+        // aguardar o retorno e encadeia `this.close()` LOGO EM SEGUIDA, síncrono —
+        // um callback async que só marca `resolved=true` DEPOIS do `await`
+        // chega tarde: `close()` já rodou e viu `resolved:false`, então o guard
+        // falhava e o `close` mascarava o item por cima da escolha "Identificado"
+        // (bug real reportado pelo usuário). Fix: marcar `resolved=true`
+        // SÍNCRONO, antes de qualquer await, dentro do próprio callback do botão.
         let resolved = false;
-        const finish = () => { if (resolved) return; resolved = true; resolve(); };
         new DialogCls({
             title: "Entregar item mágico",
             content: `<p>Entregar <strong>${escHtml(label)}</strong> já identificado, ou como item desconhecido?</p>`,
@@ -149,23 +155,26 @@ async function promptIdentifiedChoice(item: ItemLike): Promise<void> {
                 identified: {
                     icon: '<i class="fas fa-eye"></i>',
                     label: "Identificado",
-                    callback: async () => {
-                        try {
-                            await item.update?.({ [`flags.${MODULE_ID}.${FLAG_KEY}.identificado`]: true });
-                        } catch (e) { warn("pocoes-pergaminhos: falha ao marcar como identificado:", e); }
-                        finish();
+                    callback: () => {
+                        resolved = true;
+                        void item.update?.({ [`flags.${MODULE_ID}.${FLAG_KEY}.identificado`]: true })
+                            .catch((e: unknown) => warn("pocoes-pergaminhos: falha ao marcar como identificado:", e))
+                            .finally(() => resolve());
                     },
                 },
                 unidentified: {
                     icon: '<i class="fas fa-question"></i>',
                     label: "Não identificado",
-                    callback: async () => { await maskAsUnidentified(item); finish(); },
+                    callback: () => {
+                        resolved = true;
+                        void maskAsUnidentified(item).finally(() => resolve());
+                    },
                 },
             },
             default: "unidentified",
             close: () => {
                 if (resolved) return; // já resolvido por um botão — não sobrescrever a escolha
-                void maskAsUnidentified(item).finally(finish);
+                void maskAsUnidentified(item).finally(() => resolve());
             },
         }, { classes: ["dialog", "t20-dialog"] }).render(true);
     });
