@@ -14,6 +14,24 @@ import { warn } from "@/utils/logging";
 const norm = (s: string): string =>
     String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
 
+const POCAO_PACK_ID = "t20-theme-overhaul.pocoes-pergaminhos";
+
+/** Remove o sufixo entre parênteses da tabela de tesouro (ex.: "Bola de Fogo (granada)" → "Bola de Fogo"). */
+export function stripTableSuffix(name: string): string {
+    return name.replace(/\s*\([^)]*\)\s*$/, "").trim();
+}
+
+/**
+ * O nome (normalizado) de uma Poção/Granada/Óleo gerada bate com a magia-alvo
+ * (normalizada)? Só a variante BASE (sem aprimoramento) — a tabela de tesouro
+ * não distingue variantes de aprimoramento, então entregamos sempre a base.
+ */
+export function pocaoBaseMatchesSpell(itemNameNorm: string, targetSpellNorm: string): boolean {
+    if (/\(aprimorada\s*\d+\)$/.test(itemNameNorm)) return false;
+    const withoutPrefix = itemNameNorm.replace(/^(pocao|granada|oleo)\s+de\s+/, "");
+    return withoutPrefix.trim() === targetSpellNorm && withoutPrefix !== itemNameNorm;
+}
+
 /** Tipo de item Foundry por categoria de loot. */
 function itemTypeFor(category: string): string {
     switch (category) {
@@ -58,6 +76,26 @@ export async function findCompendiumItem(name: string): Promise<Record<string, u
     return null;
 }
 
+/** Busca a variante BASE (sem aprimoramento) de Poção/Granada/Óleo pro nome de magia da tabela de tesouro. */
+export async function findPocaoPergaminhoBase(spellNameRaw: string): Promise<Record<string, unknown> | null> {
+    const target = norm(stripTableSuffix(spellNameRaw));
+    if (!target) return null;
+    const packs = ((game as unknown as { packs?: { get?: (id: string) => PackLike | undefined } }).packs);
+    const pack = packs?.get?.(POCAO_PACK_ID);
+    if (!pack) return null;
+    try {
+        const idx = await pack.getIndex();
+        for (const e of idx) {
+            if (!e.name || !e._id) continue;
+            if (pocaoBaseMatchesSpell(norm(e.name), target)) {
+                const doc = await pack.getDocument(e._id);
+                if (doc) return doc.toObject();
+            }
+        }
+    } catch (err) { warn(`item-resolver: falha lendo pack ${POCAO_PACK_ID}:`, err); }
+    return null;
+}
+
 interface ActorLike {
     name?: string;
     createEmbeddedDocuments: (type: string, data: Array<Record<string, unknown>>) => Promise<unknown>;
@@ -79,7 +117,9 @@ export interface DeliverResult { itemName: string; found: boolean; needsAttentio
 
 /** Resolve e adiciona o item à ficha. Retorna info para o resumo/aviso ao GM. */
 export async function deliverItemToActor(actor: ActorLike, item: LootItem): Promise<DeliverResult> {
-    const base = await findCompendiumItem(item.name);
+    const base = item.category === "pocao"
+        ? (await findPocaoPergaminhoBase(item.name)) ?? (await findCompendiumItem(item.name))
+        : await findCompendiumItem(item.name);
     if (base) {
         delete base["_id"];
         const withUpg = item.upgrades.length;
