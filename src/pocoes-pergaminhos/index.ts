@@ -82,11 +82,11 @@ export function isPocaoPergaminhoItem(item: ItemLike | null | undefined): boolea
     return !!getPocaoPergaminhoFlag(item);
 }
 
-function resolveRealItem(actor: ActorLike, cloneId: string | undefined): ItemLike | undefined {
-    if (!cloneId) return undefined;
+function resolveRealItem(actor: ActorLike, itemId: string | undefined): ItemLike | undefined {
+    if (!itemId) return undefined;
     const items = actor.items;
-    if (Array.isArray(items)) return items.find((i) => i.id === cloneId);
-    return items?.get?.(cloneId);
+    if (Array.isArray(items)) return items.find((i) => i.id === itemId);
+    return items?.get?.(itemId);
 }
 
 // ── Mascaramento (entrega a um ator de jogador) ─────────────────────────────
@@ -224,32 +224,41 @@ async function handleCast(actor: ActorLike, item: ItemLike): Promise<void> {
     await consumeOne(actor, item);
 }
 
-// ── Patch AbilityUseDialog.create (cancela o fluxo nativo do NOSSO item) ────
+// ── Patch Item.prototype.roll (cancela o fluxo nativo do NOSSO item) ───────
+//
+// ⚠️ Descoberta ao vivo: `AbilityUseDialog.create(item)` recebe um CLONE
+// (`this.clone({keepId:true})` dentro de `Item#roll` nativo) cujo `.id`/`._id`
+// vêm `null` nesta versão do Foundry/T20 — `keepId` não se comporta como o
+// nome sugere aqui. Um wrapper em `AbilityUseDialog.create` (como as outras
+// features do módulo usam) não consegue resolver o item REAL a partir do
+// clone por id. Patchar `Item.prototype.roll` direto evita o problema由
+// inteiro: `this` dentro do método É o item real (id/actor válidos), e a
+// interceptação acontece ANTES do clone/AbilityUseDialog nativos rodarem.
+// (achado ao vivo com Al Simmons — clone.id/clone._id vinham null, o modal
+// de identificação nunca abria; trocar pra este ponto de interceptação
+// corrigiu sem precisar entender POR QUE keepId falha aqui.)
 
-function patchAbilityUseDialog(): void {
-    type DlgLike = { create: (item: unknown, ...a: unknown[]) => Promise<unknown>; _t20PatchedPocoesPergaminhos?: boolean };
-    type T20Global = { applications?: { AbilityUseDialog?: DlgLike } };
-    const Dlg = (game as unknown as { tormenta20?: T20Global }).tormenta20?.applications?.AbilityUseDialog;
-    if (!Dlg) { warn("pocoes-pergaminhos: AbilityUseDialog não encontrado — patch não aplicado."); return; }
-    if (Dlg._t20PatchedPocoesPergaminhos) return;
-    const orig = Dlg.create.bind(Dlg);
-    Dlg.create = async function (item: unknown, ...args: unknown[]): Promise<unknown> {
-        const clone = item as ItemLike & { actor?: ActorLike | null; id?: string };
-        const flag = getPocaoPergaminhoFlag(clone);
-        if (flag) {
-            const actor = clone.actor;
-            const real = actor ? resolveRealItem(actor, clone.id) : undefined;
-            if (actor && real) {
-                setTimeout(() => {
-                    void (flag.identificado ? handleCast(actor, real) : handleIdentify(actor, real));
-                }, 0);
-            }
+function patchItemRoll(): void {
+    type RollableProto = { roll: (...a: unknown[]) => Promise<unknown>; _t20PatchedPocoesPergaminhos?: boolean };
+    const cls = (CONFIG as unknown as { Item?: { documentClass?: { prototype?: RollableProto } } }).Item?.documentClass;
+    const proto = cls?.prototype;
+    if (!proto || typeof proto.roll !== "function") { warn("pocoes-pergaminhos: Item.prototype.roll não encontrado — patch não aplicado."); return; }
+    if (proto._t20PatchedPocoesPergaminhos) return;
+    const orig = proto.roll;
+    proto.roll = async function (this: ItemLike & { actor?: ActorLike | null }, ...args: unknown[]): Promise<unknown> {
+        const flag = getPocaoPergaminhoFlag(this);
+        if (flag && this.actor) {
+            const actor = this.actor;
+            const item = this;
+            setTimeout(() => {
+                void (flag.identificado ? handleCast(actor, item) : handleIdentify(actor, item));
+            }, 0);
             return null;
         }
-        return orig(item, ...args);
+        return orig.apply(this, args);
     };
-    Dlg._t20PatchedPocoesPergaminhos = true;
-    log("Poções e Pergaminhos: AbilityUseDialog.create patcheado.");
+    proto._t20PatchedPocoesPergaminhos = true;
+    log("Poções e Pergaminhos: Item.prototype.roll patcheado.");
 }
 
 // ── Trava o checkbox único da variante com aprimoramento fixo ──────────────
@@ -274,6 +283,6 @@ function setupRenderHook(): void {
 export function setupPocoesPergaminhos(): void {
     setupMaskingHook();
     setupRenderHook();
-    Hooks.once("ready", () => { patchAbilityUseDialog(); });
+    Hooks.once("ready", () => { patchItemRoll(); });
     log("Poções e Pergaminhos configurado (usar importa e conjura a magia real).");
 }
