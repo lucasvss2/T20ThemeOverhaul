@@ -94,17 +94,27 @@ async function onEssenciaUse(message: MessageLike): Promise<void> {
             rolls: [roll] as never,
         });
         log(`Essência de Mana: ${actor.name} recuperou ${gained} PM (${RECOVER_FORMULA}=${rolled}).`);
+
+        // O item nativo (`system.rolls`: 1d4 "curapm") já posta SUA PRÓPRIA
+        // mensagem com um d4 (sem efeito — não é lida em lugar nenhum) ao ser
+        // usado. Isso duplicava o dado no chat, confundindo qual rolagem vale.
+        // Deleta a mensagem nativa (a que disparou este hook) — só a rolagem
+        // do módulo (a que de fato restaurou PM) fica visível. `deleteChatMessage`
+        // não re-dispara este hook (que só escuta `createChatMessage`).
+        try { await message.delete?.(); } catch (err) { warn("essencia-mana: falha ao remover a mensagem nativa duplicada:", err); }
     } catch (err) {
         warn("essencia-mana: falha ao recuperar PM:", err);
     }
 }
 
 interface MessageLike {
+    id?: string;
     content?: string;
     speaker?: { actor?: string };
     author?: { id?: string };
     user?: { id?: string } | string;
     getFlag?: (scope: string, key: string) => unknown;
+    delete?: () => Promise<unknown>;
 }
 
 function esc(s: string): string {
