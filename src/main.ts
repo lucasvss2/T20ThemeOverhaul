@@ -63,6 +63,7 @@ import { setupConcentracaoCombate } from "./concentracao-combate/index";
 import { setupOrientacaoDivina } from "./orientacao-divina/index";
 import { setupIniciativaBuff } from "./iniciativa-buff/index";
 import { setupGolpePessoal } from "./golpe-pessoal/index";
+import { setupMembrosExtras } from "./membros-extras/index";
 import { setupProeficiencia } from "./t20-fixes/proficiencia";
 import { setupTokenVisibility } from "./token-visibility";
 import { setupReactions } from "./reactions";
@@ -154,6 +155,7 @@ Hooks.once("setup", () => {
     setupOrientacaoDivina();      // Orientação Divina: vantagem em teste de perícia (+tiers: escopo por atributo/grupo, alvos múltiplos)
     setupIniciativaBuff();        // Iniciativa pelo tracker oferece Efeitos de Uso de perícia (Audácia, Engenhosidade, ...)
     setupGolpePessoal();          // Golpe Pessoal (guerreiro): build de efeitos + uso com PM + injeção no ataque + pós-dano
+    setupMembrosExtras();         // Membros Extras (Tormenta): 2 patas insetoides reais, ataque extra (2 PM cada) ao Agredir c/ outra arma, 1x/rodada
     setupSkillsMenu();   // antes de area-spells: estes registram ações no menu
     setupAreaSpells();
     setupVelocidade();            // Velocidade: sustain automático (1 PM/turno) + cancelar via skills-menu

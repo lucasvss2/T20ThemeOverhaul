@@ -130,6 +130,7 @@ src/
   golpe-pessoal/effects.ts     — Golpe Pessoal: catálogo dos 24 efeitos + puros (custo mín 1, Letal/Elemental/Sequencial, gates, validação)
   golpe-pessoal/build-dialog.ts— Golpe Pessoal: dialog de construção (efeitos+arma+magia do Conjurador) → flag golpePessoal no ITEM + resumo na descrição
   golpe-pessoal/index.ts       — Golpe Pessoal: uso (gates+PM+dialog da arma com injeção no clone), card (Amplo/Conjurador), pós-dano via auto-damage, level-up, botão GM
+  membros-extras/index.ts      — Membros Extras (Tormenta): 2 armas "Pata Inseto" reais (1d4 corte, crít x2) criadas/removidas com o poder; ataque extra 2 PM/perna ao Agredir c/ outra arma, 1x/rodada, reaproveita auto-damage via weapon.roll()
   armamento-aberrante/index.ts — Armamento Aberrante (Tormenta): seletor de arma orgânica (busca+favoritos), dano +1 passo/2 outros poderes Tormenta, dura a cena
   armamento-aberrante/weapons.ts — Base EMPACOTADA de 100 armas (stats colhidos dos compêndios T20) p/ o seletor
   economia-habilidade/index.ts — Economia de Habilidade: reduz −1 PM (mín 1) de um poder escolhido; modal ao adicionar; restaura ao remover
@@ -793,6 +794,16 @@ Antes de v1.103.0, TODA moeda do loot (TO/T$/TC) virava um número escalar `tiba
 - **`splitGoldShare(totalTO, n)`** (puro, `loot.ts`): divide o total de TO (não de T$-equivalente — a chamada em `distributeTibarToPlayers` já faz `/10`) igualmente por cabeça; a parte inteira do quinhão fica em TO, a fração vira prata (`(share-to)*10`, 1 TO = 10 TP) — ex.: 90 TO / 4 → 22 TO + 5 TP por jogador (caso citado pelo usuário). Resto que arredonda pra 10 TP carrega +1 TO.
 - **`distributeTibarToPlayers`** (`treasure/index.ts`) separa `totalOuroTibar` (→ TO via `splitGoldShare`) do restante (`totalTibar - totalOuroTibar`, T$/TP/TC como antes) e agora também escreve em `system.dinheiro.to` (campo que já existia no ator mas nunca era tocado pela distribuição — só tp/tc). Card de chat mostra "TO + T$ + TC" separados quando aplicável.
 - `LootBroadcast`/`LootEntry` (loot-store) carregam `totalOuroTibar` opcional através do fluxo saque→combate→overlay, mesma forma que `totalTibar` já trafegava.
+
+### Membros Extras — patas insetoides (v1.103.2)
+
+`src/membros-extras/index.ts`. Poder da Tormenta: "Você possui duas armas naturais de patas insetoides... Uma vez por rodada, quando usa a ação agredir para atacar com outra arma, pode gastar 2 PM para fazer um ataque corpo a corpo extra com cada uma (dano 1d4, crítico x2, corte)."
+
+- **Arquitetura (reaproveita 100% do `auto-damage` existente, mesmo padrão de `armamento-aberrante`):** ao ganhar o poder (`createItem`, ator `character`, mesmo idioma `hookUserId`/`isMyUser`/`actorOf` do `briga`), cria 2 itens `arma` EMBARCADOS reais — **"Pata Inseto 1/2 (Membros Extras)"** (`criticoM:20`, `criticoX:2`, dano `1d4 corte`, `espacos:0`, sempre "equipada" — arma natural). Ao remover o poder, deleta as 2 armas (`deleteItem`).
+- **Trigger:** `createChatMessage` com o MESMO idioma de detecção do `auto-damage` (mensagem cujos `rolls` têm `type:"attack"` E `type:"damage"` — identifica qualquer ataque com arma, nativo ou não) de um ator com o poder, cujo `data-item-id` NÃO resolve pra uma das próprias Patas (evita reagir ao ataque extra que ELE MESMO dispara — sem essa guarda, fora de combate, onde o gate de rodada não existe, entraria em loop), e que ainda não foi ofertado nesta rodada. Abre um `Dialog` simples ("Não atacar" / "N ataque(s) extra(s) (N×2 PM)", até o teto de pernas pagáveis com o PM disponível).
+- **Uma vez por rodada:** flag `membrosExtrasRound {combatId, round}` no ator, setada ASSIM QUE o prompt abre (não só na confirmação) — mesmo padrão do `golpePmRound` do Golpe Pessoal. Fora de combate (`combat.started` falso) o gate nunca ativa (não há "rodada"); a exclusão da própria Pata no trigger é o que impede loop nesse caso.
+- **Execução:** por perna confirmada, `actor.spendMana(2)` + `weapon.roll({})` na respectiva Pata — como é uma arma NATIVA (rolls `type:"ataque"`/`type:"dano"` no formato padrão), o próprio `createChatMessage` do `auto-damage/index.ts` (já registrado, roda antes/depois independente da ordem) processa o ataque exatamente como qualquer outra arma: RD, reações, aplicação de dano no(s) alvo(s) marcado(s) em `game.user.targets`, crítico x2 em 20 natural nativo. **Nenhum código de dano/RD/aplicação foi escrito neste módulo.**
+- **Fora de escopo** (nota, mesmo padrão de outras exceções documentadas): variante com armas leves equipadas nas patas via Ambidestria/Estilo de Duas Armas (penalidade −2, dano da arma em vez de 1d4) — só o caso base foi automatizado, por pedido explícito do usuário.
 
 ### Linhagem Dracônica + Coragem Líquida + fixes (v1.90.0)
 
