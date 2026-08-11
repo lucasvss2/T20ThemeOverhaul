@@ -412,14 +412,18 @@
 }
 
 /* ── Toggle de modo mobile (auto/celular/desktop) ─────────────────────────── */
+/* Maior e com borda dourada de propósito (v1.105.1) — verificado ao vivo que
+   o tamanho igual ao stepper (20px) o deixava perdido no meio do título/barra
+   de carga/stepper, todos concorrendo no mesmo espaço apertado (bug real
+   reportado pelo usuário: "não encontrei o botão"). */
 .t20-hud-mobile-toggle {
-    width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto;
+    width: 26px; height: 26px; border-radius: 5px; flex: 0 0 auto;
     background: linear-gradient(180deg, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom));
-    border: 1px solid var(--t20-btn-border); color: var(--t20-btn-text);
-    font-size: 10px; cursor: pointer;
+    border: 1.5px solid var(--t20-accent); color: var(--t20-accent);
+    font-size: 13px; cursor: pointer;
     display: flex; align-items: center; justify-content: center; padding: 0;
 }
-.t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); }
+.t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); border-color: var(--t20-btn-text-hover); }
 
 /* ── Modo mobile — Fase 1 (fundação): esconde o chrome desktop do Foundry e
    deixa a HUD usar a largura cheia. A reestruturação vertical de tela cheia
@@ -428,7 +432,7 @@ html.t20-mobile-mode #board,
 html.t20-mobile-mode #sidebar,
 html.t20-mobile-mode #scene-controls,
 html.t20-mobile-mode #players,
-html.t20-mobile-mode #navigation {
+html.t20-mobile-mode #scene-navigation-active {
     display: none !important;
 }
 html.t20-mobile-mode .t20-hud-root {
