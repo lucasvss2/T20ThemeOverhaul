@@ -16,13 +16,18 @@ export const DEFAULT_ROWS = 2;
 const CUSTOM_ORDER_SETTING = "hud.customOrder";
 type CustomOrderMap = Record<string, Record<string, string[]>>; // actorId -> listKey ("skills"|RightTabKey) -> ordered keys
 
+/** Aba do modo mobile (Fase 2) — inclui "pericias" (não existe no painel direito desktop, que fica ao lado da grade de perícias, não misturado com ela). Estado independente do `rightTab` desktop — trocar de aba num modo não deve mexer no outro. */
+export type MobileTabKey = RightTabKey | "pericias";
+
 interface HudUiState {
     rightTab: RightTabKey;
     skillsPage: number;
     rightPage: number;
+    mobileTab: MobileTabKey;
+    mobilePage: number;
 }
 
-const state: HudUiState = { rightTab: "poderes", skillsPage: 0, rightPage: 0 };
+const state: HudUiState = { rightTab: "poderes", skillsPage: 0, rightPage: 0, mobileTab: "pericias", mobilePage: 0 };
 
 export function getRightTab(): RightTabKey { return state.rightTab; }
 export function setRightTab(tab: RightTabKey): void { state.rightTab = tab; state.rightPage = 0; }
@@ -32,6 +37,12 @@ export function setSkillsPage(page: number): void { state.skillsPage = page; }
 
 export function getRightPage(): number { return state.rightPage; }
 export function setRightPage(page: number): void { state.rightPage = page; }
+
+export function getMobileTab(): MobileTabKey { return state.mobileTab; }
+export function setMobileTab(tab: MobileTabKey): void { state.mobileTab = tab; state.mobilePage = 0; }
+
+export function getMobilePage(): number { return state.mobilePage; }
+export function setMobilePage(page: number): void { state.mobilePage = page; }
 
 /** Registra o client setting de nº de linhas do grid. Chamar em `setupFooterHud()`. */
 export function registerRowsSetting(): void {

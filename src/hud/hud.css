@@ -425,16 +425,161 @@
 }
 .t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); border-color: var(--t20-btn-text-hover); }
 
-/* ── Modo mobile — Fase 1 (fundação): esconde o chrome desktop do Foundry e
-   deixa a HUD usar a largura cheia. A reestruturação vertical de tela cheia
-   do próprio painel (perícias/inventário como abas únicas) é Fase 2. ────── */
+/* ── Modo mobile — Fase 1: esconde o chrome desktop do Foundry. ──────────── */
 html.t20-mobile-mode #board,
 html.t20-mobile-mode #sidebar,
 html.t20-mobile-mode #scene-controls,
 html.t20-mobile-mode #players,
-html.t20-mobile-mode #scene-navigation-active {
+html.t20-mobile-mode #scene-navigation-active,
+html.t20-mobile-mode #chat-notifications,
+html.t20-mobile-mode .mobile-navigation,
+html.t20-mobile-mode .window-selector.drawer,
+html.t20-mobile-mode .mobile-menu.drawer {
     display: none !important;
 }
-html.t20-mobile-mode .t20-hud-root {
-    width: 100%;
+
+/* ── Modo mobile — Fase 2: layout vertical de tela cheia ──────────────────────
+   `#hotbar` sai do fluxo normal (`position:fixed`) em vez de tentar crescer
+   dentro da grade nativa `#ui-top`/`#ui-bottom` (medida ao vivo: são EXATAMENTE
+   metade da altura cada, `#ui-middle` os divide 50/50 via flex — forçar altura
+   ali vazaria/cortaria de formas imprevisíveis). Cobrindo a tela inteira como
+   overlay próprio, a HUD deixa de ser um rodapé e vira a UI principal — o
+   markup também é outro (`.t20-hud-mobile-root`, não `.t20-hud-root`): não dá
+   pra só reempilhar os mesmos 3 filhos lado-a-lado (orbe|painel|orbe) na
+   vertical e ficar bom, então `T20FooterHud._renderHTML` escolhe entre os dois
+   builders conforme `isMobileModeElementActive()`.
+   ⚠️ Trade-off aceito: o botão nativo de config do usuário (canto superior
+   direito, fora de `#ui-middle`) fica coberto pelo overlay em modo mobile —
+   sem alcance nesta fase; sair do modo mobile é o caminho pra usá-lo. */
+html.t20-mobile-mode #hotbar.t20-footer-hud {
+    position: fixed;
+    inset: 0;
+    height: 100dvh;
+    max-width: 100%;
+    /* As classes nativas lg/md/sm/min (mantidas de propósito por
+       `_onResize()` — outro código nativo depende delas existirem) trazem o
+       próprio comportamento responsivo NATIVO do Foundry, que empurra a
+       hotbar pra fora da tela via transform quando "pequena" (o core tem seu
+       próprio sistema de esconder a hotbar em telas estreitas, competindo
+       com o nosso). `!important` incondicional, não só em `.offset`. */
+    transform: none !important;
+    /* ⚠️ NÃO usar um z-index ALTO aqui — ver o fix de `#ui-middle` logo abaixo:
+       o problema real não era a falta de z-index NOSSO, era o ANCESTRAL
+       `#ui-middle` (que contém `#hotbar`) já vindo com z-index:1000 do CSS
+       nativo `.mobile-improv` do próprio Foundry. Um `position:fixed` NÃO
+       escapa o stacking context de um ancestral posicionado+com z-index —
+       então qualquer z-index nosso aqui competia isolado DENTRO desse
+       contexto de 1000, sempre vencendo diálogos nativos (`AbilityUseDialog`
+       etc., filhos diretos do body em ~100-110) não importa o valor. Bug real
+       pego ao vivo: clicar numa perícia "não fazia nada" — o diálogo abria,
+       mas atrás da HUD, 100% inacessível.
+       Um z-index BAIXO (101) é necessário sim — sem nenhum, painéis de
+       módulos de terceiros ancorados no canto (ex.: "Visual Active Effects",
+       `.visual-active-effects`, z-index:100, direto em `#interface`)
+       cobrem/piscam por cima do nosso cabeçalho de forma inconsistente
+       (mesma camada de empate, ordem no DOM decide, flakeando entre
+       renders — pego ao vivo clicando no orbe de PV). 101 vence esse tipo de
+       painel (100) e ainda perde pros diálogos nativos (103+, confirmado em
+       3 aberturas diferentes) — intervalo estreito de propósito, não uma
+       tentativa de "ficar por cima de tudo". */
+    z-index: 101;
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
 }
+/* Sem isso, `#ui-middle` (`z-index:1000` do CSS nativo `.mobile-improv`)
+   prende `#hotbar` (mesmo `position:fixed`) acima de qualquer diálogo do
+   Foundry — ver nota acima. Reset seguro: o conteúdo nativo de `#ui-middle`
+   em modo mobile é só canvas/sidebar/scene-controls (já escondidos) + nossa
+   própria HUD, então tirar essa camada elevada não perde nada visível. */
+html.t20-mobile-mode #ui-middle {
+    z-index: auto !important;
+    /* ⚠️ Não basta zerar o z-index: `#ui-middle` também vem com um
+       `transform: matrix(1,0,0,1,0,0)` do CSS nativo (identidade — não muda
+       nada visualmente) — mas QUALQUER `transform` diferente de `none`, até
+       identidade, cria stacking context por spec. Isso continuava
+       prendendo `#hotbar` (mesmo com z-index:101 > 100 do painel de efeitos)
+       atrás de painéis de módulos de terceiros ancorados em `#interface`
+       direto — pego ao vivo: `elementFromPoint` no orbe de PV apontava pro
+       painel de efeitos mesmo com o z-index "vencendo" no papel. */
+    transform: none !important;
+}
+.t20-hud-mobile-root {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    background: var(--t20-bg-deepest);
+    font-family: "Lora", serif;
+}
+
+/* Cabeçalho: retrato + nome/classes/carga + orbes compactos. */
+.t20-hud-mobile-header {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--t20-border-ambient);
+    background: linear-gradient(180deg, var(--t20-bg-mid) 0%, var(--t20-bg-dark) 100%);
+}
+.t20-hud-mobile-header .t20-hud-portrait { width: 52px; height: 52px; flex: 0 0 auto; }
+.t20-hud-mobile-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.t20-hud-mobile-info .t20-hud-classes {
+    width: auto; margin-top: 0; text-align: left;
+    -webkit-line-clamp: 1; white-space: nowrap; text-overflow: ellipsis;
+}
+.t20-hud-mobile-info .t20-hud-carga { height: 15px; }
+.t20-hud-mobile-orbs { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; }
+.t20-hud-mobile-orbs .t20-hud-orb-col { margin: 0; }
+.t20-hud-mobile-orbs .t20-hud-orb { width: 44px; height: 44px; }
+.t20-hud-mobile-orbs .t20-hud-orb-value { font-size: 9px; }
+.t20-hud-mobile-orbs .t20-hud-orb-label { font-size: 7px; }
+
+/* Banner "Sua vez" — mesmo botão do desktop (`.t20-hud-next-turn`), mas em
+   fluxo normal e largura cheia em vez do meio-círculo flutuante (que era
+   ancorado em `.t20-hud-panel`, que não existe neste layout). */
+.t20-hud-mobile-root .t20-hud-next-turn {
+    position: static; z-index: auto;
+    width: 100%; height: auto;
+    border-radius: 0; border-width: 0 0 2px 0;
+    transform: none; animation: none;
+    padding: 7px; gap: 6px;
+    flex: 0 0 auto; flex-direction: row; align-items: center; justify-content: center;
+    font-size: 12px; line-height: 1;
+}
+.t20-hud-mobile-root .t20-hud-next-turn br { display: none; }
+
+/* Conteúdo — uma aba por vez, ocupa o espaço restante. */
+.t20-hud-mobile-content {
+    flex: 1 1 auto; min-height: 0;
+    padding: 10px 12px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    overflow-y: auto;
+}
+.t20-hud-mobile-content .t20-hud-grid-row { gap: 8px; }
+.t20-hud-mobile-content .t20-hud-slot-icon { background-size: 62% 62%; }
+.t20-hud-mobile-content .t20-hud-slot-name { font-size: 10px; }
+
+/* Barra de abas (Perícias + Inventário/Poderes/Magias/Macros) + toggle. */
+.t20-hud-mobile-tabbar {
+    flex: 0 0 auto;
+    display: flex; align-items: stretch; gap: 2px;
+    border-top: 2px solid var(--t20-border-ambient);
+    background: linear-gradient(0deg, var(--t20-bg-mid) 0%, var(--t20-bg-dark) 100%);
+    padding: 4px 6px;
+    padding-bottom: max(4px, env(safe-area-inset-bottom));
+}
+.t20-hud-mobile-tab {
+    flex: 1 1 0; min-width: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 6px 2px; border-radius: 6px; border: none;
+    background: transparent; color: var(--t20-accent-muted);
+    font-family: "Cormorant Garamond", serif; font-size: 9px; letter-spacing: .02em;
+    cursor: pointer;
+}
+.t20-hud-mobile-tab i { font-size: 15px; }
+.t20-hud-mobile-tab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.t20-hud-mobile-tab.active { background: var(--t20-tint-subtle); color: var(--t20-accent-bright); }
+.t20-hud-mobile-tab:hover:not(.active) { color: var(--t20-text-secondary); }
+.t20-hud-mobile-tabbar .t20-hud-mobile-toggle { align-self: center; flex: 0 0 auto; margin-left: 2px; }

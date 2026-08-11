@@ -21,7 +21,10 @@ import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
 import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
-import { applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting, mobileModeIcon, mobileModeLabel } from "./mobile-mode";
+import {
+    applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting,
+    isMobileModeElementActive, mobileModeIcon, mobileModeLabel,
+} from "./mobile-mode";
 import { wireOrbInteractions } from "./orb";
 import { buildSkillSlots } from "./pericias-data";
 import { portraitUrlFor } from "./portrait";
@@ -31,8 +34,9 @@ import { colsForWidth } from "./responsive";
 import { RIGHT_TABS, slotsForTab, type RightTabKey } from "./right-panel";
 import { buildSlotGridHtml } from "./slots-grid";
 import {
-    getCustomOrder, getRightPage, getRightTab, getRows, getSkillsPage,
-    MAX_ROWS, MIN_ROWS, setCustomOrder, setRightPage, setRightTab, setRows, setSkillsPage,
+    getCustomOrder, getMobilePage, getMobileTab, getRightPage, getRightTab, getRows, getSkillsPage,
+    MAX_ROWS, MIN_ROWS, type MobileTabKey, setCustomOrder, setMobilePage, setMobileTab,
+    setRightPage, setRightTab, setRows, setSkillsPage,
 } from "./state";
 import type { HudRenderContext } from "./types";
 import { warn } from "@/utils/logging";
@@ -105,26 +109,108 @@ function buildNextTurnBtnHtml(combat: HudRenderContext["combat"]): string {
     return `<button type="button" class="t20-hud-next-turn" data-next-turn="1">Finalizar<br/>Turno</button>`;
 }
 
-/** Barra de capacidade (Carga/Sobrecarga/Limite), ao lado do título "Perícias" — mesmos dados de `system.attributes.carga` da ficha nativa. */
-function buildCargaHtml(carga: HudRenderContext["carga"]): string {
+/** Barra de capacidade (Carga/Sobrecarga/Limite) — ao lado do título "Perícias" no desktop; sozinha (sem separador) no cabeçalho mobile. Mesmos dados de `system.attributes.carga` da ficha nativa. */
+function buildCargaHtml(carga: HudRenderContext["carga"], withSep = true): string {
     if (!carga) return "";
     const pct = Math.max(0, Math.min(100, carga.pct));
     return `
-        <span class="t20-hud-title-sep">|</span>
+        ${withSep ? `<span class="t20-hud-title-sep">|</span>` : ""}
         <div class="t20-hud-carga${carga.encumbered ? " encumbered" : ""}" title="Carga: ${carga.value} / Sobrecarga: ${carga.limit} — Limite: ${carga.max}">
             <span class="t20-hud-carga-fill" style="width:${pct}%"></span>
             <span class="t20-hud-carga-label">${carga.value} / ${carga.limit}</span>
         </div>`;
 }
 
-/** Toggle explícito auto/mobile/desktop (ver `mobile-mode.ts`) — fica ao lado da barra de carga. */
-function buildMobileToggleHtml(): string {
+/** Toggle explícito auto/mobile/desktop (ver `mobile-mode.ts`) — ao lado da barra de carga no desktop; último item da barra de abas no mobile (sem separador). */
+function buildMobileToggleHtml(withSep = true): string {
     const mode = getMobileModeSetting();
     return `
-        <span class="t20-hud-title-sep">|</span>
+        ${withSep ? `<span class="t20-hud-title-sep">|</span>` : ""}
         <button type="button" class="t20-hud-mobile-toggle" data-mobile-toggle="1" title="${esc(mobileModeLabel(mode))}">
             <i class="fas ${mobileModeIcon(mode)}"></i>
         </button>`;
+}
+
+// ── Layout mobile (Fase 2) ───────────────────────────────────────────────────
+//
+// Empilhamento vertical de tela cheia: cabeçalho (retrato+nome+classes+carga+
+// orbes) → banner de turno (se ativo) → conteúdo de UMA aba por vez → barra de
+// abas embaixo. "Perícias" vira uma aba a mais ao lado de Inventário/Poderes/
+// Magias/Macros (no desktop elas ficam lado a lado; não cabe lado a lado numa
+// tela de celular). Reaproveita ao máximo os builders/handlers do desktop
+// (buildOrbHtml, buildSlotGridHtml, wireOrbInteractions, o clique em
+// [data-skill-key]/[data-item-id], o drag-reorder por [data-drag-key]) — só a
+// ARRANJAÇÃO do markup e o estado de aba/página (getMobileTab/getMobilePage,
+// independentes do rightTab/rightPage do desktop) são novos.
+
+const MOBILE_TAB_ICONS: Record<MobileTabKey, string> = {
+    pericias: "fa-dice-d20",
+    inventario: "fa-suitcase",
+    poderes: "fa-bolt",
+    magias: "fa-hat-wizard",
+    macros: "fa-terminal",
+};
+const MOBILE_TABS: Array<{ key: MobileTabKey; label: string }> = [
+    { key: "pericias", label: "Perícias" },
+    ...RIGHT_TABS,
+];
+
+function buildMobileHeaderHtml(context: HudRenderContext): string {
+    return `
+        <div class="t20-hud-mobile-header">
+            <div class="t20-hud-portrait" style="background-image:url('${esc(context.portraitUrl)}')">
+                <div class="t20-hud-portrait-name">${esc(context.charName)}</div>
+            </div>
+            <div class="t20-hud-mobile-info">
+                ${buildClassesHtml(context.classes)}
+                ${buildCargaHtml(context.carga, false)}
+            </div>
+            <div class="t20-hud-mobile-orbs">
+                ${buildOrbHtml("pv", context.pv, "Vida")}
+                ${buildOrbHtml("pm", context.pm, "Mana")}
+            </div>
+        </div>`;
+}
+
+/** Rows fixo (não ajustável pelo stepper, que some no mobile) — cols continua vindo do ResizeObserver existente. Ver CLAUDE.md: cálculo dinâmico por altura fica pra um refinamento futuro. */
+const MOBILE_ROWS = MAX_ROWS;
+
+function buildMobileContentHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
+    const tab = getMobileTab();
+    if (tab === "macros") return buildMacroSlotsHtml(macroSlots);
+    if (tab === "pericias") {
+        const skillSlots = context.skills.map(s => ({ key: s.key, label: s.label, iconUrl: s.iconSvgDataUri, extra: `${s.total >= 0 ? "+" : ""}${s.total}` }));
+        return buildSlotGridHtml(skillSlots, cols, MOBILE_ROWS, getMobilePage(), "skill-key", "skills");
+    }
+    if (!context.actor) return "";
+    const items = applyCustomOrder(slotsForTab(context.actor, tab), getCustomOrder(context.actor.id, tab));
+    const slots = items.map(i => ({ key: i.key, label: i.label, iconUrl: i.iconUrl }));
+    return buildSlotGridHtml(slots, cols, MOBILE_ROWS, getMobilePage(), "item-id", tab);
+}
+
+function buildMobileTabBarHtml(): string {
+    const active = getMobileTab();
+    return `
+        <div class="t20-hud-mobile-tabbar">
+            ${MOBILE_TABS.map(t => `
+                <button type="button" class="t20-hud-mobile-tab${t.key === active ? " active" : ""}" data-mobile-tab="${t.key}">
+                    <i class="fas ${MOBILE_TAB_ICONS[t.key]}"></i>
+                    <span>${esc(t.label)}</span>
+                </button>`).join("")}
+            ${buildMobileToggleHtml(false)}
+        </div>`;
+}
+
+function buildMobileFooterHudHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
+    return `
+        <div class="t20-hud-mobile-root">
+            ${buildMobileHeaderHtml(context)}
+            ${buildNextTurnBtnHtml(context.combat)}
+            <div class="t20-hud-mobile-content">
+                ${buildMobileContentHtml(context, macroSlots, cols)}
+            </div>
+            ${buildMobileTabBarHtml()}
+        </div>`;
 }
 
 function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
@@ -204,7 +290,9 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         // para a part `root:true` — retornamos um wrapper cujos FILHOS viram o
         // conteúdo real do <aside id="hotbar">; o wrapper em si é descartado.
         const wrapper = document.createElement("div");
-        wrapper.innerHTML = hudContext ? buildFooterHudHtml(hudContext, this.slots, this.#cols) : "";
+        wrapper.innerHTML = !hudContext ? "" : isMobileModeElementActive()
+            ? buildMobileFooterHudHtml(hudContext, this.slots, this.#cols)
+            : buildFooterHudHtml(hudContext, this.slots, this.#cols);
         return { hotbar: wrapper };
     }
 
@@ -222,7 +310,8 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         wireOrbInteractions(this.element, getActiveActor, () => void this.render());
         this.#wireTabsAndSlots();
         this.#wireDragReorder();
-        if (getRightTab() === "macros") wireMacroDragDrop(this.element);
+        const macrosShown = isMobileModeElementActive() ? getMobileTab() === "macros" : getRightTab() === "macros";
+        if (macrosShown) wireMacroDragDrop(this.element);
         this.#updateHudHeightVar();
     }
 
@@ -323,9 +412,20 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         root.querySelectorAll<HTMLElement>("[data-page-dir]").forEach((btn) => {
             btn.addEventListener("click", () => {
                 const dir = Number(btn.dataset["pageDir"]);
-                const isSkills = !!btn.closest(".t20-hud-section")?.querySelector("[data-skill-key]");
-                if (isSkills) setSkillsPage(getSkillsPage() + dir);
-                else setRightPage(getRightPage() + dir);
+                if (btn.closest(".t20-hud-mobile-content")) {
+                    setMobilePage(getMobilePage() + dir);
+                } else {
+                    const isSkills = !!btn.closest(".t20-hud-section")?.querySelector("[data-skill-key]");
+                    if (isSkills) setSkillsPage(getSkillsPage() + dir);
+                    else setRightPage(getRightPage() + dir);
+                }
+                void this.render();
+            });
+        });
+
+        root.querySelectorAll<HTMLElement>("[data-mobile-tab]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                setMobileTab(btn.dataset["mobileTab"] as MobileTabKey);
                 void this.render();
             });
         });

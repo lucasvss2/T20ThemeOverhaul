@@ -66,6 +66,11 @@ export function applyMobileModeClass(): void {
     document.documentElement.classList.toggle(ROOT_CLASS, active);
 }
 
+/** Lê o estado JÁ aplicado no `<html>` (fonte única de verdade pro render escolher desktop vs mobile — evita recalcular a partir do setting+largura em outro lugar). */
+export function isMobileModeElementActive(): boolean {
+    return document.documentElement.classList.contains(ROOT_CLASS);
+}
+
 let reactivityWired = false;
 
 /** Liga a reatividade a resize de janela (idempotente — chamar em `setupFooterHud()`). */
