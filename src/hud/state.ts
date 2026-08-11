@@ -16,8 +16,8 @@ export const DEFAULT_ROWS = 2;
 const CUSTOM_ORDER_SETTING = "hud.customOrder";
 type CustomOrderMap = Record<string, Record<string, string[]>>; // actorId -> listKey ("skills"|RightTabKey) -> ordered keys
 
-/** Aba do modo mobile (Fase 2) — inclui "pericias" (não existe no painel direito desktop, que fica ao lado da grade de perícias, não misturado com ela) e "mapa" (Fase 3 — mostra o canvas em tela cheia). Estado independente do `rightTab` desktop — trocar de aba num modo não deve mexer no outro. */
-export type MobileTabKey = RightTabKey | "pericias" | "mapa";
+/** Aba do modo mobile (Fase 2) — inclui "pericias" (não existe no painel direito desktop, que fica ao lado da grade de perícias, não misturado com ela), "mapa" (Fase 3 — mostra o canvas em tela cheia, com scene-controls junto) e "chat" (Fase 4 — mostra a sidebar nativa: chat/combate/atores/itens/diário/etc). Estado independente do `rightTab` desktop — trocar de aba num modo não deve mexer no outro. */
+export type MobileTabKey = RightTabKey | "pericias" | "mapa" | "chat";
 
 interface HudUiState {
     rightTab: RightTabKey;

@@ -22,7 +22,7 @@ import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
 import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
 import {
-    applyMobileMapActiveClass, applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting,
+    applyMobileModeClass, applyMobileRevealClass, cycleMobileModeSetting, getMobileModeSetting,
     isMobileModeElementActive, mobileModeIcon, mobileModeLabel,
 } from "./mobile-mode";
 import { wireOrbInteractions } from "./orb";
@@ -150,11 +150,13 @@ const MOBILE_TAB_ICONS: Record<MobileTabKey, string> = {
     poderes: "fa-bolt",
     magias: "fa-hat-wizard",
     macros: "fa-terminal",
+    chat: "fa-comments",
 };
 const MOBILE_TABS: Array<{ key: MobileTabKey; label: string }> = [
     { key: "pericias", label: "Perícias" },
     { key: "mapa", label: "Mapa" },
     ...RIGHT_TABS,
+    { key: "chat", label: "Chat" },
 ];
 
 function buildMobileHeaderHtml(context: HudRenderContext): string {
@@ -179,10 +181,11 @@ const MOBILE_ROWS = MAX_ROWS;
 
 function buildMobileContentHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
     const tab = getMobileTab();
-    // "mapa" não renderiza grid nenhum — o canvas nativo (`#board`) fica
-    // visível ATRÁS desta área (ver CSS `.t20-mobile-map-active`); o conteúdo
-    // aqui precisa ficar vazio/transparente pra não tampar o mapa.
-    if (tab === "mapa") return "";
+    // "mapa"/"chat" não renderizam grid nenhum — o elemento nativo (`#board`+
+    // `#scene-controls`, ou `#sidebar`) fica visível ATRÁS desta área (ver
+    // CSS `.t20-mobile-map-active`/`.t20-mobile-chat-active`); o conteúdo
+    // aqui precisa ficar vazio pra não tampar o que foi revelado.
+    if (tab === "mapa" || tab === "chat") return "";
     if (tab === "macros") return buildMacroSlotsHtml(macroSlots);
     if (tab === "pericias") {
         const skillSlots = context.skills.map(s => ({ key: s.key, label: s.label, iconUrl: s.iconSvgDataUri, extra: `${s.total >= 0 ? "+" : ""}${s.total}` }));
@@ -322,7 +325,7 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         // `#board` nunca é escondido (display/visibility) em modo mobile —
         // só coberto pelo fundo opaco da HUD (ver hud.css) — então não precisa
         // de resize manual ao trocar de aba; o canvas nunca para de desenhar.
-        applyMobileMapActiveClass(isMobile && getMobileTab() === "mapa");
+        applyMobileRevealClass(isMobile ? getMobileTab() : null);
         this.#updateHudHeightVar();
     }
 

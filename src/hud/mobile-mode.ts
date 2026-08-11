@@ -7,6 +7,7 @@
  * tela cheia) é Fase 2 — depende de verificação ao vivo, não entra aqui.
  */
 import { MODULE_ID } from "@/constants";
+import type { MobileTabKey } from "./state";
 
 const SETTING_KEY = "hud.mobileMode";
 
@@ -71,16 +72,26 @@ export function isMobileModeElementActive(): boolean {
     return document.documentElement.classList.contains(ROOT_CLASS);
 }
 
-const MAP_ACTIVE_CLASS = "t20-mobile-map-active";
-
 /**
- * Classe da aba "Mapa" (Fase 3) — precisa estar no `<html>` (não numa classe
- * do nosso próprio markup) porque o `#board` que ela revela é um IRMÃO
- * distante da nossa HUD na árvore do DOM, fora de qualquer div nosso; só um
- * ancestral compartilhado (`<html>`) alcança os dois via CSS.
+ * Classe de "painel nativo revelado" por aba (Fase 3 = "mapa"/`#board`+
+ * `#scene-controls`; Fase 4 = "chat"/`#sidebar`) — precisa estar no `<html>`
+ * (não numa classe do nosso próprio markup) porque os elementos que ela
+ * revela são IRMÃOS distantes da nossa HUD na árvore do DOM, fora de
+ * qualquer div nosso; só um ancestral compartilhado (`<html>`) alcança os
+ * dois via CSS. Só uma classe ativa por vez (trocar de aba desliga a
+ * anterior automaticamente).
  */
-export function applyMobileMapActiveClass(active: boolean): void {
-    document.documentElement.classList.toggle(MAP_ACTIVE_CLASS, active);
+const REVEAL_CLASS_BY_TAB: Partial<Record<MobileTabKey, string>> = {
+    mapa: "t20-mobile-map-active",
+    chat: "t20-mobile-chat-active",
+};
+const ALL_REVEAL_CLASSES = Object.values(REVEAL_CLASS_BY_TAB);
+
+export function applyMobileRevealClass(tab: MobileTabKey | null): void {
+    const active = tab ? REVEAL_CLASS_BY_TAB[tab] : undefined;
+    for (const cls of ALL_REVEAL_CLASSES) {
+        document.documentElement.classList.toggle(cls, cls === active);
+    }
 }
 
 let reactivityWired = false;

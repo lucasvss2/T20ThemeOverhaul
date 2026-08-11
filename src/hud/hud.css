@@ -426,8 +426,6 @@
 .t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); border-color: var(--t20-btn-text-hover); }
 
 /* ── Modo mobile — Fase 1: esconde o chrome desktop do Foundry. ──────────── */
-html.t20-mobile-mode #sidebar,
-html.t20-mobile-mode #scene-controls,
 html.t20-mobile-mode #players,
 html.t20-mobile-mode #scene-navigation-active,
 html.t20-mobile-mode #chat-notifications,
@@ -435,6 +433,54 @@ html.t20-mobile-mode .mobile-navigation,
 html.t20-mobile-mode .window-selector.drawer,
 html.t20-mobile-mode .mobile-menu.drawer {
     display: none !important;
+}
+/* `#scene-controls` (barra de ferramentas, esquerda) e `#sidebar` (chat/
+   combate/atores/itens/diário/etc, direita) — Fase 4: escondidos por padrão,
+   mas revelados nas abas "Mapa"/"Chat" (ver bloco de reveal abaixo).
+   Diferente do `#board`: são elementos de DOM comum (sem WebGL), então
+   `display:none` condicional simples é seguro aqui — nenhum dos problemas
+   de compositor que afetaram o canvas se aplicam. */
+html.t20-mobile-mode:not(.t20-mobile-map-active) #scene-controls {
+    display: none !important;
+}
+html.t20-mobile-mode:not(.t20-mobile-chat-active) #sidebar {
+    display: none !important;
+}
+/* Revelado, `#sidebar` continua com a posição/tamanho NATIVOS calculados pra
+   viewport desktop (`position:static`, dentro de `#ui-right`, ancorado à
+   direita de `#ui-middle`) — a largura real (375px) até bate por coincidência
+   com telas de celular comuns, mas o elemento fica fora da tela (medido ao
+   vivo: `x:1050` numa viewport de 375px). Solução igual à do `#hotbar`:
+   escapar do fluxo com `position:fixed`, ocupando a tela inteira MENOS a
+   faixa da barra de abas embaixo (`var(--t20-hud-height)`, já calculada por
+   `#updateHudHeightVar()` a cada render — na aba Chat a HUD já encolheu pra
+   só a tabbar antes dessa medição, então a var reflete a altura certa).
+   ⚠️ `position:fixed` sozinho NÃO bastou — `#ui-right` (ancestral, o
+   container nativo que abriga `#sidebar`) tem `transform:translateX(750px)`
+   e o PRÓPRIO `#sidebar` tem `transform:translateX(300px)` (posicionamento
+   nativo pra layout desktop). Por spec, um ancestral com `transform` vira o
+   "containing block" de descendentes `position:fixed`, então o fixed
+   resolvia relativo a essa caixa deslocada, não ao viewport de verdade —
+   mesma classe de bug do `#ui-middle` na Fase 3, dessa vez em dois níveis. */
+html.t20-mobile-chat-active #ui-right,
+html.t20-mobile-chat-active #sidebar {
+    transform: none !important;
+}
+html.t20-mobile-chat-active #sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: var(--t20-hud-height, 60px) !important;
+    width: 100% !important;
+    height: auto !important;
+    /* `#sidebar` em si é 100% transparente (`rgba(0,0,0,0)`) — só fica opaco
+       onde o conteúdo de CADA aba interna pinta o próprio fundo (o chat, por
+       exemplo, fica cheio de bolhas de mensagem que cobrem tudo). Abas mais
+       vazias (ex.: "Sem Encontros" no combate) deixam o mapa por baixo
+       visível nos espaços sem conteúdo — achado ao vivo trocando de aba
+       interna. Fundo opaco aqui cobre TODAS as abas por igual. */
+    background: var(--t20-bg-deepest) !important;
 }
 /* `#board` (canvas WebGL) NUNCA é escondido via display/visibility em modo
    mobile — fica sempre desenhando, coberto pelo fundo OPACO da nossa HUD
@@ -604,13 +650,13 @@ html.t20-mobile-mode #ui-middle {
 .t20-hud-mobile-tab:hover:not(.active) { color: var(--t20-text-secondary); }
 .t20-hud-mobile-tabbar .t20-hud-mobile-toggle { align-self: center; flex: 0 0 auto; margin-left: 2px; }
 
-/* ── Modo mobile — Fase 3: aba "Mapa" (canvas em tela cheia) ──────────────────
-   Cabeçalho/banner de turno somem (não fazem sentido sobre o mapa) e o
-   conteúdo (já vazio nesta aba — `buildMobileContentHtml` retorna "") vira
-   pass-through — só a barra de abas embaixo continua clicável, pra voltar
-   pra ficha. Aqui de propósito NENHUM controle de cena reaparece (sem
-   scene-controls) — é visualização, os gestos nativos de toque do Foundry
-   (pan/pinch-zoom/tap em token) já funcionam sem a toolbar.
+/* ── Modo mobile — Fase 3+4: abas "Mapa" e "Chat" (painéis nativos revelados) ──
+   Cabeçalho/banner de turno somem (não fazem sentido sobre o mapa/sidebar) e
+   o conteúdo (já vazio nessas abas — `buildMobileContentHtml` retorna "")
+   também — só a barra de abas embaixo continua clicável, pra voltar pra
+   ficha. Regra combinada via `:is()` porque as duas abas precisam do MESMO
+   tratamento na nossa própria HUD; só o que cada uma revela por FORA
+   (`#board`+`#scene-controls` vs `#sidebar`) é diferente (ver blocos acima).
    ⚠️ `#hotbar` PRECISA encolher pra só a barra de abas aqui (não ficar
    `inset:0` cobrindo a tela toda, mesmo transparente) — descoberto ao vivo
    com um teste decisivo (`toDataURL()` no canvas pra ler o BUFFER real, não
@@ -623,19 +669,21 @@ html.t20-mobile-mode #ui-middle {
    fixed cobrindo 100% do viewport como "oclusão total" e suspendendo a
    composição de qualquer coisa embaixo, mesmo com fundo transparente.
    Encolher `#hotbar` pra só a faixa da barra de abas embaixo (em vez de
-   inset:0) tira essa oclusão total e resolve. */
-html.t20-mobile-map-active .t20-hud-mobile-header,
-html.t20-mobile-map-active .t20-hud-mobile-root > .t20-hud-next-turn,
-html.t20-mobile-map-active .t20-hud-mobile-content {
+   inset:0) tira essa oclusão total e resolve — aplicado por igual à aba
+   "Chat" por precaução/consistência, mesmo `#sidebar` sendo DOM comum (sem
+   o motivo comprovado de risco que o canvas WebGL tinha). */
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-header,
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-root > .t20-hud-next-turn,
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-content {
     display: none !important;
 }
-html.t20-mobile-map-active #hotbar.t20-footer-hud {
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) #hotbar.t20-footer-hud {
     inset: auto 0 0 0 !important;
     height: auto !important;
 }
-html.t20-mobile-map-active .t20-hud-mobile-root {
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-root {
     background: transparent;
 }
-html.t20-mobile-map-active .t20-hud-mobile-tabbar {
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-tabbar {
     background: linear-gradient(0deg, rgba(9,6,4,.92) 40%, rgba(9,6,4,.55) 100%);
 }
