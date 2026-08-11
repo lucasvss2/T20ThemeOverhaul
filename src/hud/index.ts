@@ -9,7 +9,7 @@
  */
 import { getActiveActor } from "./active-actor";
 import { registerMobileModeSetting, wireMobileModeReactivity } from "./mobile-mode";
-import { registerCustomOrderSetting, registerRowsSetting } from "./state";
+import { registerBuffsCollapsedSetting, registerCustomOrderSetting, registerRowsSetting } from "./state";
 import { T20FooterHud } from "./T20FooterHud";
 
 /** Registra a classe da HUD em CONFIG.ui.hotbar. Chamar no hook `init`. */
@@ -39,6 +39,7 @@ function affectsActiveActor(candidateActorId: string | undefined | null): boolea
 export function setupFooterHud(): void {
     registerRowsSetting();
     registerCustomOrderSetting();
+    registerBuffsCollapsedSetting();
     registerMobileModeSetting();
     wireMobileModeReactivity();
 
@@ -59,6 +60,17 @@ export function setupFooterHud(): void {
     Hooks.on("createItem", onItemChange);
     Hooks.on("updateItem", onItemChange);
     Hooks.on("deleteItem", onItemChange);
+
+    // Barra de Buffs & Condições: qualquer Active Effect criado/alterado/
+    // removido no ator ativo (buff de magia/poder, condição de status, tick
+    // do gerenciador de duração) precisa re-renderizar a HUD pra refletir.
+    const onEffectChange = (...args: unknown[]): void => {
+        const eff = args[0] as { parent?: { id?: string } | null } | undefined;
+        if (affectsActiveActor(eff?.parent?.id)) scheduleHudRefresh();
+    };
+    Hooks.on("createActiveEffect", onEffectChange);
+    Hooks.on("updateActiveEffect", onEffectChange);
+    Hooks.on("deleteActiveEffect", onEffectChange);
 
     // Indicador de combate + "Finalizar Turno" (Fase 6): qualquer mudança no
     // encontro ativo pode afetar `combat.started`/`combat.combatant.players`.

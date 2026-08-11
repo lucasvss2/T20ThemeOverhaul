@@ -16,6 +16,7 @@
  * `_updateToggles()` é sobrescrito como no-op (confirmado sem erro ao vivo).
  */
 import { getActiveActor, getActiveTokenId } from "./active-actor";
+import { buildBuffSlots, type BuffSlotVM } from "./buffs";
 import { buildCargaVM } from "./capacity";
 import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
@@ -35,8 +36,8 @@ import { RIGHT_TABS, slotsForTab, type RightTabKey } from "./right-panel";
 import { buildSlotGridHtml } from "./slots-grid";
 import {
     getCustomOrder, getMobilePage, getMobileTab, getRightPage, getRightTab, getRows, getSkillsPage,
-    MAX_ROWS, MIN_ROWS, type MobileTabKey, setCustomOrder, setMobilePage, setMobileTab,
-    setRightPage, setRightTab, setRows, setSkillsPage,
+    isBuffsCollapsed, MAX_ROWS, MIN_ROWS, type MobileTabKey, setBuffsCollapsed, setCustomOrder,
+    setMobilePage, setMobileTab, setRightPage, setRightTab, setRows, setSkillsPage,
 } from "./state";
 import type { HudRenderContext } from "./types";
 import { warn } from "@/utils/logging";
@@ -118,6 +119,29 @@ function buildCargaHtml(carga: HudRenderContext["carga"], withSep = true): strin
         <div class="t20-hud-carga${carga.encumbered ? " encumbered" : ""}" title="Carga: ${carga.value} / Sobrecarga: ${carga.limit} — Limite: ${carga.max}">
             <span class="t20-hud-carga-fill" style="width:${pct}%"></span>
             <span class="t20-hud-carga-label">${carga.value} / ${carga.limit}</span>
+        </div>`;
+}
+
+/**
+ * Barra de Buffs & Condições — chips de ícone dos Active Effects visíveis do
+ * ator (ver `buffs.ts`). Minimizável (chevron + contador; estado persiste via
+ * client setting, compartilhado entre desktop/mobile). Retorna "" sem nenhum
+ * buff ativo — nada pra minimizar, nada a desenhar (evita uma barra vazia
+ * ocupando espaço/mostrando um separador do nada).
+ */
+function buildBuffsBarHtml(buffs: BuffSlotVM[]): string {
+    if (!buffs.length) return "";
+    const collapsed = isBuffsCollapsed();
+    return `
+        <div class="t20-hud-buffs-bar${collapsed ? " collapsed" : ""}">
+            <button type="button" class="t20-hud-buffs-toggle" data-buffs-toggle="1" title="${collapsed ? "Mostrar" : "Minimizar"} buffs/condições">
+                <i class="fas ${collapsed ? "fa-chevron-right" : "fa-chevron-down"}"></i>
+                <span class="t20-hud-buffs-count">${buffs.length}</span>
+            </button>
+            ${collapsed ? "" : `<div class="t20-hud-buffs-list">${buffs.map(b => `
+                <div class="t20-hud-buff-chip${b.isCondition ? " condition" : ""}" title="${esc(b.name)}${b.durationLabel ? ` — ${esc(b.durationLabel)}` : ""}">
+                    <div class="t20-hud-buff-icon" style="background-image:url('${esc(b.icon)}')"></div>
+                </div>`).join("")}</div>`}
         </div>`;
 }
 
@@ -214,6 +238,7 @@ function buildMobileFooterHudHtml(context: HudRenderContext, macroSlots: foundry
     return `
         <div class="t20-hud-mobile-root">
             ${buildMobileHeaderHtml(context)}
+            ${context.buffs.length ? `<div class="t20-hud-mobile-buffs-bar">${buildBuffsBarHtml(context.buffs)}</div>` : ""}
             ${buildNextTurnBtnHtml(context.combat)}
             <div class="t20-hud-mobile-content">
                 ${buildMobileContentHtml(context, macroSlots, cols)}
@@ -229,25 +254,28 @@ function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.appli
         <div class="t20-hud-root">
             ${buildOrbHtml("pv", context.pv, "Vida")}
             <div class="t20-hud-panel">
-                <div class="t20-hud-portrait-col">
-                    <div class="t20-hud-portrait" style="background-image:url('${esc(context.portraitUrl)}')">
-                        <div class="t20-hud-portrait-name">${esc(context.charName)}</div>
+                ${buildBuffsBarHtml(context.buffs)}
+                <div class="t20-hud-panel-row">
+                    <div class="t20-hud-portrait-col">
+                        <div class="t20-hud-portrait" style="background-image:url('${esc(context.portraitUrl)}')">
+                            <div class="t20-hud-portrait-name">${esc(context.charName)}</div>
+                        </div>
+                        ${buildClassesHtml(context.classes)}
                     </div>
-                    ${buildClassesHtml(context.classes)}
-                </div>
-                <div class="t20-hud-divider"></div>
-                <div class="t20-hud-section">
-                    <div class="t20-hud-section-title-row">
-                        <span class="t20-hud-section-title">Perícias</span>
-                        ${buildCargaHtml(context.carga)}
-                        ${buildMobileToggleHtml()}
+                    <div class="t20-hud-divider"></div>
+                    <div class="t20-hud-section">
+                        <div class="t20-hud-section-title-row">
+                            <span class="t20-hud-section-title">Perícias</span>
+                            ${buildCargaHtml(context.carga)}
+                            ${buildMobileToggleHtml()}
+                        </div>
+                        ${buildSlotGridHtml(skillSlots, cols, rows, getSkillsPage(), "skill-key", "skills")}
                     </div>
-                    ${buildSlotGridHtml(skillSlots, cols, rows, getSkillsPage(), "skill-key", "skills")}
-                </div>
-                ${buildStepperHtml(rows)}
-                <div class="t20-hud-section">
-                    ${buildTabsHtml(context)}
-                    ${buildRightSectionBody(context, macroSlots, rows, cols)}
+                    ${buildStepperHtml(rows)}
+                    <div class="t20-hud-section">
+                        ${buildTabsHtml(context)}
+                        ${buildRightSectionBody(context, macroSlots, rows, cols)}
+                    </div>
                 </div>
             </div>
             ${buildOrbHtml("pm", context.pm, "Mana")}
@@ -272,6 +300,7 @@ function buildHudContext(): HudRenderContext | null {
         classes: classesForActor(actor),
         skills: orderedSkills,
         carga: buildCargaVM(actor),
+        buffs: buildBuffSlots(actor),
         rightTabs: RIGHT_TABS.map(t => ({ key: t.key, label: t.label, active: t.key === activeTab })),
         rightItems: orderedRightItems.map(s => ({ id: s.key, name: s.label, img: s.iconUrl, type: activeTab })),
         combat: getCombatState(getActiveTokenId()),
@@ -472,6 +501,11 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
 
         root.querySelector<HTMLElement>("[data-next-turn]")?.addEventListener("click", () => {
             void nextTurn().catch((err) => warn("hud: falha ao avançar turno:", err));
+        });
+
+        root.querySelector<HTMLElement>("[data-buffs-toggle]")?.addEventListener("click", () => {
+            void setBuffsCollapsed(!isBuffsCollapsed()).then(() => this.render())
+                .catch((err) => warn("hud: falha ao minimizar buffs:", err));
         });
 
         root.querySelector<HTMLElement>("[data-mobile-toggle]")?.addEventListener("click", () => {

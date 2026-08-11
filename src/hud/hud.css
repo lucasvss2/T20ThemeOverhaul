@@ -186,6 +186,11 @@
 .t20-hud-orb-confirm:hover { color: var(--t20-btn-text-hover); }
 
 /* ── Painel central ───────────────────────────────────────────────────────── */
+/* Coluna: barra de Buffs & Condições (topo, só existe com buffs ativos) +
+   `.t20-hud-panel-row` (o conteúdo original — retrato|perícias|stepper|painel
+   direito, inalterado). Antes o painel ERA a linha; a barra de buffs precisa
+   ficar ACIMA de tudo isso (inclusive do retrato), então vira uma 2ª linha da
+   coluna em vez de mais um item da linha. */
 .t20-hud-panel {
     position: relative; /* âncora do botão Finalizar Turno, que fica preso ao topo DESTE painel */
     flex: 1 1 auto; min-width: 0;
@@ -195,7 +200,10 @@
     border-radius: 8px 8px 0 0;
     box-shadow: 0 -6px 28px rgba(0,0,0,.55), inset 0 0 0 1px var(--t20-tint-subtle);
     padding: 6px 8px 8px;
-    display: flex; align-items: stretch; gap: 8px;
+    display: flex; flex-direction: column; gap: 0;
+}
+.t20-hud-panel-row {
+    display: flex; align-items: stretch; gap: 8px; min-width: 0;
 }
 
 /* ── Retrato (quadrado, nome sobreposto na base) ─────────────────────────── */
@@ -302,6 +310,47 @@
     font-family: "Lora", serif; font-size: 8.5px; color: var(--t20-text-bright);
     text-shadow: 0 1px 2px #000; white-space: nowrap;
 }
+
+/* ── Buffs & Condições ────────────────────────────────────────────────────
+   Barra de ícones (ver `buffs.ts`) — desktop: logo ACIMA de tudo dentro do
+   painel (retrato/perícias/painel direito), como uma 2ª linha da coluna do
+   `.t20-hud-panel`; mobile: linha própria abaixo do cabeçalho (ver bloco
+   mobile mais abaixo). Minimizável: o toggle (chevron+contador) sempre
+   aparece quando há buffs; a lista de chips some quando `.collapsed`. Sem
+   nenhum buff ativo, `buildBuffsBarHtml` retorna "" — nem a borda aparece. */
+.t20-hud-buffs-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding-bottom: 6px; margin-bottom: 6px;
+    border-bottom: 1px solid var(--t20-border-ambient);
+    min-width: 0;
+}
+.t20-hud-buffs-toggle {
+    flex: 0 0 auto; display: flex; align-items: center; gap: 4px;
+    background: linear-gradient(180deg, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom));
+    border: 1px solid var(--t20-btn-border); color: var(--t20-btn-text);
+    border-radius: 4px; padding: 2px 7px; cursor: pointer;
+    font-family: "Cormorant Garamond", serif; font-size: 10px; letter-spacing: .03em;
+}
+.t20-hud-buffs-toggle:hover { color: var(--t20-btn-text-hover); border-color: var(--t20-btn-text-hover); }
+.t20-hud-buffs-toggle i { font-size: 9px; }
+.t20-hud-buffs-count { font-weight: 700; color: var(--t20-accent-gold); }
+.t20-hud-buffs-list {
+    display: flex; align-items: center; gap: 5px; min-width: 0;
+    overflow-x: auto; flex: 1 1 auto;
+    /* Sem scrollbar visível ocupando altura — a lista raramente estoura,
+       mas quando estoura (muitos buffs) o scroll continua funcional. */
+    scrollbar-width: thin;
+}
+.t20-hud-buff-chip {
+    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 5px;
+    border: 1px solid var(--t20-border); background: var(--t20-bg-deepest);
+    box-shadow: inset 0 0 0 1px var(--t20-tint-subtle);
+    overflow: hidden; cursor: default;
+}
+/* Condições (statuses) ganham borda de aviso — distingue de um buff comum
+   num relance, sem precisar ler o tooltip. */
+.t20-hud-buff-chip.condition { border-color: var(--t20-color-danger); box-shadow: 0 0 4px rgba(var(--t20-color-danger-rgb), .5); }
+.t20-hud-buff-icon { width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
 
 .t20-hud-grid-wrap { display: flex; flex-direction: column; gap: 5px; }
 .t20-hud-grid-row {
@@ -602,6 +651,22 @@ html.t20-mobile-mode #ui-middle {
 .t20-hud-mobile-orbs .t20-hud-orb-value { font-size: 9px; }
 .t20-hud-mobile-orbs .t20-hud-orb-label { font-size: 7px; }
 
+/* Buffs & Condições — linha própria abaixo do cabeçalho, mesma barra do
+   desktop (`.t20-hud-buffs-bar`, ver acima) só com chips maiores (tela
+   grande/toque). Some junto do cabeçalho nas abas "Mapa"/"Chat" (ver bloco
+   de reveal Fase 3+4 mais abaixo) — como a sidebar nativa da aba "Chat" cobre
+   essa MESMA faixa vertical, escondê-la ali é o que garante "não sobrepõe o
+   chat" por construção, não só posicionamento. */
+.t20-hud-mobile-buffs-bar {
+    flex: 0 0 auto;
+    padding: 8px 12px 0;
+    background: linear-gradient(180deg, var(--t20-bg-mid) 0%, var(--t20-bg-dark) 100%);
+    border-bottom: 2px solid var(--t20-border-ambient);
+}
+.t20-hud-mobile-buffs-bar .t20-hud-buffs-bar { border-bottom: none; margin-bottom: 0; padding-bottom: 8px; }
+.t20-hud-mobile-buffs-bar .t20-hud-buff-chip { width: 32px; height: 32px; }
+.t20-hud-mobile-buffs-bar .t20-hud-buffs-toggle { padding: 4px 9px; font-size: 11px; }
+
 /* Banner "Sua vez" — mesmo botão do desktop (`.t20-hud-next-turn`), mas em
    fluxo normal e largura cheia em vez do meio-círculo flutuante (que era
    ancorado em `.t20-hud-panel`, que não existe neste layout). */
@@ -673,6 +738,7 @@ html.t20-mobile-mode #ui-middle {
    "Chat" por precaução/consistência, mesmo `#sidebar` sendo DOM comum (sem
    o motivo comprovado de risco que o canvas WebGL tinha). */
 html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-header,
+html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-buffs-bar,
 html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-root > .t20-hud-next-turn,
 html:is(.t20-mobile-map-active, .t20-mobile-chat-active) .t20-hud-mobile-content {
     display: none !important;

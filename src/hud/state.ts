@@ -16,6 +16,8 @@ export const DEFAULT_ROWS = 2;
 const CUSTOM_ORDER_SETTING = "hud.customOrder";
 type CustomOrderMap = Record<string, Record<string, string[]>>; // actorId -> listKey ("skills"|RightTabKey) -> ordered keys
 
+const BUFFS_COLLAPSED_SETTING = "hud.buffsCollapsed";
+
 /** Aba do modo mobile (Fase 2) — inclui "pericias" (não existe no painel direito desktop, que fica ao lado da grade de perícias, não misturado com ela), "mapa" (Fase 3 — mostra o canvas em tela cheia, com scene-controls junto) e "chat" (Fase 4 — mostra a sidebar nativa: chat/combate/atores/itens/diário/etc). Estado independente do `rightTab` desktop — trocar de aba num modo não deve mexer no outro. */
 export type MobileTabKey = RightTabKey | "pericias" | "mapa" | "chat";
 
@@ -85,4 +87,19 @@ export async function setCustomOrder(actorId: string, listKey: string, order: st
     const map = readOrderMap();
     map[actorId] = { ...(map[actorId] ?? {}), [listKey]: order };
     await game.settings.set(MODULE_ID, CUSTOM_ORDER_SETTING, map);
+}
+
+/** Registra o client setting de minimização da barra de Buffs & Condições. Chamar em `setupFooterHud()`. Compartilhado entre desktop e mobile (mesmo ator, mesma preferência do jogador). */
+export function registerBuffsCollapsedSetting(): void {
+    game.settings.register(MODULE_ID, BUFFS_COLLAPSED_SETTING, {
+        scope: "client", config: false, type: Boolean, default: false,
+    });
+}
+
+export function isBuffsCollapsed(): boolean {
+    return !!game.settings.get(MODULE_ID, BUFFS_COLLAPSED_SETTING);
+}
+
+export async function setBuffsCollapsed(collapsed: boolean): Promise<void> {
+    await game.settings.set(MODULE_ID, BUFFS_COLLAPSED_SETTING, collapsed);
 }
