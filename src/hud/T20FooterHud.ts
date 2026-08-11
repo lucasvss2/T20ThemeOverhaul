@@ -21,6 +21,7 @@ import { classesForActor } from "./classes";
 import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
 import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
+import { applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting, mobileModeIcon, mobileModeLabel } from "./mobile-mode";
 import { wireOrbInteractions } from "./orb";
 import { buildSkillSlots } from "./pericias-data";
 import { portraitUrlFor } from "./portrait";
@@ -116,6 +117,16 @@ function buildCargaHtml(carga: HudRenderContext["carga"]): string {
         </div>`;
 }
 
+/** Toggle explícito auto/mobile/desktop (ver `mobile-mode.ts`) — fica ao lado da barra de carga. */
+function buildMobileToggleHtml(): string {
+    const mode = getMobileModeSetting();
+    return `
+        <span class="t20-hud-title-sep">|</span>
+        <button type="button" class="t20-hud-mobile-toggle" data-mobile-toggle="1" title="${esc(mobileModeLabel(mode))}">
+            <i class="fas ${mobileModeIcon(mode)}"></i>
+        </button>`;
+}
+
 function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
     const rows = getRows();
     const skillSlots = context.skills.map(s => ({ key: s.key, label: s.label, iconUrl: s.iconSvgDataUri, extra: `${s.total >= 0 ? "+" : ""}${s.total}` }));
@@ -134,6 +145,7 @@ function buildFooterHudHtml(context: HudRenderContext, macroSlots: foundry.appli
                     <div class="t20-hud-section-title-row">
                         <span class="t20-hud-section-title">Perícias</span>
                         ${buildCargaHtml(context.carga)}
+                        ${buildMobileToggleHtml()}
                     </div>
                     ${buildSlotGridHtml(skillSlots, cols, rows, getSkillsPage(), "skill-key", "skills")}
                 </div>
@@ -346,6 +358,13 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
 
         root.querySelector<HTMLElement>("[data-next-turn]")?.addEventListener("click", () => {
             void nextTurn().catch((err) => warn("hud: falha ao avançar turno:", err));
+        });
+
+        root.querySelector<HTMLElement>("[data-mobile-toggle]")?.addEventListener("click", () => {
+            void cycleMobileModeSetting().then(() => {
+                applyMobileModeClass();
+                void this.render();
+            }).catch((err) => warn("hud: falha ao alternar modo mobile:", err));
         });
 
         const portrait = root.querySelector<HTMLElement>(".t20-hud-portrait");

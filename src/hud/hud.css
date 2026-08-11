@@ -410,3 +410,27 @@
     0%, 100% { box-shadow: 0 0 14px 2px rgba(138,180,232,.5), inset 0 0 10px rgba(138,180,232,.3); }
     50%      { box-shadow: 0 0 20px 5px rgba(138,180,232,.8), inset 0 0 14px rgba(138,180,232,.5); }
 }
+
+/* ── Toggle de modo mobile (auto/celular/desktop) ─────────────────────────── */
+.t20-hud-mobile-toggle {
+    width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto;
+    background: linear-gradient(180deg, var(--t20-btn-bg-top), var(--t20-btn-bg-bottom));
+    border: 1px solid var(--t20-btn-border); color: var(--t20-btn-text);
+    font-size: 10px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+}
+.t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); }
+
+/* ── Modo mobile — Fase 1 (fundação): esconde o chrome desktop do Foundry e
+   deixa a HUD usar a largura cheia. A reestruturação vertical de tela cheia
+   do próprio painel (perícias/inventário como abas únicas) é Fase 2. ────── */
+html.t20-mobile-mode #board,
+html.t20-mobile-mode #sidebar,
+html.t20-mobile-mode #scene-controls,
+html.t20-mobile-mode #players,
+html.t20-mobile-mode #navigation {
+    display: none !important;
+}
+html.t20-mobile-mode .t20-hud-root {
+    width: 100%;
+}

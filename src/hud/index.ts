@@ -8,6 +8,7 @@
  * é chamado a partir do hook `init` já existente em `main.ts`, não do `setup`.
  */
 import { getActiveActor } from "./active-actor";
+import { registerMobileModeSetting, wireMobileModeReactivity } from "./mobile-mode";
 import { registerCustomOrderSetting, registerRowsSetting } from "./state";
 import { T20FooterHud } from "./T20FooterHud";
 
@@ -38,6 +39,8 @@ function affectsActiveActor(candidateActorId: string | undefined | null): boolea
 export function setupFooterHud(): void {
     registerRowsSetting();
     registerCustomOrderSetting();
+    registerMobileModeSetting();
+    wireMobileModeReactivity();
 
     Hooks.on("controlToken", () => scheduleHudRefresh());
     Hooks.on("canvasReady", () => scheduleHudRefresh());
