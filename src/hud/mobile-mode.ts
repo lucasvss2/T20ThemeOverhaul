@@ -71,6 +71,18 @@ export function isMobileModeElementActive(): boolean {
     return document.documentElement.classList.contains(ROOT_CLASS);
 }
 
+const MAP_ACTIVE_CLASS = "t20-mobile-map-active";
+
+/**
+ * Classe da aba "Mapa" (Fase 3) — precisa estar no `<html>` (não numa classe
+ * do nosso próprio markup) porque o `#board` que ela revela é um IRMÃO
+ * distante da nossa HUD na árvore do DOM, fora de qualquer div nosso; só um
+ * ancestral compartilhado (`<html>`) alcança os dois via CSS.
+ */
+export function applyMobileMapActiveClass(active: boolean): void {
+    document.documentElement.classList.toggle(MAP_ACTIVE_CLASS, active);
+}
+
 let reactivityWired = false;
 
 /** Liga a reatividade a resize de janela (idempotente — chamar em `setupFooterHud()`). */

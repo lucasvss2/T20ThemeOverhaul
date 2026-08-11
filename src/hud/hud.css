@@ -426,7 +426,6 @@
 .t20-hud-mobile-toggle:hover { color: var(--t20-btn-text-hover); border-color: var(--t20-btn-text-hover); }
 
 /* ── Modo mobile — Fase 1: esconde o chrome desktop do Foundry. ──────────── */
-html.t20-mobile-mode #board,
 html.t20-mobile-mode #sidebar,
 html.t20-mobile-mode #scene-controls,
 html.t20-mobile-mode #players,
@@ -436,6 +435,27 @@ html.t20-mobile-mode .mobile-navigation,
 html.t20-mobile-mode .window-selector.drawer,
 html.t20-mobile-mode .mobile-menu.drawer {
     display: none !important;
+}
+/* `#board` (canvas WebGL) NUNCA é escondido via display/visibility em modo
+   mobile — fica sempre desenhando, coberto pelo fundo OPACO da nossa HUD
+   (`.t20-hud-mobile-root`, `var(--t20-bg-deepest)`) nas abas que não são
+   "Mapa"; na aba "Mapa" (`.t20-mobile-map-active`) o fundo da HUD vira
+   transparente e o canvas aparece por baixo. Só `pointer-events` muda
+   (desliga fora da aba Mapa, pra clique em Perícias/etc não vazar pro mapa).
+   ⚠️ Chegou-se aqui depois de tentar `display:none` E `visibility:hidden`
+   pra esconder de verdade — as DUAS quebram o canvas: WebGL nesta versão do
+   Foundry não sobrevive a um ciclo esconder→reexibir. Confirmado ao vivo
+   (lendo o BUFFER real via `board.toDataURL()`, não só a tela — a screenshot
+   mostrava uma cor sólida, mas o buffer real estava 100% preto, RGB(0,0,0)
+   em toda amostra): nem `canvas.app.resize()`/`.render()` em loop via
+   requestAnimationFrame, nem `canvas.perception.update()`, nem
+   `await canvas.draw()` (redesenho completo) recuperavam o conteúdo depois
+   de um ciclo esconder→reexibir, com qualquer um dos dois mecanismos de
+   esconder. Confirmado também que SEM nenhum toggle (canvas sempre visível
+   desde o load) ele renderiza perfeito em qualquer largura — por isso a
+   solução é não escondê-lo nunca, só cobrir visualmente. */
+html.t20-mobile-mode:not(.t20-mobile-map-active) #board {
+    pointer-events: none !important;
 }
 
 /* ── Modo mobile — Fase 2: layout vertical de tela cheia ──────────────────────
@@ -583,3 +603,39 @@ html.t20-mobile-mode #ui-middle {
 .t20-hud-mobile-tab.active { background: var(--t20-tint-subtle); color: var(--t20-accent-bright); }
 .t20-hud-mobile-tab:hover:not(.active) { color: var(--t20-text-secondary); }
 .t20-hud-mobile-tabbar .t20-hud-mobile-toggle { align-self: center; flex: 0 0 auto; margin-left: 2px; }
+
+/* ── Modo mobile — Fase 3: aba "Mapa" (canvas em tela cheia) ──────────────────
+   Cabeçalho/banner de turno somem (não fazem sentido sobre o mapa) e o
+   conteúdo (já vazio nesta aba — `buildMobileContentHtml` retorna "") vira
+   pass-through — só a barra de abas embaixo continua clicável, pra voltar
+   pra ficha. Aqui de propósito NENHUM controle de cena reaparece (sem
+   scene-controls) — é visualização, os gestos nativos de toque do Foundry
+   (pan/pinch-zoom/tap em token) já funcionam sem a toolbar.
+   ⚠️ `#hotbar` PRECISA encolher pra só a barra de abas aqui (não ficar
+   `inset:0` cobrindo a tela toda, mesmo transparente) — descoberto ao vivo
+   com um teste decisivo (`toDataURL()` no canvas pra ler o BUFFER real, não
+   só a tela): o canvas ficava com o buffer 100% preto sempre que `#hotbar`
+   era um `position:fixed` cobrindo o viewport inteiro, e voltava a desenhar
+   PERFEITAMENTE assim que `#hotbar` virava `display:none` — mesmo sem
+   NENHUMA mudança na visibilidade/posição do `#board` em si. Ou seja: não
+   era um problema do `#board`/WebGL sobrevivendo a esconder/reexibir (essa
+   hipótese foi tentada e descartada) — é o NAVEGADOR tratando um elemento
+   fixed cobrindo 100% do viewport como "oclusão total" e suspendendo a
+   composição de qualquer coisa embaixo, mesmo com fundo transparente.
+   Encolher `#hotbar` pra só a faixa da barra de abas embaixo (em vez de
+   inset:0) tira essa oclusão total e resolve. */
+html.t20-mobile-map-active .t20-hud-mobile-header,
+html.t20-mobile-map-active .t20-hud-mobile-root > .t20-hud-next-turn,
+html.t20-mobile-map-active .t20-hud-mobile-content {
+    display: none !important;
+}
+html.t20-mobile-map-active #hotbar.t20-footer-hud {
+    inset: auto 0 0 0 !important;
+    height: auto !important;
+}
+html.t20-mobile-map-active .t20-hud-mobile-root {
+    background: transparent;
+}
+html.t20-mobile-map-active .t20-hud-mobile-tabbar {
+    background: linear-gradient(0deg, rgba(9,6,4,.92) 40%, rgba(9,6,4,.55) 100%);
+}

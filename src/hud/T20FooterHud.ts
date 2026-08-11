@@ -22,7 +22,7 @@ import { getCombatState, nextTurn } from "./combat-toggle";
 import HUD_STYLES from "./hud.css?inline";
 import { buildMacroSlotsHtml, wireMacroDragDrop } from "./macros-tab";
 import {
-    applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting,
+    applyMobileMapActiveClass, applyMobileModeClass, cycleMobileModeSetting, getMobileModeSetting,
     isMobileModeElementActive, mobileModeIcon, mobileModeLabel,
 } from "./mobile-mode";
 import { wireOrbInteractions } from "./orb";
@@ -145,6 +145,7 @@ function buildMobileToggleHtml(withSep = true): string {
 
 const MOBILE_TAB_ICONS: Record<MobileTabKey, string> = {
     pericias: "fa-dice-d20",
+    mapa: "fa-map",
     inventario: "fa-suitcase",
     poderes: "fa-bolt",
     magias: "fa-hat-wizard",
@@ -152,6 +153,7 @@ const MOBILE_TAB_ICONS: Record<MobileTabKey, string> = {
 };
 const MOBILE_TABS: Array<{ key: MobileTabKey; label: string }> = [
     { key: "pericias", label: "Perícias" },
+    { key: "mapa", label: "Mapa" },
     ...RIGHT_TABS,
 ];
 
@@ -177,6 +179,10 @@ const MOBILE_ROWS = MAX_ROWS;
 
 function buildMobileContentHtml(context: HudRenderContext, macroSlots: foundry.applications.ui.HotbarSlotData[], cols: number): string {
     const tab = getMobileTab();
+    // "mapa" não renderiza grid nenhum — o canvas nativo (`#board`) fica
+    // visível ATRÁS desta área (ver CSS `.t20-mobile-map-active`); o conteúdo
+    // aqui precisa ficar vazio/transparente pra não tampar o mapa.
+    if (tab === "mapa") return "";
     if (tab === "macros") return buildMacroSlotsHtml(macroSlots);
     if (tab === "pericias") {
         const skillSlots = context.skills.map(s => ({ key: s.key, label: s.label, iconUrl: s.iconSvgDataUri, extra: `${s.total >= 0 ? "+" : ""}${s.total}` }));
@@ -310,8 +316,13 @@ export class T20FooterHud extends foundry.applications.ui.Hotbar {
         wireOrbInteractions(this.element, getActiveActor, () => void this.render());
         this.#wireTabsAndSlots();
         this.#wireDragReorder();
-        const macrosShown = isMobileModeElementActive() ? getMobileTab() === "macros" : getRightTab() === "macros";
+        const isMobile = isMobileModeElementActive();
+        const macrosShown = isMobile ? getMobileTab() === "macros" : getRightTab() === "macros";
         if (macrosShown) wireMacroDragDrop(this.element);
+        // `#board` nunca é escondido (display/visibility) em modo mobile —
+        // só coberto pelo fundo opaco da HUD (ver hud.css) — então não precisa
+        // de resize manual ao trocar de aba; o canvas nunca para de desenhar.
+        applyMobileMapActiveClass(isMobile && getMobileTab() === "mapa");
         this.#updateHudHeightVar();
     }
 
