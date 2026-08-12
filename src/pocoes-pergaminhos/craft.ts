@@ -35,6 +35,7 @@ interface ActorLike {
     system?: { attributes?: { pm?: { value?: number; temp?: number } } };
     spendMana?: (amount: number, adjust?: number, recover?: boolean) => Promise<unknown>;
     createEmbeddedDocuments?: (type: string, data: object[], ctx?: object) => Promise<Array<{ id?: string; name?: string }>>;
+    items?: { contents?: SpellItemLike[] } | SpellItemLike[];
 }
 interface SpellItemLike {
     id?: string;
@@ -43,6 +44,22 @@ interface SpellItemLike {
     type?: string;
     actor?: ActorLike | null;
     system?: { ativacao?: { custo?: number } };
+}
+
+/**
+ * `app.item` no `renderAbilityUseDialog` é o CLONE que `Item.prototype.roll`
+ * nativo passa pro `AbilityUseDialog.create` — nesta versão do Foundry/T20
+ * seu `.id`/`.uuid` vêm `null` (mesmo achado ao vivo já documentado em
+ * `index.ts` sobre o patch de identificação). Sem uuid não dá pra montar o
+ * flag `spellUuid` (o patch de USO precisa dele pra re-buscar a magia real a
+ * cada ativação do pergaminho). Resolve o item REAL no `actor.items` por
+ * nome — só o que sobrevive no clone além do `actor`/`type`.
+ */
+function resolveRealSpell(actor: ActorLike | null | undefined, clone: SpellItemLike): SpellItemLike {
+    const items = actor?.items;
+    const list = Array.isArray(items) ? items : (items?.contents ?? []);
+    const real = list.find((i) => i.type === "magia" && i.name === clone.name);
+    return real ?? clone;
 }
 
 /** Preço T$ = 30 × custo² (mín custo 1). Mesma regra do gerador do compêndio. Puro/testável. */
@@ -136,10 +153,11 @@ function escHtml(s: string): string {
  * features do módulo que patcheiam este mesmo dialog).
  */
 function injectButton(app: { item?: SpellItemLike; element?: JQuery | HTMLElement; close?: () => void }): void {
-    const item = app.item;
-    if (!item || item.type !== "magia") return;
-    const actor = item.actor ?? null;
+    const clone = app.item;
+    if (!clone || clone.type !== "magia") return;
+    const actor = clone.actor ?? null;
     if (!canCraftScroll(actor)) return;
+    const item = resolveRealSpell(actor, clone);
 
     const el = ((app.element as { 0?: HTMLElement })?.[0] ?? app.element) as HTMLElement | undefined;
     const footer = el?.querySelector(".dialog-buttons");

@@ -213,6 +213,10 @@ async function rollPataAttackClean(weapon: RollableWeapon): Promise<void> {
         await (weapon as unknown as { roll?: (o?: object) => Promise<unknown> }).roll?.({ configureDialog: false });
         return;
     }
+    // `roll()` nativo faz isso antes de chamar rollAttack/rollDamage (`item.system.rolled = {}`)
+    // — sem isso, `rollAttack` lança ao tentar `itemData.rolled[r.name] = roll` num objeto
+    // undefined (achado ao vivo: "Cannot set properties of undefined (setting 'Ataque')").
+    if (clone.system) clone.system["rolled"] = {};
     const options: Record<string, unknown> = {};
     await clone.rollAttack({ options });
     await clone.rollDamage({ options });
