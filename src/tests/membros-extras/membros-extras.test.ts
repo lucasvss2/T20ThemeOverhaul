@@ -56,4 +56,9 @@ describe("buildPataWeaponData", () => {
         const dano = data.system.rolls.find(r => r.type === "dano");
         expect(dano?.parts[0]).toEqual(["1d4", "corte", ""]);
     });
+
+    it("usa o ícone bundled da Pata Inseto", () => {
+        const data = buildPataWeaponData(1) as { img: string };
+        expect(data.img).toBe("modules/t20-theme-overhaul/assets/Items/pata-inseto.png");
+    });
 });

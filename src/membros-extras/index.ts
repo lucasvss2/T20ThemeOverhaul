@@ -30,7 +30,7 @@ import { log, warn } from "@/utils/logging";
 const POWER_NAME = "membros extras";
 const WEAPON_FLAG = "membrosExtrasWeapon";
 const ROUND_FLAG = "membrosExtrasRound";
-const PATA_IMG = "icons/skills/melee/strike-hand-fist-yellow-brown.webp";
+const PATA_IMG = `modules/${MODULE_ID}/assets/Items/pata-inseto.png`;
 export const PM_COST = 2;
 const MAX_LEGS = 2;
 
@@ -95,16 +95,18 @@ export function buildPataWeaponData(index: 1 | 2): Record<string, unknown> {
 
 // ── Runtime shapes ─────────────────────────────────────────────────────────────
 
-interface WeaponItem extends ItemLike { id?: string }
+interface WeaponItem extends ItemLike { id?: string; img?: string }
 interface ActorLike {
     id?: string;
     name?: string;
     type?: string;
+    isOwner?: boolean;
     items?: { contents?: WeaponItem[] } | WeaponItem[];
     system?: { attributes?: { pm?: { value?: number; temp?: number } } };
     getFlag?: (scope: string, key: string) => unknown;
     setFlag?: (scope: string, key: string, value: unknown) => Promise<unknown>;
     createEmbeddedDocuments?: (type: string, data: object[], ctx?: object) => Promise<unknown>;
+    updateEmbeddedDocuments?: (type: string, data: object[], ctx?: object) => Promise<unknown>;
     deleteEmbeddedDocuments?: (type: string, ids: string[], ctx?: object) => Promise<unknown>;
     spendMana?: (amount: number, adjust?: number, recover?: boolean) => Promise<unknown>;
 }
@@ -145,6 +147,17 @@ async function removePatas(actor: ActorLike): Promise<void> {
         await actor.deleteEmbeddedDocuments?.("Item", ids);
         log(`Membros Extras removido: patas apagadas de ${actor.name}.`);
     } catch (e) { warn("membros-extras: falha ao remover patas", e); }
+}
+
+/** Corrige o ícone de Patas já existentes (criadas antes do ícone bundled). Idempotente. */
+async function migratePataIcons(actor: ActorLike): Promise<void> {
+    const stale = findPataWeapons(actor).filter(w => w.img !== PATA_IMG && w.id);
+    if (!stale.length) return;
+    const updates = stale.map(w => ({ _id: w.id, img: PATA_IMG }));
+    try {
+        await actor.updateEmbeddedDocuments?.("Item", updates);
+        log(`Membros Extras: ícone atualizado em ${stale.length} pata(s) de ${actor.name}.`);
+    } catch (e) { warn("membros-extras: falha ao migrar ícone das patas", e); }
 }
 
 function isMyUser(userId: string | undefined): boolean {
@@ -336,6 +349,15 @@ export function setupMembrosExtras(): void {
     });
 
     setupTrigger();
+
+    // Migração do ícone (patas criadas antes do ícone bundled) — só nos atores que o cliente possui.
+    Hooks.once("ready", () => {
+        const actors = (game.actors?.contents ?? []) as Array<ActorLike & { type?: string; isOwner?: boolean }>;
+        for (const a of actors) {
+            if (a.type === "character" && a.isOwner) void migratePataIcons(a);
+        }
+    });
+
     log("Membros Extras configurado (2 ataques extras de patas insetoides, 2 PM cada, 1x/rodada).");
     void MODULE_ID;
 }
