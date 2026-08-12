@@ -24,6 +24,7 @@
  * mascarado abre o modal de identificação (`identify.ts`) em vez de conjurar.
  */
 
+import { setupCraftScrollButton } from "./craft";
 import { openIdentifyDialog, playIdentifyAnimation } from "./identify";
 import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
@@ -353,6 +354,7 @@ function setupRenderHook(): void {
 export function setupPocoesPergaminhos(): void {
     setupMaskingHook();
     setupRenderHook();
+    setupCraftScrollButton();
     Hooks.once("ready", () => { patchItemRoll(); });
     log("Poções e Pergaminhos configurado (usar importa e conjura a magia real).");
 }

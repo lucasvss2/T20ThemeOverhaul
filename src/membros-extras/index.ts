@@ -177,6 +177,53 @@ async function markOfferedThisRound(actor: ActorLike): Promise<void> {
     await actor.setFlag?.(MODULE_ID, ROUND_FLAG, { combatId: c.id, round: c.round });
 }
 
+// ── Rolagem "limpa" (sem modificadores de outras armas) ────────────────────────
+
+interface RollableWeapon extends ItemLike {
+    id?: string;
+    system?: Record<string, unknown>;
+    clone?: (data?: Record<string, unknown>) => RollableWeapon;
+    rollAttack?: (opts: { options: Record<string, unknown> }) => Promise<unknown>;
+    rollDamage?: (opts: { options: Record<string, unknown> }) => Promise<unknown>;
+    displayCard?: (opts: { options: Record<string, unknown>; rollMode?: string; createMessage?: boolean }) => Promise<unknown>;
+}
+
+/**
+ * Rola o ataque da Pata sem passar por `Item.roll()` — nem com dialog nem
+ * com `configureDialog:false`. ⚠️ Achado lendo o `tormenta20.mjs`: os DOIS
+ * caminhos nativos de `roll()` juntam `item.actor.effects.filter(ae =>
+ * ae.getFlag("tormenta20","onuse") && ae.flags.tormenta20[tipo])` SEM checar
+ * `ae.origin === item.uuid` — ao contrário da Manopla (que filtra por
+ * `origin` manualmente, `t20-fixes/manopla-upgrades.ts`). Isso deixa QUALQUER
+ * aprimoramento onuse "self"/"attack" de OUTRA arma equipada (ex.: "Certeira"
+ * de uma Manopla Certeira) disponível/ativo em TODO ataque do ator, inclusive
+ * o da Pata Inseto — bug real reportado (dano/acerto da Pata incorporando
+ * bônus que não são dela). `rollAttack`/`rollDamage`/`displayCard` são os
+ * métodos internos que `Item.roll()` chama por baixo — nenhum dos três lê
+ * `actor.effects`; usam só `itemData.rolls` (a fórmula fixa da própria Pata:
+ * 1d20+luta / 1d4 corte) + o `options` que passarmos (vazio aqui). Chamando-
+ * os direto, ignoramos o dialog E o vazamento — sem perder o card de chat
+ * nativo (`displayCard` monta o MESMO template + `flags.tormenta20.itemData`
+ * que `auto-damage` já sabe processar).
+ */
+async function rollPataAttackClean(weapon: RollableWeapon): Promise<void> {
+    const clone = weapon.clone?.({ keepId: true } as unknown as Record<string, unknown>);
+    if (!clone?.rollAttack || !clone.rollDamage || !clone.displayCard) {
+        warn("membros-extras: clone da Pata sem os métodos esperados — fallback pro roll nativo.");
+        await (weapon as unknown as { roll?: (o?: object) => Promise<unknown> }).roll?.({ configureDialog: false });
+        return;
+    }
+    const options: Record<string, unknown> = {};
+    await clone.rollAttack({ options });
+    await clone.rollDamage({ options });
+    options["itemId"] = weapon.id;
+    await clone.displayCard({
+        options,
+        rollMode: game.settings?.get("core", "rollMode") as string | undefined,
+        createMessage: true,
+    });
+}
+
 // ── Prompt + execução dos ataques extras ────────────────────────────────────────
 
 function escHtml(s: string): string {
@@ -219,7 +266,7 @@ async function offerExtraAttacks(actor: ActorLike): Promise<void> {
         const weapon = patas[i];
         try {
             await actor.spendMana?.(PM_COST);
-            await weapon.roll?.({});
+            await rollPataAttackClean(weapon as RollableWeapon);
         } catch (e) { warn("membros-extras: falha no ataque extra:", e); }
     }
 }

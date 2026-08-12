@@ -75,10 +75,18 @@ function craftPrice(custoPM) {
     return 30 * c * c;
 }
 
-/** Elegível a virar POÇÃO: alvo criatura/objeto ou área (exclui self/none sem área, e spec). */
+/**
+ * Elegível a virar POÇÃO: alvo criatura/objeto ou área (exclui spec; exclui
+ * "none" sem área — sem alvo nenhum, nem o próprio conjurador). "self"
+ * (alcance pessoal) SEMPRE elegível, com ou sem área — o conjurador É uma
+ * criatura, então "alvo pessoal" já cai na regra "tem como alvo uma
+ * criatura" (correção pedida pelo usuário: essas magias tinham sido
+ * excluídas por engano na 1ª versão).
+ */
 function isEligibleForPotion(alcance, area) {
     if (alcance === "spec") return false;
-    if ((alcance === "self" || alcance === "none") && !area) return false;
+    if (alcance === "self") return true;
+    if (alcance === "none" && !area) return false;
     return true;
 }
 
