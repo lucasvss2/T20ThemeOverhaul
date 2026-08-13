@@ -678,6 +678,1089 @@ export const BUNDLED_ANIM_PRESETS: AnimPresetLibrary = {
         }
     },
     presets: {
+        "armadura arcana": {
+            "displayName": "Armadura Arcana",
+            "itemType": "magia",
+            "requiredModules": [
+                "sequencer",
+                "autoanimations"
+            ],
+            "autoanimations": {
+                "id": "58ab9605-8fd8-4c16-9e6b-2ff0d0a5e132",
+                "label": "Armadura Arcana",
+                "macro": {
+                    "enable": false,
+                    "playWhen": "0"
+                },
+                "menu": "aura",
+                "primary": {
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "shieldspell",
+                        "animation": "complete",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": true,
+                        "alpha": false,
+                        "alphaMax": 0.5,
+                        "alphaMin": -0.5,
+                        "alphaDuration": 1000,
+                        "breath": false,
+                        "breathMax": 1.05,
+                        "breathMin": 0.95,
+                        "breathDuration": 1000,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "playbackRate": 1,
+                        "playOn": "source",
+                        "size": 3,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "tintSaturate": 0,
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                },
+                "secondary": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1.5,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "soundOnly": {
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    }
+                },
+                "source": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "isWait": true,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "target": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "opacity": 1,
+                        "persistent": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                },
+                "isEnabled": true,
+                "isCustomized": true,
+                "fromAmmo": false,
+                "version": 5
+            }
+        },
+        "explosao de chamas": {
+            "displayName": "Explosão de Chamas",
+            "itemType": "magia",
+            "requiredModules": [
+                "sequencer",
+                "autoanimations"
+            ],
+            "autoanimations": {
+                "id": "7f8a3610-3db2-41f9-a78b-69770d4e7cc1",
+                "label": "Explosão de Chamas",
+                "macro": {
+                    "enable": false,
+                    "playWhen": "0"
+                },
+                "menu": "templatefx",
+                "primary": {
+                    "video": {
+                        "dbSection": "templatefx",
+                        "menuType": "cone",
+                        "animation": "burninghands",
+                        "variant": "01",
+                        "color": "orange",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "isMasked": false,
+                        "isWait": false,
+                        "occlusionAlpha": 0.5,
+                        "occlusionMode": "3",
+                        "opacity": 1,
+                        "persistent": false,
+                        "persistType": "sequencerground",
+                        "playbackRate": 1,
+                        "removeTemplate": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "rotate": 0,
+                        "saturate": 0,
+                        "scale": "1",
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "secondary": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1.5,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "soundOnly": {
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    }
+                },
+                "source": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "isWait": true,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "target": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "opacity": 1,
+                        "persistent": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                },
+                "isEnabled": true,
+                "isCustomized": true,
+                "fromAmmo": false,
+                "version": 5
+            }
+        },
+        "ataque desarmado": {
+            "displayName": "Ataque desarmado",
+            "itemType": "arma",
+            "requiredModules": [
+                "sequencer",
+                "autoanimations",
+                "levels-3d-preview"
+            ],
+            "autoanimations": {
+                "id": "f1fda8c4-8f9b-43bc-802f-21a7c3b8d083",
+                "label": "Ataque desarmado",
+                "macro": {
+                    "enable": false,
+                    "playWhen": "0"
+                },
+                "menu": "melee",
+                "soundOnly": {
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    }
+                },
+                "isEnabled": true,
+                "isCustomized": true,
+                "fromAmmo": false,
+                "version": 5,
+                "levels3d": {
+                    "type": "explosion",
+                    "data": {
+                        "color01": "#FFFFFF",
+                        "color02": "#FFFFFF",
+                        "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                    },
+                    "sound": {
+                        "enable": false
+                    },
+                    "secondary": {
+                        "enable": false,
+                        "data": {
+                            "color01": "#FFFFFF",
+                            "color02": "#FFFFFF",
+                            "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                        }
+                    }
+                },
+                "meleeSwitch": {
+                    "video": {
+                        "dbSection": "range",
+                        "menuType": "weapon",
+                        "animation": "arrow",
+                        "variant": "regular",
+                        "color": "regular"
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "detect": "automatic",
+                        "range": 2,
+                        "returning": false,
+                        "switchType": "on"
+                    }
+                },
+                "primary": {
+                    "video": {
+                        "dbSection": "melee",
+                        "menuType": "weapon",
+                        "animation": "unarmedstrike",
+                        "variant": "physical",
+                        "color": "darkred",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "isWait": false,
+                        "opacity": 1,
+                        "playbackRate": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "secondary": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1.5,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "source": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "isWait": true,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "target": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "opacity": 1,
+                        "persistent": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                }
+            }
+        },
+        "pata inseto 1 (membros extras)": {
+            "displayName": "Pata Inseto 1 (Membros Extras)",
+            "itemType": "arma",
+            "requiredModules": [
+                "sequencer",
+                "autoanimations",
+                "levels-3d-preview"
+            ],
+            "autoanimations": {
+                "id": "47616c35-4ef5-43c3-8dd7-75894ab836d1",
+                "label": "Pata Inseto 1 (Membros Extras)",
+                "levels3d": {
+                    "type": "explosion",
+                    "data": {
+                        "color01": "#FFFFFF",
+                        "color02": "#FFFFFF",
+                        "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                    },
+                    "sound": {
+                        "enable": false
+                    },
+                    "secondary": {
+                        "enable": false,
+                        "data": {
+                            "color01": "#FFFFFF",
+                            "color02": "#FFFFFF",
+                            "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                        }
+                    }
+                },
+                "macro": {
+                    "enable": false,
+                    "playWhen": "0"
+                },
+                "meleeSwitch": {
+                    "video": {
+                        "dbSection": "range",
+                        "menuType": "weapon",
+                        "animation": "arrow",
+                        "variant": "regular",
+                        "color": "regular"
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "detect": "automatic",
+                        "range": 2,
+                        "returning": false,
+                        "switchType": "on"
+                    }
+                },
+                "menu": "melee",
+                "primary": {
+                    "video": {
+                        "dbSection": "melee",
+                        "menuType": "creature",
+                        "animation": "claw",
+                        "variant": "01",
+                        "color": "darkred",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "isWait": false,
+                        "opacity": 1,
+                        "playbackRate": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "secondary": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1.5,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "soundOnly": {
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    }
+                },
+                "source": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "isWait": true,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "target": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "opacity": 1,
+                        "persistent": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                },
+                "isEnabled": true,
+                "isCustomized": true,
+                "fromAmmo": false,
+                "version": 5
+            }
+        },
+        "pata inseto 2 (membros extras)": {
+            "displayName": "Pata Inseto 2 (Membros Extras)",
+            "itemType": "arma",
+            "requiredModules": [
+                "sequencer",
+                "autoanimations",
+                "levels-3d-preview"
+            ],
+            "autoanimations": {
+                "id": "47616c35-4ef5-43c3-8dd7-75894ab836d1",
+                "label": "Pata Inseto 2 (Membros Extras)",
+                "levels3d": {
+                    "type": "explosion",
+                    "data": {
+                        "color01": "#FFFFFF",
+                        "color02": "#FFFFFF",
+                        "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                    },
+                    "sound": {
+                        "enable": false
+                    },
+                    "secondary": {
+                        "enable": false,
+                        "data": {
+                            "color01": "#FFFFFF",
+                            "color02": "#FFFFFF",
+                            "spritePath": "modules/levels-3d-preview/assets/particles/dust.png"
+                        }
+                    }
+                },
+                "macro": {
+                    "enable": false,
+                    "playWhen": "0"
+                },
+                "meleeSwitch": {
+                    "video": {
+                        "dbSection": "range",
+                        "menuType": "weapon",
+                        "animation": "arrow",
+                        "variant": "regular",
+                        "color": "regular"
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "detect": "automatic",
+                        "range": 2,
+                        "returning": false,
+                        "switchType": "on"
+                    }
+                },
+                "menu": "melee",
+                "primary": {
+                    "video": {
+                        "dbSection": "melee",
+                        "menuType": "creature",
+                        "animation": "claw",
+                        "variant": "01",
+                        "color": "darkred",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "isWait": false,
+                        "opacity": 1,
+                        "playbackRate": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "secondary": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": true,
+                        "isWait": false,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1.5,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "soundOnly": {
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    }
+                },
+                "source": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "isWait": true,
+                        "opacity": 1,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "zIndex": 1
+                    }
+                },
+                "target": {
+                    "enable": false,
+                    "video": {
+                        "dbSection": "static",
+                        "menuType": "spell",
+                        "animation": "curewounds",
+                        "variant": "01",
+                        "color": "blue",
+                        "enableCustom": false,
+                        "customPath": ""
+                    },
+                    "sound": {
+                        "enable": false,
+                        "delay": 0,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "startTime": 0,
+                        "volume": 0.75
+                    },
+                    "options": {
+                        "addTokenWidth": false,
+                        "anchor": "0.5",
+                        "contrast": 0,
+                        "delay": 0,
+                        "elevation": 1000,
+                        "fadeIn": 250,
+                        "fadeOut": 500,
+                        "isMasked": false,
+                        "isRadius": false,
+                        "opacity": 1,
+                        "persistent": false,
+                        "repeat": 1,
+                        "repeatDelay": 250,
+                        "saturate": 0,
+                        "size": 1,
+                        "tint": false,
+                        "tintColor": "#FFFFFF",
+                        "unbindAlpha": false,
+                        "unbindVisibility": false,
+                        "zIndex": 1
+                    }
+                },
+                "isEnabled": true,
+                "isCustomized": true,
+                "fromAmmo": false,
+                "version": 5
+            }
+        },
         "presente dos deuses": {
             "displayName": "Presente dos Deuses",
             "itemType": "poder",
