@@ -5,15 +5,21 @@
  * pode gastar 2 PM para fazer um ataque corpo a corpo extra com cada uma
  * (dano 1d4, crítico x2, corte)."
  *
+ * ⚠️ Custo FLAT, não por perna (fix v1.113.3 — a leitura original tratava
+ * "2 PM para... com cada uma" como 2 PM POR perna, oferecendo 0/1/2 ataques
+ * extras a 2/4 PM; correção do usuário: os 2 PM destravam o ataque extra COM
+ * AS DUAS patas de uma vez — sempre as duas juntas, sempre 2 PM no total,
+ * nunca 1 perna avulsa nem 4 PM).
+ *
  * Arquitetura (reaproveita ao máximo, mesmo padrão de `armamento-aberrante`/
  * `escudo-leve`): ao ganhar o poder, cria 2 armas REAIS embarcadas na ficha
  * ("Pata Inseto N") — 1d4 corte, crítico x2, espaço 0, sempre "equipadas"
  * (armas naturais). O trigger (`createChatMessage`, mesmo idioma de detecção
  * do `auto-damage`: mensagem com rolls `type:"attack"`+`type:"damage"`)
  * detecta um ataque com OUTRA arma (não a pata) de um ator com o poder,
- * ainda não ofertado nesta rodada, e abre um prompt (0/1/2 ataques extra,
- * 2 PM cada). Ao confirmar, `spendMana` + `weapon.roll()` na(s) pata(s)
- * escolhida(s) — como é uma arma NATIVA de verdade, o hook JÁ EXISTENTE de
+ * ainda não ofertado nesta rodada, e abre um prompt sim/não (2 PM, as duas
+ * patas juntas). Ao confirmar, `spendMana` (1×, flat) + `weapon.roll()` nas
+ * DUAS patas — como é uma arma NATIVA de verdade, o hook JÁ EXISTENTE de
  * `auto-damage/index.ts` cuida de tudo (RD, reações, aplicação de dano,
  * crítico x2 em 20 natural) sem código extra aqui.
  *
@@ -53,10 +59,9 @@ export function isPataWeapon(item: ItemLike | null | undefined): boolean {
     return !!item?.flags?.[MODULE_ID]?.[WEAPON_FLAG];
 }
 
-/** Quantas pernas dá pra pagar com `pm` disponível (0-2). Puro. */
-export function computeMaxLegsByPm(pm: number, cost = PM_COST): number {
-    if (!Number.isFinite(pm) || pm <= 0 || cost <= 0) return 0;
-    return Math.min(MAX_LEGS, Math.floor(pm / cost));
+/** Há PM suficiente pro ataque com as duas patas (custo FLAT — não é por perna)? Puro. */
+export function canAffordBothAttacks(pm: number, cost = PM_COST): boolean {
+    return Number.isFinite(pm) && pm >= cost;
 }
 
 /** Monta o item de arma da Pata Inseto (dano fixo 1d4 corte, crítico x2). Puro. */
@@ -247,23 +252,17 @@ function escHtml(s: string): string {
     return (s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function promptLegs(actorName: string, maxLegs: number): Promise<number | null> {
+function promptBothAttacks(actorName: string): Promise<boolean> {
     return new Promise((resolve) => {
-        const buttons: Record<string, { label: string; callback: () => void }> = {
-            none: { label: "Não atacar", callback: () => resolve(0) },
-        };
-        for (let n = 1; n <= maxLegs; n++) {
-            buttons[`legs${n}`] = {
-                label: `${n} ataque${n > 1 ? "s" : ""} extra${n > 1 ? "s" : ""} (${n * PM_COST} PM)`,
-                callback: () => resolve(n),
-            };
-        }
         new Dialog({
             title: "Membros Extras",
-            content: `<p>${escHtml(actorName)} usou Agredir com outra arma. Fazer ataque(s) extra com as patas insetoides?</p>`,
-            buttons,
-            default: "none",
-            close: () => resolve(null),
+            content: `<p>${escHtml(actorName)} usou Agredir com outra arma. Fazer ataque extra com as duas patas insetoides (${PM_COST} PM)?</p>`,
+            buttons: {
+                yes: { label: `Sim (${PM_COST} PM)`, callback: () => resolve(true) },
+                no: { label: "Não atacar", callback: () => resolve(false) },
+            },
+            default: "no",
+            close: () => resolve(false),
         }, { classes: ["dialog", "t20-dialog"] }).render(true);
     });
 }
@@ -273,16 +272,17 @@ async function offerExtraAttacks(actor: ActorLike): Promise<void> {
     const patas = findPataWeapons(actor);
     if (patas.length < MAX_LEGS) { warn(`membros-extras: patas ausentes em ${actor.name} — reabra a ficha ou reaplique o poder.`); return; }
 
-    const maxLegs = computeMaxLegsByPm(pmAvailable(actor));
-    if (maxLegs <= 0) return; // sem PM suficiente — nem oferece
+    if (!canAffordBothAttacks(pmAvailable(actor))) return; // sem PM suficiente — nem oferece
 
-    const choice = await promptLegs(actor.name ?? "Personagem", maxLegs);
-    if (!choice || choice <= 0) return;
+    const confirmed = await promptBothAttacks(actor.name ?? "Personagem");
+    if (!confirmed) return;
 
-    for (let i = 0; i < choice; i++) {
-        const weapon = patas[i];
+    try {
+        await actor.spendMana?.(PM_COST); // custo FLAT — as duas patas juntas, não 2× por perna
+    } catch (e) { warn("membros-extras: falha ao debitar PM:", e); return; }
+
+    for (const weapon of patas) {
         try {
-            await actor.spendMana?.(PM_COST);
             await rollPataAttackClean(weapon as RollableWeapon);
         } catch (e) { warn("membros-extras: falha no ataque extra:", e); }
     }
@@ -358,6 +358,6 @@ export function setupMembrosExtras(): void {
         }
     });
 
-    log("Membros Extras configurado (2 ataques extras de patas insetoides, 2 PM cada, 1x/rodada).");
+    log("Membros Extras configurado (ataque extra com as duas patas insetoides, 2 PM flat, 1x/rodada).");
     void MODULE_ID;
 }

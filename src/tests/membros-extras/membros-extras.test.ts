@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
-    buildPataWeaponData, computeMaxLegsByPm, isMembrosExtrasPoder, isPataWeapon, PM_COST,
+    buildPataWeaponData, canAffordBothAttacks, isMembrosExtrasPoder, isPataWeapon, PM_COST,
 } from "@/membros-extras/index";
 
 describe("isMembrosExtrasPoder", () => {
@@ -27,18 +27,15 @@ describe("isPataWeapon", () => {
     });
 });
 
-describe("computeMaxLegsByPm", () => {
-    it("limita a 2 pernas mesmo com PM de sobra", () => {
-        expect(computeMaxLegsByPm(10, PM_COST)).toBe(2);
+describe("canAffordBothAttacks", () => {
+    it("true com PM suficiente pro custo flat (as duas patas juntas)", () => {
+        expect(canAffordBothAttacks(2, PM_COST)).toBe(true);
+        expect(canAffordBothAttacks(10, PM_COST)).toBe(true);
     });
-    it("dá 1 perna com PM pra só uma", () => {
-        expect(computeMaxLegsByPm(3, PM_COST)).toBe(1);
-        expect(computeMaxLegsByPm(2, PM_COST)).toBe(1);
-    });
-    it("0 pernas sem PM suficiente", () => {
-        expect(computeMaxLegsByPm(1, PM_COST)).toBe(0);
-        expect(computeMaxLegsByPm(0, PM_COST)).toBe(0);
-        expect(computeMaxLegsByPm(-5, PM_COST)).toBe(0);
+    it("false sem PM suficiente", () => {
+        expect(canAffordBothAttacks(1, PM_COST)).toBe(false);
+        expect(canAffordBothAttacks(0, PM_COST)).toBe(false);
+        expect(canAffordBothAttacks(-5, PM_COST)).toBe(false);
     });
 });
 
