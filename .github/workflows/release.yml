@@ -78,6 +78,10 @@ jobs:
           if [ -d dist/assets ]; then
             cp -r dist/assets staging/t20-theme-overhaul/assets
           fi
+          # Templates .hbs (ex.: T20OverhaulTab) — mesma origem, public/templates/
+          if [ -d dist/templates ]; then
+            cp -r dist/templates staging/t20-theme-overhaul/templates
+          fi
           # Compêndios do módulo (LevelDB compilado de packs-src/ pelo build:packs)
           if [ -d packs ]; then
             cp -r packs staging/t20-theme-overhaul/packs

@@ -44,6 +44,9 @@ jobs:
           if [ -d dist/assets ]; then
             cp -r dist/assets staging/t20-theme-overhaul/assets
           fi
+          if [ -d dist/templates ]; then
+            cp -r dist/templates staging/t20-theme-overhaul/templates
+          fi
           if [ -d packs ]; then
             cp -r packs staging/t20-theme-overhaul/packs
           fi
