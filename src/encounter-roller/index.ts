@@ -20,9 +20,9 @@ import {
 } from "./encounter-data";
 import ENCOUNTER_STYLES from "./encounter-roller.css?inline";
 import { MODULE_ID } from "@/constants";
+import { registerSkillAction } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
 
-const BTN_ID    = "t20-encounter-btn";
 const STYLES_ID = "t20-encounter-styles";
 /** Setting world (config:false) que guarda o modificador acumulado do gatilho. */
 const SETTING_TRIGGER_MOD = "encounterTriggerMod";
@@ -110,33 +110,17 @@ async function rollDie(faces: number): Promise<number> {
     return roll.total ?? 1;
 }
 
-// ── Toolbar button ────────────────────────────────────────────────────────────
+// ── Menu "T20 Overhaul" ──────────────────────────────────────────────────────
 
-function findSceneControlsMenu(): Element | null {
-    return (
-        document.querySelector("menu#scene-controls-layers") ??
-        document.querySelector("aside#scene-controls menu") ??
-        document.querySelector("#ui-left menu")
-    );
-}
-function removeBtn(): void { document.getElementById(BTN_ID)?.parentElement?.remove(); }
-
-function injectBtn(): void {
-    if (!game.user?.isGM) { removeBtn(); return; }
-    if (document.getElementById(BTN_ID)) return;
-    const menu = findSceneControlsMenu();
-    if (!menu) return;
-    const btn = document.createElement("button");
-    btn.id = BTN_ID;
-    btn.type = "button";
-    btn.className = "control ui-control layer icon fa-solid fa-dragon";
-    btn.style.color = "#d98a4a";
-    btn.setAttribute("data-tooltip", "Encontros Aleatórios");
-    btn.setAttribute("aria-label", "Encontros Aleatórios");
-    const li = document.createElement("li");
-    li.appendChild(btn);
-    menu.appendChild(li);
-    btn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); openEncounterDialog(); });
+function registerMenuAction(): void {
+    registerSkillAction({
+        id: "encounter-roller-open",
+        label: "Encontros Aleatórios",
+        icon: "fa-solid fa-dragon",
+        color: "#d98a4a",
+        isVisible: () => !!game.user?.isGM,
+        onClick: () => openEncounterDialog(),
+    });
 }
 
 // ── Modal ─────────────────────────────────────────────────────────────────────
@@ -356,14 +340,13 @@ export function setupEncounterRoller(): void {
         warn("encounter-roller: falha ao registrar setting do gatilho:", err);
     }
 
+    ensureStyles();
+    registerMenuAction();
+
     Hooks.once("ready", () => {
-        ensureStyles();
-        injectBtn();
         const problems = validateTerrains();
         if (problems.length) {
             warn(`encounter-roller: tabela de terrenos com ${problems.length} problema(s):\n` + problems.join("\n"));
         }
     });
-    Hooks.on("renderSceneControls", () => { ensureStyles(); injectBtn(); });
-    Hooks.on("canvasReady", () => injectBtn());
 }

@@ -25,9 +25,9 @@ import {
 import TREASURE_STYLES from "./treasure.css?inline";
 import { MODULE_ID } from "@/constants";
 import { getSocket, onSocketReady } from "@/socket";
+import { registerSkillAction } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
 
-const SIDEBAR_BTN_ID = "t20-treasure-btn";
 const SHEET_BTN_CLASS = "t20-treasure-sheet-btn";
 const STYLES_ID = "t20-treasure-styles";
 const LOOT_SOCKET = "treasure/loot-token";
@@ -253,35 +253,17 @@ function openConsultDialog(): void {
     dlg.render(true);
 }
 
-// ── botão na toolbar lateral ──────────────────────────────────────────────────
+// ── Menu "T20 Overhaul" ──────────────────────────────────────────────────────
 
-function findSceneControlsMenu(): Element | null {
-    return (
-        document.querySelector("menu#scene-controls-layers") ??
-        document.querySelector("aside#scene-controls menu") ??
-        document.querySelector("#ui-left menu")
-    );
-}
-
-function injectSidebarBtn(): void {
-    if (!game.user?.isGM) {
-        document.getElementById(SIDEBAR_BTN_ID)?.parentElement?.remove();
-        return;
-    }
-    if (document.getElementById(SIDEBAR_BTN_ID)) return;
-    const menu = findSceneControlsMenu();
-    if (!menu) return;
-    const btn = document.createElement("button");
-    btn.id = SIDEBAR_BTN_ID;
-    btn.type = "button";
-    btn.className = "control ui-control layer icon fa-solid fa-coins";
-    btn.style.color = "#e8c860";
-    btn.setAttribute("data-tooltip", "Gerar Tesouro");
-    btn.setAttribute("aria-label", "Gerar Tesouro");
-    const li = document.createElement("li");
-    li.appendChild(btn);
-    menu.appendChild(li);
-    btn.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); openGenerateDialog(); });
+function registerMenuAction(): void {
+    registerSkillAction({
+        id: "treasure-generate",
+        label: "Gerar Tesouro",
+        icon: "fa-solid fa-coins",
+        color: "#e8c860",
+        isVisible: () => !!game.user?.isGM,
+        onClick: () => openGenerateDialog(),
+    });
 }
 
 // ── botão na ficha de Ameaça ──────────────────────────────────────────────────
@@ -688,9 +670,8 @@ function playerHasArmsReach(targetToken: TokenLike): boolean {
 
 export function setupTreasure(): void {
     setupTokenLoot();
-    Hooks.once("ready", () => { ensureStyles(); injectSidebarBtn(); });
-    Hooks.on("renderSceneControls", () => { ensureStyles(); injectSidebarBtn(); });
-    Hooks.on("canvasReady", () => injectSidebarBtn());
+    ensureStyles();
+    registerMenuAction();
     Hooks.on("deleteCombat", (c: unknown) => void onCombatEnd(c));
 
     Hooks.on("renderActorSheet", (...args: unknown[]) => {

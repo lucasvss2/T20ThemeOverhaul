@@ -73,6 +73,7 @@ import { setupDurationManager } from "./duration-manager/index";
 import { setupEmChamas } from "./conditions/em-chamas";
 import { registerFooterHud, setupFooterHud } from "./hud/index";
 import { setupVaeIntegration } from "./hud/vae-sync";
+import { registerT20OverhaulTab } from "./ui/T20OverhaulTab";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -111,6 +112,9 @@ Hooks.once("init", () => {
     // Precisa rodar aqui (init), ANTES de Game#initializeUI() instanciar
     // ui.hotbar a partir de CONFIG.ui.hotbar — no hook `setup` seria tarde.
     registerFooterHud();
+    // Mesma exigência de timing — CONFIG.ui/Sidebar.TABS precisam da entrada
+    // "t20Overhaul" ANTES de Game#initializeUI() instanciar ui.sidebar.
+    registerT20OverhaulTab();
 });
 
 // ── Setup: wire up roll integration and dialog styling ────────────────────────

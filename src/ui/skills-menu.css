@@ -1,5 +1,4 @@
-
-.window-app.t20-dialog .t20-skills-menu-section-title {
+.t20-overhaul-tab .t20-skills-menu-section-title {
     padding: 10px 14px 2px;
     font-family: "Cormorant Garamond", serif;
     font-size: 0.8rem;
@@ -8,13 +7,13 @@
     color: var(--t20-accent);
     opacity: 0.85;
 }
-.window-app.t20-dialog .t20-skills-menu-list {
+.t20-overhaul-tab .t20-skills-menu-list {
     padding: 4px 14px 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
-.window-app.t20-dialog .t20-skills-menu-list > .skill-row {
+.t20-overhaul-tab .t20-skills-menu-list > .skill-row {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -27,13 +26,31 @@
     font-size: 0.95rem;
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
+    width: 100%;
+    text-align: left;
 }
-.window-app.t20-dialog .t20-skills-menu-list > .skill-row:hover {
+.t20-overhaul-tab .t20-skills-menu-list > .skill-row:hover {
     background: var(--t20-divider-med);
     border-color: rgba(var(--t20-accent-rgb), 0.55);
 }
-.window-app.t20-dialog .t20-skills-menu-list > .skill-row > i {
+.t20-overhaul-tab .t20-skills-menu-list > .skill-row > i {
     width: 18px;
     text-align: center;
     color: var(--t20-accent);
+}
+.t20-overhaul-tab .t20-overhaul-empty {
+    padding: 14px;
+    color: var(--t20-text-muted);
+    font-family: "Palatino Linotype", "Book Antiqua", serif;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+.t20-overhaul-tab .t20-overhaul-root {
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* Tom dourado no ícone da aba (`[data-tab="t20Overhaul"]`, gerado pelo template nativo `tabs.hbs` a partir de `Sidebar.TABS`) — sinaliza "isso é do módulo", igual ao gold usado no resto da HUD. */
+#sidebar-tabs [data-tab="t20Overhaul"] {
+    color: #ffd86b;
 }
