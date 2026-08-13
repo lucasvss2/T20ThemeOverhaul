@@ -1,15 +1,24 @@
 import MENU_STYLES from "./skills-menu.css?inline";
+import { MODULE_ID } from "@/constants";
 import { warn } from "@/utils/logging";
 
 /**
- * Skills Menu — botão único da toolbar que agrega ações de skills ativas.
+ * T20 Overhaul — botão único na barra de abas da sidebar (direita) que
+ * condensa (a) todas as ações de skills ativas e (b) atalhos pros
+ * compêndios empacotados no módulo. Antes (v1.8.0–v1.10x) vivia na toolbar
+ * de scene-controls (esquerda, `menu#scene-controls-layers`); movido pra
+ * `#sidebar-tabs` a pedido do usuário — não é uma aba REAL registrada no
+ * Foundry (não tem painel próprio pra trocar), só um botão com a MESMA
+ * aparência dos ícones de aba (chat/combate/atores/...), que abre nosso
+ * Dialog `.t20-dialog` em vez de trocar de painel.
  *
  * Cada sistema (Consagrar, Aura Sagrada, etc.) registra ações via
- * `registerSkillAction({ id, label, icon, isVisible, onClick })`. O menu:
- *  - Esconde o botão da toolbar se NENHUMA ação está visível.
- *  - Se exatamente 1 ação visível: clicar executa direto (sem dialog).
- *  - Se 2+ ações visíveis: clicar abre um picker (Dialog com .t20-dialog) e
- *    o usuário escolhe qual ação rodar.
+ * `registerSkillAction({ id, label, icon, isVisible, onClick })` — API
+ * inalterada. Diferente do modelo antigo, o botão SEMPRE aparece (mesmo com
+ * zero ações visíveis, pois os compêndios sempre existem) e clicar SEMPRE
+ * abre o menu consolidado — sem mais o atalho "1 ação visível = executa
+ * direto", pra manter o comportamento previsível agora que o botão também é
+ * a porta de entrada pros compêndios.
  *
  * `isVisible()` é avaliada SOB DEMANDA — toda vez que o menu re-renderiza
  * (refresh()) ou que o botão é clicado. Garante que mudanças de estado
@@ -53,7 +62,7 @@ export function unregisterSkillAction(id: string): void {
 
 // ── DOM ──────────────────────────────────────────────────────────────────────
 
-const MENU_BTN_ID    = "t20-skills-menu-btn";
+const MENU_BTN_ID    = "t20-overhaul-menu-btn";
 const MENU_STYLES_ID = "t20-skills-menu-styles";
 
 
@@ -66,47 +75,41 @@ function ensureMenuStyles(): void {
     document.head.appendChild(el);
 }
 
-function findSceneControlsMenu(): Element | null {
+/** `#sidebar-tabs` = a nav de ícones da sidebar nativa (chat/combate/atores/...), à direita. */
+function findSidebarTabsMenu(): Element | null {
     return (
-        document.querySelector("menu#scene-controls-layers") ??
-        document.querySelector("aside#scene-controls menu") ??
-        document.querySelector("#ui-left menu")
+        document.querySelector("#sidebar-tabs menu") ??
+        document.querySelector("nav#sidebar-tabs") ??
+        document.querySelector("#ui-right nav.tabs")
     );
 }
 
-function removeBtn(): void {
-    const btn = document.getElementById(MENU_BTN_ID);
-    btn?.parentElement?.remove();
-}
-
-function injectBtn(visible: SkillAction[]): void {
-    if (visible.length === 0) {
-        removeBtn();
-        return;
-    }
+function injectBtn(): void {
     let btn = document.getElementById(MENU_BTN_ID) as HTMLButtonElement | null;
     if (!btn) {
-        const menu = findSceneControlsMenu();
+        const menu = findSidebarTabsMenu();
         if (!menu) return;
         btn = document.createElement("button");
         btn.id = MENU_BTN_ID;
         btn.type = "button";
-        // Sparkles = "habilidades" em geral
-        btn.className = "control ui-control layer icon fa-solid fa-wand-magic-sparkles";
+        // Mesmo estilo visual dos botões de aba nativos (ui-control plain icon),
+        // só com um tom dourado pra sinalizar "isso não é uma aba de verdade".
+        btn.className = "ui-control plain icon fa-solid fa-wand-magic-sparkles";
         btn.style.color = "#ffd86b";
+        btn.setAttribute("data-tooltip-direction", "LEFT");
         const li = document.createElement("li");
         li.appendChild(btn);
         menu.appendChild(li);
         btn.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
-            void onClickMenu();
+            void openMenu();
         });
     }
-    // Atualiza tooltip refletindo o número de ações
-    const tooltip = visible.length === 1
-        ? visible[0].label
-        : `Skills ativas (${visible.length})`;
+    const activeCount = getVisibleActions().length;
+    const tooltip = activeCount > 0
+        ? `T20 Overhaul (${activeCount} ${activeCount === 1 ? "ação ativa" : "ações ativas"})`
+        : "T20 Overhaul";
     btn.setAttribute("data-tooltip", tooltip);
     btn.setAttribute("aria-label", tooltip);
 }
@@ -123,44 +126,69 @@ function getVisibleActions(): SkillAction[] {
     return out;
 }
 
-export function refreshSkillsMenu(): void {
-    ensureMenuStyles();
-    const visible = getVisibleActions();
-    injectBtn(visible);
+interface PackInfo { id: string; label: string }
+
+interface PackLike {
+    metadata: { packageName?: string; label?: string };
+    collection: string;
+    visible?: boolean;
+    render: (force: boolean) => void;
 }
 
-async function onClickMenu(): Promise<void> {
-    const visible = getVisibleActions();
-    if (visible.length === 0) {
-        refreshSkillsMenu(); // remove o botão (estado stale)
-        return;
+function getPacksCollection(): { contents?: PackLike[]; get?: (id: string) => PackLike | undefined } | undefined {
+    return (game as unknown as { packs?: { contents?: PackLike[]; get?: (id: string) => PackLike | undefined } }).packs;
+}
+
+/** Compêndios empacotados no módulo que o usuário atual tem permissão de ver (mesma checagem que a aba Compêndios nativa usa). */
+function getVisiblePacks(): PackInfo[] {
+    const packs = getPacksCollection()?.contents ?? [];
+    const out: PackInfo[] = [];
+    for (const p of packs) {
+        if (p.metadata?.packageName !== MODULE_ID) continue;
+        if (p.visible === false) continue;
+        out.push({ id: p.collection, label: p.metadata.label ?? p.collection });
     }
-    if (visible.length === 1) {
-        await visible[0].onClick();
-        refreshSkillsMenu();
-        return;
-    }
-    // 2+: picker
-    await openPicker(visible);
-    refreshSkillsMenu();
+    return out.sort((a, b) => a.label.localeCompare(b.label));
+}
+
+export function refreshSkillsMenu(): void {
+    ensureMenuStyles();
+    injectBtn();
 }
 
 function esc(s: string): string {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-async function openPicker(actions: SkillAction[]): Promise<void> {
+async function openMenu(): Promise<void> {
+    const actions = getVisibleActions();
+    const packs = getVisiblePacks();
     return new Promise<void>((resolve) => {
-        const rows = actions.map(a => `
+        const actionRows = actions.map(a => `
             <button type="button" class="skill-row" data-skill-id="${esc(a.id)}">
                 <i class="${esc(a.icon)}"${a.color ? ` style="color:${esc(a.color)}"` : ""}></i>
                 <span>${esc(a.label)}</span>
             </button>
         `).join("");
+        const packRows = packs.map(p => `
+            <button type="button" class="skill-row" data-pack-id="${esc(p.id)}">
+                <i class="fa-solid fa-book-atlas"></i>
+                <span>${esc(p.label)}</span>
+            </button>
+        `).join("");
+
+        const sections = [
+            actionRows
+                ? `<div class="t20-skills-menu-section-title">Ações</div><div class="t20-skills-menu-list">${actionRows}</div>`
+                : "",
+            packRows
+                ? `<div class="t20-skills-menu-section-title">Compêndios</div><div class="t20-skills-menu-list">${packRows}</div>`
+                : "",
+        ].join("");
 
         const dlg = new Dialog({
-            title: "Skills ativas",
-            content: `<div class="t20-skills-menu-list">${rows}</div>`,
+            title: "T20 Overhaul",
+            content: sections,
             buttons: {
                 cancel: {
                     icon:  '<i class="fas fa-times"></i>',
@@ -175,14 +203,23 @@ async function openPicker(actions: SkillAction[]): Promise<void> {
                 root.querySelectorAll<HTMLButtonElement>(".skill-row").forEach(btn => {
                     btn.addEventListener("click", async (e) => {
                         e.preventDefault();
-                        const id = btn.getAttribute("data-skill-id") ?? "";
-                        const a = _actions.get(id);
+                        const skillId = btn.getAttribute("data-skill-id");
+                        const packId = btn.getAttribute("data-pack-id");
                         try { await dlg.close(); } catch { /* ignore */ }
-                        if (a?.isVisible()) {
+                        if (skillId) {
+                            const a = _actions.get(skillId);
+                            if (a?.isVisible()) {
+                                try {
+                                    await a.onClick();
+                                } catch (err) {
+                                    warn(`skills-menu: ação ${skillId} falhou:`, err);
+                                }
+                            }
+                        } else if (packId) {
                             try {
-                                await a.onClick();
+                                getPacksCollection()?.get?.(packId)?.render(true);
                             } catch (err) {
-                                warn(`skills-menu: ação ${id} falhou:`, err);
+                                warn(`skills-menu: falha ao abrir o compêndio ${packId}:`, err);
                             }
                         }
                         resolve();
@@ -202,7 +239,7 @@ async function openPicker(actions: SkillAction[]): Promise<void> {
  * eventos relevantes (criação/remoção de template, etc.).
  */
 export function setupSkillsMenu(): void {
-    Hooks.on("renderSceneControls", () => refreshSkillsMenu());
+    Hooks.on("renderSidebar", () => refreshSkillsMenu());
     Hooks.once("ready", () => refreshSkillsMenu());
     Hooks.on("canvasReady", () => refreshSkillsMenu());
 }

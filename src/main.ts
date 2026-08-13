@@ -72,6 +72,7 @@ import { setupCounterspell } from "./counterspell";
 import { setupDurationManager } from "./duration-manager/index";
 import { setupEmChamas } from "./conditions/em-chamas";
 import { registerFooterHud, setupFooterHud } from "./hud/index";
+import { setupVaeIntegration } from "./hud/vae-sync";
 // Side-effect import: src/socket/index.ts registers the `socketlib.ready`
 // listener at top-level. This MUST happen at module load (before Foundry's
 // `init` hook fires) because socketlib emits the hook from its own `init`
@@ -174,6 +175,7 @@ Hooks.once("setup", () => {
     setupEmChamas();          // Condição Em Chamas: 1d6 de fogo no início do turno da criatura
     setupAnimPresets();       // Memória de animações de skills (Automated Animations): oferece aplicar ao adicionar
     setupFooterHud();         // HUD de rodapé (substitui a hotbar nativa) — orbes PV/PM, perícias/poderes/magias/inventário/macros
+    setupVaeIntegration();    // Suprime, no painel flutuante do "Visual Active Effects" (terceiros), os itens já mostrados na nossa Barra de Buffs & Condições
 
 });
 

@@ -412,16 +412,17 @@ O autoanimations cria um efeito persistente do Sequencer atrelado ao TOKEN do ca
 
 **Gotcha da API**: `Sequencer.EffectManager.endEffects({ effects: [...] })` exige `string[]` (IDs) ou `CanvasEffect[]`. Passar `[{ id: "..." }]` (objeto plain) falha com "collections in inFilter.effects must be of type string or CanvasEffect". Os helpers `endSequencerEffectsByIds` e `endAutoanimSpellEffectsForCasterToken` passam IDs como strings.
 
-### Skills Menu (v1.8.0)
+### Skills Menu → "T20 Overhaul" (v1.8.0, movido pra sidebar + compêndios em v1.112.0)
 
-`src/ui/skills-menu.ts` é a camada compartilhada que substituiu botões avulsos na toolbar. Cada sistema chama `registerSkillAction({ id, label, icon, color, isVisible(), onClick() })` em seu `setup*()` e `refreshSkillsMenu()` depois de mudar estado relevante (cast/cancel/delete template, etc.).
+`src/ui/skills-menu.ts` é a camada compartilhada que agrega TODAS as ações de skills ativas do módulo. Cada sistema chama `registerSkillAction({ id, label, icon, color, isVisible(), onClick() })` em seu `setup*()` e `refreshSkillsMenu()` depois de mudar estado relevante (cast/cancel/delete template, etc.) — API inalterada desde v1.8.0.
 
-Comportamento:
-- 0 ações visíveis → o botão da toolbar é removido.
-- 1 ação visível → click executa direto (sem menu intermediário); tooltip mostra o label da ação.
-- 2+ ações visíveis → click abre um Dialog `.t20-dialog` com lista; tooltip vira `"Skills ativas (N)"`.
+**v1.112.0 — reposicionado + compêndios embutidos:** o botão morava na toolbar de scene-controls (esquerda, `menu#scene-controls-layers`) e só aparecia com ≥1 ação ativa. Pedido do usuário: mover pra um menu único na barra de abas da sidebar (direita, `#sidebar-tabs`) que também dê acesso rápido aos compêndios do módulo.
 
-Setup global em `main.ts` antes de `setupAreaSpells` — também re-refresh em `renderSceneControls`, `ready` e `canvasReady`.
+- **Não é uma aba de verdade** — não tem painel próprio nem `data-action="tab"`; é um `<li><button class="ui-control plain icon ...">` a mais dentro do `<menu class="flexcol">` de `#sidebar-tabs`, com a MESMA aparência dos ícones nativos (chat/combate/atores/...) + tom dourado (`#ffd86b`) pra se distinguir. Clicar abre nosso `Dialog` `.t20-dialog` em vez de trocar de painel.
+- **Sempre visível** (diferente do modelo antigo) — os compêndios sempre existem, então esconder o botão quando não há ações ativas deixaria de expor esse acesso. Tooltip mostra `"T20 Overhaul"` sem contador quando 0 ações, `"T20 Overhaul (N ação(ões) ativa(s))"` quando há.
+- **Clicar SEMPRE abre o Dialog** — removido o atalho "1 ação visível = executa direto" do modelo antigo; com o botão também sendo porta de entrada pros compêndios, o comportamento precisa ser previsível (não varia se o usuário tem 0, 1 ou N ações ativas).
+- **Conteúdo do Dialog** (`openMenu`): seção **"Ações"** (só aparece se `getVisibleActions()` não estiver vazio — mesmas ações de sempre, mesmo clique) + seção **"Compêndios"** (sempre, se houver algum): lista todos os packs cujo `metadata.packageName === MODULE_ID` e `pack.visible !== false` (`CompendiumCollection#visible` — a MESMA checagem de permissão que a aba Compêndios nativa usa; um jogador sem OBSERVER num pack `PLAYER:NONE` como `pocoes-pergaminhos` simplesmente não vê a entrada). Clique num compêndio chama `pack.render(true)` (abre o browser do compêndio, igual clicar nele na aba Compêndios).
+- Setup global em `main.ts` — re-refresh em `renderSidebar` (troquei de `renderSceneControls`), `ready` e `canvasReady`.
 
 ---
 
@@ -850,6 +851,8 @@ Pedido do usuário: acesso às "duas barras laterais" (esquerda = `#scene-contro
 - **Mobile — "não sobrepõe o chat" por construção:** `.t20-hud-mobile-buffs-bar` entrou na MESMA regra de reveal que já escondia `.t20-hud-mobile-header` nas abas "Mapa"/"Chat" (`html:is(.t20-mobile-map-active, .t20-mobile-chat-active)`) — a barra literalmente desaparece (`display:none`) quando a sidebar nativa (`#sidebar`) é revelada, então overlap geométrico é estruturalmente impossível, não apenas evitado por z-index/posição.
 - **Refresh:** `setupFooterHud()` ganhou hooks `createActiveEffect`/`updateActiveEffect`/`deleteActiveEffect` (filtrados ao ator ativo, mesmo padrão de `createItem`/`updateItem`/`deleteItem`) — qualquer buff/condição aplicado por QUALQUER subsistema (spell-resistance, duration-manager, área, etc.) atualiza a barra sem precisar reabrir a ficha.
 - **Verificado ao vivo (world arton, GM2/Al Simmons, desktop 1600×1000 e mobile 375×812 via `getBoundingClientRect`):** filtro tampado — só "Sobrecarregado" (condição real) sobrevive, as 6 cópias de traço permanente somem; barra desktop mede `bottom:863` contra `top:869` do painel de perícias (colada acima, sem gap perceptível); toggle colapsa/expande (persistindo via `game.settings.get`) e o botão some/reaparece o texto certo ("Minimizar"/"Mostrar"); mobile: barra ocupa a faixa cheia abaixo do cabeçalho (`top:78.75 → bottom:128.75`, full width), some (`display:none`, retângulo 0×0) na aba "Chat" enquanto `#sidebar` ocupa 375×770, reaparece ao voltar pra "Perícias".
+
+**Suprime duplicata do "Visual Active Effects" (terceiros) (v1.112.0):** gap conhecido desde a v1.106.0 ("coexistem, não colidem mais" — só resolvia sobreposição de z-index) — o painel flutuante do módulo VAE (`#visual-active-effects`, canto da tela) mostrava os MESMOS ícones que já apareciam nesta barra. `src/hud/vae-sync.ts`: integração opcional (no-op sem o módulo, mesmo padrão de `portrait-hover.ts`) que observa `#visual-active-effects` via `MutationObserver` e aplica a classe `.t20-vae-suppressed` (`display:none!important`) em qualquer `.effect-item[data-effect-uuid]` cujo Active Effect (resolvido via `fromUuidSync`) já passa em `isVisibleBuff` — o MESMO critério da nossa barra. **Critério por-effect, não por-ator-ativo:** um item some do VAE se ELE PRÓPRIO seria mostrado em alguma barra nossa, então cobre qualquer token que o VAE esteja exibindo (hover/seleção), não só o "ator ativo" da HUD. Observar o painel (em vez de reagir aos MESMOS hooks que a barra usa) desacopla da ordem de execução entre os dois módulos — o VAE recria seu DOM sempre que o efeito ou o token exibido muda, então observar é suficiente. `shouldHideVaeItem` exportada/testada isoladamente. Verificado ao vivo (Aller Brushfighter, Sobrecarregado+Enjoado): painel do VAE (antes 2 ícones no canto superior direito) some completamente assim que os 2 effects entram na nossa barra.
 
 ### Loot: distribuição, overlay de fim de combate e riqueza interativa (v1.93.0)
 

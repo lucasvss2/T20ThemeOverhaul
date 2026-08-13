@@ -352,6 +352,12 @@
 .t20-hud-buff-chip.condition { border-color: var(--t20-color-danger); box-shadow: 0 0 4px rgba(var(--t20-color-danger-rgb), .5); }
 .t20-hud-buff-icon { width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat; }
 
+/* Suprime, no painel flutuante do módulo "Visual Active Effects" (terceiros),
+   os itens que JÁ aparecem na nossa Barra de Buffs & Condições acima — ver
+   `hud/vae-sync.ts`. Classe aplicada via JS num MutationObserver, não CSS
+   puro (precisa resolver o Active Effect por uuid pra decidir). */
+.t20-vae-suppressed { display: none !important; }
+
 .t20-hud-grid-wrap { display: flex; flex-direction: column; gap: 5px; }
 .t20-hud-grid-row {
     display: grid;
