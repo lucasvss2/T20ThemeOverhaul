@@ -23,6 +23,7 @@ import { registerExpectedCondition } from "@/duration-manager/index";
 import { classifyDuration } from "@/duration-manager/classify";
 import type { DurData } from "@/duration-manager/types";
 import { resolveSpellConditions, lookupSpellEntry } from "./conditions-map";
+import { maybeHandleSetaInfalivel, type OnUseEffectLike, type RollLike, type SetaTokenLike } from "@/seta-infalivel/index";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
@@ -1835,14 +1836,17 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
         }
     }
 
-    for (const token of effectiveTargets) {
+    // Constrói e despacha o preReq de um alvo com um damageTotal específico —
+    // reaproveitado pelo loop genérico E pela Seta Infalível (dano por-alvo
+    // já dividido, ver abaixo).
+    const dispatchToToken = (token: FoundryToken, damageTotalForToken: number): void => {
         const targetActor = token.actor;
-        if (!targetActor) continue;
+        if (!targetActor) return;
 
         const targetUserId = getTargetUserId(targetActor);
         if (!targetUserId) {
             ui.notifications.warn(`Nenhum usuário ativo para "${spellName}" em ${targetActor.name}.`);
-            continue;
+            return;
         }
 
         const preReq: SpellResistPreRollRequest = {
@@ -1859,7 +1863,7 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
             resistOutcome,
             cd,
             messageId:       message.id,
-            damageTotal:     effectiveDamage,
+            damageTotal:     damageTotalForToken,
             damageFormula:   truqueAtivo ? (/energ[eé]tico/i.test(message.content ?? "") ? "1d8 + 1d6" : "1d8") : damageFormula,
             // Truque de Curar Ferimentos é dano de LUZ; senão extrai do roll.
             damageType:      truqueAtivo ? "luz" : extractDamageType(damageRoll),
@@ -1876,6 +1880,37 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
         } else {
             void getSocket()?.executeAsUser(SOCKET_PRE_ROLL, targetUserId, preReq);
         }
+    };
+
+    // Seta Infalível de Talude: com mais de 1 alvo, abre um prompt pro
+    // conjurador dividir as setas/lanças já roladas entre eles (em vez do
+    // total inteiro ir pra todos). Também cuida de disparar a animação 1x
+    // por seta (inclusive com alvo único). `handled:true` = já despachado.
+    if (!isHeal && resistSkill === null) {
+        try {
+            const onUseEffectsRaw = message.getFlag("tormenta20", "onUseEffects");
+            const onUseEffects = Array.isArray(onUseEffectsRaw) ? onUseEffectsRaw as OnUseEffectLike[] : [];
+            const handled = await maybeHandleSetaInfalivel({
+                onUseEffects,
+                damageRoll: damageRoll as unknown as RollLike | null,
+                effectiveDamage,
+                effectiveTargets: effectiveTargets as unknown as SetaTokenLike[],
+                casterActor: casterActor as unknown as { getActiveTokens?: () => unknown[]; items?: { contents: Array<{ name?: string }> } } | null | undefined,
+                casterName,
+                spellName,
+                dispatch: (targetId, dmg) => {
+                    const token = effectiveTargets.find((t) => t.id === targetId);
+                    if (token) dispatchToToken(token, dmg);
+                },
+            });
+            if (handled) return;
+        } catch (err) {
+            warn("spell-resistance: Seta Infalível falhou (fluxo genérico mantido):", err);
+        }
+    }
+
+    for (const token of effectiveTargets) {
+        dispatchToToken(token, effectiveDamage);
     }
 }
 
