@@ -72,6 +72,16 @@ Version scheme: `MAJOR.MINOR.PATCH`
   ```
 - Do NOT create GitHub releases manually via `gh release create` unless CI is definitively broken.
 
+### ⚠️ Testes ao vivo no Foundry — REGRA DE PRIORIDADE MÁXIMA
+
+Sempre que eu testar algo ao vivo no mundo (arton ou qualquer outro) usando personagens/ameaças reais dos jogadores, os valores desses atores **precisam voltar exatamente ao que eram antes do teste começar** — isso vale independente de qualquer outra instrução, e independente do teste ter dado certo ou errado.
+
+- **Antes de tocar num ator** (PV, PM/PM temp, itens do inventário, flags, Active Effects/condições, carga, dinheiro, etc.): registrar o estado original relevante antes de qualquer ação de teste.
+- **Depois do teste** (sempre, mesmo se o teste falhou no meio): desfazer manualmente tudo que mudou — devolver PV/PM ao valor exato de antes (não só "razoavelmente perto"), remover itens criados só pra teste (armas, consumíveis, pergaminhos/poções fabricados, etc.), remover buffs/condições/Active Effects aplicados, restaurar quantidades consumidas (doses, cargas, munição), e desfazer qualquer alteração de flag que o teste tenha gravado.
+- **Sem depender de sorte/precisão do próprio teste** — restaurar por `actor.update(...)`/`deleteEmbeddedDocuments` direto nos valores originais capturados, não tentar "reverter a ação" (ex.: não copiar dano e cura iguais torcendo pra cancelar; setar o valor final exato).
+- Se algo genuinamente não puder ser revertido (ex.: uma mensagem de chat específica não vale a pena limpar, um id de efeito mudou), **avisar explicitamente o usuário** o que ficou fora do estado original, em vez de deixar implícito.
+- Isso vale pra QUALQUER verificação ao vivo neste projeto, não só features específicas — é regra padrão, não precisa ser pedida de novo a cada sessão.
+
 ---
 
 ## Source File Map
