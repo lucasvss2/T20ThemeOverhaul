@@ -102,6 +102,17 @@ export function getVisiblePacks(): PackInfo[] {
     return out.sort((a, b) => a.label.localeCompare(b.label));
 }
 
+/**
+ * Puro/testável — o rótulo de cada pack já vem prefixado "T20 Overhaul — "
+ * (nome do módulo, ver module.json); redundante DENTRO da própria aba T20
+ * Overhaul, então some daqui (não mexe no metadata real do pack). Fica neste
+ * arquivo (e não em `T20OverhaulTab.ts`) porque este é livre de referências
+ * a `foundry.*` no escopo do módulo — importável em teste sem mockar nada.
+ */
+export function stripPackLabelPrefix(label: string): string {
+    return label.replace(/^T20 Overhaul — /, "");
+}
+
 /** Abre o browser nativo do compêndio (mesmo efeito de clicar nele na aba Compêndios). */
 export function openCompendium(id: string): void {
     try {

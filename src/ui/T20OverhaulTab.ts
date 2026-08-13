@@ -28,7 +28,9 @@
 import { MODULE_ID } from "@/constants";
 import { warn } from "@/utils/logging";
 import STYLES from "./skills-menu.css?inline";
-import { executeSkillAction, getVisibleActions, getVisiblePacks, openCompendium } from "./skills-menu";
+import {
+    executeSkillAction, getVisibleActions, getVisiblePacks, openCompendium, stripPackLabelPrefix,
+} from "./skills-menu";
 
 const STYLES_ID = "t20-overhaul-tab-styles";
 const TAB_NAME = "t20Overhaul";
@@ -55,7 +57,7 @@ function buildContentHtml(): string {
     const packRows = getVisiblePacks().map(p => `
         <button type="button" class="skill-row" data-pack-id="${esc(p.id)}">
             <i class="fa-solid fa-book-atlas"></i>
-            <span>${esc(p.label)}</span>
+            <span>${esc(stripPackLabelPrefix(p.label))}</span>
         </button>
     `).join("");
 
