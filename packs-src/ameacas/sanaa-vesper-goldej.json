@@ -1,13 +1,13 @@
 {
-  "name": "Sarim Punho-do-Sol",
+  "name": "Sanaa Vesper",
   "type": "npc",
-  "img": "modules/t20-theme-overhaul/assets/Deserto%20da%20Perdi%C3%A7%C3%A3o/Sarim%2C%20Punho%20Solar.png",
+  "img": "modules/t20-theme-overhaul/assets/Avulsos/Sanaa%20Vesper.png",
   "prototypeToken": {
-    "name": "Sarim Punho-do-Sol",
+    "name": "Sanaa Vesper",
     "actorLink": false,
     "disposition": 0,
     "texture": {
-      "src": "modules/t20-theme-overhaul/assets/Deserto%20da%20Perdi%C3%A7%C3%A3o/Sarim%2C%20Punho%20Solar.png",
+      "src": "modules/t20-theme-overhaul/assets/Avulsos/Sanaa%20Vesper.png",
       "anchorX": 0.5,
       "anchorY": 0.5,
       "offsetX": 0,
@@ -99,61 +99,61 @@
   "system": {
     "atributos": {
       "for": {
-        "value": 3,
-        "base": 3,
+        "value": -2,
+        "base": -2,
         "racial": 0,
         "bonus": 0
       },
       "des": {
-        "value": 0,
-        "base": 0,
-        "racial": 0,
-        "bonus": 0
-      },
-      "con": {
-        "value": 4,
-        "base": 4,
-        "racial": 0,
-        "bonus": 0
-      },
-      "int": {
         "value": 1,
         "base": 1,
         "racial": 0,
         "bonus": 0
       },
+      "con": {
+        "value": 0,
+        "base": 0,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 2,
+        "base": 2,
+        "racial": 0,
+        "bonus": 0
+      },
       "sab": {
-        "value": 5,
-        "base": 5,
+        "value": 1,
+        "base": 1,
         "racial": 0,
         "bonus": 0
       },
       "car": {
-        "value": 2,
-        "base": 2,
+        "value": 6,
+        "base": 6,
         "racial": 0,
         "bonus": 0
       }
     },
     "attributes": {
-      "cd": 28,
-      "conjuracao": "sab",
+      "cd": 26,
+      "conjuracao": "car",
       "pv": {
-        "value": 224,
-        "max": 224,
-        "min": -112,
+        "value": 196,
+        "max": 196,
+        "min": -98,
         "temp": 0
       },
       "pm": {
-        "value": 18,
-        "max": 18,
+        "value": 16,
+        "max": 16,
         "min": 0,
         "temp": 0
       },
       "defesa": {
         "atributo": "des",
         "pda": 0,
-        "outros": 21,
+        "outros": 18,
         "condi": 0,
         "bonus": [],
         "value": 10,
@@ -186,11 +186,11 @@
       },
       "sentidos": {
         "value": [
-          "Percepção 18"
+          "Percepção 4"
         ],
         "custom": ""
       },
-      "nd": "8",
+      "nd": "7",
       "carga": {
         "value": 0,
         "atributo": "for",
@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 15,
+        "outros": 7,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -460,9 +460,9 @@
         "label": ""
       },
       "mist": {
-        "outros": 19,
+        "outros": 23,
         "treinado": true,
-        "atributo": "int",
+        "atributo": "car",
         "st": false,
         "pda": false,
         "size": false,
@@ -499,8 +499,8 @@
         "label": ""
       },
       "perc": {
-        "outros": 18,
-        "treinado": true,
+        "outros": 0,
+        "treinado": false,
         "atributo": "sab",
         "st": false,
         "pda": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 8,
+        "outros": 14,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -564,8 +564,8 @@
         "label": ""
       },
       "sobr": {
-        "outros": 18,
-        "treinado": true,
+        "outros": 0,
+        "treinado": false,
         "atributo": "sab",
         "st": false,
         "pda": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 21,
+        "outros": 20,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -606,12 +606,12 @@
     "detalhes": {
       "role": "special",
       "tipo": "hum",
-      "raca": "Humano",
+      "raca": "Humana",
       "ataquescac": "",
-      "ataquesad": "Rajadas Elementais +24 (2x, 1d10+29 fogo ou terra, 20/×2, alcance médio)",
-      "tesouro": "Metade",
+      "ataquesad": "Rajada Arcana +22 (2d8+53, 20/×2, dano arcano)",
+      "tesouro": "Padrão",
       "biography": {
-        "value": "<p>Um místico do Deserto da Perdição que aprendeu a dobrar fogo e areia à própria vontade, moldando os elementos como extensões do próprio corpo. Sua estatura de 2,2m e a pele curtida pelo sol o tornam uma figura imponente mesmo antes de invocar suas chamas.<br><br><strong>Magias — Como um místico de 8º nível (CD 28):</strong> Controlar Fogo, Despedaçar, Perdição.</p>",
+        "value": "<p>Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.<br><br><strong>Magias — Como uma arcanista de 7º nível (CD 26):</strong> Explosão de Chamas, Bola de Fogo, Toque Vampírico.</p>",
         "public": ""
       },
       "origem": "",
@@ -839,7 +839,7 @@
   },
   "items": [
     {
-      "name": "Rajadas Elementais",
+      "name": "Rajada Arcana",
       "type": "arma",
       "img": "icons/svg/sword.svg",
       "system": {
@@ -851,7 +851,7 @@
         "tipoUso": "sim",
         "equipado": 1,
         "description": {
-          "value": "<p>Duas rajadas de fogo ou areia densa, à escolha, disparadas das mãos abertas de Sarim.</p>",
+          "value": "<p>Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa.</p>",
           "unidentified": ""
         },
         "rolls": [
@@ -866,7 +866,7 @@
                 ""
               ],
               [
-                "24",
+                "22",
                 "",
                 ""
               ],
@@ -885,8 +885,8 @@
             "type": "dano",
             "parts": [
               [
-                "1d10+29",
-                "fogo",
+                "2d8+53",
+                "arcano",
                 ""
               ],
               [
@@ -957,7 +957,7 @@
         "chatFlavor": "",
         "chatGif": ""
       },
-      "_id": "HUoDQfvQgAjior0y",
+      "_id": "9KntxofXoCId4lm1",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -975,10 +975,10 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.HUoDQfvQgAjior0y"
+      "_key": "!actors.items!goldejL0CsFHP3gq.9KntxofXoCId4lm1"
     },
     {
-      "name": "Afinidade Elemental Dupla",
+      "name": "Sangue de Feiticeira",
       "type": "poder",
       "img": "systems/tormenta20/icons/svg/skills.svg",
       "system": {
@@ -1004,7 +1004,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p>Sarim tem afinidade com Fogo e Terra: recebe <strong>Redução de Dano 5</strong> contra esses dois tipos e pode alternar livremente o tipo de dano de qualquer habilidade sua entre os dois, a cada uso.</p>",
+          "value": "<p>Sanaa recebe <strong>+5</strong> em Misticismo e conjura suas magias sem gestos ou palavras visíveis.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1022,7 +1022,7 @@
         "tipo": "geral",
         "subtipo": ""
       },
-      "_id": "Oza4I0RBeBJ6OUmt",
+      "_id": "LaKTy3NqlVYa4lnG",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -1040,10 +1040,10 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.Oza4I0RBeBJ6OUmt"
+      "_key": "!actors.items!goldejL0CsFHP3gq.LaKTy3NqlVYa4lnG"
     },
     {
-      "name": "Tempestade de Areia",
+      "name": "Explosão Arcana",
       "type": "poder",
       "img": "systems/tormenta20/icons/svg/skills.svg",
       "system": {
@@ -1065,7 +1065,7 @@
           "pericia": "refl",
           "atributo": "",
           "bonus": 0,
-          "txt": "Reflexos CD 28 reduz à metade"
+          "txt": "Reflexos CD 26 reduz à metade"
         },
         "rolls": [
           {
@@ -1076,15 +1076,15 @@
             "versatil": "",
             "parts": [
               [
-                "4d6",
-                "impacto",
+                "6d6",
+                "arcano",
                 ""
               ]
             ]
           }
         ],
         "description": {
-          "value": "<p><strong>Padrão, 4 PM.</strong> Uma nuvem de areia cortante e escaldante explode num círculo de 6m. <strong>Reflexos CD 28</strong> reduz o dano à metade; quem falha fica <strong>Ofuscado</strong> até o fim do próximo turno. Habilidade mágica.</p>",
+          "value": "<p><strong>Padrão, 4 PM.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 26</strong> reduz o dano à metade. Habilidade mágica.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1102,7 +1102,7 @@
         "tipo": "geral",
         "subtipo": ""
       },
-      "_id": "kylmFQE38OyNaEBJ",
+      "_id": "V5kzZaqsgcVmody5",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -1120,10 +1120,75 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.kylmFQE38OyNaEBJ"
+      "_key": "!actors.items!goldejL0CsFHP3gq.V5kzZaqsgcVmody5"
     },
     {
-      "name": "Corpo de Magma",
+      "name": "Escudo de Força",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 4,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Reação, 4 PM.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "Te2bDwnkEdXf5gsH",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!goldejL0CsFHP3gq.Te2bDwnkEdXf5gsH"
+    },
+    {
+      "name": "Vínculo de Sangue",
       "type": "poder",
       "img": "systems/tormenta20/icons/svg/skills.svg",
       "system": {
@@ -1149,7 +1214,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p>Sempre que é atingido por um ataque corpo a corpo, o atacante sofre <strong>1d6 pontos de dano de fogo</strong>.</p>",
+          "value": "<p>Enquanto luta ao lado de Aslan Vesper, ambos recebem <strong>+2</strong> em testes de ataque.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1167,7 +1232,7 @@
         "tipo": "geral",
         "subtipo": ""
       },
-      "_id": "Wh9aXWnZBuazKqgv",
+      "_id": "Hf1R4OpuQdQlJgzS",
       "effects": [],
       "folder": null,
       "sort": 0,
@@ -1185,105 +1250,46 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.Wh9aXWnZBuazKqgv"
+      "_key": "!actors.items!goldejL0CsFHP3gq.Hf1R4OpuQdQlJgzS"
     },
     {
-      "name": "Resistência do Deserto",
-      "type": "poder",
-      "img": "systems/tormenta20/icons/svg/skills.svg",
-      "system": {
-        "ativacao": {
-          "execucao": "passive",
-          "custo": 0,
-          "condicao": "",
-          "qtd": "",
-          "special": ""
-        },
-        "alcance": "",
-        "area": "",
-        "duracao": {
-          "units": "inst",
-          "value": 0,
-          "special": ""
-        },
-        "resistencia": {
-          "pericia": "",
-          "atributo": "",
-          "bonus": 0,
-          "txt": ""
-        },
-        "rolls": [],
-        "description": {
-          "value": "<p>Sarim é imune a exaustão por calor ou sede, enxerga perfeitamente através de tempestades de areia e nunca se perde no deserto.</p>",
-          "unidentified": ""
-        },
-        "source": "",
-        "origin": "",
-        "tags": [],
-        "rolltags": [],
-        "automationtags": [],
-        "chatFlavor": "",
-        "chatGif": "",
-        "range": {
-          "units": "",
-          "value": 0
-        },
-        "efeito": "",
-        "tipo": "geral",
-        "subtipo": ""
-      },
-      "_id": "meZOAUhR9zkG7kkH",
-      "effects": [],
-      "folder": null,
-      "sort": 0,
-      "ownership": {
-        "default": 0
-      },
-      "flags": {},
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.351",
-        "systemId": "tormenta20",
-        "systemVersion": "1.5.015",
-        "modifiedTime": 1789162447241,
-        "lastModifiedBy": null
-      },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.meZOAUhR9zkG7kkH"
-    },
-    {
-      "_id": "Fzpcwn1UHcE4VrfE",
-      "name": "Controlar Fogo",
+      "_id": "jiHCSuWf94NP2bmG",
+      "name": "Explosão de Chamas",
       "type": "magia",
-      "img": "systems/tormenta20/icons/magias/controlar-fogo.webp",
+      "img": "systems/tormenta20/icons/magias/explosao-de-chamas.webp",
       "effects": [
         {
-          "_id": "Fhb6B66lmgcgONFU",
+          "_id": "h05xrWfvJ70D83Ml",
           "flags": {
             "tormenta20": {
               "onuse": true,
               "self": true,
-              "custo": "1",
+              "custo": "",
               "aumenta": false
             }
           },
           "changes": [
             {
-              "key": "duracao",
-              "value": "sustentada",
+              "key": "alcance",
+              "value": "curto",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "area",
+              "value": "alvo de 1 objeto",
               "mode": 5,
               "priority": null
             },
             {
               "key": "resistencia",
-              "value": "Reflexos reduz à metade",
+              "value": "Reflexos anula",
               "mode": 5,
               "priority": null
             },
             {
-              "key": "dano",
-              "value": "4d6",
+              "key": "condicao",
+              "value": "em chamas",
               "mode": 0,
               "priority": null
             }
@@ -1298,7 +1304,7 @@
             "startRound": null,
             "startTurn": null
           },
-          "origin": "Compendium.tormenta20.magias.84SnbqMykNJVofQ6",
+          "origin": "Compendium.tormenta20.magias.PXR8dRhDk8Z0mtck",
           "transfer": false,
           "tint": "#ffffff",
           "_stats": {
@@ -1312,22 +1318,22 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "muda a duração para sustentada e a resistência para Reflexos reduz à metade. Em vez do normal, você deve escolher o seguinte efeito. Labaredas: a cada rodada, você pode gastar uma ação de movimento para projetar uma labareda, acertando um alvo em alcance curto a partir da chama. O alvo sofre 4d6 pontos de dano de fogo (Reflexos reduz à metade).",
+          "name": "muda o alcance para curto, a área para alvo de 1 objeto e a resistência para Reflexos anula. Você gera uma pequena explosão que não causa dano mas pode acender uma vela, tocha ou fogueira. Também pode fazer um objeto inflamável com RD 0 (como uma corda ou pergaminho) ficar em chamas. Uma criatura em posse de um objeto pode evitar esse efeito se passar no teste de resistência.",
           "img": "icons/svg/upgrade.svg",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.Fzpcwn1UHcE4VrfE.Fhb6B66lmgcgONFU"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.jiHCSuWf94NP2bmG.h05xrWfvJ70D83Ml"
         },
         {
-          "_id": "9nOrRr2PDhvnOv6K",
+          "_id": "OfGs1rNjsjooifvE",
           "flags": {
             "tormenta20": {
               "onuse": true,
               "self": true,
-              "custo": "2",
+              "custo": "1",
               "aumenta": true
             }
           },
@@ -1349,7 +1355,7 @@
             "startRound": null,
             "startTurn": null
           },
-          "origin": "Compendium.tormenta20.magias.84SnbqMykNJVofQ6",
+          "origin": "Compendium.tormenta20.magias.PXR8dRhDk8Z0mtck",
           "transfer": false,
           "tint": "#ffffff",
           "_stats": {
@@ -1363,41 +1369,35 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "aumenta o dano em +1d6 (exceto Chamejar).",
+          "name": "aumenta o dano em +1d6.",
           "img": "icons/svg/upgrade.svg",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.Fzpcwn1UHcE4VrfE.9nOrRr2PDhvnOv6K"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.jiHCSuWf94NP2bmG.OfGs1rNjsjooifvE"
         },
         {
-          "_id": "BPLbOvQDMVCyA2Er",
+          "_id": "gYP6VM1ueXFkMRwP",
           "flags": {
             "tormenta20": {
               "onuse": true,
               "self": true,
-              "custo": "3",
+              "custo": "1",
               "aumenta": false
             }
           },
           "changes": [
             {
-              "key": "alvo",
-              "value": "1 criatura composta principalmente por fogo",
-              "mode": 5,
-              "priority": null
-            },
-            {
               "key": "resistencia",
-              "value": "Fortitude parcial",
+              "value": "Reflexos parcial",
               "mode": 5,
               "priority": null
             },
             {
-              "key": "dano",
-              "value": "5d6",
+              "key": "condicao",
+              "value": "em chamas",
               "mode": 0,
               "priority": null
             }
@@ -1412,7 +1412,7 @@
             "startRound": null,
             "startTurn": null
           },
-          "origin": "Compendium.tormenta20.magias.84SnbqMykNJVofQ6",
+          "origin": "Compendium.tormenta20.magias.PXR8dRhDk8Z0mtck",
           "transfer": false,
           "tint": "#ffffff",
           "_stats": {
@@ -1426,69 +1426,14 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "muda o alvo para 1 criatura composta principalmente por fogo, lava ou magma (como um elemental do fogo) e a resistência para Fortitude parcial. Em vez do normal, se a criatura falhar no teste de resistência, é reduzida a 0 PV. Se passar, sofre 5d6 pontos de dano.",
+          "name": "muda a resistência para Reflexos parcial. Se passar, a criatura reduz o dano à metade; se falhar, fica em chamas (veja Condições, no Apêndice).",
           "img": "icons/svg/upgrade.svg",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.Fzpcwn1UHcE4VrfE.BPLbOvQDMVCyA2Er"
-        },
-        {
-          "origin": "Item.84SnbqMykNJVofQ6",
-          "tint": "#ffffff",
-          "flags": {
-            "tormenta20": {
-              "onuse": false,
-              "durationScene": true
-            }
-          },
-          "duration": {
-            "rounds": 1,
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "disabled": false,
-          "_id": "MwTXiaqspZTlx4YD",
-          "changes": [
-            {
-              "key": "system.modificadores.dano.cac",
-              "mode": 2,
-              "value": "1d6",
-              "priority": null
-            },
-            {
-              "key": "system.modificadores.dano.ad",
-              "mode": 2,
-              "value": "1d6",
-              "priority": null
-            }
-          ],
-          "transfer": false,
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "Controlar Fogo (Chamejar)",
-          "img": "systems/tormenta20/icons/magias/controlar-fogo.webp",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.Fzpcwn1UHcE4VrfE.MwTXiaqspZTlx4YD"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.jiHCSuWf94NP2bmG.gYP6VM1ueXFkMRwP"
         }
       ],
       "folder": null,
@@ -1496,20 +1441,20 @@
       "flags": {},
       "system": {
         "description": {
-          "value": "<p>Voc&ecirc; pode criar, moldar, mover ou extinguir chamas e emana&ccedil;&otilde;es de calor. Ao lan&ccedil;ar a magia, escolha um dos efeitos.</p>\n<p><em>Chamejar:</em> o alvo &eacute; armas escolhidas. Elas causam +1d6 de dano de fogo. Tamb&eacute;m afeta armas naturais e ataques desarmados.</p>\n<p><em>Esquentar:</em> o alvo &eacute; 1 objeto, que come&ccedil;a a esquentar. Ele sofre 1d6 pontos de dano de fogo por rodada e causa o mesmo dano a qualquer criatura que o esteja segurando ou vestindo. A crit&eacute;rio do mestre, o objeto ou a criatura vestindo-o tamb&eacute;m podem fica em chamas. Uma criatura pode gastar uma a&ccedil;&atilde;o completa para resfriar o objeto (jogando areia ou se jogando numa fonte de &aacute;gua pr&oacute;xima, por exemplo) e cancelar o efeito da magia.</p>\n<p><em>Extinguir:</em> o alvo &eacute; 1 chama de tamanho Grande ou menor, que &eacute; apagada. Isso cria uma nuvem de fuma&ccedil;a que ocupa uma esfera de 3m de raio centrada onde estava a chama. Dentro da fuma&ccedil;a, criaturas t&ecirc;m camuflagem leve.</p>\n<p><em>Modelar:</em> o alvo &eacute; 1 chama de tamanho Grande ou menor. A cada rodada, voc&ecirc; pode gastar uma a&ccedil;&atilde;o livre para moviment&aacute;-la 9m em qualquer dire&ccedil;&atilde;o. Se atravessar o espa&ccedil;o ocupado por uma criatura, causa 2d6 pontos de dano de fogo. Uma criatura s&oacute; pode receber dano dessa maneira uma vez por rodada.</p>",
+          "value": "<p>Um leque de chamas irrompe de suas mãos, causando 2d6 pontos de dano de fogo às criaturas na área.</p>",
           "unidentified": ""
         },
-        "source": "Tormenta20 — Edição Jogo do Ano, p. 187",
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 193",
         "ativacao": {
           "execucao": "action",
-          "custo": 3,
+          "custo": 1,
           "qtd": "",
           "condicao": "",
           "special": ""
         },
         "duracao": {
           "value": 0,
-          "units": "scene",
+          "units": "inst",
           "special": ""
         },
         "range": {
@@ -1523,14 +1468,14 @@
           "mpMultiplier": false
         },
         "efeito": "",
-        "alcance": "short",
-        "alvo": "veja texto",
-        "area": "",
+        "alcance": "self",
+        "alvo": "",
+        "area": "Cone de 6m",
         "resistencia": {
           "pericia": "",
-          "atributo": "sab",
+          "atributo": "int",
           "bonus": 0,
-          "txt": ""
+          "txt": "Reflexos reduz à metade"
         },
         "rolls": [
           {
@@ -1548,7 +1493,283 @@
             "adaptavel": ""
           }
         ],
-        "tipo": "div",
+        "tipo": "arc",
+        "circulo": 1,
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": [],
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        }
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!goldejL0CsFHP3gq.jiHCSuWf94NP2bmG"
+    },
+    {
+      "_id": "wVuFW3b6WgqZiawZ",
+      "name": "Bola de Fogo",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/bola-de-fogo.webp",
+      "effects": [
+        {
+          "_id": "AfIQMGp5LVwL873a",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "value": "2d6",
+              "mode": 0,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.gcjCsjzpk2OtClSt",
+          "transfer": false,
+          "tint": "#ffffff",
+          "_stats": {
+            "coreVersion": "13.342",
+            "systemId": null,
+            "systemVersion": null,
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "name": "aumenta o dano em +2d6.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.wVuFW3b6WgqZiawZ.AfIQMGp5LVwL873a"
+        },
+        {
+          "_id": "i6zvegXfwm6XnY0C",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "area",
+              "mode": 5,
+              "value": "efeito de esfera flamejante com tamanho 1,5m",
+              "priority": 0
+            },
+            {
+              "key": "duracao",
+              "mode": 5,
+              "value": "Cena",
+              "priority": 0
+            },
+            {
+              "key": "dano",
+              "mode": 5,
+              "value": "3d6",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.gcjCsjzpk2OtClSt",
+          "transfer": false,
+          "tint": "#ffffff",
+          "_stats": {
+            "coreVersion": "13.342",
+            "systemId": null,
+            "systemVersion": null,
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "name": "muda a área para efeito de esfera flamejante com tamanho Médio e a duração para cena. Em vez do normal, cria uma esfera flamejante com 1,5m de diâmetro que causa 3d6 pontos de dano a qualquer criatura no mesmo espaço. Você pode gastar uma ação de movimento para fazer a esfera voar 9m em qualquer direção. Ela é imune a dano, mas pode ser apagada com água. Uma criatura só pode sofrer dano da esfera uma vez por rodada.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.wVuFW3b6WgqZiawZ.i6zvegXfwm6XnY0C"
+        },
+        {
+          "_id": "VbDNLh1bG1Xd8iHf",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "3",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": ""
+            }
+          },
+          "changes": [
+            {
+              "key": "duracao",
+              "mode": 5,
+              "value": "1 dia ou até ser descarregada",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.gcjCsjzpk2OtClSt",
+          "transfer": false,
+          "tint": "#ffffff",
+          "_stats": {
+            "coreVersion": "13.342",
+            "systemId": null,
+            "systemVersion": null,
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "name": "muda a duração para 1 dia ou até ser descarregada. Em vez do normal, você cria uma pequena pedra flamejante, que pode detonar como uma reação, descarregando a magia. A pedra pode ser usada como uma arma de arremesso com alcance curto. Uma vez detonada, causa o dano da magia numa área de esfera de 6m com raio.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.wVuFW3b6WgqZiawZ.VbDNLh1bG1Xd8iHf"
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<p>Esta famosa magia de ataque cria uma poderosa explosão, causando 6d6 pontos de dano de fogo em todas as criaturas e objetos livres na área.</p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 182",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "medium",
+        "alvo": "",
+        "area": "esfera com 6m de raio",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos reduz à metade"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "6d6",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "arc",
         "circulo": 2,
         "preparada": false,
         "escola": "evo",
@@ -1576,16 +1797,69 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.Fzpcwn1UHcE4VrfE"
+      "_key": "!actors.items!goldejL0CsFHP3gq.wVuFW3b6WgqZiawZ"
     },
     {
-      "_id": "E3ij3zz1DYYCdqm0",
-      "name": "Despedaçar",
+      "_id": "fRRxot8n6bmxdvxt",
+      "name": "Toque Vampírico",
       "type": "magia",
-      "img": "systems/tormenta20/icons/magias/despedacar.webp",
+      "img": "systems/tormenta20/icons/magias/toque-vampirico.webp",
       "effects": [
         {
-          "_id": "ppByjTKKBLrEKqIK",
+          "_id": "9nns7Zs9aH6K50N9",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false,
+              "equipment": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.6KvwDBikOdbzhRGv",
+          "transfer": false,
+          "tint": "#ffffff",
+          "_stats": {
+            "coreVersion": "13.342",
+            "systemId": null,
+            "systemVersion": null,
+            "createdTime": null,
+            "modifiedTime": null,
+            "lastModifiedBy": null,
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null
+          },
+          "name": "muda a resistência para nenhum. Como parte da execução da magia, você pode fazer um ataque corpo a corpo contra o alvo. Se acertar, causa o dano do ataque e da magia, e recupera pontos de vida iguais à metade do dano da magia.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.fRRxot8n6bmxdvxt.9nns7Zs9aH6K50N9"
+        },
+        {
+          "_id": "pkriM4fgxgsCwqgp",
           "flags": {
             "tormenta20": {
               "onuse": true,
@@ -1597,7 +1871,7 @@
           "changes": [
             {
               "key": "dano",
-              "value": "1d8+2",
+              "value": "2d6",
               "mode": 0,
               "priority": null
             }
@@ -1612,7 +1886,7 @@
             "startRound": null,
             "startTurn": null
           },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
+          "origin": "Compendium.tormenta20.magias.6KvwDBikOdbzhRGv",
           "transfer": false,
           "tint": "#ffffff",
           "_stats": {
@@ -1626,17 +1900,17 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "aumenta o dano em +1d8+2.",
+          "name": "aumenta o dano em +2d6.",
           "img": "icons/svg/upgrade.svg",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.ppByjTKKBLrEKqIK"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.fRRxot8n6bmxdvxt.pkriM4fgxgsCwqgp"
         },
         {
-          "_id": "AJ0uVXqXmzpZACCV",
+          "_id": "5iW54BCpmeHgNr8j",
           "flags": {
             "tormenta20": {
               "onuse": true,
@@ -1647,233 +1921,27 @@
           },
           "changes": [
             {
-              "key": "alvo",
-              "value": "objeto mundano Médio",
-              "mode": 5,
-              "priority": null
-            }
-          ],
-          "disabled": true,
-          "duration": {
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "rounds": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
-          "transfer": false,
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "muda o alvo para objeto mundano Médio. Requer 2º círculo.",
-          "img": "icons/svg/upgrade.svg",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.AJ0uVXqXmzpZACCV"
-        },
-        {
-          "_id": "gLuqYFRasKn0b2Hr",
-          "flags": {
-            "tormenta20": {
-              "onuse": true,
-              "self": true,
-              "custo": "5",
-              "aumenta": false
-            }
-          },
-          "changes": [
-            {
-              "key": "alvo",
-              "value": "objeto mundano Grande",
-              "mode": 5,
-              "priority": null
-            }
-          ],
-          "disabled": true,
-          "duration": {
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "rounds": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
-          "transfer": false,
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "muda o alvo para objeto mundano Grande. Requer 3º círculo.",
-          "img": "icons/svg/upgrade.svg",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.gLuqYFRasKn0b2Hr"
-        },
-        {
-          "_id": "G8guSjr7EEhSVMmK",
-          "flags": {
-            "tormenta20": {
-              "onuse": true,
-              "self": true,
-              "custo": "9",
-              "aumenta": false,
-              "attack": false,
-              "skill": false,
-              "ability": false,
-              "power": false,
-              "spell": false,
-              "consumable": false,
-              "durationScene": false
-            }
-          },
-          "changes": [
-            {
-              "key": "alvo",
-              "mode": 5,
-              "value": "objeto mun- dano Enorme",
-              "priority": null
-            }
-          ],
-          "disabled": true,
-          "duration": {
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "rounds": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
-          "transfer": false,
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "muda o alvo para objeto mundano Enorme. Requer 4º círculo.",
-          "img": "icons/svg/upgrade.svg",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.G8guSjr7EEhSVMmK"
-        },
-        {
-          "_id": "QjaOccGotyD11toY",
-          "flags": {
-            "tormenta20": {
-              "onuse": true,
-              "self": true,
-              "custo": "14",
-              "aumenta": false
-            }
-          },
-          "changes": [
-            {
-              "key": "alvo",
-              "value": "objeto mundano Colossal",
-              "mode": 5,
-              "priority": null
-            }
-          ],
-          "disabled": true,
-          "duration": {
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "rounds": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
-          "transfer": false,
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "muda o alvo para objeto mundano Colossal. Requer 5º círculo.",
-          "img": "icons/svg/upgrade.svg",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.QjaOccGotyD11toY"
-        },
-        {
-          "_id": "G4m8Poa6zmDn8CJn",
-          "flags": {
-            "tormenta20": {
-              "onuse": true,
-              "self": true,
-              "custo": "5",
-              "aumenta": false,
-              "attack": false,
-              "skill": false,
-              "ability": false,
-              "power": false,
-              "spell": false,
-              "consumable": false,
-              "durationScene": false
-            }
-          },
-          "changes": [
-            {
               "key": "alcance",
-              "mode": 5,
               "value": "pessoal",
+              "mode": 5,
               "priority": null
             },
             {
-              "key": "area",
+              "key": "alvo",
+              "value": "você",
               "mode": 5,
-              "value": "explosão de 6m de raio",
+              "priority": null
+            },
+            {
+              "key": "duracao",
+              "value": "Cena",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "dano",
+              "value": "3d6",
+              "mode": 0,
               "priority": null
             }
           ],
@@ -1887,7 +1955,7 @@
             "startRound": null,
             "startTurn": null
           },
-          "origin": "Compendium.tormenta20.magias.I177NeKSwiAn8vz5",
+          "origin": "Compendium.tormenta20.magias.6KvwDBikOdbzhRGv",
           "transfer": false,
           "tint": "#ffffff",
           "_stats": {
@@ -1901,22 +1969,22 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "muda o alcance para pessoal e a área para esfera de 6m de raio. Todas as criaturas e objetos na área são afetados.",
+          "name": "muda o alcance para pessoal, o alvo para você e a duração para cena. Em vez do normal, a cada rodada você pode gastar uma ação padrão para tocar 1 criatura e causar 3d6 pontos de dano. Você recupera pontos de vida iguais à metade do dano causado. Requer 3º círculo.",
           "img": "icons/svg/upgrade.svg",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.G4m8Poa6zmDn8CJn"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.fRRxot8n6bmxdvxt.5iW54BCpmeHgNr8j"
         },
         {
-          "origin": "Item.I177NeKSwiAn8vz5",
+          "origin": "Item.6KvwDBikOdbzhRGv",
           "tint": "#ffffff",
           "flags": {
             "tormenta20": {
               "onuse": false,
-              "durationScene": false
+              "durationScene": true
             }
           },
           "duration": {
@@ -1929,7 +1997,7 @@
             "startTurn": null
           },
           "disabled": false,
-          "_id": "F5QphpiMLnkmus47",
+          "_id": "Z5ZjdaxXqbO1Xaz1",
           "changes": [],
           "transfer": false,
           "_stats": {
@@ -1943,14 +2011,14 @@
             "duplicateSource": null,
             "exportSource": null
           },
-          "name": "Atordoado",
-          "img": "systems/tormenta20/icons/conditions/atordoado.svg",
+          "name": "Toque Vampírico (Cena)",
+          "img": "systems/tormenta20/icons/magias/toque-vampirico.webp",
           "type": "base",
           "system": {},
           "description": "",
           "statuses": [],
           "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0.F5QphpiMLnkmus47"
+          "_key": "!actors.items.effects!goldejL0CsFHP3gq.fRRxot8n6bmxdvxt.Z5ZjdaxXqbO1Xaz1"
         }
       ],
       "folder": null,
@@ -1958,13 +2026,13 @@
       "flags": {},
       "system": {
         "description": {
-          "value": "<p>Esta magia emite um som alto e agudo. O alvo sofre 1d8+2 pontos de dano de impacto (ou o dobro disso e ignora RD se for um construto ou objeto mundano) e fica @UUID[JournalEntry.s15J5SOYixL3Ajzr.JournalEntryPage.bD6XAyHQrWYr0BTQ]{Atordoado} por uma rodada (apenas uma vez por cena). Um teste de Fortitude reduz o dano &agrave; metade e evita o atordoamento.</p>",
+          "value": "<p>Sua mão brilha com energia sombria, causando 6d6 pontos de dano de trevas. Você recupera pontos de vida iguais à metade do dano causado (se causou algum dano).</p>",
           "unidentified": ""
         },
-        "source": "Tormenta20 — Edição Jogo do Ano, p. 190",
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 209",
         "ativacao": {
           "execucao": "action",
-          "custo": 1,
+          "custo": 3,
           "qtd": "",
           "condicao": "",
           "special": ""
@@ -1985,14 +2053,14 @@
           "mpMultiplier": false
         },
         "efeito": "",
-        "alcance": "short",
-        "alvo": "1 criatura ou objeto mundano pequeno",
+        "alcance": "touch",
+        "alvo": "1 criatura",
         "area": "",
         "resistencia": {
           "pericia": "",
-          "atributo": "sab",
+          "atributo": "int",
           "bonus": 0,
-          "txt": "Fortitude parcial ou Reflexos anula"
+          "txt": "Fortitude reduz à metade"
         },
         "rolls": [
           {
@@ -2001,8 +2069,8 @@
             "type": "dano",
             "parts": [
               [
-                "1d8+2",
-                "impacto",
+                "6d6",
+                "trevas",
                 ""
               ]
             ],
@@ -2010,207 +2078,8 @@
             "adaptavel": ""
           }
         ],
-        "tipo": "div",
-        "circulo": 1,
-        "preparada": false,
-        "escola": "evo",
-        "chatFlavor": "",
-        "origin": "",
-        "tags": [],
-        "chatGif": "",
-        "rolltags": [],
-        "automationtags": [],
-        "equipado2": {
-          "slot": 0,
-          "type": ""
-        }
-      },
-      "ownership": {
-        "default": 0
-      },
-      "_stats": {
-        "compendiumSource": null,
-        "duplicateSource": null,
-        "exportSource": null,
-        "coreVersion": "13.351",
-        "systemId": "tormenta20",
-        "systemVersion": "1.5.015",
-        "modifiedTime": 1789162447241,
-        "lastModifiedBy": null
-      },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.E3ij3zz1DYYCdqm0"
-    },
-    {
-      "_id": "I5L8I1YPBSh5UVTZ",
-      "name": "Perdição",
-      "type": "magia",
-      "img": "systems/tormenta20/icons/magias/perdicao.webp",
-      "effects": [
-        {
-          "_id": "TDZQtv4MSRP0LP7P",
-          "flags": {
-            "tormenta20": {
-              "onuse": true,
-              "self": true,
-              "custo": "2",
-              "aumenta": true,
-              "attack": false,
-              "skill": false,
-              "ability": false,
-              "power": false,
-              "spell": false,
-              "consumable": false,
-              "durationScene": false,
-              "items": ""
-            }
-          },
-          "changes": [
-            {
-              "key": "system.modificadores.ataque.geral",
-              "mode": 2,
-              "value": "-1",
-              "priority": 0
-            },
-            {
-              "key": "system.modificadores.dano.geral",
-              "mode": 2,
-              "value": "-1",
-              "priority": 0
-            }
-          ],
-          "disabled": true,
-          "duration": {
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "rounds": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Compendium.tormenta20.magias.ByYEiPmpotMg83gQ",
-          "transfer": false,
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "aumenta as penalidades em –1, limitado pelo círculo máximo de magia que você pode lançar.",
-          "img": "icons/svg/upgrade.svg",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.I5L8I1YPBSh5UVTZ.TDZQtv4MSRP0LP7P"
-        },
-        {
-          "_id": "Y1nWk7PpIvjByGLy",
-          "changes": [
-            {
-              "key": "system.modificadores.ataque.geral",
-              "mode": 2,
-              "value": "-1",
-              "priority": null
-            },
-            {
-              "key": "system.modificadores.dano.geral",
-              "mode": 2,
-              "value": "-1",
-              "priority": null
-            }
-          ],
-          "disabled": false,
-          "duration": {
-            "rounds": 1,
-            "startTime": null,
-            "seconds": null,
-            "combat": null,
-            "turns": null,
-            "startRound": null,
-            "startTurn": null
-          },
-          "origin": "Item.sMwaPJUeQEl5NK2f",
-          "transfer": false,
-          "flags": {
-            "tormenta20": {
-              "onuse": false,
-              "durationScene": true
-            }
-          },
-          "tint": "#ffffff",
-          "_stats": {
-            "coreVersion": "13.342",
-            "systemId": null,
-            "systemVersion": null,
-            "createdTime": null,
-            "modifiedTime": null,
-            "lastModifiedBy": null,
-            "compendiumSource": null,
-            "duplicateSource": null,
-            "exportSource": null
-          },
-          "name": "Perdição - PENALIDADE",
-          "img": "systems/tormenta20/icons/magias/perdicao.webp",
-          "type": "base",
-          "system": {},
-          "description": "",
-          "statuses": [],
-          "sort": 0,
-          "_key": "!actors.items.effects!9spWPG300bR0Cv7x.I5L8I1YPBSh5UVTZ.Y1nWk7PpIvjByGLy"
-        }
-      ],
-      "folder": null,
-      "sort": 0,
-      "flags": {},
-      "system": {
-        "description": {
-          "value": "<p>Amaldi&ccedil;oa os alvos, que recebem &ndash;1 em testes de ataque e rolagens de dano. <em>Perdi&ccedil;&atilde;o</em> anula <em>B&ecirc;n&ccedil;&atilde;o</em>.</p>",
-          "unidentified": ""
-        },
-        "source": "Tormenta20 — Edição Jogo do Ano, p. 201",
-        "ativacao": {
-          "execucao": "action",
-          "custo": 1,
-          "qtd": "",
-          "condicao": "",
-          "special": ""
-        },
-        "duracao": {
-          "value": 0,
-          "units": "scene",
-          "special": ""
-        },
-        "range": {
-          "value": null,
-          "units": ""
-        },
-        "consume": {
-          "type": "",
-          "target": "",
-          "amount": null,
-          "mpMultiplier": false
-        },
-        "efeito": "",
-        "alcance": "short",
-        "alvo": "Criaturas Escolhidas",
-        "area": "",
-        "resistencia": {
-          "pericia": "",
-          "atributo": "sab",
-          "bonus": 0,
-          "txt": "nenhuma"
-        },
-        "rolls": [],
-        "tipo": "div",
-        "circulo": 1,
+        "tipo": "arc",
+        "circulo": 2,
         "preparada": false,
         "escola": "nec",
         "chatFlavor": "",
@@ -2237,13 +2106,13 @@
         "modifiedTime": 1789162447241,
         "lastModifiedBy": null
       },
-      "_key": "!actors.items!9spWPG300bR0Cv7x.I5L8I1YPBSh5UVTZ"
+      "_key": "!actors.items!goldejL0CsFHP3gq.fRRxot8n6bmxdvxt"
     }
   ],
-  "_id": "9spWPG300bR0Cv7x",
+  "_id": "goldejL0CsFHP3gq",
   "effects": [],
-  "folder": "pr9E79ep3uamweOv",
-  "sort": 100000,
+  "folder": "X9TuFXCvny1ptG5G",
+  "sort": 1600000,
   "ownership": {
     "default": 0
   },
@@ -2259,5 +2128,5 @@
     "lastModifiedBy": null,
     "createdTime": 1789162447241
   },
-  "_key": "!actors!9spWPG300bR0Cv7x"
+  "_key": "!actors!goldejL0CsFHP3gq"
 }
