@@ -1,13 +1,15 @@
 /**
- * Gera as 28 ameaças criadas via skill /criar-ameaca (Thartan/Deserto/Avulsos)
+ * Gera as ameaças criadas via skill /criar-ameaca (Thartan/Deserto/Avulsos/Ahlen)
  * + a pasta nova "Guilda de Ladrões de Thartan" em packs-src/ameacas/.
  *
  * NÃO editar os .json de saída à mão — ajustar este gerador e rodar de novo:
  *   node scripts/gen-ameacas-thartan.mjs && npm run build:packs
  *
- * Imagens: os campos `img`/`texture.src` apontam pros caminhos que o usuário
- * vai preencher manualmente (module-relative, URL-encoded) — ainda não existem
- * em disco nesta run; o Foundry mostra ícone quebrado até os PNGs chegarem.
+ * Imagens: os campos `img`/`texture.src` apontam pra `public/assets/<pasta>/<Nome>.jpg`
+ * (empacotadas no módulo, module-relative, URL-encoded — regra do projeto desde
+ * v1.65.2). Ao adicionar uma ameaça nova, colocar o arquivo em `public/assets/`
+ * ANTES do `npm run build` (Vite copia `public/` → `dist/assets`); sem o arquivo
+ * o Foundry mostra ícone quebrado até chegar.
  */
 
 import { writeFileSync, mkdirSync } from "node:fs";
@@ -292,7 +294,7 @@ const NPCS = [];
 // ── 1. Sarim Punho-do-Sol — Místico Elemental, ND8, Especial ───────────────────
 NPCS.push({
     name: "Sarim Punho-do-Sol", nd: 8, role: "special", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_CUSTOM_DESERTO, img: "Deserto da Perdição/Sarim Punho-do-Sol.png",
+    tamanho: "med", folder: FOLDER_CUSTOM_DESERTO, img: "Deserto da Perdição/Sarim Punho-do-Sol.jpg",
     disposition: 0, tesouro: "Metade", cd: 28, def: 31, movement: { walk: 9 },
     sentidos: ["Percepção 18"],
     bio: "Um místico do Deserto da Perdição que aprendeu a dobrar fogo e areia à própria vontade, moldando os elementos como extensões do próprio corpo. Sua estatura de 2,2m e a pele curtida pelo sol o tornam uma figura imponente mesmo antes de invocar suas chamas.",
@@ -315,7 +317,7 @@ NPCS.push({
 // ── 2. Comandante Herwin Aço-Puro — Comandante Purista, ND5, Solo ───────────────
 NPCS.push({
     name: "Comandante Herwin Aço-Puro", nd: 5, role: "solo", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Comandante Herwin Aço-Puro.png",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Comandante Herwin Aço-Puro.jpg",
     disposition: -1, tesouro: "Padrão", cd: 20, def: 24, movement: { walk: 9 },
     sentidos: ["Percepção 3"],
     bio: "Comandante de campo dos Puristas — fanáticos que veem toda magia e diversidade de Arton como corrupção a ser exterminada. Combate na linha de frente com a espada, mas carrega magias de guerra próprias, forjadas para punir conjuradores.",
@@ -338,7 +340,7 @@ NPCS.push({
 // ── 3. Jacelin — Recepcionista da Guilda de Aventureiros, ND2, Especial ─────────
 NPCS.push({
     name: "Jacelin", nd: 2, role: "special", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_AHLEN, img: "Ahlen/Jacelin.png",
+    tamanho: "med", folder: FOLDER_AHLEN, img: "Ahlen/Jacelin.jpg",
     disposition: 0, tesouro: "Metade", cd: 18, def: 17, movement: { walk: 9 },
     sentidos: ["Percepção 9"],
     bio: "Recepcionista da guilda de aventureiros na área nobre de Ahlen. Fachada impecável e sorriso pronto escondem alguém que nota cada mentira, cada movimento suspeito e cada oportunidade — furtiva, ardilosa e muito mais perigosa do que aparenta.",
@@ -360,7 +362,7 @@ NPCS.push({
 // ── 4. Kara Thur — Líder da Guilda de Ladrões de Thartan, ND12, Solo ────────────
 NPCS.push({
     name: "Kara Thur", nd: 12, role: "solo", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Kara Thur.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Kara Thur.jpg",
     disposition: -1, tesouro: "Dobro", cd: 33, def: 43, movement: { walk: 12 },
     sentidos: ["Percepção 12"],
     bio: "Assassina implacável que subiu ao topo da Guilda de Ladrões de Thartan lâmina por lâmina. Governa a cidade baixa com uma rede de informantes tão afiada quanto suas adagas — ninguém trai Kara Thur duas vezes.",
@@ -384,7 +386,7 @@ NPCS.push({
 // ── 5. Astralos — Mago poderoso, ND15, Especial ─────────────────────────────────
 NPCS.push({
     name: "Astralos", nd: 15, role: "special", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Astralos.png",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Astralos.jpg",
     disposition: 0, tesouro: "Dobro", cd: 42, def: 48, movement: { walk: 9 },
     sentidos: ["Percepção 17"],
     bio: "Um arquimago cuja compreensão dos arcanos ultrapassa a de qualquer academia viva. Estuda os mistérios de Arton há décadas e raramente se envolve em conflitos — quando o faz, poucos sobrevivem para contar.",
@@ -408,7 +410,7 @@ NPCS.push({
 // ── 6. Elfarion — Arqueiro arcano, ND10, Solo ───────────────────────────────────
 NPCS.push({
     name: "Elfarion", nd: 10, role: "solo", tipo: "hum", raca: "Elfo",
-    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Elfarion.png",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Elfarion.jpg",
     disposition: 0, tesouro: "Padrão", cd: 30, def: 36, movement: { walk: 12 },
     sentidos: ["Percepção 22", "Visão no escuro"],
     bio: "Um arqueiro élfico que fundiu séculos de treino marcial com estudo arcano — cada flecha que dispara carrega um fragmento de magia, guiada com precisão sobre-humana.",
@@ -431,7 +433,7 @@ NPCS.push({
 // ── 7. Trabalhadores da guilda — ND6, Lacaio ─────────────────────────────────────
 NPCS.push({
     name: "Azathot", nd: 6, role: "lacaio", tipo: "hum", raca: "Sulfure",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Azathot.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Azathot.jpg",
     disposition: 0, tesouro: "Padrão", cd: 22, def: 26, movement: { walk: 9 },
     sentidos: ["Percepção 3"],
     bio: "Ferreiro sulfure da Guilda de Ladrões de Thartan — forja armas e prende favores na mesma bigorna incandescente. O calor da forja nunca o incomoda; corre em suas veias.",
@@ -447,7 +449,7 @@ NPCS.push({
 });
 NPCS.push({
     name: "Megarah Al'Jaffar", nd: 6, role: "lacaio", tipo: "hum", raca: "Meio-Elfa",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Megarah Al'Jaffar.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Megarah Al'Jaffar.jpg",
     disposition: 0, tesouro: "Padrão", cd: 22, def: 26, movement: { walk: 9 },
     sentidos: ["Percepção 3", "Visão no escuro"],
     bio: "Artífice meio-elfa da guilda, responsável pelas engenhocas, fechaduras e armadilhas que protegem (e assaltam) meio Thartan.",
@@ -463,7 +465,7 @@ NPCS.push({
 });
 NPCS.push({
     name: "Alef, o Canhoto", nd: 6, role: "lacaio", tipo: "hum", raca: "Humano",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Alef, o Canhoto.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Alef, o Canhoto.jpg",
     disposition: 0, tesouro: "Padrão", cd: 22, def: 26, movement: { walk: 9 },
     sentidos: ["Percepção 3"],
     bio: "Conjurador sonso da guilda, canhoto por natureza e por magia — sua mão esquerda nunca joga limpo, seja nas cartas ou no combate.",
@@ -482,7 +484,7 @@ NPCS.push({
 function staff8(name, raca, ability, atributos, periciaOverrides, img) {
     NPCS.push({
         name, nd: 1, role: "lacaio", tipo: "hum", raca,
-        tamanho: "med", folder: FOLDER_THARTAN_ID, img: `Thartan/${img ?? name}.png`,
+        tamanho: "med", folder: FOLDER_THARTAN_ID, img: `Thartan/${img ?? name}.jpg`,
         disposition: 0, tesouro: "Nenhum", cd: 14, def: 15, movement: { walk: 9 },
         sentidos: [], bio: `Funcionária(o) de atendimento da Guilda de Ladrões de Thartan.`,
         ataquescac: "Ataque Improvisado +11 (1d4+15, ×2, impacto)", ataquesad: "",
@@ -518,7 +520,7 @@ staff8("Albur", "Elfa",
 // ── 9. Bandidos da guilda — NDs variados, Lacaio ────────────────────────────────
 NPCS.push({
     name: "Dhoreon", nd: 6, role: "lacaio", tipo: "hum", raca: "Anão",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Dhoreon.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Dhoreon.jpg",
     disposition: -1, tesouro: "Padrão", cd: 22, def: 26, movement: { walk: 6 },
     sentidos: ["Percepção 3", "Visão no escuro"],
     bio: "Bandido anão da guilda, manco desde um acidente nas minas — mas ninguém que já viu o machado dele em ação zomba da perna.",
@@ -533,7 +535,7 @@ NPCS.push({
 });
 NPCS.push({
     name: "Arabella", nd: 5, role: "lacaio", tipo: "hum", raca: "Hinne",
-    tamanho: "peq", folder: FOLDER_THARTAN_ID, img: "Thartan/Arabella.png",
+    tamanho: "peq", folder: FOLDER_THARTAN_ID, img: "Thartan/Arabella.jpg",
     disposition: -1, tesouro: "Padrão", cd: 20, def: 23, movement: { walk: 6 },
     sentidos: ["Percepção 3"],
     bio: "Bandida hinne, pequena, ágil e ignorada até ser tarde demais — a especialidade dela é chegar perto o suficiente pra usar as duas facas de uma vez.",
@@ -547,7 +549,7 @@ NPCS.push({
 });
 NPCS.push({
     name: "Marian", nd: 6, role: "lacaio", tipo: "con", raca: "Golem de Bronze",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Marian.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Marian.jpg",
     disposition: -1, tesouro: "Nenhum", cd: 22, def: 26, movement: { walk: 9 },
     sentidos: ["Percepção 3"],
     bio: "Um golem de bronze animado por magia antiga, usado pela guilda como músculo silencioso — não sente medo, não sente dor, não hesita.",
@@ -561,7 +563,7 @@ NPCS.push({
 });
 NPCS.push({
     name: "Diomedes", nd: 3, role: "lacaio", tipo: "hum", raca: "Trog",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Diomedes.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Diomedes.jpg",
     disposition: -1, tesouro: "Metade", cd: 17, def: 20, movement: { walk: 9, swim: 6 },
     sentidos: ["Percepção 4"],
     bio: "O mais novo e inexperiente dos bandidos da guilda, um trog que ainda está aprendendo a confiar em outra coisa além dos próprios instintos.",
@@ -578,7 +580,7 @@ NPCS.push({
 function staff10(name, raca, ability, atributos, periciaOverrides) {
     NPCS.push({
         name, nd: 3, role: "lacaio", tipo: "hum", raca,
-        tamanho: "med", folder: FOLDER_THARTAN_ID, img: `Thartan/${name}.png`,
+        tamanho: "med", folder: FOLDER_THARTAN_ID, img: `Thartan/${name}.jpg`,
         disposition: 0, tesouro: "Metade", cd: 17, def: 20, movement: { walk: 9 },
         sentidos: [], bio: `Funcionária(o) da Guilda de Ladrões de Thartan.`,
         ataquescac: "Ataque Improvisado +16 (1d6+21, ×2, impacto)", ataquesad: "",
@@ -614,7 +616,7 @@ staff10("Augustus", "Humano",
 // ── 11. Vaskrith — Dragão Lefeu, ND5, Solo ──────────────────────────────────────
 NPCS.push({
     name: "Vaskrith", nd: 5, role: "solo", tipo: "mon", raca: "Dragão (Lefeu)",
-    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Vaskrith.png",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Vaskrith.jpg",
     disposition: -1, tesouro: "Padrão", cd: 20, def: 24, movement: { walk: 9, fly: 18 },
     sentidos: ["Percepção 12", "Visão no escuro"],
     bio: "Um dragão jovem cujo corpo foi corrompido pela Tormenta, manifestando as marcas de um lefeu: escamas rachadas com veios pulsantes de energia corrompida, olhar fragmentado e insano. Continua sendo um dragão — só que quebrado.",
@@ -637,7 +639,7 @@ NPCS.push({
 // os ids aleatórios das 28 ameaças já geradas/deployadas em v1.116.0.)
 NPCS.push({
     name: "Dafodil", nd: 3, role: "lacaio", tipo: "hum", raca: "Dahlan",
-    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Dafodil.png",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Dafodil.jpg",
     disposition: 0, tesouro: "Metade", cd: 17, def: 20, movement: { walk: 9 },
     sentidos: [], bio: "Apresentadora do leilão subterrâneo da Guilda de Ladrões de Thartan — dahlan de beleza etérea e charme magnético, capaz de vender qualquer item duvidoso como se fosse a última maravilha de Arton.",
     ataquescac: "Ataque Improvisado +16 (1d6+21, ×2, impacto)", ataquesad: "",
@@ -650,6 +652,51 @@ NPCS.push({
     items: [
         { kind: "weapon", name: "Ataque Improvisado", atk: 16, dmgFormula: "1d6+21", critM: 20, critX: 2, tipoDano: "impacto", alcance: "melee", descricao: "Um martelo de leiloeiro ou o que estiver à mão." },
         { kind: "power", name: "Presença Magnética", execucao: "passive", descricao: "Dafodil recebe <strong>+10</strong> em Diplomacia ao vender algo, e <strong>+5</strong> em testes de resistência contra intimidação — sua beleza etérea desarma qualquer hostilidade." },
+    ],
+});
+
+// ── 13/14. Aslan Vesper (Guerreiro, ND8, Solo) e Sanaa Vesper (Feiticeira, ND7, Especial) ──
+// (adicionadas no FIM, mesmo motivo de Dafodil — não perturbar ids já deployados)
+NPCS.push({
+    name: "Aslan Vesper", nd: 8, role: "solo", tipo: "hum", raca: "Humano",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Aslan Vesper.jpg",
+    disposition: 0, tesouro: "Padrão", cd: 26, def: 33, movement: { walk: 9 },
+    sentidos: ["Percepção 4"],
+    bio: "Guerreiro implacável da família Vesper, sua espada é conhecida tanto pelos golpes certeiros quanto pela fúria que desperta em batalha. Costuma lutar ao lado da irmã (ou esposa) Sanaa Vesper.",
+    ataquescac: "Espada Vesper +26 (2d10+57, 19-20/×2, corte)", ataquesad: "",
+    atributos: { for: 5, des: 1, con: 4, int: 0, sab: 0, car: 1 },
+    pericias: {
+        ...saves(21, 8, 15),
+        inti: skill(14, { outros: 14 }), atle: skill(13, { outros: 13 }),
+    },
+    pv: 320,
+    items: [
+        { kind: "weapon", name: "Espada Vesper", atk: 26, dmgFormula: "2d10+57", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", descricao: "A espada longa da família Vesper, passada de geração em geração." },
+        { kind: "power", name: "Fúria de Batalha", execucao: "standard", descricao: "<strong>Padrão, 1×/cena.</strong> No próximo ataque, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado." },
+        { kind: "power", name: "Guarda Inabalável", execucao: "passive", descricao: "Aslan recebe <strong>Redução de Dano 5</strong> contra dano físico." },
+        { kind: "power", name: "Golpe Giratório", execucao: "standard", descricao: "<strong>Padrão, 1×/cena.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando metade do dano normal da espada em cada um que acertar." },
+        { kind: "power", name: "Presença de Guerreiro", execucao: "passive", descricao: "Aslan recebe <strong>+5</strong> em Intimidação." },
+    ],
+});
+NPCS.push({
+    name: "Sanaa Vesper", nd: 7, role: "special", tipo: "hum", raca: "Humana",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Sanaa Vesper.jpg",
+    disposition: 0, tesouro: "Padrão", cd: 26, def: 29, movement: { walk: 9 },
+    sentidos: ["Percepção 4"],
+    bio: "Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.",
+    ataquescac: "", ataquesad: "Rajada Arcana +22 (2d8+53, 20/×2, dano arcano)",
+    atributos: { for: -2, des: 1, con: 0, int: 2, sab: 1, car: 6 }, conjuracao: "car",
+    pericias: {
+        ...saves(7, 14, 20),
+        mist: skill(23, { outros: 23, atributo: "car" }),
+    },
+    pv: 196,
+    items: [
+        { kind: "weapon", name: "Rajada Arcana", atk: 22, dmgFormula: "2d8+53", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", descricao: "Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa." },
+        { kind: "power", name: "Sangue de Feiticeira", execucao: "passive", descricao: "Sanaa recebe <strong>+5</strong> em Misticismo e conjura suas magias sem gestos ou palavras visíveis." },
+        { kind: "power", name: "Explosão Arcana", execucao: "standard", alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 26 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", descricao: "<strong>Padrão, 1×/cena.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 26</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "power", name: "Escudo de Força", execucao: "reaction", descricao: "<strong>Reação, 1×/cena.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade." },
+        { kind: "power", name: "Vínculo de Sangue", execucao: "passive", descricao: "Enquanto luta ao lado de Aslan Vesper, ambos recebem <strong>+2</strong> em testes de ataque." },
     ],
 });
 
