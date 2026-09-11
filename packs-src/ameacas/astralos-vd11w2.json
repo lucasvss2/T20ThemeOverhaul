@@ -1,0 +1,1341 @@
+{
+  "name": "Astralos",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Avulsos/Astralos.png",
+  "prototypeToken": {
+    "name": "Astralos",
+    "actorLink": false,
+    "disposition": 0,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Avulsos/Astralos.png",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "sight": {
+      "enabled": true,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "displayName": 0,
+    "width": 1,
+    "height": 1,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "value": -2,
+        "base": -2,
+        "racial": 0,
+        "bonus": 0
+      },
+      "des": {
+        "value": 1,
+        "base": 1,
+        "racial": 0,
+        "bonus": 0
+      },
+      "con": {
+        "value": 2,
+        "base": 2,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 8,
+        "base": 8,
+        "racial": 0,
+        "bonus": 0
+      },
+      "sab": {
+        "value": 4,
+        "base": 4,
+        "racial": 0,
+        "bonus": 0
+      },
+      "car": {
+        "value": 3,
+        "base": 3,
+        "racial": 0,
+        "bonus": 0
+      }
+    },
+    "attributes": {
+      "cd": 42,
+      "conjuracao": "int",
+      "pv": {
+        "value": 525,
+        "max": 525,
+        "min": -262,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "max": 0,
+        "min": 0,
+        "temp": 0
+      },
+      "defesa": {
+        "atributo": "des",
+        "pda": 0,
+        "outros": 37,
+        "condi": 0,
+        "bonus": [],
+        "value": 10,
+        "base": 10
+      },
+      "movement": {
+        "walk": {
+          "base": 9,
+          "bonus": []
+        },
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "unit": "m",
+        "hover": false,
+        "tags": []
+      },
+      "sentidos": {
+        "value": [
+          "Percepção 17"
+        ],
+        "custom": ""
+      },
+      "nd": "15",
+      "carga": {
+        "value": 0,
+        "atributo": "for",
+        "base": 10,
+        "bonus": [],
+        "limit": 0,
+        "max": 0,
+        "pct": 0,
+        "encumbered": false
+      },
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "treino": 0
+    },
+    "pericias": {
+      "acro": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "outros": 31,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "outros": 16,
+        "treinado": true,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "outros": 15,
+        "treinado": false,
+        "atributo": "con",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "car",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "for",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "outros": 31,
+        "treinado": true,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "outros": 17,
+        "treinado": true,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "outros": 28,
+        "treinado": false,
+        "atributo": "des",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "outros": 22,
+        "treinado": false,
+        "atributo": "sab",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "outros": 0,
+        "treinado": false,
+        "atributo": "int",
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "detalhes": {
+      "role": "special",
+      "tipo": "hum",
+      "raca": "Humano",
+      "ataquescac": "",
+      "ataquesad": "Rajadas Arcanas Gêmeas +41 (2x, 2d8+84, 20/×2, alcance longo)",
+      "tesouro": "Dobro",
+      "biography": {
+        "value": "<p>Um arquimago cuja compreensão dos arcanos ultrapassa a de qualquer academia viva. Estuda os mistérios de Arton há décadas e raramente se envolve em conflitos — quando o faz, poucos sobrevivem para contar.</p>",
+        "public": ""
+      },
+      "origem": "",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "movimento": ""
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": []
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tc": 0,
+      "tl": 0,
+      "to": 0,
+      "tp": 0
+    },
+    "modificadores": {
+      "custoPM": 0,
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      }
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Rajadas Arcanas Gêmeas",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "proposito": "disparo",
+        "proficiencia": "simples",
+        "empunhadura": "uma",
+        "criticoM": 20,
+        "criticoX": 2,
+        "tipoUso": "sim",
+        "equipado": 1,
+        "description": {
+          "value": "<p>Dois mísseis de energia arcana pura, lançados de suas mãos erguidas.</p>",
+          "unidentified": ""
+        },
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "41",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+84",
+                "arcano",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "carregado": true,
+        "espacos": 0,
+        "peso": 0,
+        "qtd": 1,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "alcance": "far",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "ataques": 1,
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "size": "normal",
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": ""
+      },
+      "_id": "nsYqv1HZj2SF57zp",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.nsYqv1HZj2SF57zp"
+    },
+    {
+      "name": "Arquimestre dos Arcanos",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p>Astralos é imune a Contramágica de conjuradores inferiores a Superior e recebe <strong>+10</strong> em Misticismo.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "FWT457qUPVGlt9YD",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.FWT457qUPVGlt9YD"
+    },
+    {
+      "name": "Explosão Cataclísmica",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "standard",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "Longo (54m)",
+        "area": "Círculo 12m",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "refl",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos CD 42 reduz à metade"
+        },
+        "rolls": [
+          {
+            "key": "dano0",
+            "name": "Dano",
+            "type": "dano",
+            "adaptavel": "",
+            "versatil": "",
+            "parts": [
+              [
+                "10d10",
+                "arcano",
+                ""
+              ]
+            ]
+          }
+        ],
+        "description": {
+          "value": "<p><strong>Padrão, 1×/cena.</strong> Uma explosão devastadora de energia arcana pura. <strong>Reflexos CD 42</strong> reduz o dano à metade. Habilidade mágica.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "3xT90jafLK7SaR66",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.3xT90jafLK7SaR66"
+    },
+    {
+      "name": "Escudo Arcano",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Reação, 1×/cena.</strong> Quando é atingido por um ataque, Astralos reduz o dano recebido à metade.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "rmag0WMcEcaJLWSO",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.rmag0WMcEcaJLWSO"
+    },
+    {
+      "name": "Teleporte Instantâneo",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p><strong>Movimento, 1×/cena.</strong> Astralos se teleporta até 18m, ignorando obstáculos e terreno difícil. Habilidade mágica.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "FL0AN5azbuuQ4zuh",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.FL0AN5azbuuQ4zuh"
+    },
+    {
+      "name": "Domínio da CD",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "condicao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "alcance": "",
+        "area": "",
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "description": {
+          "value": "<p>Uma criatura que falhe um teste de resistência contra uma magia de Astralos por 5 ou mais fica <strong>Pasma</strong> até o início do próximo turno dela.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "efeito": "",
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "ng2u0zRLQK55KhBc",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "modifiedTime": 1789162447241,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!vd11w2AU6wR2dcZA.ng2u0zRLQK55KhBc"
+    }
+  ],
+  "_id": "vd11w2AU6wR2dcZA",
+  "effects": [],
+  "folder": "X9TuFXCvny1ptG5G",
+  "sort": 300000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015",
+    "modifiedTime": 1789162447241,
+    "lastModifiedBy": null,
+    "createdTime": 1789162447241
+  },
+  "_key": "!actors!vd11w2AU6wR2dcZA"
+}
