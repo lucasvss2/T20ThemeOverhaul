@@ -41,7 +41,9 @@ function encodeAssetPath(rel) {
 function imgFor(rel) {
     return `modules/t20-theme-overhaul/assets/${encodeAssetPath(rel)}`;
 }
-const now = Date.now();
+// Fixo (não Date.now()) — re-rodar o gerador não deve gerar diff de timestamp
+// em ameaças que não mudaram de conteúdo.
+const now = 1789162447241;
 function stats(extra = {}) {
     return {
         compendiumSource: null, duplicateSource: null, exportSource: null,
@@ -626,6 +628,28 @@ NPCS.push({
         { kind: "power", name: "Insanidade da Tormenta", execucao: "passive", resistPericia: "vont", resistTxt: "Vontade CD 20 ou perde PM", descricao: "Uma criatura que veja Vaskrith deve fazer <strong>Vontade CD 20</strong> ou perder <strong>1d4</strong> pontos de mana. Se chegar a 0 PM, fica <strong>Confusa</strong>. Cada criatura só é afetada uma vez por dia." },
         { kind: "power", name: "Percepção Temporal", execucao: "passive", descricao: "Vaskrith soma sua Sabedoria em testes de ataque, na Defesa e em Reflexos — valores já contabilizados nesta ficha." },
         { kind: "power", name: "Visão Ampla", execucao: "passive", descricao: "Vaskrith recebe <strong>+5</strong> em Percepção e não pode ser flanqueado." },
+    ],
+});
+
+// ── 12. Dafodil — Apresentadora do Leilão Subterrâneo, Dahlan, ND3, Lacaio ──────
+// (idêntica a Silvaril — mesmo cargo, raça, estatísticas e habilidade — só muda
+// nome/gênero/arte; adicionada no FIM do array de propósito, pra não deslocar
+// os ids aleatórios das 28 ameaças já geradas/deployadas em v1.116.0.)
+NPCS.push({
+    name: "Dafodil", nd: 3, role: "lacaio", tipo: "hum", raca: "Dahlan",
+    tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Dafodil.png",
+    disposition: 0, tesouro: "Metade", cd: 17, def: 20, movement: { walk: 9 },
+    sentidos: [], bio: "Apresentadora do leilão subterrâneo da Guilda de Ladrões de Thartan — dahlan de beleza etérea e charme magnético, capaz de vender qualquer item duvidoso como se fosse a última maravilha de Arton.",
+    ataquescac: "Ataque Improvisado +16 (1d6+21, ×2, impacto)", ataquesad: "",
+    atributos: { for: -2, des: 1, con: -1, int: 1, sab: 1, car: 5 },
+    pericias: {
+        ...saves(14, 9, 4),
+        dipl: skill(18, { outros: 18 }), enga: skill(13, { outros: 13 }),
+    },
+    pv: 21,
+    items: [
+        { kind: "weapon", name: "Ataque Improvisado", atk: 16, dmgFormula: "1d6+21", critM: 20, critX: 2, tipoDano: "impacto", alcance: "melee", descricao: "Um martelo de leiloeiro ou o que estiver à mão." },
+        { kind: "power", name: "Presença Magnética", execucao: "passive", descricao: "Dafodil recebe <strong>+10</strong> em Diplomacia ao vender algo, e <strong>+5</strong> em testes de resistência contra intimidação — sua beleza etérea desarma qualquer hostilidade." },
     ],
 });
 
