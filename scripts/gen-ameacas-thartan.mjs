@@ -768,6 +768,70 @@ NPCS.push({
     ],
 });
 
+// ── 15. Mia — Moreau Felina, Batedora dos Bosques, ND2, Solo ────────────────────
+// (adicionada no FIM, mesmo motivo de Dafodil/Vesper — não perturbar ids já deployados)
+NPCS.push({
+    name: "Mia", nd: 2, role: "solo", tipo: "hum", raca: "Moreau (Felino)",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Mia.png",
+    disposition: 0, tesouro: "Metade", cd: 16, def: 19, movement: { walk: 9, climb: 6 },
+    sentidos: ["Percepção 9", "Visão no escuro"],
+    bio: "Batedora moreau felina que patrulha os bosques, usando reflexos ágeis e garras silenciosas para rastrear e emboscar intrusos antes que percebam que estão sendo observados.",
+    ataquescac: "", ataquesad: "Arco Curto +12 (1d6+15, 20/×3, perfuração, alcance longo)",
+    atributos: { for: 0, des: 4, con: 1, int: 0, sab: 3, car: 1 }, pmMax: 6,
+    pericias: {
+        ...saves(7, 13, 2),
+        furt: skill(10, { outros: 10 }), sobr: skill(9, { outros: 9 }), perc: skill(9, { outros: 9 }), acro: skill(7, { outros: 7 }),
+    },
+    pv: 70,
+    items: [
+        { kind: "weapon", name: "Arco Curto", atk: 12, dmgFormula: "1d6+15", critM: 20, critX: 3, tipoDano: "perfuração", alcance: "far", proposito: "disparo", descricao: "Um arco curto de caça, usado por Mia para abater alvos de longe antes que percebam sua presença." },
+        { kind: "power", name: "Emboscada Silenciosa", execucao: "passive", dmgFormula: "1d6", dmgTipo: "perfuração", descricao: "Quando ataca um alvo Desprevenido ou surpreso, Mia causa <strong>+1d6</strong> de dano extra." },
+        { kind: "power", name: "Salto Felino", execucao: "move", pm: 1, descricao: "<strong>Movimento, 1 PM.</strong> Mia salta até 6m em qualquer direção, inclusive na vertical, ignorando terreno difícil." },
+    ],
+});
+
+// ── 16. Grom — Moreau Urso, Lenhador e Guarda de Carga, ND3, Solo ───────────────
+NPCS.push({
+    name: "Grom", nd: 3, role: "solo", tipo: "hum", raca: "Moreau (Urso)",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Grom.png",
+    disposition: 0, tesouro: "Metade", cd: 17, def: 21, movement: { walk: 9 },
+    sentidos: ["Percepção 8"],
+    bio: "Moreau urso, lenhador de ofício e guarda de confiança das caravanas de carga que cruzam a região — não fala muito, mas seu machado e a força bruta resolvem qualquer problema que apareça no caminho.",
+    ataquescac: "Machado de Lenhador +14 (1d12+15, 20/×3, corte)", ataquesad: "",
+    atributos: { for: 6, des: 0, con: 4, int: -2, sab: 1, car: -1 }, pmMax: 9,
+    pericias: {
+        ...saves(15, 9, 3),
+        atle: skill(15, { outros: 15 }), inti: skill(10, { outros: 10 }), perc: skill(8, { outros: 8 }),
+    },
+    pv: 105,
+    items: [
+        { kind: "weapon", name: "Machado de Lenhador", atk: 14, dmgFormula: "1d12+15", critM: 20, critX: 3, tipoDano: "corte", alcance: "melee", descricao: "Um machado pesado de lenhador, tão útil para derrubar árvores quanto para derrubar quem se meter no caminho de Grom." },
+        { kind: "power", name: "Golpe Derrubador", execucao: "standard", pm: 2, resistPericia: "fort", resistTxt: "Fortitude CD 17 evita (imune se Grande ou maior)", descricao: "<strong>Padrão, 2 PM.</strong> O próximo ataque corpo a corpo de Grom que acertar também derruba o alvo ao chão, a menos que seja de tamanho Grande ou maior. <strong>Fortitude CD 17</strong> evita." },
+        { kind: "power", name: "Couro Espesso", execucao: "passive", descricao: "O pelo grosso e a pele curtida de Grom concedem <strong>Redução de Dano 3</strong> contra dano físico." },
+    ],
+});
+
+// ── 17. Cedric — Elfo, Vigia da Milícia, ND1, Lacaio ────────────────────────────
+NPCS.push({
+    name: "Cedric", nd: 1, role: "lacaio", tipo: "hum", raca: "Elfo",
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Cedric.png",
+    disposition: 0, tesouro: "Nenhum", cd: 14, def: 15, movement: { walk: 9 },
+    sentidos: ["Percepção 6", "Visão no escuro"],
+    bio: "Elfo vigia da milícia local, sempre alerta nas muralhas ou nas estradas — treinado para notar o menor sinal de perigo e soar o alarme antes que seja tarde.",
+    ataquescac: "Espada da Milícia +11 (1d8+13, ×2, corte)", ataquesad: "",
+    atributos: { for: 1, des: 2, con: 0, int: 0, sab: 1, car: 0 }, pmMax: 6,
+    pericias: {
+        ...saves(5, 10, 1),
+        perc: skill(6, { outros: 6 }), inic: skill(4, { outros: 4 }),
+    },
+    pv: 9,
+    items: [
+        { kind: "weapon", name: "Espada da Milícia", atk: 11, dmgFormula: "1d8+13", critM: 20, critX: 2, tipoDano: "corte", alcance: "melee", descricao: "Uma espada padrão distribuída aos vigias da milícia local." },
+        { kind: "power", name: "Visão Élfica", execucao: "passive", descricao: "Cedric enxerga perfeitamente no escuro parcial, é imune a magias de sono e recebe <strong>+2</strong> em testes de resistência contra efeitos de Encantamento." },
+        { kind: "power", name: "Grito de Alarme", execucao: "free", pm: 1, descricao: "<strong>Ação livre, 1 PM.</strong> Cedric alerta até 6 aliados num raio de 9m, que não podem ser surpreendidos até o fim da cena." },
+    ],
+});
+
 // ── Escrita dos arquivos ─────────────────────────────────────────────────────────
 writeFileSync(resolve(OUT_DIR, `_folder-thartan-${FOLDER_THARTAN_ID.slice(-6)}.json`), JSON.stringify(folderThartan, null, 2) + "\n");
 
