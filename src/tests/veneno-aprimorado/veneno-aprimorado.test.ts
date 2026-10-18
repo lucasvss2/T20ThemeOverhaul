@@ -60,7 +60,7 @@ describe("Veneno Aprimorado — efeito opcional no ataque", () => {
         const original = new Effect();
         const [improved] = improvedPoisonEffects([original]);
         expect(improved).not.toBe(original);
-        expect(improved).toMatchObject({ id: original.id, disabled: true, flags: original.flags, changes: [{ key: "dano", mode: 2, value: "2d12", priority: 0 }] });
+        expect(improved).toMatchObject({ id: original.id, disabled: true, flags: original.flags, changes: [{ key: "dano", mode: 2, value: "2d12[perda]", priority: 0 }] });
         expect(original.changes[0].value).toBe("1d12");
         expect(improvedPoisonEffects([improved])[0]).toBe(improved);
     });
@@ -68,6 +68,9 @@ describe("Veneno Aprimorado — efeito opcional no ataque", () => {
         const effect = new Effect();
         effect.changes[0].value = "1d12[perda]";
         expect(improvedPoisonEffects([effect])[0].changes[0].value).toBe("2d12[perda]");
+    });
+    it("sem o aprimoramento mantém 1d12, ainda como perda de PV", () => {
+        expect(improvedPoisonEffects([new Effect()], false)[0].changes[0].value).toBe("1d12[perda]");
     });
     it("não altera a resistência a veneno +5 nem efeitos de outras origens", () => {
         const resistance = new Effect();
@@ -139,10 +142,10 @@ describe("Veneno Aprimorado — integração com ItemT20", () => {
         installVenenoAprimorado(Item.prototype);
         const weapon = Object.assign(new Item(), { type: "arma", name: "Adaga" });
         const used = weapon.roll().item;
-        expect(used.validOnUseEffects[0].changes[0].value).toBe("2d12");
+        expect(used.validOnUseEffects[0].changes[0].value).toBe("2d12[perda]");
         expect(weapon.effects[0].changes[0].value).toBe("1d12");
         weapon.actor.items.contents = [];
-        expect(used.validOnUseEffects[0].changes[0].value).toBe("1d12");
+        expect(used.validOnUseEffects[0].changes[0].value).toBe("1d12[perda]");
     });
     it("não altera outros poderes ou efeitos oferecidos em testes de perícia", () => {
         const Item = runtime();

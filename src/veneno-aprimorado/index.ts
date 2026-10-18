@@ -8,7 +8,10 @@
 import { log, warn } from "@/utils/logging";
 
 interface NamedItem { type?: string; name?: string }
-interface ActorLike { items?: { contents?: NamedItem[] } }
+interface ActorLike {
+    items?: { contents?: NamedItem[] };
+    system?: { modificadores?: { dano?: { geral?: unknown[]; cac?: unknown[]; ad?: unknown[] } } };
+}
 interface RollLike { type?: string; parts?: string[][] }
 interface ChangeLike { key: string; value: string; mode: number; priority?: number | null }
 interface EffectLike {
@@ -25,6 +28,7 @@ interface ItemLike extends NamedItem {
 }
 interface ItemPrototype {
     roll?: (this: ItemLike, ...args: unknown[]) => unknown;
+    rollDamage?: (this: ItemLike, ...args: unknown[]) => Promise<unknown>;
     _t20VenenoAprimoradoPatched?: boolean;
 }
 
@@ -60,18 +64,46 @@ export function improvedPoisonRolls(rolls: RollLike[]): RollLike[] {
  * Clona apenas esse efeito, mantendo id, custo, seleção e comportamento nativos.
  * O outro efeito homônimo (+5 contra veneno) não é alterado.
  */
-export function improvedPoisonEffects(effects: EffectLike[]): EffectLike[] {
+export function improvedPoisonEffects(effects: EffectLike[], improved = true): EffectLike[] {
     return effects.map(effect => {
         if (normalize(effect.name) !== "natureza venenosa"
             || !effect.flags?.tormenta20?.onuse || !effect.flags.tormenta20.attack) return effect;
         let changed = false;
         const changes = effect.changes.map(change => {
             if (change.key !== "dano" || change.mode !== 2 || !/^1d12(?:\[perda\])?$/i.test(change.value.trim())) return change;
+            const value = `${improved ? 2 : 1}d12[perda]`;
+            if (change.value === value) return change;
             changed = true;
-            return { ...change, value: change.value.replace(/1d12/i, "2d12") };
+            return { ...change, value };
         });
         return changed ? effect.clone({ changes }, { keepId: true }) : effect;
     });
+}
+
+/**
+ * ItemT20 omite todos os bônus gerais quando QUALQUER parcela é perda de PV.
+ * Em dano misto, inclui os mesmos bônus nativos apenas na parcela da arma;
+ * a perda continua independente de RD e não recebe atributo/bônus adicionais.
+ * Restaura o array no finally do wrapper, inclusive em erro de rolagem.
+ */
+export function injectMixedLossBonuses(item: Pick<ItemLike, "type" | "actor" | "system">): () => void {
+    if (item.type !== "arma") return () => {};
+    const rolls = item.system?.rolls ?? [];
+    const skill = rolls.find(roll => roll.type === "ataque")?.parts?.[1]?.[0];
+    const bonuses = item.actor?.system?.modificadores?.dano;
+    const keys: string[] = [];
+    if (bonuses?.geral?.some(Boolean)) keys.push("@dano");
+    if (skill === "luta" && bonuses?.cac?.some(Boolean)) keys.push("@danoCAC");
+    else if (skill === "pont" && bonuses?.ad?.some(Boolean)) keys.push("@danoAD");
+    const touched: Array<{ roll: RollLike; parts: string[][] }> = [];
+    if (keys.length) for (const roll of rolls) {
+        if (roll.type !== "dano" || !roll.parts?.some(part => part[1] === "perda")) continue;
+        const type = roll.parts.find(part => part[1] && !["perda", "curapv", "curatpv", "curapm", "curatpm"].includes(part[1]))?.[1];
+        if (!type) continue;
+        touched.push({ roll, parts: roll.parts });
+        roll.parts = [...roll.parts, ...keys.map(key => [key, type, ""])];
+    }
+    return () => { for (const { roll, parts } of touched) roll.parts = parts; };
 }
 
 /** Instala os wrappers uma vez; exportado para verificar o fluxo de uso. */
@@ -95,10 +127,16 @@ export function installVenenoAprimorado(prototype: object): boolean {
         ...descriptor,
         get(this: ItemLike): EffectLike[] {
             const effects = originalEffects.call(this) as EffectLike[];
-            return this.type === "arma" && hasVenenoAprimorado(this.actor)
-                ? improvedPoisonEffects(effects) : effects;
+            return this.type === "arma"
+                ? improvedPoisonEffects(effects, hasVenenoAprimorado(this.actor)) : effects;
         },
     });
+    const originalDamage = proto.rollDamage;
+    if (typeof originalDamage === "function") proto.rollDamage = async function (...args: unknown[]): Promise<unknown> {
+        const restore = injectMixedLossBonuses(this);
+        try { return await originalDamage.call(this, ...args); }
+        finally { restore(); }
+    };
     proto._t20VenenoAprimoradoPatched = true;
     return true;
 }
