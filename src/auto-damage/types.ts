@@ -1,4 +1,5 @@
 import type { GolpePayload } from "@/golpe-pessoal/index";
+import type { AssassinarPayload } from "@/ataque-furtivo/format";
 
 export interface AutoDamageRequest {
     type: "auto-damage-request";
@@ -18,6 +19,8 @@ export interface AutoDamageRequest {
     attackTotal: number;
     targetDef: number;
     damageTotal: number;
+    /** Análise consumida somente quando este ataque realmente causar dano ao alvo. */
+    assassinar?: AssassinarPayload;
     /** Tipo de dano primário do roll (perfuracao, fogo, …) para auto-RD. null = sem tipo. */
     damageType?: string | null;
     attackFormula: string;
@@ -59,6 +62,7 @@ export interface AttackRerollRequest {
     targetDef: number;
     /** Tipo de dano primário (para auto-RD após reroll). */
     damageType?: string | null;
+    assassinar?: AssassinarPayload;
     damageMaximized: boolean;
     /** Non-critted base weapon formula — same semantics as in AutoDamageRequest. */
     baseDamageFormula?: string;

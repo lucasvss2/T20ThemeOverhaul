@@ -1,5 +1,6 @@
 import type { AutoDamageRequest, AttackRerollRequest, AttackMissNotify, MissCounterRequest } from "./types";
 import { MODULE_ID } from "@/constants";
+import { consumeAssassinar, ROLL_ASSASSINAR, type AssassinarPayload } from "@/ataque-furtivo";
 import { getSocket, onSocketReady } from "@/socket";
 import {
     getAuraInvencibilidadeContextForActor,
@@ -134,7 +135,7 @@ async function applyDamage(
     targetActorId: string,
     amount: number,
     pmCost: number,
-    origin?: { kind: string; source?: string; type?: string },
+    origin?: { kind: string; source?: string; type?: string; assassinar?: AssassinarPayload },
 ): Promise<void> {
     const actor = resolveActor(targetTokenId, targetActorId);
     if (!actor) return;
@@ -168,6 +169,7 @@ async function applyDamage(
     // to attribute the PV/PM change to its cause (dano de X, custo de PM, …).
     const opts = origin ? { [MODULE_ID]: { origin } } : undefined;
     await actor.update(update, opts);
+    if (newHp + newTemp < currentHp + currentTemp) await consumeAssassinar(origin?.assassinar, actor.uuid);
 }
 
 // ── Reroll handling (runs on attacker's client) ───────────────────────────────
@@ -364,6 +366,7 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
     }
 
     const damageRoll = new Roll(rerollDmgFormula);
+    if (req.assassinar) damageRoll.options[ROLL_ASSASSINAR] = req.assassinar;
     await damageRoll.evaluate({ maximize: req.damageMaximized });
 
     const rerollRolls: object[] = [attackRoll.toJSON()];
@@ -395,6 +398,7 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
         targetDef:      req.targetDef,
         damageTotal:    damageRoll.total ?? 0,
         damageType:     req.damageType,
+        assassinar:     req.assassinar,
         attackFormula:  req.attackFormula,
         damageFormula:      rerollDmgFormula,
         damageMaximized:    req.damageMaximized,
@@ -636,7 +640,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 const root     = dialog.element;
                 const finalDmg = applyRd(req.damageTotal, readRdInput(root));
                 void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
-                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
                 golpePost(finalDmg);
             },
         },
@@ -649,7 +653,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                 const root     = dialog.element;
                 const finalDmg = applyRd(halfDmg, readRdInput(root));
                 void applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(root),
-                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                    { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
                 golpePost(finalDmg);
             },
         },
@@ -691,7 +695,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             await baseRoll.evaluate();
             const baseDmg = applyRd(Math.max(0, baseRoll.total ?? 0), readRdInput(root));
             await applyDamage(req.targetTokenId, req.targetActorId, baseDmg, readPmInput(root),
-                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
             golpePost(baseDmg);
             // trava o rodapé — o dano já foi aplicado (base, sem o extra do crítico).
             root.querySelectorAll<HTMLButtonElement>('button[data-action="full"], button[data-action="half"], button[data-action="none"]')
@@ -716,7 +720,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
             key, dmgAfterRd, targetActor as unknown as Parameters<typeof computePostDamageReduction>[2],
         );
         await applyDamage(req.targetTokenId, req.targetActorId, r.final, r.pmSpent,
-            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
         golpePost(r.final);
         await finalizePostDamageReaction({
             actor: targetActor as unknown as Parameters<typeof finalizePostDamageReaction>[0]["actor"],
@@ -731,7 +735,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         targetActorId: req.targetActorId, targetTokenId: req.targetTokenId,
         attackFormula: req.attackFormula, damageFormula: req.damageFormula,
         attackerName: req.attackerName, rollLabel: req.rollLabel, targetDef: req.targetDef,
-        damageType: req.damageType, damageMaximized: req.damageMaximized,
+        damageType: req.damageType, damageMaximized: req.damageMaximized, assassinar: req.assassinar,
         baseDamageFormula: req.baseDamageFormula, critOnlyDmgFormula: req.critOnlyDmgFormula,
         gritoActive: req.gritoActive, samuraiLevel: req.samuraiLevel,
         effectiveCriticoX: req.effectiveCriticoX, effectiveCriticoM: req.effectiveCriticoM,
@@ -765,7 +769,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         if (!res.blocked) {
             const finalDmg = applyRd(req.damageTotal, readRdInput(root));
             await applyDamage(req.targetTokenId, req.targetActorId, finalDmg, 0,
-                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
         }
     };
 
@@ -793,7 +797,7 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         const dmgAfterRd = applyRd(req.damageTotal, readRdInput(root));
         const { toHolder, toAlly } = splitAmigoProtetor(dmgAfterRd);
         await applyDamage(req.targetTokenId, req.targetActorId, toHolder, readPmInput(root),
-            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined });
+            { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
         await applyDamage(ally.id, ally.actor.id, toAlly, 0,
             { kind: "damage", source: `Amigo Protetor (${req.attackerName})` });
         await resolveAmigoProtetor({
@@ -1137,6 +1141,7 @@ function setupCreateChatHook(): void {
                 attackTotal,
                 targetDef,
                 damageTotal:       effectiveDamageTotal,
+                assassinar:        damageRoll.options[ROLL_ASSASSINAR] as AssassinarPayload | undefined,
                 damageType,
                 attackFormula,
                 damageFormula,

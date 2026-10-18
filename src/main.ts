@@ -56,6 +56,7 @@ import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/ind
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
 import { setupVenenoAprimorado } from "./veneno-aprimorado/index";
 import { setupAdagaNoturna } from "./adaga-noturna/index";
+import { setupAtaqueFurtivo } from "./ataque-furtivo/index";
 import { setupEscudoLeve } from "./escudo-leve/index";
 import { setupArmamentoAberrante } from "./armamento-aberrante/index";
 import { setupEconomiaHabilidade } from "./economia-habilidade/index";
@@ -156,6 +157,7 @@ Hooks.once("setup", () => {
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
     setupVenenoAprimorado();      // Medusa: Natureza Venenosa passa de 1d12 para 2d12 PV (passivo racial)
     setupAdagaNoturna();         // Tenebra: 1 PM por arma, +1d6 de frio pela cena
+    setupAtaqueFurtivo();        // Ladino: furtivo por nível; Assassinar no primeiro dano ao alvo analisado
     setupEscudoLeve();            // Escudo Leve: ocupa o antebraço (mão livre p/ objeto/arma/desarmado 2 mãos)
     setupArmamentoAberrante();    // Armamento Aberrante (Tormenta): seletor de arma orgânica (dano +1 passo/2 poderes), dura a cena
     setupEconomiaHabilidade();    // Economia de Habilidade: reduz −1 PM de um poder escolhido (mín. 1); restaura ao remover
