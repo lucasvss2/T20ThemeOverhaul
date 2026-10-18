@@ -99,7 +99,8 @@ async function usePower(item: Weapon): Promise<null> {
                 } }, { action: "cancel", label: "Cancelar", callback: () => null }],
             rejectClose: false,
         });
-        if (selected === null) return null;
+        // DialogV2.wait pode resolver a action "cancel" quando o callback retorna null.
+        if (selected === null || !/^\d+$/.test(selected)) return null;
         const chosen = weapons[Number(selected)];
         const current = chosen?.id ? actor.items?.get(chosen.id) : undefined;
         if (!current || !await activateNightDagger(actor, current, item.uuid ?? "", item.img ?? "icons/svg/ice-aura.svg")) {
@@ -113,6 +114,22 @@ async function usePower(item: Weapon): Promise<null> {
 }
 
 export function setupAdagaNoturna(): void {
+    // AbilityUseDialog lê actor.effects diretamente, sem consultar validOnUseEffects.
+    // Retira também a opção visual legada, evitando uma cobrança aparente por ataque.
+    Hooks.on("renderApplication", (...args: unknown[]) => {
+        const app = args[0] as { item?: Weapon; _onInputChange?: (html: HTMLElement[]) => void };
+        if (app.item?.type !== "arma") return;
+        const html = args[1];
+        const root = html instanceof HTMLElement ? html : (html as { 0?: HTMLElement } | null)?.[0];
+        if (!root) return;
+        let changed = false;
+        root.querySelectorAll(".aprimoramentos-list li").forEach(row => {
+            if (!isNightDagger(row.querySelector("h4.item-name")?.textContent ?? "")) return;
+            row.remove();
+            changed = true;
+        });
+        if (changed) app._onInputChange?.([root]);
+    });
     Hooks.once("ready", () => {
         const proto = (CONFIG as unknown as { Item: { documentClass: { prototype: {
             roll: (this: Weapon, ...args: unknown[]) => unknown;

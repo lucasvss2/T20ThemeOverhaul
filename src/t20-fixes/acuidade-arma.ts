@@ -21,7 +21,8 @@
  * DANO (`rollDamage`): o T20 troca For→Des nativamente SÓ quando a part de dano
  * é o sentinela `"padrao"` (escolha "Padrão" no item). Armas configuradas com o
  * atributo de dano explícito guardam o literal `@for` nas parts, e aí o T20 não
- * aplica Acuidade — fica em Força.
+ * aplica Acuidade — fica em Força. Além disso, o sentinela "padrao" não cobre
+ * armas Ágeis de uma mão nem armas híbridas de corpo-a-corpo/arremesso não leves.
  *
  * ELEGIBILIDADE: além de leve corpo-a-corpo e arremesso, conta a propriedade
  * **Ágil** (`system.propriedades.agi`/`agil`) — "Pode ser usada com Acuidade com
@@ -34,8 +35,8 @@
  * `flags.tormenta20.acuidade` e Des > For:
  *   • `getAttackToHit` — embrulhamos forçando `roll.parts[1][1] = "des"` antes do
  *     original (cobre arremesso E atributo explícito; é no-op se já for `des`).
- *   • `rollDamage` — embrulhamos trocando `@for` → `@des` nas parts de dano com
- *     literal `@for` (parts `"padrao"` continuam tratadas nativamente pelo T20).
+ *   • `rollDamage` — embrulhamos trocando `@for` e o sentinela `"padrao"` por
+ *     `@des` nas parts de dano elegíveis, incluindo Ágil e arremesso híbrido.
  * As mutações são in-place e restauradas no `finally`. Mesma condição do T20
  * (flag + Des>For), então ataque e dano ficam consistentes.
  */
@@ -97,8 +98,8 @@ export function acuidadeActive(actor: ItemForAcuidade["actor"]): boolean {
 }
 
 /**
- * Troca `@for` → `@des` nas parts de um roll de dano. Retorna o novo array de
- * parts se houve troca, ou null caso contrário (sem `@for`, ou não é dano).
+ * Resolve `@for` e o sentinela `padrao` como `@des` num roll de dano elegível.
+ * Retorna o novo array de parts se houve troca, ou null caso contrário.
  */
 export function swapDanoForToDes(roll: DanoRollLike): RollPart[] | null {
     if (roll.type !== "dano") return null;
@@ -106,6 +107,10 @@ export function swapDanoForToDes(roll: DanoRollLike): RollPart[] | null {
     let changed = false;
     const next = parts.map(p => {
         const v = p?.[0] ?? "";
+        if (v === "padrao") {
+            changed = true;
+            return ["@des", p[1], p[2]] as RollPart;
+        }
         if (typeof v === "string" && /@for\b/.test(v)) {
             changed = true;
             return [v.replace(/@for\b/g, "@des"), p[1], p[2]] as RollPart;
@@ -116,7 +121,7 @@ export function swapDanoForToDes(roll: DanoRollLike): RollPart[] | null {
 }
 
 /**
- * Troca (mutando in-place) `@for` → `@des` nas parts de dano do item elegível e
+ * Troca (mutando in-place) `@for`/`padrao` → `@des` no dano do item elegível e
  * retorna uma função que restaura as parts originais. No-op se não elegível.
  */
 export function injectAcuidadeDano(item: ItemForAcuidade): () => void {

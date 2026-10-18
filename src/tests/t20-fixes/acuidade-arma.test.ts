@@ -87,6 +87,21 @@ describe("swapDanoForToDes", () => {
 });
 
 describe("injectAcuidadeDano (in-place + restore)", () => {
+    it.each([
+        ["Ágil de uma mão", "corpo-a-corpo", { agi: true }],
+        ["arremesso híbrida", "corpo-a-corpo-arremesso", {}],
+    ])("resolve dano Padrão de arma %s com Destreza e restaura o sentinela", (_name, proposito, propriedades) => {
+        const item: Item = {
+            type: "arma", system: { empunhadura: "uma", proposito: proposito as string, propriedades: propriedades as Record<string, unknown>,
+                rolls: [{ type: "dano", parts: [["1d8", "corte", ""], ["padrao", "", "atributo"]] }] },
+            actor: { flags: { tormenta20: { acuidade: true } }, system: { atributos: { des: { value: 4 }, for: { value: 1 } } } },
+        };
+        const original = structuredClone(item.system?.rolls);
+        const restore = injectAcuidadeDano(item);
+        expect(item.system?.rolls?.[0].parts?.[1]).toEqual(["@des", "", "atributo"]);
+        restore();
+        expect(item.system?.rolls).toEqual(original);
+    });
     const mkItem = (acuidade: boolean, des: number, forca: number) => ({
         type: "arma",
         system: {
