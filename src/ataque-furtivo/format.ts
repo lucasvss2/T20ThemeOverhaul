@@ -1,6 +1,12 @@
 export interface NamedItem { name?: string; type?: string; system?: { niveis?: number | string } }
 export interface ClassActor { items?: { contents?: NamedItem[] } }
-export interface SneakRoll { type?: string; name?: string; parts?: string[][] }
+export interface SneakRoll {
+    type?: string;
+    name?: string;
+    parts?: string[][];
+    clone?(data: { parts?: string[][] }): SneakRoll;
+    toObject?(source?: boolean): SneakRoll;
+}
 export interface Analysis {
     casterUuid: string;
     targetUuid: string;
@@ -28,9 +34,14 @@ export function sneakDice(level: number): number { return Math.ceil(Math.max(0, 
 
 export function scaleSneakRolls(rolls: SneakRoll[], level: number): SneakRoll[] {
     if (!level) return rolls; // Ameaças com furtivo fixo não recebem nível de personagem.
-    return rolls.map(roll => ({ ...roll, parts: roll.parts?.map((part, i) =>
-        roll.type === "dano" && i === 0 && /^\d+d6$/i.test(part[0]) ? [`${sneakDice(level)}d6`, ...part.slice(1)] : [...part],
-    ) }));
+    return rolls.map(roll => {
+        const parts = roll.parts?.map((part, i) =>
+            roll.type === "dano" && i === 0 && /^\d+d6$/i.test(part[0]) ? [`${sneakDice(level)}d6`, ...part.slice(1)] : [...part],
+        );
+        // system.rolls contém RollData: EmbeddedDataField exige toObject na ficha.
+        // Clonar pelo próprio modelo preserva o schema e deixa a origem intacta.
+        return roll.clone ? roll.clone({ parts }) : { ...roll, parts };
+    });
 }
 export function analysisMatches(analysis: Analysis, targetTokenUuid: string, sceneId: string, combatId?: string): boolean {
     return analysis.endsRemaining > 0 && analysis.targetTokenUuid === targetTokenUuid && analysis.sceneId === sceneId

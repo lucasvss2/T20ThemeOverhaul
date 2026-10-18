@@ -5,6 +5,22 @@ const actor = (level: number) => ({ items: { contents: [{ name: "Ladino", type: 
 const analysis = (): Analysis => ({ casterUuid: "Actor.rogue", targetUuid: "Actor.target", targetTokenUuid: "Scene.s.Token.t", targetName: "Alvo", sceneId: "s", combatId: "c", endsRemaining: 2 });
 
 describe("Ataque Furtivo — tabela do Ladino", () => {
+    it("preserva RollData e sua serialização ao preparar a ficha", () => {
+        class RollData {
+            readonly type = "dano";
+            constructor(public parts: string[][]) {}
+            toObject() { return { type: this.type, parts: this.parts.map(part => [...part]) }; }
+            clone(data: { parts?: string[][] }) { return new RollData(data.parts ?? this.toObject().parts); }
+        }
+        const original = new RollData([["1d6", "dano", ""]]);
+        const [scaled] = scaleSneakRolls([original], 5);
+        // EmbeddedDataField.toObject chama este método ao abrir a ficha real.
+        expect(() => (scaled as RollData).toObject()).not.toThrow();
+        expect(scaled).toBeInstanceOf(RollData);
+        expect((scaled as RollData).toObject().parts[0][0]).toBe("3d6");
+        expect(original.toObject().parts[0][0]).toBe("1d6");
+        expect((scaleSneakRolls([scaled], 7)[0] as RollData).toObject().parts[0][0]).toBe("4d6");
+    });
     it.each(Array.from({ length: 20 }, (_, i) => [i + 1, Math.ceil((i + 1) / 2)]))("Ladino %i recebe %id6", (level, dice) => {
         expect(sneakDice(rogueLevel(actor(level)))).toBe(dice);
     });

@@ -205,7 +205,8 @@ export function setupAtaqueFurtivo(): void {
             if (this.type === "poder" && this.actor && named(this.name, "assassinar")) return prepare(this, (args[0] as { createMessage?: boolean } | undefined)?.createMessage !== false);
             if (this.type === "poder" && named(this.name, "ataque furtivo") && rogueLevel(this.actor)) {
                 const clone = this.clone({}, { keepId: true });
-                clone.updateSource({ "system.rolls": scaleSneakRolls(clone.system?.rolls ?? [], rogueLevel(this.actor)) });
+                const rolls = (clone.system?.rolls ?? []).map(roll => roll.toObject?.(false) ?? roll);
+                clone.updateSource({ "system.rolls": scaleSneakRolls(rolls, rogueLevel(this.actor)) });
                 return nativeRoll.call(clone, ...args);
             }
             return nativeRoll.call(this, ...args);
