@@ -54,6 +54,7 @@ import { setupDivindades } from "./divindades/index";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
+import { setupVenenoAprimorado } from "./veneno-aprimorado/index";
 import { setupEscudoLeve } from "./escudo-leve/index";
 import { setupArmamentoAberrante } from "./armamento-aberrante/index";
 import { setupEconomiaHabilidade } from "./economia-habilidade/index";
@@ -152,6 +153,7 @@ Hooks.once("setup", () => {
     setupDivindades();            // Divindades: item arrastável → modal de poderes concedidos + complicação O&R + automações Aharadak/Nimb
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
+    setupVenenoAprimorado();      // Medusa: Natureza Venenosa passa de 1d12 para 2d12 PV (passivo racial)
     setupEscudoLeve();            // Escudo Leve: ocupa o antebraço (mão livre p/ objeto/arma/desarmado 2 mãos)
     setupArmamentoAberrante();    // Armamento Aberrante (Tormenta): seletor de arma orgânica (dano +1 passo/2 poderes), dura a cena
     setupEconomiaHabilidade();    // Economia de Habilidade: reduz −1 PM de um poder escolhido (mín. 1); restaura ao remover
