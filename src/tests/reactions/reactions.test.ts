@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import {
     DEFENSE_REACTIONS,
     POSTDAMAGE_REACTIONS,
@@ -429,6 +429,28 @@ describe("Evasão / Evasão Aprimorada", () => {
     });
     it("anulada quando Imóvel (exige liberdade de movimento)", () => {
         expect(getEvasaoLevel(mk(["Evasão Aprimorada"], ["Imóvel"]) as any)).toBe("none");
+    });
+    it.each(["Evasão", "Evasão Aprimorada"])("%s exige armadura leve ou nenhuma nos dois modos de equipamento", (power) => {
+        const setting = vi.spyOn(game.settings, "get");
+        try {
+            for (const slots of [true, false]) {
+                setting.mockReturnValue(slots);
+                const actor = mk([power]);
+                const armor = { type: "equipamento", name: "Armadura pesada", id: "armor", system: {
+                    tipo: "pesada", equipado: !slots, equipado2: { slot: slots ? 1.2 : 0 },
+                } };
+                actor.items.push(armor as any);
+                expect(getEvasaoLevel(actor as any)).toBe("none");
+                // O campo inativo não pode tornar uma armadura carregada em equipada.
+                armor.system.equipado = slots;
+                armor.system.equipado2.slot = slots ? 0 : 1.2;
+                expect(getEvasaoLevel(actor as any)).toBe(power.includes("Aprimorada") ? "aprimorada" : "evasao");
+                armor.system.tipo = "leve";
+                armor.system.equipado = !slots;
+                armor.system.equipado2.slot = slots ? 1.2 : 0;
+                expect(getEvasaoLevel(actor as any)).toBe(power.includes("Aprimorada") ? "aprimorada" : "evasao");
+            }
+        } finally { setting.mockRestore(); }
     });
     it("applyEvasao: sem Evasão = comportamento padrão (metade/cheio)", () => {
         expect(applyEvasao("none", true, 20, 10)).toBe(10);

@@ -687,13 +687,21 @@ export type EvasaoLevel = "none" | "evasao" | "aprimorada";
 
 /**
  * Nível de Evasão do ator (poderes Evasão / Evasão Aprimorada, inclusive variantes
- * do Ladino). Exige liberdade de movimento — anulado se estiver Imóvel.
+ * do Ladino). Exige liberdade de movimento e armadura leve ou nenhuma.
  *  - "evasao": Reflexos que reduz à metade → passou: 0 dano; falhou: dano cheio.
  *  - "aprimorada": passou: 0 dano; falhou: metade do dano.
  */
 export function getEvasaoLevel(actor: ActorLike | null | undefined): EvasaoLevel {
     if (!actor) return "none";
     if (actorHasActiveEffectNamed(actor, "imovel")) return "none";
+    const equipmentSlots = !!game.settings.get("tormenta20", "equipmentSlots");
+    if (itemsOf(actor).some((item) => {
+        if (item.type !== "equipamento" || item.system?.["tipo"] !== "pesada") return false;
+        const system = item.system;
+        return equipmentSlots
+            ? !!(system["equipado2"] as { slot?: unknown } | undefined)?.slot
+            : !!system["equipado"];
+    })) return "none";
     let level: EvasaoLevel = "none";
     for (const it of itemsOf(actor)) {
         if (it.type !== "poder") continue;
