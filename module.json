@@ -2,7 +2,7 @@
     "id": "t20-theme-overhaul",
     "title": "T20 Theme Overhaul [BETA]",
     "description": "⚠️ VERSÃO BETA — pode conter recursos experimentais e instabilidades. Tema escuro completo para o sistema Tormenta20: ficha de personagem redesenhada com visual cinematográfico escuro, janelas de itens/poderes/magias estilizadas, overlay cinemático de dados com resultado do d20, chat cards com botão de rerolar, teste secreto de perícia com multi-alvo e aplicação automática de dano com prompt interativo.",
-    "version": "1.119.6",
+    "version": "1.120.0",
     "authors": [
         {
             "name": "lucasvss2",
@@ -43,6 +43,19 @@
             "name": "cruzado",
             "label": "T20 Overhaul — Cruzado (Clérigo Variante)",
             "path": "packs/cruzado",
+            "type": "Item",
+            "system": "tormenta20",
+            "ownership": {
+                "PLAYER": "OBSERVER",
+                "TRUSTED": "OBSERVER",
+                "ASSISTANT": "OWNER",
+                "GAMEMASTER": "OWNER"
+            }
+        },
+        {
+            "name": "capanga",
+            "label": "T20 Overhaul — Capanga (Ladino Variante)",
+            "path": "packs/capanga",
             "type": "Item",
             "system": "tormenta20",
             "ownership": {
@@ -101,6 +114,7 @@
                 "ameacas",
                 "weapon-properties",
                 "cruzado",
+                "capanga",
                 "poderes",
                 "divindades",
                 "pocoes-pergaminhos"

@@ -1,0 +1,96 @@
+{
+  "name": "Flanquear Aprimorado",
+  "type": "poder",
+  "img": "modules/t20-theme-overhaul/assets/Capanga/flanquear-aprimorado.png",
+  "system": {
+    "description": {
+      "value": "<p>No 6º nível, o bônus que você recebe contra oponentes flanqueados aumenta para +4 (em vez de +2).</p><p><strong>Nível de Capanga:</strong> 6º.</p><p><strong>Uso no Foundry:</strong> No ataque contra um oponente flanqueado, marque este efeito para somar +2 adicionais ao bônus normal de +2. Não some +4 novamente. A posição de flanqueamento é conferida na mesa.</p>",
+      "unidentified": ""
+    },
+    "source": "Classe variante de Ladino — Capanga (material fornecido, pp. 63–65)",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "Capanga",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": ""
+  },
+  "effects": [
+    {
+      "name": "Flanquear Aprimorado",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/flanquear-aprimorado.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": true,
+      "changes": [
+        {
+          "key": "ataque",
+          "mode": 2,
+          "value": "2",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false,
+          "items": ""
+        }
+      },
+      "_id": "CapangaEffec0001",
+      "_key": "!items.effects!CapangaPower0006.CapangaEffec0001"
+    }
+  ],
+  "folder": null,
+  "sort": 600,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "capangaLevel": 6
+    }
+  },
+  "_stats": {
+    "systemId": "tormenta20"
+  },
+  "_id": "CapangaPower0006",
+  "_key": "!items!CapangaPower0006"
+}

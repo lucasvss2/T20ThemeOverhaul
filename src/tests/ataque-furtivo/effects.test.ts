@@ -27,6 +27,15 @@ function item(): Item {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("Ataque Furtivo/Assassinar — efeito opcional de arma", () => {
+    it("Capanga usa d8, dobra com Assassinar e não acumula com furtivo básico", () => {
+        const weapon=item();
+        weapon.actor!.items!.contents=[{name:"Capanga",type:"classe",system:{niveis:5}},{name:"Ataque Furtivo Brutal",type:"poder",system:{rolls:[{type:"dano",parts:[["1d8","dano"]]}]}}] as Item[];
+        const effects=[effect("Ataque Furtivo"),effect("Ataque Furtivo Brutal"),effect("Frio","1d6[frio]")];
+        expect(rogueAttackEffects(weapon,effects).map(e=>e.changes[0].value)).toEqual(["3d8","1d6[frio]"]);
+        vi.stubGlobal("canvas",{scene:{id:"s"}});
+        vi.stubGlobal("game",{...game,user:{...game.user,targets:new Set([{document:{uuid:"Scene.s.Token.t"}}])}});
+        expect(rogueAttackEffects(weapon,effects).map(e=>e.changes[0].value)).toEqual(["6d8","1d6[frio]"]);
+    });
     it("usa 3d6 no nível 5, exclui cobrança legada e preserva outros efeitos", () => {
         const sneak = effect("Ataque Furtivo"), old = effect("Assassinar"), cold = effect("Outro bônus", "1d6[frio]");
         const actual = rogueAttackEffects(item(), [sneak, old, cold]);

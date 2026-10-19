@@ -1,0 +1,129 @@
+{
+  "name": "Rápido e Rasteiro",
+  "type": "poder",
+  "img": "modules/t20-theme-overhaul/assets/Capanga/rapido-e-rasteiro.png",
+  "system": {
+    "description": {
+      "value": "<p>No 3º nível, você recebe +2 em Iniciativa, Defesa e em rolagens de dano na primeira rodada de cada combate. Esse bônus aumenta para +4 no 7º nível e para +6 no 15º nível.</p><p><strong>Nível de Capanga:</strong> 3º.</p><p><strong>Uso no Foundry:</strong> Iniciativa e dano aparecem nos efeitos de uso, selecionados por padrão enquanto disponíveis. Antes de iniciar o combate, o bônus de Iniciativa também fica disponível. A Defesa é aplicada automaticamente aos participantes durante a primeira rodada e removida nas rodadas seguintes. O valor acompanha o nível de Capanga.</p>",
+      "unidentified": ""
+    },
+    "source": "Classe variante de Ladino — Capanga (material fornecido, pp. 63–65)",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "Capanga",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": ""
+  },
+  "effects": [
+    {
+      "name": "Rápido e Rasteiro",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/rapido-e-rasteiro.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": false,
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": true,
+          "spell": true,
+          "consumable": true,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false,
+          "items": ""
+        }
+      },
+      "_id": "CapangaEffec0001",
+      "_key": "!items.effects!CapangaPower0004.CapangaEffec0001"
+    },
+    {
+      "name": "Rápido e Rasteiro — Iniciativa",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/rapido-e-rasteiro.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": false,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "2",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false,
+          "items": "Iniciativa"
+        }
+      },
+      "_id": "CapangaEffec0002",
+      "_key": "!items.effects!CapangaPower0004.CapangaEffec0002"
+    }
+  ],
+  "folder": null,
+  "sort": 300,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "capangaLevel": 3
+    }
+  },
+  "_stats": {
+    "systemId": "tormenta20"
+  },
+  "_id": "CapangaPower0004",
+  "_key": "!items!CapangaPower0004"
+}

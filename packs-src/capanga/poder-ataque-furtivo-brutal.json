@@ -1,0 +1,109 @@
+{
+  "name": "Ataque Furtivo Brutal",
+  "type": "poder",
+  "img": "modules/t20-theme-overhaul/assets/Capanga/ataque-furtivo-brutal.png",
+  "system": {
+    "description": {
+      "value": "<p>Você sabe aproveitar a distração do inimigo para atingir seus pontos vitais. Uma vez por rodada, quando atinge uma criatura desprevenida com um ataque corpo a corpo, ou uma criatura que esteja flanqueando, você causa 1d8 pontos de dano extra. A cada dois níveis, esse dano aumenta em +1d8. Uma criatura imune a acertos críticos também é imune a ataques furtivos.</p><p><strong>Nível de Capanga:</strong> 1º.</p><p><strong>Uso no Foundry:</strong> No diálogo da arma, selecione este efeito quando cumprir as condições. A progressão em d8 é automática pelos níveis de Capanga; Assassinar dobra apenas esses dados. A elegibilidade, a imunidade do alvo e o limite de uma vez por rodada devem ser conferidos na mesa, como no Ataque Furtivo do ladino.</p>",
+      "unidentified": ""
+    },
+    "source": "Classe variante de Ladino — Capanga (material fornecido, pp. 63–65)",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "1d8",
+            "dano",
+            ""
+          ]
+        ]
+      }
+    ],
+    "tipo": "ability",
+    "subtipo": "Capanga",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": ""
+  },
+  "effects": [
+    {
+      "name": "Ataque Furtivo Brutal",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/ataque-furtivo-brutal.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": true,
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "roll",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false,
+          "items": ""
+        }
+      },
+      "_id": "CapangaEffec0001",
+      "_key": "!items.effects!CapangaPower0001.CapangaEffec0001"
+    }
+  ],
+  "folder": null,
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "capangaLevel": 1
+    }
+  },
+  "_stats": {
+    "systemId": "tormenta20"
+  },
+  "_id": "CapangaPower0001",
+  "_key": "!items!CapangaPower0001"
+}

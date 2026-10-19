@@ -4,7 +4,7 @@ import { escHtml } from "@/_shared/html";
 import { isActiveGM } from "@/_shared/gm";
 import { getSocket, onSocketReady } from "@/socket";
 import { warn } from "@/utils/logging";
-import { advanceAnalysis, analysisMatches, named, rogueLevel, scaleSneakRolls, sneakDice, type Analysis, type AssassinarPayload, type SneakRoll } from "./format";
+import { advanceAnalysis, analysisMatches, isSneakPower, named, rogueLevel, scaleSneakRolls, sneakDice, sneakLevel, type Analysis, type AssassinarPayload, type SneakRoll } from "./format";
 export type { AssassinarPayload } from "./format";
 
 const FLAG = "assassinar";
@@ -71,7 +71,7 @@ function currentMark(actor: Actor): Effect | undefined {
 }
 function selectedSneak(options: unknown): boolean {
     const list = (options as { onUseEffects?: Array<{ description?: string }> } | undefined)?.onUseEffects;
-    return Boolean(list?.some(e => named(e.description, "ataque furtivo")));
+    return Boolean(list?.some(e => isSneakPower(e.description)));
 }
 const applied = new WeakMap<Item, AssassinarPayload>();
 
@@ -80,14 +80,18 @@ export function rogueAttackEffects(item: Item, effects: Effect[]): Effect[] {
     const actor = item.actor;
     if (!actor || item.type !== "arma") return effects;
     applied.delete(item);
-    const level = rogueLevel(actor), mark = currentMark(actor);
-    const power = actor.items?.contents.find(i => i.type === "poder" && named(i.name, "ataque furtivo"));
-    const stored = power?.system?.rolls?.find(r => r.type === "dano")?.parts?.[0]?.[0]?.match(/^(\d+)d6$/i);
-    const count = level ? sneakDice(level) : Number(stored?.[1] ?? 0);
-    return effects.filter(e => !(named(e.name, "assassinar") && e.flags?.tormenta20?.attack)).map(effect => {
-        if (!named(effect.name, "ataque furtivo") || !effect.flags?.tormenta20?.onuse || !effect.flags.tormenta20.attack || !count) return effect;
-        const changes = effect.changes.map(change => change.key === "dano" && change.mode === 2 && (change.value === "roll" || /^\d+d6(?:\[\w+\])?$/.test(change.value))
-            ? { ...change, value: `${count * (mark ? 2 : 1)}d6` } : change);
+    const mark = currentMark(actor);
+    const brutal = actor.items?.contents.some(i => i.type === "poder" && named(i.name, "ataque furtivo brutal"));
+    return effects.filter(e => !(named(e.name, "assassinar") && e.flags?.tormenta20?.attack) && !(brutal && named(e.name, "ataque furtivo"))).map(effect => {
+        if (!isSneakPower(effect.name) || !effect.flags?.tormenta20?.onuse || !effect.flags.tormenta20.attack) return effect;
+        const isBrutal = named(effect.name, "ataque furtivo brutal"), faces = isBrutal ? 8 : 6;
+        const level = sneakLevel(actor, effect.name);
+        const power = actor.items?.contents.find(i => i.type === "poder" && named(i.name, isBrutal ? "ataque furtivo brutal" : "ataque furtivo"));
+        const stored = power?.system?.rolls?.find(r => r.type === "dano")?.parts?.[0]?.[0]?.match(/^(\d+)d[68]$/i);
+        const count = level ? sneakDice(level) : Number(stored?.[1] ?? 0);
+        if (!count) return effect;
+        const changes = effect.changes.map(change => change.key === "dano" && change.mode === 2 && (change.value === "roll" || /^\d+d[68](?:\[\w+\])?$/.test(change.value))
+            ? { ...change, value: `${count * (mark ? 2 : 1)}d${faces}` } : change);
         if (mark) applied.set(item, { casterUuid: actor.uuid, effectId: mark.id, targetUuid: state(mark)!.targetUuid });
         return effect.clone({ changes }, { keepId: true });
     });
@@ -203,10 +207,10 @@ export function setupAtaqueFurtivo(): void {
         const nativeRoll = proto.roll as (this: Item, ...args: unknown[]) => unknown;
         proto.roll = function (this: Item, ...args: unknown[]) {
             if (this.type === "poder" && this.actor && named(this.name, "assassinar")) return prepare(this, (args[0] as { createMessage?: boolean } | undefined)?.createMessage !== false);
-            if (this.type === "poder" && named(this.name, "ataque furtivo") && rogueLevel(this.actor)) {
+            if (this.type === "poder" && isSneakPower(this.name) && sneakLevel(this.actor, this.name)) {
                 const clone = this.clone({}, { keepId: true });
                 const rolls = (clone.system?.rolls ?? []).map(roll => roll.toObject?.(false) ?? roll);
-                clone.updateSource({ "system.rolls": scaleSneakRolls(rolls, rogueLevel(this.actor)) });
+                clone.updateSource({ "system.rolls": scaleSneakRolls(rolls, sneakLevel(this.actor, this.name), named(this.name, "ataque furtivo brutal") ? 8 : 6) });
                 return nativeRoll.call(clone, ...args);
             }
             return nativeRoll.call(this, ...args);
@@ -216,8 +220,8 @@ export function setupAtaqueFurtivo(): void {
         const nativePrepare = proto.prepareFinalAttributes as ((this: Item) => unknown) | undefined;
         if (nativePrepare) proto.prepareFinalAttributes = function (this: Item) {
             // Dado derivado também aparece corretamente na ficha; _source não muda.
-            if (this.type === "poder" && named(this.name, "ataque furtivo") && this.system && rogueLevel(this.actor)) {
-                this.system.rolls = scaleSneakRolls(this.system.rolls ?? [], rogueLevel(this.actor));
+            if (this.type === "poder" && isSneakPower(this.name) && this.system && sneakLevel(this.actor, this.name)) {
+                this.system.rolls = scaleSneakRolls(this.system.rolls ?? [], sneakLevel(this.actor, this.name), named(this.name, "ataque furtivo brutal") ? 8 : 6);
             }
             if (this.type === "poder" && named(this.name, "assassinar") && this.system) this.system.rolls = [];
             return nativePrepare.call(this);
@@ -237,7 +241,7 @@ export function setupAtaqueFurtivo(): void {
             ...(cvs()?.tokens?.placeables ?? []).flatMap(t => t.actor ? [t.actor] : []),
         ]);
         for (const actor of actors) for (const item of actor.items?.contents ?? []) {
-            if (item.type === "poder" && (named(item.name, "ataque furtivo") || named(item.name, "assassinar"))) item.prepareFinalAttributes?.();
+            if (item.type === "poder" && (isSneakPower(item.name) || named(item.name, "assassinar"))) item.prepareFinalAttributes?.();
         }
         const actorProto = (CONFIG as unknown as { Actor: { documentClass: { prototype: Record<string, unknown> } } }).Actor.documentClass.prototype;
         const nativeApply = actorProto.applyDamageV2 as (this: Actor, roll: Roll, ...args: unknown[]) => Promise<unknown>;

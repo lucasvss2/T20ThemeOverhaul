@@ -24,19 +24,27 @@ export function norm(value?: string): string {
 }
 export function named(value: string | undefined, name: string): boolean {
     const normalized = norm(value);
-    return normalized === name || normalized.endsWith(`: ${name}`) || normalized === `${name} (ladino)`;
+    return normalized === name || normalized.endsWith(`: ${name}`) || normalized === `${name} (ladino)` || normalized === `${name} (capanga)`;
+}
+export function isSneakPower(name?: string): boolean { return named(name, "ataque furtivo") || named(name, "ataque furtivo brutal"); }
+export function capangaLevel(actor?: ClassActor | null): number {
+    return Math.min(20, (actor?.items?.contents ?? []).filter(i => i.type === "classe" && named(i.name, "capanga"))
+        .reduce((sum, i) => sum + Math.max(0, Number(i.system?.niveis) || 0), 0));
 }
 export function rogueLevel(actor?: ClassActor | null): number {
-    return Math.min(20, (actor?.items?.contents ?? []).filter(i => i.type === "classe" && named(i.name, "ladino"))
+    return Math.min(20, (actor?.items?.contents ?? []).filter(i => i.type === "classe" && (named(i.name, "ladino") || named(i.name, "capanga")))
         .reduce((sum, i) => sum + Math.max(0, Number(i.system?.niveis) || 0), 0));
+}
+export function sneakLevel(actor: ClassActor | null | undefined, powerName?: string): number {
+    return named(powerName, "ataque furtivo brutal") ? capangaLevel(actor) : rogueLevel(actor);
 }
 export function sneakDice(level: number): number { return Math.ceil(Math.max(0, Math.min(20, level)) / 2); }
 
-export function scaleSneakRolls(rolls: SneakRoll[], level: number): SneakRoll[] {
+export function scaleSneakRolls(rolls: SneakRoll[], level: number, faces = 6): SneakRoll[] {
     if (!level) return rolls; // Ameaças com furtivo fixo não recebem nível de personagem.
     return rolls.map(roll => {
         const parts = roll.parts?.map((part, i) =>
-            roll.type === "dano" && i === 0 && /^\d+d6$/i.test(part[0]) ? [`${sneakDice(level)}d6`, ...part.slice(1)] : [...part],
+            roll.type === "dano" && i === 0 && /^\d+d[68]$/i.test(part[0]) ? [`${sneakDice(level)}d${faces}`, ...part.slice(1)] : [...part],
         );
         // system.rolls contém RollData: EmbeddedDataField exige toObject na ficha.
         // Clonar pelo próprio modelo preserva o schema e deixa a origem intacta.

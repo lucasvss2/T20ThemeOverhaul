@@ -53,6 +53,7 @@ import { setupEssenciaMana } from "./essencia-mana/index";
 import { setupDivindades } from "./divindades/index";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
+import { setupCapanga } from "./capanga/index";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
 import { setupVenenoAprimorado } from "./veneno-aprimorado/index";
 import { setupAdagaNoturna } from "./adaga-noturna/index";
@@ -154,6 +155,7 @@ Hooks.once("setup", () => {
     setupEssenciaMana();          // Essência de Mana: consumível recupera 1d4 PM ao usar + consome 1 dose
     setupDivindades();            // Divindades: item arrastável → modal de poderes concedidos + complicação O&R + automações Aharadak/Nimb
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
+    setupCapanga();               // Capanga: efeitos condicionais, primeira rodada e exclusão com Ladino
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
     setupVenenoAprimorado();      // Medusa: Natureza Venenosa passa de 1d12 para 2d12 PV (passivo racial)
     setupAdagaNoturna();         // Tenebra: 1 PM por arma, +1d6 de frio pela cena

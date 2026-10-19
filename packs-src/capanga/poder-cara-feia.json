@@ -1,0 +1,96 @@
+{
+  "name": "Cara Feia",
+  "type": "poder",
+  "img": "modules/t20-theme-overhaul/assets/Capanga/cara-feia.png",
+  "system": {
+    "description": {
+      "value": "<p>No 4º nível, você recebe +5 em testes de resistência contra efeitos de Medo e em testes de Vontade para resistir a intimidações.</p><p><strong>Nível de Capanga:</strong> 4º.</p><p><strong>Uso no Foundry:</strong> Marque o efeito de uso Cara Feia no teste de resistência apenas contra Medo ou, em Vontade, contra intimidação. Não concede +5 permanentemente a todas as resistências.</p>",
+      "unidentified": ""
+    },
+    "source": "Classe variante de Ladino — Capanga (material fornecido, pp. 63–65)",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "Capanga",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": ""
+  },
+  "effects": [
+    {
+      "name": "Cara Feia",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/cara-feia.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "5",
+          "priority": 20
+        }
+      ],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false,
+          "items": "Fortitude;Reflexos;Vontade"
+        }
+      },
+      "_id": "CapangaEffec0001",
+      "_key": "!items.effects!CapangaPower0005.CapangaEffec0001"
+    }
+  ],
+  "folder": null,
+  "sort": 400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "capangaLevel": 4
+    }
+  },
+  "_stats": {
+    "systemId": "tormenta20"
+  },
+  "_id": "CapangaPower0005",
+  "_key": "!items!CapangaPower0005"
+}

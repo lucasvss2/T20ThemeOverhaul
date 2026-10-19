@@ -1,0 +1,89 @@
+{
+  "name": "Debulhar Inimigos",
+  "type": "poder",
+  "img": "modules/t20-theme-overhaul/assets/Capanga/debulhar-inimigos.png",
+  "system": {
+    "description": {
+      "value": "<p>No 20º nível, você já perdeu a paciência com inimigos cheios de truques ou que são resistentes às suas habilidades. Seus ataques furtivos ignoram imunidades de criaturas a acertos críticos. Além disso, você pode gastar 5 PM quando faz um ataque para usar seu ataque furtivo mesmo que o alvo não esteja desprevenido ou que você não o esteja flanqueando.</p><p><strong>Nível de Capanga:</strong> 20º.</p><p><strong>Uso no Foundry:</strong> A parte de ignorar imunidade a ataques furtivos é passiva e deve ser considerada na mesa. Para a opção de 5 PM, marque Ataque Furtivo Brutal e Debulhar Inimigos no mesmo ataque. Não use o poder separadamente para esse custo. O efeito de 5 PM libera a condição situacional; não adiciona uma segunda cópia do dano furtivo.</p>",
+      "unidentified": ""
+    },
+    "source": "Classe variante de Ladino — Capanga (material fornecido, pp. 63–65)",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "Capanga",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": ""
+  },
+  "effects": [
+    {
+      "name": "Debulhar Inimigos",
+      "img": "modules/t20-theme-overhaul/assets/Capanga/debulhar-inimigos.png",
+      "type": "base",
+      "transfer": true,
+      "disabled": true,
+      "changes": [],
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "5",
+          "durationScene": false,
+          "items": ""
+        }
+      },
+      "_id": "CapangaEffec0001",
+      "_key": "!items.effects!CapangaPower0009.CapangaEffec0001"
+    }
+  ],
+  "folder": null,
+  "sort": 2000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "capangaLevel": 20
+    }
+  },
+  "_stats": {
+    "systemId": "tormenta20"
+  },
+  "_id": "CapangaPower0009",
+  "_key": "!items!CapangaPower0009"
+}
