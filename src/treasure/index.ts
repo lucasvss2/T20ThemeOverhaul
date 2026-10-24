@@ -16,7 +16,7 @@
 import { deliverItemToActor } from "./item-resolver";
 import { perShareTibar, splitGoldShare, summarizeLoot, tibarToCoins, type LootItem } from "./loot";
 import { showLootOverlay, type LootOverlayPlayer } from "./loot-overlay";
-import { clearLootLog, getLootLog, getPresentPlayers, recordLoot, type PresentPlayer } from "./loot-store";
+import { getLootLog, getPresentPlayers, recordLoot, type LootEntry, type PresentPlayer } from "./loot-store";
 import { parseRiquezaCategories, pickRiquezaItem } from "./riqueza-picker";
 import { TREASURE } from "./treasure-data";
 import {
@@ -24,6 +24,7 @@ import {
 } from "./treasure-engine";
 import TREASURE_STYLES from "./treasure.css?inline";
 import { MODULE_ID } from "@/constants";
+import { isActiveGM } from "@/_shared/gm";
 import { getSocket, onSocketReady } from "@/socket";
 import { registerSkillAction } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
@@ -376,6 +377,8 @@ function requestLoot(token: TokenLike): void {
 interface LootPayload { sceneId: string; tokenId: string; requesterId: string }
 interface TokenDocLike {
     actor?: DeadActorLike | null;
+    id?: string;
+    disposition?: number;
     getFlag?: (m: string, k: string) => unknown;
     setFlag?: (m: string, k: string, v: unknown) => Promise<unknown>;
 }
@@ -430,10 +433,47 @@ async function lootTokenAsGM(payload: LootPayload): Promise<void> {
 
 // ── fim de combate: agrega o loot e transmite o overlay ───────────────────────
 
-async function onCombatEnd(combat: unknown): Promise<void> {
+interface LootCombat {
+    getFlag?: (module: string, key: string) => unknown;
+    combatants?: { contents: Array<{ tokenId?: string; token?: TokenDocLike | null; actor?: DeadActorLike | null; defeated?: boolean }> };
+}
+
+/** Lê também os tokens do encontro, que continuam disponíveis após deleteCombat. */
+export async function collectCombatLoot(combat: LootCombat): Promise<LootEntry[]> {
+    const entries = [...getLootLog(combat as Parameters<typeof getLootLog>[0])];
+    const seen = new Set(entries.map(entry => entry.tokenId));
+    for (const participant of combat.combatants?.contents ?? []) {
+        const token = participant.token, actor = participant.actor ?? token?.actor;
+        const tokenId = participant.tokenId ?? token?.id;
+        if (!tokenId || !token || !actor || actor.type !== "npc" || token.disposition !== -1
+            || (!participant.defeated && !isDeadNpcActor(actor)) || seen.has(tokenId)
+            || token.getFlag?.(MODULE_ID, LOOTED_FLAG)) continue;
+        seen.add(tokenId);
+        const nd = String((actor.system?.["attributes"] as { nd?: unknown } | undefined)?.nd ?? "").trim();
+        const quantity = parseTreasureType((actor.system?.["detalhes"] as { tesouro?: unknown } | undefined)?.tesouro);
+        if (quantity === null) continue;
+        const result = generateTreasure(nd, quantity, roller);
+        if (!result) { warn(`treasure: ND inválido no loot de ${actor.name}: ${nd}`); continue; }
+        // Não abre pickers durante o encerramento: riquezas conservam a descrição
+        // da tabela. Atribuição de itens continua no overlay do GM.
+        const summary = summarizeLoot(result.lines, `t-${tokenId}`);
+        entries.push({ tokenId, name: actor.name ?? "Inimigo", nd, ...summary });
+        await token.setFlag?.(MODULE_ID, LOOTED_FLAG, true);
+    }
+    return entries;
+}
+
+const endedCombats = new WeakSet<object>();
+async function onCombatEnd(combat: unknown, authorId?: string): Promise<void> {
     if (!game.user?.isGM) return;
+    // deleteCombat roda em todos os clientes. Só quem encerrou transmite;
+    // fallback para chamadas sem autor usa a eleição de GM compartilhada.
+    if (authorId ? authorId !== game.user.id : !isActiveGM()) return;
+    if (!combat || typeof combat !== "object" || endedCombats.has(combat)) return;
     const c = combat as Parameters<typeof getLootLog>[0] & Parameters<typeof getPresentPlayers>[0];
-    const logEntries = getLootLog(c);
+    if (!c?.started) return;
+    endedCombats.add(combat);
+    const logEntries = await collectCombatLoot(combat as LootCombat);
     if (!logEntries.length) return;
     const players = getPresentPlayers(c);
     const totalTibar = Math.round(logEntries.reduce((s, e) => s + (e.totalTibar || 0), 0) * 100) / 100;
@@ -444,9 +484,8 @@ async function onCombatEnd(combat: unknown): Promise<void> {
         subtitle: `${logEntries.length} inimigo(s) saqueado(s)`,
         totalTibar, totalOuroTibar, items, players,
     };
-    try { await clearLootLog(c as Parameters<typeof clearLootLog>[0]); } catch { /* combate já deletado */ }
     const socket = getSocket();
-    if (socket) socket.executeForEveryone(LOOT_OVERLAY_SOCKET, payload);
+    if (socket) await socket.executeForEveryone(LOOT_OVERLAY_SOCKET, payload);
     else presentLootOverlay(payload); // fallback sem socket
 }
 
@@ -672,7 +711,9 @@ export function setupTreasure(): void {
     setupTokenLoot();
     ensureStyles();
     registerMenuAction();
-    Hooks.on("deleteCombat", (c: unknown) => void onCombatEnd(c));
+    Hooks.on("deleteCombat", (...args: unknown[]) => {
+        void onCombatEnd(args[0], args[2] as string | undefined).catch(error => warn("treasure: falha no loot do encontro", error));
+    });
 
     Hooks.on("renderActorSheet", (...args: unknown[]) => {
         const app = args[0] as { actor?: { type?: string; system?: Record<string, unknown>; name?: string } };

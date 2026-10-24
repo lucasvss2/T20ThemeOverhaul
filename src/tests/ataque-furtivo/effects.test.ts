@@ -27,6 +27,23 @@ function item(): Item {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("Ataque Furtivo/Assassinar — efeito opcional de arma", () => {
+    it("Conhecimento Anatômico substitui o placeholder por dados escalados de Capanga e Assassinar", () => {
+        const weapon = item();
+        weapon.actor!.items!.contents[0].name = "Capanga";
+        weapon.actor!.items!.contents[1].name = "Ataque Furtivo Brutal";
+        const anatomical = effect("Ataque Furtivo — Conhecimento Anatômico", "(nº de dados)d(8 ou 10)");
+        expect(rogueAttackEffects(weapon, [anatomical])[0].changes[0].value).toBe("3d10");
+        vi.stubGlobal("canvas", { scene: { id: "s" } });
+        vi.stubGlobal("game", { ...game, user: { ...game.user, targets: new Set([{ document: { uuid: "Scene.s.Token.t" } }]) } });
+        expect(rogueAttackEffects(weapon, [anatomical])[0].changes[0].value).toBe("6d10");
+        expect(anatomical.changes[0].value).toBe("(nº de dados)d(8 ou 10)");
+    });
+    it("Conhecimento Anatômico do Ladino usa d8 e não soma com o furtivo básico ativo", () => {
+        const base = { ...effect("Ataque Furtivo"), disabled: false };
+        const anatomy = { ...effect("Ataque Furtivo — Conhecimento Anatômico", "6d8"), disabled: false };
+        const actual = rogueAttackEffects(item(), [base, anatomy, effect("Frio", "1d6[frio]")]);
+        expect(actual.map(e => e.changes[0].value)).toEqual(["3d8", "1d6[frio]"]);
+    });
     it("Capanga usa d8, dobra com Assassinar e não acumula com furtivo básico", () => {
         const weapon=item();
         weapon.actor!.items!.contents=[{name:"Capanga",type:"classe",system:{niveis:5}},{name:"Ataque Furtivo Brutal",type:"poder",system:{rolls:[{type:"dano",parts:[["1d8","dano"]]}]}}] as Item[];

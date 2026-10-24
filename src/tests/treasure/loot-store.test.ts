@@ -26,6 +26,22 @@ describe("recordLoot / getLootLog", () => {
         expect(log.map(e => e.tokenId)).toEqual(["a", "b"]);
         expect(log.reduce((s, e) => s + e.totalTibar, 0)).toBe(30);
     });
+    it("não altera a flag antes de salvar e serializa saques simultâneos", async () => {
+        let saved: LootEntry[] = [entry("old", 5)];
+        const c: Combat = {
+            getFlag: () => saved,
+            setFlag: async (_m, _k, value) => {
+                // Foundry calcula o diff contra a flag atual. Alterá-la antes de
+                // setFlag faz o update desaparecer para os outros clientes.
+                expect(value).not.toBe(saved);
+                await new Promise(resolve => setTimeout(resolve, 5));
+                saved = structuredClone(value as LootEntry[]);
+            },
+        };
+        await Promise.all([recordLoot(c, entry("a", 10)), recordLoot(c, entry("b", 20)), recordLoot(c, entry("a", 99))]);
+        expect(saved.map(e => e.tokenId)).toEqual(["old", "a", "b"]);
+        expect(saved.reduce((sum, e) => sum + e.totalTibar, 0)).toBe(35);
+    });
 });
 
 describe("getPresentPlayers", () => {

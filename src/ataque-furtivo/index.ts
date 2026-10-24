@@ -4,7 +4,7 @@ import { escHtml } from "@/_shared/html";
 import { isActiveGM } from "@/_shared/gm";
 import { getSocket, onSocketReady } from "@/socket";
 import { warn } from "@/utils/logging";
-import { advanceAnalysis, analysisMatches, isSneakPower, named, rogueLevel, scaleSneakRolls, sneakDice, sneakLevel, type Analysis, type AssassinarPayload, type SneakRoll } from "./format";
+import { advanceAnalysis, analysisMatches, isAnatomicalSneak, isSneakEffect, isSneakPower, named, rogueLevel, scaleSneakRolls, sneakDice, sneakLevel, type Analysis, type AssassinarPayload, type SneakRoll } from "./format";
 export type { AssassinarPayload } from "./format";
 
 const FLAG = "assassinar";
@@ -71,7 +71,7 @@ function currentMark(actor: Actor): Effect | undefined {
 }
 function selectedSneak(options: unknown): boolean {
     const list = (options as { onUseEffects?: Array<{ description?: string }> } | undefined)?.onUseEffects;
-    return Boolean(list?.some(e => isSneakPower(e.description)));
+    return Boolean(list?.some(e => isSneakEffect(e.description)));
 }
 const applied = new WeakMap<Item, AssassinarPayload>();
 
@@ -82,15 +82,19 @@ export function rogueAttackEffects(item: Item, effects: Effect[]): Effect[] {
     applied.delete(item);
     const mark = currentMark(actor);
     const brutal = actor.items?.contents.some(i => i.type === "poder" && named(i.name, "ataque furtivo brutal"));
-    return effects.filter(e => !(named(e.name, "assassinar") && e.flags?.tormenta20?.attack) && !(brutal && named(e.name, "ataque furtivo"))).map(effect => {
-        if (!isSneakPower(effect.name) || !effect.flags?.tormenta20?.onuse || !effect.flags.tormenta20.attack) return effect;
-        const isBrutal = named(effect.name, "ataque furtivo brutal"), faces = isBrutal ? 8 : 6;
-        const level = sneakLevel(actor, effect.name);
+    const anatomicalActive = effects.some(e => isAnatomicalSneak(e.name) && !e.disabled);
+    return effects.filter(e => !(named(e.name, "assassinar") && e.flags?.tormenta20?.attack)
+        && !(brutal && named(e.name, "ataque furtivo")) && !(anatomicalActive && isSneakPower(e.name))).map(effect => {
+        if (!isSneakEffect(effect.name) || !effect.flags?.tormenta20?.onuse || !effect.flags.tormenta20.attack) return effect;
+        const anatomical = isAnatomicalSneak(effect.name);
+        const isBrutal = named(effect.name, "ataque furtivo brutal") || (anatomical && brutal);
+        const faces = anatomical ? (isBrutal ? 10 : 8) : (isBrutal ? 8 : 6);
+        const level = sneakLevel(actor, isBrutal ? "Ataque Furtivo Brutal" : "Ataque Furtivo");
         const power = actor.items?.contents.find(i => i.type === "poder" && named(i.name, isBrutal ? "ataque furtivo brutal" : "ataque furtivo"));
         const stored = power?.system?.rolls?.find(r => r.type === "dano")?.parts?.[0]?.[0]?.match(/^(\d+)d[68]$/i);
         const count = level ? sneakDice(level) : Number(stored?.[1] ?? 0);
         if (!count) return effect;
-        const changes = effect.changes.map(change => change.key === "dano" && change.mode === 2 && (change.value === "roll" || /^\d+d[68](?:\[\w+\])?$/.test(change.value))
+        const changes = effect.changes.map(change => change.key === "dano" && change.mode === 2 && (anatomical || change.value === "roll" || /^\d+d[68](?:\[\w+\])?$/.test(change.value))
             ? { ...change, value: `${count * (mark ? 2 : 1)}d${faces}` } : change);
         if (mark) applied.set(item, { casterUuid: actor.uuid, effectId: mark.id, targetUuid: state(mark)!.targetUuid });
         return effect.clone({ changes }, { keepId: true });
@@ -179,6 +183,19 @@ export function setupAtaqueFurtivo(): void {
         let changed = false;
         root.querySelectorAll(".aprimoramentos-list li").forEach(row => {
             if (named(row.querySelector("h4.item-name")?.textContent ?? "", "assassinar")) { row.remove(); changed = true; }
+        });
+        // Conhecimento Anatômico é uma alternativa (contra humanoides), não uma
+        // segunda parcela de furtivo. Preserva ids/custos e os itens originais.
+        const sneakBoxes = Array.from(root.querySelectorAll(".aprimoramentos-list li"))
+            .filter(row => isSneakEffect(row.querySelector("h4.item-name")?.textContent ?? ""))
+            .map(row => row.querySelector<HTMLInputElement>('input[type="checkbox"]'))
+            .filter((input): input is HTMLInputElement => !!input);
+        for (const input of sneakBoxes) input.addEventListener("change", () => {
+            if (!input.checked) return;
+            for (const other of sneakBoxes) if (other !== input && other.checked) {
+                other.checked = false;
+                other.dispatchEvent(new Event("change", { bubbles: true }));
+            }
         });
         if (changed) app._onInputChange?.([root]);
     });

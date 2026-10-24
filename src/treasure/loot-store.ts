@@ -38,11 +38,17 @@ export function getLootLog(combat: CombatLike | null | undefined): LootEntry[] {
 }
 
 /** Acrescenta uma entrada ao log do combate (GM). Idempotente por tokenId. */
+const pendingLoot = new WeakMap<CombatLike, Promise<void>>();
 export async function recordLoot(combat: CombatLike, entry: LootEntry): Promise<void> {
-    const log = getLootLog(combat);
-    if (log.some(e => e.tokenId === entry.tokenId)) return; // já saqueado
-    log.push(entry);
-    await combat.setFlag?.(MODULE_ID, LOOT_LOG_FLAG, log);
+    const pending = (pendingLoot.get(combat) ?? Promise.resolve()).catch(() => undefined).then(async () => {
+        const log = getLootLog(combat);
+        if (log.some(e => e.tokenId === entry.tokenId)) return;
+        // getFlag expõe o array salvo. Nunca o mutar antes do diff de setFlag.
+        await combat.setFlag?.(MODULE_ID, LOOT_LOG_FLAG, [...log, entry]);
+    });
+    pendingLoot.set(combat, pending);
+    try { await pending; }
+    finally { if (pendingLoot.get(combat) === pending) pendingLoot.delete(combat); }
 }
 
 export async function clearLootLog(combat: CombatLike): Promise<void> {

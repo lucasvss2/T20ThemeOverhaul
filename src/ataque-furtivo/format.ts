@@ -27,6 +27,8 @@ export function named(value: string | undefined, name: string): boolean {
     return normalized === name || normalized.endsWith(`: ${name}`) || normalized === `${name} (ladino)` || normalized === `${name} (capanga)`;
 }
 export function isSneakPower(name?: string): boolean { return named(name, "ataque furtivo") || named(name, "ataque furtivo brutal"); }
+export function isAnatomicalSneak(name?: string): boolean { return norm(name).includes("conhecimento anatomico"); }
+export function isSneakEffect(name?: string): boolean { return isSneakPower(name) || isAnatomicalSneak(name); }
 export function capangaLevel(actor?: ClassActor | null): number {
     return Math.min(20, (actor?.items?.contents ?? []).filter(i => i.type === "classe" && named(i.name, "capanga"))
         .reduce((sum, i) => sum + Math.max(0, Number(i.system?.niveis) || 0), 0));
