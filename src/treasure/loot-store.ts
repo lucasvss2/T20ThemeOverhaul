@@ -8,6 +8,20 @@ import { MODULE_ID } from "@/constants";
 
 export const LOOT_LOG_FLAG = "lootLog";
 
+const lootActions = new Map<string, Promise<void>>();
+/** Overlays repetidos da mesma recompensa compartilham a mesma ação. */
+export async function runLootActionOnce(key: string, action: () => Promise<void>): Promise<void> {
+    let pending = lootActions.get(key);
+    if (!pending) {
+        pending = Promise.resolve().then(action).catch(error => {
+            lootActions.delete(key);
+            throw error;
+        });
+        lootActions.set(key, pending);
+    }
+    await pending;
+}
+
 /** Uma entrada de loot (um inimigo saqueado). */
 export interface LootEntry {
     tokenId: string;

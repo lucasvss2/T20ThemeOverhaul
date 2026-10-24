@@ -16,7 +16,7 @@
 import { deliverItemToActor } from "./item-resolver";
 import { perShareTibar, splitGoldShare, summarizeLoot, tibarToCoins, type LootItem } from "./loot";
 import { showLootOverlay, type LootOverlayPlayer } from "./loot-overlay";
-import { getLootLog, getPresentPlayers, recordLoot, type LootEntry, type PresentPlayer } from "./loot-store";
+import { getLootLog, getPresentPlayers, recordLoot, runLootActionOnce, type LootEntry, type PresentPlayer } from "./loot-store";
 import { parseRiquezaCategories, pickRiquezaItem } from "./riqueza-picker";
 import { TREASURE } from "./treasure-data";
 import {
@@ -25,6 +25,7 @@ import {
 import TREASURE_STYLES from "./treasure.css?inline";
 import { MODULE_ID } from "@/constants";
 import { isActiveGM } from "@/_shared/gm";
+import { renderDistributionSummary, type CoinReceipt, type ItemReceipt, type DistributionReceipt } from "./distribution-summary";
 import { getSocket, onSocketReady } from "@/socket";
 import { registerSkillAction } from "@/ui/skills-menu";
 import { log, warn } from "@/utils/logging";
@@ -34,9 +35,84 @@ const STYLES_ID = "t20-treasure-styles";
 const LOOT_SOCKET = "treasure/loot-token";
 const LOOT_OVERLAY_SOCKET = "treasure/loot-overlay";
 const LOOTED_FLAG = "treasureLooted";
+const LOOT_CLIENT_ID = `loot-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const LOOT_TRANSFER_SOCKET = "treasure/transfer";
+const LOOT_TRANSFER_RESULT_SOCKET = "treasure/transfer-result";
+const lootSessions = new Map<string, LootBroadcast>();
+const pendingTransfers = new Map<string, { resolve: () => void; reject: (error: Error) => void }>();
+let transferCounter = 0;
+const distributionReceipts = new Map<string, DistributionReceipt>();
+const summaryMessageIds = new Map<string, string>();
+const summaryUpdates = new Map<string, Promise<void>>();
+
+async function publishDistributionSummary(lootId: string, session: LootBroadcast): Promise<void> {
+    const update = (summaryUpdates.get(lootId) ?? Promise.resolve()).catch(() => undefined).then(async () => {
+        const receipt = distributionReceipts.get(lootId);
+        if (!receipt) return;
+        const content = renderDistributionSummary(session.players, receipt);
+        const id = summaryMessageIds.get(lootId);
+        const previous = id ? game.messages?.get(id) as unknown as { update(data: object): Promise<unknown> } | undefined : undefined;
+        if (previous) await previous.update({ content });
+        else {
+            const message = await ChatMessage.create({ content, speaker: { alias: "Distribuição Final de Tesouro" },
+                flags: { [MODULE_ID]: { lootDistributionSummary: lootId } } });
+            if (message?.id) summaryMessageIds.set(lootId, message.id);
+        }
+    });
+    summaryUpdates.set(lootId, update);
+    try { await update; }
+    catch (error) { warn("treasure: recursos entregues, mas falha ao publicar resumo", error); }
+}
+
+interface LootTransfer {
+    lootId: string;
+    action: "coins" | "items";
+    assignments?: Array<{ uid: string; actorId: string }>;
+    requestId: string;
+    requesterClientId: string;
+}
+
+async function performLootTransfer(request: LootTransfer, session: LootBroadcast): Promise<void> {
+    await runLootActionOnce(`${request.lootId}:${request.action}`, async () => {
+        const receipt = distributionReceipts.get(request.lootId) ?? { coins: [], items: [] };
+        distributionReceipts.set(request.lootId, receipt);
+        if (request.action === "coins") receipt.coins = await distributeTibarToPlayers(session.totalTibar, session.totalOuroTibar ?? 0, session.players);
+        else if (request.action === "items") {
+            const players = new Set(session.players.map(player => player.actorId));
+            receipt.items = await deliverItems(session.items, (request.assignments ?? []).filter(assignment => players.has(assignment.actorId)));
+        }
+    });
+    await publishDistributionSummary(request.lootId, session);
+}
+
+async function requestLootTransfer(request: Omit<LootTransfer, "requestId" | "requesterClientId">): Promise<void> {
+    if (!game.user?.isGM) return;
+    const fullRequest = { ...request, requestId: `${LOOT_CLIENT_ID}-${++transferCounter}`, requesterClientId: LOOT_CLIENT_ID };
+    const local = lootSessions.get(request.lootId);
+    if (local) return performLootTransfer(fullRequest, local);
+    const socket = getSocket();
+    if (!socket) throw new Error("Distribuição indisponível: socket não conectado.");
+    await new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(() => {
+            pendingTransfers.delete(fullRequest.requestId);
+            reject(new Error("A sessão responsável pelo loot não respondeu. Reabra o resumo nessa sessão."));
+        }, 15000);
+        pendingTransfers.set(fullRequest.requestId, {
+            resolve: () => { clearTimeout(timer); resolve(); },
+            reject: error => { clearTimeout(timer); reject(error); },
+        });
+        void socket.executeForEveryone(LOOT_TRANSFER_SOCKET, fullRequest).catch(error => {
+            pendingTransfers.delete(fullRequest.requestId);
+            clearTimeout(timer);
+            reject(error);
+        });
+    });
+}
 
 /** Payload transmitido a todos os clientes para exibir o overlay de resumo. */
 interface LootBroadcast {
+    lootId?: string;
+    controllerClientId?: string;
     title: string;
     subtitle?: string;
     totalTibar: number;
@@ -480,6 +556,8 @@ async function onCombatEnd(combat: unknown, authorId?: string): Promise<void> {
     const totalOuroTibar = Math.round(logEntries.reduce((s, e) => s + (e.totalOuroTibar || 0), 0) * 100) / 100;
     const items = logEntries.flatMap(e => e.items);
     const payload: LootBroadcast = {
+        lootId: `combat-${(combat as { id?: string }).id ?? LOOT_CLIENT_ID}`,
+        controllerClientId: LOOT_CLIENT_ID,
         title: "Tesouro do Combate",
         subtitle: `${logEntries.length} inimigo(s) saqueado(s)`,
         totalTibar, totalOuroTibar, items, players,
@@ -532,6 +610,28 @@ function setupTokenLoot(): void {
     onSocketReady((socket) => {
         socket.register(LOOT_SOCKET, (p: unknown) => lootTokenAsGM(p as LootPayload));
         socket.register(LOOT_OVERLAY_SOCKET, (p: unknown) => presentLootOverlay(p as LootBroadcast));
+        socket.register(LOOT_TRANSFER_SOCKET, async function (this: { socketdata?: { userId?: string } }, p: unknown) {
+            const sender = this.socketdata?.userId;
+            if (!sender || !game.users?.get(sender)?.isGM || !game.user?.isGM) return;
+            const request = p as LootTransfer, session = lootSessions.get(request.lootId);
+            if (!session) return; // só a sessão que encerrou possui a recompensa
+            let error: string | undefined;
+            try { await performLootTransfer(request, session); }
+            catch (cause) { error = String(cause); }
+            await socket.executeForEveryone(LOOT_TRANSFER_RESULT_SOCKET, {
+                requestId: request.requestId, requesterClientId: request.requesterClientId, error,
+            });
+        });
+        socket.register(LOOT_TRANSFER_RESULT_SOCKET, function (this: { socketdata?: { userId?: string } }, p: unknown) {
+            const sender = this.socketdata?.userId;
+            if (!sender || !game.users?.get(sender)?.isGM) return;
+            const result = p as { requestId: string; requesterClientId: string; error?: string };
+            if (result.requesterClientId !== LOOT_CLIENT_ID) return;
+            const pending = pendingTransfers.get(result.requestId);
+            if (!pending) return;
+            pendingTransfers.delete(result.requestId);
+            if (result.error) pending.reject(new Error(result.error)); else pending.resolve();
+        });
     });
     const bindAll = (): void => {
         const placeables = (canvas as unknown as { tokens?: { placeables?: LootBoundToken[] } }).tokens?.placeables ?? [];
@@ -557,8 +657,8 @@ interface DinheiroActor {
  * prata — ver `splitGoldShare`); o restante do total (T$/TP/TC) é distribuído
  * como antes.
  */
-async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: number, players: PresentPlayer[]): Promise<void> {
-    if (!game.user?.isGM || !players.length || totalTibar <= 0) return;
+async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: number, players: PresentPlayer[]): Promise<CoinReceipt[]> {
+    if (!game.user?.isGM || !players.length || totalTibar <= 0) return [];
     const ouro = Math.min(Math.max(totalOuroTibar || 0, 0), totalTibar);
     const restante = totalTibar - ouro;
     const { to, tp: tpFromGold } = splitGoldShare(ouro / 10, players.length);
@@ -566,6 +666,7 @@ async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: numb
     const { tp: tpFromRest, tc } = tibarToCoins(share);
     const tp = tpFromGold + tpFromRest;
     const done: string[] = [];
+    const receipt: CoinReceipt[] = [];
     for (const p of players) {
         const actor = game.actors?.get(p.actorId) as unknown as DinheiroActor | undefined;
         if (!actor) continue;
@@ -574,6 +675,7 @@ async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: numb
         const curTc = actor.system?.dinheiro?.tc ?? 0;
         await actor.update({ "system.dinheiro.to": curTo + to, "system.dinheiro.tp": curTp + tp, "system.dinheiro.tc": curTc + tc });
         done.push(p.name);
+        receipt.push({ actorId: p.actorId, to, tp, tc });
     }
     const parts: string[] = [];
     if (to) parts.push(`${to} TO`);
@@ -584,14 +686,16 @@ async function distributeTibarToPlayers(totalTibar: number, totalOuroTibar: numb
         content: `<div class="tre-card"><strong><i class="fas fa-coins"></i> Tibares distribuídos:</strong> ${shareLabel} para cada — ${esc(done.join(", "))}.</div>`,
         speaker: { alias: "Distribuição de Tesouro" },
     } as unknown as Record<string, unknown>);
+    return receipt;
 }
 
 /** GM: entrega itens às fichas escolhidas (resolve compêndio / placeholder). */
-async function deliverItems(items: LootItem[], assignments: Array<{ uid: string; actorId: string }>): Promise<void> {
-    if (!game.user?.isGM) return;
+async function deliverItems(items: LootItem[], assignments: Array<{ uid: string; actorId: string }>): Promise<ItemReceipt[]> {
+    if (!game.user?.isGM) return [];
     const byUid = new Map(items.map(i => [i.uid, i]));
     const lines: string[] = [];
     const attention: string[] = [];
+    const receipt: ItemReceipt[] = [];
     for (const a of assignments) {
         const item = byUid.get(a.uid);
         const actor = game.actors?.get(a.actorId) as unknown as (DinheiroActor & Parameters<typeof deliverItemToActor>[0]) | undefined;
@@ -599,6 +703,7 @@ async function deliverItems(items: LootItem[], assignments: Array<{ uid: string;
         try {
             const res = await deliverItemToActor(actor, item);
             lines.push(`${esc(res.itemName)} → ${esc(actor.name ?? "?")}`);
+            receipt.push({ actorId: a.actorId, name: res.itemName });
             if (res.needsAttention) attention.push(res.itemName + (res.found ? " (aplicar melhorias)" : " (preencher atributos)"));
         } catch (err) { warn("treasure: falha ao entregar item:", err); }
     }
@@ -609,10 +714,13 @@ async function deliverItems(items: LootItem[], assignments: Array<{ uid: string;
         } as unknown as Record<string, unknown>);
     }
     if (attention.length) ui.notifications?.warn(`Atenção do GM: ${attention.join("; ")}.`);
+    return receipt;
 }
 
 /** Mostra o overlay (todos os clientes) com handlers do GM ligados localmente. */
 function presentLootOverlay(b: LootBroadcast): void {
+    const lootId = b.lootId ?? `manual-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    if (!b.controllerClientId || b.controllerClientId === LOOT_CLIENT_ID) lootSessions.set(lootId, b);
     const players: LootOverlayPlayer[] = b.players.map(p => ({ actorId: p.actorId, tokenId: p.tokenId, name: p.name }));
     showLootOverlay(
         {
@@ -621,8 +729,8 @@ function presentLootOverlay(b: LootBroadcast): void {
             players,
         },
         {
-            onDistribute: () => distributeTibarToPlayers(b.totalTibar, b.totalOuroTibar ?? 0, b.players),
-            onDeliver: (a) => deliverItems(b.items, a),
+            onDistribute: () => requestLootTransfer({ lootId, action: "coins" }),
+            onDeliver: (assignments) => requestLootTransfer({ lootId, action: "items", assignments }),
         },
     );
 }
@@ -711,7 +819,23 @@ export function setupTreasure(): void {
     setupTokenLoot();
     ensureStyles();
     registerMenuAction();
+    Hooks.once("ready", () => {
+        // O mesmo usuário GM pode ter várias abas. O userId do hook sozinho
+        // não identifica qual delas confirmou o encerramento.
+        const proto = (CONFIG as unknown as { Combat: { documentClass: { prototype: {
+            delete(options?: Record<string, unknown>): Promise<unknown>;
+            _t20LootDeletePatched?: boolean;
+        } } } }).Combat.documentClass.prototype;
+        if (proto._t20LootDeletePatched) return;
+        const nativeDelete = proto.delete;
+        proto.delete = function (options = {}) {
+            return nativeDelete.call(this, { ...options, t20LootControllerClientId: LOOT_CLIENT_ID });
+        };
+        proto._t20LootDeletePatched = true;
+    });
     Hooks.on("deleteCombat", (...args: unknown[]) => {
+        const controller = (args[1] as { t20LootControllerClientId?: string } | undefined)?.t20LootControllerClientId;
+        if (controller && controller !== LOOT_CLIENT_ID) return;
         void onCombatEnd(args[0], args[2] as string | undefined).catch(error => warn("treasure: falha no loot do encontro", error));
     });
 

@@ -112,7 +112,8 @@ export function showLootOverlay(data: LootOverlayData, handlers: LootOverlayHand
     const distBtn = el.querySelector<HTMLButtonElement>('[data-act="distribute"]');
     distBtn?.addEventListener("click", async () => {
         distBtn.disabled = true;
-        try { await handlers.onDistribute?.(); } finally { distBtn.innerHTML = '<i class="fas fa-check"></i> Distribuído'; }
+        try { await handlers.onDistribute?.(); distBtn.innerHTML = '<i class="fas fa-check"></i> Distribuído'; }
+        catch (error) { distBtn.disabled = false; ui.notifications?.error(String(error)); }
     });
 
     const delBtn = el.querySelector<HTMLButtonElement>('[data-act="deliver"]');
@@ -125,6 +126,7 @@ export function showLootOverlay(data: LootOverlayData, handlers: LootOverlayHand
         });
         if (!assignments.length) { ui.notifications?.info("Selecione ao menos um item para entregar."); return; }
         delBtn.disabled = true;
-        try { await handlers.onDeliver?.(assignments); } finally { delBtn.innerHTML = '<i class="fas fa-check"></i> Entregue'; }
+        try { await handlers.onDeliver?.(assignments); delBtn.innerHTML = '<i class="fas fa-check"></i> Entregue'; }
+        catch (error) { delBtn.disabled = false; ui.notifications?.error(String(error)); }
     });
 }

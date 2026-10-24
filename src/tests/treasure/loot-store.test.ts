@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getLootLog, getPresentPlayers, recordLoot, type LootEntry } from "@/treasure/loot-store";
+import { getLootLog, getPresentPlayers, recordLoot, runLootActionOnce, type LootEntry } from "@/treasure/loot-store";
 
 type Combat = Parameters<typeof recordLoot>[0];
 
@@ -17,6 +17,16 @@ function fakeCombat(): Combat {
 const entry = (tokenId: string, tibar: number): LootEntry => ({ tokenId, name: tokenId, nd: "1", totalTibar: tibar, items: [] });
 
 describe("recordLoot / getLootLog", () => {
+    it("overlays repetidos não distribuem dinheiro nem itens duas vezes", async () => {
+        let coins = 0, items = 0;
+        const coinsAction = async () => { await Promise.resolve(); coins += 250; };
+        const itemsAction = async () => { items += 1; };
+        await Promise.all([runLootActionOnce("repeat-test:coins", coinsAction), runLootActionOnce("repeat-test:coins", coinsAction)]);
+        await runLootActionOnce("repeat-test:coins", coinsAction);
+        await Promise.all([runLootActionOnce("repeat-test:items", itemsAction), runLootActionOnce("repeat-test:items", itemsAction)]);
+        expect(coins).toBe(250);
+        expect(items).toBe(1);
+    });
     it("acumula e deduplica por tokenId", async () => {
         const c = fakeCombat();
         await recordLoot(c, entry("a", 10));
