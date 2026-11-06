@@ -1,0 +1,495 @@
+{
+  "_id": "7898230ea4aa50fd",
+  "_key": "!actors!7898230ea4aa50fd",
+  "name": "Encantador de Pragas",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Encantador de Pragas",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 4
+      },
+      "con": {
+        "base": 1
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 4
+      }
+    },
+    "attributes": {
+      "nd": "4",
+      "pv": {
+        "value": 98,
+        "max": 98,
+        "min": -500
+      },
+      "pm": {
+        "value": 22,
+        "max": 22
+      },
+      "defesa": {
+        "base": 17,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [],
+        "custom": ""
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 66 · ND 4 · Humanoide (humano) Médio.</p><p>Iniciativa +8, Percepção +5</p><p>Defesa 21, Fort +4, Ref +10, Von +16</p><p>Pontos de Vida 98</p><p>Deslocamento 9m (6q)</p><p>Pontos de Mana 22.</p><p>Corpo a Corpo Florete +12 (1d6+4, 18).</p><p><strong>Empatia com Pragas</strong> O encantador de pragas recebe +5 em testes de perícia com animais e monstros irracionais (Int –5 ou –4), e pode usar Atuação com essas criaturas para mudar atitude e persuasão (veja Tormenta20, p. 118).</p><p><strong>Encantar Pragas (Completa)</strong> O encantador usa sua música para gerar um dos efeitos a seguir. • Atrair. O encantador atrai todos os animais e monstros irracionais (Int –5 ou –4) Minúsculos em alcance longo. As criaturas chegam em 1d3 rodadas, ficam prestativas em relação ao encantador e permanecem até o fim da cena ou até ele dispensá-las. Se o encantador usar Enxamear (veja abaixo) enquanto essas criaturas estiverem presentes, ele cria 1d3+1 enxames (em vez de apenas 1). • Enxamear. Um enxame de ratos (ou criaturas equivalentes) surge em alcance médio e ocupa um quadrado de 3m. No fim de cada um dos turnos do encantador, o enxame causa 4d12 pontos de dano de corte a qualquer criatura em seu espaço (Fort CD 22 reduz à metade). O encantador pode gastar uma ação livre para mover o enxame 12m (uma vez por rodada por enxame). O enxame se dispersa ao fim da cena.</p><p><strong>Escudo de Pestes (Reação)</strong> Quando sofre dano, o encantador reduz esse dano à metade. Ele só pode usar esta habilidade uma vez por rodada, e apenas se estiver adjacente a um de seus enxames.</p><p>For 0, Des 4, Con 1, Int 3, Sab 1, Car 4 Perícias Acrobacia +8, Adestramento +10, Atuação +11, Diplomacia +8, Enganação +13, Furtividade +10, Intuição +5, Misticismo +7, Sobrevivência +5. Equipamento Armadura de couro, capa esvoaçante, flauta aprimorada, florete. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "humano",
+      "tipo": "hum",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 66",
+      "movimento": "9m (6q)",
+      "ataquescac": "Florete +12 (1d6+4, 18).",
+      "ataquesad": "",
+      "resistencias": "",
+      "equipamento": "Armadura de couro, capa esvoaçante, flauta aprimorada, florete.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atua": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "72453df473f27574",
+      "_key": "!actors.items!7898230ea4aa50fd.72453df473f27574",
+      "name": "Florete",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Florete +12 (1d6+4, 18).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 66",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+4",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f666cd8a76960f6d",
+      "_key": "!actors.items!7898230ea4aa50fd.f666cd8a76960f6d",
+      "name": "Empatia com Pragas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O encantador de pragas recebe +5 em testes de perícia com animais e monstros irracionais (Int –5 ou –4), e pode usar Atuação com essas criaturas para mudar atitude e persuasão (veja Tormenta20, p. 118).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 66",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1b59112e8e3e4702",
+      "_key": "!actors.items!7898230ea4aa50fd.1b59112e8e3e4702",
+      "name": "Encantar Pragas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O encantador usa sua música para gerar um dos efeitos a seguir. • Atrair. O encantador atrai todos os animais e monstros irracionais (Int –5 ou –4) Minúsculos em alcance longo. As criaturas chegam em 1d3 rodadas, ficam prestativas em relação ao encantador e permanecem até o fim da cena ou até ele dispensá-las. Se o encantador usar Enxamear (veja abaixo) enquanto essas criaturas estiverem presentes, ele cria 1d3+1 enxames (em vez de apenas 1). • Enxamear. Um enxame de ratos (ou criaturas equivalentes) surge em alcance médio e ocupa um quadrado de 3m. No fim de cada um dos turnos do encantador, o enxame causa 4d12 pontos de dano de corte a qualquer criatura em seu espaço (Fort CD 22 reduz à metade). O encantador pode gastar uma ação livre para mover o enxame 12m (uma vez por rodada por enxame). O enxame se dispersa ao fim da cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 66",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3d426397a5b5aad7",
+      "_key": "!actors.items!7898230ea4aa50fd.3d426397a5b5aad7",
+      "name": "Escudo de Pestes",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando sofre dano, o encantador reduz esse dano à metade. Ele só pode usar esta habilidade uma vez por rodada, e apenas se estiver adjacente a um de seus enxames.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 66",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "d82d0bc2bbf159d3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

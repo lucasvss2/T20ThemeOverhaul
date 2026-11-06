@@ -1,0 +1,788 @@
+{
+  "_id": "31fd6977e69e5050",
+  "_key": "!actors!31fd6977e69e5050",
+  "name": "Judara, Soberana do Pesadelo",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Judara, Soberana do Pesadelo",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 5
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 6
+      },
+      "sab": {
+        "base": 4
+      },
+      "car": {
+        "base": 8
+      }
+    },
+    "attributes": {
+      "nd": "19",
+      "pv": {
+        "value": 720,
+        "max": 720,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 46,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 18.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "cegas"
+        ],
+        "custom": "percepção às cegas (longo), visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 146 · ND 19 · Construto Médio.</p><p>@UUID[Compendium.t20-theme-overhaul.chefes-finais-bestiario.JournalEntry.ca9553bb5c1bb035.JournalEntryPage.6113b6de313bd5b6]{Natureza do Pesadelo}</p><p>Atributos nulos na ficha: For.</p><p>Iniciativa +19, Percepção +20, percepção às cegas (longo), visão no escuro</p><p>Defesa 51, Fort +17, Ref +24, Von +30, cura acelerada 20, imunidade a ácido, efeitos mentais, eletricidade, encantamento, medo e trevas, incorpórea, maior que a morte, redução de dano 30</p><p>Pontos de Vida 720</p><p>Deslocamento voo 18m (12q)</p><p>Corpo a Corpo Quatro tentáculos oníricos +44 (6d12+28 psíquico).</p><p><strong>Manifestar Pesadelo</strong> Judara pode lançar a magia Sonho, bem como qualquer magia de encantamento e ilusão, como uma feiticeira de 17º nível sem gastar PM (CD 46, limite de PM 17). Uma vez por rodada, ela pode lançar uma dessas magias como uma ação livre.</p><p><strong>Mente Alienígena</strong> Quando uma criatura usa um efeito mental ou de encantamento contra Judara, a criatura é atingida por um terrível choque de retorno. Ela sofre 15d6 pontos de dano psíquico e fica atordoada por 1 rodada e abalada (Von CD 46 reduz à metade e evita as condições).</p><p><strong>Partilhar Pesadelos</strong> Judara emana uma aura com 30m de raio. Outras criaturas do pesadelo dentro dessa área podem usar as habilidades Natureza do Pesadelo (veja quadro) dela.</p><p><strong>Epítome do Pesadelo</strong> Judara possui todas as habilidades Natureza do Pesadelo (veja o quadro). Ela pode usar cada uma dessas habilidades uma vez por rodada com um ataque de tentáculo onírico diferente.</p><p><strong>Vilã Modular</strong> Judara é uma vilã modular (veja p. 179) com três partes, cada uma representando uma esfera de energia onírica que ela manifesta em combate. Cada parte tem 288 PV e usa a Defesa, testes de resistência, imunidades e redução de dano de Judara. Além disso, a cada rodada, para cada parte que não esteja desabilitada, Judara recebe um turno extra (respectivamente em sua contagem de iniciativa –5, –10 e –15), em que ela usa as habilidades de uma parte que ainda não tenha usado nessa rodada.</p><p><strong>Parte: Emaranhado Tentacular.</strong> Energia onírica amplia o alcance dos tentáculos de Judara. • Tentáculos Disruptivos. Uma área de 9m de raio ao redor de Judara é considerada terreno difícil. • Agarrar Aprimorado (Movimento). Judara faz a manobra agarrar contra uma criatura em alcance curto (teste +44). Ela pode manter até quatro criaturas agarradas dessa forma. • Arremesso Tentacular (Padrão). Se começar o turno desta parte agarrando uma criatura menor que ela com seus tentáculos, Judara a arremessa 1d6 x 1,5m em uma direção à sua escolha. A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p><p><strong>Parte: Escudo Mental.</strong> Um redemoinho de sonhos protege a mente de Judara. • Mente Protegida. Judara recebe +5 em Vontade e imunidade a dano psíquico. • Erguer Defesas (Reação). Uma vez por rodada, quando faz um teste de Vontade, Judara rola dois dados e usa o melhor resultado. Se passar nesse teste, ela acumula uma carga psíquica. • Rajada Mental (Padrão). Judara dispara energia psíquica de seu escudo contra uma criatura em alcance médio. Isso funciona como a magia Adaga Mental, exceto que ela não gasta PM (CD 35, limite de PM 17). Quando usa esta habilidade, ela gasta quaisquer cargas psíquicas que tenha acumulado. Para cada carga gasta desta forma, ela causa +2d6 pontos de dano com a rajada. Recarga (movimento).</p><p><strong>Parte: Gerador de Aura.</strong> Ampliando seu domínio sobre sonhos e pesadelos, Judara gera uma aura psíquica de 9m ao seu redor. • Aura Obscurecente. Todas as criaturas dentro da aura psíquica têm camuflagem leve (Judara pode perceber normalmente dentro da própria aura). • Pulso Agressivo (Padrão). A aura causa 10d6 pontos de dano de essência em todos os inimigos em seu interior (Von CD 35 reduz à metade).</p><p>For —, Des 5, Con 2, Int 6, Sab 4, Car 8 Perícias Conhecimento +20, Cura +18, Diplomacia +22, Furtividade +24, Intimidação +24, Intuição +18, Misticismo +22. Tesouro Centelha onírica real (CD 32 para extrair). Se absorvida, a centelha permite lançar duas magias, de encantamento e ilusão, de até 2º círculo, escolhidas ao receber esta habilidade (atributo-chave Carisma).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "con",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 146",
+      "movimento": "voo 18m (12q)",
+      "ataquescac": "Quatro tentáculos oníricos +44 (6d12+28 psíquico).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 20, imunidade a ácido, efeitos mentais, eletricidade, encantamento, medo e trevas, incorpórea, maior que a morte, redução de dano 30",
+      "equipamento": "",
+      "tesouro": "Centelha onírica real (CD 32 para extrair). Se absorvida, a centelha permite lançar duas magias, de encantamento e ilusão, de até 2º círculo, escolhidas ao receber esta habilidade (atributo-chave Carisma)."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "mental",
+          "medo"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 30
+        },
+        "acido": {
+          "imunidade": true
+        },
+        "eletricidade": {
+          "imunidade": true
+        },
+        "trevas": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "conh": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 29,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ec4796c97ce36557",
+      "_key": "!actors.items!31fd6977e69e5050.ec4796c97ce36557",
+      "name": "Tentáculos oníricos",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Tentáculos oníricos ×4 +44 (6d12+28 psíquico).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d12+28",
+                "psiquico",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 4,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ad1c1db5a3bf4271",
+      "_key": "!actors.items!31fd6977e69e5050.ad1c1db5a3bf4271",
+      "name": "Manifestar Pesadelo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Judara pode lançar a magia Sonho, bem como qualquer magia de encantamento e ilusão, como uma feiticeira de 17º nível sem gastar PM (CD 46, limite de PM 17). Uma vez por rodada, ela pode lançar uma dessas magias como uma ação livre.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "15f0c54a367c9e49",
+      "_key": "!actors.items!31fd6977e69e5050.15f0c54a367c9e49",
+      "name": "Mente Alienígena",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura usa um efeito mental ou de encantamento contra Judara, a criatura é atingida por um terrível choque de retorno. Ela sofre 15d6 pontos de dano psíquico e fica atordoada por 1 rodada e abalada (Von CD 46 reduz à metade e evita as condições).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "86e35545a0c88317",
+      "_key": "!actors.items!31fd6977e69e5050.86e35545a0c88317",
+      "name": "Partilhar Pesadelos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Judara emana uma aura com 30m de raio. Outras criaturas do pesadelo dentro dessa área podem usar as habilidades Natureza do Pesadelo (veja quadro) dela.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "05649e18390547b7",
+      "_key": "!actors.items!31fd6977e69e5050.05649e18390547b7",
+      "name": "Epítome do Pesadelo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Judara possui todas as habilidades Natureza do Pesadelo (veja o quadro). Ela pode usar cada uma dessas habilidades uma vez por rodada com um ataque de tentáculo onírico diferente.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "327fba23b3f58c95",
+      "_key": "!actors.items!31fd6977e69e5050.327fba23b3f58c95",
+      "name": "Vilã Modular",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Judara é uma vilã modular (veja p. 179) com três partes, cada uma representando uma esfera de energia onírica que ela manifesta em combate. Cada parte tem 288 PV e usa a Defesa, testes de resistência, imunidades e redução de dano de Judara. Além disso, a cada rodada, para cada parte que não esteja desabilitada, Judara recebe um turno extra (respectivamente em sua contagem de iniciativa –5, –10 e –15), em que ela usa as habilidades de uma parte que ainda não tenha usado nessa rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8be5b2c1bcf491fe",
+      "_key": "!actors.items!31fd6977e69e5050.8be5b2c1bcf491fe",
+      "name": "Parte: Emaranhado Tentacular",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Energia onírica amplia o alcance dos tentáculos de Judara. • Tentáculos Disruptivos. Uma área de 9m de raio ao redor de Judara é considerada terreno difícil. • Agarrar Aprimorado (Movimento). Judara faz a manobra agarrar contra uma criatura em alcance curto (teste +44). Ela pode manter até quatro criaturas agarradas dessa forma. • Arremesso Tentacular (Padrão). Se começar o turno desta parte agarrando uma criatura menor que ela com seus tentáculos, Judara a arremessa 1d6 x 1,5m em uma direção à sua escolha. A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9f23834d1701aa79",
+      "_key": "!actors.items!31fd6977e69e5050.9f23834d1701aa79",
+      "name": "Parte: Escudo Mental",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Um redemoinho de sonhos protege a mente de Judara. • Mente Protegida. Judara recebe +5 em Vontade e imunidade a dano psíquico. • Erguer Defesas (Reação). Uma vez por rodada, quando faz um teste de Vontade, Judara rola dois dados e usa o melhor resultado. Se passar nesse teste, ela acumula uma carga psíquica. • Rajada Mental (Padrão). Judara dispara energia psíquica de seu escudo contra uma criatura em alcance médio. Isso funciona como a magia Adaga Mental, exceto que ela não gasta PM (CD 35, limite de PM 17). Quando usa esta habilidade, ela gasta quaisquer cargas psíquicas que tenha acumulado. Para cada carga gasta desta forma, ela causa +2d6 pontos de dano com a rajada. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f59b2cd34ac6ad95",
+      "_key": "!actors.items!31fd6977e69e5050.f59b2cd34ac6ad95",
+      "name": "Parte: Gerador de Aura",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Ampliando seu domínio sobre sonhos e pesadelos, Judara gera uma aura psíquica de 9m ao seu redor. • Aura Obscurecente. Todas as criaturas dentro da aura psíquica têm camuflagem leve (Judara pode perceber normalmente dentro da própria aura). • Pulso Agressivo (Padrão). A aura causa 10d6 pontos de dano de essência em todos os inimigos em seu interior (Von CD 35 reduz à metade).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 146",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "42983a0bd14b5fb5",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

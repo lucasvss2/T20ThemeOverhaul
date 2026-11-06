@@ -1,0 +1,97 @@
+{
+  "_id": "643e5db519cceb54",
+  "_key": "!items!643e5db519cceb54",
+  "name": "Aspecto de Azgher",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+  "system": {
+    "description": {
+      "value": "<p>Aspectos · Veterano</p><p><strong>Benefício.</strong> Redução de luz, fogo, frio e trevas 5. Permite usar Espada Solar. Se já possui o poder, ele acrescenta mais um dado de fogo do mesmo tipo. Só apoia devotos de Azgher com nível maior que o dele.</p><p><strong>Vínculo.</strong> O aspecto deixa de ajudar você se violar as Obrigações &amp; Restrições da divindade.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 27",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "geral",
+    "subtipo": "Parceiros",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Aspecto de Azgher",
+      "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.tracos.resistencias.luz.value",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.resistencias.fogo.value",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.resistencias.frio.value",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.resistencias.trevas.value",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "_id": "b32bd216b68e28ea",
+      "_key": "!items.effects!643e5db519cceb54.b32bd216b68e28ea"
+    }
+  ],
+  "folder": "131110313da9fcfb",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

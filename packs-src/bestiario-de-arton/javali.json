@@ -1,0 +1,310 @@
+{
+  "_id": "196b08371604f259",
+  "_key": "!actors!196b08371604f259",
+  "name": "Javali",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Javali",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": -4
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -2
+      }
+    },
+    "attributes": {
+      "nd": "1/2",
+      "pv": {
+        "value": 16,
+        "max": 16,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 14,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra",
+          "faro"
+        ],
+        "custom": "faro, visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 97 · ND 1/2 · Animal Médio.</p><p>Iniciativa +2, Percepção +3, faro, visão na penumbra</p><p>Defesa 14, Fort +6, Ref –2, Von +3</p><p>Pontos de Vida 16</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Mordida +5 (2d6+3).</p><p><strong>Ímpeto Feroz</strong> O javali não fica inconsciente quando é reduzido a 0 PV ou menos e, nessa condição, recebe +2 em testes de ataque e rolagens de dano. Quando é reduzido a –8 PV, ele morre, ou fica inconsciente no caso de dano não letal.</p><p>For 2, Des 0, Con 3, Int –4, Sab 1, Car –2 Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "ani",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 97",
+      "movimento": "12m (8q)",
+      "ataquescac": "Mordida +5 (2d6+3).",
+      "ataquesad": "",
+      "resistencias": "",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": -2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "148c873e0c9d798c",
+      "_key": "!actors.items!196b08371604f259.148c873e0c9d798c",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +5 (2d6+3).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 97",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+3",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "768f28ddb0c42b7d",
+      "_key": "!actors.items!196b08371604f259.768f28ddb0c42b7d",
+      "name": "Ímpeto Feroz",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O javali não fica inconsciente quando é reduzido a 0 PV ou menos e, nessa condição, recebe +2 em testes de ataque e rolagens de dano. Quando é reduzido a –8 PV, ele morre, ou fica inconsciente no caso de dano não letal.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 97",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "5f0dee8f3acec4de",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

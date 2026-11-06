@@ -1,0 +1,616 @@
+{
+  "_id": "cc0a3cd219f0f37c",
+  "_key": "!actors!cc0a3cd219f0f37c",
+  "name": "Aspecto de Azgher",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Aspecto de Azgher",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 1
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 4
+      }
+    },
+    "attributes": {
+      "nd": "5",
+      "pv": {
+        "value": 190,
+        "max": 190,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 21,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "cegas"
+        ],
+        "custom": "percepção às cegas"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 27 · ND 5 · Humanoide (humano) Médio.</p><p>Iniciativa +7, Percepção +6, percepção às cegas</p><p>Defesa 24, Fort +5, Ref +11, Von +17, evasão, redução de dano de luz, fogo, frio e trevas 10</p><p>Pontos de Vida 190</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Cimitarra +17 (4d6+8, 18, mais 4d6 fogo).</p><p>À Distância Arco curto +17 (8d8 luz, x3).</p><p><strong>Escaramuça</strong> Quando se move 6m ou mais, o aspecto de Azgher recebe +2 na Defesa e em Reflexos, e +1d8 nas rolagens de dano até o início do seu próximo turno.</p><p><strong>Fulgor Solar</strong> Quando uma criatura em alcance curto ataca o aspecto, ela fica ofuscada por 1 rodada (Ref CD 20 evita e a criatura não pode mais ser ofuscada por esta habilidade até o fim da cena).</p><p><strong>Inimigo dos Mortos</strong> Os ataques do aspecto causam +2d6 pontos de dano de luz contra mortos-vivos.</p><p><strong>Olhar Vigilante</strong> O aspecto de Azgher está permanentemente sob o efeito básico da magia Visão da Verdade.</p><p>For 4, Des 3, Con 4, Int 1, Sab 2, Car 4 Perícias Atletismo +8, Diplomacia +8, Intuição +11, Religião +6, Sobrevivência +11. Equipamento Arco curto, armadura de couro, cimitarra. Tesouro Padrão. Parceiro O aspecto de Azgher é um parceiro veterano que fornece redução de dano de luz, fogo, frio e trevas 5 e permite usar o poder Espada Solar (Tormenta20, p. 133). Caso você já tenha esse poder, em vez disso o dano de fogo fornecido por ele aumenta em mais um dado do mesmo tipo. O aspecto apoia apenas personagens devotos de Azgher de nível maior que o dele. Caso você viole as Obrigações &amp; Restrições de Azgher, o aspecto deixa de apoiá-lo.</p>",
+        "public": ""
+      },
+      "raca": "humano",
+      "tipo": "hum",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 27",
+      "movimento": "9m (6q)",
+      "ataquescac": "Cimitarra +17 (4d6+8, 18, mais 4d6 fogo).",
+      "ataquesad": "Arco curto +17 (8d8 luz, x3).",
+      "resistencias": "evasão, redução de dano de luz, fogo, frio e trevas 10",
+      "equipamento": "Arco curto, armadura de couro, cimitarra.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "8e1d4fe3c7368810",
+      "_key": "!actors.items!cc0a3cd219f0f37c.8e1d4fe3c7368810",
+      "name": "Cimitarra",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cimitarra +17 (4d6+8, 18, mais 4d6 fogo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d6+8",
+                "corte",
+                ""
+              ],
+              [
+                "4d6",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ad193d2863875d25",
+      "_key": "!actors.items!cc0a3cd219f0f37c.ad193d2863875d25",
+      "name": "Arco curto",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Arco curto +17 (8d8 luz, x3).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "8d8",
+                "luz",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "disparo",
+        "empunhadura": "duas",
+        "alcance": "medium",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7b1de1850f4ec3f6",
+      "_key": "!actors.items!cc0a3cd219f0f37c.7b1de1850f4ec3f6",
+      "name": "Escaramuça",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando se move 6m ou mais, o aspecto de Azgher recebe +2 na Defesa e em Reflexos, e +1d8 nas rolagens de dano até o início do seu próximo turno.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "bff25ca748928167",
+      "_key": "!actors.items!cc0a3cd219f0f37c.bff25ca748928167",
+      "name": "Fulgor Solar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura em alcance curto ataca o aspecto, ela fica ofuscada por 1 rodada (Ref CD 20 evita e a criatura não pode mais ser ofuscada por esta habilidade até o fim da cena).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "50947a65ec4f1b3a",
+      "_key": "!actors.items!cc0a3cd219f0f37c.50947a65ec4f1b3a",
+      "name": "Inimigo dos Mortos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Os ataques do aspecto causam +2d6 pontos de dano de luz contra mortos-vivos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f9e28aa4eb8b7e95",
+      "_key": "!actors.items!cc0a3cd219f0f37c.f9e28aa4eb8b7e95",
+      "name": "Olhar Vigilante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O aspecto de Azgher está permanentemente sob o efeito básico da magia Visão da Verdade.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 27",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "19191ec06b7f826d",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

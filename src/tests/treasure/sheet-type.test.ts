@@ -38,6 +38,12 @@ describe("isDeadNpcActor", () => {
         expect(isDeadNpcActor(npc(12))).toBe(false);
     });
 
+    it("requires a defeat status when the creature has no HP pool", () => {
+        const ship = { type: "npc", system: { attributes: { pv: { value: 0, max: 0 } } } };
+        expect(isDeadNpcActor(ship)).toBe(false);
+        expect(isDeadNpcActor({ ...ship, statuses: new Set(["dead"]) })).toBe(true);
+    });
+
     it("is true for an npc with a death status even if PV unknown", () => {
         expect(isDeadNpcActor(npc(undefined, ["morto"]))).toBe(true);
         expect(isDeadNpcActor(npc(undefined, ["dead"]))).toBe(true);

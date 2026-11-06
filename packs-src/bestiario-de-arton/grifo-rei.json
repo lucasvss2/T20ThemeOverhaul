@@ -1,0 +1,516 @@
+{
+  "_id": "a609daf30d37a430",
+  "_key": "!actors!a609daf30d37a430",
+  "name": "Grifo-Rei",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Grifo-Rei",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 3,
+    "height": 3,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 9
+      },
+      "des": {
+        "base": 5
+      },
+      "con": {
+        "base": 7
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 3
+      },
+      "car": {
+        "base": 0
+      }
+    },
+    "attributes": {
+      "nd": "12",
+      "pv": {
+        "value": 600,
+        "max": 600,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 38,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 24.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra",
+          "faro"
+        ],
+        "custom": "faro, visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 82 · ND 12 · Animal Enorme.</p><p>Iniciativa +17, Percepção +15, faro, visão na penumbra</p><p>Defesa 43, Fort +20, Ref +26, Von +12, evasão, imunidade a medo, redução de dano 10/mágico, resistência a magia +2</p><p>Pontos de Vida 600</p><p>Deslocamento 12m (8q), voo 24m (16q)</p><p>Corpo a Corpo Mordida +36 (4d12+20) e duas garras +36 (4d8+20).</p><p><strong>Bote (Completa)</strong> O grifo-rei faz uma investida e ataca com sua mordida e suas garras. Os três ataques recebem o bônus de +2 da investida, mas devem ser feitos contra a mesma criatura.</p><p><strong>Empatia Selvagem</strong> O grifo-rei pode usar Adestramento para mudar atitude e persuasão com grifos.</p><p><strong>Aura de Majestade</strong> Sempre que uma criatura tentar executar uma ação hostil contra o grifo-rei pela primeira vez em uma cena, ela deve fazer um teste de Vontade (CD 35). Se falhar, sofre –3 em testes de perícia e rolagens de dano contra o grifo-rei até o fim da cena. Medo.</p><p>For 9, Des 5, Con 7, Int 0, Sab 3, Car 0 Perícias Adestramento +10 (+20 com grifos).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "ani",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 82",
+      "movimento": "12m (8q), voo 24m (16q)",
+      "ataquescac": "Mordida +36 (4d12+20) e duas garras +36 (4d8+20).",
+      "ataquesad": "",
+      "resistencias": "evasão, imunidade a medo, redução de dano 10/mágico, resistência a magia +2",
+      "equipamento": "",
+      "tesouro": ""
+    },
+    "tracos": {
+      "tamanho": "eno",
+      "ic": {
+        "value": [
+          "medo"
+        ],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 17,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "2ffb0ad3cbb8684f",
+      "_key": "!actors.items!a609daf30d37a430.2ffb0ad3cbb8684f",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +36 (4d12+20).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 82",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+20",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5a7f036bf15272ae",
+      "_key": "!actors.items!a609daf30d37a430.5a7f036bf15272ae",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +36 (4d8+20).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 82",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+20",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d3313a5c7db683a6",
+      "_key": "!actors.items!a609daf30d37a430.d3313a5c7db683a6",
+      "name": "Bote",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O grifo-rei faz uma investida e ataca com sua mordida e suas garras. Os três ataques recebem o bônus de +2 da investida, mas devem ser feitos contra a mesma criatura.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 82",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "337be3d2392c579a",
+      "_key": "!actors.items!a609daf30d37a430.337be3d2392c579a",
+      "name": "Empatia Selvagem",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O grifo-rei pode usar Adestramento para mudar atitude e persuasão com grifos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 82",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f9dcbc8c7b5c89d2",
+      "_key": "!actors.items!a609daf30d37a430.f9dcbc8c7b5c89d2",
+      "name": "Aura de Majestade",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Sempre que uma criatura tentar executar uma ação hostil contra o grifo-rei pela primeira vez em uma cena, ela deve fazer um teste de Vontade (CD 35). Se falhar, sofre –3 em testes de perícia e rolagens de dano contra o grifo-rei até o fim da cena. Medo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 82",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "17fe9a554e171d3a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

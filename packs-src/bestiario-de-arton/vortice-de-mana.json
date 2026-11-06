@@ -1,0 +1,438 @@
+{
+  "_id": "5950236ad82e191d",
+  "_key": "!actors!5950236ad82e191d",
+  "name": "Vórtice de Mana",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Vórtice de Mana",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 5
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": -5
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -3
+      }
+    },
+    "attributes": {
+      "nd": "16",
+      "pv": {
+        "value": 560,
+        "max": 560,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 44,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 12.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "cegas"
+        ],
+        "custom": "percepção às cegas (médio), visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 168 · ND 16 · Espírito Grande.</p><p>Iniciativa +19, Percepção +15, percepção às cegas (médio), visão no escuro</p><p>Defesa 49, Fort +16, Ref +30, Von +24, evasão, imunidade a efeitos de atordoamento, metabolismo e paralisia, redução de dano 10/prata, resistência a magia +3</p><p>Pontos de Vida 560</p><p>Deslocamento voo 12m (8q)</p><p>Corpo a Corpo Três chicotes de mana +44 (6d12+26 essência).</p><p><strong>Absorver Mana (Reação)</strong> Toda vez que passa em um teste de resistência contra um efeito mágico, o vórtice de mana recupera 5 PV por cada PM gasto no efeito.</p><p><strong>Redemoinho Arcano (Completa)</strong> O vórtice percorre até o dobro de seu deslocamento. Ele pode passar por espaços ocupados por outras criaturas, mas não pode passar duas vezes pelo mesmo espaço. Cada criatura no caminho do vórtice sofre 8d12 pontos de dano de essência e fica enjoada por 1 rodada (Ref CD 44 reduz à metade e evita a condição). A condição causada por esta habilidade não é um efeito de metabolismo. Recarga (acertar 3 chicotadas de mana).</p><p><strong>Toque de Disjunção</strong> Uma criatura atingida por um chicote de mana do vórtice deve fazer um teste de resistência de Vontade (CD 44). Se falhar, deve escolher um de seus próprios itens mágicos, ou um efeito mágico que o esteja afetando. O item ou efeito escolhido é dissipado como se tivesse sido afetado por Dissipar Magia.</p><p>For 4, Des 5, Con 3, Int –5, Sab 1, Car –3 Perícias Atletismo +9. Tesouro 1d3 orbes de essência (CD 31 para extrair; cada orbe reduz em 1 PM o custo para fabricar um item mágico).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 168",
+      "movimento": "voo 12m (8q)",
+      "ataquescac": "Três chicotes de mana +44 (6d12+26 essência).",
+      "ataquesad": "",
+      "resistencias": "evasão, imunidade a efeitos de atordoamento, metabolismo e paralisia, redução de dano 10/prata, resistência a magia +3",
+      "equipamento": "",
+      "tesouro": "1d3 orbes de essência (CD 31 para extrair; cada orbe reduz em 1 PM o custo para fabricar um item mágico)."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [
+          "atordoado",
+          "metabolismo",
+          "paralisado"
+        ],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": -9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 26,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ce872f4e62227f53",
+      "_key": "!actors.items!5950236ad82e191d.ce872f4e62227f53",
+      "name": "Chicotes de mana",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Chicotes de mana ×3 +44 (6d12+26 essência).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 168",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d12+26",
+                "essencia",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 3,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9b19d5a3c318f8fb",
+      "_key": "!actors.items!5950236ad82e191d.9b19d5a3c318f8fb",
+      "name": "Absorver Mana",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Toda vez que passa em um teste de resistência contra um efeito mágico, o vórtice de mana recupera 5 PV por cada PM gasto no efeito.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 168",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "53c1c914aaa8be15",
+      "_key": "!actors.items!5950236ad82e191d.53c1c914aaa8be15",
+      "name": "Redemoinho Arcano",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O vórtice percorre até o dobro de seu deslocamento. Ele pode passar por espaços ocupados por outras criaturas, mas não pode passar duas vezes pelo mesmo espaço. Cada criatura no caminho do vórtice sofre 8d12 pontos de dano de essência e fica enjoada por 1 rodada (Ref CD 44 reduz à metade e evita a condição). A condição causada por esta habilidade não é um efeito de metabolismo. Recarga (acertar 3 chicotadas de mana).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 168",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "56f2480892022e45",
+      "_key": "!actors.items!5950236ad82e191d.56f2480892022e45",
+      "name": "Toque de Disjunção",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura atingida por um chicote de mana do vórtice deve fazer um teste de resistência de Vontade (CD 44). Se falhar, deve escolher um de seus próprios itens mágicos, ou um efeito mágico que o esteja afetando. O item ou efeito escolhido é dissipado como se tivesse sido afetado por Dissipar Magia.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 168",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "9148dc1c3068024b",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

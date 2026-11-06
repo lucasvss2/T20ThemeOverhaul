@@ -1,0 +1,554 @@
+{
+  "_id": "cea9ba110a21525f",
+  "_key": "!actors!cea9ba110a21525f",
+  "name": "Salamandra Plebeia",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Salamandra Plebeia",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": -1
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "4",
+      "pv": {
+        "value": 35,
+        "max": 35,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 19,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 152 · ND 4 · Espírito Médio.</p><p>Iniciativa +7, Percepção +3, visão no escuro</p><p>Defesa 22, Fort +10, Ref +15, Von +5, imunidade a fogo</p><p>Pontos de Vida 35</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Lança +17 (1d6+9 mais 1d6 fogo) e cauda +17 (1d6+9 mais 1d6 fogo).</p><p>À Distância Lança +17 (1d6+9 mais 1d6 fogo).</p><p><strong>Calor Natural</strong> A salamandra plebeia causa +1d6 pontos de dano de fogo com seus ataques (já contabilizado).</p><p><strong>Sensibilidade ao Frio</strong> A salamandra sofre −5 em testes contra efeitos de frio e sofre 1 ponto de dano adicional por dado de dano de frio.</p><p>For 2, Des 3, Con 2, Int −1, Sab 0, Car −1 Perícias Ofício (ferreiro) +5. Equipamento Lança. Tesouro Metade.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 152",
+      "movimento": "9m (6q)",
+      "ataquescac": "Lança +17 (1d6+9 mais 1d6 fogo) e cauda +17 (1d6+9 mais 1d6 fogo).",
+      "ataquesad": "Lança +17 (1d6+9 mais 1d6 fogo).",
+      "resistencias": "imunidade a fogo",
+      "equipamento": "Lança.",
+      "tesouro": "Metade."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "fogo": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "12d6dab6cd99e46b",
+      "_key": "!actors.items!cea9ba110a21525f.12d6dab6cd99e46b",
+      "name": "Lança",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Lança +17 (1d6+9 mais 1d6 fogo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 152",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+9",
+                "perfuracao",
+                ""
+              ],
+              [
+                "1d6",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "arremesso",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "74b7297e7fb2b1f6",
+      "_key": "!actors.items!cea9ba110a21525f.74b7297e7fb2b1f6",
+      "name": "Cauda",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda +17 (1d6+9 mais 1d6 fogo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 152",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+9",
+                "impacto",
+                ""
+              ],
+              [
+                "1d6",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "68646e912d400840",
+      "_key": "!actors.items!cea9ba110a21525f.68646e912d400840",
+      "name": "Lança",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Lança +17 (1d6+9 mais 1d6 fogo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 152",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+9",
+                "perfuracao",
+                ""
+              ],
+              [
+                "1d6",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "arremesso",
+        "empunhadura": "uma",
+        "alcance": "short",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d44b60bb29f3d741",
+      "_key": "!actors.items!cea9ba110a21525f.d44b60bb29f3d741",
+      "name": "Calor Natural",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>A salamandra plebeia causa +1d6 pontos de dano de fogo com seus ataques (já contabilizado).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 152",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7bd21952b9e01a1c",
+      "_key": "!actors.items!cea9ba110a21525f.7bd21952b9e01a1c",
+      "name": "Sensibilidade ao Frio",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>A salamandra sofre −5 em testes contra efeitos de frio e sofre 1 ponto de dano adicional por dado de dano de frio.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 152",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "d82d0bc2bbf159d3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

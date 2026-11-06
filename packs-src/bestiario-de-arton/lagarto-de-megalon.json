@@ -1,0 +1,645 @@
+{
+  "_id": "88fdf412120cc869",
+  "_key": "!actors!88fdf412120cc869",
+  "name": "Lagarto-de-Megalon",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Lagarto-de-Megalon",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 6,
+    "height": 6,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 13
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 8
+      },
+      "int": {
+        "base": -5
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": -2
+      }
+    },
+    "attributes": {
+      "nd": "16",
+      "pv": {
+        "value": 820,
+        "max": 820,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 50,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 15.0
+        },
+        "swim": {
+          "base": 12.0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 9.0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 118 · ND 16 · Monstro Colossal.</p><p>Iniciativa +17, Percepção +12, faro, visão no escuro</p><p>Defesa 53, Fort +30, Ref +24, Von +16, cura acelerada 10, fortificação 25%, redução de dano 15, redução de ácido e eletricidade 10</p><p>Pontos de Vida 820</p><p>Deslocamento 15m (10q), escalada 9m (6q), natação 12m (8q)</p><p>Corpo a Corpo Mordida +46 (6d12+30 mais 6d12 ácido) e cauda +46 (4d12+30).</p><p><strong>Agarrar Aprimorado</strong> Mordida (teste +51).</p><p><strong>Engolir (Livre)</strong> No início de cada um dos turnos do lagarto, a criatura engolida sofre 2d12+15 pontos de dano de impacto mais 2d12+15 pontos de dano de ácido. Ela pode escapar causando um total de 100 pontos de dano a ele (Defesa 20, redução de dano 0).</p><p><strong>Incontrolável</strong> O lagarto-de-Megalon é imune a encantamento, medo e efeitos mentais. Se sofrer um efeito desse tipo, ele entra em fúria até o fim da cena; nesse estado, ele recebe +5 em testes de ataque e rolagens de dano, e imunidade a dano psíquico.</p><p><strong>Sopro Corrosivo (Padrão)</strong> Todas as criaturas em um cone de 12m sofrem 5d20 pontos de dano de ácido e ficam vulneráveis (Ref CD 42 reduz o dano à metade e evita a condição). Recarga (movimento).</p><p><strong>Varrida de Cauda</strong> Os ataques de cauda do lagarto atingem todas as criaturas em um cone de 6m (para cada ataque, ele faz um único teste de ataque e compara o resultado com a Defesa de cada inimigo na área).</p><p>For 13, Des 3, Con 8, Int –5, Sab 2, Car –2 Perícias Atletismo +29. Tesouro Padrão mais glândula salivar monstruosa (CD para extrair 31, vale T$ 2.560 para fabricar poções de magias de transmutação).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 118",
+      "movimento": "15m (10q), escalada 9m (6q), natação 12m (8q)",
+      "ataquescac": "Mordida +46 (6d12+30 mais 6d12 ácido) e cauda +46 (4d12+30).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 10, fortificação 25%, redução de dano 15, redução de ácido e eletricidade 10",
+      "equipamento": "",
+      "tesouro": "Padrão mais glândula salivar monstruosa (CD para extrair 31, vale T$ 2.560 para fabricar poções de magias de transmutação)."
+    },
+    "tracos": {
+      "tamanho": "col",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 15
+        },
+        "acido": {
+          "base": 10
+        },
+        "eletricidade": {
+          "base": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 19,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "4efc8ecbd527d353",
+      "_key": "!actors.items!88fdf412120cc869.4efc8ecbd527d353",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +46 (6d12+30 mais 6d12 ácido).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d12+30",
+                "perfuracao",
+                ""
+              ],
+              [
+                "6d12",
+                "acido",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "688cbfa576d156dd",
+      "_key": "!actors.items!88fdf412120cc869.688cbfa576d156dd",
+      "name": "Cauda",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda +46 (4d12+30).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+30",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8d0eef5b1808c796",
+      "_key": "!actors.items!88fdf412120cc869.8d0eef5b1808c796",
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Mordida (teste +51).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7bc2f2a1ab2472c2",
+      "_key": "!actors.items!88fdf412120cc869.7bc2f2a1ab2472c2",
+      "name": "Engolir",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de cada um dos turnos do lagarto, a criatura engolida sofre 2d12+15 pontos de dano de impacto mais 2d12+15 pontos de dano de ácido. Ela pode escapar causando um total de 100 pontos de dano a ele (Defesa 20, redução de dano 0).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ad997116087b4071",
+      "_key": "!actors.items!88fdf412120cc869.ad997116087b4071",
+      "name": "Incontrolável",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O lagarto-de-Megalon é imune a encantamento, medo e efeitos mentais. Se sofrer um efeito desse tipo, ele entra em fúria até o fim da cena; nesse estado, ele recebe +5 em testes de ataque e rolagens de dano, e imunidade a dano psíquico.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1babce3a139cc157",
+      "_key": "!actors.items!88fdf412120cc869.1babce3a139cc157",
+      "name": "Sopro Corrosivo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Todas as criaturas em um cone de 12m sofrem 5d20 pontos de dano de ácido e ficam vulneráveis (Ref CD 42 reduz o dano à metade e evita a condição). Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8be9f9cbd7f6bd5f",
+      "_key": "!actors.items!88fdf412120cc869.8be9f9cbd7f6bd5f",
+      "name": "Varrida de Cauda",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Os ataques de cauda do lagarto atingem todas as criaturas em um cone de 6m (para cada ataque, ele faz um único teste de ataque e compara o resultado com a Defesa de cada inimigo na área).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 118",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "9148dc1c3068024b",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "_id": "0b7df1f8c51745b2",
+  "_key": "!items!0b7df1f8c51745b2",
+  "name": "Aspecto de Thwor",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+  "system": {
+    "description": {
+      "value": "<p>Aspectos · Veterano</p><p><strong>Benefício.</strong> Recebe +2 na Defesa e em testes para empurrar. Ao atacar corpo a corpo, pode gastar 1 PM. Se acertar, causa +1d12 de impacto e pode empurrar o alvo como ação livre.</p><p><strong>Vínculo.</strong> O aspecto deixa de ajudar você se violar as Obrigações &amp; Restrições da divindade.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 33–34",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "geral",
+    "subtipo": "Parceiros",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Aspecto de Thwor",
+      "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.attributes.defesa.bonus",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "_id": "1bd791849eef437b",
+      "_key": "!items.effects!0b7df1f8c51745b2.1bd791849eef437b"
+    }
+  ],
+  "folder": "131110313da9fcfb",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

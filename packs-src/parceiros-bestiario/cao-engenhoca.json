@@ -1,0 +1,79 @@
+{
+  "_id": "9161e1633433948a",
+  "_key": "!items!9161e1633433948a",
+  "name": "Cão Engenhoca",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+  "system": {
+    "description": {
+      "value": "<p>Engenhômatos</p><p><strong>Benefício.</strong> Funciona como engenhoca de Arma Espiritual. Recebe +1 em testes de ataque corpo a corpo.</p><p><strong>Engenhômatos.</strong> Exige Autômato. Conta no limite de parceiros e engenhocas. Custa T$ 150 por PM da magia para fabricar. Pode ser ativado por comando verbal até 9m, sem empunhar ou vestir, e o efeito parte do engenhômato. Se escolhido no lugar do autômato padrão, adquire um tipo de parceiro iniciante no 7º nível e passa a veterano no 15º.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 68",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "geral",
+    "subtipo": "Parceiros",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Cão Engenhoca",
+      "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.modificadores.ataque.cac",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "_id": "3247c070e2b1688e",
+      "_key": "!items.effects!9161e1633433948a.3247c070e2b1688e"
+    }
+  ],
+  "folder": "a481dda0a74055b7",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

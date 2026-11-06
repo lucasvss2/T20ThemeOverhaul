@@ -1,0 +1,381 @@
+{
+  "_id": "526d9536d7e44c28",
+  "_key": "!actors!526d9536d7e44c28",
+  "name": "Saqueador Bruto",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Saqueador Bruto",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 3
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": -1
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "1/2",
+      "pv": {
+        "value": 9,
+        "max": 9,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 12,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [],
+        "custom": ""
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 153 · ND 1/2 · Humanoide (humano) Médio.</p><p>Iniciativa +2, Percepção +3</p><p>Defesa 12, Fort +5, Ref +1, Von +2</p><p>Pontos de Vida 9</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Tacape +10 (1d10+5).</p><p><strong>Nativo das Sanguinárias</strong> O saqueador bruto recebe +2 em testes e rolagens de dano contra monstros.</p><p><strong>Retaliação Brutal (Reação)</strong> Quando é reduzido a 0 PV ou menos por uma criatura adjacente, o saqueador faz um ataque de tacape contra essa criatura.</p><p>For 3, Des 0, Con 2, Int –1, Sab 1, Car –1 Perícias Atletismo +5, Sobrevivência +5. Equipamento Tacape. Tesouro Metade.</p>",
+        "public": ""
+      },
+      "raca": "humano",
+      "tipo": "hum",
+      "role": "lackey",
+      "origem": "Bestiário de Arton, p. 153",
+      "movimento": "9m (6q)",
+      "ataquescac": "Tacape +10 (1d10+5).",
+      "ataquesad": "",
+      "resistencias": "",
+      "equipamento": "Tacape.",
+      "tesouro": "Metade."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "da0871cb1666b790",
+      "_key": "!actors.items!526d9536d7e44c28.da0871cb1666b790",
+      "name": "Tacape",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Tacape +10 (1d10+5).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 153",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d10+5",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "duas",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1139484309a58975",
+      "_key": "!actors.items!526d9536d7e44c28.1139484309a58975",
+      "name": "Nativo das Sanguinárias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O saqueador bruto recebe +2 em testes e rolagens de dano contra monstros.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 153",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3ea95075e20a00b4",
+      "_key": "!actors.items!526d9536d7e44c28.3ea95075e20a00b4",
+      "name": "Retaliação Brutal",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando é reduzido a 0 PV ou menos por uma criatura adjacente, o saqueador faz um ataque de tacape contra essa criatura.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 153",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "5f0dee8f3acec4de",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

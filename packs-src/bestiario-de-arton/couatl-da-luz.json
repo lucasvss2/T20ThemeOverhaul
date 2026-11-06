@@ -1,0 +1,1396 @@
+{
+  "_id": "5bb657150e0bb296",
+  "_key": "!actors!5bb657150e0bb296",
+  "name": "Couatl da Luz",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Couatl da Luz",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 5
+      },
+      "des": {
+        "base": 4
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 4
+      },
+      "car": {
+        "base": 3
+      }
+    },
+    "attributes": {
+      "nd": "12",
+      "pv": {
+        "value": 425,
+        "max": 425,
+        "min": -500
+      },
+      "pm": {
+        "value": 64,
+        "max": 64
+      },
+      "defesa": {
+        "base": 33,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 6.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 18.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 35
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 52 · ND 12 · Espírito Grande.</p><p>Iniciativa +14, Percepção +14, visão no escuro</p><p>Defesa 37, Fort +12, Ref +20, Von +25, evasão, redução de fogo e luz 10</p><p>Pontos de Vida 425</p><p>Deslocamento 6m (4q), voo 18m (12q)</p><p>Pontos de Mana 64.</p><p>Corpo a Corpo Mordida x2 +34 (4d8+20 mais 4d12 fogo).</p><p><strong>Agarrar Aprimorado (Livre)</strong> Mordida (teste +36).</p><p><strong>Constrição (Livre)</strong> No início de cada um de seus turnos, o couatl da luz causa 4d8+20 pontos de dano de impacto e 4d12 pontos de dano de fogo na criatura que estiver agarrando.</p><p><strong>Representante do Sol</strong> Contra mortos-vivos, devotos de deuses que canalizam apenas energia negativa e criaturas malignas (a critério do mestre), a CD para resistir às habilidades do couatl aumenta em +2.</p><p><strong>Telepatia</strong> O couatl pode se comunicar telepaticamente com qualquer criatura inteligente (Int −3 ou maior) em alcance médio.</p><p><strong>Magias</strong> Como um clérigo de Azgher de 12º nível (CD 35).</p><p><strong>Coluna de Chamas</strong> (Padrão, 12 PM) Um cilindro de fogo sagrado com 3m de raio e 30m de altura desce dos céus em alcance longo, causando 9d6 pontos de dano de fogo mais 9d6 pontos de dano de luz nas criaturas e objetos livres na área.</p><p><strong>Compreensão</strong> (Padrão, 4 PM) O couatl vasculha os pensamentos de um alvo em alcance curto para extrair informações (Von evita).</p><p><strong>Concentração de Combate</strong> (Padrão, 8 PM) Até o fim da cena, quando faz um ataque, o couatl rola dois dados e usa o melhor resultado, e, quando um oponente ataca o couatl, rola dois dados e usa o pior resultado.</p><p><strong>Controlar Fogo</strong> (Padrão, 3 PM) O couatl chameja qualquer número de armas e ataques desarmados escolhidos em alcance curto. Até o fim da cena, essas armas causam +1d6 pontos de dano de fogo.</p><p><strong>Curar Ferimentos</strong> (Padrão, 12 PM) Uma criatura adjacente cura 13d8+13 PV.</p><p><strong>Dispersar as Trevas</strong> (Padrão, 6 PM) O couatl emana luz em uma esfera de 6m ao seu redor e faz um teste de Religião. Magias de até 3º círculo na área com CD igual ou menor que o teste são dissipadas, aliados na área recebem +4 em testes de resistência e redução de trevas 10 até o fim da cena, e inimigos nessa área ficam cegos por 1d4 rodadas (apenas uma vez por cena).</p><p><strong>Escudo da Fé</strong> (Reação, 5 PM) Quando uma criatura em alcance curto sofre um ataque, ela recebe +4 na Defesa até seu próximo turno.</p><p><strong>Libertação</strong> (Padrão, 10 PM) Até o fim da cena, uma criatura em alcance curto fica imune a efeitos de movimento, ignora qualquer efeito que impeça ou restrinja seu deslocamento e pode usar habilidades que exigem liberdade de movimentos mesmo se estiver usando armadura ou escudo.</p><p><strong>Purificação</strong> (Padrão, 3 PM) Remove uma condição entre abalado, apavorado, alquebrado, atordoado, cego, confuso, debilitado, enjoado, envenenado, esmorecido, exausto, fascinado, fatigado, fraco, frustrado, lento, ofuscado, paralisado, pasmo ou surdo de uma criatura adjacente.</p><p><strong>Resistência a Energia</strong> (Padrão, 3 PM) Até o fim da cena, uma criatura adjacente recebe redução de dano 15 contra ácido, eletricidade, fogo, frio, luz ou trevas, à escolha do couatl.</p><p><strong>Luz</strong> (Padrão, 1 PM) Uma criatura fica ofuscada pela cena (Von evita).</p><p>For 5, Des 4, Con 3, Int 3, Sab 4, Car 3 Perícias Diplomacia +13, Intuição +16, Misticismo +13, Nobreza +13, Religião +19. Tesouro Dobro.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 52",
+      "movimento": "6m (4q), voo 18m (12q)",
+      "ataquescac": "Mordida x2 +34 (4d8+20 mais 4d12 fogo).",
+      "ataquesad": "",
+      "resistencias": "evasão, redução de fogo e luz 10",
+      "equipamento": "",
+      "tesouro": "Dobro."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "fogo": {
+          "base": 10
+        },
+        "luz": {
+          "base": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 19,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "2d12af6f869491a2",
+      "_key": "!actors.items!5bb657150e0bb296.2d12af6f869491a2",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida ×2 +34 (4d8+20 mais 4d12 fogo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+20",
+                "perfuracao",
+                ""
+              ],
+              [
+                "4d12",
+                "fogo",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "610a06fcc0bcb62b",
+      "_key": "!actors.items!5bb657150e0bb296.610a06fcc0bcb62b",
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Mordida (teste +36).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "cf45bb5bbac98de3",
+      "_key": "!actors.items!5bb657150e0bb296.cf45bb5bbac98de3",
+      "name": "Constrição",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de cada um de seus turnos, o couatl da luz causa 4d8+20 pontos de dano de impacto e 4d12 pontos de dano de fogo na criatura que estiver agarrando.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "29ff14dac78ce935",
+      "_key": "!actors.items!5bb657150e0bb296.29ff14dac78ce935",
+      "name": "Representante do Sol",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Contra mortos-vivos, devotos de deuses que canalizam apenas energia negativa e criaturas malignas (a critério do mestre), a CD para resistir às habilidades do couatl aumenta em +2.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "dc2be2422563df4b",
+      "_key": "!actors.items!5bb657150e0bb296.dc2be2422563df4b",
+      "name": "Telepatia",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O couatl pode se comunicar telepaticamente com qualquer criatura inteligente (Int −3 ou maior) em alcance médio.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d94e89b0284692ac",
+      "_key": "!actors.items!5bb657150e0bb296.d94e89b0284692ac",
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Como um clérigo de Azgher de 12º nível (CD 35).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8d59c39daf4f0c8a",
+      "_key": "!actors.items!5bb657150e0bb296.8d59c39daf4f0c8a",
+      "name": "Coluna de Chamas",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/coluna-de-chamas.webp",
+      "system": {
+        "description": {
+          "value": "<p>Um cilindro de fogo sagrado com 3m de raio e 30m de altura desce dos céus em alcance longo, causando 9d6 pontos de dano de fogo mais 9d6 pontos de dano de luz nas criaturas e objetos livres na área.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 12,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "3",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "6f6d9c76ae643be8",
+      "_key": "!actors.items!5bb657150e0bb296.6f6d9c76ae643be8",
+      "name": "Compreensão",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/compreensao.webp",
+      "system": {
+        "description": {
+          "value": "<p>O couatl vasculha os pensamentos de um alvo em alcance curto para extrair informações (Von evita).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 4,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "adv",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d0e33514cd93c382",
+      "_key": "!actors.items!5bb657150e0bb296.d0e33514cd93c382",
+      "name": "Concentração de Combate",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/concentracao-de-combate.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até o fim da cena, quando faz um ataque, o couatl rola dois dados e usa o melhor resultado, e, quando um oponente ataca o couatl, rola dois dados e usa o pior resultado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 8,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "adv",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "b35d05b5b90ea48f",
+      "_key": "!actors.items!5bb657150e0bb296.b35d05b5b90ea48f",
+      "name": "Controlar Fogo",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/controlar-fogo.webp",
+      "system": {
+        "description": {
+          "value": "<p>O couatl chameja qualquer número de armas e ataques desarmados escolhidos em alcance curto. Até o fim da cena, essas armas causam +1d6 pontos de dano de fogo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1090e0cfee12a1f3",
+      "_key": "!actors.items!5bb657150e0bb296.1090e0cfee12a1f3",
+      "name": "Curar Ferimentos",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/curar-ferimentos.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura adjacente cura 13d8+13 PV.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 12,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "38a98f55094be9fb",
+      "_key": "!actors.items!5bb657150e0bb296.38a98f55094be9fb",
+      "name": "Dispersar as Trevas",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/dispersar-trevas.webp",
+      "system": {
+        "description": {
+          "value": "<p>O couatl emana luz em uma esfera de 6m ao seu redor e faz um teste de Religião. Magias de até 3º círculo na área com CD igual ou menor que o teste são dissipadas, aliados na área recebem +4 em testes de resistência e redução de trevas 10 até o fim da cena, e inimigos nessa área ficam cegos por 1d4 rodadas (apenas uma vez por cena).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "3",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8ed2025083b022e4",
+      "_key": "!actors.items!5bb657150e0bb296.8ed2025083b022e4",
+      "name": "Escudo da Fé",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura em alcance curto sofre um ataque, ela recebe +4 na Defesa até seu próximo turno.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 5,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "c2b54aa203151e3a",
+      "_key": "!actors.items!5bb657150e0bb296.c2b54aa203151e3a",
+      "name": "Libertação",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/libertacao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até o fim da cena, uma criatura em alcance curto fica imune a efeitos de movimento, ignora qualquer efeito que impeça ou restrinja seu deslocamento e pode usar habilidades que exigem liberdade de movimentos mesmo se estiver usando armadura ou escudo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 10,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "4",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9c0ffadcfb5c2941",
+      "_key": "!actors.items!5bb657150e0bb296.9c0ffadcfb5c2941",
+      "name": "Purificação",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/purificacao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Remove uma condição entre abalado, apavorado, alquebrado, atordoado, cego, confuso, debilitado, enjoado, envenenado, esmorecido, exausto, fascinado, fatigado, fraco, frustrado, lento, ofuscado, paralisado, pasmo ou surdo de uma criatura adjacente.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a2c66a6feeb9e2ab",
+      "_key": "!actors.items!5bb657150e0bb296.a2c66a6feeb9e2ab",
+      "name": "Resistência a Energia",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/resistencia-a-energia.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até o fim da cena, uma criatura adjacente recebe redução de dano 15 contra ácido, eletricidade, fogo, frio, luz ou trevas, à escolha do couatl.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "2a08c0bbec6c99c0",
+      "_key": "!actors.items!5bb657150e0bb296.2a08c0bbec6c99c0",
+      "name": "Luz",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/luz.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura fica ofuscada pela cena (Von evita).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 52",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "17fe9a554e171d3a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

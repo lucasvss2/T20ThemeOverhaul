@@ -1,0 +1,747 @@
+{
+  "_id": "469478d82807b1e3",
+  "_key": "!actors!469478d82807b1e3",
+  "name": "Protetor das Matas",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Protetor das Matas",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 6
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 1
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": 6
+      }
+    },
+    "attributes": {
+      "nd": "15",
+      "pv": {
+        "value": 750,
+        "max": 750,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 44,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra"
+        ],
+        "custom": "visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 136 · ND 15 · Espírito (sátiro) Médio.</p><p>Iniciativa +19, Percepção +13, visão na penumbra</p><p>Defesa 50, Fort +17, Ref +28, Von +22, evasão, imunidade a confusão, redução de dano 10/mágico</p><p>Pontos de Vida 750</p><p>Deslocamento 12m (8q), sem redução por terreno difícil natural</p><p>Corpo a Corpo Espada longa x2 +44 (6d8+16, 19, mais 6d6 psíquico) e marrada +42 (6d6+16 mais 6d6 psíquico).</p><p><strong>Aura de Vinhas</strong> O protetor das matas emana uma aura que anima a vegetação em um raio de 9m. Nessa área, terreno natural se torna difícil.</p><p><strong>Instrumentista Mágico (Padrão)</strong> O protetor lança uma magia entre Amedrontar, Enfeitiçar, Hipnotismo e Sono sem gastar PM (CD 40, limite de PM 15). Ele pode lançar cada uma dessas magias uma vez por cena.</p><p><strong>Lança Natural (Padrão)</strong> O protetor cria uma lança de vinhas e a arremessa contra uma criatura em alcance curto. O alvo sofre 8d12+16 pontos de dano de perfuração e fica enredado (Ref CD 40 reduz à metade e evita a condição). Uma criatura enredada dessa forma pode remover essa condição gastando uma ação completa.</p><p><strong>Montaria Feérica</strong> O protetor cavalga um alce, um parceiro montaria (Grande) que não reduz sua Furtividade. Enquanto está montado, o protetor recebe +1d6 em rolagens de dano corpo a corpo e, quando faz uma investida, recebe +2 no teste de ataque, e, se acertar, pode fazer a manobra derrubar ou empurrar contra o alvo como uma ação livre (teste +49).</p><p><strong>Passo da Floresta (Movimento)</strong> O protetor (e sua montaria, se ele estiver montado) se teleporta para um espaço desocupado que ele possa ver em alcance médio. Criaturas adjacentes a esse espaço ficam desprevenidas contra o protetor até o início do próximo turno dele. O protetor só pode usar esta habilidade em terrenos naturais. Recarga (movimento).</p><p><strong>Vozes da Pondsmânia (Reação)</strong> Na primeira vez em cada cena em que é reduzido a 375 PV ou menos, o protetor invoca o poder das terras feéricas. Todos os inimigos em alcance médio perdem 2d8 PM e ficam confusos (Von CD 40 reduz a perda à metade e evita a condição).</p><p>For 2, Des 6, Con 3, Int 1, Sab 0, Car 6 Perícias Adestramento +19, Atletismo +19, Atuação +22, Cavalgar +21, Enganação +19, Furtividade +16, Sobrevivência +13. Equipamento Couraça delicada sob medida, escudo leve ajustado, espada longa formidável, instrumento musical (flauta) aprimorado. Tesouro Metade.</p>",
+        "public": ""
+      },
+      "raca": "sátiro",
+      "tipo": "esp",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 136",
+      "movimento": "12m (8q), sem redução por terreno difícil natural",
+      "ataquescac": "Espada longa x2 +44 (6d8+16, 19, mais 6d6 psíquico) e marrada +42 (6d6+16 mais 6d6 psíquico).",
+      "ataquesad": "",
+      "resistencias": "evasão, imunidade a confusão, redução de dano 10/mágico",
+      "equipamento": "Couraça delicada sob medida, escudo leve ajustado, espada longa formidável, instrumento musical (flauta) aprimorado.",
+      "tesouro": "Metade."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "confuso"
+        ],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atua": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "cava": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": -3,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 29,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "bf5911208c014c2d",
+      "_key": "!actors.items!469478d82807b1e3.bf5911208c014c2d",
+      "name": "Espada longa",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Espada longa ×2 +44 (6d8+16, 19, mais 6d6 psíquico).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d8+16",
+                "corte",
+                ""
+              ],
+              [
+                "6d6",
+                "psiquico",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 2,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a06348d4e9c13161",
+      "_key": "!actors.items!469478d82807b1e3.a06348d4e9c13161",
+      "name": "Marrada",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Marrada +42 (6d6+16 mais 6d6 psíquico).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "-2",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d6+16",
+                "impacto",
+                ""
+              ],
+              [
+                "6d6",
+                "psiquico",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "37c1631ad898786d",
+      "_key": "!actors.items!469478d82807b1e3.37c1631ad898786d",
+      "name": "Aura de Vinhas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O protetor das matas emana uma aura que anima a vegetação em um raio de 9m. Nessa área, terreno natural se torna difícil.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0d080326bd17658e",
+      "_key": "!actors.items!469478d82807b1e3.0d080326bd17658e",
+      "name": "Instrumentista Mágico",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O protetor lança uma magia entre Amedrontar, Enfeitiçar, Hipnotismo e Sono sem gastar PM (CD 40, limite de PM 15). Ele pode lançar cada uma dessas magias uma vez por cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "bd144e76fcc61c50",
+      "_key": "!actors.items!469478d82807b1e3.bd144e76fcc61c50",
+      "name": "Lança Natural",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O protetor cria uma lança de vinhas e a arremessa contra uma criatura em alcance curto. O alvo sofre 8d12+16 pontos de dano de perfuração e fica enredado (Ref CD 40 reduz à metade e evita a condição). Uma criatura enredada dessa forma pode remover essa condição gastando uma ação completa.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5e62f56fb5c0ef79",
+      "_key": "!actors.items!469478d82807b1e3.5e62f56fb5c0ef79",
+      "name": "Montaria Feérica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O protetor cavalga um alce, um parceiro montaria (Grande) que não reduz sua Furtividade. Enquanto está montado, o protetor recebe +1d6 em rolagens de dano corpo a corpo e, quando faz uma investida, recebe +2 no teste de ataque, e, se acertar, pode fazer a manobra derrubar ou empurrar contra o alvo como uma ação livre (teste +49).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1fe6cdcb606909e2",
+      "_key": "!actors.items!469478d82807b1e3.1fe6cdcb606909e2",
+      "name": "Passo da Floresta",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O protetor (e sua montaria, se ele estiver montado) se teleporta para um espaço desocupado que ele possa ver em alcance médio. Criaturas adjacentes a esse espaço ficam desprevenidas contra o protetor até o início do próximo turno dele. O protetor só pode usar esta habilidade em terrenos naturais. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "282087a13e2370e5",
+      "_key": "!actors.items!469478d82807b1e3.282087a13e2370e5",
+      "name": "Vozes da Pondsmânia",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Na primeira vez em cada cena em que é reduzido a 375 PV ou menos, o protetor invoca o poder das terras feéricas. Todos os inimigos em alcance médio perdem 2d8 PM e ficam confusos (Von CD 40 reduz a perda à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 136",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "ca54236dba9fa809",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

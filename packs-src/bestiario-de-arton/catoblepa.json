@@ -1,0 +1,426 @@
+{
+  "_id": "05d03770106786a1",
+  "_key": "!actors!05d03770106786a1",
+  "name": "Catóblepa",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Catóblepa",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 3,
+    "height": 3,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 7
+      },
+      "des": {
+        "base": -1
+      },
+      "con": {
+        "base": 6
+      },
+      "int": {
+        "base": -5
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "8",
+      "pv": {
+        "value": 320,
+        "max": 320,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 34,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 6.0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 44 · ND 8 · Monstro Enorme.</p><p>Iniciativa +7, Percepção +9, faro, visão no escuro</p><p>Defesa 33, Fort +20, Ref +9, Von +15, imunidade a encantamento, redução de dano 10/mágica</p><p>Pontos de Vida 320</p><p>Deslocamento 12m (8q), natação 6m (4q)</p><p>Corpo a Corpo Cabeçada +26 (4d10+35 impacto).</p><p><strong>Cabeçada Avassaladora (Livre)</strong> Quando acerta um ataque de cabeçada, o catóblepa arremessa a vítima 1d6 x 1,5m em uma direção à escolha dele (Fort CD 26 evita). A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p><p><strong>Mugido Enganador (Movimento)</strong> O catóblepa emite um mugido que atrai a atenção de todas as criaturas em um raio de 30m. Criaturas nessa área devem fazer um teste de Vontade (CD 26). Se falharem, são levadas a olhar para a face do catóblepa. A criatura não pode fechar os olhos para evitar esse efeito, mas ainda tem direito ao teste de Reflexos para evitar o Olhar Letal. Encantamento.</p><p><strong>Olhar Letal</strong> No início de seu turno, cada personagem em alcance curto do catóblepa deve fazer um teste de Reflexos (CD 26). Se passar, desvia o olhar. Se falhar, fica enjoado. Se já estiver enjoado, morre. Um personagem pode fechar os olhos para ficar imune a esta habilidade, mas sofre os efeitos de estar cego. Um personagem morto desta forma pode ser revivido se um dos olhos do catóblepa for esmagado sobre sua testa em até um dia após sua morte. Metabolismo.</p><p>For 7, Des –1, Con 6, Int –5, Sab 1, Car –1 Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 44",
+      "movimento": "12m (8q), natação 6m (4q)",
+      "ataquescac": "Cabeçada +26 (4d10+35 impacto).",
+      "ataquesad": "",
+      "resistencias": "imunidade a encantamento, redução de dano 10/mágica",
+      "equipamento": "",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "eno",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "7b42e6bc62b1e71b",
+      "_key": "!actors.items!05d03770106786a1.7b42e6bc62b1e71b",
+      "name": "Cabeçada",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cabeçada +26 (4d10+35 impacto).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 44",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d10+35",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "6de6623b72060812",
+      "_key": "!actors.items!05d03770106786a1.6de6623b72060812",
+      "name": "Cabeçada Avassaladora",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando acerta um ataque de cabeçada, o catóblepa arremessa a vítima 1d6 x 1,5m em uma direção à escolha dele (Fort CD 26 evita). A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 44",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "dc041f8190044c2d",
+      "_key": "!actors.items!05d03770106786a1.dc041f8190044c2d",
+      "name": "Mugido Enganador",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O catóblepa emite um mugido que atrai a atenção de todas as criaturas em um raio de 30m. Criaturas nessa área devem fazer um teste de Vontade (CD 26). Se falharem, são levadas a olhar para a face do catóblepa. A criatura não pode fechar os olhos para evitar esse efeito, mas ainda tem direito ao teste de Reflexos para evitar o Olhar Letal. Encantamento.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 44",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "214ffc7c810ab655",
+      "_key": "!actors.items!05d03770106786a1.214ffc7c810ab655",
+      "name": "Olhar Letal",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de seu turno, cada personagem em alcance curto do catóblepa deve fazer um teste de Reflexos (CD 26). Se passar, desvia o olhar. Se falhar, fica enjoado. Se já estiver enjoado, morre. Um personagem pode fechar os olhos para ficar imune a esta habilidade, mas sofre os efeitos de estar cego. Um personagem morto desta forma pode ser revivido se um dos olhos do catóblepa for esmagado sobre sua testa em até um dia após sua morte. Metabolismo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 44",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0cc8ccbe804868fe",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

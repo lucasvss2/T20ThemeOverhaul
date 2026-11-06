@@ -1,0 +1,717 @@
+{
+  "_id": "b4acbfdfd758815f",
+  "_key": "!actors!b4acbfdfd758815f",
+  "name": "O Profano",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "O Profano",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 6,
+    "height": 6,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 1
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 4
+      },
+      "sab": {
+        "base": 3
+      },
+      "car": {
+        "base": 8
+      }
+    },
+    "attributes": {
+      "nd": "S",
+      "pv": {
+        "value": 0,
+        "max": 0,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 62,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 0
+        },
+        "swim": {
+          "base": 18.0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 123 · ND S · Morto-vivo Colossal.</p><p>A ficha registra PV “—”. A embarcação é enfrentada pela tripulação e por suas regras especiais.</p><p>@UUID[Compendium.t20-theme-overhaul.chefes-finais-bestiario.JournalEntry.ca9553bb5c1bb035.JournalEntryPage.97b180b88dcc5411]{Navios fantasmas}</p><p>Atributos nulos na ficha: For.</p><p>Iniciativa +17, Percepção +21, visão no escuro</p><p>Defesa 63, Fort +22, Ref +30, Von +36, imunidade a efeitos mentais e de movimento, incorpóreo</p><p>Pontos de Vida —</p><p>Deslocamento natação 18m (12q)</p><p>À Distância Dois canhões +55 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).</p><p><strong>Abordagem Apavorante (Livre)</strong> Vontade CD 55 evita (veja o quadro).</p><p><strong>Atropelamento Etéreo (Completa)</strong> Cada criatura afetada sofre 8d12 pontos de dano de trevas mais 8d12 pontos de dano de frio e fica pasma (Fort CD 55 reduz à metade e evita a condição).</p><p><strong>Capitão Filork Olho Vivo (Reação)</strong> Quando pelo menos 20 capangas marujos hynne são invocados pelo Profano, o Capitão Filork surge em um espaço desocupado em alcance curto. Ele age como um capanga marujo hynne mas tem Defesa 58, 220 PV e dano 3d12+5 de trevas mais 3d12+5 de frio.</p><p><strong>Drenar Vida</strong> Fortitude CD 55 evita (veja o quadro).</p><p><strong>Lamento dos Refugiados (Reação)</strong> Quando 15 capangas marujos hynne do Profano são destruídos, um coro de espíritos dos refugiados hynne para emitir uma violenta aura de energia negativa com 30m de raio. Cada criatura que comece seu turno nesta área sofre 5d12 pontos de dano de trevas e 5d12 pontos de dano psíquico e fica debilitada e esmorecida (Von CD 55 reduz para fraca e frustrada).</p><p><strong>Trespassar Alma</strong> Quando uma criatura sofre dano de trevas do canhão do veleiro de piratas condenados, sua alma é momentaneamente arrancada do corpo. A criatura fica atordoada por 1 rodada e perde 4d8 PM; se já foi atordoada por esta habilidade nesta cena, em vez disso fica debilitada por 1 rodada (Von CD 55 reduz a perda à metade e evita a condição).</p><p><strong>Tripulação Fantasmagórica (Livre)</strong> 2d6+2 capangas marujos hynne (30 capangas por cena). Cada marujo é um morto-vivo incorpóreo com deslocamento 6m, Defesa 55, 160 PV e dano 2d12+5 de trevas mais 2d12+5 de frio. Quando faz um teste de resistência, o marujo rola dois dados e usa o melhor resultado.</p><p>For —, Des 1, Con 4, Int 4, Sab 3, Car 8 Perícias Intimidação +26, Pilotagem +30. Tesouro Dobro mais essência espectral (vale 3 PM para fabricar itens mágicos).</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 123",
+      "movimento": "natação 18m (12q)",
+      "ataquescac": "",
+      "ataquesad": "Dois canhões +55 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).",
+      "resistencias": "imunidade a efeitos mentais e de movimento, incorpóreo",
+      "equipamento": "",
+      "tesouro": "Dobro mais essência espectral (vale 3 PM para fabricar itens mágicos)."
+    },
+    "tracos": {
+      "tamanho": "col",
+      "ic": {
+        "value": [
+          "mental"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "acido": {
+          "imunidade": true
+        },
+        "corte": {
+          "imunidade": true
+        },
+        "eletricidade": {
+          "imunidade": true
+        },
+        "essencia": {
+          "imunidade": true
+        },
+        "fogo": {
+          "imunidade": true
+        },
+        "frio": {
+          "imunidade": true
+        },
+        "impacto": {
+          "imunidade": true
+        },
+        "luz": {
+          "imunidade": true
+        },
+        "psiquico": {
+          "imunidade": true
+        },
+        "perfuracao": {
+          "imunidade": true
+        },
+        "trevas": {
+          "imunidade": true
+        },
+        "dano": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 17,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pilo": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 38,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ff29f1b5cedfcde3",
+      "_key": "!actors.items!b4acbfdfd758815f.ff29f1b5cedfcde3",
+      "name": "Canhões",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Canhões ×2 +55 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+15",
+                "trevas",
+                ""
+              ],
+              [
+                "4d12+15",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "disparo",
+        "empunhadura": "uma",
+        "alcance": "long",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9772b553380278f5",
+      "_key": "!actors.items!b4acbfdfd758815f.9772b553380278f5",
+      "name": "Abordagem Apavorante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Vontade CD 55 evita (veja o quadro).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a261518f1e439363",
+      "_key": "!actors.items!b4acbfdfd758815f.a261518f1e439363",
+      "name": "Atropelamento Etéreo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Cada criatura afetada sofre 8d12 pontos de dano de trevas mais 8d12 pontos de dano de frio e fica pasma (Fort CD 55 reduz à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8141483024a1712a",
+      "_key": "!actors.items!b4acbfdfd758815f.8141483024a1712a",
+      "name": "Capitão Filork Olho Vivo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando pelo menos 20 capangas marujos hynne são invocados pelo Profano, o Capitão Filork surge em um espaço desocupado em alcance curto. Ele age como um capanga marujo hynne mas tem Defesa 58, 220 PV e dano 3d12+5 de trevas mais 3d12+5 de frio.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5aab6d5713c5456d",
+      "_key": "!actors.items!b4acbfdfd758815f.5aab6d5713c5456d",
+      "name": "Drenar Vida",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Fortitude CD 55 evita (veja o quadro).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7570b5a985df0fc3",
+      "_key": "!actors.items!b4acbfdfd758815f.7570b5a985df0fc3",
+      "name": "Lamento dos Refugiados",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando 15 capangas marujos hynne do Profano são destruídos, um coro de espíritos dos refugiados hynne para emitir uma violenta aura de energia negativa com 30m de raio. Cada criatura que comece seu turno nesta área sofre 5d12 pontos de dano de trevas e 5d12 pontos de dano psíquico e fica debilitada e esmorecida (Von CD 55 reduz para fraca e frustrada).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0f7cacad9892c44f",
+      "_key": "!actors.items!b4acbfdfd758815f.0f7cacad9892c44f",
+      "name": "Trespassar Alma",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura sofre dano de trevas do canhão do veleiro de piratas condenados, sua alma é momentaneamente arrancada do corpo. A criatura fica atordoada por 1 rodada e perde 4d8 PM; se já foi atordoada por esta habilidade nesta cena, em vez disso fica debilitada por 1 rodada (Von CD 55 reduz a perda à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "eabb4a1a88e2749d",
+      "_key": "!actors.items!b4acbfdfd758815f.eabb4a1a88e2749d",
+      "name": "Tripulação Fantasmagórica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>2d6+2 capangas marujos hynne (30 capangas por cena). Cada marujo é um morto-vivo incorpóreo com deslocamento 6m, Defesa 55, 160 PV e dano 2d12+5 de trevas mais 2d12+5 de frio. Quando faz um teste de resistência, o marujo rola dois dados e usa o melhor resultado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 123",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "2e00eaef829eb8d5",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,653 @@
+{
+  "_id": "493925a554be0446",
+  "_key": "!actors!493925a554be0446",
+  "name": "Nagah Pugilista",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Nagah Pugilista",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 5
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 3
+      },
+      "car": {
+        "base": 1
+      }
+    },
+    "attributes": {
+      "nd": "9",
+      "pv": {
+        "value": 230,
+        "max": 230,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 31,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra"
+        ],
+        "custom": "visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 120 · ND 9 · Humanoide (nagah) Médio.</p><p>Iniciativa +11, Percepção +11, visão na penumbra</p><p>Defesa 34, Fort +12, Ref +18, Von +15, evasão, resistência a veneno +5</p><p>Pontos de Vida 230</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Quatro pancadas +27 (1d6+8, 19/ x3) e cauda +27 (1d6+8, 19/x3).</p><p><strong>Derrubar (livre)</strong> Se o nagah pugilista acerta um ataque de cauda, pode fazer a manobra derrubar (teste +27).</p><p><strong>Esquiva Elusiva (Reação)</strong> Quando é atingido por um ataque, o nagah pode fazer um teste de Enganação e subtrair o resultado desta rolagem do dano causado pelo ataque. Ele pode usar esta habilidade duas vezes por rodada, mas apenas uma vez contra o mesmo ataque.</p><p><strong>Inocência Dissimulada</strong> Uma vez por cena, o nagah pode substituir um teste de perícia por um teste de Enganação.</p><p><strong>Sequência Avassaladora</strong> Para cada ataque de pancada que acertar em uma criatura, o nagah aumenta em +1d6 o dano de seus próximos ataques de pancada contra aquela criatura neste turno. Além disso, se acertar quatro ataques de pancada em uma mesma criatura no mesmo turno, o nagah deixa essa criatura fraca.</p><p><strong>Fraquezas Ofídicas</strong> O nagah sofre 1 ponto de dano adicional para cada dado de dano de frio e –5 em testes de resistência contra Músicas de bardo.</p><p>For 5, Des 3, Con 2, Int 0, Sab 3, Car 1 Perícias Acrobacia +11, Atletismo +13, Enganação +11, Furtividade +11. Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "nagah",
+      "tipo": "hum",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 120",
+      "movimento": "12m (8q)",
+      "ataquescac": "Quatro pancadas +27 (1d6+8, 19/ x3) e cauda +27 (1d6+8, 19/x3).",
+      "ataquesad": "",
+      "resistencias": "evasão, resistência a veneno +5",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 14,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "761e34efc087118e",
+      "_key": "!actors.items!493925a554be0446.761e34efc087118e",
+      "name": "Pancadas",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Pancadas ×4 +27 (1d6+8, 19/ x3).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+8",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 4,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "85d9101689b34fb8",
+      "_key": "!actors.items!493925a554be0446.85d9101689b34fb8",
+      "name": "Cauda",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda +27 (1d6+8, 19/x3).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+8",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "6afbc147865c3ee8",
+      "_key": "!actors.items!493925a554be0446.6afbc147865c3ee8",
+      "name": "Derrubar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o nagah pugilista acerta um ataque de cauda, pode fazer a manobra derrubar (teste +27).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3669b1987c3f6cd9",
+      "_key": "!actors.items!493925a554be0446.3669b1987c3f6cd9",
+      "name": "Esquiva Elusiva",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando é atingido por um ataque, o nagah pode fazer um teste de Enganação e subtrair o resultado desta rolagem do dano causado pelo ataque. Ele pode usar esta habilidade duas vezes por rodada, mas apenas uma vez contra o mesmo ataque.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f83edc6af5bcd9aa",
+      "_key": "!actors.items!493925a554be0446.f83edc6af5bcd9aa",
+      "name": "Inocência Dissimulada",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, o nagah pode substituir um teste de perícia por um teste de Enganação.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "33f2f82e0db0a319",
+      "_key": "!actors.items!493925a554be0446.33f2f82e0db0a319",
+      "name": "Sequência Avassaladora",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Para cada ataque de pancada que acertar em uma criatura, o nagah aumenta em +1d6 o dano de seus próximos ataques de pancada contra aquela criatura neste turno. Além disso, se acertar quatro ataques de pancada em uma mesma criatura no mesmo turno, o nagah deixa essa criatura fraca.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f01fe9595e9f9da7",
+      "_key": "!actors.items!493925a554be0446.f01fe9595e9f9da7",
+      "name": "Fraquezas Ofídicas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O nagah sofre 1 ponto de dano adicional para cada dado de dano de frio e –5 em testes de resistência contra Músicas de bardo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 120",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0490ec555be7754e",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

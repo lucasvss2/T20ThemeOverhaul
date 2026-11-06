@@ -1,0 +1,655 @@
+{
+  "_id": "d66587f3b167ecef",
+  "_key": "!actors!d66587f3b167ecef",
+  "name": "Dragotauro",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Dragotauro",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 3,
+    "height": 3,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 9
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 7
+      },
+      "int": {
+        "base": 2
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 2
+      }
+    },
+    "attributes": {
+      "nd": "12",
+      "pv": {
+        "value": 620,
+        "max": 620,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 41,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 24.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "cegas",
+          "faro"
+        ],
+        "custom": "faro, percepção às cegas, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 60 · ND 12 · Monstro Enorme.</p><p>Iniciativa +12, Percepção +11, faro, percepção às cegas, visão no escuro</p><p>Defesa 43, Fort +26, Ref +12, Von +20, imunidade a atordoamento, cansaço, metamorfose e paralisia, redução de dano 10, resistência a magia +3</p><p>Pontos de Vida 620</p><p>Deslocamento 12m (8q), voo 24m (16q)</p><p>Corpo a Corpo Mordida +36 (4d10+20, 18) e duas garras +36 (3d10+20, 18).</p><p><strong>Asas Defletoras (Reação)</strong> Uma vez por rodada, quando sofre dano, o dragotauro reduz esse dano à metade. Ele não pode usar esta habilidade se estiver voando.</p><p><strong>Bote (Completa)</strong> O dragotauro faz uma investida e ataca com sua mordida e suas duas garras. Os três ataques recebem o bônus de +2 da investida, mas devem ser feitos contra o mesmo alvo.</p><p><strong>Guincho Dracônico (Padrão)</strong> Todas as criaturas em um cone de 12m sofrem 12d12 pontos de dano psíquico e ficam apavoradas (se tiverem 4 níveis ou menos) ou abaladas (se tiverem 5 níveis ou mais). Em ambos os casos, passar em um teste de Vontade (CD 33) reduz o dano à metade, evita a condição e a criatura não pode mais ser apavorada ou abalada por esta habilidade por um dia. Recarga (movimento).</p><p><strong>Patas Dianteiras</strong> Se o dragotauro acerta os dois ataques de garra em uma mesma criatura no mesmo turno, pode fazer um ataque com suas patas dianteiras (ataque +36, dano 4d10+20 corte, 18).</p><p><strong>Patas Traseiras (Reação)</strong> Uma vez por rodada, quando uma criatura erra um ataque corpo a corpo contra o dragotauro por 5 ou mais, ele faz um ataque com suas patas traseiras (ataque +36, dano 4d10+20 corte, 18) contra essa criatura.</p><p>For 9, Des 2, Con 7, Int 2, Sab 1, Car 2 Perícias Atletismo +21, Intimidação +14, Sobrevivência +11. Tesouro Padrão e 2 peças de couro de dragão (CD 27 para extrair).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 60",
+      "movimento": "12m (8q), voo 24m (16q)",
+      "ataquescac": "Mordida +36 (4d10+20, 18) e duas garras +36 (3d10+20, 18).",
+      "ataquesad": "",
+      "resistencias": "imunidade a atordoamento, cansaço, metamorfose e paralisia, redução de dano 10, resistência a magia +3",
+      "equipamento": "",
+      "tesouro": "Padrão e 2 peças de couro de dragão (CD 27 para extrair)."
+    },
+    "tracos": {
+      "tamanho": "eno",
+      "ic": {
+        "value": [
+          "atordoado",
+          "cansaco",
+          "paralisado"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 17,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ae19e52bcb29294a",
+      "_key": "!actors.items!d66587f3b167ecef.ae19e52bcb29294a",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +36 (4d10+20, 18).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d10+20",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5e0a61c8dc045190",
+      "_key": "!actors.items!d66587f3b167ecef.5e0a61c8dc045190",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +36 (3d10+20, 18).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "3d10+20",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "507d7461d0a4dfa7",
+      "_key": "!actors.items!d66587f3b167ecef.507d7461d0a4dfa7",
+      "name": "Asas Defletoras",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando sofre dano, o dragotauro reduz esse dano à metade. Ele não pode usar esta habilidade se estiver voando.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "750408f003e9938d",
+      "_key": "!actors.items!d66587f3b167ecef.750408f003e9938d",
+      "name": "Bote",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O dragotauro faz uma investida e ataca com sua mordida e suas duas garras. Os três ataques recebem o bônus de +2 da investida, mas devem ser feitos contra o mesmo alvo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d011a25bb9ce8e5f",
+      "_key": "!actors.items!d66587f3b167ecef.d011a25bb9ce8e5f",
+      "name": "Guincho Dracônico",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Todas as criaturas em um cone de 12m sofrem 12d12 pontos de dano psíquico e ficam apavoradas (se tiverem 4 níveis ou menos) ou abaladas (se tiverem 5 níveis ou mais). Em ambos os casos, passar em um teste de Vontade (CD 33) reduz o dano à metade, evita a condição e a criatura não pode mais ser apavorada ou abalada por esta habilidade por um dia. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9a06a1ac9ebbf08a",
+      "_key": "!actors.items!d66587f3b167ecef.9a06a1ac9ebbf08a",
+      "name": "Patas Dianteiras",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o dragotauro acerta os dois ataques de garra em uma mesma criatura no mesmo turno, pode fazer um ataque com suas patas dianteiras (ataque +36, dano 4d10+20 corte, 18).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fd9431e8098ba5af",
+      "_key": "!actors.items!d66587f3b167ecef.fd9431e8098ba5af",
+      "name": "Patas Traseiras",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando uma criatura erra um ataque corpo a corpo contra o dragotauro por 5 ou mais, ele faz um ataque com suas patas traseiras (ataque +36, dano 4d10+20 corte, 18) contra essa criatura.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 60",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "17fe9a554e171d3a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

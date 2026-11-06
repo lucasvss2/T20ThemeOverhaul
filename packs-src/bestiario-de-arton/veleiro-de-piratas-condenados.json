@@ -1,0 +1,601 @@
+{
+  "_id": "f48bd83b61de0127",
+  "_key": "!actors!f48bd83b61de0127",
+  "name": "Veleiro de Piratas Condenados",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Veleiro de Piratas Condenados",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 6,
+    "height": 6,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 4
+      },
+      "car": {
+        "base": 6
+      }
+    },
+    "attributes": {
+      "nd": "15",
+      "pv": {
+        "value": 0,
+        "max": 0,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 46,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 0
+        },
+        "swim": {
+          "base": 15.0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 121 · ND 15 · Morto-vivo Colossal.</p><p>A ficha registra PV “—”. A embarcação é enfrentada pela tripulação e por suas regras especiais.</p><p>@UUID[Compendium.t20-theme-overhaul.chefes-finais-bestiario.JournalEntry.ca9553bb5c1bb035.JournalEntryPage.97b180b88dcc5411]{Navios fantasmas}</p><p>Atributos nulos na ficha: For.</p><p>Iniciativa +15, Percepção +19, visão no escuro</p><p>Defesa 48, Fort +22, Ref +15, Von +28, imunidade a efeitos mentais e de movimento, incorpóreo</p><p>Pontos de Vida —</p><p>Deslocamento natação 15m (10q)</p><p>À Distância Canhão +41 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).</p><p><strong>Abordagem Apavorante (Livre)</strong> Vontade CD 42 evita (veja o quadro na p. 124).</p><p><strong>Atropelamento Etéreo (Completa)</strong> Cada criatura afetada sofre 8d6 pontos de dano de trevas mais 8d6 pontos de dano de frio e fica pasma (Fort CD 42 reduz à metade e evita a condição).</p><p><strong>Drenar Vida</strong> Fortitude CD 42 evita (veja o quadro).</p><p><strong>Trespassar Alma</strong> Quando uma criatura sofre dano de trevas do canhão do veleiro de piratas condenados, sua alma é momentaneamente arrancada do corpo. A criatura fica atordoada por 1 rodada e perde 2d8 PM; se já foi atordoada por esta habilidade nesta cena, em vez disso fica debilitada por 1 rodada (Von CD 42 reduz a perda à metade e evita a condição).</p><p><strong>Tripulação Fantasmagórica (Livre)</strong> 2d4+2 capangas piratas condenados (20 capangas por cena). Cada pirata é um morto-vivo incorpóreo com deslocamento 9m, Defesa 43, 120 PV e dano 3d8+5 de trevas.</p><p>For —, Des 2, Con 3, Int 3, Sab 4, Car 6 Perícias Intimidação +21, Pilotagem +25. Tesouro Dobro.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 121",
+      "movimento": "natação 15m (10q)",
+      "ataquescac": "",
+      "ataquesad": "Canhão +41 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).",
+      "resistencias": "imunidade a efeitos mentais e de movimento, incorpóreo",
+      "equipamento": "",
+      "tesouro": "Dobro."
+    },
+    "tracos": {
+      "tamanho": "col",
+      "ic": {
+        "value": [
+          "mental"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "acido": {
+          "imunidade": true
+        },
+        "corte": {
+          "imunidade": true
+        },
+        "eletricidade": {
+          "imunidade": true
+        },
+        "essencia": {
+          "imunidade": true
+        },
+        "fogo": {
+          "imunidade": true
+        },
+        "frio": {
+          "imunidade": true
+        },
+        "impacto": {
+          "imunidade": true
+        },
+        "luz": {
+          "imunidade": true
+        },
+        "psiquico": {
+          "imunidade": true
+        },
+        "perfuracao": {
+          "imunidade": true
+        },
+        "trevas": {
+          "imunidade": true
+        },
+        "dano": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pilo": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 26,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "6cc40ab726f181dc",
+      "_key": "!actors.items!f48bd83b61de0127.6cc40ab726f181dc",
+      "name": "Canhão",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Canhão +41 (4d12+15 trevas mais 4d12+15 frio, 19/x3, alcance longo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+15",
+                "trevas",
+                ""
+              ],
+              [
+                "4d12+15",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "disparo",
+        "empunhadura": "uma",
+        "alcance": "long",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "453f6f548299b811",
+      "_key": "!actors.items!f48bd83b61de0127.453f6f548299b811",
+      "name": "Abordagem Apavorante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Vontade CD 42 evita (veja o quadro na p. 124).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1cafd227a7589d58",
+      "_key": "!actors.items!f48bd83b61de0127.1cafd227a7589d58",
+      "name": "Atropelamento Etéreo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Cada criatura afetada sofre 8d6 pontos de dano de trevas mais 8d6 pontos de dano de frio e fica pasma (Fort CD 42 reduz à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3d6cdeef1c7b36d4",
+      "_key": "!actors.items!f48bd83b61de0127.3d6cdeef1c7b36d4",
+      "name": "Drenar Vida",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Fortitude CD 42 evita (veja o quadro).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9c03703fc2ba7935",
+      "_key": "!actors.items!f48bd83b61de0127.9c03703fc2ba7935",
+      "name": "Trespassar Alma",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura sofre dano de trevas do canhão do veleiro de piratas condenados, sua alma é momentaneamente arrancada do corpo. A criatura fica atordoada por 1 rodada e perde 2d8 PM; se já foi atordoada por esta habilidade nesta cena, em vez disso fica debilitada por 1 rodada (Von CD 42 reduz a perda à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3e4f65f83cbe6a7e",
+      "_key": "!actors.items!f48bd83b61de0127.3e4f65f83cbe6a7e",
+      "name": "Tripulação Fantasmagórica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>2d4+2 capangas piratas condenados (20 capangas por cena). Cada pirata é um morto-vivo incorpóreo com deslocamento 9m, Defesa 43, 120 PV e dano 3d8+5 de trevas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 121",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "ca54236dba9fa809",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,396 @@
+{
+  "_id": "cb3faf9ffa237e33",
+  "_key": "!actors!cb3faf9ffa237e33",
+  "name": "Corcel das Trevas",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Corcel das Trevas",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 6
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "6",
+      "pv": {
+        "value": 160,
+        "max": 160,
+        "min": -500
+      },
+      "pm": {
+        "value": 22,
+        "max": 22
+      },
+      "defesa": {
+        "base": 23,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 15.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 24.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 50 · ND 6 · Espírito Grande.</p><p>Iniciativa +7, Percepção +9, faro, visão no escuro</p><p>Defesa 25, Fort +14, Ref +11, Von +11, imunidade a frio e trevas</p><p>Pontos de Vida 160</p><p>Deslocamento 15m (10q), voo 24m (16q)</p><p>Pontos de Mana 22.</p><p>Corpo a Corpo Cascos +18 (4d8+22 mais 2d12 frio).</p><p><strong>Atropelamento (Completa)</strong> O corcel das trevas percorre até o dobro de seu deslocamento. Ele pode passar pelo espaço ocupado de quaisquer inimigos menores que ele, mas não pode passar duas vezes pelo mesmo espaço. Criaturas atropeladas desta forma sofrem 4d8+22 pontos de dano de impacto e 2d12 pontos de dano de frio e ficam caídas e lentas (Ref CD 24 reduz à metade e evita as condições). Recarga (movimento).</p><p><strong>Poderes Sombrios (Padrão)</strong> O corcel evoca um dos efeitos a seguir. Recarga (padrão). • Invocar Sombras. O corcel forma uma nuvem que ocupa um cubo de 6m em alcance curto e dura até o fim da cena. Criaturas a até 5m têm camuflagem leve e criaturas a partir de 3m têm camuflagem total. Um vento forte dispersa a névoa em 4 rodadas e um vendaval a dispersa em 1 rodada. No início dos seus turnos, outras criaturas dentro da nuvem e criaturas com faro em alcance curto ficam enjoadas por 1 rodada (Fort CD 24 evita). • Pesadelo. O corcel invade os sonhos de uma criatura viva em alcance longo. Na próxima vez que descansar, a criatura deve fazer um teste de Vontade (CD 24). Se falhar, seu sono é perturbado por pesadelos terríveis; a criatura não recupera PV e PM pela noite, sofre 1d10 pontos de dano de trevas e acorda fatigada. • Relincho Congelante. O corcel sopra ar congelado de suas narinas em um cone de 9m. Criaturas nessa área sofrem 8d6+8 pontos de dano de frio e ficam lentas (Ref CD 24 reduz à metade e evita a condição).</p><p>For 6, Des 2, Con 2, Int 0, Sab 2, Car –1 Perícias Atletismo +13, Intimidação +11. Tesouro Nenhum. Parceiro O corcel das trevas é um parceiro montaria (Grande) que só segue devotos de Tenebra e fornece os benefícios a seguir. Iniciante: seu deslocamento muda para 12m e você recebe uma ação de movimento extra por turno (apenas para se deslocar). Veterano: como acima, mas seu deslocamento muda para voo 15m e, uma vez por rodada, quando causa dano, você causa +1d6 pontos de dano de frio. Mestre: como acima, mas você recebe redução de frio 10 e o dano de frio adicional aumenta para +1d8.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 50",
+      "movimento": "15m (10q), voo 24m (16q)",
+      "ataquescac": "Cascos +18 (4d8+22 mais 2d12 frio).",
+      "ataquesad": "",
+      "resistencias": "imunidade a frio e trevas",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "frio": {
+          "imunidade": true
+        },
+        "trevas": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "71760be6acad7b1c",
+      "_key": "!actors.items!cb3faf9ffa237e33.71760be6acad7b1c",
+      "name": "Cascos",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cascos +18 (4d8+22 mais 2d12 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 50",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+22",
+                "impacto",
+                ""
+              ],
+              [
+                "2d12",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a253e9d92f06cd9e",
+      "_key": "!actors.items!cb3faf9ffa237e33.a253e9d92f06cd9e",
+      "name": "Atropelamento",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O corcel das trevas percorre até o dobro de seu deslocamento. Ele pode passar pelo espaço ocupado de quaisquer inimigos menores que ele, mas não pode passar duas vezes pelo mesmo espaço. Criaturas atropeladas desta forma sofrem 4d8+22 pontos de dano de impacto e 2d12 pontos de dano de frio e ficam caídas e lentas (Ref CD 24 reduz à metade e evita as condições). Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 50",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "662abf70a472111f",
+      "_key": "!actors.items!cb3faf9ffa237e33.662abf70a472111f",
+      "name": "Poderes Sombrios",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O corcel evoca um dos efeitos a seguir. Recarga (padrão). • Invocar Sombras. O corcel forma uma nuvem que ocupa um cubo de 6m em alcance curto e dura até o fim da cena. Criaturas a até 5m têm camuflagem leve e criaturas a partir de 3m têm camuflagem total. Um vento forte dispersa a névoa em 4 rodadas e um vendaval a dispersa em 1 rodada. No início dos seus turnos, outras criaturas dentro da nuvem e criaturas com faro em alcance curto ficam enjoadas por 1 rodada (Fort CD 24 evita). • Pesadelo. O corcel invade os sonhos de uma criatura viva em alcance longo. Na próxima vez que descansar, a criatura deve fazer um teste de Vontade (CD 24). Se falhar, seu sono é perturbado por pesadelos terríveis; a criatura não recupera PV e PM pela noite, sofre 1d10 pontos de dano de trevas e acorda fatigada. • Relincho Congelante. O corcel sopra ar congelado de suas narinas em um cone de 9m. Criaturas nessa área sofrem 8d6+8 pontos de dano de frio e ficam lentas (Ref CD 24 reduz à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 50",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "b5a247bc3d205d94",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

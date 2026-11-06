@@ -1,0 +1,574 @@
+{
+  "_id": "3d061126a3d8c398",
+  "_key": "!actors!3d061126a3d8c398",
+  "name": "Hipogrifo Abissal",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Hipogrifo Abissal",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 4
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": -4
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "7",
+      "pv": {
+        "value": 290,
+        "max": 290,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 26,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 15.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 30.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 94 · ND 7 · Espírito (abissal) Grande.</p><p>Iniciativa +13, Percepção +11, visão no escuro</p><p>Defesa 30, Fort +14, Ref +20, Von +8, imunidade a ácido, confusão e veneno, redução de dano 5, redução de frio e trevas 10</p><p>Pontos de Vida 290</p><p>Deslocamento 15m (10q), voo 30m (20q)</p><p>Corpo a Corpo Mordida +24 (2d6+11 mais 2d6 frio) e duas garras +24 (1d6+11 mais 2d6 frio) ou cascos +24 (2d6+11 mais 2d6 frio).</p><p><strong>Coice (Movimento)</strong> Se estiver flanqueado, o hipogrifo abissal faz um ataque com seus cascos.</p><p><strong>Imprevisibilidade Infernal</strong> O hipogrifo emana uma aura de caos abissal com um raio de 9m. No final de cada turno dele, role 1d6. Em um valor ímpar, até a próxima rodada do hipogrifo, seus inimigos na área sofrem uma penalidade em testes igual ao valor do d6. Em um valor par, seus inimigos na área sofrem dano de frio igual a 2d8 x o resultado do d6.</p><p>For 4, Des 4, Con 3, Int –4, Sab 2, Car –1 Perícias Atletismo +13, Intimidação +13. Tesouro Padrão mais 1d6 penas gélidas (CD 22 para extrair; cada pena gélida equivale a uma dose de líquen lilás).</p>",
+        "public": ""
+      },
+      "raca": "abissal",
+      "tipo": "esp",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 94",
+      "movimento": "15m (10q), voo 30m (20q)",
+      "ataquescac": "Mordida +24 (2d6+11 mais 2d6 frio) e duas garras +24 (1d6+11 mais 2d6 frio) ou cascos +24 (2d6+11 mais 2d6 frio).",
+      "ataquesad": "",
+      "resistencias": "imunidade a ácido, confusão e veneno, redução de dano 5, redução de frio e trevas 10",
+      "equipamento": "",
+      "tesouro": "Padrão mais 1d6 penas gélidas (CD 22 para extrair; cada pena gélida equivale a uma dose de líquen lilás)."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [
+          "confuso",
+          "envenenado"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        },
+        "frio": {
+          "base": 10
+        },
+        "trevas": {
+          "base": 10
+        },
+        "acido": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "0d9fe398edcf1196",
+      "_key": "!actors.items!3d061126a3d8c398.0d9fe398edcf1196",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +24 (2d6+11 mais 2d6 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 94",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+11",
+                "perfuracao",
+                ""
+              ],
+              [
+                "2d6",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fbd1bdf2f01a7397",
+      "_key": "!actors.items!3d061126a3d8c398.fbd1bdf2f01a7397",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +24 (1d6+11 mais 2d6 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 94",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+11",
+                "corte",
+                ""
+              ],
+              [
+                "2d6",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0bbd063a2b78cf2c",
+      "_key": "!actors.items!3d061126a3d8c398.0bbd063a2b78cf2c",
+      "name": "Cascos",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cascos +24 (2d6+11 mais 2d6 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 94",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+11",
+                "impacto",
+                ""
+              ],
+              [
+                "2d6",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8880479d7b16c4a0",
+      "_key": "!actors.items!3d061126a3d8c398.8880479d7b16c4a0",
+      "name": "Coice",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se estiver flanqueado, o hipogrifo abissal faz um ataque com seus cascos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 94",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f4002012a570aa06",
+      "_key": "!actors.items!3d061126a3d8c398.f4002012a570aa06",
+      "name": "Imprevisibilidade Infernal",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O hipogrifo emana uma aura de caos abissal com um raio de 9m. No final de cada turno dele, role 1d6. Em um valor ímpar, até a próxima rodada do hipogrifo, seus inimigos na área sofrem uma penalidade em testes igual ao valor do d6. Em um valor par, seus inimigos na área sofrem dano de frio igual a 2d8 x o resultado do d6.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 94",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "6af4de0a089a448a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,792 @@
+{
+  "_id": "8b9a19dcb793f073",
+  "_key": "!actors!8b9a19dcb793f073",
+  "name": "Pesadelo Polivalente",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Pesadelo Polivalente",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 7
+      },
+      "des": {
+        "base": 6
+      },
+      "con": {
+        "base": 5
+      },
+      "int": {
+        "base": -2
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -3
+      }
+    },
+    "attributes": {
+      "nd": "10",
+      "pv": {
+        "value": 370,
+        "max": 370,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 30,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 15.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "cegas",
+          "faro"
+        ],
+        "custom": "faro, percepção às cegas (médio), visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 144 · ND 10 · Construto Grande.</p><p>@UUID[Compendium.t20-theme-overhaul.chefes-finais-bestiario.JournalEntry.ca9553bb5c1bb035.JournalEntryPage.6113b6de313bd5b6]{Natureza do Pesadelo}</p><p>Iniciativa +15, Percepção +12, faro, percepção às cegas (médio), visão no escuro</p><p>Defesa 36, Fort +16, Ref +22, Von +10, cura acelerada 10, imunidade a ácido, efeitos mentais, eletricidade, encantamento, medo e trevas, redução de dano 10/mágico</p><p>Pontos de Vida 370</p><p>Deslocamento 15m (10q)</p><p>Corpo a Corpo Mordida +29 (3d8+10) e quatro caudas +29 (um ataque de cada; veja Múltiplas Caudas).</p><p><strong>Mente Alienígena</strong> Quando uma criatura usa um efeito mental ou de encantamento contra o pesadelo polivalente, ela é atingida por um terrível choque de retorno. A criatura sofre 8d6 pontos de dano psíquico e fica atordoada por 1 rodada e abalada (Von CD 30 reduz à metade e evita as condições).</p><p><strong>Múltiplas Caudas</strong> O pesadelo possui quatro caudas diferentes. Quando faz a ação agredir, ele pode atacar uma vez com cada uma de suas caudas e uma vez com sua mordida. • Cauda-espinho. Dano 2d4+10 perfuração, alcance curto. A cauda se torna um ataque à distância, que pode ser usada em conjunto com as demais caudas. • Cauda-ferrão. Dano 2d4+5, perfuração, mais peçonha concentrada (perde 2d12 pontos de vida por rodada durante 3 rodadas, Fort CD 30 reduz para 1 rodada). • Cauda-lâmina. Dano 2d6+10, 18/x3, corte. • Cauda-tentáculo. Dano 1d6+5, esmagamento, mais agarrar aprimorado (teste +33).</p><p><strong>Pesadelo Combinado</strong> O pesadelo recebe duas habilidades de Natureza do Pesadelo (veja o quadro).</p><p>For 7, Des 6, Con 5, Int –2, Sab 1, Car –3 Perícias Atletismo +18, Furtividade +17, Sobrevivência +12. Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "con",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 144",
+      "movimento": "15m (10q)",
+      "ataquescac": "Mordida +29 (3d8+10) e quatro caudas +29 (um ataque de cada; veja Múltiplas Caudas).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 10, imunidade a ácido, efeitos mentais, eletricidade, encantamento, medo e trevas, redução de dano 10/mágico",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [
+          "mental",
+          "medo"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "acido": {
+          "imunidade": true
+        },
+        "eletricidade": {
+          "imunidade": true
+        },
+        "trevas": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 14,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "447fff77a690bc6c",
+      "_key": "!actors.items!8b9a19dcb793f073.447fff77a690bc6c",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +29 (3d8+10).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "3d8+10",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "dae40263333f1a11",
+      "_key": "!actors.items!8b9a19dcb793f073.dae40263333f1a11",
+      "name": "Cauda-espinho",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Cauda-espinho +29 (2d4+10 perfuração, alcance curto. A cauda se torna um ataque à distância, que pode ser usada em conjunto com as demais caudas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d4+10",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "disparo",
+        "empunhadura": "uma",
+        "alcance": "short",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1f0beda50bea809a",
+      "_key": "!actors.items!8b9a19dcb793f073.1f0beda50bea809a",
+      "name": "Cauda-ferrão",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda-ferrão +29 (2d4+5, perfuração, mais peçonha concentrada (perde 2d12 pontos de vida por rodada durante 3 rodadas, Fort CD 30 reduz para 1 rodada)).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d4+5",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0ccab4c975179bdb",
+      "_key": "!actors.items!8b9a19dcb793f073.0ccab4c975179bdb",
+      "name": "Cauda-lâmina",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda-lâmina +29 (2d6+10, 18/x3, corte).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+10",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0cbc0efb771180e6",
+      "_key": "!actors.items!8b9a19dcb793f073.0cbc0efb771180e6",
+      "name": "Cauda-tentáculo",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cauda-tentáculo +29 (1d6+5, impacto, mais agarrar aprimorado (teste +33)).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+5",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "6e4d5bd99c011c93",
+      "_key": "!actors.items!8b9a19dcb793f073.6e4d5bd99c011c93",
+      "name": "Mente Alienígena",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura usa um efeito mental ou de encantamento contra o pesadelo polivalente, ela é atingida por um terrível choque de retorno. A criatura sofre 8d6 pontos de dano psíquico e fica atordoada por 1 rodada e abalada (Von CD 30 reduz à metade e evita as condições).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0e630777c80f1afa",
+      "_key": "!actors.items!8b9a19dcb793f073.0e630777c80f1afa",
+      "name": "Múltiplas Caudas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O pesadelo possui quatro caudas diferentes. Quando faz a ação agredir, ele pode atacar uma vez com cada uma de suas caudas e uma vez com sua mordida. • Cauda-espinho. Dano 2d4+10 perfuração, alcance curto. A cauda se torna um ataque à distância, que pode ser usada em conjunto com as demais caudas. • Cauda-ferrão. Dano 2d4+5, perfuração, mais peçonha concentrada (perde 2d12 pontos de vida por rodada durante 3 rodadas, Fort CD 30 reduz para 1 rodada). • Cauda-lâmina. Dano 2d6+10, 18/x3, corte. • Cauda-tentáculo. Dano 1d6+5, esmagamento, mais agarrar aprimorado (teste +33).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1f1dfaf258e8baf0",
+      "_key": "!actors.items!8b9a19dcb793f073.1f1dfaf258e8baf0",
+      "name": "Pesadelo Combinado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O pesadelo recebe duas habilidades de Natureza do Pesadelo (veja o quadro).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 144",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "7cfebdad43b19cff",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

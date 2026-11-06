@@ -1,0 +1,589 @@
+{
+  "_id": "cb53b0fead77519c",
+  "_key": "!actors!cb53b0fead77519c",
+  "name": "Medicômato Enlouquecido",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Medicômato Enlouquecido",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 1
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 1
+      }
+    },
+    "attributes": {
+      "nd": "12",
+      "pv": {
+        "value": 380,
+        "max": 380,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 38,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 116 · ND 12 · Construto Médio.</p><p>Iniciativa +11, Percepção +12, visão no escuro</p><p>Defesa 39, Fort +26, Ref +12, Von +20</p><p>Pontos de Vida 380</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Bisturi x2 +34 (4d8+13 corte) e seringa +34 (5d4+13 perfuração).</p><p><strong>Conhecimento Anatômico</strong> Os ataques corpo a corpo do medicômato enlouquecido causam +5d6 pontos de dano em animais, monstros e humanoides.</p><p><strong>Farmacologia Insana</strong> Uma criatura atingida pela seringa do medicômato é inoculada com um preparado alquímico que ferve seu sangue. Quando é atingida, e no início de cada um de seus turnos, ela sofre 6d8 pontos de dano de fogo e fica enjoada por uma rodada (Fort CD 35 reduz o dano à metade e evita a condição). Se a criatura passar em dois testes de Fortitude seguidos, este efeito se encerra. Se a vítima for reduzida a 0 PV pelo dano desta habilidade, seu corpo explode, matando-a e causando 8d6 pontos de dano de fogo em todas as criaturas a até 3m (Reflexos CD 35 reduz à metade). Essa habilidade não afeta criaturas sem sangue, como construtos ou mortos-vivos.</p><p><strong>Incisão Precisa</strong> Uma criatura atingida pelo bisturi do medicômato fica sangrando. Se ela já estiver sangrando, a perda de vida pelo sangramento aumenta em um passo cumulativo (de d6 para d8 e de d8 para d10, por exemplo).</p><p><strong>Intervenção Emergencial</strong> Se o medicômato acerta o ataque de bisturi e o ataque de seringa na mesma criatura na mesma rodada, ele faz um teste de Cura. A vítima perde uma quantidade de pontos de vida igual ao resultado desse teste e fica vulnerável.</p><p>For 2, Des 1, Con 3, Int 0, Sab 2, Car 1 Perícias Cura +20, Intuição +12, Ofício (alquimista) +10. Tesouro Instrumentos cirúrgicos (CD 27, equivalem a uma maleta de medicamentos aprimorada) mais 2d4 bálsamos restauradores.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "con",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 116",
+      "movimento": "9m (6q)",
+      "ataquescac": "Bisturi x2 +34 (4d8+13 corte) e seringa +34 (5d4+13 perfuração).",
+      "ataquesad": "",
+      "resistencias": "",
+      "equipamento": "",
+      "tesouro": "Instrumentos cirúrgicos (CD 27, equivalem a uma maleta de medicamentos aprimorada) mais 2d4 bálsamos restauradores."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "alqu": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false,
+        "custom": true,
+        "label": "Ofício: Alquimista"
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 22,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "19c404cc8c4ed901",
+      "_key": "!actors.items!cb53b0fead77519c.19c404cc8c4ed901",
+      "name": "Bisturi",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Bisturi ×2 +34 (4d8+13 corte).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+13",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7f4ff3b1900488da",
+      "_key": "!actors.items!cb53b0fead77519c.7f4ff3b1900488da",
+      "name": "Seringa",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Seringa +34 (5d4+13 perfuração).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "5d4+13",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "15cdb6ae5dad4a5e",
+      "_key": "!actors.items!cb53b0fead77519c.15cdb6ae5dad4a5e",
+      "name": "Conhecimento Anatômico",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Os ataques corpo a corpo do medicômato enlouquecido causam +5d6 pontos de dano em animais, monstros e humanoides.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "4247d6e888d374e2",
+      "_key": "!actors.items!cb53b0fead77519c.4247d6e888d374e2",
+      "name": "Farmacologia Insana",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura atingida pela seringa do medicômato é inoculada com um preparado alquímico que ferve seu sangue. Quando é atingida, e no início de cada um de seus turnos, ela sofre 6d8 pontos de dano de fogo e fica enjoada por uma rodada (Fort CD 35 reduz o dano à metade e evita a condição). Se a criatura passar em dois testes de Fortitude seguidos, este efeito se encerra. Se a vítima for reduzida a 0 PV pelo dano desta habilidade, seu corpo explode, matando-a e causando 8d6 pontos de dano de fogo em todas as criaturas a até 3m (Reflexos CD 35 reduz à metade). Essa habilidade não afeta criaturas sem sangue, como construtos ou mortos-vivos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "97dab75954333591",
+      "_key": "!actors.items!cb53b0fead77519c.97dab75954333591",
+      "name": "Incisão Precisa",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura atingida pelo bisturi do medicômato fica sangrando. Se ela já estiver sangrando, a perda de vida pelo sangramento aumenta em um passo cumulativo (de d6 para d8 e de d8 para d10, por exemplo).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "22ca579d202b4219",
+      "_key": "!actors.items!cb53b0fead77519c.22ca579d202b4219",
+      "name": "Intervenção Emergencial",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o medicômato acerta o ataque de bisturi e o ataque de seringa na mesma criatura na mesma rodada, ele faz um teste de Cura. A vítima perde uma quantidade de pontos de vida igual ao resultado desse teste e fica vulnerável.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 116",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "17fe9a554e171d3a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

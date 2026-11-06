@@ -1,0 +1,934 @@
+{
+  "_id": "22d1a5f72d40beb5",
+  "_key": "!actors!22d1a5f72d40beb5",
+  "name": "Guardião do Equilíbrio",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Guardião do Equilíbrio",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 8
+      },
+      "des": {
+        "base": 1
+      },
+      "con": {
+        "base": 7
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 10
+      },
+      "car": {
+        "base": 6
+      }
+    },
+    "attributes": {
+      "nd": "18",
+      "pv": {
+        "value": 750,
+        "max": 750,
+        "min": -500
+      },
+      "pm": {
+        "value": 117,
+        "max": 117
+      },
+      "defesa": {
+        "base": 53,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 49
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 91 · ND 18 · Espírito Médio.</p><p>Iniciativa +16, Percepção +25, visão no escuro</p><p>Defesa 54, Fort +26, Ref +18, Von +32, redução de dano 20, imunidade a acertos críticos, atordoado, cansaço, efeitos de metabolismo e paralisia</p><p>Pontos de Vida 750</p><p>Deslocamento 12m (8q), sem redução por terreno difícil natural</p><p>Pontos de Mana 117.</p><p>Corpo a Corpo Cajado x2 +47 (4d12+20 mais 10d4 ácido, 8d6 eletricidade, 6d8 fogo, 4d10 frio).</p><p><strong>Absorver Elementos</strong> O guardião do equilíbrio é imune a ácido, eletricidade, fogo ou frio. Se fosse sofrer dano de uma fonte desses tipos (exceto de suas próprias habilidades), em vez disso ele recebe um benefício conforme o tipo de dano que sofreria: Ácido: até o fim da cena, seus efeitos que causam dano de ácido causam +1 ponto de dano por dado. Eletricidade: seu deslocamento aumenta em +6m até o fim da cena. Fogo: pode executar uma ação padrão adicional em seu próximo turno. Frio: recebe 50 PV temporários.</p><p><strong>Gênese Elemental</strong> Quando o guardião lança uma magia de ácido, eletricidade, fogo ou frio, ele cria 1d4 capangas elementais Médios em espaços desocupados adjacentes ao alvo ou dentro da área de efeito da magia. Eles agem a partir da próxima rodada do guardião, têm deslocamento 9m e podem gastar uma ação padrão para causar 4d12 pontos de dano do tipo da magia. Os elementais têm Defesa 35, 80 PV, imunidade a atordoamento, cansaço, dano do seu elemento, dano não letal, efeitos de metabolismo e paralisia, falham automaticamente em qualquer teste oposto ou de resistência e desaparecem quando são reduzidos a 0 PV ou no fim da cena.</p><p><strong>Manifestar Elementos (Livre)</strong> Uma vez por rodada, quando lança uma magia de ácido, eletricidade, fogo ou frio com execução de ação de movimento, padrão ou completa, o guardião muda a execução dela para livre.</p><p><strong>Punição Elemental</strong> Quando o guardião lança uma magia de ácido, eletricidade, fogo ou frio que permite um teste de resistência, ele aplica uma condição adicional em todas as criaturas que falharem nesse teste, conforme o tipo de dano da magia. Ácido: enjoado por 1 rodada. Eletricidade: surdo por 1 rodada e caído. Fogo: ofuscado por 1 rodada. Frio: enredado por 1 rodada.</p><p><strong>Magias</strong> Como um druida de Arton de 18º nível (CD 49).</p><p><strong>Bola de Fogo</strong> (Padrão, 17 PM) O guardião cria uma poderosa explosão em alcance médio que causa 20d6 pontos de dano de fogo em todas as criaturas em um raio de 6m (Ref reduz à metade).</p><p><strong>Flecha Ácida</strong> (Padrão, 18 PM) O guardião dispara um projétil em uma criatura ou objeto em alcance médio. O alvo sofre 10d6 pontos de dano de ácido e fica coberto por muco corrosivo que causa 8d6 pontos de dano de ácido no início de cada um de seus dois próximos turnos. Além disso, se o alvo estiver usando armadura ou escudo, o muco corrói o item, reduzindo seu bônus na Defesa em 2 pontos permanentemente (Ref reduz à metade e evita o muco).</p><p><strong>Relâmpago</strong> (Padrão, 18 PM) O guardião lança um relâmpago em cada criatura escolhida em alcance médio, causando 18d6 pontos de dano de eletricidade (Ref reduz à metade).</p><p><strong>Sopro das Uivantes</strong> (Padrão, 18 PM) Criaturas em um cone de 9m sofrem 16d6 pontos de dano de frio e, se forem Grandes ou menores, ficam caídas e são empurradas 6m na direção oposta. Se houver uma parede ou outro objeto sólido (mas não uma criatura) no caminho, a criatura para de se mover, mas sofre +2d6 pontos de dano de impacto (Fort reduz à metade e evita a condição e o empurrão).</p><p>For 8, Des 1, Con 7, Int 3, Sab 10, Car 6 Perícias Adestramento +23, Cura +25, Diplomacia +21, Furtividade +11 (+21 em terrenos naturais), Intimidação +25, Intuição +25, Misticismo +19, Religião +25, Sobrevivência +30. Tesouro Centelha elemental (CD 33 para extrair, vale 1 PM para fabricar um item mágico que cause dano de ácido, eletricidade, fogo ou frio).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 91",
+      "movimento": "12m (8q), sem redução por terreno difícil natural",
+      "ataquescac": "Cajado x2 +47 (4d12+20 mais 10d4 ácido, 8d6 eletricidade, 6d8 fogo, 4d10 frio).",
+      "ataquesad": "",
+      "resistencias": "redução de dano 20, imunidade a acertos críticos, atordoado, cansaço, efeitos de metabolismo e paralisia",
+      "equipamento": "",
+      "tesouro": "Centelha elemental (CD 33 para extrair, vale 1 PM para fabricar um item mágico que cause dano de ácido, eletricidade, fogo ou frio)."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "atordoado",
+          "cansaco",
+          "metabolismo",
+          "paralisado"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 20
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": -5,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 24,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "38f43bdc98415f60",
+      "_key": "!actors.items!22d1a5f72d40beb5.38f43bdc98415f60",
+      "name": "Cajado",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cajado ×2 +47 (4d12+20 mais 10d4 ácido, 8d6 eletricidade, 6d8 fogo, 4d10 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+20",
+                "impacto",
+                ""
+              ],
+              [
+                "10d4",
+                "acido",
+                ""
+              ],
+              [
+                "8d6",
+                "eletricidade",
+                ""
+              ],
+              [
+                "6d8",
+                "fogo",
+                ""
+              ],
+              [
+                "4d10",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ffe0d38903e056c2",
+      "_key": "!actors.items!22d1a5f72d40beb5.ffe0d38903e056c2",
+      "name": "Absorver Elementos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O guardião do equilíbrio é imune a ácido, eletricidade, fogo ou frio. Se fosse sofrer dano de uma fonte desses tipos (exceto de suas próprias habilidades), em vez disso ele recebe um benefício conforme o tipo de dano que sofreria: Ácido: até o fim da cena, seus efeitos que causam dano de ácido causam +1 ponto de dano por dado. Eletricidade: seu deslocamento aumenta em +6m até o fim da cena. Fogo: pode executar uma ação padrão adicional em seu próximo turno. Frio: recebe 50 PV temporários.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e92886d94cf0c7a2",
+      "_key": "!actors.items!22d1a5f72d40beb5.e92886d94cf0c7a2",
+      "name": "Gênese Elemental",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando o guardião lança uma magia de ácido, eletricidade, fogo ou frio, ele cria 1d4 capangas elementais Médios em espaços desocupados adjacentes ao alvo ou dentro da área de efeito da magia. Eles agem a partir da próxima rodada do guardião, têm deslocamento 9m e podem gastar uma ação padrão para causar 4d12 pontos de dano do tipo da magia. Os elementais têm Defesa 35, 80 PV, imunidade a atordoamento, cansaço, dano do seu elemento, dano não letal, efeitos de metabolismo e paralisia, falham automaticamente em qualquer teste oposto ou de resistência e desaparecem quando são reduzidos a 0 PV ou no fim da cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "06f92b5019a466cb",
+      "_key": "!actors.items!22d1a5f72d40beb5.06f92b5019a466cb",
+      "name": "Manifestar Elementos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando lança uma magia de ácido, eletricidade, fogo ou frio com execução de ação de movimento, padrão ou completa, o guardião muda a execução dela para livre.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fb716c4f5c04c04c",
+      "_key": "!actors.items!22d1a5f72d40beb5.fb716c4f5c04c04c",
+      "name": "Punição Elemental",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando o guardião lança uma magia de ácido, eletricidade, fogo ou frio que permite um teste de resistência, ele aplica uma condição adicional em todas as criaturas que falharem nesse teste, conforme o tipo de dano da magia. Ácido: enjoado por 1 rodada. Eletricidade: surdo por 1 rodada e caído. Fogo: ofuscado por 1 rodada. Frio: enredado por 1 rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "481a2ab785b3a639",
+      "_key": "!actors.items!22d1a5f72d40beb5.481a2ab785b3a639",
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Como um druida de Arton de 18º nível (CD 49).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "07da39c5f4d125f2",
+      "_key": "!actors.items!22d1a5f72d40beb5.07da39c5f4d125f2",
+      "name": "Bola de Fogo",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/bola-de-fogo.webp",
+      "system": {
+        "description": {
+          "value": "<p>O guardião cria uma poderosa explosão em alcance médio que causa 20d6 pontos de dano de fogo em todas as criaturas em um raio de 6m (Ref reduz à metade).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 17,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "49abb29e29afa7b9",
+      "_key": "!actors.items!22d1a5f72d40beb5.49abb29e29afa7b9",
+      "name": "Flecha Ácida",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/flecha-acida.webp",
+      "system": {
+        "description": {
+          "value": "<p>O guardião dispara um projétil em uma criatura ou objeto em alcance médio. O alvo sofre 10d6 pontos de dano de ácido e fica coberto por muco corrosivo que causa 8d6 pontos de dano de ácido no início de cada um de seus dois próximos turnos. Além disso, se o alvo estiver usando armadura ou escudo, o muco corrói o item, reduzindo seu bônus na Defesa em 2 pontos permanentemente (Ref reduz à metade e evita o muco).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 18,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a5f2703d11f5f2b7",
+      "_key": "!actors.items!22d1a5f72d40beb5.a5f2703d11f5f2b7",
+      "name": "Relâmpago",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/relampago.webp",
+      "system": {
+        "description": {
+          "value": "<p>O guardião lança um relâmpago em cada criatura escolhida em alcance médio, causando 18d6 pontos de dano de eletricidade (Ref reduz à metade).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 18,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8d3c8fd1a3dd3f95",
+      "_key": "!actors.items!22d1a5f72d40beb5.8d3c8fd1a3dd3f95",
+      "name": "Sopro das Uivantes",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/sopro-das-uivantes.webp",
+      "system": {
+        "description": {
+          "value": "<p>Criaturas em um cone de 9m sofrem 16d6 pontos de dano de frio e, se forem Grandes ou menores, ficam caídas e são empurradas 6m na direção oposta. Se houver uma parede ou outro objeto sólido (mas não uma criatura) no caminho, a criatura para de se mover, mas sofre +2d6 pontos de dano de impacto (Fort reduz à metade e evita a condição e o empurrão).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 91",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 18,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "2267c4b24df89b5f",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

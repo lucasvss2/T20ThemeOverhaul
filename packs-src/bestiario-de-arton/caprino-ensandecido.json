@@ -1,0 +1,466 @@
+{
+  "_id": "47bccc9c5177318e",
+  "_key": "!actors!47bccc9c5177318e",
+  "name": "Caprino Ensandecido",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Caprino Ensandecido",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 1
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": -1
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": -2
+      }
+    },
+    "attributes": {
+      "nd": "1/2",
+      "pv": {
+        "value": 7,
+        "max": 7,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 12,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra",
+          "faro"
+        ],
+        "custom": "faro, visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 70 · ND 1/2 · Monstro Médio.</p><p>Iniciativa +3, Percepção +3, faro, visão na penumbra</p><p>Defesa 13, Fort +3, Ref +5, Von +0, imunidade a efeitos mentais</p><p>Pontos de Vida 7</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Foice +8 (1d6+2, x3) e chifres +8 (1d6+2).</p><p><strong>Frenesi Ensandecido (Reação)</strong> Quando uma criatura viva a até 9m do caprino ensandecido sofre dano de corte ou perfuração, ele entra em um frenesi até o fim da cena. Nesse estado, ele recebe +2 em testes de ataque, rolagens de dano e testes de resistência, mas não pode realizar ações que exigem calma e concentração, e deve sempre atacar o inimigo mais próximo que ele possa atacar.</p><p><strong>Marrada Atordoante (Completa)</strong> O caprino faz uma investida e ataca com seus chifres. Se ele acertar o ataque, a vítima fica atordoada por uma rodada (Fort CD 13 evita). Uma criatura só pode ser atordoada por esta habilidade uma vez por cena.</p><p>For 2, Des 1, Con 2, Int –1, Sab 1, Car –2 Perícias Atletismo +7, Sobrevivência +5. Equipamento Foice. Tesouro Metade.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "lackey",
+      "origem": "Bestiário de Arton, p. 70",
+      "movimento": "12m (8q)",
+      "ataquescac": "Foice +8 (1d6+2, x3) e chifres +8 (1d6+2).",
+      "ataquesad": "",
+      "resistencias": "imunidade a efeitos mentais",
+      "equipamento": "Foice.",
+      "tesouro": "Metade."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "mental"
+        ],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": -1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "de8dc4f6025ed365",
+      "_key": "!actors.items!47bccc9c5177318e.de8dc4f6025ed365",
+      "name": "Foice",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Foice +8 (1d6+2, x3).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 70",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+2",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fb4bfdbb6c19eced",
+      "_key": "!actors.items!47bccc9c5177318e.fb4bfdbb6c19eced",
+      "name": "Chifres",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Chifres +8 (1d6+2).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 70",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+2",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ab0ccbe8cacd5a32",
+      "_key": "!actors.items!47bccc9c5177318e.ab0ccbe8cacd5a32",
+      "name": "Frenesi Ensandecido",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura viva a até 9m do caprino ensandecido sofre dano de corte ou perfuração, ele entra em um frenesi até o fim da cena. Nesse estado, ele recebe +2 em testes de ataque, rolagens de dano e testes de resistência, mas não pode realizar ações que exigem calma e concentração, e deve sempre atacar o inimigo mais próximo que ele possa atacar.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 70",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "237c738a03ee22c0",
+      "_key": "!actors.items!47bccc9c5177318e.237c738a03ee22c0",
+      "name": "Marrada Atordoante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O caprino faz uma investida e ataca com seus chifres. Se ele acertar o ataque, a vítima fica atordoada por uma rodada (Fort CD 13 evita). Uma criatura só pode ser atordoada por esta habilidade uma vez por cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 70",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "5f0dee8f3acec4de",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

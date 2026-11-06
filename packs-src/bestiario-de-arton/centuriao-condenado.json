@@ -1,0 +1,711 @@
+{
+  "_id": "f7b89220e1e1efc4",
+  "_key": "!actors!f7b89220e1e1efc4",
+  "name": "Centurião Condenado",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Centurião Condenado",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 7
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": 1
+      }
+    },
+    "attributes": {
+      "nd": "13",
+      "pv": {
+        "value": 810,
+        "max": 810,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 45,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 6.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 106 · ND 13 · Morto-vivo Médio.</p><p>Iniciativa +12, Percepção +12, visão no escuro</p><p>Defesa 45, Fort +26, Ref +14, Von +19, imunidade a encantamento, redução de dano 5, redução de corte, frio e perfuração 5</p><p>Pontos de Vida 810</p><p>Deslocamento 6m (4q)</p><p>Corpo a Corpo Gládio x2 +36 (2d12+20, 19/x3, mais 4d8 trevas) e chifres +36 (2d12+20 mais 4d8 trevas).</p><p>À Distância Azagaia +36 (2d8+20 mais 4d8 trevas).</p><p><strong>Coordenar Ataque (Movimento)</strong> O centurião condenado coordena os ataques de uma falange da qual esteja participando. Até o próximo turno do centurião, sempre que um participante da falange fizer um ataque, pode rolar dois dados e usar o melhor resultado.</p><p><strong>É Proibido Morrer</strong> Aliados em alcance médio do centurião recebem RD 5.</p><p><strong>Estandarte Profano</strong> O centurião emana uma aura de energia negativa com 30m de raio. Dentro dessa área, dano de trevas e PV curados por trevas são maximizados e membros da Legião recebem +2 em todos os testes.</p><p><strong>Falange (Movimento)</strong> Se o centurião estiver usando um escudo e estiver adjacente a um aliado com esta habilidade, pode formar uma falange com esse aliado. Enquanto estiverem adjacentes um ao outro, os participantes da falange recebem +2 na Defesa e em testes de resistência.</p><p>For 7, Des 0, Con 4, Int 3, Sab 0, Car 1 Perícias Atletismo +19, Guerra +15, Intimidação +13, Sobrevivência +12. Equipamento Azagaia x3, escudo pesado, gládio certeiro, loriga segmentada reforçada. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 106",
+      "movimento": "6m (4q)",
+      "ataquescac": "Gládio x2 +36 (2d12+20, 19/x3, mais 4d8 trevas) e chifres +36 (2d12+20 mais 4d8 trevas).",
+      "ataquesad": "Azagaia +36 (2d8+20 mais 4d8 trevas).",
+      "resistencias": "imunidade a encantamento, redução de dano 5, redução de corte, frio e perfuração 5",
+      "equipamento": "Azagaia x3, escudo pesado, gládio certeiro, loriga segmentada reforçada.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        },
+        "corte": {
+          "base": 5
+        },
+        "frio": {
+          "base": 5
+        },
+        "perfuracao": {
+          "base": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 12,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 19,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 26,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "888a18997fb6378b",
+      "_key": "!actors.items!f7b89220e1e1efc4.888a18997fb6378b",
+      "name": "Gládio",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Gládio ×2 +36 (2d12+20, 19/x3, mais 4d8 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d12+20",
+                "corte",
+                ""
+              ],
+              [
+                "4d8",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8931fd059e6d90bd",
+      "_key": "!actors.items!f7b89220e1e1efc4.8931fd059e6d90bd",
+      "name": "Chifres",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Chifres +36 (2d12+20 mais 4d8 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d12+20",
+                "perfuracao",
+                ""
+              ],
+              [
+                "4d8",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e26ecebc0096c31f",
+      "_key": "!actors.items!f7b89220e1e1efc4.e26ecebc0096c31f",
+      "name": "Azagaia",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Azagaia +36 (2d8+20 mais 4d8 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+20",
+                "perfuracao",
+                ""
+              ],
+              [
+                "4d8",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "arremesso",
+        "empunhadura": "uma",
+        "alcance": "medium",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "76c0a13c45034673",
+      "_key": "!actors.items!f7b89220e1e1efc4.76c0a13c45034673",
+      "name": "Coordenar Ataque",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O centurião condenado coordena os ataques de uma falange da qual esteja participando. Até o próximo turno do centurião, sempre que um participante da falange fizer um ataque, pode rolar dois dados e usar o melhor resultado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8486b993f5f2fc61",
+      "_key": "!actors.items!f7b89220e1e1efc4.8486b993f5f2fc61",
+      "name": "É Proibido Morrer",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Aliados em alcance médio do centurião recebem RD 5.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9116547f2acf770f",
+      "_key": "!actors.items!f7b89220e1e1efc4.9116547f2acf770f",
+      "name": "Estandarte Profano",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O centurião emana uma aura de energia negativa com 30m de raio. Dentro dessa área, dano de trevas e PV curados por trevas são maximizados e membros da Legião recebem +2 em todos os testes.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0c40ea0bea39b367",
+      "_key": "!actors.items!f7b89220e1e1efc4.0c40ea0bea39b367",
+      "name": "Falange",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o centurião estiver usando um escudo e estiver adjacente a um aliado com esta habilidade, pode formar uma falange com esse aliado. Enquanto estiverem adjacentes um ao outro, os participantes da falange recebem +2 na Defesa e em testes de resistência.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 106",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "5909ee4e63d68563",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "_id": "7fc2c4f75df2828e",
+  "_key": "!items!7fc2c4f75df2828e",
+  "name": "Fraqueza Glacial",
+  "type": "poder",
+  "img": "icons/svg/upgrade.svg",
+  "system": {
+    "description": {
+      "value": "<p>Você sofre –5 em testes contra efeitos de frio e recebe 1 ponto adicional de dano por dado de dano de frio.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 151",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Salamandra",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Fraqueza Glacial",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.tracos.resistencias.frio.danoPorDado",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "_id": "df2ef389dddc94a6",
+      "_key": "!items.effects!7fc2c4f75df2828e.df2ef389dddc94a6"
+    }
+  ],
+  "folder": "0ac27e1a666869dd",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

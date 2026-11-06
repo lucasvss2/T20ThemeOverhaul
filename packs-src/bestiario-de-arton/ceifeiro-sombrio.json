@@ -1,0 +1,945 @@
+{
+  "_id": "9a68b01d48d61850",
+  "_key": "!actors!9a68b01d48d61850",
+  "name": "Ceifeiro Sombrio",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Ceifeiro Sombrio",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 2
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 2
+      },
+      "sab": {
+        "base": 6
+      },
+      "car": {
+        "base": 3
+      }
+    },
+    "attributes": {
+      "nd": "7",
+      "pv": {
+        "value": 170,
+        "max": 170,
+        "min": -500
+      },
+      "pm": {
+        "value": 44,
+        "max": 44
+      },
+      "defesa": {
+        "base": 25,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 26
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 46 · ND 7 · Humanoide (humano) Médio.</p><p>Iniciativa +7, Percepção +13, visão no escuro</p><p>Defesa 25, Fort +14, Ref +7, Von +20, imunidade a efeitos de metabolismo e trevas, redução de dano 5</p><p>Pontos de Vida 170</p><p>Deslocamento 9m (6q)</p><p>Pontos de Mana 44.</p><p>Corpo a Corpo Gadanho profano +20 (4d4+4, x4, mais 4d8 frio).</p><p><strong>Conjuração Inabalável</strong> Quando faz um teste de Vontade para manter a concentração em uma magia, o ceifeiro sombrio rola dois dados e usa o melhor resultado.</p><p><strong>Fúria Diabólica (Livre)</strong> Uma vez por cena, o ceifeiro entra em fúria. Ele recebe +3 em testes de ataque, na CD de suas magias e em suas rolagens de dano. Nesse estado ele não pode fazer nenhuma ação que exija calma e concentração (como usar Furtividade), mas pode lançar magias. A fúria termina se, ao fim da rodada, ele não tiver atacado, lançado uma magia ou sido alvo de um efeito hostil.</p><p><strong>Gadanho Profano</strong> Nas mãos do ceifeiro, seu gadanho conta como um gadanho formidável que causa +4d8 pontos de dano de frio (já contabilizados).</p><p><strong>Segadura de Sangue (Livre)</strong> Uma vez por rodada, quando o ceifeiro faz um ataque corpo a corpo com seu gadanho e reduz os pontos de vida do alvo para 0 ou menos, pode realizar um ataque adicional contra outra criatura dentro do seu alcance.</p><p><strong>Visão nas Trevas</strong> O ceifeiro enxerga perfeitamente no escuro, incluindo em magias de escuridão.</p><p><strong>Magias</strong> Como um clérigo de Tenebra de 7º nível (CD 26, –1 PM para Escuridão).</p><p><strong>Curar Ferimentos</strong> (Padrão, 7 PM) Uma criatura adjacente cura 8d8+8 PV.</p><p><strong>Escudo da Fé</strong> (Reação, 6 PM) Quando uma criatura em alcance curto sofre um ataque, ela recebe camuflagem contra ataques à distância e +4 na Defesa até seu próximo turno.</p><p><strong>Escuridão</strong> (Padrão, 4 PM) Até o fim da cena, um objeto em alcance curto emana escuridão total em um raio de 9m, bloqueando a visão na área e através dela.</p><p><strong>Toque Vampírico</strong> (Padrão, 7 PM) O ceifeiro faz um ataque corpo a corpo. Se acertar, além do dano normal, causa 8d6 pontos de dano de trevas (Fort reduz à metade) e recupera pontos de vida iguais à metade do dano de trevas causado.</p><p>For 2, Des 0, Con 2, Int 2, Sab 6, Car 3 Perícias Conhecimento +9, Enganação +12, Intimidação +12, Misticismo +9, Religião +15. Equipamento Gadanho macabro, símbolo sagrado de Tenebra. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "humano",
+      "tipo": "hum",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 46",
+      "movimento": "9m (6q)",
+      "ataquescac": "Gadanho profano +20 (4d4+4, x4, mais 4d8 frio).",
+      "ataquesad": "",
+      "resistencias": "imunidade a efeitos de metabolismo e trevas, redução de dano 5",
+      "equipamento": "Gadanho macabro, símbolo sagrado de Tenebra.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "metabolismo"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        },
+        "trevas": {
+          "imunidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "conh": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ba4d04867c3f8a1a",
+      "_key": "!actors.items!9a68b01d48d61850.ba4d04867c3f8a1a",
+      "name": "Gadanho profano",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Gadanho profano +20 (4d4+4, x4, mais 4d8 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d4+4",
+                "corte",
+                ""
+              ],
+              [
+                "4d8",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 4,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "03972828ffb67a41",
+      "_key": "!actors.items!9a68b01d48d61850.03972828ffb67a41",
+      "name": "Conjuração Inabalável",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando faz um teste de Vontade para manter a concentração em uma magia, o ceifeiro sombrio rola dois dados e usa o melhor resultado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "578b5f4fe8aa312f",
+      "_key": "!actors.items!9a68b01d48d61850.578b5f4fe8aa312f",
+      "name": "Fúria Diabólica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, o ceifeiro entra em fúria. Ele recebe +3 em testes de ataque, na CD de suas magias e em suas rolagens de dano. Nesse estado ele não pode fazer nenhuma ação que exija calma e concentração (como usar Furtividade), mas pode lançar magias. A fúria termina se, ao fim da rodada, ele não tiver atacado, lançado uma magia ou sido alvo de um efeito hostil.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "b3e7de827b0f5b9b",
+      "_key": "!actors.items!9a68b01d48d61850.b3e7de827b0f5b9b",
+      "name": "Gadanho Profano",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Nas mãos do ceifeiro, seu gadanho conta como um gadanho formidável que causa +4d8 pontos de dano de frio (já contabilizados).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3fe16b06496cd815",
+      "_key": "!actors.items!9a68b01d48d61850.3fe16b06496cd815",
+      "name": "Segadura de Sangue",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando o ceifeiro faz um ataque corpo a corpo com seu gadanho e reduz os pontos de vida do alvo para 0 ou menos, pode realizar um ataque adicional contra outra criatura dentro do seu alcance.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "093c8223d384bcf5",
+      "_key": "!actors.items!9a68b01d48d61850.093c8223d384bcf5",
+      "name": "Visão nas Trevas",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O ceifeiro enxerga perfeitamente no escuro, incluindo em magias de escuridão.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fd34ac933837bfab",
+      "_key": "!actors.items!9a68b01d48d61850.fd34ac933837bfab",
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Como um clérigo de Tenebra de 7º nível (CD 26, –1 PM para Escuridão).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "780e232837a4c2a2",
+      "_key": "!actors.items!9a68b01d48d61850.780e232837a4c2a2",
+      "name": "Curar Ferimentos",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/curar-ferimentos.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura adjacente cura 8d8+8 PV.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 7,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "155a7ce66295a8a3",
+      "_key": "!actors.items!9a68b01d48d61850.155a7ce66295a8a3",
+      "name": "Escudo da Fé",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura em alcance curto sofre um ataque, ela recebe camuflagem contra ataques à distância e +4 na Defesa até seu próximo turno.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "b0ea0e6e279eacff",
+      "_key": "!actors.items!9a68b01d48d61850.b0ea0e6e279eacff",
+      "name": "Escuridão",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escuridao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até o fim da cena, um objeto em alcance curto emana escuridão total em um raio de 9m, bloqueando a visão na área e através dela.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 4,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5bf635c266d7d63d",
+      "_key": "!actors.items!9a68b01d48d61850.5bf635c266d7d63d",
+      "name": "Toque Vampírico",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/toque-vampirico.webp",
+      "system": {
+        "description": {
+          "value": "<p>O ceifeiro faz um ataque corpo a corpo. Se acertar, além do dano normal, causa 8d6 pontos de dano de trevas (Fort reduz à metade) e recupera pontos de vida iguais à metade do dano de trevas causado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 46",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 7,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "6af4de0a089a448a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

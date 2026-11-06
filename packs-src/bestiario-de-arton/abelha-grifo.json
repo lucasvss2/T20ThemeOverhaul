@@ -1,0 +1,367 @@
+{
+  "_id": "57f994e14a23d0d3",
+  "_key": "!actors!57f994e14a23d0d3",
+  "name": "Abelha-Grifo",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Abelha-Grifo",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 5
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": -5
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": -2
+      }
+    },
+    "attributes": {
+      "nd": "4",
+      "pv": {
+        "value": 38,
+        "max": 38,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 19,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 18.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 24.0
+        },
+        "climb": {
+          "base": 18.0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra"
+        ],
+        "custom": "visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 19 · ND 4 · Animal Grande.</p><p>Iniciativa +7, Percepção +4, visão na penumbra</p><p>Defesa 22, Fort +10, Ref +15, Von +5, imunidade a encantamento</p><p>Pontos de Vida 38</p><p>Deslocamento 18m (12q), escalada 18m (12q), voo 24m (16q)</p><p>Corpo a Corpo Mordida +17 (4d6+18).</p><p><strong>Agarrar Aprimorado (Livre)</strong> Mordida (teste +19).</p><p><strong>Ferroada (Completa)</strong> Se a abelha-grifo começar seu turno agarrada a um inimigo e estiver com 10 pontos de vida ou menos, ela irá desferir sua ferroada. O inimigo sofre 1d8+9 pontos de dano de perfuração e é inoculado com veneno paralisante (perde 2d12 pontos de vida e fica paralisado por 1d4 rodadas, Fort CD 18 reduz a perda de vida à metade e evita a condição). Quando é usado dessa forma, o ferrão se solta do corpo da abelha-grifo, o que faz com que ela morra em 1d6 horas.</p><p>For 5, Des 3, Con 3, Int −5, Sab 0, Car −2 Tesouro Nenhum. Parceiro A abelha-grifo é um parceiro montaria (Grande) que fornece os benefícios a seguir. Iniciante: seu deslocamento muda para 15m e você recebe deslocamento de escalada 15m. Veterano: como acima, mas você também recebe +2 em testes de agarrar e deslocamento de voo 15m. Mestre: como acima, mas aumenta os deslocamentos fornecidos para 18m e você recebe uma ação de movimento extra por turno (apenas para se deslocar).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "ani",
+      "role": "lackey",
+      "origem": "Bestiário de Arton, p. 19",
+      "movimento": "18m (12q), escalada 18m (12q), voo 24m (16q)",
+      "ataquescac": "Mordida +17 (4d6+18).",
+      "ataquesad": "",
+      "resistencias": "imunidade a encantamento",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "c35869d6827e2323",
+      "_key": "!actors.items!57f994e14a23d0d3.c35869d6827e2323",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +17 (4d6+18).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 19",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d6+18",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "dca43dc2cff80f4e",
+      "_key": "!actors.items!57f994e14a23d0d3.dca43dc2cff80f4e",
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Mordida (teste +19).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 19",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0d0f8fa2eae3e71f",
+      "_key": "!actors.items!57f994e14a23d0d3.0d0f8fa2eae3e71f",
+      "name": "Ferroada",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se a abelha-grifo começar seu turno agarrada a um inimigo e estiver com 10 pontos de vida ou menos, ela irá desferir sua ferroada. O inimigo sofre 1d8+9 pontos de dano de perfuração e é inoculado com veneno paralisante (perde 2d12 pontos de vida e fica paralisado por 1d4 rodadas, Fort CD 18 reduz a perda de vida à metade e evita a condição). Quando é usado dessa forma, o ferrão se solta do corpo da abelha-grifo, o que faz com que ela morra em 1d6 horas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 19",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "d82d0bc2bbf159d3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

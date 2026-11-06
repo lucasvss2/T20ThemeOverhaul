@@ -1,0 +1,69 @@
+{
+  "_id": "50017c21713d1fab",
+  "_key": "!journal!50017c21713d1fab",
+  "name": "Mestre da Fonte",
+  "pages": [
+    {
+      "_id": "822e90743c54bb7f",
+      "_key": "!journal.pages!50017c21713d1fab.822e90743c54bb7f",
+      "name": "Preparação e encontro",
+      "type": "text",
+      "sort": 100000,
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Bestiário de Arton, p. 175–178</p><h2>Preparar o chefe</h2><p>Aplique Maior que a Morte. Se o chefe tiver PM, some +2 por ND. Acrescente RD 5 no patamar veterano, 10 no campeão ou 20 no lenda. Aumente o ND em 2 apenas para XP e tesouro (ND menor que 1 se torna 2).</p><p>Dobre os PV. Defina uma fonte de poder e uma emanação, inclusive seu alcance, seu tipo de dano e se é mágica. Desabilitar a fonte remove a emanação e os benefícios do chefe.</p><p>Leia valores separados por barras na ordem iniciante, veterano, campeão, lenda. A CD por patamar é 15/25/30/35.</p><p>As criaturas geradas pela fonte ou emanação não contam para as recompensas.</p><h2>Jogar o encontro</h2><p>Resolva três estágios, cada um como uma cena. Em geral, os heróis podem usar habilidades durante os estágios. Depois, inicie o combate em alcance médio do chefe. Só no confronto final é possível interagir com a fonte.</p><p>Use tentativa e erro, pistas ou uma ação completa e uma perícia apropriada contra a CD da fonte para descobrir uma maneira de desabilitá-la.</p><p>Exemplo: @UUID[Compendium.t20-theme-overhaul.bestiario-de-arton.Actor.ca67032b83eeb5a9]{Ankhenaten, a Rainha de Antylia}.</p>",
+        "markdown": ""
+      },
+      "ownership": {
+        "default": -1
+      }
+    },
+    {
+      "_id": "455937463f67fa83",
+      "_key": "!journal.pages!50017c21713d1fab.455937463f67fa83",
+      "name": "Fontes de poder",
+      "type": "text",
+      "sort": 200000,
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<h2>Engenhoca Alimentadora</h2><p>Objeto imóvel. Defesa e resistências do chefe –10, 25/100/250/400 PV, RD 0/5/10/20, imune a dano psíquico e veneno. Desabilitada a 0 PV. Ação completa de Ladinagem ou Ofício (engenhoqueiro) faz perder PV iguais ao resultado em caso de sucesso.</p><h2>Fluxo Divino</h2><p>Três sucessos em Religião ou Vontade, cada um como ação completa. Devotos podem receber +5 ou –5 conforme o interesse da divindade. Canalizar Energia Positiva/Negativa por 1/2/4/5 PM dá um sucesso automático, uma vez por cena.</p><h2>Fúria dos Ermos</h2><p>Três sucessos em Adestramento ou Sobrevivência, cada um como ação completa. Empatia Selvagem concede +5.</p><h2>Labirinto da Mente</h2><p>Três sucessos em Diplomacia ou Intuição, cada um como ação completa. Cada condição mental ou de medo diferente aplicada também conta como sucesso. A fonte falha automaticamente no teste contra a condição.</p><h2>Ruptura Planar</h2><p>Três sucessos em Conhecimento ou Misticismo, cada um como ação completa. Tranca Arcana, Dissipar Magia, Selo de Mana, Campo Antimagia ou Buraco Negro podem ser lançadas como parte do teste. Some o custo básico em PM ao teste, em lugar de gerar o efeito da magia.</p><h2>Vítimas Inconscientes</h2><p>Três sucessos em Cura ou Investigação, cada um como ação completa. Curar 10/30/60/100 PV conta como um sucesso. Causar 5/15/30/50 de dano também conta, mas mata algumas vítimas.</p>",
+        "markdown": ""
+      },
+      "ownership": {
+        "default": -1
+      }
+    },
+    {
+      "_id": "e5c6c18ca0a61eeb",
+      "_key": "!journal.pages!50017c21713d1fab.e5c6c18ca0a61eeb",
+      "name": "Emanações",
+      "type": "text",
+      "sort": 300000,
+      "title": {
+        "show": true,
+        "level": 1
+      },
+      "text": {
+        "format": 1,
+        "content": "<p>Condições e penalidades persistem até o fim do confronto ou até a fonte ser desabilitada, salvo quando indicado.</p><h2>Campo Repulsor</h2><p>Chefe: +5 Defesa, Campo de Força sem PM uma vez por rodada (limite de PM igual ao ND). Ataques à distância contra ele têm –5 e causam metade do dano. Avançar em sua direção reduz o deslocamento à metade.</p><p>1. Cada herói sofre 1d6/2d6/3d6/5d6 e fica lento até o fim da cena ou até desabilitar a fonte. Fortitude reduz à metade e evita lento.</p><p>2. Teste estendido em grupo de Atletismo ou Fortitude, 3 sucessos (lento impõe –2). Falha causa 1d4/2d4/3d4/5d4 a cada herói. Falha total impõe –2 em todos os testes. Uma magia de teletransporte pode substituir um teste por um sucesso automático.</p><p>3. Dois testes individuais de perícias diferentes entre Acrobacia, Atletismo, Fortitude e Reflexos. Cada falha causa 1d6/2d6/3d6/5d6 e tira um item empunhado ou vestido, à escolha do personagem, até o fim da cena.</p><h2>Profanação Mefítica</h2><p>Chefe imune a trevas e veneno. Sofrer dano dele ou falhar em um teste de resistência dele impõe –1 cumulativo em todos os testes.</p><p>1. Perda de 1d4/2d4/3d4/5d4 PV e enjoado. Fortitude reduz a perda à metade e evita a condição.</p><p>2. Teste em grupo de Religião ou Vontade, 3 sucessos (enjoado impõe –2). Falha reduz PV máximos em 1/2/5/10 por personagem. Falha total reduz efeitos de cura à metade. Consagrar e Purificação dão um sucesso cada, uma vez cada. Este estágio é uma maldição.</p><p>3. Três testes individuais de Fortitude ou Religião, em qualquer combinação. Com 1/2/3 falhas, fica fraco/debilitado/debilitado e vulnerável. Este estágio é uma doença.</p><h2>Tempestade Energética</h2><p>Inimigos do chefe têm –5 em Percepção, concentração para magias e ataques à distância. Uma vez por rodada, o chefe pode causar 3d6/6d6/9d6/12d6 a um alvo em alcance médio como ação livre, Reflexos reduz à metade. Resistência a Energia fornece +5 nos testes do estágio a quem afetar.</p><p>1. Teste de resistência definido na criação. Falhar torna o personagem vulnerável ao elemento (ou retira imunidade).</p><p>2. Teste em grupo de Acrobacia, Atletismo ou da resistência escolhida, 5 sucessos. Falhar causa 1d6/2d6/3d6/5d6 a cada personagem.</p><p>3. Três testes individuais da resistência escolhida. Duas ou mais falhas deixam enredado e impõem –5 em resistências contra efeitos do elemento.</p><h2>Vórtice de Mana</h2><p>As habilidades do chefe custam 1 PM a menos. No início de cada turno do chefe no confronto final, cada herói perde 1d4/1d4/2d4/2d4 PM, e cada 4 rolado recupera 10 PV do chefe.</p><p>1. Teste em grupo de Misticismo ou Vontade, 3 sucessos. Cada falha tira 1/2/3/5 PM de cada herói.</p><p>2. Teste individual de Misticismo ou Vontade. Falhar deixa alquebrado.</p><p>3. Três testes individuais de Misticismo ou Vontade. Com pelo menos duas falhas, todo PM gasto ou perdido tira também 1 PV.</p>",
+        "markdown": ""
+      },
+      "ownership": {
+        "default": -1
+      }
+    }
+  ],
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  }
+}

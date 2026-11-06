@@ -1,0 +1,567 @@
+{
+  "_id": "4f8ccbbc5d90b0bc",
+  "_key": "!actors!4f8ccbbc5d90b0bc",
+  "name": "Ameba Gigante",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Ameba Gigante",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 3,
+    "height": 3,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 6
+      },
+      "int": {
+        "base": -5
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 0
+      }
+    },
+    "attributes": {
+      "nd": "7",
+      "pv": {
+        "value": 310,
+        "max": 310,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 25,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 6.0
+        },
+        "swim": {
+          "base": 6.0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "cegas"
+        ],
+        "custom": "percepção às cegas (médio)"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 23 · ND 7 · Monstro Enorme.</p><p>Iniciativa +3, Percepção +8, percepção às cegas (médio)</p><p>Defesa 25, Fort +18, Ref +6, Von +12, imunidade a ácido e eletricidade, redução de dano 5, vulnerabilidade a fogo</p><p>Pontos de Vida 310</p><p>Deslocamento 6m (4q), natação 6m (4q)</p><p>Corpo a Corpo Três pseudópodes +24 (2d8+8 mais 1d6 ácido).</p><p><strong>Agarrar Aprimorado (Livre)</strong> Pseudópode (teste +29).</p><p><strong>Engolir (Padrão)</strong> No início de cada um dos turnos da ameba gigante, a criatura engolida sofre 2d8+16 pontos de dano de ácido. Ela pode escapar causando um total de 20 pontos de dano ao interior da ameba (Defesa 10).</p><p><strong>Fluidos Paralisantes</strong> No início de cada turno da ameba, a criatura engolida por ela deve fazer um teste de Fortitude (CD 24). Se falhar, fica paralisada por 1 rodada.</p><p><strong>Organismo Congelável</strong> Quando sofre dano de frio, a ameba fica lenta e vulnerável por 1 rodada.</p><p><strong>Núcleo</strong> Uma criatura engolida que não esteja paralisada pode tentar destruir o núcleo da ameba em vez de escapar. O núcleo possui Defesa 15, 31 PV e as mesmas características que o interior da ameba. Se for destruído, a ameba gigante morrerá imediatamente.</p><p>For 4, Des 0, Con 6, Int −5, Sab 1, Car 0 Perícias Furtividade +2 (+12 em aquático e subterrâneo). Tesouro Padrão (apenas material inorgânico), 1d6 doses de ácido (CD 22 para extrair).</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 23",
+      "movimento": "6m (4q), natação 6m (4q)",
+      "ataquescac": "Três pseudópodes +24 (2d8+8 mais 1d6 ácido).",
+      "ataquesad": "",
+      "resistencias": "imunidade a ácido e eletricidade, redução de dano 5, vulnerabilidade a fogo",
+      "equipamento": "",
+      "tesouro": "Padrão (apenas material inorgânico), 1d6 doses de ácido (CD 22 para extrair)."
+    },
+    "tracos": {
+      "tamanho": "eno",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        },
+        "acido": {
+          "imunidade": true
+        },
+        "eletricidade": {
+          "imunidade": true
+        },
+        "fogo": {
+          "vulnerabilidade": true
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "afb5995c5fab0134",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.afb5995c5fab0134",
+      "name": "Pseudópodes",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Pseudópodes ×3 +24 (2d8+8 mais 1d6 ácido).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+8",
+                "impacto",
+                ""
+              ],
+              [
+                "1d6",
+                "acido",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 3,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "35300c72fc82735c",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.35300c72fc82735c",
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Pseudópode (teste +29).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "c36de3a25e459b70",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.c36de3a25e459b70",
+      "name": "Engolir",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de cada um dos turnos da ameba gigante, a criatura engolida sofre 2d8+16 pontos de dano de ácido. Ela pode escapar causando um total de 20 pontos de dano ao interior da ameba (Defesa 10).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "04b788b51ec5792f",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.04b788b51ec5792f",
+      "name": "Fluidos Paralisantes",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de cada turno da ameba, a criatura engolida por ela deve fazer um teste de Fortitude (CD 24). Se falhar, fica paralisada por 1 rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0096f8e1c22772b9",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.0096f8e1c22772b9",
+      "name": "Organismo Congelável",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando sofre dano de frio, a ameba fica lenta e vulnerável por 1 rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "94ec3c792678bdf2",
+      "_key": "!actors.items!4f8ccbbc5d90b0bc.94ec3c792678bdf2",
+      "name": "Núcleo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura engolida que não esteja paralisada pode tentar destruir o núcleo da ameba em vez de escapar. O núcleo possui Defesa 15, 31 PV e as mesmas características que o interior da ameba. Se for destruído, a ameba gigante morrerá imediatamente.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 23",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "6af4de0a089a448a",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

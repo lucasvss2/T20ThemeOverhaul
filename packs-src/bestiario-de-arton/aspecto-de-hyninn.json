@@ -1,0 +1,551 @@
+{
+  "_id": "6e9ae116f948c4db",
+  "_key": "!actors!6e9ae116f948c4db",
+  "name": "Aspecto de Hyninn",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Aspecto de Hyninn",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 3
+      },
+      "des": {
+        "base": 9
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 6
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 7
+      }
+    },
+    "attributes": {
+      "nd": "4",
+      "pv": {
+        "value": 99,
+        "max": 99,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 12,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 28 · ND 4 · Construto Médio.</p><p>Iniciativa +15, Percepção +6, visão no escuro</p><p>Defesa 21, Fort +4, Ref +16, Von +10, evasão aprimorada, redução de dano 5</p><p>Pontos de Vida 99</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Duas pancadas +14 (2d6+5).</p><p><strong>Aparência Inócua</strong> O aspecto de Hyninn não sofre penalidade em testes de Furtividade por se mover ao seu deslocamento normal ou por atacar e fazer outras ações chamativas.</p><p><strong>Armadilha Animada</strong> O aspecto possui uma armadilha incorporada em sua forma, escolhida entre as descritas a seguir. Se ele estiver imóvel (veja Imobilidade), a armadilha pode ser acionada por qualquer personagem que tente manuseá-lo ou abri-lo. Para estas armadilhas, a CD dos testes de Investigação e Ladinagem é 25 e a CD do teste de resistência é 20. • Agulhas Envenenadas. Criaturas em alcance curto perdem 1d12 PV por veneno por rodada durante 1d4+1 rodadas (Fort reduz para 1 rodada). • Disparador Elétrico. Criaturas em alcance curto sofrem 2d12 pontos de dano de eletricidade e ficam atordoadas por 1 rodada (Ref reduz o dano à metade e evita a condição). • Gás Sonífero. Criaturas em alcance curto ficam inconscientes, como na magia Sono (Von evita). • Grito Agonizante. Criaturas em alcance curto sofrem dores terríveis, que impõem uma penalidade de –5 em todos os testes até o fim da cena (Fort reduz para 1 rodada).</p><p><strong>Ataque Furtivo</strong> +2d6 (o aspecto pode usar esta habilidade duas vezes por rodada).</p><p><strong>Imobilidade</strong> O aspecto pode permanecer completamente imóvel. Se ele estiver assim, um personagem deve passar num teste de Percepção (CD 35) para perceber que ele é uma criatura e não um objeto.</p><p>For 3, Des 9, Con 2, Int 6, Sab 2, Car 7 Perícias Atletismo +7, Acrobacia +13, Diplomacia +11, Enganação +13, Furtividade +15, Intuição +6, Jogatina +16, Ladinagem +18. Tesouro Padrão. Parceiro O aspecto de Hyninn é um parceiro veterano que fornece +2 em Jogatina e Ladinagem e permite que você use um poder de Armadilha do caçador (Tormenta20, p. 50), definido pelo aspecto. Por ser criada a partir de energia divina, essa armadilha é mágica, pode ser preparada em locais sem os materiais propícios e não é percebida automaticamente por criaturas que a vejam ser preparada. Se você já possuir um poder de Armadilha, a CD para resistir a todas as suas armadilhas aumenta em +2. Caso você viole as Obrigações &amp; Restrições de Hyninn, o aspecto deixa de apoiá-lo.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "con",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 28",
+      "movimento": "9m (6q)",
+      "ataquescac": "Duas pancadas +14 (2d6+5).",
+      "ataquesad": "",
+      "resistencias": "evasão aprimorada, redução de dano 5",
+      "equipamento": "",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 4,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "joga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "ladi": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "ac5ae766ba03cdbc",
+      "_key": "!actors.items!6e9ae116f948c4db.ac5ae766ba03cdbc",
+      "name": "Pancadas",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Pancadas ×2 +14 (2d6+5).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 28",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+5",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0e06feb3d2127301",
+      "_key": "!actors.items!6e9ae116f948c4db.0e06feb3d2127301",
+      "name": "Aparência Inócua",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O aspecto de Hyninn não sofre penalidade em testes de Furtividade por se mover ao seu deslocamento normal ou por atacar e fazer outras ações chamativas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 28",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "73d38f211035d331",
+      "_key": "!actors.items!6e9ae116f948c4db.73d38f211035d331",
+      "name": "Armadilha Animada",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O aspecto possui uma armadilha incorporada em sua forma, escolhida entre as descritas a seguir. Se ele estiver imóvel (veja Imobilidade), a armadilha pode ser acionada por qualquer personagem que tente manuseá-lo ou abri-lo. Para estas armadilhas, a CD dos testes de Investigação e Ladinagem é 25 e a CD do teste de resistência é 20. • Agulhas Envenenadas. Criaturas em alcance curto perdem 1d12 PV por veneno por rodada durante 1d4+1 rodadas (Fort reduz para 1 rodada). • Disparador Elétrico. Criaturas em alcance curto sofrem 2d12 pontos de dano de eletricidade e ficam atordoadas por 1 rodada (Ref reduz o dano à metade e evita a condição). • Gás Sonífero. Criaturas em alcance curto ficam inconscientes, como na magia Sono (Von evita). • Grito Agonizante. Criaturas em alcance curto sofrem dores terríveis, que impõem uma penalidade de –5 em todos os testes até o fim da cena (Fort reduz para 1 rodada).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 28",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "efc6be659414ebe1",
+      "_key": "!actors.items!6e9ae116f948c4db.efc6be659414ebe1",
+      "name": "Ataque Furtivo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>+2d6 (o aspecto pode usar esta habilidade duas vezes por rodada).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 28",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "b96115534d0a78fa",
+      "_key": "!actors.items!6e9ae116f948c4db.b96115534d0a78fa",
+      "name": "Imobilidade",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O aspecto pode permanecer completamente imóvel. Se ele estiver assim, um personagem deve passar num teste de Percepção (CD 35) para perceber que ele é uma criatura e não um objeto.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 28",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "d82d0bc2bbf159d3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,678 @@
+{
+  "_id": "30773cae4374e224",
+  "_key": "!actors!30773cae4374e224",
+  "name": "Tirano Ocular",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Tirano Ocular",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 3
+      }
+    },
+    "attributes": {
+      "nd": "13",
+      "pv": {
+        "value": 440,
+        "max": 440,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 40,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 9.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 157 · ND 13 · Monstro Grande.</p><p>Iniciativa +8, Percepção +17, visão no escuro</p><p>Defesa 42, Fort +20, Ref +13, Von +26, resistência a magia +3</p><p>Pontos de Vida 440</p><p>Deslocamento Voo 9m (6q)</p><p>Corpo a Corpo Mordida +35 (4d6+30 mais 2d12 ácido).</p><p><strong>Aura Devoradora</strong> O tirano ocular projeta uma aura constante de fome mágica de 18m. Dentro dessa aura, as habilidades mágicas das outras criaturas custam +1 PM.</p><p><strong>Mil Olhos (Movimento)</strong> O tirano dispara 1d4 olhos menores, que emitem os efeitos a seguir (role 1d6 para cada olho; o mesmo efeito pode ser usado mais de uma vez na mesma ação). Recarga (movimento). 1. Olhar Enervante. Uma criatura em alcance médio fica apavorada por 1 rodada e depois abalada até o fim da cena (Von CD 37 reduz para abalado por 1d4 rodadas). 2. Olhar Cativante. Uma criatura em alcance médio sofre o efeito básico da magia Enfeitiçar (Von CD 37 evita). 3. Olhar Corrosivo. O tirano projeta energia corrosiva em um cone de 9m. Criaturas nessa área sofrem 6d12 pontos de dano de ácido e são cobertas por muco (Ref CD 37 reduz à metade e evita o muco). Uma criatura coberta por muco sofre 2d12 pontos de dano de ácido no início de cada um dos dois próximos turnos do tirano. 4. Olhar Debilitante. Uma criatura em alcance médio fica exausta por 1 rodada e caída (Fort CD 37 reduz para fatigada por 1d4 rodadas). 5. Olhar Energético. Criaturas à escolha do tirano em alcance médio sofrem 4d12+4 pontos de dano de essência e ficam ofuscadas por 1d4 rodadas (Ref CD 37 reduz à metade e evita a condição). 6. Olhar Retardador. Uma criatura em alcance médio fica paralisada por 1 rodada e depois lenta (Fort CD 37 reduz para lento por 1d4 rodadas).</p><p><strong>Mordida Descendente (Movimento)</strong> O tirano faz um ataque de mordida contra uma criatura caída.</p><p><strong>Tentáculos Cruéis (Padrão)</strong> O tirano ocular pode agarrar uma criatura em alcance curto e arrastá-la para sua boca (teste +40). Se fizer isso, o alvo fica agarrado e caído adjacente ao tirano.</p><p><strong>Triolhos Místicos (Padrão)</strong> O tirano dispara um de seus olhos principais. Ele não pode disparar o mesmo olho duas vezes em sequência. • Monóculo Abascanto. O tirano projeta o efeito básico de Dissipar Magia em uma esfera de 3m de raio em alcance médio. • Monóculo Desintegrador. O tirano dispara um raio fino e esverdeado que causa 10d12 pontos de dano de essência em uma criatura ou objeto em alcance médio (Fort CD 37 reduz para 2d12 pontos de dano). Independentemente do resultado do teste de Fortitude, se os PV do alvo forem reduzidos a 0 ou menos, ele será completamente desintegrado. • Monóculo Petrificante. O tirano projeta ondas petrificantes em um cone de 9m. Criaturas nessa área ficam lentas (Fort CD 37 evita). Se já estiver lenta, a criatura fica petrificada permanentemente. Efeitos que removem paralisia revertem a petrificação. Metamorfose.</p><p><strong>Ver Através</strong> O tirano ocular está permanentemente sob o efeito da magia Visão da Verdade, com todos os aprimoramentos.</p><p><strong>Visão Total</strong> O tirano consegue enxergar em todas as direções e não pode ser flanqueado.</p><p>For 0, Des 2, Con 4, Int 3, Sab 2, Car 3 Perícias Misticismo +18, Sobrevivência +14. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 157",
+      "movimento": "Voo 9m (6q)",
+      "ataquescac": "Mordida +35 (4d6+30 mais 2d12 ácido).",
+      "ataquesad": "",
+      "resistencias": "resistência a magia +3",
+      "equipamento": "",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 14,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 25,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "2eb39ea307bbbcab",
+      "_key": "!actors.items!30773cae4374e224.2eb39ea307bbbcab",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +35 (4d6+30 mais 2d12 ácido).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d6+30",
+                "perfuracao",
+                ""
+              ],
+              [
+                "2d12",
+                "acido",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7dc39b6dc63abecd",
+      "_key": "!actors.items!30773cae4374e224.7dc39b6dc63abecd",
+      "name": "Aura Devoradora",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano ocular projeta uma aura constante de fome mágica de 18m. Dentro dessa aura, as habilidades mágicas das outras criaturas custam +1 PM.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "116e2179dd32138f",
+      "_key": "!actors.items!30773cae4374e224.116e2179dd32138f",
+      "name": "Mil Olhos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano dispara 1d4 olhos menores, que emitem os efeitos a seguir (role 1d6 para cada olho; o mesmo efeito pode ser usado mais de uma vez na mesma ação). Recarga (movimento). 1. Olhar Enervante. Uma criatura em alcance médio fica apavorada por 1 rodada e depois abalada até o fim da cena (Von CD 37 reduz para abalado por 1d4 rodadas). 2. Olhar Cativante. Uma criatura em alcance médio sofre o efeito básico da magia Enfeitiçar (Von CD 37 evita). 3. Olhar Corrosivo. O tirano projeta energia corrosiva em um cone de 9m. Criaturas nessa área sofrem 6d12 pontos de dano de ácido e são cobertas por muco (Ref CD 37 reduz à metade e evita o muco). Uma criatura coberta por muco sofre 2d12 pontos de dano de ácido no início de cada um dos dois próximos turnos do tirano. 4. Olhar Debilitante. Uma criatura em alcance médio fica exausta por 1 rodada e caída (Fort CD 37 reduz para fatigada por 1d4 rodadas). 5. Olhar Energético. Criaturas à escolha do tirano em alcance médio sofrem 4d12+4 pontos de dano de essência e ficam ofuscadas por 1d4 rodadas (Ref CD 37 reduz à metade e evita a condição). 6. Olhar Retardador. Uma criatura em alcance médio fica paralisada por 1 rodada e depois lenta (Fort CD 37 reduz para lento por 1d4 rodadas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "204b611883c7af22",
+      "_key": "!actors.items!30773cae4374e224.204b611883c7af22",
+      "name": "Mordida Descendente",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano faz um ataque de mordida contra uma criatura caída.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "170ed776386c32ca",
+      "_key": "!actors.items!30773cae4374e224.170ed776386c32ca",
+      "name": "Tentáculos Cruéis",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano ocular pode agarrar uma criatura em alcance curto e arrastá-la para sua boca (teste +40). Se fizer isso, o alvo fica agarrado e caído adjacente ao tirano.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d44ee54ccd7922e5",
+      "_key": "!actors.items!30773cae4374e224.d44ee54ccd7922e5",
+      "name": "Triolhos Místicos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano dispara um de seus olhos principais. Ele não pode disparar o mesmo olho duas vezes em sequência. • Monóculo Abascanto. O tirano projeta o efeito básico de Dissipar Magia em uma esfera de 3m de raio em alcance médio. • Monóculo Desintegrador. O tirano dispara um raio fino e esverdeado que causa 10d12 pontos de dano de essência em uma criatura ou objeto em alcance médio (Fort CD 37 reduz para 2d12 pontos de dano). Independentemente do resultado do teste de Fortitude, se os PV do alvo forem reduzidos a 0 ou menos, ele será completamente desintegrado. • Monóculo Petrificante. O tirano projeta ondas petrificantes em um cone de 9m. Criaturas nessa área ficam lentas (Fort CD 37 evita). Se já estiver lenta, a criatura fica petrificada permanentemente. Efeitos que removem paralisia revertem a petrificação. Metamorfose.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "853dc4b4c5338717",
+      "_key": "!actors.items!30773cae4374e224.853dc4b4c5338717",
+      "name": "Ver Através",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano ocular está permanentemente sob o efeito da magia Visão da Verdade, com todos os aprimoramentos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "98b110aafe190756",
+      "_key": "!actors.items!30773cae4374e224.98b110aafe190756",
+      "name": "Visão Total",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tirano consegue enxergar em todas as direções e não pode ser flanqueado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 157",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "5909ee4e63d68563",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

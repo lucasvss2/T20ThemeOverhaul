@@ -1,0 +1,511 @@
+{
+  "_id": "8e9e77681ed9f1ba",
+  "_key": "!actors!8e9e77681ed9f1ba",
+  "name": "Entessombra Broto",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Entessombra Broto",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 6
+      },
+      "des": {
+        "base": -1
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 1
+      }
+    },
+    "attributes": {
+      "nd": "9",
+      "pv": {
+        "value": 350,
+        "max": 350,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 36,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 72 · ND 9 · Morto-vivo Grande.</p><p>Iniciativa +7, Percepção +11, visão no escuro</p><p>Defesa 35, Fort +21, Ref +9, Von +15, fortificação 25%, incorpóreo, redução de dano 10/luz, vulnerabilidade a fogo</p><p>Pontos de Vida 350</p><p>Deslocamento 9m (6q), sem redução por terreno difícil</p><p>Corpo a Corpo Duas pancadas gélidas +27 (4d6+6 frio mais 4d6+6 trevas).</p><p><strong>Drenar Vitalidade</strong> Uma criatura viva atingida por uma pancada gélida do entessombra broto deve fazer um teste de Fortitude (CD 28). Se falhar, fica fraca e o entessombra recebe 20 PV temporários cumulativos.</p><p><strong>Pastor dos Mortos (Completa)</strong> O entessombra invoca mãos espectrais que se projetam do chão em um raio de 30m. Quando esta habilidade é usada, e no início de cada turno do ente, todas as criaturas na área em contato com o solo sofrem 2d8 pontos de dano de corte e 2d8 pontos de dano de trevas, e ficam enredadas por 1 rodada (Ref CD 28 reduz à metade e evita a condição). As mãos permanecem na área até o fim da cena ou até o entessombra usar esta habilidade novamente. Recarga (movimento).</p><p><strong>Travessia Sombria (Completa)</strong> O entessombra percorre até o dobro do seu deslocamento. Ele pode passar pelo espaço ocupado de quaisquer inimigos menores que ele, mas não pode passar duas vezes pelo mesmo espaço. Criaturas atravessadas desta forma sofrem 4d6+3 pontos de dano de frio, mais 4d6+3 pontos de dano de trevas, e ficam abaladas (Ref CD 28 reduz à metade e evita a condição). Recarga (movimento).</p><p><strong>Fraqueza Solar</strong> Enquanto estiver exposto à luz solar natural, o entessombra fica debilitado.</p><p>For 6, Des –1, Con 3, Int 0, Sab 2, Car 1 Perícias Furtividade +5 (+15 em florestas), Sobrevivência +16. Tesouro Padrão mais 1 dose de terra de cemitério (CD 24 para extrair).</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 72",
+      "movimento": "9m (6q), sem redução por terreno difícil",
+      "ataquescac": "Duas pancadas gélidas +27 (4d6+6 frio mais 4d6+6 trevas).",
+      "ataquesad": "",
+      "resistencias": "fortificação 25%, incorpóreo, redução de dano 10/luz, vulnerabilidade a fogo",
+      "equipamento": "",
+      "tesouro": "Padrão mais 1 dose de terra de cemitério (CD 24 para extrair)."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "fogo": {
+          "vulnerabilidade": true
+        },
+        "luz": {
+          "excecao": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "da41c39a05aa371a",
+      "_key": "!actors.items!8e9e77681ed9f1ba.da41c39a05aa371a",
+      "name": "Pancadas gélidas",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Pancadas gélidas ×2 +27 (4d6+6 frio mais 4d6+6 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 72",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d6+6",
+                "frio",
+                ""
+              ],
+              [
+                "4d6+6",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "2fa5aa86b82d77ab",
+      "_key": "!actors.items!8e9e77681ed9f1ba.2fa5aa86b82d77ab",
+      "name": "Drenar Vitalidade",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura viva atingida por uma pancada gélida do entessombra broto deve fazer um teste de Fortitude (CD 28). Se falhar, fica fraca e o entessombra recebe 20 PV temporários cumulativos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 72",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "243ba8808a71b1bd",
+      "_key": "!actors.items!8e9e77681ed9f1ba.243ba8808a71b1bd",
+      "name": "Pastor dos Mortos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O entessombra invoca mãos espectrais que se projetam do chão em um raio de 30m. Quando esta habilidade é usada, e no início de cada turno do ente, todas as criaturas na área em contato com o solo sofrem 2d8 pontos de dano de corte e 2d8 pontos de dano de trevas, e ficam enredadas por 1 rodada (Ref CD 28 reduz à metade e evita a condição). As mãos permanecem na área até o fim da cena ou até o entessombra usar esta habilidade novamente. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 72",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a54fa8d7f8117e17",
+      "_key": "!actors.items!8e9e77681ed9f1ba.a54fa8d7f8117e17",
+      "name": "Travessia Sombria",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O entessombra percorre até o dobro do seu deslocamento. Ele pode passar pelo espaço ocupado de quaisquer inimigos menores que ele, mas não pode passar duas vezes pelo mesmo espaço. Criaturas atravessadas desta forma sofrem 4d6+3 pontos de dano de frio, mais 4d6+3 pontos de dano de trevas, e ficam abaladas (Ref CD 28 reduz à metade e evita a condição). Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 72",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a526e0c68ed5d370",
+      "_key": "!actors.items!8e9e77681ed9f1ba.a526e0c68ed5d370",
+      "name": "Fraqueza Solar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Enquanto estiver exposto à luz solar natural, o entessombra fica debilitado.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 72",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0490ec555be7754e",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "_id": "73971ce4f773e349",
+  "_key": "!items!73971ce4f773e349",
+  "name": "Resiliência Sombria",
+  "type": "poder",
+  "img": "icons/svg/upgrade.svg",
+  "system": {
+    "description": {
+      "value": "<p>Recebe redução de dano 5, exceto contra luz. Pré-requisitos: Presença Majestosa e 5º nível.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 162",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Vampiro",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Resiliência Sombria",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.tracos.resistencias.luz.excecao",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "_id": "680b1a478d0a9b6d",
+      "_key": "!items.effects!73971ce4f773e349.680b1a478d0a9b6d"
+    }
+  ],
+  "folder": "9f6c660e4d86179d",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

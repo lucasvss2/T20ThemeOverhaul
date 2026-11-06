@@ -1,0 +1,1447 @@
+{
+  "_id": "e86e99c405d7c1f5",
+  "_key": "!actors!e86e99c405d7c1f5",
+  "name": "Vulto Rastejante",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Vulto Rastejante",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 6,
+    "height": 6,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 11
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 4
+      },
+      "car": {
+        "base": 4
+      }
+    },
+    "attributes": {
+      "nd": "18",
+      "pv": {
+        "value": 798,
+        "max": 798,
+        "min": -500
+      },
+      "pm": {
+        "value": 130,
+        "max": 130
+      },
+      "defesa": {
+        "base": 52,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 18.0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 49
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 171 · ND 18 · Morto-vivo Colossal.</p><p>Iniciativa +15, Percepção +19, visão no escuro</p><p>Defesa 52, Fort +22, Ref +22, Von +32</p><p>Pontos de Vida 798</p><p>Deslocamento 9m (6q), escavação 18m (12q)</p><p>Pontos de Mana 130.</p><p>Corpo a Corpo Mordida +47 (6d12+30, 19, mais 6d6 trevas) e ferrão +47 (6d12+30 mais veneno).</p><p><strong>Agarrar Aprimorado</strong> Mordida (teste +57).</p><p><strong>Engolir (Padrão)</strong> No início de cada um dos turnos do vulto rastejante, a criatura engolida sofre 4d8+15 pontos de dano de impacto e mais 4d8+15 pontos de dano de ácido. Ela pode escapar causando um total de 200 pontos de dano a ele (Defesa 25).</p><p><strong>Ferrão Varredor</strong> O ataque de ferrão do vulto atinge todas as criaturas em um cone de 6m (para cada ataque, ele faz um único teste de ataque e compara o resultado com a Defesa de cada inimigo na área).</p><p><strong>Invocar Sombras (Completa)</strong> Uma vez por cena, o vulto conjura oito sombras capangas em espaços desocupados em alcance médio. Elas agem a partir da próxima rodada do vulto, têm deslocamento voo 12m e podem gastar uma ação padrão para causar 2d10 pontos de dano de trevas em uma criatura adjacente (uma criatura viva atingida por uma sombra perde 1d4 PM; Fort CD 49 evita). As sombras são mortos-vivos incorpóreos, têm For –, Des 4, Defesa 35, 1 PV, falham automaticamente em qualquer teste oposto e deixam de ser incorpóreas enquanto expostas à luz do sol. Elas desaparecem quando mortas ou ao fim da cena.</p><p><strong>Magia Acelerada (Livre, +4 PM)</strong> Uma vez por rodada, quando lança uma magia com execução de ação de movimento, padrão ou completa, o vulto muda a execução dela para livre.</p><p><strong>Veneno</strong> Peçonha potente (perde 2d12 pontos de vida por rodada durante 3 rodadas, Fort CD 49 reduz a duração para 1 rodada).</p><p><strong>Magias</strong> Como um feiticeiro de 18º nível (CD 49).</p><p><strong>Dissipar Magia</strong> (Padrão, 3 PM) O vulto escolhe uma criatura, objeto ou esfera de 3m em alcance médio e faz um teste de Misticismo. Todas as magias nesse alvo com CD igual ou menor que o resultado do teste são dissipadas.</p><p><strong>Erupção Glacial</strong> (Padrão, 18 PM) Estacas de gelo irrompem do chão em uma área de 6m de lado em alcance médio. Criaturas na área sofrem 12d6 pontos de dano de corte e 12d6 pontos de dano de frio e ficam caídas (Ref evita o dano de corte e a condição). As estacas duram pela cena, o que torna a área afetada terreno difícil, e concedem cobertura leve para criaturas dentro da área ou atrás dela, mas são destruídas caso sofram dano de fogo mágico.</p><p><strong>Escuridão</strong> (Padrão, 3 PM) Até o fim da cena, um objeto em alcance curto emana escuridão total em um raio de 6m, bloqueando a visão na área e através dela.</p><p><strong>Invisibilidade</strong> (Padrão, 13 PM) O vulto fica invisível até o fim da cena (recebe camuflagem total, +10 em Furtividade contra ouvir e criaturas que não possam vê-lo ficam desprevenidas contra seus ataques).</p><p><strong>Legião</strong> (Padrão, 15 PM, sustentada) Até 10 criaturas em alcance médio obedecem cegamente aos comandos do vulto, exceto ordens claramente suicidas. Uma criatura tem direito a um teste de Vontade no fim de cada um de seus turnos para se livrar do efeito. Criaturas que passem no teste ficam abaladas por 1 rodada enquanto recuperam a consciência.</p><p><strong>Miasma Mefítico</strong> (Padrão, 18 PM) Uma nuvem de 6m de raio se forma em alcance médio. Criaturas na área sofrem 11d6 pontos de dano de trevas e ficam enjoadas por 1 rodada (Fort reduz à metade e evita a condição).</p><p><strong>Toque da Morte</strong> (Padrão, 17 PM) Uma criatura em alcance curto sofre 10d8+10 pontos de dano de trevas. Se estiver com menos da metade de seus PV, em vez disso ela deve fazer um teste de Fortitude; se passar, sofre o dano normal; caso contrário, seus PV são reduzidos a –10.</p><p><strong>Velocidade</strong> (Padrão, 3 PM, sustentada) O vulto pode executar uma ação padrão adicional por turno, que não pode ser usada para lançar magias.</p><p><strong>Viagem Planar</strong> (Padrão, 10 PM) O vulto viaja para outro Plano.</p><p>For 11, Des 0, Con 4, Int 3, Sab 4, Car 4 Perícias Diplomacia +21, Furtividade +7, Intimidação +21, Intuição +21, Misticismo +20, Religião +21. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 171",
+      "movimento": "9m (6q), escavação 18m (12q)",
+      "ataquescac": "Mordida +47 (6d12+30, 19, mais 6d6 trevas) e ferrão +47 (6d12+30 mais veneno).",
+      "ataquesad": "",
+      "resistencias": "",
+      "equipamento": "",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "col",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 21,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "edbcc82bd0d408e1",
+      "_key": "!actors.items!e86e99c405d7c1f5.edbcc82bd0d408e1",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +47 (6d12+30, 19, mais 6d6 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d12+30",
+                "perfuracao",
+                ""
+              ],
+              [
+                "6d6",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7a51919815cbbd81",
+      "_key": "!actors.items!e86e99c405d7c1f5.7a51919815cbbd81",
+      "name": "Ferrão",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Ferrão +47 (6d12+30 mais veneno).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "6d12+30",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f9050a63b0caa8a7",
+      "_key": "!actors.items!e86e99c405d7c1f5.f9050a63b0caa8a7",
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Mordida (teste +57).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "833ea85f410f4835",
+      "_key": "!actors.items!e86e99c405d7c1f5.833ea85f410f4835",
+      "name": "Engolir",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de cada um dos turnos do vulto rastejante, a criatura engolida sofre 4d8+15 pontos de dano de impacto e mais 4d8+15 pontos de dano de ácido. Ela pode escapar causando um total de 200 pontos de dano a ele (Defesa 25).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e8c70b0e387b6d33",
+      "_key": "!actors.items!e86e99c405d7c1f5.e8c70b0e387b6d33",
+      "name": "Ferrão Varredor",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O ataque de ferrão do vulto atinge todas as criaturas em um cone de 6m (para cada ataque, ele faz um único teste de ataque e compara o resultado com a Defesa de cada inimigo na área).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "c31c985eb05a482f",
+      "_key": "!actors.items!e86e99c405d7c1f5.c31c985eb05a482f",
+      "name": "Invocar Sombras",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, o vulto conjura oito sombras capangas em espaços desocupados em alcance médio. Elas agem a partir da próxima rodada do vulto, têm deslocamento voo 12m e podem gastar uma ação padrão para causar 2d10 pontos de dano de trevas em uma criatura adjacente (uma criatura viva atingida por uma sombra perde 1d4 PM; Fort CD 49 evita). As sombras são mortos-vivos incorpóreos, têm For –, Des 4, Defesa 35, 1 PV, falham automaticamente em qualquer teste oposto e deixam de ser incorpóreas enquanto expostas à luz do sol. Elas desaparecem quando mortas ou ao fim da cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3ee21dadd972f4d9",
+      "_key": "!actors.items!e86e99c405d7c1f5.3ee21dadd972f4d9",
+      "name": "Magia Acelerada",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando lança uma magia com execução de ação de movimento, padrão ou completa, o vulto muda a execução dela para livre.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ff4388ef838a01b2",
+      "_key": "!actors.items!e86e99c405d7c1f5.ff4388ef838a01b2",
+      "name": "Veneno",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Peçonha potente (perde 2d12 pontos de vida por rodada durante 3 rodadas, Fort CD 49 reduz a duração para 1 rodada).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a1c133ac2259485b",
+      "_key": "!actors.items!e86e99c405d7c1f5.a1c133ac2259485b",
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Como um feiticeiro de 18º nível (CD 49).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e54a230a06bdb9da",
+      "_key": "!actors.items!e86e99c405d7c1f5.e54a230a06bdb9da",
+      "name": "Dissipar Magia",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/dissipar-magia.webp",
+      "system": {
+        "description": {
+          "value": "<p>O vulto escolhe uma criatura, objeto ou esfera de 3m em alcance médio e faz um teste de Misticismo. Todas as magias nesse alvo com CD igual ou menor que o resultado do teste são dissipadas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "059b90480c83acc1",
+      "_key": "!actors.items!e86e99c405d7c1f5.059b90480c83acc1",
+      "name": "Erupção Glacial",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/erupcao-glacial.webp",
+      "system": {
+        "description": {
+          "value": "<p>Estacas de gelo irrompem do chão em uma área de 6m de lado em alcance médio. Criaturas na área sofrem 12d6 pontos de dano de corte e 12d6 pontos de dano de frio e ficam caídas (Ref evita o dano de corte e a condição). As estacas duram pela cena, o que torna a área afetada terreno difícil, e concedem cobertura leve para criaturas dentro da área ou atrás dela, mas são destruídas caso sofram dano de fogo mágico.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 18,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "3",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "c2e8d633d4e734ce",
+      "_key": "!actors.items!e86e99c405d7c1f5.c2e8d633d4e734ce",
+      "name": "Escuridão",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escuridao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até o fim da cena, um objeto em alcance curto emana escuridão total em um raio de 6m, bloqueando a visão na área e através dela.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3f2ae3c701bc68d6",
+      "_key": "!actors.items!e86e99c405d7c1f5.3f2ae3c701bc68d6",
+      "name": "Invisibilidade",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/invisibilidade.webp",
+      "system": {
+        "description": {
+          "value": "<p>O vulto fica invisível até o fim da cena (recebe camuflagem total, +10 em Furtividade contra ouvir e criaturas que não possam vê-lo ficam desprevenidas contra seus ataques).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 13,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "ilu",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "cc439899b751ca29",
+      "_key": "!actors.items!e86e99c405d7c1f5.cc439899b751ca29",
+      "name": "Legião",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/legiao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até 10 criaturas em alcance médio obedecem cegamente aos comandos do vulto, exceto ordens claramente suicidas. Uma criatura tem direito a um teste de Vontade no fim de cada um de seus turnos para se livrar do efeito. Criaturas que passem no teste ficam abaladas por 1 rodada enquanto recuperam a consciência.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 15,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "sust",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "5",
+        "preparada": false,
+        "escola": "enc",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3d55e026035b66f6",
+      "_key": "!actors.items!e86e99c405d7c1f5.3d55e026035b66f6",
+      "name": "Miasma Mefítico",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/miasma-mefitico.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma nuvem de 6m de raio se forma em alcance médio. Criaturas na área sofrem 11d6 pontos de dano de trevas e ficam enjoadas por 1 rodada (Fort reduz à metade e evita a condição).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 18,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "26c97bd1cc908229",
+      "_key": "!actors.items!e86e99c405d7c1f5.26c97bd1cc908229",
+      "name": "Toque da Morte",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/toque-da-morte.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura em alcance curto sofre 10d8+10 pontos de dano de trevas. Se estiver com menos da metade de seus PV, em vez disso ela deve fazer um teste de Fortitude; se passar, sofre o dano normal; caso contrário, seus PV são reduzidos a –10.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 17,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "5",
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9f7d075c6e989506",
+      "_key": "!actors.items!e86e99c405d7c1f5.9f7d075c6e989506",
+      "name": "Velocidade",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/velocidade.webp",
+      "system": {
+        "description": {
+          "value": "<p>O vulto pode executar uma ação padrão adicional por turno, que não pode ser usada para lançar magias.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "sust",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "tra",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "468b86c80288f0b6",
+      "_key": "!actors.items!e86e99c405d7c1f5.468b86c80288f0b6",
+      "name": "Viagem Planar",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/viagem-planar.webp",
+      "system": {
+        "description": {
+          "value": "<p>O vulto viaja para outro Plano.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 171",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 10,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "4",
+        "preparada": false,
+        "escola": "con",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "2267c4b24df89b5f",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

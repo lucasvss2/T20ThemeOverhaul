@@ -1,0 +1,79 @@
+{
+  "_id": "39635760504e476d",
+  "_key": "!items!39635760504e476d",
+  "name": "Passo Vampírico",
+  "type": "poder",
+  "img": "icons/svg/upgrade.svg",
+  "system": {
+    "description": {
+      "value": "<p>Recebe +3m no deslocamento e escalada igual ao deslocamento padrão.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 162",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Vampiro",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Passo Vampírico",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.attributes.movement.walk.bonus",
+          "mode": 2,
+          "value": "3",
+          "priority": null
+        }
+      ],
+      "_id": "12b1849dc6ab8992",
+      "_key": "!items.effects!39635760504e476d.12b1849dc6ab8992"
+    }
+  ],
+  "folder": "9f6c660e4d86179d",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

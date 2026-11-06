@@ -1,0 +1,85 @@
+{
+  "_id": "e84ecbc8c8f219c4",
+  "_key": "!items!e84ecbc8c8f219c4",
+  "name": "Aspecto de Hyninn",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+  "system": {
+    "description": {
+      "value": "<p>Aspectos · Veterano</p><p><strong>Benefício.</strong> Recebe +2 em Jogatina e Ladinagem. O aspecto define um poder de Armadilha de caçador que você pode usar. A armadilha é mágica, dispensa materiais propícios no local e observar sua preparação não a revela automaticamente. Se já tiver um poder de Armadilha, a CD de todas as suas armadilhas aumenta em +2.</p><p><strong>Vínculo.</strong> O aspecto deixa de ajudar você se violar as Obrigações &amp; Restrições da divindade.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 27–28",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "geral",
+    "subtipo": "Parceiros",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Aspecto de Hyninn",
+      "img": "systems/tormenta20/icons/itens/gerais/parceiros.webp",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.pericias.joga.bonus",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.ladi.bonus",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "_id": "1245f209cf3df223",
+      "_key": "!items.effects!e84ecbc8c8f219c4.1245f209cf3df223"
+    }
+  ],
+  "folder": "131110313da9fcfb",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

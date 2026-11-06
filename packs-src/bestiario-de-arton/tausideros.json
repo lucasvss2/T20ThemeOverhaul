@@ -1,0 +1,383 @@
+{
+  "_id": "7a51d6c65bfab7f1",
+  "_key": "!actors!7a51d6c65bfab7f1",
+  "name": "Tausideros",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Tausideros",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 8
+      },
+      "des": {
+        "base": 0
+      },
+      "con": {
+        "base": 5
+      },
+      "int": {
+        "base": -4
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 0
+      }
+    },
+    "attributes": {
+      "nd": "9",
+      "pv": {
+        "value": 350,
+        "max": 350,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 42,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 155 · ND 9 · Monstro Grande.</p><p>Iniciativa +8, Percepção +11, faro, visão no escuro</p><p>Defesa 42, Fort +20, Ref +13, Von +26, cura acelerada 10, imunidade a atordoamento e petrificação, redução de dano 10/adamante, resistência a magia +5</p><p>Pontos de Vida 350</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Chifres +27 (4d8+26 mais 2d12 ácido).</p><p><strong>Investida Avassaladora (Completa)</strong> O tausideros faz uma investida com seus chifres. Se acertar o ataque, ele causa +4d8 pontos de dano e arremessa a vítima 1d6 x 1,5m em uma direção à escolha dele (Fort CD 28 evita). A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p><p><strong>Sopro Petrificante (Padrão)</strong> O tausideros exala gás petrificante em um cone de 9 metros. Cada criatura na área sofre 6d6 pontos de dano de ácido e fica lenta (CD 28 reduz à metade e evita a condição). Se já estiver lenta, fica petrificada permanentemente. Efeitos que removem paralisia revertem a petrificação. Metamorfose. Recarga (movimento).</p><p>For 8, Des 0, Con 5, Int −4, Sab 1, Car 0 Perícias Atletismo +16. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 155",
+      "movimento": "12m (8q)",
+      "ataquescac": "Chifres +27 (4d8+26 mais 2d12 ácido).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 10, imunidade a atordoamento e petrificação, redução de dano 10/adamante, resistência a magia +5",
+      "equipamento": "",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [
+          "atordoado"
+        ],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 17,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "54c4e65031ef37d7",
+      "_key": "!actors.items!7a51d6c65bfab7f1.54c4e65031ef37d7",
+      "name": "Chifres",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Chifres +27 (4d8+26 mais 2d12 ácido).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 155",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+26",
+                "perfuracao",
+                ""
+              ],
+              [
+                "2d12",
+                "acido",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "bfb863c4aa3f076b",
+      "_key": "!actors.items!7a51d6c65bfab7f1.bfb863c4aa3f076b",
+      "name": "Investida Avassaladora",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tausideros faz uma investida com seus chifres. Se acertar o ataque, ele causa +4d8 pontos de dano e arremessa a vítima 1d6 x 1,5m em uma direção à escolha dele (Fort CD 28 evita). A vítima fica caída e, se atingir algum obstáculo, sofre 1d6 pontos de dano de impacto para cada 1,5m que foi arremessada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 155",
+        "ativacao": {
+          "execucao": "full",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "959760387f2f2452",
+      "_key": "!actors.items!7a51d6c65bfab7f1.959760387f2f2452",
+      "name": "Sopro Petrificante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O tausideros exala gás petrificante em um cone de 9 metros. Cada criatura na área sofre 6d6 pontos de dano de ácido e fica lenta (CD 28 reduz à metade e evita a condição). Se já estiver lenta, fica petrificada permanentemente. Efeitos que removem paralisia revertem a petrificação. Metamorfose. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 155",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0490ec555be7754e",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

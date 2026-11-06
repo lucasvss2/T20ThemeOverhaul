@@ -1,0 +1,425 @@
+{
+  "_id": "42dc9285e7e982e7",
+  "_key": "!actors!42dc9285e7e982e7",
+  "name": "Elfo Arqueiro Foragido",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Elfo Arqueiro Foragido",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": -1
+      },
+      "des": {
+        "base": 6
+      },
+      "con": {
+        "base": 1
+      },
+      "int": {
+        "base": 2
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": -1
+      }
+    },
+    "attributes": {
+      "nd": "9",
+      "pv": {
+        "value": 64,
+        "max": 64,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 28,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra"
+        ],
+        "custom": "visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 64 · ND 9 · Humanoide (elfo) Médio.</p><p>Iniciativa +16, Percepção +10, visão na penumbra</p><p>Defesa 34, Fort +10, Ref +20, Von +15, evasão</p><p>Pontos de Vida 64</p><p>Deslocamento 12m (8q)</p><p>À Distância Arco longo x2 +30 (2d8+15, 19/x3, mais veneno).</p><p><strong>Disparo Preciso</strong> O elfo arqueiro foragido faz ataques à distância contra oponentes envolvidos em combate corpo a corpo sem sofrer a penalidade de –5 no teste de ataque.</p><p><strong>Flecha Amiga (Reação)</strong> Uma vez por rodada, quando um aliado em alcance médio ataca um inimigo, o elfo faz um ataque de arco longo contra esse mesmo inimigo.</p><p><strong>Veneno</strong> Peçonha concentrada (perde 1d12 pontos de vida durante 3 rodadas, Fort CD 28 reduz a duração para 1 rodada).</p><p>For –1, Des 6, Con 1, Int 2, Sab 0, Car –1 Equipamento Arco longo preciso, couraça, flechas x20, peçonha concentrada x1d4. Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "elfo",
+      "tipo": "hum",
+      "role": "lackey",
+      "origem": "Bestiário de Arton, p. 64",
+      "movimento": "12m (8q)",
+      "ataquescac": "",
+      "ataquesad": "Arco longo x2 +30 (2d8+15, 19/x3, mais veneno).",
+      "resistencias": "evasão",
+      "equipamento": "Arco longo preciso, couraça, flechas x20, peçonha concentrada x1d4.",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 16,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "c9d9e991b99e9d7f",
+      "_key": "!actors.items!42dc9285e7e982e7.c9d9e991b99e9d7f",
+      "name": "Arco longo",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Arco longo ×2 +30 (2d8+15, 19/x3, mais veneno).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 64",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+15",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 3,
+        "proficiencia": "marcial",
+        "proposito": "disparo",
+        "empunhadura": "duas",
+        "alcance": "medium",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "507ca4fdc723aae9",
+      "_key": "!actors.items!42dc9285e7e982e7.507ca4fdc723aae9",
+      "name": "Disparo Preciso",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O elfo arqueiro foragido faz ataques à distância contra oponentes envolvidos em combate corpo a corpo sem sofrer a penalidade de –5 no teste de ataque.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 64",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9af0de9abfd4b2c9",
+      "_key": "!actors.items!42dc9285e7e982e7.9af0de9abfd4b2c9",
+      "name": "Flecha Amiga",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando um aliado em alcance médio ataca um inimigo, o elfo faz um ataque de arco longo contra esse mesmo inimigo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 64",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ade56860bd76d6fc",
+      "_key": "!actors.items!42dc9285e7e982e7.ade56860bd76d6fc",
+      "name": "Veneno",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Peçonha concentrada (perde 1d12 pontos de vida durante 3 rodadas, Fort CD 28 reduz a duração para 1 rodada).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 64",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0490ec555be7754e",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

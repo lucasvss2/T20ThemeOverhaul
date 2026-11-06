@@ -1,0 +1,449 @@
+{
+  "_id": "1da8f17ae830cc27",
+  "_key": "!actors!1da8f17ae830cc27",
+  "name": "Matriarca Euríade",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Matriarca Euríade",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 4
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 3
+      },
+      "car": {
+        "base": 3
+      }
+    },
+    "attributes": {
+      "nd": "14",
+      "pv": {
+        "value": 680,
+        "max": 680,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 42,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 6.0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 76 · ND 14 · Monstro Grande.</p><p>Iniciativa +15, Percepção +12, visão no escuro</p><p>Defesa 46, Fort +28, Ref +14, Von +22, cura acelerada 20/ácido ou fogo, resistência a veneno +5, imunidade a metamorfose</p><p>Pontos de Vida 680</p><p>Deslocamento 9m (6q), escalada 6m (4q)</p><p>Corpo a Corpo Duas garras +39 (3d12+30).</p><p><strong>Dilacerar</strong> Se a matriarca euríade acerta os dois ataques de garra em uma mesma criatura na mesma rodada, causa mais 6d12+30 pontos de dano.</p><p><strong>Jato de Veneno (Movimento)</strong> Uma vez por rodada, as serpentes na cabeça da euríade cospem veneno em um cone de 9m. Criaturas na área perdem 6d12 pontos de vida (Fort CD 38 reduz a perda à metade). Veneno.</p><p><strong>Olhar Litopugnaz</strong> No início de seu turno, cada personagem em alcance curto da euríade deve fazer um teste de Reflexos (CD 38). Se passar, desvia o olhar. Se falhar, fica lento. Se já estiver lento, se transforma em um defensor rochoso (veja p. 54) sob controle da euríade permanentemente. Um personagem pode fechar os olhos como uma reação para ficar imune a esta habilidade, mas sofre os efeitos de estar cego por 1 rodada. Efeitos mágicos que removem paralisia revertem a transformação. Metamorfose.</p><p>For 4, Des 4, Con 2, Int 0, Sab 3, Car 3 Perícias Furtividade +13, Intimidação +14, Sobrevivência +16. Tesouro Padrão. Além disso, o covil de uma matriarca euríade tem 25% de chance de conter 1 ovo de euríade no valor de T$ 5.000.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "mon",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 76",
+      "movimento": "9m (6q), escalada 6m (4q)",
+      "ataquescac": "Duas garras +39 (3d12+30).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 20/ácido ou fogo, resistência a veneno +5, imunidade a metamorfose",
+      "equipamento": "",
+      "tesouro": "Padrão. Além disso, o covil de uma matriarca euríade tem 25% de chance de conter 1 ovo de euríade no valor de T$ 5.000."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 15,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 24,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "06099e263841dc59",
+      "_key": "!actors.items!1da8f17ae830cc27.06099e263841dc59",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +39 (3d12+30).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 76",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "3d12+30",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1c25d5a77b7aca50",
+      "_key": "!actors.items!1da8f17ae830cc27.1c25d5a77b7aca50",
+      "name": "Dilacerar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se a matriarca euríade acerta os dois ataques de garra em uma mesma criatura na mesma rodada, causa mais 6d12+30 pontos de dano.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 76",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e21032e8e779dba1",
+      "_key": "!actors.items!1da8f17ae830cc27.e21032e8e779dba1",
+      "name": "Jato de Veneno",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, as serpentes na cabeça da euríade cospem veneno em um cone de 9m. Criaturas na área perdem 6d12 pontos de vida (Fort CD 38 reduz a perda à metade). Veneno.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 76",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1fb9f3bf989e7ec9",
+      "_key": "!actors.items!1da8f17ae830cc27.1fb9f3bf989e7ec9",
+      "name": "Olhar Litopugnaz",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>No início de seu turno, cada personagem em alcance curto da euríade deve fazer um teste de Reflexos (CD 38). Se passar, desvia o olhar. Se falhar, fica lento. Se já estiver lento, se transforma em um defensor rochoso (veja p. 54) sob controle da euríade permanentemente. Um personagem pode fechar os olhos como uma reação para ficar imune a esta habilidade, mas sofre os efeitos de estar cego por 1 rodada. Efeitos mágicos que removem paralisia revertem a transformação. Metamorfose.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 76",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0c881987d2b5bbfd",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

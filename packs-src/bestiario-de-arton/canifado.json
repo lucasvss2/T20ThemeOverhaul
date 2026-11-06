@@ -1,0 +1,381 @@
+{
+  "_id": "9f58023d026df6fd",
+  "_key": "!actors!9f58023d026df6fd",
+  "name": "Canifado",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Canifado",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 0.5,
+    "height": 0.5,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": -4
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 2
+      }
+    },
+    "attributes": {
+      "nd": "1",
+      "pv": {
+        "value": 22,
+        "max": 22,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 13,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 9.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 39 · ND 1 · Espírito Minúsculo.</p><p>Iniciativa +4, Percepção +6, faro, visão no escuro</p><p>Defesa 15, Fort +4, Ref +7, Von +5, evasão</p><p>Pontos de Vida 22</p><p>Deslocamento 12m (8q), voo 9m (6q)</p><p>Corpo a Corpo Mordida +7 (1d6+2 mais 2d6 luz).</p><p><strong>Aparência Inofensiva</strong> A primeira criatura inteligente (Int –3 ou maior) que atacar o canifado em uma cena deve fazer um teste de Vontade (CD 17). Se falhar, perderá sua ação. Seres com sangue feérico, como dahllan, duendes, eiradaan, hynne, sátiros e sílfides, sofrem −5 neste teste.</p><p><strong>Latido Cromático (Padrão)</strong> O canifado lança a magia Leque Cromático, com todos os seus aprimoramentos (CD 17). Recarga (movimento).</p><p>For 0, Des 2, Con 2, Int –4, Sab 2, Car 2 Perícias Sobrevivência +6. Tesouro Nenhum. Familiar Um canifado familiar permite que você lance Leque Cromático. Caso aprenda novamente essa magia, seu custo diminui em –1 PM. Parceiro O canifado é um parceiro especial (vigilante) que fornece os benefícios a seguir. Iniciante: +2 em Percepção e Sobrevivência. Veterano: você pode lançar a magia Leque Cromático (atributo-chave Carisma). Mestre: uma vez por rodada, você pode aumentar para curto o alcance de uma de suas habilidades com alcance de toque que tenha como alvo um aliado.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "esp",
+      "role": "special",
+      "origem": "Bestiário de Arton, p. 39",
+      "movimento": "12m (8q), voo 9m (6q)",
+      "ataquescac": "Mordida +7 (1d6+2 mais 2d6 luz).",
+      "ataquesad": "",
+      "resistencias": "evasão",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "min",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {}
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "51a07da595e5bf00",
+      "_key": "!actors.items!9f58023d026df6fd.51a07da595e5bf00",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +7 (1d6+2 mais 2d6 luz).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 39",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+2",
+                "perfuracao",
+                ""
+              ],
+              [
+                "2d6",
+                "luz",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a4ab96ba9dad27bf",
+      "_key": "!actors.items!9f58023d026df6fd.a4ab96ba9dad27bf",
+      "name": "Aparência Inofensiva",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>A primeira criatura inteligente (Int –3 ou maior) que atacar o canifado em uma cena deve fazer um teste de Vontade (CD 17). Se falhar, perderá sua ação. Seres com sangue feérico, como dahllan, duendes, eiradaan, hynne, sátiros e sílfides, sofrem −5 neste teste.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 39",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "10f043a4a1731f02",
+      "_key": "!actors.items!9f58023d026df6fd.10f043a4a1731f02",
+      "name": "Latido Cromático",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O canifado lança a magia Leque Cromático, com todos os seus aprimoramentos (CD 17). Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 39",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "3c7a3dfb86808cee",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,1203 @@
+{
+  "_id": "178e07e032cd5f68",
+  "_key": "!actors!178e07e032cd5f68",
+  "name": "Hipogrifo de Nimb",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Hipogrifo de Nimb",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 2,
+    "height": 2,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 7
+      },
+      "des": {
+        "base": 5
+      },
+      "con": {
+        "base": 5
+      },
+      "int": {
+        "base": 2
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 5
+      }
+    },
+    "attributes": {
+      "nd": "15",
+      "pv": {
+        "value": 750,
+        "max": 750,
+        "min": -500
+      },
+      "pm": {
+        "value": 5,
+        "max": 5
+      },
+      "defesa": {
+        "base": 45,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 15.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 36.0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 40
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 95 · ND 15 · Espírito (celestial) Grande.</p><p>Iniciativa +20, Percepção +17, visão no escuro</p><p>Defesa 50, Fort +15, Ref +28, Von +22, imunidade a efeitos de adivinhação, encantamento, metamorfose, mentais e movimento, redução de dano 10, resistência a magia +5</p><p>Pontos de Vida 750</p><p>Deslocamento 15m (10q), voo 36m (24q)</p><p>Pontos de Mana 5.</p><p>Corpo a Corpo Mordida +39 (4d10+25) e duas garras +39 (2d8+25) ou cascos +39 (4d8+25).</p><p><strong>Alterar Forma (Padrão)</strong> O Hipogrifo de Nimb assume a forma de um humano com vestes leves e coloridas, como a magia Metamorfose (mas apenas para essa forma e tamanho). Nessa forma ele perde seu deslocamento de voo, mas mantém suas outras habilidades. Ele pode voltar a sua forma normal com uma ação padrão.</p><p><strong>Armas da Desordem</strong> As armas naturais do Hipogrifo são armas mágicas que causam +2d6 pontos de dano contra criaturas que não estejam sob algum efeito de metamorfose.</p><p><strong>Coice (Movimento)</strong> Se estiver flanqueado, o Hipogrifo faz um ataque com seus cascos.</p><p><strong>Imortal</strong> Caso o Hipogrifo seja morto ou destruído de qualquer forma, Nimb irá ressuscitá-lo em 1d4 dias. Apenas Nimb pode destruí-lo permanentemente.</p><p><strong>Magia Acelerada (Livre, +4 PM)</strong> Uma vez por rodada, quando lança uma magia com execução de ação de movimento, padrão ou completa, o Hipogrifo muda a execução dela para livre.</p><p><strong>Maldição da Insanidade</strong> Caso uma criatura monte o Hipogrifo, sofrerá os efeitos da magia Sussurros Insanos (Von CD 40 evita; devotos de Khalmyr sofrem –5 nesse teste). O Hipogrifo pode anular esse efeito para criaturas que ele aceite como cavaleiros.</p><p><strong>Sorte dos loucos (Livre, 1 PM)</strong> Quando faz um teste, o Hipogrifo pode rolá-lo novamente (ele pode fazer isso mais de uma vez por teste). Se ainda assim falhar, ele perde 1d6 PM para cada vez que utilizou este poder neste teste.</p><p><strong>Magias</strong> Como um clérigo de Nimb de 15º nível (CD 40).</p><p><strong>Despedaçar</strong> (Padrão, 15 PM) Um alvo em alcance curto sofre 8d8+16 pontos de dano de impacto se for uma criatura, ou o dobro disso sem aplicar RD se for um construto ou um objeto mundano Pequeno, e fica atordoado (Fort reduz à metade e evita a condição). Uma criatura só pode ficar atordoada por esta magia uma vez por cena.</p><p><strong>Dificultar Detecção</strong> (Padrão, 1 PM) Uma criatura (incluindo seu equipamento) ou objeto em alcance de toque é ocultado contra qualquer meio mágico de detecção, inclusive detectar magia, por 1 dia. Um conjurador que lance uma magia de adivinhação para detectar a presença ou localização do alvo deve fazer um teste de Vontade. Se falhar, a magia não funciona, mas os PM são gastos mesmo assim.</p><p><strong>Sussurros Insanos</strong> (Padrão, 12 PM) Até 4 criaturas em alcance curto ficam confusas (Von evita).</p><p><strong>Viagem Planar</strong> (Padrão, 12 PM) O Hipogrifo e até 5 criaturas voluntárias que ele esteja tocando viajam para outro Plano.</p><p>For 7, Des 5, Con 5, Int 2, Sab 2, Car 5 Perícias Acrobacia +20, Atletismo +22, Enganação +20, Religião +17. Tesouro Nenhum. Parceiro O Hipogrifo de Nimb é um parceiro montaria (Grande) que aceita ser montado apenas por quem ele quiser. Ele fornece os seguintes benefícios: seu deslocamento muda para 18m (voo 36m) e você recebe uma ação de movimento extra por turno (apenas para se deslocar). Além disso, você pode lançar Sussurros Insanos. Caso aprenda essa magia, seu custo diminui em –1 PM.</p>",
+        "public": ""
+      },
+      "raca": "celestial",
+      "tipo": "esp",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 95",
+      "movimento": "15m (10q), voo 36m (24q)",
+      "ataquescac": "Mordida +39 (4d10+25) e duas garras +39 (2d8+25) ou cascos +39 (4d8+25).",
+      "ataquesad": "",
+      "resistencias": "imunidade a efeitos de adivinhação, encantamento, metamorfose, mentais e movimento, redução de dano 10, resistência a magia +5",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "gra",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 19,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "b7b6c64a1ebc069d",
+      "_key": "!actors.items!178e07e032cd5f68.b7b6c64a1ebc069d",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +39 (4d10+25).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d10+25",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a3713d90f0e6cb1c",
+      "_key": "!actors.items!178e07e032cd5f68.a3713d90f0e6cb1c",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +39 (2d8+25).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+25",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9d0b474b51db2737",
+      "_key": "!actors.items!178e07e032cd5f68.9d0b474b51db2737",
+      "name": "Cascos",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Cascos +39 (4d8+25).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+25",
+                "impacto",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "a3c22d24aa1ef75c",
+      "_key": "!actors.items!178e07e032cd5f68.a3c22d24aa1ef75c",
+      "name": "Alterar Forma",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O Hipogrifo de Nimb assume a forma de um humano com vestes leves e coloridas, como a magia Metamorfose (mas apenas para essa forma e tamanho). Nessa forma ele perde seu deslocamento de voo, mas mantém suas outras habilidades. Ele pode voltar a sua forma normal com uma ação padrão.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "336bb9c16d1fbead",
+      "_key": "!actors.items!178e07e032cd5f68.336bb9c16d1fbead",
+      "name": "Armas da Desordem",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>As armas naturais do Hipogrifo são armas mágicas que causam +2d6 pontos de dano contra criaturas que não estejam sob algum efeito de metamorfose.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ee72bd7f417db57c",
+      "_key": "!actors.items!178e07e032cd5f68.ee72bd7f417db57c",
+      "name": "Coice",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se estiver flanqueado, o Hipogrifo faz um ataque com seus cascos.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "e6b4078c9126592a",
+      "_key": "!actors.items!178e07e032cd5f68.e6b4078c9126592a",
+      "name": "Imortal",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Caso o Hipogrifo seja morto ou destruído de qualquer forma, Nimb irá ressuscitá-lo em 1d4 dias. Apenas Nimb pode destruí-lo permanentemente.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "10a2a28ea3b57524",
+      "_key": "!actors.items!178e07e032cd5f68.10a2a28ea3b57524",
+      "name": "Magia Acelerada",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando lança uma magia com execução de ação de movimento, padrão ou completa, o Hipogrifo muda a execução dela para livre.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "5d6b38e7e14e53e1",
+      "_key": "!actors.items!178e07e032cd5f68.5d6b38e7e14e53e1",
+      "name": "Maldição da Insanidade",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Caso uma criatura monte o Hipogrifo, sofrerá os efeitos da magia Sussurros Insanos (Von CD 40 evita; devotos de Khalmyr sofrem –5 nesse teste). O Hipogrifo pode anular esse efeito para criaturas que ele aceite como cavaleiros.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0e514b694898ee3d",
+      "_key": "!actors.items!178e07e032cd5f68.0e514b694898ee3d",
+      "name": "Sorte dos loucos",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando faz um teste, o Hipogrifo pode rolá-lo novamente (ele pode fazer isso mais de uma vez por teste). Se ainda assim falhar, ele perde 1d6 PM para cada vez que utilizou este poder neste teste.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "dc01a7038110edbb",
+      "_key": "!actors.items!178e07e032cd5f68.dc01a7038110edbb",
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Como um clérigo de Nimb de 15º nível (CD 40).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1c7d5d657bb0fc5e",
+      "_key": "!actors.items!178e07e032cd5f68.1c7d5d657bb0fc5e",
+      "name": "Despedaçar",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/despedacar.webp",
+      "system": {
+        "description": {
+          "value": "<p>Um alvo em alcance curto sofre 8d8+16 pontos de dano de impacto se for uma criatura, ou o dobro disso sem aplicar RD se for um construto ou um objeto mundano Pequeno, e fica atordoado (Fort reduz à metade e evita a condição). Uma criatura só pode ficar atordoada por esta magia uma vez por cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 15,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "ed298e3a8aee0f6e",
+      "_key": "!actors.items!178e07e032cd5f68.ed298e3a8aee0f6e",
+      "name": "Dificultar Detecção",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/dificultar-deteccao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura (incluindo seu equipamento) ou objeto em alcance de toque é ocultado contra qualquer meio mágico de detecção, inclusive detectar magia, por 1 dia. Um conjurador que lance uma magia de adivinhação para detectar a presença ou localização do alvo deve fazer um teste de Vontade. Se falhar, a magia não funciona, mas os PM são gastos mesmo assim.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "3",
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "807807bbdf94401a",
+      "_key": "!actors.items!178e07e032cd5f68.807807bbdf94401a",
+      "name": "Sussurros Insanos",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/sussurros-insanos.webp",
+      "system": {
+        "description": {
+          "value": "<p>Até 4 criaturas em alcance curto ficam confusas (Von evita).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 12,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "2",
+        "preparada": false,
+        "escola": "enc",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "b997af43bc60a2e0",
+      "_key": "!actors.items!178e07e032cd5f68.b997af43bc60a2e0",
+      "name": "Viagem Planar",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/viagem-planar.webp",
+      "system": {
+        "description": {
+          "value": "<p>O Hipogrifo e até 5 criaturas voluntárias que ele esteja tocando viajam para outro Plano.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 95",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 12,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "4",
+        "preparada": false,
+        "escola": "con",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "ca54236dba9fa809",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "_id": "77c5868507f60966",
+  "_key": "!items!77c5868507f60966",
+  "name": "Cascos",
+  "type": "poder",
+  "img": "icons/svg/upgrade.svg",
+  "system": {
+    "description": {
+      "value": "<p>Arma natural de impacto, 1d8, crítico ×2. Uma vez por rodada, ao agredir com outra arma, você pode gastar 1 PM para fazer um ataque corpo a corpo extra com os cascos.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 113",
+    "ativacao": {
+      "execucao": "free",
+      "custo": 1,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [
+      {
+        "name": "Ataque",
+        "key": "ataque0",
+        "type": "ataque",
+        "parts": [
+          [
+            "1d20",
+            "",
+            ""
+          ],
+          [
+            "luta",
+            "",
+            ""
+          ],
+          [
+            "",
+            "",
+            ""
+          ]
+        ],
+        "versatil": ""
+      },
+      {
+        "name": "Dano",
+        "key": "dano1",
+        "type": "dano",
+        "parts": [
+          [
+            "1d8+@for",
+            "impacto",
+            ""
+          ]
+        ],
+        "versatil": ""
+      }
+    ],
+    "tipo": "racial",
+    "subtipo": "Manotauro",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [],
+  "folder": "70aea724b69d581d",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

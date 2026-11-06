@@ -1,0 +1,641 @@
+{
+  "_id": "5b5cdf6f27a0bf2a",
+  "_key": "!actors!5b5cdf6f27a0bf2a",
+  "name": "Zumbi fantasmagórico",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Zumbi fantasmagórico",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 3
+      },
+      "des": {
+        "base": 4
+      },
+      "con": {
+        "base": 0
+      },
+      "int": {
+        "base": -2
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": 2
+      }
+    },
+    "attributes": {
+      "nd": "4",
+      "pv": {
+        "value": 120,
+        "max": 120,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 18,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 172 · ND 4 · Morto-vivo Médio.</p><p>Iniciativa +8, Percepção +4, visão no escuro</p><p>Defesa 22, Fort +4, Ref +16, Von +10, redução de dano 5</p><p>Pontos de Vida 120</p><p>Deslocamento 9m (6q)</p><p>Corpo a Corpo Mordida +16 (1d6+5) e duas garras +16 (1d6+5).</p><p><strong>Detectar Vida</strong> O zumbi fantasmagórico pode detectar a presença de seres vivos em um raio de 30m como se tivesse percepção às cegas.</p><p><strong>Lembrança Melancólica</strong> A energia fantasmal que cria o zumbi se manifesta como uma aura psíquica de 9m de raio ao redor dele. Qualquer criatura que entre nessa área deve fazer um teste de Vontade (CD 18). Se passar, fica imune a esta habilidade por um dia. Se falhar, fica atordoada por 1d6 rodadas (apenas uma vez por cena), assombrada por visões de um futuro que podia ter tido. Outro personagem pode gastar uma ação completa para fazer um teste de Diplomacia (CD 20) para “acordá-la” desse transe.</p><p><strong>Imortalidade Fantasmagórica</strong> O zumbi é verdadeiramente imortal. Se for reduzido a 0 PV, sua forma fantasmagórica desaparece e seu corpo físico se decompõe. Ambos serão reformados respectivamente no próximo amanhecer e no próximo anoitecer.</p><p><strong>Semimaterial</strong> O zumbi tem 25% de chance de ignorar o dano causado por uma fonte mundana e seus ataques contam como armas mágicas.</p><p><strong>Fraqueza Zumbi</strong> O zumbi sofre o dobro de dano de acertos críticos ou de ataques feitos contra seu cérebro (Defesa 32).</p><p>For 3, Des 4, Con 0, Int –2, Sab 0, Car 2 Perícias Furtividade +10, Intimidação +8. Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 172",
+      "movimento": "9m (6q)",
+      "ataquescac": "Mordida +16 (1d6+5) e duas garras +16 (1d6+5).",
+      "ataquesad": "",
+      "resistencias": "redução de dano 5",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "739b5ce9dcbb16fc",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.739b5ce9dcbb16fc",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +16 (1d6+5).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+5",
+                "perfuracao",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "452981cb393175f5",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.452981cb393175f5",
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garras ×2 +16 (1d6+5).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+5",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 2,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "7c0ef65ba3d426b9",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.7c0ef65ba3d426b9",
+      "name": "Detectar Vida",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O zumbi fantasmagórico pode detectar a presença de seres vivos em um raio de 30m como se tivesse percepção às cegas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "17b280ebc092d44c",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.17b280ebc092d44c",
+      "name": "Lembrança Melancólica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>A energia fantasmal que cria o zumbi se manifesta como uma aura psíquica de 9m de raio ao redor dele. Qualquer criatura que entre nessa área deve fazer um teste de Vontade (CD 18). Se passar, fica imune a esta habilidade por um dia. Se falhar, fica atordoada por 1d6 rodadas (apenas uma vez por cena), assombrada por visões de um futuro que podia ter tido. Outro personagem pode gastar uma ação completa para fazer um teste de Diplomacia (CD 20) para “acordá-la” desse transe.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fdf28105f6aab0c8",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.fdf28105f6aab0c8",
+      "name": "Imortalidade Fantasmagórica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O zumbi é verdadeiramente imortal. Se for reduzido a 0 PV, sua forma fantasmagórica desaparece e seu corpo físico se decompõe. Ambos serão reformados respectivamente no próximo amanhecer e no próximo anoitecer.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f0958e6d55eb6d91",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.f0958e6d55eb6d91",
+      "name": "Semimaterial",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O zumbi tem 25% de chance de ignorar o dano causado por uma fonte mundana e seus ataques contam como armas mágicas.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "f92a327e3c587634",
+      "_key": "!actors.items!5b5cdf6f27a0bf2a.f92a327e3c587634",
+      "name": "Fraqueza Zumbi",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O zumbi sofre o dobro de dano de acertos críticos ou de ataques feitos contra seu cérebro (Defesa 32).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 172",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "d82d0bc2bbf159d3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

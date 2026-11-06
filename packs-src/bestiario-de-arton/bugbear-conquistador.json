@@ -1,0 +1,647 @@
+{
+  "_id": "65ff20be65886e27",
+  "_key": "!actors!65ff20be65886e27",
+  "name": "Bugbear Conquistador",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Bugbear Conquistador",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 6
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 1
+      }
+    },
+    "attributes": {
+      "nd": "14",
+      "pv": {
+        "value": 500,
+        "max": 500,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 41,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 37 · ND 14 · Humanoide (bugbear) Médio.</p><p>Iniciativa +14, Percepção +12, faro, visão no escuro</p><p>Defesa 44, Fort +28, Ref +22, Von +14, imunidade a medo e surpreendido, redução de dano 5, resistência a magia +5</p><p>Pontos de Vida 500</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Machado de guerra x3 +37 (4d12+21, x5).</p><p><strong>Brado Apavorante (Movimento)</strong> O bugbear conquistador emite um brado que amedronta seus oponentes. Inimigos a até 9m ficam apavorados por 1 rodada e depois abalados (Von CD 38 reduz para abalado por 1d4 rodadas). Recarga (movimento).</p><p><strong>Destruidor</strong> Quando causa dano com uma arma corpo a corpo de duas mãos, o bugbear pode rolar novamente qualquer resultado 1 ou 2 das rolagens de dano da arma.</p><p><strong>Espírito Inquebrável</strong> Enquanto está em fúria, o bugbear não fica inconsciente por ser reduzido a 0 PV ou menos. Quando é reduzido a –250 PV, ele morre, ou fica inconsciente no caso de dano não letal.</p><p><strong>Êxtase no Medo</strong> O bugbear sofre metade do dano de criaturas sob algum efeito de medo.</p><p><strong>Fúria (Livre)</strong> O bugbear recebe +4 em testes de Intimidação e de ataque e em rolagens de dano. Esse efeito se encerra se ele terminar 1 rodada e não tiver atacado nem sido alvo de um efeito hostil. Recarga (movimento).</p><p><strong>Saborear Pavor</strong> Se o bugbear estiver em alcance curto de outra criatura abalada ou apavorada, ele recebe um bônus em testes de ataque igual à penalidade causada pela condição.</p><p>For 6, Des 3, Con 4, Int 0, Sab 1, Car 1 Perícias Atletismo +31, Furtividade +16, Guerra +11, Intimidação +22, Sobrevivência +14. Equipamento Machado de guerra maciço aumentado. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "bugbear",
+      "tipo": "hum",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 37",
+      "movimento": "12m (8q)",
+      "ataquescac": "Machado de guerra x3 +37 (4d12+21, x5).",
+      "ataquesad": "",
+      "resistencias": "imunidade a medo e surpreendido, redução de dano 5, resistência a magia +5",
+      "equipamento": "Machado de guerra maciço aumentado.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "medo",
+          "surpreendido"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "dano": {
+          "base": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 13,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 14,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 20,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "5290fa1a96920f1e",
+      "_key": "!actors.items!65ff20be65886e27.5290fa1a96920f1e",
+      "name": "Machado de guerra",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Machado de guerra ×3 +37 (4d12+21, x5).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+21",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 5,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "duas",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 3,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0c247c7f6b7f9845",
+      "_key": "!actors.items!65ff20be65886e27.0c247c7f6b7f9845",
+      "name": "Brado Apavorante",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O bugbear conquistador emite um brado que amedronta seus oponentes. Inimigos a até 9m ficam apavorados por 1 rodada e depois abalados (Von CD 38 reduz para abalado por 1d4 rodadas). Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "230f79341ffedee8",
+      "_key": "!actors.items!65ff20be65886e27.230f79341ffedee8",
+      "name": "Destruidor",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando causa dano com uma arma corpo a corpo de duas mãos, o bugbear pode rolar novamente qualquer resultado 1 ou 2 das rolagens de dano da arma.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9919981e9e96ffe1",
+      "_key": "!actors.items!65ff20be65886e27.9919981e9e96ffe1",
+      "name": "Espírito Inquebrável",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Enquanto está em fúria, o bugbear não fica inconsciente por ser reduzido a 0 PV ou menos. Quando é reduzido a –250 PV, ele morre, ou fica inconsciente no caso de dano não letal.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1794dc49e412dfce",
+      "_key": "!actors.items!65ff20be65886e27.1794dc49e412dfce",
+      "name": "Êxtase no Medo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O bugbear sofre metade do dano de criaturas sob algum efeito de medo.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "01ee0764a67323d6",
+      "_key": "!actors.items!65ff20be65886e27.01ee0764a67323d6",
+      "name": "Fúria",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O bugbear recebe +4 em testes de Intimidação e de ataque e em rolagens de dano. Esse efeito se encerra se ele terminar 1 rodada e não tiver atacado nem sido alvo de um efeito hostil. Recarga (movimento).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "0bd7fa183b3dfdc7",
+      "_key": "!actors.items!65ff20be65886e27.0bd7fa183b3dfdc7",
+      "name": "Saborear Pavor",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o bugbear estiver em alcance curto de outra criatura abalada ou apavorada, ele recebe um bônus em testes de ataque igual à penalidade causada pela condição.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 37",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0c881987d2b5bbfd",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

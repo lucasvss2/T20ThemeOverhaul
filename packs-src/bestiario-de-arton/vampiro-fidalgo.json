@@ -1,0 +1,675 @@
+{
+  "_id": "74d98a9b12b2d9c2",
+  "_key": "!actors!74d98a9b12b2d9c2",
+  "name": "Vampiro Fidalgo",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Vampiro Fidalgo",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 2
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 5
+      }
+    },
+    "attributes": {
+      "nd": "8",
+      "pv": {
+        "value": 280,
+        "max": 280,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 32,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 12.0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 161 · ND 8 · Morto-vivo Médio.</p><p>Iniciativa +12, Percepção +11, visão no escuro</p><p>Defesa 34, Fort +8, Ref +21, Von +15, cura acelerada 5, redução de dano 5/luz</p><p>Pontos de Vida 280</p><p>Deslocamento 12m (8q), escalar 12m (8q)</p><p>Corpo a Corpo Espada longa +26 (1d8+18, 18, mais 2d10 trevas) e garra +26 (1d8+18 mais 2d10 trevas).</p><p><strong>Dominação Vampírica (Padrão)</strong> O vampiro fidalgo sussurra palavras de controle para um humanoide em alcance curto. A vítima fica confusa, enfeitiçada ou fascinada até o final da cena ou perde suas memórias da última hora, à escolha do vampiro (Von CD 26 evita). Uma criatura só pode ser alvo desta habilidade uma vez por cena.</p><p><strong>Drenar Sangue (Padrão)</strong> O vampiro drena sangue de uma criatura viva que esteja agarrando; ele causa 4d6 pontos de dano de perfuração e recupera a mesma quantidade de PV. Uma criatura morta desta forma se erguerá como um vampiro na próxima noite e deverá vencer um teste de Vontade oposto contra o vampiro ou ficará sob o controle dele até que ele a liberte ou seja destruído.</p><p><strong>Orgulho (Reação)</strong> Uma vez por cena, quando faz um teste de perícia, o vampiro soma o dobro de seu Carisma (+10) nesse teste.</p><p><strong>Presença Majestosa (Reação)</strong> Quando uma criatura ataca o vampiro, deve passar em um teste de Vontade (CD 26) ou não conseguirá machucá-lo e perderá a ação. Uma criatura que passe no teste de Vontade não é mais afetada por esta habilidade até o fim da cena.</p><p><strong>Sensibilidade ao Sol</strong> Quando exposto a luz solar direta, o vampiro fica ofuscado e perde 4d6 PV por rodada.</p><p>For 4, Des 2, Con 3, Int 2, Sab 1, Car 5 Perícias Diplomacia +16, Enganação +15, Furtividade +12, Intimidação +13, Nobreza +10. Equipamento Espada longa precisa, meia armadura reforçada, tabardo. Tesouro Padrão.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 161",
+      "movimento": "12m (8q), escalar 12m (8q)",
+      "ataquescac": "Espada longa +26 (1d8+18, 18, mais 2d10 trevas) e garra +26 (1d8+18 mais 2d10 trevas).",
+      "ataquesad": "",
+      "resistencias": "cura acelerada 5, redução de dano 5/luz",
+      "equipamento": "Espada longa precisa, meia armadura reforçada, tabardo.",
+      "tesouro": "Padrão."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "luz": {
+          "excecao": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 11,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 14,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "49a6630856bf8267",
+      "_key": "!actors.items!74d98a9b12b2d9c2.49a6630856bf8267",
+      "name": "Espada longa",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Espada longa +26 (1d8+18, 18, mais 2d10 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8+18",
+                "corte",
+                ""
+              ],
+              [
+                "2d10",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "47b3167e6377293e",
+      "_key": "!actors.items!74d98a9b12b2d9c2.47b3167e6377293e",
+      "name": "Garra",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Garra +26 (1d8+18 mais 2d10 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8+18",
+                "corte",
+                ""
+              ],
+              [
+                "2d10",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "2f15e0b0348165ee",
+      "_key": "!actors.items!74d98a9b12b2d9c2.2f15e0b0348165ee",
+      "name": "Dominação Vampírica",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O vampiro fidalgo sussurra palavras de controle para um humanoide em alcance curto. A vítima fica confusa, enfeitiçada ou fascinada até o final da cena ou perde suas memórias da última hora, à escolha do vampiro (Von CD 26 evita). Uma criatura só pode ser alvo desta habilidade uma vez por cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "d8d64f1e9bc43483",
+      "_key": "!actors.items!74d98a9b12b2d9c2.d8d64f1e9bc43483",
+      "name": "Drenar Sangue",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O vampiro drena sangue de uma criatura viva que esteja agarrando; ele causa 4d6 pontos de dano de perfuração e recupera a mesma quantidade de PV. Uma criatura morta desta forma se erguerá como um vampiro na próxima noite e deverá vencer um teste de Vontade oposto contra o vampiro ou ficará sob o controle dele até que ele a liberte ou seja destruído.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "088521fd4ad12dd6",
+      "_key": "!actors.items!74d98a9b12b2d9c2.088521fd4ad12dd6",
+      "name": "Orgulho",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, quando faz um teste de perícia, o vampiro soma o dobro de seu Carisma (+10) nesse teste.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "03dd8010623c275d",
+      "_key": "!actors.items!74d98a9b12b2d9c2.03dd8010623c275d",
+      "name": "Presença Majestosa",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando uma criatura ataca o vampiro, deve passar em um teste de Vontade (CD 26) ou não conseguirá machucá-lo e perderá a ação. Uma criatura que passe no teste de Vontade não é mais afetada por esta habilidade até o fim da cena.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "314b4efa7ce49731",
+      "_key": "!actors.items!74d98a9b12b2d9c2.314b4efa7ce49731",
+      "name": "Sensibilidade ao Sol",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando exposto a luz solar direta, o vampiro fica ofuscado e perde 4d6 PV por rodada.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 161",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "0cc8ccbe804868fe",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

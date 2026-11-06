@@ -1,0 +1,619 @@
+{
+  "_id": "6dea051369d42ea8",
+  "_key": "!actors!6dea051369d42ea8",
+  "name": "Pileus Assassino (Estágio Dois)",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Pileus Assassino (Estágio Dois)",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 7
+      },
+      "des": {
+        "base": 8
+      },
+      "con": {
+        "base": 4
+      },
+      "int": {
+        "base": 4
+      },
+      "sab": {
+        "base": 3
+      },
+      "car": {
+        "base": 4
+      }
+    },
+    "attributes": {
+      "nd": "20",
+      "pv": {
+        "value": 1200,
+        "max": 1200,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 52,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 18.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": "visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 132 · ND 20 · Morto-vivo Médio.</p><p>Iniciativa +26, Percepção +19, visão no escuro</p><p>Defesa 60, Fort +28, Ref +33, Von +21, evasão aprimorada, imunidade a efeitos de movimento, frio, metamorfose e surpreendido, redução de dano 10/impacto mágico, resistência a magia +5</p><p>Pontos de Vida 1.200</p><p>Deslocamento 18m (12q)</p><p>Corpo a Corpo Duas adagas sombrias x2 +56 (4d12+25, 16, mais 4d8 trevas).</p><p><strong>Ataque Furtivo</strong> +10d8.</p><p><strong>Evolução Sombria (Reação)</strong> Quando o pileus assassino é reduzido a 0 PV, ele explode em uma onda de energia negativa, causando 5d20 pontos de dano de trevas a todas as criaturas vivas em um raio de 30m (Fort CD 49 reduz à metade). Ele então surge em sua terceira forma (veja Pileus Mago) e age normalmente a partir de seu próximo turno.</p><p><strong>Porta Dimensional Sombria (Livre)</strong> O pileus se teletransporta para um espaço livre que ele possa ver em alcance médio. Se este espaço for adjacente a um inimigo, este inimigo fica desprevenido contra o pileus por 1 rodada. O pileus só pode usar esta habilidade uma vez por rodada, e apenas a partir de seu segundo turno após assumir este estágio.</p><p><strong>Punhais da Morte</strong> As adagas do pileus são feitas da própria energia sombria que o alimenta. Elas são consideradas adagas ameaçadoras dilacerantes sanguinárias, não podem ser desarmadas e se desfazem quando ele muda de estágio.</p><p><strong>Visão Arcana</strong> O pileus está permanentemente sob efeito da magia Visão Mística com o aprimoramento que permite enxergar criaturas e objetos invisíveis.</p><p>For 7, Des 8, Con 4, Int 4, Sab 3, Car 4 Perícias Acrobacia +26, Atletismo +25, Conhecimento +22, Diplomacia +22, Intimidação +22, Intuição +21, Misticismo +22, Religião +21. Tesouro Nenhum.</p>",
+        "public": ""
+      },
+      "raca": "Morto-vivo",
+      "tipo": "mor",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 132",
+      "movimento": "18m (12q)",
+      "ataquescac": "Duas adagas sombrias x2 +56 (4d12+25, 16, mais 4d8 trevas).",
+      "ataquesad": "",
+      "resistencias": "evasão aprimorada, imunidade a efeitos de movimento, frio, metamorfose e surpreendido, redução de dano 10/impacto mágico, resistência a magia +5",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [
+          "surpreendido"
+        ],
+        "custom": ""
+      },
+      "resistencias": {
+        "frio": {
+          "imunidade": true
+        },
+        "impacto": {
+          "excecao": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 9,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "conh": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 33,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "9cf6a9730a27b5ce",
+      "_key": "!actors.items!6dea051369d42ea8.9cf6a9730a27b5ce",
+      "name": "Adagas sombrias",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Adagas sombrias ×4 +56 (4d12+25, 16, mais 4d8 trevas).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d12+25",
+                "perfuracao",
+                ""
+              ],
+              [
+                "4d8",
+                "trevas",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 16,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 4,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9473f2b9b4b24e15",
+      "_key": "!actors.items!6dea051369d42ea8.9473f2b9b4b24e15",
+      "name": "Ataque Furtivo",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>+10d8.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "1ce3a9fce57f0fcb",
+      "_key": "!actors.items!6dea051369d42ea8.1ce3a9fce57f0fcb",
+      "name": "Evolução Sombria",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Quando o pileus assassino é reduzido a 0 PV, ele explode em uma onda de energia negativa, causando 5d20 pontos de dano de trevas a todas as criaturas vivas em um raio de 30m (Fort CD 49 reduz à metade). Ele então surge em sua terceira forma (veja Pileus Mago) e age normalmente a partir de seu próximo turno.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "aeb270e2708aedca",
+      "_key": "!actors.items!6dea051369d42ea8.aeb270e2708aedca",
+      "name": "Porta Dimensional Sombria",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O pileus se teletransporta para um espaço livre que ele possa ver em alcance médio. Se este espaço for adjacente a um inimigo, este inimigo fica desprevenido contra o pileus por 1 rodada. O pileus só pode usar esta habilidade uma vez por rodada, e apenas a partir de seu segundo turno após assumir este estágio.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "cdd544e47c823401",
+      "_key": "!actors.items!6dea051369d42ea8.cdd544e47c823401",
+      "name": "Punhais da Morte",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>As adagas do pileus são feitas da própria energia sombria que o alimenta. Elas são consideradas adagas ameaçadoras dilacerantes sanguinárias, não podem ser desarmadas e se desfazem quando ele muda de estágio.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "3a225e860d35ebea",
+      "_key": "!actors.items!6dea051369d42ea8.3a225e860d35ebea",
+      "name": "Visão Arcana",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>O pileus está permanentemente sob efeito da magia Visão Mística com o aprimoramento que permite enxergar criaturas e objetos invisíveis.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 132",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "7af29682a183f1c3",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

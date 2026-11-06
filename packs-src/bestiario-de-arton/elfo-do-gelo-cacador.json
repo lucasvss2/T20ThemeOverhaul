@@ -1,0 +1,435 @@
+{
+  "_id": "575a221c2fd00521",
+  "_key": "!actors!575a221c2fd00521",
+  "name": "Elfo-do-Gelo Caçador",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Elfo-do-Gelo Caçador",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 1
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 1
+      },
+      "int": {
+        "base": -1
+      },
+      "sab": {
+        "base": 2
+      },
+      "car": {
+        "base": 0
+      }
+    },
+    "attributes": {
+      "nd": "2",
+      "pv": {
+        "value": 13,
+        "max": 13,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 15,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "penumbra"
+        ],
+        "custom": "visão na penumbra"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 62 · ND 2 · Humanoide (elfo-do-gelo) Médio.</p><p>Iniciativa +6, Percepção +7, visão na penumbra</p><p>Defesa 18, Fort +7, Ref +11, Von +4, redução de frio 10</p><p>Pontos de Vida 13</p><p>Deslocamento 12m (8q), sem redução por terreno difícil natural</p><p>Corpo a Corpo Machado de batalha +14 (2d6+5, x3, mais 1d6+2 frio).</p><p>À Distância Arco longo +14 (2d8+3, x3, mais 1d6+2 frio).</p><p><strong>Emboscar</strong> Na primeira rodada de combate, o elfo-do-gelo caçador pode realizar uma ação padrão adicional.</p><p>For 1, Des 3, Con 1, Int –1, Sab 2, Car 0 Perícias Atletismo +4, Furtividade +6 (+11 em ártico), Sobrevivência +7. Equipamento Arco longo, armadura de couro, flechas x20, machado de batalha. Tesouro Metade.</p>",
+        "public": ""
+      },
+      "raca": "elfo-do-gelo",
+      "tipo": "hum",
+      "role": "lackey",
+      "origem": "Bestiário de Arton, p. 62",
+      "movimento": "12m (8q), sem redução por terreno difícil natural",
+      "ataquescac": "Machado de batalha +14 (2d6+5, x3, mais 1d6+2 frio).",
+      "ataquesad": "Arco longo +14 (2d8+3, x3, mais 1d6+2 frio).",
+      "resistencias": "redução de frio 10",
+      "equipamento": "Arco longo, armadura de couro, flechas x20, machado de batalha.",
+      "tesouro": "Metade."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "frio": {
+          "base": 10
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 3,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 5,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 1,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": true
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 10,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "874dad2845fdac81",
+      "_key": "!actors.items!575a221c2fd00521.874dad2845fdac81",
+      "name": "Machado de batalha",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Machado de batalha +14 (2d6+5, x3, mais 1d6+2 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 62",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+5",
+                "corte",
+                ""
+              ],
+              [
+                "1d6+2",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 3,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "2e6d70c72a30a835",
+      "_key": "!actors.items!575a221c2fd00521.2e6d70c72a30a835",
+      "name": "Arco longo",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>À Distância: Arco longo +14 (2d8+3, x3, mais 1d6+2 frio).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 62",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+3",
+                "perfuracao",
+                ""
+              ],
+              [
+                "1d6+2",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 3,
+        "proficiencia": "marcial",
+        "proposito": "disparo",
+        "empunhadura": "duas",
+        "alcance": "medium",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "fe0cea8535b6c1d5",
+      "_key": "!actors.items!575a221c2fd00521.fe0cea8535b6c1d5",
+      "name": "Emboscar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Na primeira rodada de combate, o elfo-do-gelo caçador pode realizar uma ação padrão adicional.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 62",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "cd8aaa8cd642505b",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

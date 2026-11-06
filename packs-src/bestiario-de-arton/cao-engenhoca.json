@@ -1,0 +1,388 @@
+{
+  "_id": "c1a2398e0e7313ce",
+  "_key": "!actors!c1a2398e0e7313ce",
+  "name": "Cão Engenhoca",
+  "type": "npc",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "name": "Cão Engenhoca",
+    "actorLink": false,
+    "disposition": -1,
+    "texture": {
+      "src": "icons/svg/mystery-man.svg"
+    },
+    "width": 1,
+    "height": 1,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "base": 1
+      },
+      "des": {
+        "base": 3
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 0
+      },
+      "car": {
+        "base": -5
+      }
+    },
+    "attributes": {
+      "nd": "1",
+      "pv": {
+        "value": 35,
+        "max": 35,
+        "min": -500
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "defesa": {
+        "base": 13,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 12.0
+        },
+        "swim": {
+          "base": 0
+        },
+        "fly": {
+          "base": 0
+        },
+        "climb": {
+          "base": 0
+        },
+        "burrow": {
+          "base": 0
+        }
+      },
+      "sentidos": {
+        "value": [
+          "escuro",
+          "faro"
+        ],
+        "custom": "faro, visão no escuro"
+      },
+      "cd": 10
+    },
+    "detalhes": {
+      "biography": {
+        "value": "<p>Bestiário de Arton, p. 68 · ND 1 · Construto Pequeno.</p><p>Atributos nulos na ficha: Int.</p><p>Iniciativa +5, Percepção +4, faro, visão no escuro</p><p>Defesa 16, Fort +11, Ref +5, Von +0, redução de eletricidade e fogo 5</p><p>Pontos de Vida 35</p><p>Deslocamento 12m (8q)</p><p>Corpo a Corpo Mordida +9 (1d8+4 mais 2d6 eletricidade).</p><p><strong>Chamado da Matilha (Padrão)</strong> Uma vez por cena, o cão engenhoca cria uma cópia sua feita de eletricidade que dura até o fim da cena ou até ele morrer. Uma vez por rodada, quando o cão sofre um ataque corpo a corpo, ele pode usar uma reação para que a cópia cause automaticamente 2d6 pontos de dano de eletricidade no oponente que fez o ataque.</p><p><strong>Derrubar (Livre)</strong> Se o cão acerta um ataque de mordida, pode fazer a manobra derrubar (teste +7).</p><p>For 1, Des 3, Con 2, Int —, Sab 0, Car –5 Perícias Sobrevivência +4. Tesouro Nenhum. Parceiro O cão engenhoca é um parceiro engenhômato que conta como uma engenhoca de Arma Espiritual e que fornece +1 em testes de ataque corpo a corpo.</p>",
+        "public": ""
+      },
+      "raca": "",
+      "tipo": "con",
+      "role": "solo",
+      "origem": "Bestiário de Arton, p. 68",
+      "movimento": "12m (8q)",
+      "ataquescac": "Mordida +9 (1d8+4 mais 2d6 eletricidade).",
+      "ataquesad": "",
+      "resistencias": "redução de eletricidade e fogo 5",
+      "equipamento": "",
+      "tesouro": "Nenhum."
+    },
+    "tracos": {
+      "tamanho": "peq",
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "resistencias": {
+        "eletricidade": {
+          "base": 5
+        },
+        "fogo": {
+          "base": 5
+        }
+      }
+    },
+    "pericias": {
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "outros": 7,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 0,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 2,
+        "value": 0,
+        "pda": false,
+        "size": false
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 6,
+        "value": 0,
+        "pda": false,
+        "size": false
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "98f7c98465577a95",
+      "_key": "!actors.items!c1a2398e0e7313ce.98f7c98465577a95",
+      "name": "Mordida",
+      "type": "arma",
+      "img": "icons/svg/sword.svg",
+      "system": {
+        "description": {
+          "value": "<p>Corpo a Corpo: Mordida +9 (1d8+4 mais 2d6 eletricidade).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 68",
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8+4",
+                "perfuracao",
+                ""
+              ],
+              [
+                "2d6",
+                "eletricidade",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "alcance": "",
+        "qtd": 1,
+        "espacos": 0,
+        "carregado": true,
+        "ataques": 1,
+        "equipado": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        }
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "9deb52ee3d94ac60",
+      "_key": "!actors.items!c1a2398e0e7313ce.9deb52ee3d94ac60",
+      "name": "Chamado da Matilha",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, o cão engenhoca cria uma cópia sua feita de eletricidade que dura até o fim da cena ou até ele morrer. Uma vez por rodada, quando o cão sofre um ataque corpo a corpo, ele pode usar uma reação para que a cópia cause automaticamente 2d6 pontos de dano de eletricidade no oponente que fez o ataque.</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 68",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    },
+    {
+      "_id": "8c4c24998f1cb0f9",
+      "_key": "!actors.items!c1a2398e0e7313ce.8c4c24998f1cb0f9",
+      "name": "Derrubar",
+      "type": "poder",
+      "img": "icons/svg/upgrade.svg",
+      "system": {
+        "description": {
+          "value": "<p>Se o cão acerta um ataque de mordida, pode fazer a manobra derrubar (teste +7).</p>",
+          "unidentified": ""
+        },
+        "source": "Bestiário de Arton, p. 68",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "Habilidade de Criatura",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "systemId": "tormenta20"
+      }
+    }
+  ],
+  "effects": [],
+  "folder": "3c7a3dfb86808cee",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}

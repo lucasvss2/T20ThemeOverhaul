@@ -403,8 +403,9 @@ interface DeadActorLike {
 /** Ator é um NPC morto? (pv <= 0 ou status de morte). Exportado para testes. */
 export function isDeadNpcActor(actor: DeadActorLike | null | undefined): boolean {
     if (!actor || actor.type !== "npc") return false;
-    const pv = (actor.system?.["attributes"] as { pv?: { value?: number } } | undefined)?.pv?.value;
-    if (typeof pv === "number" && pv <= 0) return true;
+    const pv = (actor.system?.["attributes"] as { pv?: { value?: number; max?: number } } | undefined)?.pv;
+    // Algumas ameaças, como navios fantasmas, têm PV «—» na ficha.
+    if (pv?.max !== 0 && typeof pv?.value === "number" && pv.value <= 0) return true;
     const st = actor.statuses;
     return !!st && (st.has("dead") || st.has("morto") || st.has("unconscious"));
 }

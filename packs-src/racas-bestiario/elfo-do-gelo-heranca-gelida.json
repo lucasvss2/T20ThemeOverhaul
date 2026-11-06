@@ -1,0 +1,79 @@
+{
+  "_id": "8ca6b83f5a659a60",
+  "_key": "!items!8ca6b83f5a659a60",
+  "name": "Herança Gélida",
+  "type": "poder",
+  "img": "icons/svg/upgrade.svg",
+  "system": {
+    "description": {
+      "value": "<p>Você tem redução de frio 10 e, quando causa dano, acrescenta 1d4 de frio.</p>",
+      "unidentified": ""
+    },
+    "source": "Bestiário de Arton, p. 62",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Elfo-do-Gelo",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Herança Gélida",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "transfer": true,
+      "disabled": false,
+      "duration": {},
+      "statuses": [],
+      "changes": [
+        {
+          "key": "system.tracos.resistencias.frio.value",
+          "mode": 2,
+          "value": "10",
+          "priority": null
+        }
+      ],
+      "_id": "a6a23ec144d1dcba",
+      "_key": "!items.effects!8ca6b83f5a659a60.a6a23ec144d1dcba"
+    }
+  ],
+  "folder": "384ed0fffe05d8af",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "tormenta20"
+  }
+}
