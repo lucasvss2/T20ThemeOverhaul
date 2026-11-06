@@ -7,6 +7,8 @@ interface PackDocument {
     name: string;
     type: string;
     folder: string | null;
+    img?: string;
+    prototypeToken?: { texture: { src: string } };
     system?: {
         atributos?: Record<string, number>;
         atributosDinamicos?: { value: string[] };
@@ -70,5 +72,23 @@ describe("Bestiário de Arton compendiums", () => {
         expect(ship?.system?.attributes).toMatchObject({ nd: "S", pv: { max: 0 } });
         expect(ship?.system?.detalhes?.role).toBe("special");
         expect(creatures.find(doc => doc.name === "Elfo-do-Gelo Caçador")?.system?.detalhes?.role).toBe("lackey");
+    });
+
+    it("ships a portrait and default token texture for every creature", () => {
+        const creatures = readPack("bestiario-de-arton").filter(doc => doc.type === "npc");
+        const paths = new Set<string>();
+
+        for (const creature of creatures) {
+            const path = creature.img ?? "";
+            expect(path, creature.name).toMatch(
+                /^modules\/t20-theme-overhaul\/assets\/bestiario-de-arton\/(originais|criadas)\/[a-z0-9-]+\.webp$/,
+            );
+            expect(creature.prototypeToken?.texture.src, creature.name).toBe(path);
+            const asset = new URL(`../../public/${path.replace("modules/t20-theme-overhaul/", "")}`, import.meta.url);
+            expect(readFileSync(asset).toString("ascii", 8, 12), creature.name).toBe("WEBP");
+            paths.add(path);
+        }
+
+        expect(paths.size).toBe(creatures.length);
     });
 });
