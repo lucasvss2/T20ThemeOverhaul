@@ -93,6 +93,27 @@ describe("Bestiário de Arton compendiums", () => {
         expect(paths.size).toBe(creatures.length);
     });
 
+    it("reuses the matching Bestiário portraits for races and partners", () => {
+        const creatures = new Map(readPack("bestiario-de-arton").filter(doc => doc.type === "npc")
+            .map(doc => [doc.name.toLowerCase(), doc.img]));
+        const racePortraits = new Map([
+            ["Elfo-do-Gelo", "Elfo-do-Gelo Caçador"],
+            ["Lâmia", "Lâmia"],
+            ["Manotauro", "Manotauro Selvagem"],
+            ["Salamandra", "Salamandra Guerreira"],
+            ["Vampiro", "Vampiro Fidalgo"],
+        ]);
+        const races = readPack("racas-bestiario").filter(doc => doc.type === "race");
+        const partners = readPack("parceiros-bestiario").filter(doc => doc.type === "poder");
+
+        for (const item of [...races, ...partners]) {
+            const creatureName = item.type === "race" ? racePortraits.get(item.name) : item.name;
+            const portrait = creatures.get(creatureName?.toLowerCase() ?? "");
+            expect(portrait, item.name).toBeDefined();
+            expect(item.img, item.name).toBe(portrait);
+        }
+    });
+
     it("sets both token dimensions from the creature size", () => {
         const sizes = new Map([
             ["min", 0.25],
