@@ -116,7 +116,7 @@
     },
     "detalhes": {
       "tipo": "hum",
-      "role": "lacaio",
+      "role": "lackey",
       "ataquescac": "Alabarda Certeira +17 (1d10+11, 19, ×3) — dois ataques",
       "biography": {
         "value": "<p>Soldados de elite da guarda nobiliárquica, treinados para lutar em formação cerrada com armas de haste. Aparecem em grupos.</p><hr /><p><em>Assecla ND 4 (Lacaio).</em></p>",
@@ -667,7 +667,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -710,7 +714,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Passiva.</strong> Para cada outro Guarda Nobre <strong>adjacente</strong>, +2 em ataque e dano (máx +6).</p>",
+          "value": "<p><strong>Passiva.</strong> Adjacente a pelo menos um outro Guarda Nobre aliado, recebe +2 nos ataques e no dano. O bônus de formação é aplicado uma única vez, independentemente do número de guardas.</p>",
           "unidentified": ""
         },
         "efeito": "",
@@ -889,7 +893,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "guard": true
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

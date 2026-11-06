@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 15,
+        "outros": 7,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 8,
+        "outros": 4,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 21,
+        "outros": 12,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -679,7 +679,7 @@
         },
         "fogo": {
           "value": 0,
-          "base": 0,
+          "base": 5,
           "bonus": [],
           "excecao": 0,
           "imunidade": false,
@@ -697,7 +697,7 @@
         },
         "impacto": {
           "value": 0,
-          "base": 0,
+          "base": 5,
           "bonus": [],
           "excecao": 0,
           "imunidade": false,
@@ -866,12 +866,12 @@
                 ""
               ],
               [
-                "24",
+                "pont",
                 "",
                 ""
               ],
               [
-                "0",
+                "20",
                 "",
                 ""
               ]
@@ -938,7 +938,7 @@
           "encanto3": ""
         },
         "enableAutoUpgrades": true,
-        "ataques": 1,
+        "ataques": 2,
         "propriedades": {
           "ada": false,
           "agi": false,
@@ -964,7 +964,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1109,7 +1113,18 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "ofuscado"
+            ],
+            "rounds": 1,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,

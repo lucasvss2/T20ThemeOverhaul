@@ -1044,7 +1044,14 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1108,7 +1115,19 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "paralisado"
+            ],
+            "rounds": 10,
+            "limit": "scene",
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,

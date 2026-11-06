@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 12,
+        "outros": 5,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 26,
+        "outros": 15,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 20,
+        "outros": 12,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -843,7 +843,7 @@
       "type": "arma",
       "img": "icons/svg/sword.svg",
       "system": {
-        "proposito": "melee",
+        "proposito": "corpo-a-corpo",
         "proficiencia": "simples",
         "empunhadura": "uma",
         "criticoM": 19,
@@ -866,12 +866,12 @@
                 ""
               ],
               [
-                "36",
+                "luta",
                 "",
                 ""
               ],
               [
-                "0",
+                "30",
                 "",
                 ""
               ]
@@ -886,7 +886,7 @@
             "parts": [
               [
                 "1d10+67",
-                "perfuração",
+                "perfuracao",
                 ""
               ],
               [
@@ -938,7 +938,7 @@
           "encanto3": ""
         },
         "enableAutoUpgrades": true,
-        "ataques": 1,
+        "ataques": 2,
         "propriedades": {
           "ada": false,
           "agi": false,
@@ -964,7 +964,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1012,14 +1016,14 @@
             "parts": [
               [
                 "4d6",
-                "perfuração",
+                "perfuracao",
                 ""
               ]
             ]
           }
         ],
         "description": {
-          "value": "<p>Quando ataca um alvo Desprevenido ou flanqueado, Kara Thur causa <strong>+4d6</strong> de dano extra.</p>",
+          "value": "<p>Uma vez por rodada, quando acerta um alvo Desprevenido ou flanqueado, Kara Thur causa <strong>+4d6</strong> de dano extra.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1214,7 +1218,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Ação livre, 6 PM.</strong> O próximo ataque de Kara Thur que acertar é automaticamente um crítico.</p>",
+          "value": "<p><strong>Ação livre, 6 PM, uma vez por cena.</strong> O próximo ataque de Kara Thur que acertar é automaticamente um crítico.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1239,7 +1243,14 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "scene",
+            "prepare": "fatal"
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1325,7 +1336,14 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "sneakDice": 4,
+        "poison": true
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

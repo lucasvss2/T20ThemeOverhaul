@@ -139,9 +139,9 @@
       "cd": 20,
       "conjuracao": "",
       "pv": {
-        "value": 200,
-        "max": 200,
-        "min": -100,
+        "value": 180,
+        "max": 180,
+        "min": -90,
         "temp": 0
       },
       "pm": {
@@ -331,7 +331,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 17,
+        "outros": 12,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -539,7 +539,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 11,
+        "outros": 8,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -578,7 +578,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 5,
+        "outros": 0,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -647,7 +647,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         },
@@ -665,7 +665,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         },
@@ -683,7 +683,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         },
@@ -692,7 +692,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         },
@@ -710,7 +710,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         },
@@ -737,7 +737,7 @@
           "base": 0,
           "bonus": [],
           "excecao": 0,
-          "imunidade": false,
+          "imunidade": true,
           "vulnerabilidade": false,
           "danoPorDado": false
         }
@@ -844,7 +844,7 @@
       "type": "arma",
       "img": "icons/svg/sword.svg",
       "system": {
-        "proposito": "melee",
+        "proposito": "corpo-a-corpo",
         "proficiencia": "simples",
         "empunhadura": "uma",
         "criticoM": 20,
@@ -867,12 +867,12 @@
                 ""
               ],
               [
-                "17",
+                "luta",
                 "",
                 ""
               ],
               [
-                "0",
+                "12",
                 "",
                 ""
               ]
@@ -887,7 +887,7 @@
             "parts": [
               [
                 "1d8+16",
-                "perfuração",
+                "perfuracao",
                 ""
               ],
               [
@@ -939,7 +939,7 @@
           "encanto3": ""
         },
         "enableAutoUpgrades": true,
-        "ataques": 1,
+        "ataques": 2,
         "propriedades": {
           "ada": false,
           "agi": false,
@@ -965,7 +965,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1045,7 +1049,14 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1326,7 +1337,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "immuneCritical": true
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

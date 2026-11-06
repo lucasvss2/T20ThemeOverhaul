@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 21,
+        "outros": 13,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 8,
+        "outros": 3,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 15,
+        "outros": 11,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -607,7 +607,7 @@
       "role": "solo",
       "tipo": "hum",
       "raca": "Humano",
-      "ataquescac": "Espada Vesper +26 (2d10+57, 19-20/×2, corte)",
+      "ataquescac": "Dois golpes de Espada Vesper +26 (4d8+16, 19-20/×2, corte)",
       "ataquesad": "",
       "tesouro": "Padrão",
       "biography": {
@@ -652,7 +652,7 @@
         },
         "corte": {
           "value": 0,
-          "base": 0,
+          "base": 5,
           "bonus": [],
           "excecao": 0,
           "imunidade": false,
@@ -697,7 +697,7 @@
         },
         "impacto": {
           "value": 0,
-          "base": 0,
+          "base": 5,
           "bonus": [],
           "excecao": 0,
           "imunidade": false,
@@ -724,7 +724,7 @@
         },
         "perfuracao": {
           "value": 0,
-          "base": 0,
+          "base": 5,
           "bonus": [],
           "excecao": 0,
           "imunidade": false,
@@ -843,7 +843,7 @@
       "type": "arma",
       "img": "icons/svg/sword.svg",
       "system": {
-        "proposito": "melee",
+        "proposito": "corpo-a-corpo",
         "proficiencia": "simples",
         "empunhadura": "uma",
         "criticoM": 19,
@@ -866,12 +866,12 @@
                 ""
               ],
               [
-                "26",
+                "luta",
                 "",
                 ""
               ],
               [
-                "0",
+                "17",
                 "",
                 ""
               ]
@@ -885,7 +885,7 @@
             "type": "dano",
             "parts": [
               [
-                "2d10+57",
+                "4d8+16",
                 "corte",
                 ""
               ],
@@ -938,7 +938,7 @@
           "encanto3": ""
         },
         "enableAutoUpgrades": true,
-        "ataques": 1,
+        "ataques": 2,
         "propriedades": {
           "ada": false,
           "agi": false,
@@ -964,7 +964,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1004,7 +1008,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Padrão, 4 PM.</strong> No próximo ataque, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado.</p>",
+          "value": "<p><strong>Padrão, 4 PM, uma vez por cena.</strong> No próximo golpe da espada, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1029,7 +1033,14 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "scene",
+            "prepare": "fury"
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1134,7 +1145,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando metade do dano normal da espada em cada um que acertar.</p>",
+          "value": "<p><strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando o dano de um golpe de espada (<strong>4d8+16</strong>) em cada um que acertar.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1245,7 +1256,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "bond": "aslan"
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

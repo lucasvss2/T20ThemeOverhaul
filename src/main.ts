@@ -49,6 +49,7 @@ import { setupAjustadaFix } from "./t20-fixes/ajustada-upgrade";
 import { setupPoderosoUpgrade } from "./t20-fixes/poderoso-upgrade";
 import { setupEnergeticoUpgrade } from "./t20-fixes/energetico-upgrade";
 import { setupNpcEquipadoFix } from "./t20-fixes/npc-equipado";
+import { setupNpcCombat } from "./npc-combat";
 import { setupEssenciaMana } from "./essencia-mana/index";
 import { setupDivindades } from "./divindades/index";
 import { setupAdamante } from "./adamante/index";
@@ -188,6 +189,7 @@ Hooks.once("setup", () => {
     setupAnimPresets();       // Memória de animações de skills (Automated Animations): oferece aplicar ao adicionar
     setupFooterHud();         // HUD de rodapé (substitui a hotbar nativa) — orbes PV/PM, perícias/poderes/magias/inventário/macros
     setupVaeIntegration();    // Suprime, no painel flutuante do "Visual Active Effects" (terceiros), os itens já mostrados na nossa Barra de Buffs & Condições
+    setupNpcCombat();
 
 });
 

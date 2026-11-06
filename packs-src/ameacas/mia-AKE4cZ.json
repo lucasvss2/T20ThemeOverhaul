@@ -331,7 +331,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 7,
+        "outros": 5,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -539,7 +539,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 13,
+        "outros": 8,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -578,7 +578,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 2,
+        "outros": -2,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -609,7 +609,7 @@
       "tipo": "hum",
       "raca": "Moreau (Felino)",
       "ataquescac": "",
-      "ataquesad": "Arco Curto +12 (1d6+15, 20/×3, perfuração, alcance longo)",
+      "ataquesad": "Arco Curto +12 (1d6+15, 20/×3, perfuração, alcance médio)",
       "tesouro": "Metade",
       "biography": {
         "value": "<p>Batedora moreau felina que patrulha os bosques, usando reflexos ágeis e garras silenciosas para rastrear e emboscar intrusos antes que percebam que estão sendo observados.</p>",
@@ -867,12 +867,12 @@
                 ""
               ],
               [
-                "12",
+                "pont",
                 "",
                 ""
               ],
               [
-                "0",
+                "7",
                 "",
                 ""
               ]
@@ -887,7 +887,7 @@
             "parts": [
               [
                 "1d6+15",
-                "perfuração",
+                "perfuracao",
                 ""
               ],
               [
@@ -927,7 +927,7 @@
           "target": "",
           "type": ""
         },
-        "alcance": "far",
+        "alcance": "medium",
         "upgrades": {
           "melhoria1": "",
           "melhoria2": "",
@@ -1013,14 +1013,14 @@
             "parts": [
               [
                 "1d6",
-                "perfuração",
+                "perfuracao",
                 ""
               ]
             ]
           }
         ],
         "description": {
-          "value": "<p>Quando ataca um alvo Desprevenido ou surpreso, Mia causa <strong>+1d6</strong> de dano extra.</p>",
+          "value": "<p>Uma vez por rodada, quando acerta um alvo Desprevenido ou surpreso, Mia causa <strong>+1d6</strong> de dano extra.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1131,7 +1131,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "sneakDice": 1
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

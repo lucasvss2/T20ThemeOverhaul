@@ -1181,7 +1181,15 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "magical": true,
+            "drain": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1245,7 +1253,23 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "cego"
+            ],
+            "onPass": [
+              "ofuscado"
+            ],
+            "rounds": 10,
+            "limit": "scene",
+            "magical": true,
+            "radius": 6
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,

@@ -19,6 +19,10 @@ export interface AutoDamageRequest {
     attackTotal: number;
     targetDef: number;
     damageTotal: number;
+    npcDamageMultiplier?: number;
+    npcExtraDamage?: number;
+    npcNoCritical?: boolean;
+    npcIgnoreRd?: boolean;
     /** Análise consumida somente quando este ataque realmente causar dano ao alvo. */
     assassinar?: AssassinarPayload;
     /** Tipo de dano primário do roll (perfuracao, fogo, …) para auto-RD. null = sem tipo. */
@@ -64,6 +68,10 @@ export interface AttackRerollRequest {
     damageType?: string | null;
     assassinar?: AssassinarPayload;
     damageMaximized: boolean;
+    npcDamageMultiplier?: number;
+    npcExtraDamage?: number;
+    npcNoCritical?: boolean;
+    npcIgnoreRd?: boolean;
     /** Non-critted base weapon formula — same semantics as in AutoDamageRequest. */
     baseDamageFormula?: string;
     /** Crit-only bonus dice — same semantics as in AutoDamageRequest. */

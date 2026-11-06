@@ -310,7 +310,7 @@
         "pda": false,
         "size": false,
         "value": 0,
-        "outros": 6,
+        "outros": 5,
         "condi": 0,
         "bonus": [],
         "custom": false,
@@ -505,7 +505,7 @@
         "pda": false,
         "size": false,
         "value": 0,
-        "outros": 1,
+        "outros": 0,
         "condi": 0,
         "bonus": [],
         "custom": false,
@@ -544,7 +544,7 @@
         "pda": false,
         "size": false,
         "value": 0,
-        "outros": 13,
+        "outros": 12,
         "condi": 0,
         "bonus": [],
         "custom": false,
@@ -938,7 +938,7 @@
                 ""
               ],
               [
-                "",
+                "-1",
                 "",
                 ""
               ]
@@ -1054,7 +1054,7 @@
         "tipo": "geral",
         "subtipo": "",
         "ativacao": {
-          "execucao": "passive",
+          "execucao": "standard",
           "custo": 2,
           "condicao": "",
           "qtd": "",
@@ -1115,7 +1115,18 @@
         "default": 0,
         "3CP0iQwU3QZ9qTUW": 3
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "atordoado"
+            ],
+            "rounds": 1,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1197,7 +1208,19 @@
         "default": 0,
         "3CP0iQwU3QZ9qTUW": 3
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "agarrado",
+              "imovel"
+            ],
+            "fullOnPass": true,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1459,6 +1482,147 @@
         "lastModifiedBy": "96tiuwbKbkQcsMIS"
       },
       "_key": "!actors.items!2qQBkcyTmDfGtoie.oEJVTPQkJ0jUDQFV"
+    },
+    {
+      "name": "Espinho de Seiva",
+      "type": "arma",
+      "system": {
+        "proposito": "disparo",
+        "proficiencia": "simples",
+        "empunhadura": "uma",
+        "criticoM": 20,
+        "criticoX": 2,
+        "tipoUso": "sim",
+        "equipado": 0,
+        "description": {
+          "value": "<p>Briar dispara um espinho de seiva endurecida em alcance curto.</p>",
+          "unidentified": ""
+        },
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "-1",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+4",
+                "perfuracao",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "carregado": true,
+        "espacos": 0,
+        "peso": 0,
+        "qtd": 1,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "alcance": "short",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "ataques": 1,
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "size": "normal"
+      },
+      "_id": "briarEspinho0001",
+      "img": "icons/svg/sword.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0,
+        "3CP0iQwU3QZ9qTUW": 3
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015",
+        "createdTime": 1781369516777,
+        "modifiedTime": 1781370157492,
+        "lastModifiedBy": "96tiuwbKbkQcsMIS"
+      },
+      "_key": "!actors.items!2qQBkcyTmDfGtoie.briarEspinho0001"
     }
   ],
   "effects": [],

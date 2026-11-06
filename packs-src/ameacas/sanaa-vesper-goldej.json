@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 7,
+        "outros": 4,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 14,
+        "outros": 10,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 20,
+        "outros": 16,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -608,7 +608,7 @@
       "tipo": "hum",
       "raca": "Humana",
       "ataquescac": "",
-      "ataquesad": "Rajada Arcana +22 (2d8+53, 20/×2, dano arcano)",
+      "ataquesad": "Duas Rajadas Arcanas +22 (6d8+4, 20/×2, essência)",
       "tesouro": "Padrão",
       "biography": {
         "value": "<p>Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.<br><br><strong>Magias — Como uma arcanista de 7º nível (CD 26):</strong> Explosão de Chamas, Bola de Fogo, Toque Vampírico.</p>",
@@ -866,12 +866,12 @@
                 ""
               ],
               [
-                "22",
+                "pont",
                 "",
                 ""
               ],
               [
-                "0",
+                "18",
                 "",
                 ""
               ]
@@ -885,8 +885,8 @@
             "type": "dano",
             "parts": [
               [
-                "2d8+53",
-                "arcano",
+                "6d8+4",
+                "essencia",
                 ""
               ],
               [
@@ -938,7 +938,7 @@
           "encanto3": ""
         },
         "enableAutoUpgrades": true,
-        "ataques": 1,
+        "ataques": 2,
         "propriedades": {
           "ada": false,
           "agi": false,
@@ -964,7 +964,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1077,7 +1081,7 @@
             "parts": [
               [
                 "6d6",
-                "arcano",
+                "essencia",
                 ""
               ]
             ]
@@ -1109,7 +1113,14 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "magical": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1149,7 +1160,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Reação, 4 PM.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade.</p>",
+          "value": "<p><strong>Reação, 4 PM, uma vez por rodada. Use a opção de escudo no diálogo de dano.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1174,7 +1185,13 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "shieldCost": 4
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -2116,7 +2133,14 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "bond": "sanaa",
+        "shield": "Escudo de Força"
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

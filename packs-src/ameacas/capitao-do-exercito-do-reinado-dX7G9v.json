@@ -693,7 +693,11 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1001,7 +1005,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Ação padrão.</strong> O capitão solta um brado de guerra ensurdecedor. Todos os <strong>inimigos em alcance médio (18m)</strong> devem fazer um teste de <strong>Vontade (CD 30)</strong>. Quem <strong>falhar</strong> fica <strong>apavorado</strong> e <strong>caído</strong>, prensado ao chão pela pressão sonora e pelo terror do comando.</p>",
+          "value": "<p><strong>Ação padrão.</strong> O capitão solta um brado de guerra ensurdecedor. Todos os <strong>inimigos em alcance médio (18m)</strong> devem fazer um teste de <strong>Vontade (CD 30)</strong>. Quem <strong>falhar</strong> fica <strong>apavorado</strong> e <strong>caído</strong>, prensado ao chão pela pressão sonora e pelo terror do comando.</p><p>Uma vez por cena. A condição Apavorado dura 1 rodada. O alvo fica Caído até se levantar.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1023,7 +1027,20 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "save": true,
+            "conditions": [
+              "apavorado",
+              "caido"
+            ],
+            "rounds": 1,
+            "limit": "scene",
+            "radius": 18
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -1047,7 +1064,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "captain": true
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

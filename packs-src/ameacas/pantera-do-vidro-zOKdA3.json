@@ -97,7 +97,7 @@
       "cura": { "atributo": "sab", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "dipl": { "atributo": "car", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "enga": { "atributo": "car", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
-      "fort": { "atributo": "con", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 12, "condi": 0, "bonus": [], "custom": false, "label": "" },
+      "fort": { "atributo": "con", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 8, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "furt": { "atributo": "des", "treinado": true, "st": false, "pda": true, "size": true, "value": 0, "outros": 8, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "guer": { "atributo": "int", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "inic": { "atributo": "des", "treinado": true, "st": false, "pda": false, "size": false, "value": 0, "outros": 8, "condi": 0, "bonus": [], "custom": false, "label": "" },
@@ -112,10 +112,10 @@
       "perc": { "atributo": "sab", "treinado": true, "st": false, "pda": false, "size": false, "value": 0, "outros": 8, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "pilo": { "atributo": "des", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "pont": { "atributo": "des", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
-      "refl": { "atributo": "des", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 17, "condi": 0, "bonus": [], "custom": false, "label": "" },
+      "refl": { "atributo": "des", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 13, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "reli": { "atributo": "sab", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "sobr": { "atributo": "sab", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
-      "vont": { "atributo": "sab", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 5, "condi": 0, "bonus": [], "custom": false, "label": "" },
+      "vont": { "atributo": "sab", "treinado": false, "st": false, "pda": false, "size": false, "value": 0, "outros": 1, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "alfa": { "atributo": "int", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "alqu": { "atributo": "int", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
       "arme": { "atributo": "int", "treinado": false, "st": true, "pda": false, "size": false, "value": 0, "outros": 0, "condi": 0, "bonus": [], "custom": false, "label": "" },
@@ -246,7 +246,7 @@
             "name": "Ataque",
             "key": "ataque0",
             "type": "ataque",
-            "parts": [["1d20", "", ""], ["luta", "", ""], ["", "", ""]],
+            "parts": [["1d20", "", ""], ["luta", "", ""], ["-8", "", ""]],
             "adaptavel": "",
             "versatil": ""
           },
@@ -290,7 +290,7 @@
       "folder": null,
       "sort": 100000,
       "ownership": { "default": 0 },
-      "flags": {},
+      "flags": {"t20-theme-overhaul":{"npcRoutineHits":2}},
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,
@@ -326,7 +326,7 @@
             "name": "Ataque",
             "key": "ataque0",
             "type": "ataque",
-            "parts": [["1d20", "", ""], ["luta", "", ""], ["", "", ""]],
+            "parts": [["1d20", "", ""], ["luta", "", ""], ["-8", "", ""]],
             "adaptavel": "",
             "versatil": ""
           },
@@ -600,7 +600,7 @@
         "resistencia": { "pericia": "", "atributo": "", "bonus": 0, "txt": "" },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Passiva.</strong> A pantera é <strong>imune a flanquear</strong>. Quando uma criatura que a flanqueia a ataca, a pantera pode fazer um <strong>ataque de garra</strong> (patas traseiras) contra ela <strong>como reação</strong> (+26, 2d6+15 corte, 18/×3).</p>",
+          "value": "<p><strong>Passiva.</strong> A pantera é <strong>imune a flanquear</strong>. Quando uma criatura que a flanqueia a ataca, a pantera pode fazer um <strong>ataque de garra</strong> (patas traseiras) contra ela <strong>como reação</strong> (+26, 2d6+15 corte, 18/×3).</p><p>A garra de reação pode ser usada uma vez por rodada.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -635,7 +635,7 @@
   "effects": [],
   "sort": 100000,
   "ownership": { "default": 0 },
-  "flags": {},
+  "flags": {"t20-theme-overhaul":{"npcTraits":{"panther":true}}},
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

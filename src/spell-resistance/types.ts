@@ -1,3 +1,5 @@
+import type { NpcPower } from "@/npc-combat";
+
 export type ResistSkill = "fort" | "refl" | "vont";
 
 /**
@@ -86,6 +88,9 @@ export interface SpellResistPreRollRequest {
      * de resultado para o GM escolher o status equivalente manualmente.
      */
     customEffectNames: string[];
+    npcPower?: NpcPower;
+    npcSourceUuid?: string;
+    npcDaze?: boolean;
     /**
      * Opcional — quando setado, ao fechar o modal de resistência (alvo terminou
      * a interação) emitimos `socketName(payload)` ao usuário `userId`. Usado por

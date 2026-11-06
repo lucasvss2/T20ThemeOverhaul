@@ -24,12 +24,14 @@ import { classifyDuration } from "@/duration-manager/classify";
 import type { DurData } from "@/duration-manager/types";
 import { resolveSpellConditions, lookupSpellEntry } from "./conditions-map";
 import { maybeHandleSetaInfalivel, type OnUseEffectLike, type RollLike, type SetaTokenLike } from "@/seta-infalivel/index";
+import { claimNpcUse, getNpcTraits, npcMessageActor, npcMessagePower, npcPowerTargets } from "@/npc-combat";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
 const SOCKET_PRE_ROLL    = "spell-resist/preroll";
 const SOCKET_AUTO_APPLY  = "spell-resist/auto-apply-buff";
 const SOCKET_PURIFY      = "spell-resist/purification";
+const SOCKET_NPC_DRAIN   = "spell-resist/npc-drain";
 
 // ── Constantes ────────────────────────────────────────────────────────────────
 
@@ -409,9 +411,9 @@ function resolveTargetActor(uuid: string | undefined, fallbackId: string): Found
 
 // ── Aplicação de efeitos ──────────────────────────────────────────────────────
 
-async function applySpellDamage(actorUuid: string, actorId: string, amount: number): Promise<void> {
+async function applySpellDamage(actorUuid: string, actorId: string, amount: number): Promise<number> {
     const actor = resolveTargetActor(actorUuid, actorId);
-    if (!actor) return;
+    if (!actor) return 0;
     const pv          = actor.system?.attributes?.pv;
     const currentTemp = pv?.temp  ?? 0;
     const currentHp   = pv?.value ?? 0;
@@ -422,10 +424,12 @@ async function applySpellDamage(actorUuid: string, actorId: string, amount: numb
         remaining -= used;
         newTemp   -= used;
     }
+    const newHp = Math.max(0, currentHp - remaining);
     await actor.update({
         "system.attributes.pv.temp":  newTemp,
-        "system.attributes.pv.value": Math.max(0, currentHp - remaining),
+        "system.attributes.pv.value": newHp,
     });
+    return currentTemp - newTemp + currentHp - newHp;
 }
 
 async function applySpellHeal(actorUuid: string, actorId: string, amount: number): Promise<void> {
@@ -602,7 +606,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
     const combatSituBonus = (condEntry?.resistBonusInCombat
         && (game as unknown as { combat?: { started?: boolean } }).combat?.started)
         ? condEntry.resistBonusInCombat : 0;
-    const baseBonus  = (breakdown?.total ?? 0) + combatSituBonus;
+    const antiMagic = getNpcTraits(targetActor)?.antimagia && (!preReq.npcPower || preReq.npcPower.magical) ? 5 : 0;
+    const baseBonus  = (breakdown?.total ?? 0) + combatSituBonus + antiMagic;
     const bonusStr   = baseBonus >= 0 ? `+${baseBonus}` : `${baseBonus}`;
     // Tooltip detalhado: mostra a composição do bônus. Quando T20 já consolidou
     // em .value (fromValue:true), mostramos os componentes individuais como
@@ -1042,7 +1047,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             // resultado, remove a condição antes aplicada e reaplica a correta.
             // Magias não curadas → no-op (cai na grade manual).
             const autoAppliedConds = new Set<string>();
-            const doAutoApplyConditions = async (passed: boolean): Promise<void> => {
+            const doAutoApplyConditions = async (passed: boolean, total?: number): Promise<void> => {
                 if (preReq.isHeal) return;
                 const srcMsg = game.messages?.get(preReq.messageId);
                 const onUse = srcMsg?.getFlag("tormenta20", "onUseEffects");
@@ -1050,12 +1055,23 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 // (Hipnotismo → Pasmo; heurística pelo card).
                 const inCombat = !!(game as unknown as { combat?: { started?: boolean } }).combat?.started;
                 const truque = /truque/i.test(((srcMsg as { content?: string } | undefined)?.content ?? ""));
-                const { apply, suggest } = resolveSpellConditions(preReq.spellName, passed, onUse, { inCombat, truque });
-                const want = new Set(apply.map((a) => a.statusId));
-
                 const tActor = resolveTargetActor(preReq.targetActorUuid, preReq.targetActorId) as
                     | (FoundryActor & { toggleStatusEffect?(id: string, o?: Record<string, unknown>): Promise<void> })
                     | null;
+                const { apply, suggest } = resolveSpellConditions(preReq.spellName, passed, onUse, { inCombat, truque });
+                if (preReq.npcPower) {
+                    const ids = passed ? preReq.npcPower.onPass : preReq.npcPower.conditions;
+                    apply.splice(0, apply.length, ...(ids ?? []).map(statusId => ({
+                        statusId,
+                        durKind: (["caido", "agarrado", "imovel"].includes(statusId) ? "indeterminate" : "rounds") as "indeterminate" | "rounds",
+                        rounds: preReq.npcPower?.rounds ?? 1,
+                    })));
+                }
+                if (tActor && preReq.npcDaze && !passed && total !== undefined && total <= preReq.cd - 5
+                    && (autoAppliedConds.has("pasmo") || await claimNpcUse(tActor, "daze:" + preReq.npcSourceUuid, "scene"))) {
+                    apply.push({ statusId: "pasmo", durKind: "rounds", rounds: 1 });
+                }
+                const want = new Set(apply.map((a) => a.statusId));
                 for (const sid of [...autoAppliedConds]) {
                     if (!want.has(sid)) {
                         await tActor?.toggleStatusEffect?.(sid, { active: false });
@@ -1178,7 +1194,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                             ? `Sem dano (Evas\u00e3o${evasaoLevel === "aprimorada" ? " Aprimorada" : ""} \u2014 passou)`
                             : (evasaoLevel === "aprimorada" ? "Metade do dano (Evas\u00e3o Aprimorada \u2014 falhou)" : "Falhou \u2014 efeito completo"))
                         : (passed
-                            ? (preReq.resistOutcome === "anula"   ? "Sem efeito (passou)" :
+                            ? (preReq.npcPower?.fullOnPass        ? "Dano integral, sem condição (passou)" :
+                               preReq.resistOutcome === "anula"   ? "Sem efeito (passou)" :
                                preReq.resistOutcome === "metade"  ? "Metade do dano (passou)" :
                                preReq.resistOutcome === "parcial" ? "Metade + sem condi\u00e7\u00f5es (passou)" :
                                "Passou \u2014 veja texto da magia")
@@ -1215,7 +1232,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     }
                     btn.disabled = false;
                     renderMagicReactions(passed);
-                    void doAutoApplyConditions(passed);
+                    void doAutoApplyConditions(passed, lastResistTotal);
                 })();
             });
 
@@ -1297,7 +1314,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     await ChatMessage.create({ content: await roll.render({ flavor: `Rerolar Resistência (${targetName}) vs CD ${preReq.cd} — ${ok ? "✓ PASSOU" : "✗ FALHOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
                     paintResult(total, d20, ok, ok ? "Passou (rerolagem)" : "Falhou — efeito completo");
                     renderMagicReactions(ok);
-                    void doAutoApplyConditions(ok);
+                    void doAutoApplyConditions(ok, total);
                 } else if (kind === "bonus") {
                     // Futuro Melhor: +2 (ou bonus) no teste já rolado.
                     const newTotal = lastResistTotal + (bonus || 2);
@@ -1306,7 +1323,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     lastResistTotal = newTotal;
                     paintResult(newTotal, lastResistD20, ok, ok ? `Passou (+${bonus || 2} de ${label})` : "Falhou — efeito completo");
                     renderMagicReactions(ok);
-                    void doAutoApplyConditions(ok);
+                    void doAutoApplyConditions(ok, newTotal);
                 } else if (kind === "aparar") {
                     const luta  = targetActor ? computeSkillTotal(targetActor, "luta") : 0;
                     const nivel = Number(((targetActor?.system as { nivel?: { value?: number } } | undefined)?.nivel?.value) ?? 0);
@@ -1508,8 +1525,11 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             });
 
             // ── Dano / Cura ───────────────────────────────────────────────────
+            let npcDrainApplied = false;
             root.querySelectorAll<HTMLButtonElement>(".smf-dmg-btn, .smf-heal-btn").forEach((btn) => {
                 btn.addEventListener("click", async () => {
+                    if (npcDrainApplied) return;
+                    if (preReq.npcPower?.drain) npcDrainApplied = true;
                     let label = "";
                     if (btn.id === "smf-heal-full") {
                         const healAmt = parseInt(btn.dataset["healCurrent"] ?? "", 10) || preReq.damageTotal;
@@ -1529,7 +1549,12 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         const rdVal = Math.max(0, parseInt(rdInput?.value ?? "0", 10) || 0);
                         const finalAmt = dmgImmune ? 0 : Math.max(0, amt - rdVal);
                         if (finalAmt > 0) {
-                            await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, finalAmt);
+                            const lost = await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, finalAmt);
+                            if (preReq.npcPower?.drain && preReq.npcSourceUuid && lost >= 2) {
+                                const healing = Math.floor(lost / 2);
+                                if (game.user?.isGM) await applyNpcDrain(preReq.messageId, healing);
+                                else await getSocket()?.executeAsGM(SOCKET_NPC_DRAIN, preReq.messageId, healing);
+                            }
                             // Linhagem Dracônica Superior: PM temp p/ o conjurador
                             // se o alvo caiu a 0 PV com magia do elemento dele.
                             notifySuperiorKillIfDead(
@@ -1609,6 +1634,16 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
 
 // ── Socket ────────────────────────────────────────────────────────────────────
 
+async function applyNpcDrain(messageId: string, amount: number): Promise<void> {
+    const msg = game.messages?.get(messageId);
+    const actor = msg && npcMessagePower(msg)?.drain ? npcMessageActor(msg) : undefined;
+    const max = Math.floor((msg?.rolls?.find(r => r.options.type === "damage")?.total ?? 0) / 2);
+    if (actor && Number.isInteger(amount) && amount > 0 && amount <= max
+        && await claimNpcUse(actor, "drain:" + messageId, "scene")) {
+        await applySpellHeal(actor.uuid, actor.id, amount);
+    }
+}
+
 function setupSocket(): void {
     onSocketReady((socket) => {
         // Target-side: open the unified resist modal. socketlib already
@@ -1622,6 +1657,9 @@ function setupSocket(): void {
         });
         socket.register(SOCKET_PURIFY, (...args: unknown[]) => {
             void handlePurificationSocket(args[0] as import("./types").PurificationRequest);
+        });
+        socket.register(SOCKET_NPC_DRAIN, (...args: unknown[]) => {
+            if (game.user?.isGM) return applyNpcDrain(String(args[0]), Number(args[1]));
         });
     });
 }
@@ -1669,7 +1707,8 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     if (!itemData) return;
 
     const tipo = itemData["tipo"] as string | undefined;
-    if (!tipo || !(SPELL_TIPOS as readonly string[]).includes(tipo)) return;
+    const npcPower = npcMessagePower(message);
+    if (!npcPower?.save && (!tipo || !(SPELL_TIPOS as readonly string[]).includes(tipo))) return;
 
     const rolls = message.rolls ?? [];
 
@@ -1710,7 +1749,8 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     const resistTxt   = ((itemData["resistencia"] as { txt?: string } | undefined)?.txt ?? "").trim();
     const damageTotal = damageRoll?.total ?? 0;
 
-    const { skill: resistSkill, outcome: resistOutcome } = parseResistance(resistTxt);
+    const { skill: resistSkill, outcome } = parseResistance(resistTxt);
+    const resistOutcome = npcPower?.fullOnPass ? "texto" : outcome;
 
     // Verifica se há efeitos de buff/condição na mensagem
     const hasMsgEffects = ((message.getFlag("tormenta20", "effects") as unknown[] | undefined)?.length ?? 0) > 0;
@@ -1723,7 +1763,7 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     const isPureBuff    = !isHeal && resistSkill === null && damageTotal === 0 && hasMsgEffects;
 
     // Resolve flag do item para auto-apply (ID extraído do HTML, não dos flags)
-    const casterActor  = game.actors?.get(casterActorId);
+    const casterActor  = npcMessageActor(message) ?? game.actors?.get(casterActorId);
     const spellItemId   = extractItemId(message);
     type ActorWithFlags = FoundryActor & { getFlag(scope: string, key: string): unknown };
     const autoApplyMap  = (casterActor as ActorWithFlags | undefined)?.getFlag(MODULE_ID, "autoApplyItems") as Record<string, boolean> | undefined;
@@ -1736,8 +1776,10 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     const tTargets = Array.from(game.user?.targets ?? []);
     let effectiveTargets: FoundryToken[];
 
-    if (tTargets.length > 0) {
-        effectiveTargets = tTargets;
+    if (npcPower?.radius) {
+        effectiveTargets = npcPowerTargets(message, npcPower.radius);
+    } else if (tTargets.length > 0) {
+        effectiveTargets = npcPower?.drain ? tTargets.slice(0, 1) : tTargets;
     } else {
         const cvs = canvas as unknown as { tokens?: { controlled?: FoundryToken[] } };
         const controlled = cvs.tokens?.controlled ?? [];
@@ -1788,7 +1830,7 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     const extractedCD = extractCD(message);
     const cd          = extractedCD > 0
         ? extractedCD
-        : computeCasterSpellCD(game.actors?.get(message.speaker?.actor ?? "") ?? null);
+        : computeCasterSpellCD(casterActor ?? null);
     // Detecta o aprimoramento de Curar Ferimentos "+2 PM: remove uma condição de fadiga do alvo"
     const removeFadiga  = isHeal
         && normalizeCondName(spellName) === "curar ferimentos"
@@ -1873,6 +1915,9 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
             truqueAtivo,
             conditions:      [],
             customEffectNames: [],
+            npcPower,
+            npcSourceUuid: casterActor?.uuid,
+            npcDaze: !npcPower && getNpcTraits(casterActor)?.daze,
         };
 
         if (targetUserId === game.user?.id) {

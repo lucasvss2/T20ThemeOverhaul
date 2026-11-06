@@ -330,7 +330,7 @@
         "label": ""
       },
       "fort": {
-        "outros": 2,
+        "outros": 1,
         "treinado": false,
         "atributo": "con",
         "st": false,
@@ -538,7 +538,7 @@
         "label": ""
       },
       "refl": {
-        "outros": 13,
+        "outros": 10,
         "treinado": false,
         "atributo": "des",
         "st": false,
@@ -577,7 +577,7 @@
         "label": ""
       },
       "vont": {
-        "outros": 7,
+        "outros": 5,
         "treinado": false,
         "atributo": "sab",
         "st": false,
@@ -843,7 +843,7 @@
       "type": "arma",
       "img": "icons/svg/sword.svg",
       "system": {
-        "proposito": "melee",
+        "proposito": "corpo-a-corpo",
         "proficiencia": "simples",
         "empunhadura": "uma",
         "criticoM": 19,
@@ -866,12 +866,12 @@
                 ""
               ],
               [
-                "10",
+                "luta",
                 "",
                 ""
               ],
               [
-                "0",
+                "10",
                 "",
                 ""
               ]
@@ -886,7 +886,7 @@
             "parts": [
               [
                 "1d4+16",
-                "perfuração",
+                "perfuracao",
                 ""
               ],
               [
@@ -1069,7 +1069,7 @@
         },
         "rolls": [],
         "description": {
-          "value": "<p><strong>Movimento, 1 PM.</strong> Jacelin desaparece entre a movimentação do saguão, tornando-se impossível de localizar por 1 rodada.</p>",
+          "value": "<p><strong>Movimento, 1 PM.</strong> Jacelin desaparece entre a movimentação do saguão, obtendo <strong>camuflagem total</strong> por 1 rodada. Um observador que passe em Percepção CD 18 localiza Jacelin e ignora essa camuflagem.</p>",
           "unidentified": ""
         },
         "source": "",
@@ -1094,7 +1094,13 @@
       "ownership": {
         "default": 0
       },
-      "flags": {},
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "conceal": true
+          }
+        }
+      },
       "_stats": {
         "compendiumSource": null,
         "duplicateSource": null,

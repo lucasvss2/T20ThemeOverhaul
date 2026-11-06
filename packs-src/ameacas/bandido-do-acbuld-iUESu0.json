@@ -60,7 +60,7 @@
         "atributo": "des",
         "pda": 0,
         "value": 10,
-        "base": 14,
+        "base": 10,
         "outros": -2,
         "condi": 0,
         "bonus": []
@@ -99,10 +99,10 @@
         }
       },
       "pv": {
-        "value": 8,
+        "value": 4,
         "temp": 0,
-        "min": 0,
-        "max": 8
+        "min": -2,
+        "max": 4
       },
       "pm": {
         "value": 0,
@@ -128,10 +128,10 @@
       "equipamento": "",
       "resistencias": "",
       "movimento": "",
-      "ataquescac": "Adaga +7 (1d4+3 perfuração, 19)",
+      "ataquescac": "Adaga +7 (1d4+7 perfuração, 19)",
       "ataquesad": "",
       "tesouro": "Nenhum",
-      "role": "solo"
+      "role": "lackey"
     },
     "dinheiro": {
       "tc": 0,
@@ -308,7 +308,7 @@
         "pda": false,
         "size": false,
         "value": 0,
-        "outros": -1,
+        "outros": 1,
         "condi": 0,
         "bonus": [],
         "custom": false,
@@ -503,7 +503,7 @@
         "pda": false,
         "size": false,
         "value": 0,
-        "outros": 0,
+        "outros": -2,
         "condi": 0,
         "bonus": [],
         "custom": false,
@@ -930,6 +930,11 @@
                 "luta",
                 "",
                 ""
+              ],
+              [
+                "0",
+                "",
+                ""
               ]
             ]
           },
@@ -941,7 +946,7 @@
             "versatil": "",
             "parts": [
               [
-                "1d4+3",
+                "1d4+7",
                 "perfuração",
                 ""
               ],
@@ -1036,7 +1041,13 @@
   "ownership": {
     "default": 0
   },
-  "flags": {},
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "gang": true
+      }
+    }
+  },
   "_stats": {
     "compendiumSource": null,
     "duplicateSource": null,

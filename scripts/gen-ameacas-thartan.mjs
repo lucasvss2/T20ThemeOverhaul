@@ -71,7 +71,7 @@ const PERICIA_ATTR = {
     luta: "for", mist: "int", nobr: "int", ofi0: "int", perc: "sab", pilo: "des",
     pont: "des", refl: "des", reli: "sab", sobr: "sab", vont: "sab", _pc0: "int",
 };
-function buildPericias(overrides = {}) {
+function buildPericias(spec) {
     const out = {};
     for (const [key, atributo] of Object.entries(PERICIA_ATTR)) {
         out[key] = {
@@ -79,10 +79,17 @@ function buildPericias(overrides = {}) {
             value: 0, condi: 0, bonus: [], custom: false, label: "",
         };
     }
-    for (const [key, v] of Object.entries(overrides)) {
+    for (const [key, v] of Object.entries(spec.pericias ?? {})) {
         out[key] = { ...out[key], ...v };
     }
+    for (const key of ["fort", "refl", "vont"]) {
+        out[key].outros -= npcSkillBase(spec, out[key]);
+    }
     return out;
+}
+
+function npcSkillBase(spec, skill) {
+    return Math.floor(spec.nd / 2) + (spec.atributos[skill.atributo] ?? 0);
 }
 
 // ── Atributos (Passo 6 — cosmético) ─────────────────────────────────────────────
@@ -156,9 +163,18 @@ function buildPrototypeToken(name, img, disposition) {
     };
 }
 
-// ── Item: arma (ataque com bônus/dano LITERAIS, sem depender de perícia) ───────
-function weaponItem(actorId, { name, atk, dmgFormula, critM = 20, critX = 2, tipoDano = "", alcance = "melee", proposito = "melee", descricao = "" }) {
+// ── Arma de ameaça: perícia nativa e ajuste para o bônus publicado ─────────────
+function damageType(type) {
+    return type === "arcano" ? "essencia" : type.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+}
+
+function weaponItem(actorId, spec, { name, atk, dmgFormula, critM = 20, critX = 2, tipoDano = "", alcance = "melee", proposito = "corpo-a-corpo", descricao = "", hits = 1 }) {
     const id = makeId();
+    // O T20 lê a segunda coluna como perícia e soma a terceira ao total.
+    const skillKey = ["disparo", "arremesso"].includes(proposito) ? "pont" : "luta";
+    const skill = { atributo: PERICIA_ATTR[skillKey], ...spec.pericias?.[skillKey] };
+    const training = skill.treinado ? (spec.nd >= 15 ? 6 : spec.nd >= 7 ? 4 : 2) : 0;
+    const fixed = atk - npcSkillBase(spec, skill) - training - (skill.outros ?? 0);
     return {
         name, type: "arma", img: "icons/svg/sword.svg",
         system: {
@@ -166,8 +182,8 @@ function weaponItem(actorId, { name, atk, dmgFormula, critM = 20, critX = 2, tip
             tipoUso: "sim", equipado: 1,
             description: { value: `<p>${descricao}</p>`, unidentified: "" },
             rolls: [
-                { name: "Ataque", key: "ataque0", type: "ataque", parts: [["1d20", "", ""], [String(atk), "", ""], ["0", "", ""]], adaptavel: "", versatil: "" },
-                { name: "Dano", key: "dano1", type: "dano", parts: [[dmgFormula, tipoDano, ""], ["", "", ""]], adaptavel: "", versatil: "" },
+                { name: "Ataque", key: "ataque0", type: "ataque", parts: [["1d20", "", ""], [skillKey, "", ""], [String(fixed), "", ""]], adaptavel: "", versatil: "" },
+                { name: "Dano", key: "dano1", type: "dano", parts: [[dmgFormula, damageType(tipoDano), ""], ["", "", ""]], adaptavel: "", versatil: "" },
             ],
             equipado2: { type: "hand", slot: 0 }, carregado: true, espacos: 0, peso: 0, qtd: 1, preco: 0,
             pv: { value: 0, max: 0 }, rd: 0,
@@ -175,11 +191,11 @@ function weaponItem(actorId, { name, atk, dmgFormula, critM = 20, critX = 2, tip
             consume: { amount: 0, mpMultiplier: false, target: "", type: "" },
             alcance,
             upgrades: { melhoria1: "", melhoria2: "", melhoria3: "", melhoria4: "", material: "", encanto1: "", encanto2: "", encanto3: "" },
-            enableAutoUpgrades: true, ataques: 1,
+            enableAutoUpgrades: true, ataques: hits,
             propriedades: { ada: false, agi: false, alo: false, des: false, dup: false, ver: false, hib: false },
             size: "normal", source: "", origin: "", tags: [], rolltags: [], automationtags: [], chatFlavor: "", chatGif: "",
         },
-        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 }, flags: {},
+        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 }, flags: hits > 1 ? { "t20-theme-overhaul": { npcRoutineHits: hits } } : {},
         _stats: stats(), _key: `!actors.items!${actorId}.${id}`,
     };
 }
@@ -191,11 +207,11 @@ function weaponItem(actorId, { name, atk, dmgFormula, critM = 20, critX = 2, tip
 // (execucao:"passive") continuam sempre de graça, nunca recebem `pm`.
 function powerItem(actorId, {
     name, execucao = "passive", alcance = "", area = "", duracaoUnits = "inst",
-    resistPericia = "", resistTxt = "", dmgFormula = "", dmgTipo = "", descricao, pm = 0,
+    resistPericia = "", resistTxt = "", dmgFormula = "", dmgTipo = "", descricao, pm = 0, combat,
 }) {
     const id = makeId();
     const rolls = dmgFormula
-        ? [{ key: "dano0", name: "Dano", type: "dano", adaptavel: "", versatil: "", parts: [[dmgFormula, dmgTipo, ""]] }]
+        ? [{ key: "dano0", name: "Dano", type: "dano", adaptavel: "", versatil: "", parts: [[dmgFormula, damageType(dmgTipo), ""]] }]
         : [];
     return {
         name, type: "poder", img: "systems/tormenta20/icons/svg/skills.svg",
@@ -208,7 +224,7 @@ function powerItem(actorId, {
             source: "", origin: "", tags: [], rolltags: [], automationtags: [], chatFlavor: "", chatGif: "",
             range: { units: "", value: 0 }, efeito: "", tipo: "geral", subtipo: "",
         },
-        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 }, flags: {},
+        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 }, flags: combat ? { "t20-theme-overhaul": { npcPower: combat } } : {},
         _stats: stats(), _key: `!actors.items!${actorId}.${id}`,
     };
 }
@@ -243,7 +259,7 @@ function buildActor(spec) {
     const defOutros = spec.def - 10 - desMod;
 
     const items = (spec.items ?? []).map((it) => {
-        if (it.kind === "weapon") return weaponItem(actorId, it);
+        if (it.kind === "weapon") return weaponItem(actorId, spec, it);
         if (it.kind === "spell") return spellItem(actorId, it.key);
         return powerItem(actorId, it);
     });
@@ -273,9 +289,9 @@ function buildActor(spec) {
                 nivel: { value: 0, xp: { value: 0, pct: 0, proximo: 0 } },
                 treino: 0,
             },
-            pericias: buildPericias(spec.pericias ?? {}),
+            pericias: buildPericias(spec),
             detalhes: {
-                role: spec.role, tipo: spec.tipo, raca: spec.raca,
+                role: spec.role === "lacaio" ? "lackey" : spec.role, tipo: spec.tipo, raca: spec.raca,
                 ataquescac: spec.ataquescac ?? "", ataquesad: spec.ataquesad ?? "",
                 tesouro: spec.tesouro,
                 biography: { value: `<p>${spec.bio}</p>`, public: "" },
@@ -288,7 +304,7 @@ function buildActor(spec) {
         },
         items,
         _id: actorId, effects: [], folder: spec.folder, sort: spec.sort ?? 100000,
-        ownership: { default: 0 }, flags: {},
+        ownership: { default: 0 }, flags: spec.combat ? { "t20-theme-overhaul": { npcTraits: spec.combat } } : {},
         _stats: stats({ compendiumSource: null, duplicateSource: null, exportSource: null, createdTime: now }),
         _key: `!actors!${actorId}`,
     };
@@ -351,11 +367,11 @@ NPCS.push({
         ...saves(15, 8, 21),
         mist: skill(19, { outros: 19 }), perc: skill(18, { outros: 18 }), sobr: skill(18, { outros: 18 }),
     },
-    pv: 224,
+    pv: 224, resistenciasDano: { fogo: { base: 5 }, impacto: { base: 5 } },
     items: [
-        { kind: "weapon", name: "Rajadas Elementais", atk: 24, dmgFormula: "1d10+29", critM: 20, critX: 2, tipoDano: "fogo", alcance: "medium", proposito: "disparo", descricao: "Duas rajadas de fogo ou areia densa, à escolha, disparadas das mãos abertas de Sarim." },
+        { kind: "weapon", name: "Rajadas Elementais", atk: 24, dmgFormula: "1d10+29", critM: 20, critX: 2, tipoDano: "fogo", alcance: "medium", proposito: "disparo", hits: 2, descricao: "Duas rajadas de fogo ou areia densa, à escolha, disparadas das mãos abertas de Sarim." },
         { kind: "power", name: "Afinidade Elemental Dupla", execucao: "passive", descricao: "Sarim tem afinidade com Fogo e Terra: recebe <strong>Redução de Dano 5</strong> contra esses dois tipos e pode alternar livremente o tipo de dano de qualquer habilidade sua entre os dois, a cada uso." },
-        { kind: "power", name: "Tempestade de Areia", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 28 reduz à metade", dmgFormula: "4d6", dmgTipo: "impacto", descricao: "<strong>Padrão, 4 PM.</strong> Uma nuvem de areia cortante e escaldante explode num círculo de 6m. <strong>Reflexos CD 28</strong> reduz o dano à metade; quem falha fica <strong>Ofuscado</strong> até o fim do próximo turno. Habilidade mágica." },
+        { kind: "power", name: "Tempestade de Areia", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 28 reduz à metade", dmgFormula: "4d6", dmgTipo: "impacto", combat: { save: true, conditions: ["ofuscado"], rounds: 1, magical: true }, descricao: "<strong>Padrão, 4 PM.</strong> Uma nuvem de areia cortante e escaldante explode num círculo de 6m. <strong>Reflexos CD 28</strong> reduz o dano à metade; quem falha fica <strong>Ofuscado</strong> até o fim do próximo turno. Habilidade mágica." },
         { kind: "power", name: "Corpo de Magma", execucao: "passive", descricao: "Sempre que é atingido por um ataque corpo a corpo, o atacante sofre <strong>1d6 pontos de dano de fogo</strong>." },
         { kind: "power", name: "Resistência do Deserto", execucao: "passive", descricao: "Sarim é imune a exaustão por calor ou sede, enxerga perfeitamente através de tempestades de areia e nunca se perde no deserto." },
         { kind: "spell", key: "Controlar Fogo" },
@@ -366,7 +382,7 @@ NPCS.push({
 
 // ── 2. Comandante Herwin Aço-Puro — Comandante Purista, ND5, Solo ───────────────
 NPCS.push({
-    name: "Comandante Herwin Aço-Puro", nd: 5, role: "solo", tipo: "hum", raca: "Humano",
+    name: "Comandante Herwin Aço-Puro", combat: { antimagia: true }, nd: 5, role: "solo", tipo: "hum", raca: "Humano",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Comandante Herwin Aço-Puro.png",
     disposition: -1, tesouro: "Padrão", cd: 20, def: 24, movement: { walk: 9 },
     sentidos: ["Percepção 3"],
@@ -377,7 +393,7 @@ NPCS.push({
         ...saves(17, 5, 11),
         inti: skill(12, { outros: 12 }), guer: skill(5, { outros: 5 }), mist: skill(10, { outros: 10 }),
     },
-    pv: 200,
+    pv: 200, resistenciasDano: { corte: { base: 5 }, perfuracao: { base: 5 }, impacto: { base: 5 } },
     items: [
         { kind: "weapon", name: "Golpe de Aço Purista", atk: 17, dmgFormula: "2d10+29", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", descricao: "Uma espada longa purista, forjada para golpear com força brutal e disciplinada." },
         { kind: "power", name: "Fúria Antimagia", execucao: "passive", descricao: "Herwin recebe <strong>+5</strong> em testes de resistência contra magias. Quando resiste a uma magia com sucesso, o conjurador responsável fica marcado — Herwin recebe <strong>+2</strong> no próximo ataque contra ele." },
@@ -407,14 +423,14 @@ NPCS.push({
     items: [
         { kind: "weapon", name: "Adaga Escondida", atk: 10, dmgFormula: "1d4+16", critM: 19, critX: 2, tipoDano: "perfuração", alcance: "melee", descricao: "Uma pequena adaga escondida na manga, usada só em último caso." },
         { kind: "power", name: "Leitura Perfeita", execucao: "passive", descricao: "Jacelin nunca é surpreendida e sempre percebe uma mentira óbvia ou desajeitada." },
-        { kind: "power", name: "Sumiço Discreto", execucao: "move", pm: 1, descricao: "<strong>Movimento, 1 PM.</strong> Jacelin desaparece entre a movimentação do saguão, tornando-se impossível de localizar por 1 rodada." },
+        { kind: "power", name: "Sumiço Discreto", execucao: "move", pm: 1, combat: { conceal: true }, descricao: "<strong>Movimento, 1 PM.</strong> Jacelin desaparece entre a movimentação do saguão, obtendo <strong>camuflagem total</strong> por 1 rodada. Um observador que passe em Percepção CD 18 localiza Jacelin e ignora essa camuflagem." },
         { kind: "power", name: "Fachada Impecável", execucao: "passive", descricao: "Enquanto mantém uma fachada ou disfarce, Jacelin recebe <strong>+5</strong> em Enganação." },
     ],
 });
 
 // ── 4. Kara Thur — Líder da Guilda de Ladrões de Thartan, ND12, Solo ────────────
 NPCS.push({
-    name: "Kara Thur", nd: 12, role: "solo", tipo: "hum", raca: "Humano",
+    name: "Kara Thur", combat: { sneakDice: 4, poison: true }, nd: 12, role: "solo", tipo: "hum", raca: "Humano",
     tamanho: "med", folder: FOLDER_THARTAN_ID, img: "Thartan/Kara Thur.png",
     disposition: -1, tesouro: "Dobro", cd: 33, def: 43, movement: { walk: 12 },
     sentidos: ["Percepção 12"],
@@ -427,18 +443,18 @@ NPCS.push({
     },
     pv: 600,
     items: [
-        { kind: "weapon", name: "Adagas Gêmeas", atk: 36, dmgFormula: "1d10+67", critM: 19, critX: 3, tipoDano: "perfuração", alcance: "melee", descricao: "Um par de adagas curvas banhadas em veneno paralisante, manejadas com precisão letal." },
-        { kind: "power", name: "Ataque Furtivo", execucao: "passive", dmgFormula: "4d6", dmgTipo: "perfuração", descricao: "Quando ataca um alvo Desprevenido ou flanqueado, Kara Thur causa <strong>+4d6</strong> de dano extra." },
+        { kind: "weapon", name: "Adagas Gêmeas", atk: 36, dmgFormula: "1d10+67", critM: 19, critX: 3, tipoDano: "perfuração", alcance: "melee", hits: 2, descricao: "Um par de adagas curvas banhadas em veneno paralisante, manejadas com precisão letal." },
+        { kind: "power", name: "Ataque Furtivo", execucao: "passive", dmgFormula: "4d6", dmgTipo: "perfuração", descricao: "Uma vez por rodada, quando acerta um alvo Desprevenido ou flanqueado, Kara Thur causa <strong>+4d6</strong> de dano extra." },
         { kind: "power", name: "Veneno Paralisante", execucao: "passive", resistPericia: "fort", resistTxt: "Fortitude CD 33 ou Paralisado por 1 rodada", descricao: "Uma criatura atingida pelas adagas de Kara Thur faz <strong>Fortitude CD 33</strong> ou fica <strong>Paralisada</strong> por 1 rodada, 1×/cena por alvo." },
         { kind: "power", name: "Sombra Perfeita", execucao: "passive", descricao: "Kara Thur recebe <strong>+10</strong> em Furtividade e nunca deixa rastros de sua passagem." },
-        { kind: "power", name: "Golpe Fatal", execucao: "free", pm: 6, descricao: "<strong>Ação livre, 6 PM.</strong> O próximo ataque de Kara Thur que acertar é automaticamente um crítico." },
+        { kind: "power", name: "Golpe Fatal", execucao: "free", pm: 6, combat: { limit: "scene", prepare: "fatal" }, descricao: "<strong>Ação livre, 6 PM, uma vez por cena.</strong> O próximo ataque de Kara Thur que acertar é automaticamente um crítico." },
         { kind: "power", name: "Rede de Informantes", execucao: "passive", descricao: "Kara Thur sempre sabe o que se passa nas ruas de Thartan sob seu domínio — raramente é pega de surpresa por eventos da cidade." },
     ],
 });
 
 // ── 5. Astralos — Mago poderoso, ND15, Especial ─────────────────────────────────
 NPCS.push({
-    name: "Astralos", nd: 15, role: "special", tipo: "hum", raca: "Humano",
+    name: "Astralos", combat: { shield: "Escudo Arcano", daze: true }, nd: 15, role: "special", tipo: "hum", raca: "Humano",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Astralos.png",
     disposition: 0, tesouro: "Dobro", cd: 42, def: 48, movement: { walk: 9 },
     sentidos: ["Percepção 17"],
@@ -446,17 +462,17 @@ NPCS.push({
     ataquescac: "", ataquesad: "Rajadas Arcanas Gêmeas +41 (2x, 2d8+84, 20/×2, alcance longo)",
     atributos: { for: -2, des: 1, con: 2, int: 8, sab: 4, car: 3 }, conjuracao: "int", pmMax: 40,
     pericias: {
-        ...saves(15, 28, 22),
+        ...saves(15, 22, 28),
         mist: skill(31, { outros: 31 }), conh: skill(31, { outros: 31 }), perc: skill(17, { outros: 17 }), dipl: skill(16, { outros: 16 }),
     },
     pv: 525,
     items: [
-        { kind: "weapon", name: "Rajadas Arcanas Gêmeas", atk: 41, dmgFormula: "2d8+84", critM: 20, critX: 2, tipoDano: "arcano", alcance: "far", proposito: "disparo", descricao: "Dois mísseis de energia arcana pura, lançados de suas mãos erguidas." },
+        { kind: "weapon", name: "Rajadas Arcanas Gêmeas", atk: 41, dmgFormula: "2d8+84", critM: 20, critX: 2, tipoDano: "arcano", alcance: "far", proposito: "disparo", hits: 2, descricao: "Dois mísseis de energia arcana pura, lançados de suas mãos erguidas." },
         { kind: "power", name: "Arquimestre dos Arcanos", execucao: "passive", descricao: "Astralos é imune a Contramágica de conjuradores inferiores a Superior e recebe <strong>+10</strong> em Misticismo." },
-        { kind: "power", name: "Explosão Cataclísmica", execucao: "standard", pm: 12, alcance: "Longo (54m)", area: "Círculo 12m", resistPericia: "refl", resistTxt: "Reflexos CD 42 reduz à metade", dmgFormula: "10d10", dmgTipo: "arcano", descricao: "<strong>Padrão, 12 PM.</strong> Uma explosão devastadora de energia arcana pura. <strong>Reflexos CD 42</strong> reduz o dano à metade. Habilidade mágica." },
-        { kind: "power", name: "Escudo Arcano", execucao: "reaction", pm: 5, descricao: "<strong>Reação, 5 PM.</strong> Quando é atingido por um ataque, Astralos reduz o dano recebido à metade." },
+        { kind: "power", name: "Explosão Cataclísmica", execucao: "standard", pm: 12, alcance: "Longo (54m)", area: "Círculo 12m", resistPericia: "refl", resistTxt: "Reflexos CD 42 reduz à metade", dmgFormula: "10d10", dmgTipo: "arcano", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 12 PM.</strong> Uma explosão devastadora de energia arcana pura. <strong>Reflexos CD 42</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "power", name: "Escudo Arcano", execucao: "reaction", pm: 5, combat: { shieldCost: 5 }, descricao: "<strong>Reação, 5 PM, uma vez por rodada. Use a opção de escudo no diálogo de dano.</strong> Quando é atingido por um ataque, Astralos reduz o dano recebido à metade." },
         { kind: "power", name: "Teleporte Instantâneo", execucao: "move", pm: 4, descricao: "<strong>Movimento, 4 PM.</strong> Astralos se teleporta até 18m, ignorando obstáculos e terreno difícil. Habilidade mágica." },
-        { kind: "power", name: "Domínio da CD", execucao: "passive", descricao: "Uma criatura que falhe um teste de resistência contra uma magia de Astralos por 5 ou mais fica <strong>Pasma</strong> até o início do próximo turno dela." },
+        { kind: "power", name: "Domínio da CD", execucao: "passive", descricao: "Uma vez por alvo por cena, uma criatura que falhe um teste de resistência contra uma magia de Astralos por 5 ou mais fica <strong>Pasma</strong> até o início do próximo turno dela." },
         { kind: "spell", key: "Explosão de Chamas" },
         { kind: "spell", key: "Bola de Fogo" },
         { kind: "spell", key: "Toque Vampírico" },
@@ -480,9 +496,9 @@ NPCS.push({
     },
     pv: 400,
     items: [
-        { kind: "weapon", name: "Flechas Arcanas Gêmeas", atk: 29, dmgFormula: "1d10+35", critM: 19, critX: 3, tipoDano: "perfuração", alcance: "far", proposito: "disparo", descricao: "Um arco élfico entalhado com runas — cada flecha disparada arde com uma trilha de energia arcana." },
+        { kind: "weapon", name: "Flechas Arcanas Gêmeas", atk: 29, dmgFormula: "1d10+35", critM: 19, critX: 3, tipoDano: "perfuração", alcance: "far", proposito: "disparo", hits: 2, descricao: "Um arco élfico entalhado com runas — cada flecha disparada arde com uma trilha de energia arcana." },
         { kind: "power", name: "Tiro Certeiro Mágico", execucao: "passive", descricao: "As flechas de Elfarion ignoram metade de qualquer cobertura ou Redução de Dano do alvo." },
-        { kind: "power", name: "Flecha Explosiva", execucao: "standard", pm: 5, alcance: "Longo (54m)", area: "Círculo 3m", resistPericia: "refl", resistTxt: "Reflexos CD 30 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", descricao: "<strong>Padrão, 5 PM.</strong> Uma flecha explode numa pequena área ao atingir o alvo. <strong>Reflexos CD 30</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "power", name: "Flecha Explosiva", execucao: "standard", pm: 5, alcance: "Longo (54m)", area: "Círculo 3m", resistPericia: "refl", resistTxt: "Reflexos CD 30 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 5 PM.</strong> Uma flecha explode numa pequena área ao atingir o alvo. <strong>Reflexos CD 30</strong> reduz o dano à metade. Habilidade mágica." },
         { kind: "power", name: "Passos Élficos", execucao: "passive", descricao: "Elfarion recebe <strong>+5</strong> em Furtividade e Acrobacia em terrenos naturais, e seu deslocamento nunca é reduzido por vegetação." },
         { kind: "power", name: "Visão de Águia", execucao: "passive", descricao: "Elfarion recebe <strong>+10</strong> em Percepção à distância e nunca sofre penalidade por vento ou longo alcance." },
         { kind: "spell", key: "Explosão de Chamas" },
@@ -536,7 +552,7 @@ NPCS.push({
     pv: 48,
     items: [
         { kind: "weapon", name: "Rajada Sonsa", atk: 24, dmgFormula: "1d6+59", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", descricao: "Uma rajada de energia arcana disparada da mão esquerda de Alef, sempre com um sorriso." },
-        { kind: "power", name: "Truque de Cartas", execucao: "standard", pm: 3, resistPericia: "vont", resistTxt: "Vontade CD 22 nega", descricao: "<strong>Padrão, 3 PM.</strong> Um alvo em alcance curto fica <strong>Desprevenido</strong> por 1 rodada. <strong>Vontade CD 22</strong> nega. Habilidade mágica." },
+        { kind: "power", name: "Truque de Cartas", execucao: "standard", pm: 3, resistPericia: "vont", resistTxt: "Vontade CD 22 nega", combat: { save: true, conditions: ["desprevenido"], rounds: 1, magical: true }, descricao: "<strong>Padrão, 3 PM.</strong> Um alvo em alcance curto fica <strong>Desprevenido</strong> por 1 rodada. <strong>Vontade CD 22</strong> nega. Habilidade mágica." },
         { kind: "power", name: "Sortudo", execucao: "passive", descricao: "Alef pode rerolar um teste de resistência próprio, 1×/cena." },
         { kind: "spell", key: "Enfeitiçar" },
         { kind: "spell", key: "Disfarce Ilusório" },
@@ -607,7 +623,7 @@ NPCS.push({
     atributos: { for: -2, des: 4, con: 0, int: 1, sab: 1, car: 2 }, pmMax: 15,
     pericias: { ...saves(6, 16, 11), furt: skill(13, { outros: 13 }), ladi: skill(8, { outros: 8 }) }, pv: 40,
     items: [
-        { kind: "weapon", name: "Facas Gêmeas", atk: 20, dmgFormula: "1d6+25", critM: 19, critX: 2, tipoDano: "perfuração", alcance: "melee", descricao: "Duas facas curtas, fáceis de esconder nas mangas." },
+        { kind: "weapon", name: "Facas Gêmeas", atk: 20, dmgFormula: "1d6+25", critM: 19, critX: 2, tipoDano: "perfuração", alcance: "melee", hits: 2, descricao: "Duas facas curtas, fáceis de esconder nas mangas." },
         { kind: "power", name: "Pequena e Ágil", execucao: "passive", descricao: "Arabella recebe <strong>+5</strong> na Defesa contra ataques de oportunidade e é frequentemente subestimada por seu tamanho." },
     ],
 });
@@ -622,7 +638,7 @@ NPCS.push({
     atributos: { for: 6, des: -1, con: 0, int: -4, sab: 0, car: -3 },
     pericias: { ...saves(17, 7, 12), atle: skill(11, { outros: 11 }) }, pv: 48,
     items: [
-        { kind: "weapon", name: "Punhos de Bronze", atk: 24, dmgFormula: "1d8+27", critM: 20, critX: 2, tipoDano: "impacto", alcance: "melee", descricao: "Os punhos maciços de bronze de Marian, capazes de amassar metal." },
+        { kind: "weapon", name: "Punhos de Bronze", atk: 24, dmgFormula: "1d8+27", critM: 20, critX: 2, tipoDano: "impacto", alcance: "melee", hits: 2, descricao: "Os punhos maciços de bronze de Marian, capazes de amassar metal." },
         { kind: "power", name: "Corpo de Construto", execucao: "passive", descricao: "Marian é imune a veneno, doença, sono, medo e sangramento; não precisa respirar, comer ou dormir." },
     ],
 });
@@ -680,17 +696,17 @@ staff10("Augustus", "Humano",
 
 // ── 11. Vaskrith — Dragão Lefeu, ND5, Solo ──────────────────────────────────────
 NPCS.push({
-    name: "Vaskrith", nd: 5, role: "solo", tipo: "mon", raca: "Dragão (Lefeu)",
+    name: "Vaskrith", combat: { immuneCritical: true }, nd: 5, role: "solo", tipo: "mon", raca: "Dragão (Lefeu)",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Vaskrith.png",
     disposition: -1, tesouro: "Padrão", cd: 20, def: 24, movement: { walk: 9, fly: 18 },
     sentidos: ["Percepção 12", "Visão no escuro"],
     bio: "Um dragão jovem cujo corpo foi corrompido pela Tormenta, manifestando as marcas de um lefeu: escamas rachadas com veios pulsantes de energia corrompida, olhar fragmentado e insano. Continua sendo um dragão — só que quebrado.",
     ataquescac: "Mordida e Garras +17 (2x, 1d8+16, ×2, perfuração/corte)", ataquesad: "",
     atributos: { for: 3, des: 1, con: 3, int: -1, sab: 3, car: 0 }, pmMax: 15,
-    pericias: { ...saves(17, 11, 5), perc: skill(12, { outros: 12 }), inti: skill(4, { outros: 4 }) }, pv: 200,
+    pericias: { ...saves(17, 11, 5), perc: skill(12, { outros: 12 }), inti: skill(4, { outros: 4 }) }, pv: 180, resistenciasDano: { acido: { imunidade: true }, eletricidade: { imunidade: true }, fogo: { imunidade: true }, frio: { imunidade: true }, luz: { imunidade: true }, trevas: { imunidade: true } },
     items: [
-        { kind: "weapon", name: "Mordida e Garras", atk: 17, dmgFormula: "1d8+16", critM: 20, critX: 2, tipoDano: "perfuração", alcance: "melee", descricao: "As presas e garras de Vaskrith, cobertas por escamas rachadas que exalam uma névoa roxa." },
-        { kind: "power", name: "Sopro Tormentoso", execucao: "standard", pm: 3, alcance: "Pessoal", area: "Cone 6m", resistPericia: "refl", resistTxt: "Reflexos CD 20 reduz à metade", dmgFormula: "4d6", dmgTipo: "trevas", descricao: "<strong>Padrão, 3 PM.</strong> Vaskrith expele um cone de energia corrompida pela Tormenta. <strong>Reflexos CD 20</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "weapon", name: "Mordida e Garras", atk: 17, dmgFormula: "1d8+16", critM: 20, critX: 2, tipoDano: "perfuração", alcance: "melee", hits: 2, descricao: "As presas e garras de Vaskrith, cobertas por escamas rachadas que exalam uma névoa roxa." },
+        { kind: "power", name: "Sopro Tormentoso", execucao: "standard", pm: 3, alcance: "Pessoal", area: "Cone 6m", resistPericia: "refl", resistTxt: "Reflexos CD 20 reduz à metade", dmgFormula: "4d6", dmgTipo: "trevas", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 3 PM.</strong> Vaskrith expele um cone de energia corrompida pela Tormenta. <strong>Reflexos CD 20</strong> reduz o dano à metade. Habilidade mágica." },
         { kind: "power", name: "Imunidades Lefeu", execucao: "passive", descricao: "Vaskrith é imune a acertos críticos, ácido, cansaço, eletricidade, fogo, frio, luz, paralisia, metabolismo, metamorfose, trevas e veneno." },
         { kind: "power", name: "Insanidade da Tormenta", execucao: "passive", resistPericia: "vont", resistTxt: "Vontade CD 20 ou perde PM", descricao: "Uma criatura que veja Vaskrith deve fazer <strong>Vontade CD 20</strong> ou perder <strong>1d4</strong> pontos de mana. Se chegar a 0 PM, fica <strong>Confusa</strong>. Cada criatura só é afetada uma vez por dia." },
         { kind: "power", name: "Percepção Temporal", execucao: "passive", descricao: "Vaskrith soma sua Sabedoria em testes de ataque, na Defesa e em Reflexos — valores já contabilizados nesta ficha." },
@@ -723,33 +739,33 @@ NPCS.push({
 // ── 13/14. Aslan Vesper (Guerreiro, ND8, Solo) e Sanaa Vesper (Feiticeira, ND7, Especial) ──
 // (adicionadas no FIM, mesmo motivo de Dafodil — não perturbar ids já deployados)
 NPCS.push({
-    name: "Aslan Vesper", nd: 8, role: "solo", tipo: "hum", raca: "Humano",
+    name: "Aslan Vesper", combat: { bond: "aslan" }, nd: 8, role: "solo", tipo: "hum", raca: "Humano",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Aslan Vesper.png",
     disposition: 0, tesouro: "Padrão", cd: 26, def: 33, movement: { walk: 9 },
     sentidos: ["Percepção 4"],
     bio: "Guerreiro implacável da família Vesper, sua espada é conhecida tanto pelos golpes certeiros quanto pela fúria que desperta em batalha. Costuma lutar ao lado da irmã (ou esposa) Sanaa Vesper.",
-    ataquescac: "Espada Vesper +26 (2d10+57, 19-20/×2, corte)", ataquesad: "",
+    ataquescac: "Dois golpes de Espada Vesper +26 (4d8+16, 19-20/×2, corte)", ataquesad: "",
     atributos: { for: 5, des: 1, con: 4, int: 0, sab: 0, car: 1 }, pmMax: 24,
     pericias: {
         ...saves(21, 8, 15),
         inti: skill(14, { outros: 14 }), atle: skill(13, { outros: 13 }),
     },
-    pv: 320,
+    pv: 320, resistenciasDano: { corte: { base: 5 }, perfuracao: { base: 5 }, impacto: { base: 5 } },
     items: [
-        { kind: "weapon", name: "Espada Vesper", atk: 26, dmgFormula: "2d10+57", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", descricao: "A espada longa da família Vesper, passada de geração em geração." },
-        { kind: "power", name: "Fúria de Batalha", execucao: "standard", pm: 4, descricao: "<strong>Padrão, 4 PM.</strong> No próximo ataque, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado." },
+        { kind: "weapon", name: "Espada Vesper", atk: 26, dmgFormula: "4d8+16", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", hits: 2, descricao: "A espada longa da família Vesper, passada de geração em geração." },
+        { kind: "power", name: "Fúria de Batalha", execucao: "standard", pm: 4, combat: { limit: "scene", prepare: "fury" }, descricao: "<strong>Padrão, 4 PM, uma vez por cena.</strong> No próximo golpe da espada, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado." },
         { kind: "power", name: "Guarda Inabalável", execucao: "passive", descricao: "Aslan recebe <strong>Redução de Dano 5</strong> contra dano físico." },
-        { kind: "power", name: "Golpe Giratório", execucao: "standard", pm: 4, descricao: "<strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando metade do dano normal da espada em cada um que acertar." },
+        { kind: "power", name: "Golpe Giratório", execucao: "standard", pm: 4, descricao: "<strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando o dano de um golpe de espada (<strong>4d8+16</strong>) em cada um que acertar." },
         { kind: "power", name: "Presença de Guerreiro", execucao: "passive", descricao: "Aslan recebe <strong>+5</strong> em Intimidação." },
     ],
 });
 NPCS.push({
-    name: "Sanaa Vesper", nd: 7, role: "special", tipo: "hum", raca: "Humana",
+    name: "Sanaa Vesper", combat: { bond: "sanaa", shield: "Escudo de Força" }, nd: 7, role: "special", tipo: "hum", raca: "Humana",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Sanaa Vesper.png",
     disposition: 0, tesouro: "Padrão", cd: 26, def: 29, movement: { walk: 9 },
     sentidos: ["Percepção 4"],
     bio: "Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.<br><br><strong>Magias — Como uma arcanista de 7º nível (CD 26):</strong> Explosão de Chamas, Bola de Fogo, Toque Vampírico.",
-    ataquescac: "", ataquesad: "Rajada Arcana +22 (2d8+53, 20/×2, dano arcano)",
+    ataquescac: "", ataquesad: "Duas Rajadas Arcanas +22 (6d8+4, 20/×2, essência)",
     atributos: { for: -2, des: 1, con: 0, int: 2, sab: 1, car: 6 }, conjuracao: "car", pmMax: 16,
     pericias: {
         ...saves(7, 14, 20),
@@ -757,10 +773,10 @@ NPCS.push({
     },
     pv: 196,
     items: [
-        { kind: "weapon", name: "Rajada Arcana", atk: 22, dmgFormula: "2d8+53", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", descricao: "Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa." },
+        { kind: "weapon", name: "Rajada Arcana", atk: 22, dmgFormula: "6d8+4", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", hits: 2, descricao: "Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa." },
         { kind: "power", name: "Sangue de Feiticeira", execucao: "passive", descricao: "Sanaa recebe <strong>+5</strong> em Misticismo e conjura suas magias sem gestos ou palavras visíveis." },
-        { kind: "power", name: "Explosão Arcana", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 26 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", descricao: "<strong>Padrão, 4 PM.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 26</strong> reduz o dano à metade. Habilidade mágica." },
-        { kind: "power", name: "Escudo de Força", execucao: "reaction", pm: 4, descricao: "<strong>Reação, 4 PM.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade." },
+        { kind: "power", name: "Explosão Arcana", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 26 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 4 PM.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 26</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "power", name: "Escudo de Força", execucao: "reaction", pm: 4, combat: { shieldCost: 4 }, descricao: "<strong>Reação, 4 PM, uma vez por rodada. Use a opção de escudo no diálogo de dano.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade." },
         { kind: "power", name: "Vínculo de Sangue", execucao: "passive", descricao: "Enquanto luta ao lado de Aslan Vesper, ambos recebem <strong>+2</strong> em testes de ataque." },
         { kind: "spell", key: "Explosão de Chamas" },
         { kind: "spell", key: "Bola de Fogo" },
@@ -771,12 +787,12 @@ NPCS.push({
 // ── 15. Mia — Moreau Felina, Batedora dos Bosques, ND2, Solo ────────────────────
 // (adicionada no FIM, mesmo motivo de Dafodil/Vesper — não perturbar ids já deployados)
 NPCS.push({
-    name: "Mia", nd: 2, role: "solo", tipo: "hum", raca: "Moreau (Felino)",
+    name: "Mia", combat: { sneakDice: 1 }, nd: 2, role: "solo", tipo: "hum", raca: "Moreau (Felino)",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Mia.png",
     disposition: 0, tesouro: "Metade", cd: 16, def: 19, movement: { walk: 9, climb: 6 },
     sentidos: ["Percepção 9", "Visão no escuro"],
     bio: "Batedora moreau felina que patrulha os bosques, usando reflexos ágeis e garras silenciosas para rastrear e emboscar intrusos antes que percebam que estão sendo observados.",
-    ataquescac: "", ataquesad: "Arco Curto +12 (1d6+15, 20/×3, perfuração, alcance longo)",
+    ataquescac: "", ataquesad: "Arco Curto +12 (1d6+15, 20/×3, perfuração, alcance médio)",
     atributos: { for: 0, des: 4, con: 1, int: 0, sab: 3, car: 1 }, pmMax: 6,
     pericias: {
         ...saves(7, 13, 2),
@@ -784,8 +800,8 @@ NPCS.push({
     },
     pv: 70,
     items: [
-        { kind: "weapon", name: "Arco Curto", atk: 12, dmgFormula: "1d6+15", critM: 20, critX: 3, tipoDano: "perfuração", alcance: "far", proposito: "disparo", descricao: "Um arco curto de caça, usado por Mia para abater alvos de longe antes que percebam sua presença." },
-        { kind: "power", name: "Emboscada Silenciosa", execucao: "passive", dmgFormula: "1d6", dmgTipo: "perfuração", descricao: "Quando ataca um alvo Desprevenido ou surpreso, Mia causa <strong>+1d6</strong> de dano extra." },
+        { kind: "weapon", name: "Arco Curto", atk: 12, dmgFormula: "1d6+15", critM: 20, critX: 3, tipoDano: "perfuração", alcance: "medium", proposito: "disparo", descricao: "Um arco curto de caça, usado por Mia para abater alvos de longe antes que percebam sua presença." },
+        { kind: "power", name: "Emboscada Silenciosa", execucao: "passive", dmgFormula: "1d6", dmgTipo: "perfuração", descricao: "Uma vez por rodada, quando acerta um alvo Desprevenido ou surpreso, Mia causa <strong>+1d6</strong> de dano extra." },
         { kind: "power", name: "Salto Felino", execucao: "move", pm: 1, descricao: "<strong>Movimento, 1 PM.</strong> Mia salta até 6m em qualquer direção, inclusive na vertical, ignorando terreno difícil." },
     ],
 });
@@ -803,10 +819,10 @@ NPCS.push({
         ...saves(15, 9, 3),
         atle: skill(15, { outros: 15 }), inti: skill(10, { outros: 10 }), perc: skill(8, { outros: 8 }),
     },
-    pv: 105,
+    pv: 105, resistenciasDano: { corte: { base: 3 }, perfuracao: { base: 3 }, impacto: { base: 3 } },
     items: [
         { kind: "weapon", name: "Machado de Lenhador", atk: 14, dmgFormula: "1d12+15", critM: 20, critX: 3, tipoDano: "corte", alcance: "melee", descricao: "Um machado pesado de lenhador, tão útil para derrubar árvores quanto para derrubar quem se meter no caminho de Grom." },
-        { kind: "power", name: "Golpe Derrubador", execucao: "standard", pm: 2, resistPericia: "fort", resistTxt: "Fortitude CD 17 evita (imune se Grande ou maior)", descricao: "<strong>Padrão, 2 PM.</strong> O próximo ataque corpo a corpo de Grom que acertar também derruba o alvo ao chão, a menos que seja de tamanho Grande ou maior. <strong>Fortitude CD 17</strong> evita." },
+        { kind: "power", name: "Golpe Derrubador", execucao: "standard", pm: 2, resistPericia: "fort", resistTxt: "Fortitude CD 17 evita (imune se Grande ou maior)", combat: { limit: "round", prepare: "trip" }, descricao: "<strong>Padrão, 2 PM, uma vez por rodada.</strong> O próximo ataque corpo a corpo de Grom que acertar também derruba o alvo ao chão, a menos que seja de tamanho Grande ou maior. <strong>Fortitude CD 17</strong> evita." },
         { kind: "power", name: "Couro Espesso", execucao: "passive", descricao: "O pelo grosso e a pele curtida de Grom concedem <strong>Redução de Dano 3</strong> contra dano físico." },
     ],
 });

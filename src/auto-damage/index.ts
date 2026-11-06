@@ -16,7 +16,8 @@ import {
     getMissDebuffReactions, applyMissDebuff,
     getAmigoProtetorOption, resolveAmigoProtetor, splitAmigoProtetor,
 } from "@/reactions";
-import { getMsgAuthorId } from "@/spell-resistance/index";
+import { dispatchSpellResistanceToTarget, getMsgAuthorId } from "@/spell-resistance/index";
+import { claimNpcUse, getNpcTraits, npcHitPreparation, npcShield, qualifiesNpcSneak, useNpcShield } from "@/npc-combat";
 import { getAcoRubiContextForActor } from "@/inspiracao/index";
 import { getGolpePayloadForMessage, handleGolpePostDamage } from "@/golpe-pessoal/index";
 import { acoRubiNegatesCrit } from "@/inspiracao/format";
@@ -130,7 +131,20 @@ async function pickAllyDialog<T extends { id?: string; name?: string }>(allies: 
 
 // ── Damage & PM application ───────────────────────────────────────────────────
 
-async function applyDamage(
+const damageQueue = new Map<string, Promise<void>>();
+
+function applyDamage(
+    ...args: Parameters<typeof applyDamageNow>
+): Promise<void> {
+    const key = resolveActor(args[0], args[1])?.uuid ?? (args[0] || args[1]);
+    const next = (damageQueue.get(key) ?? Promise.resolve()).catch(() => undefined).then(() => applyDamageNow(...args));
+    damageQueue.set(key, next);
+    const clear = () => { if (damageQueue.get(key) === next) damageQueue.delete(key); };
+    void next.then(clear, clear);
+    return next;
+}
+
+async function applyDamageNow(
     targetTokenId: string,
     targetActorId: string,
     amount: number,
@@ -275,7 +289,7 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
     const gritoActive   = req.gritoActive ?? false;
     const samuraiLvl    = req.samuraiLevel ?? 1;
     const critX         = req.effectiveCriticoX ?? 2;
-    const critM         = req.effectiveCriticoM ?? 20;
+    const critM         = req.npcNoCritical ? 21 : req.effectiveCriticoM ?? 20;
 
     // Primary attack roll. If the formula already carries native advantage (2d20kh),
     // the single roll IS the advantage roll — read the kept d20, no separate 2nd die.
@@ -396,7 +410,11 @@ async function handleReroll(req: AttackRerollRequest): Promise<void> {
         rollLabel:      req.rollLabel,
         attackTotal:    newAttackTotal,
         targetDef:      req.targetDef,
-        damageTotal:    damageRoll.total ?? 0,
+        damageTotal:    ((damageRoll.total ?? 0) + (req.npcExtraDamage ?? 0)) * (req.npcDamageMultiplier ?? 1),
+        npcDamageMultiplier: req.npcDamageMultiplier,
+        npcExtraDamage: req.npcExtraDamage,
+        npcNoCritical: req.npcNoCritical,
+        npcIgnoreRd: req.npcIgnoreRd,
         damageType:     req.damageType,
         assassinar:     req.assassinar,
         attackFormula:  req.attackFormula,
@@ -472,12 +490,14 @@ function openDamagePrompt(req: AutoDamageRequest): void {
     );
     // Golpe Pessoal — Penetrante: ignora 10 pontos de RD (imunidade prevalece).
     const golpeRdCut = req.golpe?.penetrante ? Math.min(10, rawAutoRd) : 0;
-    const autoRd = Math.max(0, rawAutoRd - golpeRdCut);
+    const autoRd = req.npcIgnoreRd ? 0 : Math.max(0, rawAutoRd - golpeRdCut);
     const typeLabel = req.damageType
         ? ((CONFIG as unknown as { T20?: { damageTypes?: Record<string, string> } }).T20?.damageTypes?.[req.damageType] ?? req.damageType)
         : "";
     const rdDefault = immune ? req.damageTotal : autoRd;
-    const golpeRdNote = golpeRdCut > 0
+    const golpeRdNote = req.npcIgnoreRd
+        ? `<div class="aad-rd-note">Ácido Corrosivo ignora RD. Resolva o dano residual no próximo turno se o alvo não se limpar.</div>`
+        : golpeRdCut > 0
         ? `<div class="aad-rd-note">Golpe Pessoal — Penetrante: ignora ${golpeRdCut} de RD.</div>` : "";
     const rdNote = immune
         ? `<div class="aad-rd-note aad-rd-immune">Imune${typeLabel ? ` a ${esc(typeLabel)}` : ""} — dano anulado.</div>`
@@ -671,6 +691,21 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         },
     ];
 
+    const shield = npcShield(targetActor);
+    if (targetActor && shield) buttons.push({
+        type: "submit", action: "npc-shield", label: `${shield.name} (${shield.cost} PM)`, icon: "fas fa-shield-halved",
+        callback: async (_event, _button, dialog) => {
+            if (!await useNpcShield(targetActor)) {
+                ui.notifications.warn("O escudo já foi usado nesta rodada ou não há PM suficientes.");
+                return;
+            }
+            const finalDmg = applyRd(halfDmg, readRdInput(dialog.element));
+            await applyDamage(req.targetTokenId, req.targetActorId, finalDmg, readPmInput(dialog.element),
+                { kind: "damage", source: req.attackerName, type: req.damageType ?? undefined, assassinar: req.assassinar });
+            golpePost(finalDmg);
+        },
+    });
+
     // ── Handlers das ações de skill/reação (botões no corpo do modal) ──────────
     const doInvenc = (root: HTMLElement): void => {
         const pm = readPmInput(root);
@@ -739,6 +774,8 @@ function openDamagePrompt(req: AutoDamageRequest): void {
         baseDamageFormula: req.baseDamageFormula, critOnlyDmgFormula: req.critOnlyDmgFormula,
         gritoActive: req.gritoActive, samuraiLevel: req.samuraiLevel,
         effectiveCriticoX: req.effectiveCriticoX, effectiveCriticoM: req.effectiveCriticoM,
+        npcDamageMultiplier: req.npcDamageMultiplier, npcExtraDamage: req.npcExtraDamage, npcNoCritical: req.npcNoCritical,
+        npcIgnoreRd: req.npcIgnoreRd,
         keepWorst: extra?.keepWorst, originalAttackTotal: extra?.originalAttackTotal,
     });
     const dispatchReroll = (rr: AttackRerollRequest): void => {
@@ -1006,7 +1043,7 @@ function setupSocket(): void {
 // ── createChatMessage hook ────────────────────────────────────────────────────
 
 function setupCreateChatHook(): void {
-    Hooks.on("createChatMessage", (...args: unknown[]): void => {
+    Hooks.on("createChatMessage", async (...args: unknown[]): Promise<void> => {
         const message = args[0] as ChatMessage;
 
         // Require attack + damage rolls — sufficient to identify a weapon attack.
@@ -1051,7 +1088,9 @@ function setupCreateChatHook(): void {
         const weaponItemAD = msgItemIdAD && atkActor ? atkActor.items?.get(msgItemIdAD) ?? null : null;
         // Always compute both — effCriticoX is also needed for deriveBaseDamageFormula
         const effCriticoX = computeEffectiveCriticoX(message, atkActor, typeof iFlags?.criticoX === "number" ? iFlags.criticoX : 2);
-        const effCriticoM = computeEffectiveCriticoM(message, atkActor, weaponItemAD);
+        const npcPreparation = npcHitPreparation(atkActor, msgItemIdAD);
+        const npcTraits = getNpcTraits(atkActor);
+        const effCriticoM = npcPreparation === "fatal" ? 1 : computeEffectiveCriticoM(message, atkActor, weaponItemAD);
 
         // Natural die result for crit detection — read the KEPT d20 (advantage rolls
         // are 2d20kh; results[0] may be the discarded die).
@@ -1072,7 +1111,7 @@ function setupCreateChatHook(): void {
         const critOnlyDmgFormula = derived?.critOnly || undefined;
 
         const attackerName  = message.speaker?.alias ?? "Atacante";
-        const rollLabel     = message.flavor || "Ataque";
+        const rollLabel = (message.flavor || "Ataque") + (npcPreparation === "fury" ? " · Fúria de Batalha" : "");
 
         // ── Apenas o autor da mensagem processa (usa os targets de quem lançou) ──
         // Garante que o GM com T em algum token não interfere no roll do jogador.
@@ -1083,12 +1122,13 @@ function setupCreateChatHook(): void {
 
         const attackerUserId = game.user?.id ?? "";
 
-        for (const token of targets) {
+        for (const token of [...targets]) {
             const targetActor = token.actor;
             if (!targetActor) continue;
 
             const targetDef = getDef(targetActor);
-            if (attackTotal < targetDef) {
+            const npcNaturalRule = atkActor?.type === "npc";
+            if (npcNaturalRule ? (naturalDieVal === 1 || (naturalDieVal !== 20 && attackTotal < targetDef)) : attackTotal < targetDef) {
                 ui.notifications.info(
                     `${attackerName} errou ${targetActor.name}! (${attackTotal} vs DEF ${targetDef})`,
                 );
@@ -1127,6 +1167,21 @@ function setupCreateChatHook(): void {
                 continue;
             }
 
+            let npcExtraDamage = 0;
+            if (atkActor && npcTraits?.sneakDice && qualifiesNpcSneak(targetActor, spkTokenId, token.id)
+                && await claimNpcUse(atkActor, "sneak", "round")) {
+                const sneak = new Roll(`${npcTraits.sneakDice}d6`);
+                await sneak.evaluate({ async: true });
+                npcExtraDamage = sneak.total ?? 0;
+            }
+            const npcNoCritical = getNpcTraits(targetActor)?.immuneCritical;
+            let perTargetDamage = effectiveDamageTotal;
+            if (npcNoCritical && originalIsCrit && baseDamageFormula) {
+                const uncritical = new Roll(baseDamageFormula);
+                await uncritical.evaluate({ async: true, maximize: damageMaximized });
+                perTargetDamage = uncritical.total ?? 0;
+            }
+            const npcDamageMultiplier = npcPreparation === "fury" ? 2 : 1;
             const payload: AutoDamageRequest = {
                 type:          "auto-damage-request",
                 requestId:     randomID(),
@@ -1140,7 +1195,11 @@ function setupCreateChatHook(): void {
                 rollLabel,
                 attackTotal,
                 targetDef,
-                damageTotal:       effectiveDamageTotal,
+                damageTotal:       (perTargetDamage + npcExtraDamage) * npcDamageMultiplier,
+                npcExtraDamage,
+                npcNoCritical,
+                npcIgnoreRd: npcTraits?.acid && damageType === "acido",
+                npcDamageMultiplier,
                 assassinar:        damageRoll.options[ROLL_ASSASSINAR] as AssassinarPayload | undefined,
                 damageType,
                 attackFormula,
@@ -1163,6 +1222,22 @@ function setupCreateChatHook(): void {
                     targetUserId,
                     payload,
                 );
+            }
+
+            const size = (targetActor.system as { tracos?: { tamanho?: string } } | undefined)?.tracos?.tamanho;
+            const trip = npcPreparation === "trip" && !["gra", "eno", "col"].includes(size ?? "");
+            const poison = atkActor && npcTraits?.poison && weaponItemAD?.name === "Adagas Gêmeas"
+                && await claimNpcUse(atkActor, "poison:" + token.id, "scene");
+            if (trip || poison) {
+                const cd = trip ? 17 : 33;
+                dispatchSpellResistanceToTarget({
+                    type: "spell-resist-preroll", requestId: randomID(), targetUserId, casterUserId: attackerUserId,
+                    targetActorId: targetActor.id, targetActorUuid: targetActor.uuid, casterName: attackerName,
+                    spellName: trip ? "Golpe Derrubador" : "Veneno Paralisante", resistTxt: `Fortitude CD ${cd} evita`,
+                    resistSkill: "fort", resistOutcome: "anula", cd, messageId: message.id, damageTotal: 0,
+                    damageFormula: "", isHeal: false, maxHealValue: 0, conditions: [], customEffectNames: [],
+                    npcPower: { conditions: [trip ? "caido" : "paralisado"], rounds: 1 },
+                });
             }
         }
     });
