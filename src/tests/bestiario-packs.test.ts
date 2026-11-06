@@ -8,12 +8,13 @@ interface PackDocument {
     type: string;
     folder: string | null;
     img?: string;
-    prototypeToken?: { texture: { src: string } };
+    prototypeToken?: { texture: { src: string }; width: number; height: number };
     system?: {
         atributos?: Record<string, number>;
         atributosDinamicos?: { value: string[] };
         attributes?: { nd: string; pv: { max: number } };
         detalhes?: { role: string };
+        tracos?: { tamanho: string };
         grants?: Array<{ choices: Array<{ uuid: string }> }>;
         rolls?: Array<{ type: string; parts: string[][] }>;
     };
@@ -90,5 +91,23 @@ describe("Bestiário de Arton compendiums", () => {
         }
 
         expect(paths.size).toBe(creatures.length);
+    });
+
+    it("sets both token dimensions from the creature size", () => {
+        const sizes = new Map([
+            ["min", 0.25],
+            ["peq", 1],
+            ["med", 1],
+            ["gra", 2],
+            ["eno", 3],
+            ["col", 6],
+        ]);
+        const creatures = readPack("bestiario-de-arton").filter(doc => doc.type === "npc");
+
+        for (const creature of creatures) {
+            const size = sizes.get(creature.system?.tracos?.tamanho ?? "");
+            expect(size, creature.name).toBeDefined();
+            expect(creature.prototypeToken, creature.name).toMatchObject({ width: size, height: size });
+        }
     });
 });
