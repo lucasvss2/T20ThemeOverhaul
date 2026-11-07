@@ -744,7 +744,7 @@ NPCS.push({
     disposition: 0, tesouro: "Padrão", cd: 26, def: 33, movement: { walk: 9 },
     sentidos: ["Percepção 4"],
     bio: "Guerreiro implacável da família Vesper, sua espada é conhecida tanto pelos golpes certeiros quanto pela fúria que desperta em batalha. Costuma lutar ao lado da irmã (ou esposa) Sanaa Vesper.",
-    ataquescac: "Dois golpes de Espada Vesper +26 (4d8+16, 19-20/×2, corte)", ataquesad: "",
+    ataquescac: "Dois golpes de Espada Vesper +27 (5d8+16, 19-20/×2, corte)", ataquesad: "",
     atributos: { for: 5, des: 1, con: 4, int: 0, sab: 0, car: 1 }, pmMax: 24,
     pericias: {
         ...saves(21, 8, 15),
@@ -752,20 +752,20 @@ NPCS.push({
     },
     pv: 320, resistenciasDano: { corte: { base: 5 }, perfuracao: { base: 5 }, impacto: { base: 5 } },
     items: [
-        { kind: "weapon", name: "Espada Vesper", atk: 26, dmgFormula: "4d8+16", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", hits: 2, descricao: "A espada longa da família Vesper, passada de geração em geração." },
-        { kind: "power", name: "Fúria de Batalha", execucao: "standard", pm: 4, combat: { limit: "scene", prepare: "fury" }, descricao: "<strong>Padrão, 4 PM, uma vez por cena.</strong> No próximo golpe da espada, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado." },
+        { kind: "weapon", name: "Espada Vesper", atk: 27, dmgFormula: "5d8+16", critM: 19, critX: 2, tipoDano: "corte", alcance: "melee", hits: 2, descricao: "A espada longa da família Vesper, passada de geração em geração." },
+        { kind: "power", name: "Fúria de Batalha", execucao: "free", pm: 4, combat: { limit: "scene", prepare: "fury" }, descricao: "<strong>Ação livre, 4 PM, uma vez por cena.</strong> No próximo golpe da espada, Aslan recebe <strong>+5</strong> no teste e, se acertar, dobra o dano causado." },
         { kind: "power", name: "Guarda Inabalável", execucao: "passive", descricao: "Aslan recebe <strong>Redução de Dano 5</strong> contra dano físico." },
-        { kind: "power", name: "Golpe Giratório", execucao: "standard", pm: 4, descricao: "<strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando o dano de um golpe de espada (<strong>4d8+16</strong>) em cada um que acertar." },
+        { kind: "power", name: "Golpe Giratório", execucao: "standard", pm: 4, descricao: "<strong>Padrão, 4 PM.</strong> Aslan ataca todos os inimigos adjacentes com o mesmo bônus de ataque, causando o dano de um golpe de espada (<strong>5d8+16</strong>) em cada um que acertar." },
         { kind: "power", name: "Presença de Guerreiro", execucao: "passive", descricao: "Aslan recebe <strong>+5</strong> em Intimidação." },
     ],
 });
 NPCS.push({
     name: "Sanaa Vesper", combat: { bond: "sanaa", shield: "Escudo de Força" }, nd: 7, role: "special", tipo: "hum", raca: "Humana",
     tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Sanaa Vesper.png",
-    disposition: 0, tesouro: "Padrão", cd: 26, def: 29, movement: { walk: 9 },
+    disposition: 0, tesouro: "Padrão", cd: 28, def: 29, movement: { walk: 9 },
     sentidos: ["Percepção 4"],
-    bio: "Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.<br><br><strong>Magias — Como uma arcanista de 7º nível (CD 26):</strong> Explosão de Chamas, Bola de Fogo, Toque Vampírico.",
-    ataquescac: "", ataquesad: "Duas Rajadas Arcanas +22 (6d8+4, 20/×2, essência)",
+    bio: "Feiticeira da família Vesper — seu poder arcano nasce do próprio sangue, não de estudo, e se manifesta em rajadas de energia que dispensam gestos ou palavras. Luta lado a lado com o irmão (ou marido) Aslan Vesper, cujos golpes ela reforça com magia.<br><br><strong>Magias — Como uma arcanista de 7º nível (CD 28):</strong> Explosão de Chamas, Bola de Fogo, Toque Vampírico.",
+    ataquescac: "", ataquesad: "Duas Rajadas Arcanas +23 (7d8+4, 20/×2, essência)",
     atributos: { for: -2, des: 1, con: 0, int: 2, sab: 1, car: 6 }, conjuracao: "car", pmMax: 16,
     pericias: {
         ...saves(7, 14, 20),
@@ -773,9 +773,9 @@ NPCS.push({
     },
     pv: 196,
     items: [
-        { kind: "weapon", name: "Rajada Arcana", atk: 22, dmgFormula: "6d8+4", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", hits: 2, descricao: "Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa." },
+        { kind: "weapon", name: "Rajada Arcana", atk: 23, dmgFormula: "7d8+4", critM: 20, critX: 2, tipoDano: "arcano", alcance: "medium", proposito: "disparo", hits: 2, descricao: "Uma rajada de energia arcana crua, canalizada diretamente do sangue de feiticeira de Sanaa." },
         { kind: "power", name: "Sangue de Feiticeira", execucao: "passive", descricao: "Sanaa recebe <strong>+5</strong> em Misticismo e conjura suas magias sem gestos ou palavras visíveis." },
-        { kind: "power", name: "Explosão Arcana", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 26 reduz à metade", dmgFormula: "6d6", dmgTipo: "arcano", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 4 PM.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 26</strong> reduz o dano à metade. Habilidade mágica." },
+        { kind: "power", name: "Explosão Arcana", execucao: "standard", pm: 4, alcance: "Médio (18m)", area: "Círculo 6m", resistPericia: "refl", resistTxt: "Reflexos CD 28 reduz à metade", dmgFormula: "8d8", dmgTipo: "arcano", combat: { save: true, magical: true }, descricao: "<strong>Padrão, 4 PM.</strong> Uma explosão de energia arcana crua. <strong>Reflexos CD 28</strong> reduz o dano à metade. Habilidade mágica." },
         { kind: "power", name: "Escudo de Força", execucao: "reaction", pm: 4, combat: { shieldCost: 4 }, descricao: "<strong>Reação, 4 PM, uma vez por rodada. Use a opção de escudo no diálogo de dano.</strong> Quando é atingida por um ataque, Sanaa reduz o dano recebido à metade." },
         { kind: "power", name: "Vínculo de Sangue", execucao: "passive", descricao: "Enquanto luta ao lado de Aslan Vesper, ambos recebem <strong>+2</strong> em testes de ataque." },
         { kind: "spell", key: "Explosão de Chamas" },
