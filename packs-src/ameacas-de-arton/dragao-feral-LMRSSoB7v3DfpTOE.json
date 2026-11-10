@@ -1,0 +1,2397 @@
+{
+  "folder": "kMMZ14tNhKkgkGrD",
+  "name": "Dragão Feral",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/48199b806cccbca20983.webp",
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "bonus": 0,
+        "base": 13,
+        "racial": 0
+      },
+      "des": {
+        "value": 0,
+        "bonus": 0,
+        "base": 3,
+        "racial": 0
+      },
+      "con": {
+        "value": 0,
+        "bonus": 0,
+        "base": 10,
+        "racial": 0
+      },
+      "int": {
+        "value": 0,
+        "bonus": 0,
+        "base": -3,
+        "racial": 0
+      },
+      "sab": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "car": {
+        "value": 0,
+        "bonus": 0,
+        "base": -1,
+        "racial": 0
+      }
+    },
+    "attributes": {
+      "cd": 10,
+      "pv": {
+        "value": 495,
+        "min": 0,
+        "max": 495,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "min": 0,
+        "max": 0,
+        "temp": 0
+      },
+      "movement": {
+        "burrow": 0,
+        "climb": 0,
+        "fly": 24,
+        "swim": 0,
+        "walk": 12,
+        "unit": "m",
+        "hover": false
+      },
+      "defesa": {
+        "base": 35,
+        "value": 10,
+        "outros": 0,
+        "atributo": "des",
+        "pda": 0,
+        "bonus": [],
+        "condi": 0
+      },
+      "sentidos": {
+        "value": [
+          "faro",
+          "cegas",
+          "escuro"
+        ],
+        "custom": ""
+      },
+      "conjuracao": "int",
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "carga": {
+        "value": 0,
+        "base": 10,
+        "bonus": [],
+        "max": 0,
+        "pct": 0,
+        "encumbered": false,
+        "atributo": "for",
+        "limit": 0
+      },
+      "treino": 0,
+      "nd": "10"
+    },
+    "detalhes": {
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "raca": "dragão",
+      "tipo": "mon",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "resistência a magia +3",
+      "tesouro": "Padrão e 2 peças de couro de dragão (CD 25 para extrair).",
+      "role": "solo",
+      "origem": "",
+      "movimento": "",
+      "ataquescac": "Mordida +30 (3d12+14, 18) e duas garras +30 (2d10+14, 18)",
+      "ataquesad": ""
+    },
+    "tracos": {
+      "tamanho": "eno",
+      "resistencias": {
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": true,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": true,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "dano": {
+          "value": 0,
+          "base": 10,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tl": 0,
+      "to": 0,
+      "tp": 0,
+      "tc": 0
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": ""
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      }
+    },
+    "pericias": {
+      "acro": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "value": 22,
+        "atributo": "con",
+        "outros": 3,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": "Fortitude"
+      },
+      "furt": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": true,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "value": 13,
+        "atributo": "des",
+        "outros": 1,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": "Iniciativa"
+      },
+      "inti": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "value": 1,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "value": 12,
+        "atributo": "sab",
+        "outros": 1,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": "Percepção"
+      },
+      "pilo": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "value": 10,
+        "atributo": "des",
+        "outros": 2,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": "Reflexos"
+      },
+      "reli": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "value": 14,
+        "atributo": "sab",
+        "outros": 7,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": "Vontade"
+      },
+      "_pc0": {
+        "value": 1,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "modificadores": {
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      },
+      "custoPM": 0,
+      "cura": {
+        "geral": [],
+        "mag": []
+      }
+    }
+  },
+  "prototypeToken": {
+    "name": "Dragão Feral",
+    "displayName": 0,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/48199b806cccbca20983.webp",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "alphaThreshold": 0.75
+    },
+    "width": 3,
+    "height": 3,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      },
+      "color": null,
+      "negative": false,
+      "priority": 0
+    },
+    "sight": {
+      "enabled": true,
+      "range": 9,
+      "angle": 360,
+      "visionMode": "basic",
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0,
+      "color": null
+    },
+    "detectionModes": [
+      {
+        "id": "senseAll",
+        "range": 9,
+        "enabled": true
+      }
+    ],
+    "flags": {
+      "healthEstimate": {
+        "dontMarkDead": false,
+        "hideHealthEstimate": false,
+        "hideName": false
+      }
+    },
+    "randomImg": false,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "items": [
+    {
+      "folder": null,
+      "name": "Mordida",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/poderes/ameacas/mordida.webp",
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Mordida</section>",
+          "unidentified": ""
+        },
+        "source": "Ameaças de Arton, Pág. 374",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 0,
+        "espacos": 0,
+        "qtd": 0,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+12",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "3d12+14",
+                "perfuracao"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "alcance": "",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "des": false,
+          "hib": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": null,
+          "mpMultiplier": false,
+          "type": "",
+          "target": ""
+        },
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 1,
+        "proficiencia": "natural",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "size": "normal",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "effects": [],
+      "sort": 62500,
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760625730422
+      },
+      "_id": "0rpzAeX9XD679V0F",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.0rpzAeX9XD679V0F"
+    },
+    {
+      "folder": null,
+      "name": "Garras",
+      "type": "arma",
+      "img": "icons/creatures/claws/claw-talons-glowing-orange.webp",
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">duas garras</section>",
+          "unidentified": ""
+        },
+        "source": "Ameaças de Arton, Pág. 374",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 0,
+        "espacos": 0,
+        "qtd": 0,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 3
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+12",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d10+14",
+                "corte"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 2,
+        "alcance": "",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 1,
+        "proficiencia": "natural",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "size": "normal",
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "effects": [],
+      "sort": 162500,
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760625739291
+      },
+      "_id": "WQRtBf6EiJ3pPpKz",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.WQRtBf6EiJ3pPpKz"
+    },
+    {
+      "name": "Amadurecimento Primitivo",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/sopro-gas.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle2\">O dragão feral conta como um dragão adulto, mas não possui as habilidades Magia Dracônica e Metamorfose Dracônica.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /><br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos Metade"
+        },
+        "rolls": [],
+        "tipo": "racial",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Alquebrado",
+          "duration": {
+            "rounds": 999,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "statuses": [
+            "alquebrado"
+          ],
+          "flags": {
+            "tormenta20": {
+              "condition": true,
+              "durationScene": true,
+              "category": "mental"
+            }
+          },
+          "changes": [
+            {
+              "key": "system.modificadores.custoPM",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            }
+          ],
+          "transfer": false,
+          "_id": "KANdeTXJUm72hNu1",
+          "disabled": false,
+          "description": "",
+          "origin": null,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/conditions/alquebrado.svg",
+          "type": "base",
+          "system": {},
+          "tint": "#ffffff",
+          "sort": 0,
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.pc2L9RcHAJv52VEi.KANdeTXJUm72hNu1",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 100000,
+      "_id": "pc2L9RcHAJv52VEi",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.pc2L9RcHAJv52VEi"
+    },
+    {
+      "name": "Aura Aterradora",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/aura-aterradora.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">A simples visão de um dragão adulto ou mais velho amedronta o mais valente dos aventureiros. Uma criatura que comece seu turno em alcance longo do dragão fica apavorada (se tiver 4 níveis ou menos) ou abalada (se tiver 5 níveis ou mais) até o fim da cena (<span class=\"fontstyle0\">Vontade CD 30 evita).</span> Uma criatura que passe no teste de resistência fica imune a esta habilidade por um dia.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "long",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Vontade evita"
+        },
+        "rolls": [],
+        "tipo": "racial",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "origin": "Item.e31Rv6abHQNaulQA",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 99,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "au3nOz2MtQ2H9g1b",
+          "changes": [],
+          "transfer": false,
+          "name": "Abalado",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/conditions/abalado.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.d779VFUj2u8bW7do.au3nOz2MtQ2H9g1b",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "origin": "Item.e31Rv6abHQNaulQA",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 99,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "99RlGk3AHuiCfoFE",
+          "changes": [],
+          "transfer": false,
+          "name": "Apavorado",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/conditions/abalado.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.d779VFUj2u8bW7do.99RlGk3AHuiCfoFE",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "_id": "d779VFUj2u8bW7do",
+      "folder": null,
+      "sort": 200000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.d779VFUj2u8bW7do"
+    },
+    {
+      "type": "poder",
+      "name": "Dilacerar",
+      "img": "systems/tormenta20/icons/poderes/ameacas/dilacerar.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">Se o dragão acerta os dois ataques de garra em uma mesma criatura no mesmo turno, causa mais 3d10+14 pontos de dano.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "3d10+14",
+                "corte"
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760625758861
+      },
+      "_id": "Q1j1dIwmvn7xEYex",
+      "folder": null,
+      "sort": 300000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.Q1j1dIwmvn7xEYex"
+    },
+    {
+      "name": "Investida Imparável",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/sopro-gas.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle2\">O dragão se move até o dobro do seu deslocamento, passando por qualquer criatura Grande ou menor. Criaturas em seu caminho sofrem 7d8+14 pontos de dano de corte, são empurradas até o fim do deslocamento do dragão e ficam caídas na frente dele (Ref CD 30 reduz à metade e evita o empurrão, mas não a condição caído). </span><span class=\"fontstyle3\">Recarga (movimento)</span><span class=\"fontstyle2\">.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos Metade"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "7d8+14",
+                "corte"
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "tipo": "racial",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Alquebrado",
+          "duration": {
+            "rounds": 999,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "statuses": [
+            "alquebrado"
+          ],
+          "flags": {
+            "tormenta20": {
+              "condition": true,
+              "durationScene": true,
+              "category": "mental"
+            }
+          },
+          "changes": [
+            {
+              "key": "system.modificadores.custoPM",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            }
+          ],
+          "transfer": false,
+          "_id": "KANdeTXJUm72hNu1",
+          "disabled": false,
+          "description": "",
+          "origin": null,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/conditions/alquebrado.svg",
+          "type": "base",
+          "system": {},
+          "tint": "#ffffff",
+          "sort": 0,
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.PB9aKRDMMyKx6QCR.KANdeTXJUm72hNu1",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760625765394
+      },
+      "folder": null,
+      "sort": 400000,
+      "_id": "PB9aKRDMMyKx6QCR",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.PB9aKRDMMyKx6QCR"
+    },
+    {
+      "name": "Sopro",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/sopro-gas.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">Todas as criaturas em um cone de 12m sofrem 12d12 pontos de dano de frio e ficam lentas (Ref CD 30 reduz à metade e evita a condição). </span><span class=\"fontstyle2\">Recarga (movimento)</span><span class=\"fontstyle0\">.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "self",
+        "area": "cone de 12m",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Reflexos Metade"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "12d12",
+                "frio",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "racial",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Lento",
+          "duration": {
+            "rounds": 999,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "statuses": [
+            "lento"
+          ],
+          "flags": {
+            "tormenta20": {
+              "condition": true,
+              "durationScene": true,
+              "category": "movimento"
+            }
+          },
+          "changes": [
+            {
+              "key": "system.attributes.movement.walk",
+              "mode": 1,
+              "value": "0.5",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.movement.burrow",
+              "mode": 1,
+              "value": "0.5",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.movement.climb",
+              "mode": 1,
+              "value": "0.5",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.movement.fly",
+              "mode": 1,
+              "value": "0.5",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.movement.swim",
+              "mode": 1,
+              "value": "0.5",
+              "priority": null
+            }
+          ],
+          "transfer": false,
+          "_id": "QEdc15j9UyyjkK7Q",
+          "disabled": false,
+          "description": "",
+          "origin": null,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/conditions/lento.svg",
+          "type": "base",
+          "system": {},
+          "tint": "#ffffff",
+          "sort": 0,
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.vEtP5Xh1BCUlMZbB.QEdc15j9UyyjkK7Q",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "_id": "vEtP5Xh1BCUlMZbB",
+      "sort": 500000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.vEtP5Xh1BCUlMZbB"
+    },
+    {
+      "name": "Couro de Dragão",
+      "type": "consumivel",
+      "img": "systems/tormenta20/icons/itens/gerais/couro-de-dragao.webp",
+      "system": {
+        "description": {
+          "value": "<p><span class=\"fontstyle0\"><strong style=\"text-align:justify\">[Tesouro Especial] <strong>[Material Especial]</strong></strong></span></p>\n<p>Cobiçado por artesãos em toda Arton, o couro escamado de um dragão verdadeiro é um material especial que pode ser empregado para fabricar certos itens superiores. Tanto o couro bruto quanto itens de couro de dragão não existem à venda; a única maneira de obter esse material é derrotar um dragão. <span class=\"fontstyle0\">(</span><span class=\"fontstyle0\">CD para extrair depende do dragão).</span></p>\n<p> </p>\n<p><span class=\"fontstyle0\"><strong>Armaduras leves e escudos</strong> (exigem uma peça para ser fabricado): Defesa +1, redução de dano 10 contra o tipo de dano do sopro do dragão e resistência a magia +2. </span></p>\n<p><span class=\"fontstyle0\"><strong>Armaduras pesadas</strong> (exigem três peças): Defesa +2, redução de dano 20 contra o tipo de dano do sopro do dragão e resistência a magia +5. </span></p>\n<p><span class=\"fontstyle0\"><strong>Esotérico </strong>(Exige 1 Peça). Quando lança uma magia que cause dano do mesmo tipo do sopro do dragão, você pode gastar 1 PM para aumentar o dano da magia em +1 por dado.</span></p>\n<p> </p>\n<p> </p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 311 (JdA)",
+        "carregado": true,
+        "peso": 0,
+        "espacos": 1,
+        "qtd": 2,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "material",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "subtipo": "",
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "_id": "EGNzzYtuufXOz7Ns",
+      "folder": null,
+      "sort": 300000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.EGNzzYtuufXOz7Ns"
+    },
+    {
+      "name": "Varrer",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/varrer.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Uma vez por rodada, quando o dragão feral faz um ataque corpo a corpo e reduz os pontos de vida do alvo para 0 ou menos, pode realizar um ataque adicional contra outra criatura dentro do seu alcance.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760625769626
+      },
+      "_id": "Ooeu72G222WwA73S",
+      "folder": null,
+      "sort": 600000,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.Ooeu72G222WwA73S"
+    },
+    {
+      "name": "Imunidades Dracônicas",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+      "system": {
+        "description": {
+          "value": "<p>Dragões são imunes a efeitos de atordoamento, cansaço, dano do tipo de seu sopro, metamorfose e paralisia.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Imunidades Dracônicas",
+          "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+          "origin": "Item.yRLgv7CNJqKYesd4",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "atordoamento",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "cansaco",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "metamorfose",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "paralisado",
+              "priority": null
+            }
+          ],
+          "_id": "WaL2TAmjUOL6RRZU",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.bgXWFtqETVylZltj.WaL2TAmjUOL6RRZU",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {},
+      "_stats": {
+        "duplicateSource": null,
+        "exportSource": null,
+        "compendiumSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760628082726,
+        "modifiedTime": 1760628082726,
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      },
+      "_id": "bgXWFtqETVylZltj",
+      "sort": 0,
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.bgXWFtqETVylZltj"
+    },
+    {
+      "name": "Imunidades Dracônicas",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+      "system": {
+        "description": {
+          "value": "<p>Dragões são imunes a efeitos de atordoamento, cansaço, dano do tipo de seu sopro, metamorfose e paralisia.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Imunidades Dracônicas",
+          "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+          "origin": "Item.yRLgv7CNJqKYesd4",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "atordoado",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "cansaco",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "metamorfose",
+              "priority": null
+            },
+            {
+              "key": "system.tracos.ic.value",
+              "mode": 2,
+              "value": "paralisado",
+              "priority": null
+            }
+          ],
+          "_id": "WaL2TAmjUOL6RRZU",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!LMRSSoB7v3DfpTOE.UlEyRsZjKHzxfSbI.WaL2TAmjUOL6RRZU",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {},
+      "_stats": {
+        "duplicateSource": null,
+        "exportSource": null,
+        "compendiumSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760628204799,
+        "modifiedTime": 1760628204799,
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      },
+      "_id": "UlEyRsZjKHzxfSbI",
+      "sort": 0,
+      "_key": "!actors.items!LMRSSoB7v3DfpTOE.UlEyRsZjKHzxfSbI"
+    }
+  ],
+  "effects": [
+    {
+      "name": "Resistência a Magia +3",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.LMRSSoB7v3DfpTOE",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "Fortitude;Reflexos;Vontade",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "startRound": 5,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "3",
+          "priority": null
+        }
+      ],
+      "_id": "78N4zVErD0h9UjFN",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760625673973,
+        "modifiedTime": 1760625680033,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!LMRSSoB7v3DfpTOE.78N4zVErD0h9UjFN",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Imunidades Dracônicas",
+      "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.LMRSSoB7v3DfpTOE.Item.UlEyRsZjKHzxfSbI",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": 5,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "atordoado",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "cansaco",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "metamorfose",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "paralisado",
+          "priority": null
+        }
+      ],
+      "_id": "cksseGfmARJnhiVm",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760628204898,
+        "modifiedTime": 1760628204898,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!LMRSSoB7v3DfpTOE.cksseGfmARJnhiVm",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "bestiario-de-arton",
+        "id": "LMRSSoB7v3DfpTOE"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.012",
+    "createdTime": 1760625638683,
+    "modifiedTime": 1760632277889,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "LMRSSoB7v3DfpTOE",
+  "sort": 0,
+  "_key": "!actors!LMRSSoB7v3DfpTOE"
+}

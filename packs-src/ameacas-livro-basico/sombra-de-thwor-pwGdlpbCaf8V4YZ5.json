@@ -1,0 +1,2197 @@
+{
+  "name": "Sombra de Thwor",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/2717d2e7ea8cd7f4bab5.webp",
+  "items": [
+    {
+      "name": "Assassinar",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/classes/ladino.webp",
+      "effects": [
+        {
+          "_id": "8xWG7thykkQ1N0Yc",
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.DROQ7l6JIWpvfIVq",
+          "transfer": true,
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "attack": true,
+              "self": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "aumenta": false,
+              "custo": "3",
+              "durationScene": false,
+              "items": ""
+            }
+          },
+          "tint": "#ffffff",
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Assassinar",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!pwGdlpbCaf8V4YZ5.IH9txvmPtleivdzy.8xWG7thykkQ1N0Yc",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "O sombra dos Goblinóides analisa uma criatura em alcance curto. Em seu primeiro Ataque Furtivo que causar dano a ela até o fim do seu próximo turno, ele dobra os dados de dano do Ataque Furtivo",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 73",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6",
+                "",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "classe",
+        "subtipo": "Ladino",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 0,
+      "_id": "IH9txvmPtleivdzy",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.IH9txvmPtleivdzy"
+    },
+    {
+      "folder": null,
+      "name": "Evasão",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/classes/ladino.webp",
+      "system": {
+        "description": {
+          "value": "Aprimorada Quando sofre um efeito que permite um teste de Reflexos para reduzir o dano à metade, o sombra dos Goblinóides não sofre dano algum se passar e sofre apenas metade do dano se falhar",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 73",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "classe",
+        "subtipo": "Ladino",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [],
+      "sort": 0,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_id": "1js6UsKEVUPnEhdW",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.1js6UsKEVUPnEhdW"
+    },
+    {
+      "name": "Um com as Sombras",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/classes/ladino.webp",
+      "effects": [
+        {
+          "_id": "eQLkWDLqPthuXdML",
+          "changes": [
+            {
+              "key": "system.pericias.furt.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.Sc713NLhozPmCYAg",
+          "transfer": true,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "tint": "#ffffff",
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Sombra",
+          "img": "systems/tormenta20/icons/classes/ladino.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!pwGdlpbCaf8V4YZ5.zX6J9K2J2MqbY6Qr.eQLkWDLqPthuXdML",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<p>O sombra dos Goblinóides nunca fica surpreendido ou flanqueado e não sofre penalidades por se mover com seu deslocamento normal enquanto usa Furtividade</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "classe",
+        "subtipo": "",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 0,
+      "_id": "zX6J9K2J2MqbY6Qr",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.zX6J9K2J2MqbY6Qr"
+    },
+    {
+      "folder": null,
+      "name": "Veneno",
+      "type": "poder",
+      "img": "icons/creatures/abilities/stinger-poison-green.webp",
+      "system": {
+        "description": {
+          "value": "Perde 2d12 pontos de vida por rodada durante 3 rodadas (Fort CD 26 reduz para uma rodada).",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Fortitude Varia"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "1d4",
+                "perda",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "origin": "Item.VWLwiM10pyEr7ZQq",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "KOklYtxVLCZmrIMF",
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 0,
+              "value": "roll",
+              "priority": null
+            }
+          ],
+          "transfer": true,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Veneno",
+          "img": "systems/tormenta20/icons/conditions/envenenado.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!pwGdlpbCaf8V4YZ5.KSz7CKDue4EKKapC.KOklYtxVLCZmrIMF",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "sort": 3500000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_id": "KSz7CKDue4EKKapC",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.KSz7CKDue4EKKapC"
+    },
+    {
+      "name": "Machadinha",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/machadinha.webp",
+      "effects": [],
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Machadinhas</section><p>Ferramenta útil para cortar madeira e também inimigos. Uma machadinha pode ser arremessada.</p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 149",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 2,
+        "espacos": 1,
+        "qtd": 2,
+        "preco": 6,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+12",
+                "corte",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ],
+              [
+                "2d12",
+                "perda",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "alcance": "short",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "arr": false,
+          "dst": false,
+          "dms": false,
+          "dup": false,
+          "lev": false,
+          "mun": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": true,
+          "ataqueDistancia": false,
+          "duasMaos": false,
+          "dupla": false,
+          "leve": true,
+          "municao": false,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "cruel",
+          "melhoria2": "atrocious",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "proficiencia": "marcial",
+        "proposito": "arremesso",
+        "empunhadura": "leve",
+        "size": "normal",
+        "ataques": 0,
+        "rolltags": [],
+        "automationtags": [],
+        "enableAutoUpgrades": true
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 1200000,
+      "_id": "AJsS8D7y091UdKdV",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.AJsS8D7y091UdKdV"
+    },
+    {
+      "name": "Machadinha",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/machadinha.webp",
+      "effects": [],
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Machadinhas</section><p>Ferramenta útil para cortar madeira e também inimigos. Uma machadinha pode ser arremessada.</p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 149",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 2,
+        "espacos": 1,
+        "qtd": 2,
+        "preco": 6,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+12",
+                "corte",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ],
+              [
+                "2d12",
+                "perda",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "alcance": "short",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "arr": false,
+          "dst": false,
+          "dms": false,
+          "dup": false,
+          "lev": false,
+          "mun": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": true,
+          "ataqueDistancia": false,
+          "duasMaos": false,
+          "dupla": false,
+          "leve": true,
+          "municao": false,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "cruel",
+          "melhoria2": "atrocious",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "size": "normal",
+        "ataques": 0,
+        "rolltags": [],
+        "automationtags": [],
+        "enableAutoUpgrades": true
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 100000,
+      "_id": "ZJAJVOYSh3HjN5Uj",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.ZJAJVOYSh3HjN5Uj"
+    },
+    {
+      "folder": null,
+      "name": "Ataque Furtivo",
+      "type": "poder",
+      "img": "icons/magic/perception/silhouette-stealth-shadow.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, o chefe bandido causa +2d6 pontos de dano com ataques corpo a corpo, ou à distância em alcance curto, contra alvos desprevenidos ou que esteja flanqueando.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6",
+                "corte",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "origin": "Item.4o2kchrTeo495pRf",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": false,
+              "attack": true,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "_id": "Owew6Yq96mSBToyC",
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "2d6",
+              "priority": 0
+            }
+          ],
+          "transfer": true,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Ataque Furtivo",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!pwGdlpbCaf8V4YZ5.MESkbOImBoxLfaqg.Owew6Yq96mSBToyC",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "sort": 300000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_id": "MESkbOImBoxLfaqg",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.MESkbOImBoxLfaqg"
+    },
+    {
+      "name": "Peçonha Potente",
+      "type": "consumivel",
+      "img": "systems/tormenta20/icons/itens/gerais/veneno.webp",
+      "effects": [
+        {
+          "origin": "Compendium.tormenta20.equipamentos.Item.kmbfQJLBekZl3cNM",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "duration": {
+            "rounds": 3,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "sO7OOuysiopAeD8d",
+          "changes": [],
+          "transfer": false,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Peçonha Potente",
+          "img": "systems/tormenta20/icons/itens/gerais/veneno.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!pwGdlpbCaf8V4YZ5.2IHRVba0VsUQME2o.sO7OOuysiopAeD8d",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "scene-packer": {
+          "sourceId": "Item.aB83ZIHSuh8oaTGC",
+          "defaultPermission": 2,
+          "hash": "80c676fec875b1cc9baa554ecd3674aa0cc63420"
+        }
+      },
+      "system": {
+        "description": {
+          "value": "<p>Veneno poderoso, extraído de animais ou plantas perigosos.</p>\n<p><strong>Tipo:</strong> <em>Contato.</em></p>\n<p><strong>Efeito:</strong> <em>Perde 2d12 PV por rodada durante 3 rodadas (perde 2d12 PV).</em></p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 162",
+        "carregado": true,
+        "peso": 0.5,
+        "espacos": 0.5,
+        "qtd": 1,
+        "preco": 600,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "2d12",
+                "",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "alchemy",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "subtipo": "",
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "automationtags": [],
+        "enableAutoUpgrades": true
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 112500,
+      "_id": "2IHRVba0VsUQME2o",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.2IHRVba0VsUQME2o"
+    },
+    {
+      "_id": "exEsroUTwk80kCNp",
+      "name": "Couro batido",
+      "type": "equipamento",
+      "img": "systems/tormenta20/icons/itens/equipamentos/couro-batido.webp",
+      "effects": [],
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<p>Versão mais pesada da armadura de couro, reforçada com rebites de metal.</p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 154",
+        "equipado": true,
+        "carregado": true,
+        "peso": 10,
+        "espacos": 2,
+        "qtd": 1,
+        "preco": 35,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "tipo": "leve",
+        "armadura": {
+          "value": 3,
+          "penalidade": -1,
+          "maxAtr": 0
+        },
+        "rolls": [],
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "upgrades": {
+          "melhoria1": "adjusted",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "automationtags": [],
+        "enableAutoUpgrades": true,
+        "equipado2": {
+          "slot": 0,
+          "type": "body"
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "sort": 106250,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!pwGdlpbCaf8V4YZ5.exEsroUTwk80kCNp"
+    }
+  ],
+  "effects": [
+    {
+      "_id": "7nd5WhrcFoPUmPPZ",
+      "changes": [],
+      "disabled": true,
+      "duration": {
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "origin": "Actor.C5SzE4C5zcu4Y9SJ.Item.IH9txvmPtleivdzy",
+      "transfer": false,
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "attack": true,
+          "self": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "3",
+          "durationScene": false,
+          "items": ""
+        }
+      },
+      "tint": "#ffffff",
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "name": "Assassinar",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "statuses": [],
+      "sort": 0,
+      "_key": "!actors.effects!pwGdlpbCaf8V4YZ5.7nd5WhrcFoPUmPPZ",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "origin": "Actor.C5SzE4C5zcu4Y9SJ.Item.MESkbOImBoxLfaqg",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "_id": "LCn2TVOQJjK4M1wW",
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2d6",
+          "priority": 0
+        }
+      ],
+      "transfer": false,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "name": "Ataque Furtivo",
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "statuses": [],
+      "sort": 0,
+      "_key": "!actors.effects!pwGdlpbCaf8V4YZ5.LCn2TVOQJjK4M1wW",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "folder": "kmdTGXDM6yuy11rG",
+  "flags": {
+    "tormenta20": {
+      "sheet": {},
+      "lvlconfig": {
+        "pv": {},
+        "pm": {}
+      },
+      "version": "1.3.0.0"
+    },
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "ameacas-livro-basico",
+        "id": "pwGdlpbCaf8V4YZ5"
+      }
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "bonus": 0,
+        "base": 5,
+        "racial": 0
+      },
+      "des": {
+        "value": 0,
+        "bonus": 0,
+        "base": 5,
+        "racial": 0
+      },
+      "con": {
+        "value": 0,
+        "bonus": 0,
+        "base": 5,
+        "racial": 0
+      },
+      "int": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "sab": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "car": {
+        "value": 0,
+        "bonus": 0,
+        "base": 0,
+        "racial": 0
+      }
+    },
+    "attributes": {
+      "cd": 26,
+      "pv": {
+        "value": 295,
+        "min": -500,
+        "max": 295,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "min": 0,
+        "max": 0,
+        "temp": 0
+      },
+      "movement": {
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "walk": {
+          "base": 9,
+          "bonus": []
+        },
+        "unit": "m",
+        "hover": false,
+        "tags": []
+      },
+      "defesa": {
+        "base": 25,
+        "value": 0,
+        "outros": 0,
+        "atributo": "des",
+        "pda": 0,
+        "bonus": [],
+        "condi": 0
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": ""
+      },
+      "conjuracao": "int",
+      "nivel": {
+        "value": 1,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "nd": "9",
+      "carga": {
+        "value": 0,
+        "base": 10,
+        "bonus": [],
+        "max": 0,
+        "pct": 0,
+        "encumbered": false,
+        "atributo": "for",
+        "limit": 0
+      },
+      "treino": 0
+    },
+    "detalhes": {
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "raca": "hobgoblin",
+      "tipo": "hum",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "tesouro": "Padrão.",
+      "role": "special",
+      "origem": "",
+      "ataquescac": "Duas machadinhas +27 (1d6+12 mais veneno, x3).",
+      "ataquesad": "Duas machadinhas +27 (1d6+12 mais 2d12 veneno, x3).",
+      "movimento": ""
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "dano": {
+          "value": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "idiomas": {
+        "value": [
+          "comum"
+        ]
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tl": 0,
+      "to": 0,
+      "tp": 0,
+      "tc": 0
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    },
+    "pericias": {
+      "acro": {
+        "value": 15,
+        "atributo": "des",
+        "outros": 2,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "value": 13,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "value": 15,
+        "atributo": "con",
+        "outros": 6,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "value": 18,
+        "atributo": "des",
+        "outros": 5,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "value": 17,
+        "atributo": "des",
+        "outros": 4,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "value": 9,
+        "atributo": "car",
+        "outros": 1,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "label": "",
+        "st": false,
+        "pda": false,
+        "bonus": [],
+        "size": false,
+        "condi": 0,
+        "custom": false
+      },
+      "inve": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "value": 15,
+        "atributo": "des",
+        "outros": 2,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 14,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "value": 10,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 14,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "value": 21,
+        "atributo": "des",
+        "outros": 12,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "value": 9,
+        "atributo": "sab",
+        "outros": 3,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi1": {
+        "label": "Armeiro",
+        "outros": -1,
+        "condi": 0,
+        "atributo": "for",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "bonus": [],
+        "custom": false
+      }
+    },
+    "modificadores": {
+      "atributos": {
+        "geral": [
+          ""
+        ],
+        "fisicos": [
+          ""
+        ],
+        "mentais": [
+          ""
+        ],
+        "for": [
+          ""
+        ],
+        "des": [
+          ""
+        ],
+        "con": [
+          ""
+        ],
+        "int": [
+          ""
+        ],
+        "sab": [
+          ""
+        ],
+        "car": [
+          ""
+        ]
+      },
+      "dano": {
+        "geral": [
+          ""
+        ],
+        "cac": [
+          ""
+        ],
+        "ad": [
+          ""
+        ],
+        "mag": [
+          ""
+        ],
+        "alq": [
+          ""
+        ]
+      },
+      "custoPM": 0,
+      "pericias": {
+        "geral": [
+          ""
+        ],
+        "semataque": [
+          ""
+        ],
+        "ataque": [
+          ""
+        ],
+        "resistencia": [
+          ""
+        ],
+        "atr": {
+          "for": [
+            ""
+          ],
+          "des": [
+            ""
+          ],
+          "con": [
+            ""
+          ],
+          "int": [
+            ""
+          ],
+          "sab": [
+            ""
+          ],
+          "car": [
+            ""
+          ]
+        }
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      }
+    }
+  },
+  "prototypeToken": {
+    "flags": {},
+    "name": "Sombra de Thwor",
+    "displayName": 30,
+    "width": 1,
+    "height": 1,
+    "lockRotation": true,
+    "rotation": 0,
+    "actorLink": false,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "randomImg": false,
+    "alpha": 1,
+    "light": {
+      "dim": 0,
+      "bright": 0,
+      "angle": 360,
+      "color": null,
+      "alpha": 1,
+      "animation": {
+        "speed": 5,
+        "intensity": 5,
+        "type": null,
+        "reverse": false
+      },
+      "coloration": 1,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "darkness": {
+        "min": 0,
+        "max": 1
+      },
+      "negative": false,
+      "priority": 0
+    },
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/2717d2e7ea8cd7f4bab5.webp",
+      "tint": "#ffffff",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0,
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "alphaThreshold": 0.75
+    },
+    "sight": {
+      "angle": 360,
+      "enabled": true,
+      "range": 30,
+      "brightness": 1,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "appendNumber": false,
+    "prependAdjective": false,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1762951325066,
+    "modifiedTime": 1763836497295,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "pwGdlpbCaf8V4YZ5",
+  "sort": 0,
+  "_key": "!actors!pwGdlpbCaf8V4YZ5"
+}

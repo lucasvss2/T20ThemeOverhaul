@@ -1,0 +1,199 @@
+{
+  "name": "Sopro",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/poderes/ameacas/sopro-gas.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">O dragão cospe energia em uma área. A área do sopro, o tipo de energia e o dano dependem do dragão. </span></p><p><span class=\"fontstyle2\"><em>Recarga (movimento).</em></span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "action",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "self",
+    "area": "cone de 15m",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": "Reflexos Metade"
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "1d12",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "racial",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Cego",
+      "duration": {
+        "rounds": 999,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "statuses": [
+        "cego",
+        "blind",
+        "sentidos"
+      ],
+      "flags": {
+        "tormenta20": {
+          "condition": true,
+          "durationScene": true,
+          "childEffect": [
+            "desprevenido",
+            "lento"
+          ],
+          "category": "sentidos"
+        }
+      },
+      "changes": [
+        {
+          "key": "system.pericias.acro.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.atle.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.cava.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.furt.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.inic.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.luta.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.pilo.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.pont.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "system.pericias.refl.condi",
+          "mode": 3,
+          "value": "-2",
+          "priority": null
+        }
+      ],
+      "transfer": false,
+      "_id": "6V7nU5s8X5YuBP6Y",
+      "disabled": false,
+      "description": "",
+      "origin": null,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "img": "systems/tormenta20/icons/conditions/cego.svg",
+      "type": "base",
+      "system": {},
+      "tint": "#ffffff",
+      "sort": 0,
+      "_key": "!items.effects!t90vBVbDVg7OAgrp.6V7nU5s8X5YuBP6Y",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "t90vBVbDVg7OAgrp"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746937869,
+    "modifiedTime": 1761746965935,
+    "lastModifiedBy": null
+  },
+  "folder": "ZTgrh1eXS2fNEvZ8",
+  "ownership": {
+    "default": 0
+  },
+  "_id": "t90vBVbDVg7OAgrp",
+  "sort": 500000,
+  "_key": "!items!t90vBVbDVg7OAgrp"
+}

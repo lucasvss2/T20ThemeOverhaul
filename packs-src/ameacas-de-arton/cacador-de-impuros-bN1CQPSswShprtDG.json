@@ -1,0 +1,2251 @@
+{
+  "folder": "sqCXX1gYGyGOR6VO",
+  "name": "Caçador de Impuros",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/a7fcf8af296def18beb4.webp",
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "des": {
+        "value": 0,
+        "bonus": 0,
+        "base": 4,
+        "racial": 0
+      },
+      "con": {
+        "value": 0,
+        "bonus": 0,
+        "base": 3,
+        "racial": 0
+      },
+      "int": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "sab": {
+        "value": 0,
+        "bonus": 0,
+        "base": 2,
+        "racial": 0
+      },
+      "car": {
+        "value": 0,
+        "bonus": 0,
+        "base": 3,
+        "racial": 0
+      }
+    },
+    "attributes": {
+      "cd": 10,
+      "pv": {
+        "value": 290,
+        "min": 0,
+        "max": 290,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "min": 0,
+        "max": 0,
+        "temp": 0
+      },
+      "movement": {
+        "burrow": 0,
+        "climb": 0,
+        "fly": 0,
+        "swim": 0,
+        "walk": 9,
+        "unit": "m",
+        "hover": false
+      },
+      "defesa": {
+        "base": 30,
+        "value": 10,
+        "outros": 0,
+        "atributo": "des",
+        "pda": 0,
+        "bonus": [],
+        "condi": 0
+      },
+      "sentidos": {
+        "value": [],
+        "custom": ""
+      },
+      "conjuracao": "int",
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "carga": {
+        "value": 0,
+        "base": 10,
+        "bonus": [],
+        "max": 0,
+        "pct": 0,
+        "encumbered": false,
+        "atributo": "for",
+        "limit": 0
+      },
+      "treino": 0,
+      "nd": "8"
+    },
+    "detalhes": {
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "raca": "humano",
+      "tipo": "hum",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "tesouro": "Padrão",
+      "role": "solo",
+      "origem": "",
+      "movimento": "",
+      "ataquescac": "Cimitarra x2 +23 (1d6+10, 18/x3)",
+      "ataquesad": "Besta leve x2 +23 (1d8+10, 19)."
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "dano": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": [],
+        "custom": ""
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tl": 0,
+      "to": 0,
+      "tp": 0,
+      "tc": 0
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": ""
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      }
+    },
+    "pericias": {
+      "acro": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "value": 10,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "value": 11,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "value": 0,
+        "atributo": "con",
+        "outros": -3,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "value": 14,
+        "atributo": "des",
+        "outros": 2,
+        "treinado": true,
+        "st": true,
+        "pda": false,
+        "size": true,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "value": 18,
+        "atributo": "des",
+        "outros": 6,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "value": 10,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "value": 14,
+        "atributo": "sab",
+        "outros": 4,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 9,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "value": 10,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 3,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "modificadores": {
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      },
+      "custoPM": 0,
+      "cura": {
+        "geral": [],
+        "mag": []
+      }
+    }
+  },
+  "prototypeToken": {
+    "name": "Caçador de Impuros",
+    "displayName": 0,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/a7fcf8af296def18beb4.webp",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "alphaThreshold": 0.75
+    },
+    "width": 1,
+    "height": 1,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      },
+      "color": null,
+      "negative": false,
+      "priority": 0
+    },
+    "sight": {
+      "enabled": true,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0,
+      "color": null
+    },
+    "detectionModes": [],
+    "flags": {
+      "healthEstimate": {
+        "dontMarkDead": false,
+        "hideHealthEstimate": false,
+        "hideName": false
+      }
+    },
+    "randomImg": false,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "items": [
+    {
+      "name": "Cimitarra",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/cimitarra.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 400000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Cimitarra x2</section><p style=\"text-align:justify\">Espada com a lâmina curva e muito afiada. A cimitarra é uma arma ágil</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 147 (JdA)",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 2,
+        "espacos": 1,
+        "qtd": 1,
+        "preco": 15,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+17",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d6+10",
+                "corte"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 18,
+        "criticoX": 3,
+        "alcance": "",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": true,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": true,
+          "alongada": false,
+          "arremesso": false,
+          "ataqueDistancia": false,
+          "duasMaos": false,
+          "dupla": false,
+          "leve": false,
+          "municao": false,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 1,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "size": "normal",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760497192625
+      },
+      "_id": "0sROa5v1chj9JnC9",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.0sROa5v1chj9JnC9"
+    },
+    {
+      "_id": "BZ0b6JbbWhFe8FVj",
+      "name": "Besta leve",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/besta-leve.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 150000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Um arco montado sobre uma coronha de madeira com um gatilho, a besta leve é uma arma que dispara virotes com grande potência. Recarregar uma besta leve é uma ação de movimento.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 146 (JdA)",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 3,
+        "espacos": 1,
+        "qtd": 1,
+        "preco": 35,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+17",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8+10",
+                "perfuracao"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 19,
+        "criticoX": 2,
+        "alcance": "medium",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": false,
+          "ataqueDistancia": true,
+          "duasMaos": true,
+          "dupla": false,
+          "leve": false,
+          "municao": true,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 1,
+        "proficiencia": "simples",
+        "proposito": "disparo",
+        "empunhadura": "duas",
+        "size": "normal",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760497181361
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.BZ0b6JbbWhFe8FVj"
+    },
+    {
+      "_id": "ZVOHixvXZst2wN80",
+      "name": "Couraça Ajustada",
+      "type": "equipamento",
+      "img": "systems/tormenta20/icons/itens/equipamentos/couraca.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 106250,
+      "flags": {
+        "core": {},
+        "tormenta20": {
+          "needCommit": true
+        }
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">A mais robusta das armaduras leves, formada por uma placa metálica que protege o peito e as costas, presa sobre um casaco de couro.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 154 (JdA)",
+        "equipado": false,
+        "equipado2": {
+          "slot": 0,
+          "type": "body"
+        },
+        "carregado": true,
+        "peso": 15,
+        "espacos": 2,
+        "qtd": 1,
+        "preco": 500,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "tipo": "leve",
+        "armadura": {
+          "value": 5,
+          "penalidade": -3,
+          "maxAtr": 0
+        },
+        "rolls": [],
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "upgrades": {
+          "melhoria1": "adjusted",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.ZVOHixvXZst2wN80"
+    },
+    {
+      "_id": "acHlK1b0AlPwXVxy",
+      "name": "Virotes de aço rubi",
+      "type": "consumivel",
+      "img": "systems/tormenta20/icons/itens/equipamentos/virotes.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 300000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Uma aljava com 20 setas de madeira. Recarregar uma besta leve é uma ação de movimento; já recarregar uma besta pesada é uma ação padrão.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 151 (JdA)",
+        "carregado": true,
+        "peso": 0.075,
+        "espacos": 0.05,
+        "qtd": 20,
+        "preco": 2,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ammo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "ruby-steel",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "subtipo": "",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.acHlK1b0AlPwXVxy"
+    },
+    {
+      "_id": "hCpJYHiDJR86juYO",
+      "name": "Munição Estilhaçadora",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 1900000,
+      "flags": {
+        "core": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle2\">O caçador pode executar as manobras desarmar e quebrar com ataques à distância. Adicionalmente, por serem de aço-rubi, seus virotes ignoram 10 pontos da redução de dano do alvo.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Combate",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760497320980
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.hCpJYHiDJR86juYO"
+    },
+    {
+      "_id": "IA8sZE6N4myzS6Lm",
+      "name": "Saque Rápido",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 2000000,
+      "flags": {
+        "core": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">O caçador pode sacar ou guardar itens e recarregar sua besta leve como uma ação livre.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 129 (JdA)",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Combate",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760497327139
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.IA8sZE6N4myzS6Lm"
+    },
+    {
+      "name": "Espião Infiltrado",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">O caçador de impuros faz um teste de Enganação contra a Diplomacia de um alvo não humano, para apontá-lo como culpado de algum crime que não cometeu. Se vencer, criaturas inteligentes (Int –3 ou maior) em alcance médio mudam a atitude com o alvo para hostil até o fim da cena.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "action",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "6UWBRDDMdHqlqXeP",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497338338,
+        "modifiedTime": 1760497387963,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.6UWBRDDMdHqlqXeP"
+    },
+    {
+      "name": "Espreitador Astuto",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">O caçador pode executar uma ação padrão adicional em seu primeiro turno de combate. Além disso, quando se move 6m ou mais, ele recebe +1d12 nas rolagens de dano de ataques corpo a corpo e à distância em alcance curto até o início do seu próximo turno.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "DWanPTnVwCnhDKwv",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [
+        {
+          "name": "Espreitador Astuto: quando se move 6m ou mais, ele recebe +1d12 nas rolagens de dano de ataques corpo a corpo e à distância em alcance curto até o início do seu próximo turno",
+          "img": "icons/svg/upgrade.svg",
+          "origin": "Compendium.world.bestiario-de-arton.Actor.bN1CQPSswShprtDG.Item.DWanPTnVwCnhDKwv",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": false,
+              "attack": true,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "1d12",
+              "priority": null
+            }
+          ],
+          "_id": "BEeFgfC87zZ1XN6O",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "createdTime": 1760497472889,
+            "modifiedTime": 1760497482093,
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!bN1CQPSswShprtDG.DWanPTnVwCnhDKwv.BEeFgfC87zZ1XN6O",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497390578,
+        "modifiedTime": 1760497431591,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.DWanPTnVwCnhDKwv"
+    },
+    {
+      "name": "Inimigo de Todos",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">O caçador analisa uma criatura humanoide não humana em alcance longo. Até o fim da cena, ou até usar esta habilidade em outra criatura, ele recebe +6 em testes de perícia e +2d12 nas rolagens de dano contra essa criatura, e seus ataques contra o alvo recebem +2 na margem de ameaça.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "move",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "9MsLSw3QO9PcZck8",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497595399,
+        "modifiedTime": 1760497633680,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.9MsLSw3QO9PcZck8"
+    },
+    {
+      "type": "poder",
+      "name": "Ódio Puro",
+      "img": "icons/creatures/magical/spirit-fear-energy-pink.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Puristas passam por um processo de doutrinação no qual aprendem a obedecer ordens sem questionar e a odiar todas as raças não humanas. Um purista recebe +5 em testes de Vontade quando está seguindo ordens de um superior (qualquer purista com ND maior) e +2 em rolagens de dano contra humanoides não humanos.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": 0,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ability",
+        "subtipo": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "name": "Ódio Puro (+5 de Vontade)",
+          "img": "icons/svg/upgrade.svg",
+          "origin": "Item.8Qh4hUapSyGBbN7e",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": true,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "Vontade",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "changes": [
+            {
+              "key": "roll",
+              "mode": 2,
+              "value": "5",
+              "priority": null
+            }
+          ],
+          "_id": "2TzmmVvQL7zcGrcF",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!bN1CQPSswShprtDG.DkiORpYTIlrmoOef.2TzmmVvQL7zcGrcF",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Ódio Puro (+2 em rolagens de dano contra humanoides não humanos)",
+          "img": "icons/svg/upgrade.svg",
+          "origin": "Item.8Qh4hUapSyGBbN7e",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": false,
+              "attack": true,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "_id": "Ly18qNvyNPbJ20zW",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!bN1CQPSswShprtDG.DkiORpYTIlrmoOef.Ly18qNvyNPbJ20zW",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 150000,
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760712479732,
+        "modifiedTime": 1760712479732,
+        "lastModifiedBy": null
+      },
+      "_id": "DkiORpYTIlrmoOef",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!bN1CQPSswShprtDG.DkiORpYTIlrmoOef"
+    }
+  ],
+  "effects": [
+    {
+      "name": "Espreitador Astuto: quando se move 6m ou mais, ele recebe +1d12 nas rolagens de dano de ataques corpo a corpo e à distância em alcance curto até o início do seu próximo turno",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.bN1CQPSswShprtDG",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "startRound": 5,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "1d12",
+          "priority": null
+        }
+      ],
+      "_id": "zDkZncq3vsW0rtAn",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497568140,
+        "modifiedTime": 1760497574827,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!bN1CQPSswShprtDG.zDkZncq3vsW0rtAn",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Inimigo de Todos: +2d12 nas rolagens de dano e +2 na margem de ameaça",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.bN1CQPSswShprtDG",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "startRound": 5,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "criticoM",
+          "mode": 2,
+          "value": "-2",
+          "priority": null
+        },
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2d12",
+          "priority": null
+        }
+      ],
+      "_id": "i62kSSs0ld8YSjR3",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497702882,
+        "modifiedTime": 1760497719787,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!bN1CQPSswShprtDG.i62kSSs0ld8YSjR3",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Inimigo de Todos: +6 em testes de perícia",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.bN1CQPSswShprtDG",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "startRound": 5,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "6",
+          "priority": null
+        },
+        {
+          "key": "ataque",
+          "mode": 2,
+          "value": "6",
+          "priority": null
+        }
+      ],
+      "_id": "QTbhEFh26qvPraF0",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760497841235,
+        "modifiedTime": 1760497922969,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!bN1CQPSswShprtDG.QTbhEFh26qvPraF0",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Ódio Puro (+5 de Vontade)",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.bN1CQPSswShprtDG.Item.DkiORpYTIlrmoOef",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "Vontade",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": 5,
+        "startTurn": 1
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "5",
+          "priority": null
+        }
+      ],
+      "_id": "WJJLxMtbOZa4XXBg",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760712479894,
+        "modifiedTime": 1760712479894,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!bN1CQPSswShprtDG.WJJLxMtbOZa4XXBg",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Ódio Puro (+2 em rolagens de dano contra humanoides não humanos)",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.bN1CQPSswShprtDG.Item.DkiORpYTIlrmoOef",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 102,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": 5,
+        "startTurn": 1
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        }
+      ],
+      "_id": "XlQOvkdDbCDr1V8n",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760712479894,
+        "modifiedTime": 1760712479894,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!bN1CQPSswShprtDG.XlQOvkdDbCDr1V8n",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "bestiario-de-arton",
+        "id": "bN1CQPSswShprtDG"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.012",
+    "createdTime": 1760497058382,
+    "modifiedTime": 1760558674904,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "bN1CQPSswShprtDG",
+  "sort": 800000,
+  "_key": "!actors!bN1CQPSswShprtDG"
+}

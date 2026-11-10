@@ -1,0 +1,291 @@
+{
+  "_id": "7b0ca91044e557aa",
+  "_key": "!actors!7b0ca91044e557aa",
+  "name": "Servo de Sombra (Iniciado)",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/necromancia/servo-de-sombra.png",
+  "folder": "X9TuFXCvny1ptG5G",
+  "ownership": {
+    "default": 0
+  },
+  "prototypeToken": {
+    "name": "Servo de Sombra",
+    "actorLink": false,
+    "width": 1,
+    "height": 1,
+    "disposition": -1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/necromancia/servo-de-sombra.png"
+    },
+    "bar1": {
+      "attribute": "attributes.pv"
+    }
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "necromancyTemplate": true
+    }
+  },
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 3,
+        "base": 3,
+        "bonus": 0,
+        "racial": 0
+      },
+      "des": {
+        "value": 3,
+        "base": 3,
+        "bonus": 0,
+        "racial": 0
+      },
+      "con": {
+        "value": 0,
+        "base": 0,
+        "bonus": 0,
+        "racial": 0
+      },
+      "int": {
+        "value": 0,
+        "base": 0,
+        "bonus": 0,
+        "racial": 0
+      },
+      "sab": {
+        "value": 0,
+        "base": 0,
+        "bonus": 0,
+        "racial": 0
+      },
+      "car": {
+        "value": 0,
+        "base": 0,
+        "bonus": 0,
+        "racial": 0
+      }
+    },
+    "attributes": {
+      "nd": "0",
+      "cd": 0,
+      "pv": {
+        "value": 1,
+        "max": 1,
+        "min": 0,
+        "temp": 0
+      },
+      "pm": {
+        "value": 0,
+        "max": 0,
+        "temp": 0
+      },
+      "defesa": {
+        "base": 10,
+        "outros": 9,
+        "atributo": "des"
+      },
+      "movement": {
+        "walk": {
+          "base": 9
+        }
+      }
+    },
+    "detalhes": {
+      "tipo": "mor",
+      "raca": "Morto-vivo de sombra",
+      "role": "lackey",
+      "tesouro": "Nenhum",
+      "biography": {
+        "value": "<p>Servo conjurado por Ergam-se! do Necromante Iniciado. For 3, Des 3, demais atributos 0; 1 PV, Defesa 22, deslocamento 9m. No turno de seu mestre, uma vez por rodada, causa 1d8 de trevas em uma criatura adjacente, sem teste de ataque. Falha automaticamente em resistências e testes opostos.</p><p>Imune a atordoamento, dano não letal, doença, encantamento, fadiga, frio, ilusão, paralisia, sono e veneno.</p>"
+      }
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": true,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": [
+          "atordoado",
+          "doente",
+          "encantamento",
+          "fatigado",
+          "exausto",
+          "ilusao",
+          "paralisado",
+          "sono",
+          "envenenado"
+        ],
+        "custom": "Imune a dano não letal. Falha automaticamente em resistências e testes opostos."
+      }
+    }
+  },
+  "items": [
+    {
+      "_id": "f3f457b7745ff491",
+      "_key": "!actors.items!7b0ca91044e557aa.f3f457b7745ff491",
+      "name": "Golpe de Sombra",
+      "type": "poder",
+      "img": "modules/t20-theme-overhaul/assets/necromancia/servo-de-sombra.png",
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "round",
+            "save": true
+          }
+        }
+      },
+      "system": {
+        "tipo": "geral",
+        "ativacao": {
+          "execucao": "standard",
+          "custo": 0
+        },
+        "alcance": "touch",
+        "alvo": "1 criatura adjacente",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "duracao": {
+          "units": "inst"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8",
+                "trevas",
+                ""
+              ]
+            ]
+          }
+        ],
+        "description": {
+          "value": "<p>No turno do mestre, uma vez por rodada, causa 1d8 de trevas em uma criatura adjacente, sem teste de ataque.</p>"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,3539 @@
+{
+  "folder": "i3wFncZiMdGQ1DYM",
+  "name": "Armeiro de Tenebra Clérigo",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/3b1112090600cfe66c96.webp",
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "bonus": 0,
+        "base": 1,
+        "racial": 0
+      },
+      "des": {
+        "value": 0,
+        "bonus": 0,
+        "base": 0,
+        "racial": 0
+      },
+      "con": {
+        "value": 0,
+        "bonus": 0,
+        "base": 5,
+        "racial": 0
+      },
+      "int": {
+        "value": 0,
+        "bonus": 0,
+        "base": 1,
+        "racial": 0
+      },
+      "sab": {
+        "value": 0,
+        "bonus": 0,
+        "base": 5,
+        "racial": 0
+      },
+      "car": {
+        "value": 0,
+        "bonus": 0,
+        "base": -2,
+        "racial": 0
+      }
+    },
+    "attributes": {
+      "cd": 28,
+      "pv": {
+        "value": 210,
+        "min": 0,
+        "max": 210,
+        "temp": 0
+      },
+      "pm": {
+        "value": 45,
+        "min": 0,
+        "max": 45,
+        "temp": 0
+      },
+      "movement": {
+        "burrow": 0,
+        "climb": 0,
+        "fly": 0,
+        "swim": 0,
+        "walk": 6,
+        "unit": "m",
+        "hover": false
+      },
+      "defesa": {
+        "base": 31,
+        "value": 10,
+        "outros": 0,
+        "atributo": "des",
+        "pda": 0,
+        "bonus": [],
+        "condi": 0
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ],
+        "custom": ""
+      },
+      "conjuracao": "int",
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "carga": {
+        "value": 0,
+        "base": 10,
+        "bonus": [],
+        "max": 0,
+        "pct": 0,
+        "encumbered": false,
+        "atributo": "for",
+        "limit": 0
+      },
+      "treino": 0,
+      "nd": "8"
+    },
+    "detalhes": {
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "raca": "Anão",
+      "tipo": "hum",
+      "divindade": "",
+      "equipamento": "",
+      "resistencias": "",
+      "tesouro": "Padrão",
+      "role": "special",
+      "origem": "",
+      "movimento": "",
+      "ataquescac": "Machado de batalha +24 (1d8+1, x3)",
+      "ataquesad": "Mosquete +24 (2d8+16, 18/x3, mais 8d6 trevas)"
+    },
+    "tracos": {
+      "tamanho": "med",
+      "resistencias": {
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": true,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        },
+        "dano": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "excecao": 0,
+          "danoPorDado": false
+        }
+      },
+      "ic": {
+        "value": [
+          "trevas"
+        ],
+        "custom": ""
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      }
+    },
+    "dinheiro": {
+      "tl": 0,
+      "to": 0,
+      "tp": 0,
+      "tc": 0
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": ""
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": ""
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": ""
+      }
+    },
+    "pericias": {
+      "acro": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "value": 0,
+        "atributo": "con",
+        "outros": 5,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": true,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "value": 10,
+        "atributo": "des",
+        "outros": 2,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "value": 0,
+        "atributo": "car",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "value": 9,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi0": {
+        "value": 0,
+        "atributo": "int",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "value": 13,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "value": 0,
+        "atributo": "des",
+        "outros": 4,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "value": 13,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": true,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "value": 0,
+        "atributo": "sab",
+        "outros": 12,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "_pc0": {
+        "value": 0,
+        "atributo": "for",
+        "outros": 0,
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ofi1": {
+        "atributo": "int",
+        "treinado": true,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": true,
+        "label": "Ofício: Armeiro"
+      }
+    },
+    "modificadores": {
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      },
+      "custoPM": 0,
+      "cura": {
+        "geral": [],
+        "mag": []
+      }
+    }
+  },
+  "prototypeToken": {
+    "name": "Armeiro de Tenebra Clérigo",
+    "displayName": 0,
+    "actorLink": false,
+    "appendNumber": false,
+    "prependAdjective": false,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/3b1112090600cfe66c96.webp",
+      "scaleX": 1,
+      "scaleY": 1,
+      "offsetX": 0,
+      "offsetY": 0,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "fit": "contain",
+      "alphaThreshold": 0.75
+    },
+    "width": 1,
+    "height": 1,
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      },
+      "color": null,
+      "negative": false,
+      "priority": 0
+    },
+    "sight": {
+      "enabled": true,
+      "range": 9,
+      "angle": 360,
+      "visionMode": "basic",
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0,
+      "color": null
+    },
+    "detectionModes": [],
+    "flags": {
+      "healthEstimate": {
+        "dontMarkDead": false,
+        "hideHealthEstimate": false,
+        "hideName": false
+      }
+    },
+    "randomImg": false,
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 0,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null
+  },
+  "items": [
+    {
+      "name": "Machado de batalha",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/machado-de-batalha.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 1000000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Machado de batalha</section><p style=\"text-align:justify\">Adaptado do machado de lenhador, este não é um instrumento para corte de árvores, mas sim uma arma capaz de causar ferimentos terríveis.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 149 (JdA)",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 3,
+        "espacos": 1,
+        "qtd": 1,
+        "preco": 10,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+19",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "1d8+1",
+                "corte"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 3,
+        "alcance": "",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": false,
+          "ataqueDistancia": false,
+          "duasMaos": false,
+          "dupla": false,
+          "leve": false,
+          "municao": false,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 1,
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "uma",
+        "size": "normal",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760740719674
+      },
+      "_id": "ucSo5TVKcyQmMFwK",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.ucSo5TVKcyQmMFwK"
+    },
+    {
+      "_id": "HoZ2EH20ezlHnXN5",
+      "name": "Saque Rápido",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": -25000,
+      "flags": {
+        "core": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">O armeiro pode sacar ou guardar itens como uma ação livre e recarregar seu mosquete como uma ação de movimento.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 129 (JdA)",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Combate",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.HoZ2EH20ezlHnXN5"
+    },
+    {
+      "_id": "OhR92DM6dbJdLbIr",
+      "name": "Visão nas Trevas",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/concedidos-trevas.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Você enxerga perfeitamente no escuro, incluindo em magias de escuridão.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 136 (JdA)",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "concedido",
+        "subtipo": "Trevas",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.OhR92DM6dbJdLbIr"
+    },
+    {
+      "_id": "cpWPw9LdxQadZ21T",
+      "name": "Balas",
+      "type": "consumivel",
+      "img": "systems/tormenta20/icons/itens/equipamentos/balas.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 100000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Uma bolsa com 20 balas (pequenas esferas de chumbo) e pólvora. Recarregar uma pistola ou um mosquete é uma ação padrão.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 151 (JdA)",
+        "carregado": true,
+        "peso": 0.025,
+        "espacos": 0.05,
+        "qtd": 20,
+        "preco": 20,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "none",
+        "alvo": "",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "ammo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "subtipo": "",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.cpWPw9LdxQadZ21T"
+    },
+    {
+      "_id": "9JUGSeAtjipekC9V",
+      "name": "Mosquete Certeiro",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/mosquete.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 200000,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Uma arma de fogo de uso difícil, mas com poder devastador. Recarregar um mosquete é uma ação padrão. Exige as duas mãos.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 150 (JdA)",
+        "equipado": 0,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "carregado": true,
+        "peso": 4,
+        "espacos": 2,
+        "qtd": 1,
+        "preco": 500,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "+19",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+16",
+                "perfuracao"
+              ],
+              [
+                "",
+                ""
+              ],
+              [
+                "8d6",
+                "trevas"
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 28,
+        "criticoX": 3,
+        "alcance": "medium",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": false,
+          "ataqueDistancia": true,
+          "duasMaos": true,
+          "dupla": false,
+          "leve": false,
+          "municao": true,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "ammo",
+          "target": "cpWPw9LdxQadZ21T",
+          "amount": 1,
+          "mpMultiplier": false
+        },
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "ataques": 1,
+        "proficiencia": "fogo",
+        "proposito": "disparo",
+        "empunhadura": "duas",
+        "size": "normal",
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null,
+        "modifiedTime": 1760740713514
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.9JUGSeAtjipekC9V"
+    },
+    {
+      "name": "Capa Pesada",
+      "type": "equipamento",
+      "img": "systems/tormenta20/icons/itens/gerais/capa-pesada.webp",
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Uma capa de couro grossa e resistente. Protege e aquece o corpo, fornecendo +1 em Fortitude.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 159 (JdA)",
+        "equipado": false,
+        "equipado2": {
+          "slot": 0,
+          "type": "body"
+        },
+        "carregado": true,
+        "peso": 1.5,
+        "espacos": 1,
+        "qtd": 1,
+        "preco": 15,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "tipo": "traje",
+        "armadura": {
+          "value": 0,
+          "penalidade": 0,
+          "maxAtr": 0
+        },
+        "rolls": [],
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "origin": "Compendium.tormenta20.equipamentos.Item.Lg7f8MCtGHrgslx1",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "lWzd3qMNpqCPZ5lg",
+          "changes": [
+            {
+              "key": "system.pericias.fort.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            }
+          ],
+          "transfer": true,
+          "name": "Capa Pesada",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/itens/gerais/capa-pesada.webp",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.BMJ1T0OPYjGyS9Am.lWzd3qMNpqCPZ5lg",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "_id": "BMJ1T0OPYjGyS9Am",
+      "folder": null,
+      "sort": -49804,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.BMJ1T0OPYjGyS9Am"
+    },
+    {
+      "_id": "1P3IzCHqWKhRhJ3V",
+      "name": "Cota de malha",
+      "type": "equipamento",
+      "img": "systems/tormenta20/icons/itens/equipamentos/cota-malha.webp",
+      "effects": [],
+      "folder": null,
+      "sort": -99804,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Longa veste de anéis metálicos interligados, formando uma malha flexível e resistente, que vai até os joelhos.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 154 (JdA)",
+        "equipado": false,
+        "equipado2": {
+          "slot": 0,
+          "type": "body"
+        },
+        "carregado": true,
+        "peso": 20,
+        "espacos": 5,
+        "qtd": 1,
+        "preco": 150,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "tipo": "pesada",
+        "armadura": {
+          "value": 6,
+          "penalidade": -2,
+          "maxAtr": 0
+        },
+        "rolls": [],
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.1P3IzCHqWKhRhJ3V"
+    },
+    {
+      "name": "Símbolo Sagrado",
+      "type": "equipamento",
+      "img": "systems/tormenta20/icons/itens/gerais/simbolo-sagrado.webp",
+      "system": {
+        "description": {
+          "value": "<p>Um medalhão de madeira ou metal com o símbolo de uma divindade. Se você estiver vestindo (normalmente com uma corrente ao redor do pescoço) ou empunhando o símbolo sagrado de um deus do qual é devoto, recebe +1 em testes de resistência.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 157 (JdA)",
+        "equipado": false,
+        "equipado2": {
+          "slot": 0,
+          "type": "body"
+        },
+        "carregado": true,
+        "peso": 0,
+        "espacos": 1,
+        "qtd": 1,
+        "preco": 5,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "tipo": "traje",
+        "armadura": {
+          "value": 0,
+          "penalidade": 0,
+          "maxAtr": 0
+        },
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "rolls": [],
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "rolltags": [],
+        "enableAutoUpgrades": false,
+        "automationtags": []
+      },
+      "effects": [
+        {
+          "origin": "Item.GN5S9awu41thdvCn",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "UYpiiWb9bIoCph6a",
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.resistencias",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            }
+          ],
+          "transfer": true,
+          "name": "Símbolo Sagrado",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/itens/gerais/simbolo-sagrado.webp",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.kWwKsZFHIEsG1fSL.UYpiiWb9bIoCph6a",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "flags": {
+        "core": {},
+        "tormenta20": {
+          "needCommit": true
+        }
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "_id": "kWwKsZFHIEsG1fSL",
+      "folder": null,
+      "sort": 196,
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.kWwKsZFHIEsG1fSL"
+    },
+    {
+      "folder": null,
+      "name": "Magias",
+      "type": "poder",
+      "img": "icons/creatures/abilities/dragon-breath-purple.webp",
+      "system": {
+        "description": {
+          "value": "<p><span class=\"fontstyle0\">Como um clérigo de Tenebra de 8º nível (CD 28).</span></p><p style=\"text-align:justify\"><span class=\"fontstyle2\"><em>• Arma Mágica (Padrão, 8 PM)</em> </span><span class=\"fontstyle0\">Até o fim da cena, uma arma adjacente se torna mágica, fornecendo +2 nos testes de ataque e rolagens de dano e +2d6 pontos de dano de frio.</span></p><p style=\"text-align:justify\"><span class=\"fontstyle2\"><em>• Curar Ferimentos (Padrão, 8 PM)</em> </span><span class=\"fontstyle0\">Uma criatura adjacente cura 9d8+9 PV. </span></p><p style=\"text-align:justify\"><span class=\"fontstyle2\"><em>• Escudo da Fé (Reação, 8 PM)</em> </span><span class=\"fontstyle0\">Quando sofre um ataque, o armeiro recebe camuflagem contra ataques à distância e +5 na Defesa até seu próximo turno.</span></p><p style=\"text-align:justify\"><span class=\"fontstyle2\"><em>• Miasma Mefítico (Padrão, 7 PM)</em> </span><span class=\"fontstyle0\">Uma nuvem de 6m de raio se forma em alcance médio. Criaturas na área sofrem 7d6 pontos de dano de ácido e ficam enjoadas por 1 rodada (Fort reduz à metade e evita a condição).</span> </p>",
+          "unidentified": ""
+        },
+        "source": "Ameaças de Arton, Pág. 16",
+        "ativacao": {
+          "execucao": "",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": 0,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "racial",
+        "subtipo": "Hab. Gerais de Criaturas",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "automationtags": []
+      },
+      "effects": [],
+      "sort": 162110,
+      "flags": {
+        "core": {}
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "_id": "q2O1vUTtnebi5pAY",
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.q2O1vUTtnebi5pAY"
+    },
+    {
+      "_id": "nfVLr42bcb2yL0Sr",
+      "name": "Arma Mágica",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/arma-magica.webp",
+      "effects": [
+        {
+          "_id": "CsxccmtGU6cmoFwn",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": "",
+              "equipment": false
+            }
+          },
+          "changes": [
+            {
+              "key": "ataque",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            },
+            {
+              "key": "dano&magico",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.N0VolSuZqafQ4qdh",
+          "tint": "#ffffff",
+          "transfer": false,
+          "name": "aumenta o bônus em +1 (bônus máximo limitado pelo círculo máximo de magia que você pode lançar).",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.nfVLr42bcb2yL0Sr.CsxccmtGU6cmoFwn",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "2B720KAGoTazOT5e",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": "",
+              "equipment": false
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "1d6",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.N0VolSuZqafQ4qdh",
+          "tint": "#ffffff",
+          "transfer": false,
+          "name": "a arma passa a causar +1d6 de dano de ácido, eletricidade, fogo ou frio, escolhido no momento em que a magia é lançada. Este aprimoramento só pode ser usado uma vez.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.nfVLr42bcb2yL0Sr.2B720KAGoTazOT5e",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "origin": "Compendium.tormenta20.magias.Item.YDxLaaDhfXOkSfnF",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": "5"
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "_id": "RZOdJ2cuNeEPfdQ7",
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "2d6",
+              "priority": 0
+            }
+          ],
+          "transfer": false,
+          "name": "muda o bônus de dano do aprimoramento elemental para +2d6. (Custo do aprimoramento incluso)",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.nfVLr42bcb2yL0Sr.RZOdJ2cuNeEPfdQ7",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "origin": "Compendium.tormenta20.magias.Item.YDxLaaDhfXOkSfnF",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": true,
+              "self": false,
+              "attack": true,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": "0"
+            }
+          },
+          "duration": {
+            "rounds": 99,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "Mz54PvtVdDzg7kl3",
+          "changes": [
+            {
+              "key": "ataque",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            },
+            {
+              "key": "dano&magico",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            },
+            {
+              "key": "?.items.arma",
+              "mode": 0,
+              "value": "items.name",
+              "priority": 0
+            }
+          ],
+          "transfer": false,
+          "name": "Arma Mágica",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.nfVLr42bcb2yL0Sr.Mz54PvtVdDzg7kl3",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {
+        "core": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">A arma fornece um bônus de +1 nos testes de ataque e rolagens de dano e é considerada mágica (não cumulativo com bônus de encantos). Caso você esteja empunhando a arma, pode usar seu atributo-chave de magias em vez do atributo original nos testes de ataque (não cumulativo com efeitos que somam este atributo).</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 181 (JdA)",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "scene",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "touch",
+        "alvo": "1 arma empunhada",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": 1,
+        "preparada": false,
+        "escola": "tra",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        },
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.nfVLr42bcb2yL0Sr"
+    },
+    {
+      "_id": "PrEtSEZxM67sS42K",
+      "name": "Curar Ferimentos",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/curar-ferimentos.webp",
+      "effects": [
+        {
+          "_id": "E5Ynb8D45IFPkqGc",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alvo",
+              "value": "1 morto-vivo",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.soVAGPRWQmKxOrPm",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alvo para 1 morto-vivo. Em vez do normal, causa 1d8 pontos de dano de luz (Vontade reduz à metade).",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K.E5Ynb8D45IFPkqGc",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "T7W1dpep8KKLNdPQ",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": true
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "value": "1d8+1",
+              "mode": 0,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.soVAGPRWQmKxOrPm",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta a cura em +1d8+1.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K.T7W1dpep8KKLNdPQ",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "xncd3c6sRimZD4nY",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.soVAGPRWQmKxOrPm",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "também remove uma condição de fadiga do alvo.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K.xncd3c6sRimZD4nY",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "8NiPKz2Ks17aIGcT",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alcance",
+              "value": "curto",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.soVAGPRWQmKxOrPm",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alcance para curto.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K.8NiPKz2Ks17aIGcT",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "lcjBzJa7QT1xtM5I",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "5",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alcance",
+              "value": "curto",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "alvo",
+              "value": "criaturas escolhidas",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.soVAGPRWQmKxOrPm",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alcance para curto e o alvo para criaturas escolhidas.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K.lcjBzJa7QT1xtM5I",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Você canaliza energia positiva que recupera 2d8+2 pontos de vida na criatura tocada.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 189 (JdA)",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "touch",
+        "alvo": "1 criatura",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Cura",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+2",
+                "curapv",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "div",
+        "circulo": 1,
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        },
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.PrEtSEZxM67sS42K"
+    },
+    {
+      "_id": "6oYr1Y46qeILnbLE",
+      "name": "Escudo da Fé",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+      "effects": [
+        {
+          "_id": "elfboK1tOLQA5COJ",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "execucao",
+              "value": "Padrão",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "alcance",
+              "value": "toque",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "duracao",
+              "value": "cena",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.i6LtB6c3u8fLQOXp",
+          "tint": "#ffffff",
+          "transfer": false,
+          "name": "muda a execução para ação padrão, o alcance para toque e a duração para cena.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.elfboK1tOLQA5COJ",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "dWw5EaKzbTWoRNZw",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.i6LtB6c3u8fLQOXp",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "também fornece ao alvo camuflagem leve contra ataques à distância.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.dWw5EaKzbTWoRNZw",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "qOH6ej4ccboq16RJ",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": ""
+            }
+          },
+          "changes": [
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.i6LtB6c3u8fLQOXp",
+          "tint": "#ffffff",
+          "transfer": false,
+          "name": "aumenta o bônus na Defesa em +1.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.qOH6ej4ccboq16RJ",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "Lg6PDnTETj0kcL6F",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "execucao",
+              "mode": 5,
+              "value": "ação padrão",
+              "priority": 0
+            },
+            {
+              "key": "alcance",
+              "mode": 5,
+              "value": "toque",
+              "priority": 0
+            },
+            {
+              "key": "duracao",
+              "mode": 5,
+              "value": "cena",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.i6LtB6c3u8fLQOXp",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda a execução para ação padrão, o alcance para toque e a duração para cena. A magia cria uma conexão mística entre você e o alvo. Além do efeito normal, o alvo sofre metade do dano por ataques e efeitos; a outra metade do dano é transferida a você. Se o alvo sair de alcance curto de você, a magia é dissipada. Requer 2º círculo.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.Lg6PDnTETj0kcL6F",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "iyuhAEsEq67Q8aWK",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "3",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "duracao",
+              "value": "1 dia",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.i6LtB6c3u8fLQOXp",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda a duração para 1 dia. Requer 2º círculo.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.iyuhAEsEq67Q8aWK",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "sjxS6CGlVJSg38co",
+          "changes": [
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.eTMQ5GAOTIEXKSv0",
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Escudo da Fé (Cena)",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.sjxS6CGlVJSg38co",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "origin": "Compendium.tormenta20.magias.Item.XJoWTcH8zVtHc2xa",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "_id": "0m3vev0mjsYRDnfk",
+          "changes": [],
+          "transfer": false,
+          "name": "Escudo da Fé (Dividir Dano)",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE.0m3vev0mjsYRDnfk",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {
+        "core": {},
+        "importid": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">Um escudo místico se manifesta momentaneamente para bloquear um golpe. O alvo recebe +2 na Defesa.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 192 (JdA)",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 1,
+          "units": "turn",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "short",
+        "alvo": "1 criatura",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": 1,
+        "preparada": false,
+        "escola": "abj",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        },
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.6oYr1Y46qeILnbLE"
+    },
+    {
+      "_id": "i8kNjU4VfAdkgSft",
+      "name": "Miasma Mefítico",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/miasma-mefitico.webp",
+      "effects": [
+        {
+          "_id": "fyrWEjDhKy6MU5of",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alcance",
+              "mode": 5,
+              "value": "Toque",
+              "priority": 0
+            },
+            {
+              "key": "area",
+              "mode": 5,
+              "value": "alvo (1 criatura com 0 PV ou menos)",
+              "priority": 0
+            },
+            {
+              "key": "duracao",
+              "mode": 5,
+              "value": "instantânea",
+              "priority": 0
+            },
+            {
+              "key": "resistencia",
+              "mode": 5,
+              "value": "Fortitude anula",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.bs3SycPD7ENusrfH",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alcance para toque, a área para alvo (1 criatura com 0 PV ou menos), a duração para instantânea e a resistência para Fortitude anula. e adiciona componente material (pó de ônix no valor de T$ 10). Em vez do normal, você canaliza o Miasma contra uma vítima. Se falhar na resistência, ela morre e você recebe +2 na CD de suas magias por 1 dia. Se passar, fica imune a este truque por um dia.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.i8kNjU4VfAdkgSft.fyrWEjDhKy6MU5of",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "1VEcwX3EAmPtckY8",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 0,
+              "value": "1d6",
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.bs3SycPD7ENusrfH",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta o dano em +1d6.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.i8kNjU4VfAdkgSft.1VEcwX3EAmPtckY8",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "_id": "0jY8pxm5JZUViwRp",
+          "flags": {
+            "t20": {},
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "3",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Compendium.tormenta20.magias.bs3SycPD7ENusrfH",
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o tipo do dano para trevas.",
+          "description": "",
+          "statuses": [],
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.012",
+            "lastModifiedBy": null
+          },
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "sort": 0,
+          "_key": "!actors.items.effects!WpuYgsq2C6BRNbJj.i8kNjU4VfAdkgSft.0jY8pxm5JZUViwRp",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\">A área é coberta por emanações letais. Criaturas na área sofrem 5d6 pontos de dano de ácido e ficam @UUID[Compendium.tormenta20.basico.JournalEntry.s15J5SOYixL3Ajzr.JournalEntryPage.BUMyxT4YI9mdC8Aj]{Enjoado} por 1 rodada. Se passarem na resistência, sofrem metade do dano e não ficam enjoadas.</p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 199 (JdA)",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "medium",
+        "alvo": "",
+        "area": "nuvem com 6m de raio",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": "Fortitude (veja texto)"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "5d6",
+                "acido",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "div",
+        "circulo": 2,
+        "preparada": false,
+        "escola": "nec",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        },
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.i8kNjU4VfAdkgSft"
+    },
+    {
+      "_id": "l7kyPBu3J2JnxZJu",
+      "name": "Disparo Preciso",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 193750,
+      "flags": {
+        "core": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle0\">O armeiro de Tenebra devoto pode fazer ataques à distância contra oponentes envolvidos em combate corpo a corpo sem a penalidade padrão de –5 no teste de ataque.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 125 (JdA)",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Combate",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760740756077,
+        "modifiedTime": 1760740761210,
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.l7kyPBu3J2JnxZJu"
+    },
+    {
+      "_id": "qPbWUje5hrLONyWC",
+      "name": "Pacto da Pólvora",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/combate.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 193750,
+      "flags": {
+        "core": {},
+        "cf": {}
+      },
+      "system": {
+        "description": {
+          "value": "<p style=\"text-align:justify\"><span class=\"fontstyle2\">Quando causa dano de trevas com seu mosquete, o armeiro recupera uma quantidade de pontos de vida igual à metade do dano de trevas causado.</span> <br style=\"font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:normal;orphans:2;text-align:-webkit-auto;text-indent:0px;text-transform:none;white-space:normal;widows:2;word-spacing:0px;-webkit-text-size-adjust:auto;-webkit-text-stroke-width:0px\" /></p>",
+          "unidentified": ""
+        },
+        "source": "T20, pg. 129 (JdA)",
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Combate",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "createdTime": 1760740768783,
+        "modifiedTime": 1760740777579,
+        "lastModifiedBy": null
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_key": "!actors.items!WpuYgsq2C6BRNbJj.qPbWUje5hrLONyWC"
+    }
+  ],
+  "effects": [
+    {
+      "origin": "Actor.Eh6ljyoPZSMAxE0r.Item.BMJ1T0OPYjGyS9Am",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false
+        }
+      },
+      "duration": {
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "8DTs5xPvOxwiSmx7",
+      "changes": [
+        {
+          "key": "system.pericias.fort.bonus",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "transfer": false,
+      "name": "Capa Pesada",
+      "description": "",
+      "statuses": [],
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "img": "systems/tormenta20/icons/itens/gerais/capa-pesada.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!actors.effects!WpuYgsq2C6BRNbJj.8DTs5xPvOxwiSmx7",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "origin": "Actor.Eh6ljyoPZSMAxE0r.Item.kWwKsZFHIEsG1fSL",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false
+        }
+      },
+      "duration": {
+        "startTime": 0,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "ftDx2oJaEqaAg3L8",
+      "changes": [
+        {
+          "key": "system.modificadores.pericias.resistencias",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "transfer": false,
+      "name": "Símbolo Sagrado",
+      "description": "",
+      "statuses": [],
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.012",
+        "lastModifiedBy": null
+      },
+      "img": "systems/tormenta20/icons/itens/gerais/simbolo-sagrado.webp",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!actors.effects!WpuYgsq2C6BRNbJj.ftDx2oJaEqaAg3L8",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "bestiario-de-arton",
+        "id": "WpuYgsq2C6BRNbJj"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.012",
+    "createdTime": 1760740608683,
+    "modifiedTime": 1760808400560,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "WpuYgsq2C6BRNbJj",
+  "sort": 1000000,
+  "_key": "!actors!WpuYgsq2C6BRNbJj"
+}

@@ -1,0 +1,126 @@
+{
+  "name": "Insanidade da Tormenta",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/poderes/ameacas/insanidade-tormenta.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">Uma criatura que veja um ou mais lefeu deve fazer um teste de Vontade contra o lefeu de maior ND.</p><p style=\"text-align:justify\">Se falhar, perde os PM indicados (+1 PM para cada lefeu além do primeiro). Se for reduzida a 0 PM, fica confusa. Uma criatura só é afetada por esta habilidade uma vez por dia.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "duration": {
+        "rounds": 999,
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "flags": {
+        "core": {
+          "statusId": "confuso"
+        },
+        "tormenta20": {
+          "condition": true,
+          "durationScene": true,
+          "category": "mental",
+          "onuse": false
+        }
+      },
+      "_id": "yU7T8jfy826XrLMo",
+      "changes": [],
+      "disabled": false,
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "name": "Confuso",
+      "description": "",
+      "statuses": [],
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "img": "systems/tormenta20/icons/conditions/confuso.svg",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!oi6usKHWda1cx9dZ.yU7T8jfy826XrLMo",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "oi6usKHWda1cx9dZ"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745904366,
+    "modifiedTime": 1761745936859,
+    "lastModifiedBy": null
+  },
+  "folder": "q16DZgfo8UyskkKW",
+  "ownership": {
+    "default": 0
+  },
+  "_id": "oi6usKHWda1cx9dZ",
+  "sort": 0,
+  "_key": "!items!oi6usKHWda1cx9dZ"
+}

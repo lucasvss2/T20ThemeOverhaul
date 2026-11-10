@@ -2,7 +2,7 @@
     "id": "t20-theme-overhaul",
     "title": "T20 Theme Overhaul [BETA]",
     "description": "⚠️ VERSÃO BETA — pode conter recursos experimentais e instabilidades. Tema escuro completo para o sistema Tormenta20: ficha de personagem redesenhada com visual cinematográfico escuro, janelas de itens/poderes/magias estilizadas, overlay cinemático de dados com resultado do d20, chat cards com botão de rerolar, teste secreto de perícia com multi-alvo e aplicação automática de dano com prompt interativo.",
-    "version": "1.125.2",
+    "version": "1.126.0",
     "authors": [
         {
             "name": "lucasvss2",
@@ -144,6 +144,30 @@
             }
         },
         {
+            "name": "ameacas-de-arton",
+            "label": "Ameaças de Arton",
+            "path": "packs/ameacas-de-arton",
+            "type": "Actor",
+            "system": "tormenta20",
+            "ownership": { "PLAYER": "NONE", "TRUSTED": "NONE", "ASSISTANT": "OWNER", "GAMEMASTER": "OWNER" }
+        },
+        {
+            "name": "ameacas-livro-basico",
+            "label": "Ameaças — Livro Básico",
+            "path": "packs/ameacas-livro-basico",
+            "type": "Actor",
+            "system": "tormenta20",
+            "ownership": { "PLAYER": "NONE", "TRUSTED": "NONE", "ASSISTANT": "OWNER", "GAMEMASTER": "OWNER" }
+        },
+        {
+            "name": "habilidades-ameacas",
+            "label": "Habilidades — Ameaças de Arton",
+            "path": "packs/habilidades-ameacas",
+            "type": "Item",
+            "system": "tormenta20",
+            "ownership": { "PLAYER": "OBSERVER", "TRUSTED": "OBSERVER", "ASSISTANT": "OWNER", "GAMEMASTER": "OWNER" }
+        },
+        {
             "name": "chefes-finais-bestiario",
             "label": "Chefes Finais do Bestiário",
             "path": "packs/chefes-finais-bestiario",
@@ -172,6 +196,12 @@
                 "pocoes-pergaminhos"
             ],
             "folders": [
+                {
+                    "name": "Ameaças de Arton",
+                    "sorting": "a",
+                    "color": "#6c3546",
+                    "packs": ["ameacas-de-arton", "ameacas-livro-basico", "habilidades-ameacas"]
+                },
                 {
                     "name": "Bestiário de Arton",
                     "sorting": "a",

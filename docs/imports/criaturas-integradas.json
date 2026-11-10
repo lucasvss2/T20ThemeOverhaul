@@ -1,0 +1,1560 @@
+{
+  "sourceModule": "bestiario-de-arton",
+  "sourceVersion": "0.8.6",
+  "counts": {
+    "ameacas-de-arton": 442,
+    "ameacas-livro-basico": 83,
+    "habilidades-ameacas": 83
+  },
+  "compatibilityPatches": [
+    {
+      "id": "9tzwp5CvcIoeYocG",
+      "name": "Cultista de Sszzaas",
+      "conversion": "poison-save-bonus",
+      "value": "5"
+    },
+    {
+      "id": "g9zOEnYNR7AItlbY",
+      "name": "Enxame Infernal",
+      "conversion": "poison-effect-immunity"
+    },
+    {
+      "id": "g9zOEnYNR7AItlbY",
+      "name": "Enxame Infernal",
+      "conversion": "poison-effect-immunity"
+    },
+    {
+      "id": "5zMkjxa1nif9hiWk",
+      "name": "Iniciada de Sszzaas",
+      "conversion": "poison-save-bonus",
+      "value": "5"
+    }
+  ],
+  "unresolvedLegacyLinks": [
+    {
+      "owner": "Cavaleiro de Kally",
+      "uuid": "JournalEntry.hEKiX8IFxFWEoMxW",
+      "label": "Regras de Montarias"
+    },
+    {
+      "owner": "Cavaleiro de Kally",
+      "uuid": "JournalEntry.Fsj1rVOiUnz7BQIU",
+      "label": "Treinando Montarias Selvagens"
+    }
+  ],
+  "assets": {
+    "https://i.imgur.com/lpxZIFa.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/322d565c8938b330900f.webp"
+    },
+    "https://i.imgur.com/qMFVLtX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/87375225ef32d7e1418c.webp"
+    },
+    "https://i.imgur.com/WCpsdJq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4be71755d8e9bcf18b9e.webp"
+    },
+    "https://i.imgur.com/vPCIW0i.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1f9a3722e407772a2c83.webp"
+    },
+    "https://i.imgur.com/2vHEKe0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0ff92d49609561bf6ea4.webp"
+    },
+    "https://i.imgur.com/OJzjies.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6c17c08e81a95ae1f09a.webp"
+    },
+    "https://i.imgur.com/MXttZzo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92b8f8f4e199ea509f93.webp"
+    },
+    "https://i.imgur.com/HM8TMGd.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7d8f6a1ee090f177afe0.webp"
+    },
+    "https://i.imgur.com/1DNx5eU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/49be51c145056a8bdbd2.webp"
+    },
+    "https://i.imgur.com/FEvJXmY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5b9674eee1c5fee555ab.webp"
+    },
+    "https://i.imgur.com/5M4uS8m.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/df4cd01d77d2b2f3f654.webp"
+    },
+    "https://i.imgur.com/k0JxxFL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8ad994d1ec26df765775.webp"
+    },
+    "https://i.imgur.com/7plaLBR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3fec64db74f025e8b9e3.webp"
+    },
+    "https://i.imgur.com/ppw0Vyf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ecd68b4290c13544af70.webp"
+    },
+    "https://i.imgur.com/y5E5Tkz.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7ee09cc72a04eebc9fa9.webp"
+    },
+    "https://i.imgur.com/cNP7NdJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/77e6efdaf37928a61761.webp"
+    },
+    "https://i.imgur.com/S3zOAse.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b9f65487ea1d673a1e24.webp"
+    },
+    "https://i.imgur.com/NL1ejc0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/36b636a10248ba6034aa.webp"
+    },
+    "https://i.imgur.com/cyaFSyj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1e5e81b4ee271444b487.webp"
+    },
+    "https://i.imgur.com/X2MIGlC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/28be31a6a409cf75b4dd.webp"
+    },
+    "https://i.imgur.com/HhivhWF.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/53e0f1e576a35168e800.webp"
+    },
+    "https://i.imgur.com/Mj0iYy0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/10bef59398475a91746a.webp"
+    },
+    "https://i.imgur.com/ouzGm3V.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0e5a35af76d1fb4629c9.webp"
+    },
+    "https://i.imgur.com/xKpkc6N.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/57c7a6917b1e027aec20.webp"
+    },
+    "https://i.imgur.com/fUbUxUE.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4f870ba3ed2de0d8a71c.webp"
+    },
+    "https://i.imgur.com/8KnwvLm.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/17b59e918b45881dd4de.webp"
+    },
+    "https://i.imgur.com/QTm3Alm.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3489df4c5226be941b98.webp"
+    },
+    "https://i.imgur.com/o0HTI4N.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/54ed112c2e32542aa6de.webp"
+    },
+    "https://i.imgur.com/3HvkJKY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e4f1e6ce21288d5497f1.webp"
+    },
+    "https://i.imgur.com/jlcWyMj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6fb8252aea441abdde74.webp"
+    },
+    "https://i.imgur.com/3gsBaAX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/04cde1abe329a59c3884.webp"
+    },
+    "https://i.imgur.com/NEJYU0g.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/87a3cf2600c1a6266300.webp"
+    },
+    "https://i.imgur.com/6QXRwii.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1cfe647b989b48d34d79.webp"
+    },
+    "https://i.imgur.com/MjpK1py.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/544207713adb8b89c33f.webp"
+    },
+    "https://i.imgur.com/lMxiKun.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e6bfc1406c90bc75d3b2.webp"
+    },
+    "https://i.imgur.com/Ftp3Sot.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/073fd78f2d6321b9319a.webp"
+    },
+    "https://i.imgur.com/tUNhxkJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/be187fb660c144bf8cf8.webp"
+    },
+    "https://i.imgur.com/PCAOgkj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a67d1df9159659416915.webp"
+    },
+    "https://i.imgur.com/8TQRquB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bd424bf7a3be07b4b2d7.webp"
+    },
+    "https://i.ibb.co/gLtmgKQR/RT20-18-Colosso-Supremo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/dbe5eb3b47acf89ba291.webp"
+    },
+    "https://i.imgur.com/AIItu4H.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e3f0e339fe35892cebaf.webp"
+    },
+    "https://i.imgur.com/mc5ncVG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fb6359ed191a78e4eaaf.webp"
+    },
+    "https://i.imgur.com/8ResdW6.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0b2fe7f9be9cb8927244.webp"
+    },
+    "https://i.imgur.com/J9KbE6b.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/39a7c272186908cc3cb1.webp"
+    },
+    "https://i.imgur.com/m5YP0iE.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c7c15bd87b3651fe764f.webp"
+    },
+    "https://i.imgur.com/BijB4f4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/35b185a17e66518fd47e.webp"
+    },
+    "https://i.imgur.com/8xGxqhY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a28f14f3dc093c27293b.webp"
+    },
+    "https://i.imgur.com/bX8UiaH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4d27a330bff645418e1e.webp"
+    },
+    "https://i.imgur.com/0rnLY8X.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3faf69adf4d717dc3b0b.webp"
+    },
+    "https://i.imgur.com/PjPN3vE.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4c1f5069bb492f93d894.webp"
+    },
+    "https://i.imgur.com/o6ubHLo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5cfc5d7cfa6a340706dd.webp"
+    },
+    "https://i.imgur.com/htJXQxj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0deb93dc7bddf684b362.webp"
+    },
+    "https://i.imgur.com/WltoHHX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c23cdaf3cd7cc1501017.webp"
+    },
+    "https://i.imgur.com/2CARhP9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d44f6c7200f453ce754a.webp"
+    },
+    "https://i.imgur.com/0M0rwpB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e4dc6af4e8515ff109d6.webp"
+    },
+    "https://i.imgur.com/5MD5VXU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d37b1ab3e5355b874625.webp"
+    },
+    "https://i.imgur.com/Ms1vLUt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/936cac1dabd0d76eb7ec.webp"
+    },
+    "https://i.imgur.com/drGy5bh.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5b14b1b34765a7945264.webp"
+    },
+    "https://i.imgur.com/jSWAUTW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/223195d254214904d76e.webp"
+    },
+    "https://i.imgur.com/8KLWzwe.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/06d2ce7eddd76edcb094.webp"
+    },
+    "https://i.imgur.com/NkKEVrJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/25dd86d13e6620db930e.webp"
+    },
+    "https://i.imgur.com/QLy859Z.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/79f5a7e921051ba5e4d2.webp"
+    },
+    "https://i.imgur.com/xeIEOVt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b3a84e780619b73d2f52.webp"
+    },
+    "https://i.imgur.com/ke6YxSQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0f76e71aeb75746a6395.webp"
+    },
+    "https://i.imgur.com/Rs8Sj5W.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/339566aa4181abb381e1.webp"
+    },
+    "https://i.imgur.com/8cURfOA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b9b7a6d649e30593e740.webp"
+    },
+    "https://i.imgur.com/Ulla8a5.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2717d2e7ea8cd7f4bab5.webp"
+    },
+    "https://i.imgur.com/an4kxPN.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/113700d77665f451a7bf.webp"
+    },
+    "https://i.imgur.com/pfyGxBF.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a68aac65c52e4d0cab60.webp"
+    },
+    "https://i.imgur.com/YfDpXPN.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/faa0eb3388a8f538ba61.webp"
+    },
+    "https://i.imgur.com/2hedT2B.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ace21300328bfd7521e2.webp"
+    },
+    "https://i.imgur.com/1qEPft9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f3a0ff092da73e85a310.webp"
+    },
+    "https://i.imgur.com/pQfZsLm.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/abe3c93ed9021f324a50.webp"
+    },
+    "https://i.imgur.com/DD4x9Rt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/44f44bccce690cc5e5b8.webp"
+    },
+    "https://i.imgur.com/Z8xQTOZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/64835b12c16f279fec68.webp"
+    },
+    "https://i.imgur.com/3ksLsEd.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/60fe1dd460464ab9cb90.webp"
+    },
+    "https://i.imgur.com/kol1aC0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/12f5fe46a4b1b5b1180c.webp"
+    },
+    "https://i.imgur.com/lJ4LQPw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b06522c68d9ba41f3fe9.webp"
+    },
+    "https://i.imgur.com/9QKbTot.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f41674fa3f6023343d4d.webp"
+    },
+    "https://i.imgur.com/pGTK7Yc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c4ad2c51f4731bd13523.webp"
+    },
+    "https://i.imgur.com/gdGHMCJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/24b7a18bdfccab55e721.webp"
+    },
+    "https://i.imgur.com/e3GlDv6.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/40c97e8d1d8054f93ff3.webp"
+    },
+    "https://i.imgur.com/t15vEpU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fbbcae957fb219ebb07a.webp"
+    },
+    "https://i.imgur.com/w4IJKmk.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/28e005be2b1bd2da19c3.webp"
+    },
+    "https://i.imgur.com/wS3X5Yt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8970b9d30bb46da62af8.webp"
+    },
+    "https://i.imgur.com/gt1pYoj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bb956c31ce70073493b5.webp"
+    },
+    "https://i.imgur.com/po6uHdK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bbb09d6b98ca900a3167.webp"
+    },
+    "https://i.imgur.com/d5yyddH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ac6b4bfbf0df5273913f.webp"
+    },
+    "https://i.imgur.com/iRewCO0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cd8f460bdc4e85d28839.webp"
+    },
+    "https://i.imgur.com/hTcC32b.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/12c71b40a2472110359b.webp"
+    },
+    "https://i.imgur.com/apjmNdX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4b7d4dcb6595273fcc98.webp"
+    },
+    "https://i.imgur.com/BYXbC2X.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6ba70d0cf78f52de53c6.webp"
+    },
+    "https://i.imgur.com/JSnumCD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/71fd99a8ba307c0b0e30.webp"
+    },
+    "https://i.imgur.com/IhFp4fR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2c6850f580e7ef501ce1.webp"
+    },
+    "https://i.imgur.com/zTZgFw0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3b1112090600cfe66c96.webp"
+    },
+    "https://i.imgur.com/2Zg9B0h.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d7b43a5b0cde793126e6.webp"
+    },
+    "https://i.imgur.com/Im7Udki.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d6657c2ac7b6548060d3.webp"
+    },
+    "https://i.imgur.com/DISz2gA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4af578015e576dbad0a1.webp"
+    },
+    "https://i.ibb.co/BHS7qf5t/Armento-de-Burafonte.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2e83e67fbab6d16e8165.webp"
+    },
+    "https://i.imgur.com/43T2yKf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/faf8aa43b33186454be7.webp"
+    },
+    "https://i.imgur.com/APNnRQf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/420cf76229adb1fe94ee.webp"
+    },
+    "https://i.ibb.co/zHrgwChc/Token-C-Avatar-Kally.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/69e6620dd6cf58c2c8df.webp"
+    },
+    "https://i.imgur.com/2geW9Dz.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/82c784fa290a5b9b1312.webp"
+    },
+    "https://files.d20.io/images/401060181/WFmQyPht3puoRyhCHESfwA/max.png?1721071671": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8d11d74ed3e5a53e3abd.webp"
+    },
+    "https://i.imgur.com/cOh9Mcu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3bbf12d593e9a15503e6.webp"
+    },
+    "https://i.imgur.com/7pjU1YB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b83b02a7393f5124cc6b.webp"
+    },
+    "https://i.imgur.com/LU3sXyh.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ed68fdd1fa4e5082beea.webp"
+    },
+    "https://i.imgur.com/29p44A7.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/da46895f6724579ab1a4.webp"
+    },
+    "https://i.imgur.com/hx0de98.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c73ac033a86bd37478c2.webp"
+    },
+    "https://i.imgur.com/h9lMXNO.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e736264cb59d607ee139.webp"
+    },
+    "https://i.imgur.com/trc0RfC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/abcd68dfbacfd9ca734a.webp"
+    },
+    "https://i.imgur.com/AdKKk4A.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9650678295871a199f7d.webp"
+    },
+    "https://i.imgur.com/GmTIzVn.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5a788491568e53f5233f.webp"
+    },
+    "https://i.imgur.com/5rHLX92.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5ce71d49d960efef8a18.webp"
+    },
+    "https://i.imgur.com/0k5vX5L.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/10028c00f4ea87510804.webp"
+    },
+    "https://i.imgur.com/rAdy7nu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3d9e8b431716bfd5f73f.webp"
+    },
+    "https://i.imgur.com/m0c8t7E.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ad9b3d908d7ceb0b66a9.webp"
+    },
+    "https://i.imgur.com/LoelFBr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1c9bd91af66a5cb59bb1.webp"
+    },
+    "https://files.d20.io/images/406811436/e87hEYNGt98kwN8nt_8Ecg/max.png?1724628786": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c32491270019d4576fed.webp"
+    },
+    "https://i.imgur.com/42R6Uuh.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/615d8959cedeb9cb7e78.webp"
+    },
+    "https://i.imgur.com/sRYllVt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d13f7c7559a9b83b2710.webp"
+    },
+    "https://i.imgur.com/m300lRk.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92907358ef87f3412e95.webp"
+    },
+    "https://i.imgur.com/IzE4a3X.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8bb5d2a68439eed3923a.webp"
+    },
+    "https://i.ibb.co/HDJdvyv0/Token-C-Avatar-Aharadak.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/858c0d484658727db172.webp"
+    },
+    "https://i.imgur.com/Wl86VEG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/42bf3df20954458e5df3.webp"
+    },
+    "https://i.imgur.com/bqac2s3.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/804ba0639eedafd1a36e.webp"
+    },
+    "https://i.ibb.co/7tVpRWng/Token-C-Canceronte-de-Guerra.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/879f5c2464185ee32c51.webp"
+    },
+    "https://i.imgur.com/3Pybcmq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/037a0561904503b70df4.webp"
+    },
+    "https://i.imgur.com/rcs8fdY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3b6b86abdd6b479ce3e5.webp"
+    },
+    "https://i.imgur.com/YwFErcl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/299875045d2305fc26d5.webp"
+    },
+    "https://i.imgur.com/uofvx9O.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5e7fb45d61b93e57a720.webp"
+    },
+    "https://i.imgur.com/8yBAgeJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/aee22afe026db5ae2db1.webp"
+    },
+    "https://i.imgur.com/FQscCk9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/af9142b54209c6584ab5.webp"
+    },
+    "https://i.imgur.com/Nn8diUw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d7ca4ab71bc7bdafd92e.webp"
+    },
+    "https://i.imgur.com/6Qw4xKW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0cb3c6b25c84dc2cd543.webp"
+    },
+    "https://i.imgur.com/it1Dchq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4dabee55483b4c3729a3.webp"
+    },
+    "https://i.imgur.com/ytPldaB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/abb80bfc0c4c56c5f63d.webp"
+    },
+    "https://i.imgur.com/gqh7jmj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5b673affd05ef6892d8f.webp"
+    },
+    "https://i.imgur.com/6syoJMr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2ee425c353d6bcd65f76.webp"
+    },
+    "https://i.imgur.com/mfwz9xp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f4e9f5b699b7018476eb.webp"
+    },
+    "https://i.imgur.com/LsHUeab.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a0451d79c138e4fd0e5c.webp"
+    },
+    "https://i.imgur.com/jjKKATC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fc508b13633c435fed62.webp"
+    },
+    "https://i.imgur.com/mIS4y06.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5d76082eb21bb55a3b53.webp"
+    },
+    "https://i.imgur.com/Wp3PjbD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7ccaee437b88f7d6c0de.webp"
+    },
+    "https://i.imgur.com/meswb1D.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/491c4340aee8e2f72dd7.webp"
+    },
+    "https://i.imgur.com/YmzVXOa.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/42b26da91e70e305077e.webp"
+    },
+    "https://i.imgur.com/5nIOXrG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a7fcf8af296def18beb4.webp"
+    },
+    "https://i.imgur.com/Cckdczt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6ad70b7b5a7e91ffddd1.webp"
+    },
+    "https://i.imgur.com/OvffZaD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/555798e59173335a935c.webp"
+    },
+    "https://i.ibb.co/39PMRMCR/Token-C-Cemit-rio-Vivo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/064f89359c5424c9beec.webp"
+    },
+    "https://i.imgur.com/pAjv56C.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/757261d00a4a1651b1d5.webp"
+    },
+    "https://i.imgur.com/XyUQyUA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d0b19dd9a0a6a4fd153f.webp"
+    },
+    "https://i.imgur.com/S3T30oU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b08c6910b60b083c2934.webp"
+    },
+    "https://i.imgur.com/M4N7OTA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/dafa828ed8aa11f7f1f0.webp"
+    },
+    "https://i.imgur.com/UPatipb.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/748191049ec54e770afd.webp"
+    },
+    "https://i.imgur.com/20qXWKp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f07415561494d656ec8a.webp"
+    },
+    "https://i.imgur.com/25TSpYr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c5714c0380d13fd4e139.webp"
+    },
+    "https://i.imgur.com/1tGHX3Y.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3381d91300fdbab4020a.webp"
+    },
+    "https://i.imgur.com/3cLWZ9V.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/82952a7a54c0821730f4.webp"
+    },
+    "https://i.imgur.com/lWU6qgo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a0ac904e4b8a107340e0.webp"
+    },
+    "https://i.imgur.com/vomCyd9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6eb4f659bbd940f247ae.webp"
+    },
+    "https://i.imgur.com/mf8x7GT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5884e5169664ab05b71c.webp"
+    },
+    "https://i.imgur.com/Cqx5KuW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/648746eee814896abcf9.webp"
+    },
+    "https://i.imgur.com/mv1Ulks.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8f7134c1f24dc4f8ac21.webp"
+    },
+    "https://i.imgur.com/zQM94nu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3e1397740713f66f4b23.webp"
+    },
+    "https://i.imgur.com/I6Gacob.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9a32ba82b48e55e8589a.webp"
+    },
+    "https://i.imgur.com/myBSR9h.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0af7c2d1be8977e774e7.webp"
+    },
+    "https://i.imgur.com/CWozVZZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/023186fdaf808a455a68.webp"
+    },
+    "https://i.imgur.com/Ql0peGr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1aa8b582c19f6a074955.webp"
+    },
+    "https://i.imgur.com/8zmxwwC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0168a2434d589d3d5b75.webp"
+    },
+    "https://i.imgur.com/DJj7XrA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d49eb1e1fbfcb74bdf17.webp"
+    },
+    "https://i.imgur.com/eYqA3P2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8c4e9ecd45fb24fc9fc9.webp"
+    },
+    "https://i.imgur.com/nQglUhK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5d9e68c5cb83297be23c.webp"
+    },
+    "https://i.imgur.com/bVwO44h.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/906cd6b9ebfd0742c622.webp"
+    },
+    "https://i.imgur.com/rj8cUZg.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/64122c1a2a4415fd6bf2.webp"
+    },
+    "https://i.imgur.com/D6sMg4q.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/db8ad0d7fde862740836.webp"
+    },
+    "https://i.imgur.com/IFea9N0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/88c9274c7be46d6c4f55.webp"
+    },
+    "https://i.imgur.com/D2EFBvp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/665b633b7f8774642376.webp"
+    },
+    "https://i.imgur.com/ctsejwg.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0ea9b50963802f73c4c3.webp"
+    },
+    "https://i.imgur.com/jv8I9Al.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5f12d258b1ae711744e5.webp"
+    },
+    "https://i.imgur.com/tQOEkT0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a4c7de5555ea9a71a44c.webp"
+    },
+    "https://i.imgur.com/T4BtXOY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5d1f346f89757c7a2acc.webp"
+    },
+    "https://i.imgur.com/nh3qes4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bdcf8052adaed442663f.webp"
+    },
+    "https://i.imgur.com/8DS2s2m.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d5036313b8acbffaef39.webp"
+    },
+    "https://i.imgur.com/XpgCiAL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/527219454b8a1e5fdb4f.webp"
+    },
+    "https://i.imgur.com/T3vNKr4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d85ade244795851962e1.webp"
+    },
+    "https://i.imgur.com/WohR0fu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/02da780f92865d0367ba.webp"
+    },
+    "https://i.imgur.com/zZVuHs0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b46725a68326f495bee8.webp"
+    },
+    "https://i.imgur.com/NN2yxAB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c98b863a456ae552d466.webp"
+    },
+    "https://i.imgur.com/OIsckRe.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5af385142956fedbc06a.webp"
+    },
+    "https://i.imgur.com/bhMfx4y.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/52eacb671e6910bd0f2b.webp"
+    },
+    "https://i.imgur.com/m2TnRxZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/48199b806cccbca20983.webp"
+    },
+    "https://i.imgur.com/YBk7YEV.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/49e90c0a79aa1754dd89.webp"
+    },
+    "https://i.imgur.com/hfBZQMG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d58fa7d9a417d98823c7.webp"
+    },
+    "https://i.imgur.com/8UV4Kv0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cc42bc50a58a4b54d765.webp"
+    },
+    "https://i.imgur.com/OyuYPRy.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/957e802cab7b6906d7a9.webp"
+    },
+    "https://i.imgur.com/WzUdjAZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1d5d9556080701374450.webp"
+    },
+    "https://i.imgur.com/2iWZFYb.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/df49bf15ba777b6c2185.webp"
+    },
+    "https://i.imgur.com/lj7CwYc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8cfc53f421e4848777bc.webp"
+    },
+    "https://i.imgur.com/k9xanN8.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/970b0af7261ecf86091e.webp"
+    },
+    "https://i.imgur.com/Lw9ranT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8092bdb9f89e8158fbd3.webp"
+    },
+    "https://i.imgur.com/rmLn26e.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5096b79bb4dd52493088.webp"
+    },
+    "https://i.imgur.com/WUyBqvA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5dc8b38ff204b10e4289.webp"
+    },
+    "https://i.imgur.com/ykCJRzL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/29324f6e9760e9af7d4f.webp"
+    },
+    "https://i.imgur.com/1O1BLbC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c75318c1fb9153db1f38.webp"
+    },
+    "https://i.imgur.com/YexMj8l.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/aab423bd4fef6feb20c8.webp"
+    },
+    "https://i.ibb.co/RG8srD3W/Token-C-Elemental-Corrompido.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b8a5efc8c64cb22438ff.webp"
+    },
+    "https://i.imgur.com/LgPLGdS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/95391d69974264c3bd9d.webp"
+    },
+    "https://i.imgur.com/B398l11.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e2c2c3002f7d92f22c08.webp"
+    },
+    "https://i.imgur.com/Dtsu7JT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4923c3f2c505fa864601.webp"
+    },
+    "https://i.ibb.co/8nWCVdXX/Token-C-Enguia-Rainha.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/35ad63095c953e425014.webp"
+    },
+    "https://i.imgur.com/HLRIvPR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/82ec37681baa2f73e5c6.webp"
+    },
+    "https://i.imgur.com/OAjJn3d.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8d4e2c89907fe2beb6b2.webp"
+    },
+    "https://i.imgur.com/jLUsYug.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7dc2a4855f05d5d143e0.webp"
+    },
+    "https://i.imgur.com/zdYAZOd.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/775aa28fa56516ed1dea.webp"
+    },
+    "https://i.imgur.com/ZxacXow.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1b502f8a740f3f4eed65.webp"
+    },
+    "https://i.imgur.com/o5rsr7l.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3374b767ee0d168f0f11.webp"
+    },
+    "https://i.imgur.com/hBNdSZB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c7ac6d42bebe423849ea.webp"
+    },
+    "https://i.imgur.com/Ji9xb8E.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3c0657b2ab2d53f2f1b2.webp"
+    },
+    "https://i.imgur.com/RbOgiDX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/145766bbf155dc48f656.webp"
+    },
+    "https://i.imgur.com/TligJk0.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9aafb82275cc2add266e.webp"
+    },
+    "https://i.imgur.com/0Reioco.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/77750e9fb742eb06e910.webp"
+    },
+    "https://i.imgur.com/XqO4e4y.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/18b8773e5a5db76f9344.webp"
+    },
+    "https://i.imgur.com/Vk23Yqa.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a156a1d34e668dbedd43.webp"
+    },
+    "https://i.imgur.com/FWkhmvt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c3990338f5852e25107c.webp"
+    },
+    "https://i.imgur.com/pIajhdw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cc262f33eff6e8ce7971.webp"
+    },
+    "https://i.imgur.com/vhtPBIr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/942a87d9632682f711bc.webp"
+    },
+    "https://i.imgur.com/eFfkqdj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/282da0179ace93fea49e.webp"
+    },
+    "https://i.imgur.com/nBOFBSh.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/95183984aae74cd3cfa0.webp"
+    },
+    "https://i.imgur.com/O9PWcWg.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8d802736ef4a5c92feb6.webp"
+    },
+    "https://i.imgur.com/9pTzvky.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d832022f8ee40ef15a6f.webp"
+    },
+    "https://i.imgur.com/nKBzs3C.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/34ae850137a55e8be138.webp"
+    },
+    "https://i.imgur.com/fwLHhFJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/33e16d7f7e7a3ed3c017.webp"
+    },
+    "https://i.imgur.com/oTZVXMN.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/99d62173f9f6eed257db.webp"
+    },
+    "https://i.imgur.com/o638UtX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ef12836e5b0529a077a6.webp"
+    },
+    "https://i.imgur.com/fWON4Xf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c4a0608ba921fb0d785a.webp"
+    },
+    "https://i.imgur.com/VsdzjL6.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b6300c173be2761e0826.webp"
+    },
+    "https://i.imgur.com/FCTYX7E.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/55f42ef5b858b244da07.webp"
+    },
+    "https://i.imgur.com/WyuP3bK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/18bc68640cc8d27a7928.webp"
+    },
+    "https://i.imgur.com/1RCAQH5.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c52a2ca8f5770c32667d.webp"
+    },
+    "https://i.imgur.com/NGXKlgY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a74f96172f469dcb395a.webp"
+    },
+    "https://i.imgur.com/b74v7RC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6242b33ac055ba61a251.webp"
+    },
+    "https://i.imgur.com/uz43TTF.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e1dd2535aede74acc057.webp"
+    },
+    "https://i.imgur.com/KJPKdKv.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a8650169811f3c398447.webp"
+    },
+    "https://i.imgur.com/9Ou2UW2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/304f59f681e50a3a0613.webp"
+    },
+    "https://i.imgur.com/8ty19oF.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8b4c7dbcfbda54df0677.webp"
+    },
+    "https://i.imgur.com/tBf0Hdm.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c2e31626d3f5006e6215.webp"
+    },
+    "https://i.imgur.com/Qs22L2u.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/acea77b16d53fa382465.webp"
+    },
+    "https://i.imgur.com/5nNX39U.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/03a130deab0ad1683801.webp"
+    },
+    "https://i.imgur.com/uVPjTHe.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e5d071f8a78b4a635f9e.webp"
+    },
+    "https://i.imgur.com/HUigmvt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9070c38d68c7a1dd8d5f.webp"
+    },
+    "https://i.imgur.com/26WhcAi.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0a6078652f93dff91ba9.webp"
+    },
+    "https://i.imgur.com/qd3IbUl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e481625a157dd0c45e01.webp"
+    },
+    "https://i.imgur.com/PBVflZV.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a1d7b05e1b0a06d28e6c.webp"
+    },
+    "https://i.imgur.com/R3Y4ew5.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9e2e92101bbd2bda5629.webp"
+    },
+    "https://i.imgur.com/ouJEhhV.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b764ffe69f2febe29c4d.webp"
+    },
+    "https://i.imgur.com/UHqoB0W.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c688a59878693b4a521f.webp"
+    },
+    "https://i.imgur.com/eW9Ike8.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a3308d91ece49084d9c6.webp"
+    },
+    "https://files.d20.io/images/406702574/PLXGJAQF3zig405iMW8mUA/max.png?1724588758": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9d3a0375bd3df8fa5986.webp"
+    },
+    "https://i.imgur.com/QzJWKVS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8ed9e077844713569333.webp"
+    },
+    "https://i.imgur.com/D1HHM86.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d2657a75dbeaefdd65e8.webp"
+    },
+    "https://i.imgur.com/hAXi8Q9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/22e112bc6d629779cc72.webp"
+    },
+    "https://i.imgur.com/Hasa6Sc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6a8b8c8e616bcfdfd7f8.webp"
+    },
+    "https://i.imgur.com/rYhX88q.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7909b7fef56c3b77ff78.webp"
+    },
+    "https://i.imgur.com/gR8GkSc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/da5cb2644a4420b82819.webp"
+    },
+    "https://i.imgur.com/08ULMUN.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/19d2dba804535efedcf3.webp"
+    },
+    "https://i.imgur.com/Sbv2tFp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e4b8d08e1697def2471e.webp"
+    },
+    "https://i.imgur.com/MhNwPUO.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0f63fadd7f554ce5aedf.webp"
+    },
+    "https://i.imgur.com/vyQBitJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/69ef374d37e01193dd7f.webp"
+    },
+    "https://i.imgur.com/Si1hjlL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/83943944feaa536bdc9c.webp"
+    },
+    "https://i.imgur.com/PBqG7pR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a7f0affdff3fc6617c4c.webp"
+    },
+    "https://i.imgur.com/BbunmDo.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e0538dc28aa412bb7adc.webp"
+    },
+    "https://i.ibb.co/21mR2FJH/Token-C-Grande-Battham.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3f51979c8f1321305e56.webp"
+    },
+    "https://i.imgur.com/rKRvWGx.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/be0638f2716f252da453.webp"
+    },
+    "https://i.imgur.com/LP6vWB2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/936fbd0e9dc58b1f79f8.webp"
+    },
+    "https://i.imgur.com/SMUvWOk.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/97cd2f64ad9444090f75.webp"
+    },
+    "https://i.imgur.com/LkY5tju.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/748525e80f25f7e7c047.webp"
+    },
+    "https://i.imgur.com/F1kkjHC.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/aaf306606f66653bcffd.webp"
+    },
+    "https://i.ibb.co/278BjfvD/Token-C-Hallus-tir.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/961d1cd789ec1be20742.webp"
+    },
+    "https://i.imgur.com/MkbkEah.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b04ed41fab262e878558.webp"
+    },
+    "https://i.imgur.com/frcibSS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/08bc027681f29b831146.webp"
+    },
+    "https://i.imgur.com/kl7wt2T.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4db7794879efe3b19525.webp"
+    },
+    "https://i.imgur.com/EOjEZoR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/73fafc9476f3d0b28cba.webp"
+    },
+    "https://i.imgur.com/Dl5eRFl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7f59bae1b9fa9a5787d3.webp"
+    },
+    "https://i.imgur.com/h2IMFdr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ae598a22afcdec01376a.webp"
+    },
+    "https://i.imgur.com/4IkXJvt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8c193414de7d96726109.webp"
+    },
+    "https://i.imgur.com/7ft45zQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0b16a50a2776bddd63c6.webp"
+    },
+    "https://i.imgur.com/I362bYq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/28a66ac2fee605e9efa7.webp"
+    },
+    "https://i.imgur.com/4stuMc4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ca157095b6d53c84220e.webp"
+    },
+    "https://i.imgur.com/ntLQDPw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/35c66f0a3c50cffccd0c.webp"
+    },
+    "https://i.imgur.com/TASD0jD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cd0e745ae34fe6cd9767.webp"
+    },
+    "https://i.imgur.com/5PXPsiy.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/728045a89a50c6c0f6d9.webp"
+    },
+    "https://i.imgur.com/C5nheDn.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2d5f8e7193fc030e3d55.webp"
+    },
+    "https://i.imgur.com/QpWuzTw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cd159162b3e3bf8e5374.webp"
+    },
+    "https://i.imgur.com/Oe5ug8h.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/04782d09a42b1e7adb40.webp"
+    },
+    "https://i.imgur.com/IRp2lE6.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c1951fb82934777a2c31.webp"
+    },
+    "https://i.imgur.com/yTphi4W.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/420e48ad39889623a055.webp"
+    },
+    "https://i.imgur.com/BieSZk9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3a002a3209056c2c48c4.webp"
+    },
+    "https://i.imgur.com/AZ1TEyW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4f361c86467ab570c53e.webp"
+    },
+    "https://i.imgur.com/OCtDISE.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9652eb3400c8281cb7e8.webp"
+    },
+    "https://i.imgur.com/Gu2mMfM.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/202f01461edc7692376c.webp"
+    },
+    "https://i.imgur.com/aUhDSX7.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/63be6d0600a765be5681.webp"
+    },
+    "https://i.imgur.com/CCEWWY3.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2e19064755177a18a7c9.webp"
+    },
+    "https://i.imgur.com/IqQDZZq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/59885b6d8fd07021fb70.webp"
+    },
+    "https://i.imgur.com/1BTJjTy.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/47718cfb168c5b08defd.webp"
+    },
+    "https://i.imgur.com/EoIsgSQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/014333cb6b8cc2b38ec3.webp"
+    },
+    "https://i.ibb.co/vvQ2JY7X/Token-C-Kaiju.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2d983df0df34a3173820.webp"
+    },
+    "https://i.imgur.com/s02BxlB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/269f1a2c4b8791ceda84.webp"
+    },
+    "https://i.imgur.com/5ZmFujG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/49b3d4b60e6b01511e4c.webp"
+    },
+    "https://i.imgur.com/pbDEMAW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9cf14fe61fcddd0e5b42.webp"
+    },
+    "https://i.imgur.com/kf1OKJv.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1fa96ce5d37521a01db9.webp"
+    },
+    "https://i.postimg.cc/bPCt7FzT/Horda-de-Otyugh.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8eb60821c7cce7d6122d.webp"
+    },
+    "https://i.imgur.com/s3acPHH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4b5c191e1b3ada74ae2a.webp"
+    },
+    "https://i.imgur.com/xdIaryB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2138f937a001b241d584.webp"
+    },
+    "https://i.imgur.com/PLVpiWH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ac03d6d8d0198c391029.webp"
+    },
+    "https://i.ibb.co/3x7FBc2/Token-C-Kishinauro.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9081f824900a925cdca9.webp"
+    },
+    "https://i.imgur.com/7any92h.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b4af808b80a04e8d0f45.webp"
+    },
+    "https://i.imgur.com/MhAibuU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6937925eaf59497fe780.webp"
+    },
+    "https://i.imgur.com/r8y9yaT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9bf283880bf8722b5878.webp"
+    },
+    "https://i.imgur.com/b9m3INZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/88c38a0716ddc6dfe3f9.webp"
+    },
+    "https://i.imgur.com/A3d4OR4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/87d45aa9393073b996dc.webp"
+    },
+    "https://i.imgur.com/vc5zsLY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d2a6e378318b66df9fe5.webp"
+    },
+    "https://i.imgur.com/MN7yMvx.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/af55d8ec860f32f955a7.webp"
+    },
+    "https://i.imgur.com/orWve8S.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/da22e56bf85131847209.webp"
+    },
+    "https://i.ibb.co/prRMKC4D/Token-C-Kraken.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/06ee745779d68f64c969.webp"
+    },
+    "https://i.imgur.com/DvyOyQZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92bf88a1126c91ab081a.webp"
+    },
+    "https://i.imgur.com/88IyIlB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/de1d5e2de9190fb74bf3.webp"
+    },
+    "https://i.imgur.com/4wCP72W.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ba51d24ce7e40671d415.webp"
+    },
+    "https://i.imgur.com/z6QRW5a.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/19e8a552ee33f62e6484.webp"
+    },
+    "https://i.imgur.com/4aOnLjq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d0f86a99cde4183d3c34.webp"
+    },
+    "https://i.imgur.com/UriPMLq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/910d27a99eaf4e364a65.webp"
+    },
+    "https://i.imgur.com/b38zSKG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/67c6fe8c6d13c76cd884.webp"
+    },
+    "https://i.imgur.com/QiNM9aW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/076b2e01e8568817f488.webp"
+    },
+    "https://i.imgur.com/PdyMUu9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/edda7b218b16aa2285fd.webp"
+    },
+    "https://i.imgur.com/25isjlY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5e3d8071c2a58eae7b79.webp"
+    },
+    "https://i.imgur.com/jqNpBdX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/dc7f7e2bb4e10eb124d5.webp"
+    },
+    "https://i.imgur.com/osKFA41.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/530125b7d2b511631cd7.webp"
+    },
+    "https://i.imgur.com/sSXzcQA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/533344663eecb2e27908.webp"
+    },
+    "https://i.imgur.com/ASAj3C4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a46e3160f114290b6053.webp"
+    },
+    "https://i.imgur.com/yRlDHLt.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0d9cdc1d55d57042503a.webp"
+    },
+    "https://i.imgur.com/rfQ7tuR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92d31659fbac9ffe4bb1.webp"
+    },
+    "https://i.imgur.com/o0cAkbH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5594ab499b2842741e6f.webp"
+    },
+    "https://i.imgur.com/ghZrIi2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/04663c84199a1f20c6ad.webp"
+    },
+    "https://i.imgur.com/sS79gYR.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f15a0404fcb828316331.webp"
+    },
+    "https://i.imgur.com/9d0JW7J.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8036e681d19a25d0f911.webp"
+    },
+    "https://i.imgur.com/vc6L7GY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2d78e173e5e070a7a087.webp"
+    },
+    "https://i.imgur.com/ISijUcr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a5ef032a7194e1facf25.webp"
+    },
+    "https://i.imgur.com/73RzoZQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c9baf3ed02ae7b834bed.webp"
+    },
+    "https://i.imgur.com/X8vrE5k.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/beb0821d0ca7e302a998.webp"
+    },
+    "https://i.imgur.com/Lj2EJJS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a757765a62fe01a635a6.webp"
+    },
+    "https://i.imgur.com/TEd6gzr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3df91e15e6da2d62c406.webp"
+    },
+    "https://i.imgur.com/SFE09VS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fa68e05866fdcf9f5d0d.webp"
+    },
+    "https://i.imgur.com/25IXdsc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/59036e9e226b6b427ce9.webp"
+    },
+    "https://i.imgur.com/wF69DlS.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4ca990850922c495601a.webp"
+    },
+    "https://i.imgur.com/qxPoROY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/db7e8d8d9b1b25c01f3e.webp"
+    },
+    "https://i.ibb.co/7JPxpb0Y/Mega-Selako.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c085c8fada92c2fc7748.webp"
+    },
+    "https://i.imgur.com/tV0hh5x.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1a9741aacbe6941eb2ca.webp"
+    },
+    "https://i.imgur.com/Ms3wzWG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/22cb3d797a673dcae54e.webp"
+    },
+    "https://i.imgur.com/2pTsrXn.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/564148dca55b5a300298.webp"
+    },
+    "https://i.imgur.com/9jPIm6G.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/023a7f796c6d289235a2.webp"
+    },
+    "https://i.imgur.com/FxvuN9z.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6ffe4219a2a991d3899c.webp"
+    },
+    "https://i.imgur.com/RraZXER.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/00e3017e14d0d83e4cdb.webp"
+    },
+    "https://i.imgur.com/9AMdpDf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/753ac008b47cc7478a94.webp"
+    },
+    "https://i.imgur.com/G2Xnuck.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0638bd24052398606b22.webp"
+    },
+    "https://i.imgur.com/TQMxado.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/57ec4dab76bdecb13843.webp"
+    },
+    "https://i.imgur.com/40ADcMU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e789edf442d4d0d2f258.webp"
+    },
+    "https://files.d20.io/images/406806109/VzHvPND7lSS9_I0c9g_1TQ/max.png?1724627285": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c4eec91b4af3ba7de063.webp"
+    },
+    "https://i.imgur.com/afnOk45.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/63112372888c424ffc25.webp"
+    },
+    "https://i.imgur.com/wQosome.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fa8fbf444ec7ce6a6732.webp"
+    },
+    "https://i.imgur.com/ghja9pb.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/71c274b672df49146924.webp"
+    },
+    "https://i.imgur.com/vBTPeOW.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/21b489f4d6f0585d4f5c.webp"
+    },
+    "https://i.imgur.com/90rm9PG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/019f84e15cc7062bd055.webp"
+    },
+    "https://i.imgur.com/t8RegvU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5436b2596b8e0c0f6065.webp"
+    },
+    "https://i.imgur.com/3eppNKX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ba52f5bb3ce0593a4e62.webp"
+    },
+    "https://i.imgur.com/ogOpDw8.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6d2e3c56ce7cb6510b16.webp"
+    },
+    "https://i.imgur.com/6oDM3kx.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/007cc4eeadc90ef7d011.webp"
+    },
+    "https://i.ibb.co/dwdg5Ydn/Token-C-Namasqall.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4b58cd182dccd2a6dd57.webp"
+    },
+    "https://i.imgur.com/V22g848.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f2cdae266d62bd2bd78b.webp"
+    },
+    "https://i.imgur.com/LEJT0Mf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/612078a7a118560ddf42.webp"
+    },
+    "https://i.imgur.com/wjBtii2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8e65aa268b90357e7570.webp"
+    },
+    "https://i.imgur.com/ovdptxs.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7764465c0b486f952690.webp"
+    },
+    "https://i.imgur.com/yZFltSE.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9a8fb0b53e0a33696bc3.webp"
+    },
+    "https://i.imgur.com/rX8p9w4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/40d5a6ddbff1a689890f.webp"
+    },
+    "https://i.imgur.com/hffIXbj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3b985c8133dee25d6fab.webp"
+    },
+    "https://i.imgur.com/wjk6Iq8.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e4f0396cf37b59d24226.webp"
+    },
+    "https://i.imgur.com/rVvXhiD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fee12a114214a4d493b1.webp"
+    },
+    "https://i.imgur.com/mEkqPPk.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/77d0bd68e2d888e7f906.webp"
+    },
+    "https://i.imgur.com/W4BXD1k.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d41d410ecbddb4ccecdb.webp"
+    },
+    "https://i.imgur.com/yfVj9X3.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/726794c204066b570a69.webp"
+    },
+    "https://i.imgur.com/Q2NXx0K.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6ce863790182391c2a2c.webp"
+    },
+    "https://i.imgur.com/jtxI52p.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/80c9e76b7e8447adff25.webp"
+    },
+    "https://i.imgur.com/oSbTcfa.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8f297e42bd59d37c66f3.webp"
+    },
+    "https://i.imgur.com/zDmwGvY.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6f66b598d742858c4681.webp"
+    },
+    "https://i.imgur.com/mghBmy9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f84c106108a97e89c299.webp"
+    },
+    "https://i.ibb.co/PsmqSrGH/Token-C-Nastarrath.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c1207ccdc09c44422083.webp"
+    },
+    "https://i.imgur.com/0tHLTl4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6ef11ec661a2ea408f24.webp"
+    },
+    "https://i.ibb.co/Y7tPBDW6/Necrodraco-Lich-2.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b7e24cc9abbdc7ed3823.webp"
+    },
+    "https://i.imgur.com/JnP7ps3.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/05b4694db46171b73bdf.webp"
+    },
+    "https://i.imgur.com/sYY6nbr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3dabc232631d012e1ef9.webp"
+    },
+    "https://i.imgur.com/fUT0xzA.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ab70159502b6d328ea6c.webp"
+    },
+    "https://i.imgur.com/cMmPUAn.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3c4c55311ce114e897f0.webp"
+    },
+    "https://i.imgur.com/t1Hb0Ig.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/16c940f5e217715b6841.webp"
+    },
+    "https://i.imgur.com/gRvWIEf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b2bbef285be09341347b.webp"
+    },
+    "https://i.imgur.com/G2BFFN4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/8760bc62ab2c54560482.webp"
+    },
+    "https://i.imgur.com/dpdeM4y.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92ad953948f714d94f15.webp"
+    },
+    "https://i.imgur.com/2j1vnQZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3bf7a5163f8daef8fb4a.webp"
+    },
+    "https://i.imgur.com/mo9HKBw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e157e25e9430553a7b7c.webp"
+    },
+    "https://i.imgur.com/SOGvv4T.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3f0dc86cfe7178c57e75.webp"
+    },
+    "https://i.imgur.com/mi2MjHH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/583913f2a7e6848e0ca1.webp"
+    },
+    "https://files.d20.io/images/406802987/V4krVl3QDAegcHySlxN5Ww/max.png?1724626115": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f7a4f1714ac30caf7a21.webp"
+    },
+    "https://files.d20.io/images/406088223/J5sXGETGAkVgpxkA-a-CEQ/max.png?1724204108": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/837824ea3397f7563481.webp"
+    },
+    "https://i.ibb.co/BHBbpWJj/Pliorex-Abissal.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6c4c732698d8c2018855.webp"
+    },
+    "https://i.imgur.com/EhUQx2q.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/acff479bcd991ac2e68b.webp"
+    },
+    "https://i.imgur.com/o6LTUGL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/33a7487b43e67d3d6d5f.webp"
+    },
+    "https://i.imgur.com/O4EXkDG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/538e9f4c461fe6018b0f.webp"
+    },
+    "https://i.imgur.com/hgcIzg4.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/211128cc1803a4770e1e.webp"
+    },
+    "https://i.imgur.com/amiEa1Q.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0b428cef8b5c28bc9ac0.webp"
+    },
+    "https://i.imgur.com/wTGWw0L.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4dd1cb1fa0b19c39969c.webp"
+    },
+    "https://i.imgur.com/qbEIcjk.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3bccea379dd9b75e8e69.webp"
+    },
+    "https://i.imgur.com/XI3OSqJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c6d95d65f5bdbfe1bfb0.webp"
+    },
+    "https://i.imgur.com/xjESIX9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a1b97bf8e1d2f4583e79.webp"
+    },
+    "https://i.imgur.com/s4JkSFK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/250ddccc58ecf8b972c1.webp"
+    },
+    "https://i.imgur.com/wco4OVj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a6bc99e4cd2ffc6084dd.webp"
+    },
+    "https://i.imgur.com/7PYtbIv.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/44af5fe6a23441bca416.webp"
+    },
+    "https://i.imgur.com/oFHetj5.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e8ef3bf5d01f7e6d237b.webp"
+    },
+    "https://i.imgur.com/dkKH8oG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/71363e48a1fd9e5991d0.webp"
+    },
+    "https://i.imgur.com/neevmcw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6b9931d66f806a443c13.webp"
+    },
+    "https://i.imgur.com/kLK5JuJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/14d018958f8e875b2f2d.webp"
+    },
+    "https://i.imgur.com/0dx8zOT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c8c466527cf11950d46f.webp"
+    },
+    "https://i.imgur.com/p5hsikT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/659e0de89163fb35ca8f.webp"
+    },
+    "https://files.d20.io/images/410339883/vqiuihlSZaQ8WmNgpvm0Iw/max.png?1726919242": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0e2050d71b31866d96bd.webp"
+    },
+    "https://i.imgur.com/t2BH3hr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/45431bfd80bddacc6934.webp"
+    },
+    "https://i.imgur.com/13hzLyB.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/898651784d835e3c7cdd.webp"
+    },
+    "https://i.imgur.com/B3IzrFl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ec29ac9243cde0c94929.webp"
+    },
+    "https://i.imgur.com/KVnm5uO.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4cb7ae35081421df64c6.webp"
+    },
+    "https://i.imgur.com/9WgMEDG.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d9c6f98a85635c907b28.webp"
+    },
+    "https://i.imgur.com/gOS7HrU.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4f85999e30696d07da13.webp"
+    },
+    "https://i.imgur.com/OaWRTtf.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/9f5756815e82f22309ff.webp"
+    },
+    "https://i.imgur.com/AQTUpeX.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d0dbc89241066fa11c90.webp"
+    },
+    "https://i.imgur.com/NwxHQN8.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/75fab7e1ec4ddc6f13d0.webp"
+    },
+    "https://i.imgur.com/2SmGEPq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bf95edf6c0b553d2e1d6.webp"
+    },
+    "https://i.imgur.com/8DhHq0H.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/20a368c482cfc7e1fc69.webp"
+    },
+    "https://i.imgur.com/fMlKFTl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ec3f82b19d2633193e95.webp"
+    },
+    "https://i.imgur.com/CY9hwpq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/82beb2b877dde186b2ab.webp"
+    },
+    "https://i.imgur.com/mrEn87c.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6822eb70deddb28c4611.webp"
+    },
+    "https://i.imgur.com/adsvxsr.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/92e719e0134f114d7e1e.webp"
+    },
+    "https://i.imgur.com/Rct9Uwg.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/4323040374bd6eedb0d9.webp"
+    },
+    "https://i.imgur.com/HX7S4cQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/44290d55c92d030de561.webp"
+    },
+    "https://i.imgur.com/fILemi9.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0d7caf4dcbba9656f66f.webp"
+    },
+    "https://files.d20.io/images/409276254/f_AXjhXDyIjO1BhnIgMDyQ/max.png?1726249572": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/e5055f940bfd515aeb4a.webp"
+    },
+    "https://i.imgur.com/xvYCFVb.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/141b58a4bdde0fb7cfa9.webp"
+    },
+    "https://i.imgur.com/43zwe3t.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/197137a2fe24f2ca2a9e.webp"
+    },
+    "https://i.imgur.com/JOvRQSJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2fd9838380bdff9e5f4c.webp"
+    },
+    "https://i.imgur.com/CDHNAwa.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/06a03bbf9d599a55d986.webp"
+    },
+    "https://i.imgur.com/NRmBIlp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1b6d3891dea5f72b15de.webp"
+    },
+    "https://i.imgur.com/XzNpAZM.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7fd160216816f4c111c9.webp"
+    },
+    "https://i.imgur.com/W85LWxi.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/5ab3c644c88a2641d6b8.webp"
+    },
+    "https://i.imgur.com/Nr9ld9S.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f44aa8e2ac4db913ff74.webp"
+    },
+    "https://i.imgur.com/YDnSLkZ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/002622a2a2e2d8c5cb3d.webp"
+    },
+    "https://i.imgur.com/U0FUHWK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/a8f07264395b38e66e52.webp"
+    },
+    "https://files.d20.io/images/407513109/jGifmGRSybqa_XeHaWXQrw/max.png?1725116793": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6a11396bfb1b002fe05c.webp"
+    },
+    "https://i.imgur.com/tv210FD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/dee820e4c382062347f6.webp"
+    },
+    "https://i.imgur.com/4M9qOdv.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/bbb24ab56fa08b113e24.webp"
+    },
+    "https://i.imgur.com/nX0wJlp.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/d1e01651d4aae3afe9b9.webp"
+    },
+    "https://i.postimg.cc/w6Fd1Nqg/RT20-16-Sckhar-drag-o-amea-a.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/b23d9395d47fb8a50de4.webp"
+    },
+    "https://i.imgur.com/k8Zu7FL.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/86e10aaa4b4050151f9c.webp"
+    },
+    "https://i.imgur.com/rUpbaKl.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c124dcea7b4c18508974.webp"
+    },
+    "https://i.imgur.com/Bkq2UK1.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/781157dd371b8fab9af9.webp"
+    },
+    "https://i.imgur.com/eEUWp1Z.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/575454b76bb66f19941f.webp"
+    },
+    "https://i.imgur.com/wr2TXj5.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/fddd9a6426755aacbca2.webp"
+    },
+    "https://i.ibb.co/Y7g2bbFm/Totem-do-Rei-Tirano.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2f9bbd66182e7d098f26.webp"
+    },
+    "https://i.imgur.com/dg0vUuc.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/28e03f573d58d9d889c0.webp"
+    },
+    "https://i.imgur.com/3UIQBWu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/76104aa96a085b5f8535.webp"
+    },
+    "https://i.imgur.com/ZGzGtqq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/73095fe9e83899d716da.webp"
+    },
+    "https://i.imgur.com/35gXiGV.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2bf97172b0c115883310.webp"
+    },
+    "https://i.imgur.com/ptWlRJ1.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/65812130f9f9c3938e84.webp"
+    },
+    "https://i.imgur.com/qua6ZQq.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/3e69674088da8d90ba7f.webp"
+    },
+    "https://i.imgur.com/oLDsdLs.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/1ebd2afa3ad05ffc116d.webp"
+    },
+    "https://i.imgur.com/oNbwMHD.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6f430c832ba67c7021ce.webp"
+    },
+    "https://i.imgur.com/LgonaNH.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/70c3f0cb848daa1f454a.webp"
+    },
+    "https://i.imgur.com/glAIE1W.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0d6812bd9fc9b26bb444.webp"
+    },
+    "https://i.imgur.com/BXykuz7.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/269f5293998ba6e06721.webp"
+    },
+    "https://i.imgur.com/VGbi9jP.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/191c36ecf49d5a757606.webp"
+    },
+    "https://i.imgur.com/aezwiPT.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/c2c0400263f7d9e1df3c.webp"
+    },
+    "https://i.imgur.com/RAvuAKJ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/2bbff0095cca64c1e641.webp"
+    },
+    "https://i.imgur.com/MjpOkdI.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/335594ddb4901b30df39.webp"
+    },
+    "https://i.imgur.com/j8YaseF.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/99e3e49a23c8b3712db6.webp"
+    },
+    "https://i.imgur.com/PU2cpTz.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/7117bc7bd5e91a68bedc.webp"
+    },
+    "https://i.imgur.com/jDIf8AK.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/cd46cc8f705c6605c3c7.webp"
+    },
+    "https://i.imgur.com/N7UhuYv.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/982915e6a45bc14fef59.webp"
+    },
+    "https://i.ibb.co/Zpchn4Nt/Larva-de-Gelo-Adulto.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/41494527a1059725d374.webp"
+    },
+    "https://i.imgur.com/QCtzRD1.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/6a3dc5c720acf53a9c09.webp"
+    },
+    "https://i.imgur.com/SejbQYw.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/eef1a749c471363dc1f5.webp"
+    },
+    "https://i.imgur.com/rUGbBSi.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/f28cfbcafc884447bfad.webp"
+    },
+    "https://i.imgur.com/zSaSSoj.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/97d8eb8ec672035e3608.webp"
+    },
+    "https://i.imgur.com/NPqtTxz.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/164452cbb484f1e0d490.webp"
+    },
+    "https://i.imgur.com/5FYWexi.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/0c81d0ded251d84296f5.webp"
+    },
+    "https://i.imgur.com/kJquRmu.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ddd3498622354de0ac7e.webp"
+    },
+    "https://i.imgur.com/dgNs99I.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/271ff7cdd3e21e720543.webp"
+    },
+    "https://i.imgur.com/RyODhyP.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ffeade1f15ec66ac93c5.webp"
+    },
+    "https://i.imgur.com/EuAEdjQ.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/eb464ea7d972ca9e1cd0.webp"
+    },
+    "https://i.imgur.com/O1KvsVi.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/114779e2cb8996e67627.webp"
+    },
+    "systems/tormenta20/icons/svg/orc-head.svg": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/ccd991ae757ae464203f.svg"
+    },
+    "Token%20-%20Golem%20de%20Nor%20M%C3%A9dio.png": {
+      "path": "modules/t20-theme-overhaul/assets/criaturas-integradas/19d2dba804535efedcf3.webp",
+      "replacedMissingPath": true
+    }
+  }
+}

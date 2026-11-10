@@ -1,0 +1,91 @@
+{
+  "type": "poder",
+  "name": "Dilacerar",
+  "img": "systems/tormenta20/icons/poderes/ameacas/dilacerar.webp",
+  "system": {
+    "description": {
+      "value": "<p>Para cada dois ataques de garra que o gigante rubro acertar em uma mesma criatura no mesmo turno, ele causa mais 2d8+10 pontos de dano.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "2d8+10",
+            "corte",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "ability",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "AwkfVVMkCj79rRYv"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745772114,
+    "modifiedTime": 1761745772114,
+    "lastModifiedBy": null
+  },
+  "folder": "5YST28cRjHJy5h17",
+  "ownership": {
+    "default": 0
+  },
+  "_id": "AwkfVVMkCj79rRYv",
+  "sort": 0,
+  "_key": "!items!AwkfVVMkCj79rRYv"
+}

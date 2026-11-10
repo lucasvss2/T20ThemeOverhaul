@@ -1,0 +1,138 @@
+{
+  "name": "Sangue Frio",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/racas/trog.webp",
+  "effects": [
+    {
+      "name": "Sangue Frio",
+      "img": "systems/tormenta20/icons/racas/trog.webp",
+      "origin": "Compendium.tormenta20.poderes.Item.0uPMzPcd5TJqZ0GD",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "_id": "Hev9elOZdnjStaPJ",
+      "type": "base",
+      "system": {},
+      "changes": [
+        {
+          "key": "system.tracos.resistencias.frio.danoPorDado",
+          "mode": 5,
+          "value": "true",
+          "priority": null
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!dQIGQycAZa6XLP2W.Hev9elOZdnjStaPJ",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "folder": "f4Njeo5dC2spk7QD",
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "dQIGQycAZa6XLP2W"
+      }
+    }
+  },
+  "system": {
+    "description": {
+      "value": "<p>Você sofre 1 ponto de dano adicional por cada dado de dano de frio.</p>",
+      "unidentified": ""
+    },
+    "source": "Tormenta20 — Edição Jogo do Ano, p. 31",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "sab",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Trog",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746281263,
+    "modifiedTime": 1761746281263,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "dQIGQycAZa6XLP2W",
+  "sort": 0,
+  "_key": "!items!dQIGQycAZa6XLP2W"
+}

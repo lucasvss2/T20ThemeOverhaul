@@ -1,0 +1,140 @@
+{
+  "folder": "ZTgrh1eXS2fNEvZ8",
+  "name": "Resistência a Magia",
+  "type": "poder",
+  "_id": "SK1tX7fpdWH8lUCH",
+  "img": "icons/creatures/abilities/dragon-breath-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">Dragões filhotes têm resistência a magia +1. Esse bônus aumenta em +1 para cada categoria de idade acima de filhote.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "ativacao": {
+      "custo": 0,
+      "condicao": "",
+      "execucao": "passive",
+      "qtd": "",
+      "special": ""
+    },
+    "duracao": {
+      "units": "inst",
+      "value": 0,
+      "special": ""
+    },
+    "range": {
+      "units": "",
+      "value": 0
+    },
+    "alcance": "none",
+    "area": "",
+    "efeito": "",
+    "resistencia": {
+      "txt": "",
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Dragão"
+  },
+  "effects": [
+    {
+      "name": "Resistência a Magia +1",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.t20-theme-overhaul.habilidades-ameacas.Item.SK1tX7fpdWH8lUCH",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "Fortitude;Reflexos;Vontade",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "1",
+          "priority": null
+        }
+      ],
+      "_id": "p7Tfu0RBqzeRK8cP",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761746918507,
+        "modifiedTime": 1761746924839,
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!SK1tX7fpdWH8lUCH.p7Tfu0RBqzeRK8cP",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "sort": 600000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "SK1tX7fpdWH8lUCH"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746848533,
+    "modifiedTime": 1761746938167,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!SK1tX7fpdWH8lUCH"
+}

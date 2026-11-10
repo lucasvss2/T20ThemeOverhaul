@@ -1,0 +1,104 @@
+{
+  "folder": "ZPqQDNkTlnRRKw9Q",
+  "name": "5. Pesadelos Reais",
+  "type": "poder",
+  "_id": "bQV9XUIRf7lndPPF",
+  "img": "systems/tormenta20/icons/poderes/concedidos-tormenta.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">Cada criatura na área deve fazer um teste de Vontade (CD 52). Se falhar, enxerga seu maior pesadelo e fica apavorada. Enquanto estiver sob essa condição, a vítima deve fazer um novo teste de Vontade no início de cada um de seus turnos. Se falhar, sofre 6d8 pontos de dano psíquico e perde 1d8 PM. O pesadelo (e a condição) termina se a criatura passar em dois testes de Vontade em sequência.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "ativacao": {
+      "custo": 0,
+      "condicao": "",
+      "execucao": "passive",
+      "qtd": "",
+      "special": ""
+    },
+    "duracao": {
+      "units": "inst",
+      "value": 0,
+      "special": ""
+    },
+    "range": {
+      "units": "",
+      "value": 0
+    },
+    "alcance": "none",
+    "area": "",
+    "efeito": "",
+    "resistencia": {
+      "txt": "",
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "6d8",
+            "psiquico",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      },
+      {
+        "name": "Perda de PM",
+        "key": "dano1",
+        "type": "dano",
+        "parts": [
+          [
+            "1d8",
+            "curapm",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "geral",
+    "subtipo": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "bQV9XUIRf7lndPPF"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746434650,
+    "modifiedTime": 1761746434650,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!bQV9XUIRf7lndPPF"
+}

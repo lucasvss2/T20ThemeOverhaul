@@ -1,0 +1,150 @@
+{
+  "name": "Imunidades Aberrantes",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-aberrante.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">Lefeu são imunes a acertos críticos, ácido, cansaço, eletricidade, fogo, frio, luz, paralisia, metabolismo, metamorfose, trevas e veneno.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Lefeu",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Imunidades Aberrantes",
+      "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-aberrante.webp",
+      "origin": "Item.gVKerNxvcWXS4cOh",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "changes": [
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "cansaco",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "paralisado",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "metabolismo",
+          "priority": null
+        }
+      ],
+      "_id": "hcEqSMzyAJMFz1Ol",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!GyYHRmYV6t5mePQD.hcEqSMzyAJMFz1Ol",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "GyYHRmYV6t5mePQD"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745836570,
+    "modifiedTime": 1761745870861,
+    "lastModifiedBy": null
+  },
+  "folder": "q16DZgfo8UyskkKW",
+  "ownership": {
+    "default": 0
+  },
+  "_id": "GyYHRmYV6t5mePQD",
+  "sort": 0,
+  "_key": "!items!GyYHRmYV6t5mePQD"
+}

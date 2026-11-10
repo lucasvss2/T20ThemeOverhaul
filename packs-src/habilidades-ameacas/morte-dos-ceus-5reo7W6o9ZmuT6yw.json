@@ -1,0 +1,144 @@
+{
+  "type": "poder",
+  "name": "Morte dos Céus",
+  "img": "icons/magic/light/beam-horizon-strike-yellow.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">O gigante rubro salta para um espaço desocupado em alcance médio. Se aterrissar adjacente a uma criatura, seu primeiro ataque contra ela neste turno recebe +2 no teste de ataque e causa +1d8 pontos de dano.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "move",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": 0,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Morte dos Céus",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.world.habilidades-de-ameacas.Item.5reo7W6o9ZmuT6yw",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "ataque",
+          "mode": 2,
+          "value": "2",
+          "priority": null
+        },
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "1d8",
+          "priority": null
+        }
+      ],
+      "_id": "xWlYPE30AIiKhPPn",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!5reo7W6o9ZmuT6yw.xWlYPE30AIiKhPPn",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "folder": "5YST28cRjHJy5h17",
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "5reo7W6o9ZmuT6yw"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745772114,
+    "modifiedTime": 1761745772114,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "5reo7W6o9ZmuT6yw",
+  "sort": 0,
+  "_key": "!items!5reo7W6o9ZmuT6yw"
+}

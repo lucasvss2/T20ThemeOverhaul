@@ -1,0 +1,2646 @@
+{
+  "folder": "1en4TkfhhiVOyKOL",
+  "name": "Avatar de Thwor",
+  "type": "npc",
+  "_id": "t4MBPGVC2xPofzqr",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/ccd991ae757ae464203f.svg",
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "base": 14,
+        "racial": 0,
+        "bonus": 0
+      },
+      "des": {
+        "value": 0,
+        "base": 8,
+        "racial": 0,
+        "bonus": 0
+      },
+      "con": {
+        "value": 0,
+        "base": 12,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 0,
+        "base": 10,
+        "racial": 0,
+        "bonus": 0
+      },
+      "sab": {
+        "value": 0,
+        "base": 10,
+        "racial": 0,
+        "bonus": 0
+      },
+      "car": {
+        "value": 0,
+        "base": 10,
+        "racial": 0,
+        "bonus": 0
+      }
+    },
+    "attributes": {
+      "carga": {
+        "value": 0,
+        "atributo": "for",
+        "base": 10,
+        "bonus": [],
+        "limit": 0,
+        "max": 0,
+        "pct": 0,
+        "encumbered": false
+      },
+      "cd": 47,
+      "conjuracao": "int",
+      "defesa": {
+        "atributo": "des",
+        "pda": 0,
+        "value": 10,
+        "base": 48,
+        "outros": 0,
+        "condi": 0,
+        "bonus": []
+      },
+      "movement": {
+        "walk": {
+          "base": 15,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "hover": false,
+        "unit": "m",
+        "tags": []
+      },
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "pv": {
+        "value": 1100,
+        "temp": 0,
+        "min": 0,
+        "max": 1
+      },
+      "pm": {
+        "value": 0,
+        "temp": 0,
+        "min": 0,
+        "max": 0
+      },
+      "sentidos": {
+        "value": [
+          "faro",
+          "escuro"
+        ]
+      },
+      "treino": 0,
+      "nd": "18"
+    },
+    "detalhes": {
+      "origem": "",
+      "divindade": "",
+      "raca": "Bugbear",
+      "tipo": "hum",
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "equipamento": "",
+      "resistencias": "imunidade a cansaço, efeitos mentais e de metabolismo, paralisia e veneno, redução de dano 20/adamante, resistência a magia +10",
+      "movimento": "",
+      "ataquescac": "Machado de guerra x3 +49 (4d10+20, 15/x3, mais 2d8 em não duyshidakk).",
+      "ataquesad": "",
+      "tesouro": "Dobro",
+      "role": "solo"
+    },
+    "dinheiro": {
+      "tc": 0,
+      "tl": 0,
+      "to": 0,
+      "tp": 0
+    },
+    "modificadores": {
+      "custoPM": 0,
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      }
+    },
+    "pericias": {
+      "acro": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 29,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 25,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 27,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": true,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": true,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 25,
+        "outros": 10,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 23,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 25,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "atributo": "int",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "atributo": "des",
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 29,
+        "outros": 20,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 25,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "atributo": "des",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 23,
+        "outros": -1,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 25,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 19,
+        "outros": 3,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "alfa": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "alqu": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "arme": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "arte": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cozi": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enge": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    },
+    "tracos": {
+      "ic": {
+        "value": [
+          "cansaco",
+          "metabolismo",
+          "veneno"
+        ]
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      },
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 20,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      },
+      "tamanho": "eno"
+    }
+  },
+  "prototypeToken": {
+    "name": "Avatar de Thwor",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 3,
+    "height": 3,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/ccd991ae757ae464203f.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "_id": "bxulwgLJFo4ycGV7",
+      "name": "Machado de guerra x3",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/machado-de-guerra.webp",
+      "folder": null,
+      "sort": 2050000,
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Machado de guerra x3</section><p>Este imenso machado com lâmina dupla é uma das armas mais perigosas que existem.</p>",
+          "unidentified": ""
+        },
+        "equipado": 0,
+        "espacos": 2,
+        "qtd": 1,
+        "preco": 20,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "0",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d10+20",
+                "corte",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 15,
+        "criticoX": 3,
+        "alcance": "",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "adaptavel": false,
+          "agil": false,
+          "alongada": false,
+          "arremesso": false,
+          "ataqueDistancia": false,
+          "duasMaos": true,
+          "dupla": false,
+          "leve": false,
+          "municao": false,
+          "versatil": false,
+          "des": false,
+          "hib": false
+        },
+        "chatFlavor": "",
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "tags": [],
+        "proficiencia": "marcial",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "duas",
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatGif": "",
+        "carregado": true,
+        "peso": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "ataques": 1,
+        "tipoUso": "sim",
+        "size": "normal"
+      },
+      "effects": [
+        {
+          "name": "Não Duyshidakk",
+          "img": "icons/svg/upgrade.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.bxulwgLJFo4ycGV7",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "changes": [
+            {
+              "key": "dano",
+              "mode": 2,
+              "value": "2d8",
+              "priority": null
+            }
+          ],
+          "_id": "kCOFZ1g2M7yxvOhi",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.bxulwgLJFo4ycGV7.kCOFZ1g2M7yxvOhi",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763490248,
+        "modifiedTime": 1761763490248,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.bxulwgLJFo4ycGV7"
+    },
+    {
+      "name": "Centelha Divina",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>O Avatar de Thwor lança qualquer magia divina como um clérigo de 18º nível, sem gastar PM (CD 47, limite de PM 18)</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "pnlqnNIRgZIGOleu",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 100000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763504800,
+        "modifiedTime": 1761763860757,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.pnlqnNIRgZIGOleu"
+    },
+    {
+      "name": "Discurso Impactante",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por cena, o Avatar faz um discurso que leva todas as criaturas em um raio de 30m a questionarem suas próprias crenças. Devotos de outros deuses perdem seus PM e ficam abalados, enquanto criaturas inteligentes (Int –3 ou mais) sem devoção passam a obedecer às Obrigações &amp; Restrições de Thwor até o fim da cena (Von CD 47 evita). Devotos de Thwor na área afetada recuperam todos os seus PM e recebem +2 em testes de perícia até o fim da cena. <em>Mental</em></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "full",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "self",
+        "area": "Raio de 30m",
+        "efeito": "",
+        "resistencia": {
+          "txt": "Vontade evita",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "jbr0aXFoJdu3e5SP",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [
+        {
+          "name": "Discurso Impactante",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.jbr0aXFoJdu3e5SP",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral",
+              "mode": 2,
+              "value": "2"
+            }
+          ],
+          "_id": "rItfAF7s7EMCQ9ko",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "createdTime": 1761763614013,
+            "modifiedTime": 1761763614013,
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.jbr0aXFoJdu3e5SP.rItfAF7s7EMCQ9ko",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Abalado",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.jbr0aXFoJdu3e5SP",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "LSDSRs4GU9YeIcwb",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "createdTime": 1761763621690,
+            "modifiedTime": 1761763623661,
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.jbr0aXFoJdu3e5SP.LSDSRs4GU9YeIcwb",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 200000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763523214,
+        "modifiedTime": 1761763860757,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.jbr0aXFoJdu3e5SP"
+    },
+    {
+      "name": "O Ayrrak",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando o Avatar sofre uma condição ou dano, ele os transfere para um outro duyshidakk em alcance longo.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "reaction",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "TlLmmEbL2aUqgs28",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 400000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763638980,
+        "modifiedTime": 1761763860757,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.TlLmmEbL2aUqgs28"
+    },
+    {
+      "name": "Ordens de Ataque",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, o Avatar ordena um aliado duyshidakk em alcance médio a fazer uma ação agredir como uma reação, imediatamente.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "1OlLSqJD82vBHYIH",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [],
+      "folder": null,
+      "sort": 500000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763660316,
+        "modifiedTime": 1761763860757,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.1OlLSqJD82vBHYIH"
+    },
+    {
+      "name": "Presença Motivadora",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>O Avatar emana uma aura de euforia em um raio de 30m. Aliados duyshidakk nessa área recebem +5 na Defesa e em testes de perícia.</p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "mYIj7dAIoT3rqi7T",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [
+        {
+          "name": "Presençã Motivador",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.mYIj7dAIoT3rqi7T",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral",
+              "mode": 2,
+              "value": "5"
+            },
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "5"
+            }
+          ],
+          "_id": "tu5OHBpwgnnmP97b",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "createdTime": 1761763704649,
+            "modifiedTime": 1761763704649,
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.mYIj7dAIoT3rqi7T.tu5OHBpwgnnmP97b",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 600000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763676307,
+        "modifiedTime": 1761763860757,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.mYIj7dAIoT3rqi7T"
+    },
+    {
+      "name": "Encarnação do Mundo como Deve Ser",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>O Avatar começa com todos os poderes abaixo. Para cada 100 pontos de vida que ele tiver abaixo de seu máximo de PV, perde um desses poderes em ordem a partir de Vida (ele recupera os poderes se recuperar seus PV).</p><p><em>Luz</em>. Quando fosse sofrer dano de luz, em vez disso o Avatar causa essa mesma quantidade de dano em uma criatura em alcance curto e a deixa ofuscada (Ref CD 47 reduz à metade e evita a condição).</p><p><em>Início (Padrão).</em> Todas as criaturas em um raio de 30m voltam ao início do turno anterior do Avatar. Todas as ações a partir desse ponto são desfeitas (isso inclui as consequências dessas ações, como perda de PV e PM). Com exceção do Avatar, nenhuma outra criatura sabe o que vai acontecer e todas devem executar as mesmas ações que realizaram originalmente (mas quaisquer dados devem ser rolados novamente)</p><p><em>Movimento</em>. O Avatar executa uma ação padrão adicional por turno.</p><p><em>Continuidade.</em> Quando um inimigo em alcance médio faz um teste de resistência contra uma magia do Avatar, se um sucesso nesse teste reduziria a duração do efeito, o inimigo faz o teste duas vezes e usa o pior resultado</p><p><em>Eles.</em> Inimigos do Avatar em um raio de 30m não são considerados aliados uns dos outros para efeitos de suas próprias habilidades</p><p><em>Conhecimento</em>. O Avatar recebe +10 em sua resistência a magia.</p><p><em>Fora.</em> Quando um inimigo em alcance médio usa uma habilidade em área ou que afeta vários aliados, esse inimigo não é incluído na própria habilidade</p><p><em>Vida.</em> O Avatar recebe cura acelerada 20.</p><p></p><p></p><p></p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "qB8kz1Tx60UD9PId",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "effects": [
+        {
+          "name": "Luz",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "eFo5kgwcyH5rOt4x",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.eFo5kgwcyH5rOt4x",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Início",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "hrzJurhYpm12xcy1",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.hrzJurhYpm12xcy1",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Movimento",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "MVHh3wYtmFpc4t0D",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.MVHh3wYtmFpc4t0D",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Continuidade",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "WGgIyd6CkdVJEnEm",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.WGgIyd6CkdVJEnEm",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Eles",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "e4wXTvAgDvzdcj6U",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.e4wXTvAgDvzdcj6U",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Conhecimento: Vs Magia",
+          "img": "icons/svg/upgrade.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": true,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "Fortitude;Reflexos;Vontade",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": true,
+          "changes": [
+            {
+              "key": "roll",
+              "mode": 2,
+              "value": "10",
+              "priority": null
+            }
+          ],
+          "_id": "PcCJhuU6UdAkjgUd",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.PcCJhuU6UdAkjgUd",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        },
+        {
+          "name": "Vida",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "origin": "Compendium.t20-theme-overhaul.ameacas-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "aumenta": false,
+              "custo": ""
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "combat": null,
+            "seconds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [],
+          "_id": "0ox2kGFEvb7KiYAO",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "transfer": true,
+          "statuses": [],
+          "sort": 0,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "_key": "!actors.items.effects!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId.0ox2kGFEvb7KiYAO",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 150000,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116457,
+        "modifiedTime": 1761764117733,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!t4MBPGVC2xPofzqr.qB8kz1Tx60UD9PId"
+    }
+  ],
+  "effects": [
+    {
+      "img": "icons/svg/upgrade.svg",
+      "name": "Resistência a Magia",
+      "changes": [
+        {
+          "key": "roll",
+          "priority": null,
+          "value": "10",
+          "mode": 2
+        }
+      ],
+      "disabled": true,
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "skill": true,
+          "items": "Fortitude;Reflexos;Vontade",
+          "self": false,
+          "attack": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "",
+          "durationScene": false
+        }
+      },
+      "_id": "ZJbqGnZOpphQqSqK",
+      "type": "base",
+      "system": {},
+      "duration": {
+        "startTime": 132,
+        "combat": null,
+        "startRound": 6,
+        "startTurn": 1,
+        "seconds": null,
+        "rounds": null,
+        "turns": null
+      },
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763436352,
+        "modifiedTime": 1761764093122,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.ZJbqGnZOpphQqSqK",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Não Duyshidakk",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.bxulwgLJFo4ycGV7",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": true,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2d8",
+          "priority": null
+        }
+      ],
+      "_id": "fy7lqY1ctvVhdWhq",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761763490424,
+        "modifiedTime": 1761763490424,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.fy7lqY1ctvVhdWhq",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Luz",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "QpARiJq8NFSp51T0",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.QpARiJq8NFSp51T0",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Início",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "f9AnHLaOzDeZ9zJF",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.f9AnHLaOzDeZ9zJF",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Movimento",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "MAUI5tDg9vIla6Km",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.MAUI5tDg9vIla6Km",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Continuidade",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "4MeQ43TASGLkXhMT",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.4MeQ43TASGLkXhMT",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Eles",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "IrirIwcwzF9mlMf1",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.IrirIwcwzF9mlMf1",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Conhecimento: Vs Magia",
+      "img": "icons/svg/upgrade.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": true,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "Fortitude;Reflexos;Vontade",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": true,
+      "changes": [
+        {
+          "key": "roll",
+          "mode": 2,
+          "value": "10",
+          "priority": null
+        }
+      ],
+      "_id": "uEgzwiH6dy6zV2kB",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.uEgzwiH6dy6zV2kB",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "name": "Vida",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "origin": "Compendium.world.bestiario-de-arton.Actor.t4MBPGVC2xPofzqr.Item.qB8kz1Tx60UD9PId",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "rounds": 1,
+        "startTime": 132,
+        "combat": null,
+        "seconds": null,
+        "turns": null,
+        "startRound": 6,
+        "startTurn": 1
+      },
+      "disabled": false,
+      "changes": [],
+      "_id": "vJdgCr32Q34pF6dN",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1761764116622,
+        "modifiedTime": 1761764116622,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!t4MBPGVC2xPofzqr.vJdgCr32Q34pF6dN",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "bestiario-de-arton",
+        "id": "t4MBPGVC2xPofzqr"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761763370118,
+    "modifiedTime": 1761763885170,
+    "lastModifiedBy": null
+  },
+  "_key": "!actors!t4MBPGVC2xPofzqr"
+}

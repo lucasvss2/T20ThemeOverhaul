@@ -1,0 +1,156 @@
+{
+  "name": "Imunidades Dracônicas",
+  "type": "poder",
+  "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+  "system": {
+    "description": {
+      "value": "<p>Dragões são imunes a efeitos de atordoamento, cansaço, dano do tipo de seu sopro, metamorfose e paralisia.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": null,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "ability",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "rolltags": [],
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Imunidades Dracônicas",
+      "img": "systems/tormenta20/icons/poderes/ameacas/imunidade-draconica.webp",
+      "origin": "Item.yRLgv7CNJqKYesd4",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": false,
+          "durationScene": false,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "combat": null,
+        "seconds": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": false,
+      "changes": [
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "atordoado",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "cansaco",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "metamorfose",
+          "priority": null
+        },
+        {
+          "key": "system.tracos.ic.value",
+          "mode": 2,
+          "value": "paralisado",
+          "priority": null
+        }
+      ],
+      "_id": "WaL2TAmjUOL6RRZU",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "_key": "!items.effects!ygne0PEUEyB1LoLA.WaL2TAmjUOL6RRZU",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "ygne0PEUEyB1LoLA"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746648290,
+    "modifiedTime": 1761746938167,
+    "lastModifiedBy": null
+  },
+  "folder": "ZTgrh1eXS2fNEvZ8",
+  "ownership": {
+    "default": 0
+  },
+  "_id": "ygne0PEUEyB1LoLA",
+  "sort": 200000,
+  "_key": "!items!ygne0PEUEyB1LoLA"
+}

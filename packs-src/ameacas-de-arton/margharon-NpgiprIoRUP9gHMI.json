@@ -1,0 +1,1897 @@
+{
+  "folder": "89xEvZkrdiJslJrf",
+  "name": "Margharon",
+  "type": "npc",
+  "_id": "NpgiprIoRUP9gHMI",
+  "img": "modules/t20-theme-overhaul/assets/criaturas-integradas/ccd991ae757ae464203f.svg",
+  "system": {
+    "atributos": {
+      "for": {
+        "value": 0,
+        "base": 5,
+        "racial": 0,
+        "bonus": 0
+      },
+      "des": {
+        "value": 0,
+        "base": 0,
+        "racial": 0,
+        "bonus": 0
+      },
+      "con": {
+        "value": 0,
+        "base": 4,
+        "racial": 0,
+        "bonus": 0
+      },
+      "int": {
+        "value": 0,
+        "base": 6,
+        "racial": 0,
+        "bonus": 0
+      },
+      "sab": {
+        "value": 0,
+        "base": 3,
+        "racial": 0,
+        "bonus": 0
+      },
+      "car": {
+        "value": 0,
+        "base": 6,
+        "racial": 0,
+        "bonus": 0
+      }
+    },
+    "attributes": {
+      "carga": {
+        "value": 0,
+        "atributo": "for",
+        "base": 10,
+        "bonus": [],
+        "limit": 0,
+        "max": 0,
+        "pct": 0,
+        "encumbered": false
+      },
+      "cd": 40,
+      "conjuracao": "int",
+      "defesa": {
+        "atributo": "des",
+        "pda": 0,
+        "value": 10,
+        "base": 44,
+        "outros": 0,
+        "condi": 0,
+        "bonus": []
+      },
+      "movement": {
+        "walk": {
+          "base": 9,
+          "bonus": []
+        },
+        "climb": {
+          "base": 0,
+          "bonus": []
+        },
+        "burrow": {
+          "base": 0,
+          "bonus": []
+        },
+        "swim": {
+          "base": 0,
+          "bonus": []
+        },
+        "fly": {
+          "base": 0,
+          "bonus": []
+        },
+        "hover": false,
+        "unit": "m",
+        "tags": []
+      },
+      "nivel": {
+        "value": 0,
+        "xp": {
+          "value": 0,
+          "pct": 0,
+          "proximo": 0
+        }
+      },
+      "pv": {
+        "value": 490,
+        "temp": 0,
+        "min": 0,
+        "max": 490
+      },
+      "pm": {
+        "value": 70,
+        "temp": 0,
+        "min": 0,
+        "max": 70
+      },
+      "sentidos": {
+        "value": [
+          "escuro"
+        ]
+      },
+      "treino": 0,
+      "nd": "14"
+    },
+    "detalhes": {
+      "origem": "",
+      "divindade": "",
+      "raca": "Abissal",
+      "tipo": "esp",
+      "biography": {
+        "value": "",
+        "public": ""
+      },
+      "equipamento": "",
+      "resistencias": "fortificação 50%, imunidade a ácido, atordoamento, eletricidade e veneno, redução de dano 20, resistência a magia +4",
+      "movimento": "",
+      "ataquescac": "Quatro tentáculos +37 (2d8+28) e mordida +37 (2d6+22).",
+      "ataquesad": "",
+      "tesouro": "Padrão.",
+      "role": "special"
+    },
+    "dinheiro": {
+      "tc": 0,
+      "tl": 0,
+      "to": 0,
+      "tp": 0
+    },
+    "modificadores": {
+      "custoPM": 0,
+      "atributos": {
+        "for": [],
+        "des": [],
+        "con": [],
+        "int": [],
+        "sab": [],
+        "car": [],
+        "fisicos": [],
+        "mentais": [],
+        "geral": []
+      },
+      "ataque": {
+        "geral": [],
+        "cac": [],
+        "ad": []
+      },
+      "cura": {
+        "geral": [],
+        "mag": []
+      },
+      "dano": {
+        "ad": [],
+        "alq": [],
+        "cac": [],
+        "geral": [],
+        "mag": []
+      },
+      "pericias": {
+        "geral": [],
+        "resistencia": [],
+        "semataque": [],
+        "ataque": [],
+        "atr": {
+          "for": [],
+          "des": [],
+          "con": [],
+          "int": [],
+          "sab": [],
+          "car": []
+        }
+      }
+    },
+    "pericias": {
+      "acro": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ades": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atle": {
+        "atributo": "for",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "atua": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cava": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "conh": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 17,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enga": {
+        "atributo": "car",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 17,
+        "outros": 5,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "furt": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": true,
+        "size": true,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inic": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 7,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inti": {
+        "atributo": "car",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 17,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "intu": {
+        "atributo": "sab",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 14,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "inve": {
+        "atributo": "int",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 17,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "joga": {
+        "atributo": "car",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "ladi": {
+        "atributo": "des",
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 16,
+        "outros": 21,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 17,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 10,
+        "outros": 2,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pilo": {
+        "atributo": "des",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 11,
+        "outros": 3,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "sobr": {
+        "atributo": "sab",
+        "treinado": false,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": true,
+        "st": false,
+        "pda": false,
+        "size": false,
+        "value": 14,
+        "outros": 8,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "alfa": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "alqu": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "arme": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "arte": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "cozi": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": false,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      },
+      "enge": {
+        "atributo": "int",
+        "treinado": false,
+        "st": true,
+        "pda": true,
+        "size": false,
+        "value": 0,
+        "outros": 0,
+        "condi": 0,
+        "bonus": [],
+        "custom": false,
+        "label": ""
+      }
+    },
+    "resources": {
+      "primary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 1"
+      },
+      "secondary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 2"
+      },
+      "tertiary": {
+        "value": 0,
+        "max": 0,
+        "label": "Recurso 3"
+      },
+      "deathsave": {
+        "value": 0,
+        "max": 3,
+        "label": "Falha na Morte"
+      },
+      "shadow": {
+        "value": 0,
+        "max": 5,
+        "label": "Pontos de Sombra"
+      },
+      "catarse": {
+        "value": 0,
+        "max": 3,
+        "label": "Catarse"
+      }
+    },
+    "tracos": {
+      "ic": {
+        "value": [
+          "veneno",
+          "atordoado"
+        ]
+      },
+      "idiomas": {
+        "value": []
+      },
+      "profArmaduras": {
+        "value": []
+      },
+      "profArmas": {
+        "value": []
+      },
+      "resistencias": {
+        "dano": {
+          "value": 0,
+          "base": 20,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perda": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "acido": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": true,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "corte": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "eletricidade": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": true,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "essencia": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "fogo": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "frio": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "impacto": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "luz": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "psiquico": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "perfuracao": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        },
+        "trevas": {
+          "value": 0,
+          "base": 0,
+          "bonus": [],
+          "excecao": 0,
+          "imunidade": false,
+          "vulnerabilidade": false,
+          "danoPorDado": false
+        }
+      },
+      "tamanho": "eno"
+    }
+  },
+  "prototypeToken": {
+    "name": "Margharon",
+    "displayName": 0,
+    "actorLink": false,
+    "width": 3,
+    "height": 3,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/criaturas-integradas/ccd991ae757ae464203f.svg",
+      "anchorX": 0.5,
+      "anchorY": 0.5,
+      "offsetX": 0,
+      "offsetY": 0,
+      "fit": "contain",
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "tint": "#ffffff",
+      "alphaThreshold": 0.75
+    },
+    "lockRotation": false,
+    "rotation": 0,
+    "alpha": 1,
+    "disposition": -1,
+    "displayBars": 0,
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    },
+    "light": {
+      "negative": false,
+      "priority": 0,
+      "alpha": 0.5,
+      "angle": 360,
+      "bright": 0,
+      "color": null,
+      "coloration": 1,
+      "dim": 0,
+      "attenuation": 0.5,
+      "luminosity": 0.5,
+      "saturation": 0,
+      "contrast": 0,
+      "shadows": 0,
+      "animation": {
+        "type": null,
+        "speed": 5,
+        "intensity": 5,
+        "reverse": false
+      },
+      "darkness": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    "sight": {
+      "enabled": false,
+      "range": 0,
+      "angle": 360,
+      "visionMode": "basic",
+      "color": null,
+      "attenuation": 0.1,
+      "brightness": 0,
+      "saturation": 0,
+      "contrast": 0
+    },
+    "detectionModes": [],
+    "occludable": {
+      "radius": 0
+    },
+    "ring": {
+      "enabled": false,
+      "colors": {
+        "ring": null,
+        "background": null
+      },
+      "effects": 1,
+      "subject": {
+        "scale": 1,
+        "texture": null
+      }
+    },
+    "turnMarker": {
+      "mode": 1,
+      "animation": null,
+      "src": null,
+      "disposition": false
+    },
+    "movementAction": null,
+    "flags": {},
+    "randomImg": false,
+    "appendNumber": false,
+    "prependAdjective": false
+  },
+  "items": [
+    {
+      "_id": "pJreQD5acZN5mNkQ",
+      "name": "Muralha Elemental",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/muralha-elemental.webp",
+      "folder": null,
+      "sort": 0,
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Muralha Elemental (Padrão, 14 PM) Uma muralha de fogo de até 30m de comprimento e 3m de altura se eleva da terra, em alcance médio. Um lado da muralha emite ondas de calor, que causam 2d8 pontos de dano de fogo em criaturas a até 6m quando a magia é lançada e no início dos turnos do margharon. Atravessar a muralha causa 16d6 pontos de dano de fogo.</section><p>Cria uma muralha de um elemento a sua escolha. A muralha pode ser um muro de até 30m de comprimento e 3m de altura (ou o contrário) ou uma cúpula de 3m de raio. Os efeitos variam conforme o elemento escolhido.</p>\n<p><em>Fogo.</em> Faz surgir uma violenta cortina de chamas. Um lado da muralha (a sua escolha) emite ondas de calor, que causam 2d6 pontos de dano de fogo em criaturas a até 6m quando você lança a magia e no início de seus turnos. Atravessar a muralha causa 8d6 pontos de dano de fogo. Caso seja criada em uma área onde existem criaturas, elas sofrem dano como se estivessem atravessando a muralha, mas podem fazer um teste de Reflexos para reduzir o dano à metade (a criatura escolhe para qual lado quer escapar, mas se escapar para o lado quente sofrerá mais 2d6 pontos de dano).</p>\n<p><em>Gelo.</em> Evoca uma parede grossa de gelo denso com 15cm de espessura. Na forma de cúpula, pode prender uma ou mais criaturas, mas elas têm direito a um teste de Reflexos para escapar antes que a cúpula se forme. Cada trecho de 3m da muralha tem Defesa 8, 40 PV e RD 5. Um trecho da muralha que atinja 0 PV será rompido. Qualquer efeito de fogo causa dano dobrado à muralha. Uma criatura que atravesse um trecho rompido da muralha sofre 4d6 pontos de dano de frio.</p>",
+          "unidentified": ""
+        },
+        "ativacao": {
+          "execucao": "action",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "scene",
+          "special": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "muralha de energia",
+        "alcance": "medium",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "int",
+          "bonus": 0,
+          "txt": "veja texto"
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": 3,
+        "escola": "evo",
+        "chatFlavor": "",
+        "tags": [],
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alvo": "",
+        "preparada": false,
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        }
+      },
+      "effects": [],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127756832,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.pJreQD5acZN5mNkQ"
+    },
+    {
+      "name": "Agarrar Aprimorado",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/ameacas/agarrar.webp",
+      "_id": "ytqIKGUd2l1TjE3n",
+      "folder": null,
+      "sort": 0,
+      "system": {
+        "description": {
+          "value": "Tentáculo (teste +39).",
+          "unidentified": ""
+        },
+        "tipo": "ability",
+        "subtipo": "",
+        "tags": [],
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": []
+      },
+      "effects": [],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127892498,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.ytqIKGUd2l1TjE3n"
+    },
+    {
+      "_id": "QGuQADwrVbAepn62",
+      "name": "Dissipar Magia",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/dissipar-magia.webp",
+      "folder": null,
+      "sort": 0,
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Dissipar Magia (Padrão, 3 PM) O margharon escolhe uma criatura, objeto ou esfera de 3m em alcance médio e faz um teste de Misticismo. Todas as magias nesse alvo com</section><p>Você dissipa outras magias que estejam ativas, como se sua duração tivesse acabado. Note que efeitos de magias instantâneas não podem ser dissipados (não se pode dissipar uma Bola de Fogo ou Relâmpago depois que já causaram dano...). Se lançar essa magia em uma criatura ou área, faça um teste de Misticismo; você dissipa as magias com CD igual ou menor que o resultado do teste. Se lançada contra um item mágico, o transforma em um item mundano por 1d6 rodadas (Vontade anula).</p>",
+          "unidentified": ""
+        },
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "medium",
+        "area": "ou esfera com 3m de raio",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": 2,
+        "escola": "abj",
+        "chatFlavor": "",
+        "tags": [],
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alvo": "",
+        "preparada": false,
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        }
+      },
+      "effects": [],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127756832,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.QGuQADwrVbAepn62"
+    },
+    {
+      "_id": "cfm5H5hEo6SZsqOZ",
+      "name": "Teletransporte",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/teletransporte.webp",
+      "folder": null,
+      "sort": 0,
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Teletransporte (Padrão, 6 PM) O margharon se teleporta para um lugar a sua escolha a até 1.000 km. Ele precisa passar em um teste de Misticismo (CD 20 para lugares que visita com frequência, CD 30 para lugares em que ele já esteve ao menos uma vez ou CD 40 para lugares onde nunca esteve). Se falhar no teste, surge a 1d10 x 10 km afastado em qualquer direção e, se rolar 1 natural, fica atordoado por 1d4 rodadas.</section><p>Esta magia transporta os alvos para um lugar a sua escolha a até 1.000km. Você precisa fazer um teste de Misticismo, com dificuldade que depende de seu conhecimento sobre o local de destino.</p>\n<p><em>CD 20.</em> Um lugar familiar, que você visita com frequência.</p>\n<p><em>CD 30.</em> Um lugar conhecido, que você já visitou pelo menos uma vez.</p>\n<p><em>CD 40.</em> Um que você nunca visitou e só conhece a partir da descrição de outra pessoa que esteve lá.</p>\n<p>Você não pode se teletransportar para um lugar que nunca visitou sem a descrição de alguém. Ou seja, não pode se transportar para a “sala de tesouro do rei” se nunca esteve nela nem falou com alguém que esteve.</p>\n<p>Se passar no teste, os alvos chegam ao lugar desejado. Se falhar, os alvos surgem 1d10 x 10km afastados em qualquer direção (se o destino é uma cidade costeira, você pode surgir em alto-mar). Se falhar por 5 ou mais, você chega em um lugar parecido, mas errado. E se você rolar 1 natural no teste a magia falha (mas você gasta os PM) e fica atordoado por 1d4 rodadas.</p>",
+          "unidentified": ""
+        },
+        "ativacao": {
+          "execucao": "action",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "touch",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "int",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": 3,
+        "escola": "con",
+        "chatFlavor": "",
+        "tags": [],
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alvo": "",
+        "preparada": false,
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        }
+      },
+      "effects": [],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127756832,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.cfm5H5hEo6SZsqOZ"
+    },
+    {
+      "type": "arma",
+      "name": "Tentáculos",
+      "img": "icons/commodities/biological/tentacle-purple-white.webp",
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Tentáculos</section>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "carregado": true,
+        "espacos": 0,
+        "peso": 0,
+        "qtd": 4,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "passive",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": 0,
+          "mpMultiplier": false,
+          "target": "",
+          "type": ""
+        },
+        "alcance": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "enableAutoUpgrades": true,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+28",
+                "dano"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "ataques": 0,
+        "equipado": 1,
+        "equipado2": {
+          "slot": 0,
+          "type": "hand"
+        },
+        "tipoUso": "sim",
+        "proficiencia": "simples",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "criticoM": 20,
+        "criticoX": 2,
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "des": false,
+          "dup": false,
+          "ver": false,
+          "hib": false
+        },
+        "size": "normal"
+      },
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127821292,
+        "lastModifiedBy": null
+      },
+      "_id": "h4rmSUTfFz5jVFWa",
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.h4rmSUTfFz5jVFWa"
+    },
+    {
+      "_id": "yCOAJ3VZOFexqGdI",
+      "name": "Relâmpago",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/relampago.webp",
+      "folder": null,
+      "sort": 0,
+      "system": {
+        "description": {
+          "value": "<section class=\"secret\">Relâmpago (Padrão, 12 PM) O margharon lança um relâmpago em cada criatura escolhida em alcance médio, causando 12d6 pontos de dano de eletricidade (Ref reduz à metade).</section><p>Você dispara um poderoso raio que causa 6d6 pontos de dano de eletricidade em todas as criaturas e objetos livres na área.</p>",
+          "unidentified": ""
+        },
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "medium",
+        "area": "linha",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "int",
+          "bonus": 0,
+          "txt": "Reflexos reduz à metade"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "6d6",
+                "eletricidade",
+                ""
+              ]
+            ],
+            "versatil": "",
+            "adaptavel": ""
+          }
+        ],
+        "tipo": "arc",
+        "circulo": 2,
+        "escola": "evo",
+        "chatFlavor": "",
+        "tags": [],
+        "source": "",
+        "origin": "",
+        "rolltags": [],
+        "automationtags": [],
+        "chatGif": "",
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alvo": "",
+        "preparada": false,
+        "equipado2": {
+          "slot": 0,
+          "type": ""
+        }
+      },
+      "effects": [],
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127756832,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.yCOAJ3VZOFexqGdI"
+    },
+    {
+      "name": "Mordida",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/poderes/ameacas/mordida.webp",
+      "system": {
+        "description": {
+          "value": "",
+          "unidentified": ""
+        },
+        "source": "",
+        "equipado": 0,
+        "carregado": true,
+        "peso": 0,
+        "espacos": 0,
+        "qtd": 0,
+        "preco": 0,
+        "pv": {
+          "value": 0,
+          "max": 0
+        },
+        "rd": 0,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                ""
+              ],
+              [
+                "luta",
+                ""
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d6+22",
+                "perfuracao"
+              ],
+              [
+                "",
+                ""
+              ]
+            ],
+            "adaptavel": "",
+            "versatil": ""
+          }
+        ],
+        "criticoM": 20,
+        "criticoX": 2,
+        "alcance": "",
+        "tipoUso": "sim",
+        "propriedades": {
+          "ada": false,
+          "agi": false,
+          "alo": false,
+          "dup": false,
+          "ver": false,
+          "des": false,
+          "hib": false
+        },
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "ativacao": {
+          "custo": null,
+          "condicao": "",
+          "execucao": "",
+          "qtd": "",
+          "special": ""
+        },
+        "consume": {
+          "amount": null,
+          "mpMultiplier": false,
+          "type": "",
+          "target": ""
+        },
+        "chatGif": "",
+        "upgrades": {
+          "melhoria1": "",
+          "melhoria2": "",
+          "melhoria3": "",
+          "melhoria4": "",
+          "material": "",
+          "encanto1": "",
+          "encanto2": "",
+          "encanto3": ""
+        },
+        "ataques": 0,
+        "proficiencia": "natural",
+        "proposito": "corpo-a-corpo",
+        "empunhadura": "leve",
+        "size": "normal",
+        "equipado2": {
+          "type": "hand",
+          "slot": 0
+        },
+        "rolltags": [],
+        "automationtags": [],
+        "enableAutoUpgrades": true
+      },
+      "effects": [],
+      "flags": {},
+      "_stats": {
+        "duplicateSource": null,
+        "exportSource": null,
+        "compendiumSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127756832,
+        "modifiedTime": 1763127839137,
+        "lastModifiedBy": null
+      },
+      "folder": null,
+      "ownership": {
+        "default": 0
+      },
+      "_id": "QPh6eYjnOHto81a0",
+      "sort": 0,
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.QPh6eYjnOHto81a0"
+    },
+    {
+      "_id": "gBnmMhoTcnL3XeKR",
+      "name": "Magia Acelerada",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/poderes/magia.webp",
+      "effects": [
+        {
+          "_id": "XVQV4paITTSlSTGq",
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "spell": true,
+              "self": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "consumable": false,
+              "aumenta": false,
+              "custo": "4",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "execucao",
+              "value": "livre",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "origin": "Item.qvKhJq94IaHc071R",
+          "tint": "#ffffff",
+          "transfer": true,
+          "_stats": {
+            "compendiumSource": null,
+            "duplicateSource": null,
+            "exportSource": null,
+            "coreVersion": "13.348",
+            "systemId": "tormenta20",
+            "systemVersion": "1.5.013",
+            "lastModifiedBy": null
+          },
+          "name": "Magia Acelerada",
+          "img": "icons/svg/aura.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_key": "!actors.items.effects!NpgiprIoRUP9gHMI.gBnmMhoTcnL3XeKR.XVQV4paITTSlSTGq",
+          "ownership": {
+            "default": 0
+          },
+          "folder": null
+        }
+      ],
+      "folder": null,
+      "sort": 0,
+      "flags": {},
+      "system": {
+        "description": {
+          "value": "<p>Uma vez por rodada, quando lança uma magia com execução de ação completa ou menor, o margharon muda a execução dela para livre.</p>",
+          "unidentified": ""
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 131",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 4,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "efeito": "",
+        "alcance": "none",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": "Magia",
+        "origin": "",
+        "tags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "rolltags": [],
+        "automationtags": []
+      },
+      "ownership": {
+        "default": 0
+      },
+      "_stats": {
+        "duplicateSource": null,
+        "exportSource": null,
+        "compendiumSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127910585,
+        "modifiedTime": 1763127922787,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.gBnmMhoTcnL3XeKR"
+    },
+    {
+      "name": "Mudar Forma",
+      "type": "poder",
+      "system": {
+        "description": {
+          "value": "<p>O margharon assume a forma de qualquer humanoide de tamanho Pequeno a Enorme, como o efeito da magia Metamorfose. Ele pode permanecer na forma escolhida por tempo indeterminado, mas, se morrer, reverte à forma natural. </p>",
+          "unidentified": ""
+        },
+        "source": "",
+        "origin": "",
+        "tags": [],
+        "rolltags": [],
+        "automationtags": [],
+        "chatFlavor": "",
+        "chatGif": "",
+        "ativacao": {
+          "custo": 0,
+          "condicao": "",
+          "execucao": "action",
+          "qtd": "",
+          "special": ""
+        },
+        "duracao": {
+          "units": "inst",
+          "value": 0,
+          "special": ""
+        },
+        "range": {
+          "units": "",
+          "value": 0
+        },
+        "alcance": "none",
+        "area": "",
+        "efeito": "",
+        "resistencia": {
+          "txt": "",
+          "pericia": "",
+          "atributo": "",
+          "bonus": 0
+        },
+        "rolls": [],
+        "tipo": "geral",
+        "subtipo": ""
+      },
+      "_id": "mqFVVZPxELrb3a9x",
+      "img": "systems/tormenta20/icons/magias/metamorfose.webp",
+      "effects": [],
+      "folder": null,
+      "sort": 0,
+      "ownership": {
+        "default": 0
+      },
+      "flags": {},
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127931678,
+        "modifiedTime": 1763127987399,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.items!NpgiprIoRUP9gHMI.mqFVVZPxELrb3a9x"
+    }
+  ],
+  "effects": [
+    {
+      "img": "icons/svg/upgrade.svg",
+      "name": "Resistência a Magia",
+      "changes": [
+        {
+          "key": "roll",
+          "priority": null,
+          "value": "4",
+          "mode": 2
+        }
+      ],
+      "disabled": true,
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "skill": true,
+          "items": "Fortitude;Reflexos;Vontade"
+        }
+      },
+      "_id": "U2poarS2A6ctdzBj",
+      "type": "base",
+      "system": {},
+      "duration": {
+        "startTime": 198,
+        "combat": null
+      },
+      "description": "",
+      "origin": null,
+      "tint": "#ffffff",
+      "transfer": false,
+      "statuses": [],
+      "sort": 0,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127757246,
+        "modifiedTime": 1763127757246,
+        "lastModifiedBy": null
+      },
+      "_key": "!actors.effects!NpgiprIoRUP9gHMI.U2poarS2A6ctdzBj",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    },
+    {
+      "_id": "N9gmBMQuofK0GYlx",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "spell": true,
+          "self": false,
+          "attack": false,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "consumable": false,
+          "aumenta": false,
+          "custo": "4",
+          "durationScene": false
+        }
+      },
+      "changes": [
+        {
+          "key": "execucao",
+          "value": "livre",
+          "mode": 5,
+          "priority": null
+        }
+      ],
+      "disabled": true,
+      "duration": {
+        "startTime": 198,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "origin": "Compendium.world.bestiario-de-arton.Actor.NpgiprIoRUP9gHMI.Item.gBnmMhoTcnL3XeKR",
+      "tint": "#ffffff",
+      "transfer": false,
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "createdTime": 1763127910677,
+        "modifiedTime": 1763127910677,
+        "lastModifiedBy": null
+      },
+      "name": "Magia Acelerada",
+      "img": "icons/svg/aura.svg",
+      "type": "base",
+      "system": {},
+      "description": "",
+      "statuses": [],
+      "sort": 0,
+      "_key": "!actors.effects!NpgiprIoRUP9gHMI.N9gmBMQuofK0GYlx",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "bestiario-de-arton",
+        "id": "NpgiprIoRUP9gHMI"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1763127697867,
+    "modifiedTime": 1763127757149,
+    "lastModifiedBy": null
+  },
+  "_key": "!actors!NpgiprIoRUP9gHMI"
+}

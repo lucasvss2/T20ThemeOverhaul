@@ -1,0 +1,90 @@
+{
+  "folder": "TPfT6uG5ST0LlCIJ",
+  "name": "Detonação Final",
+  "type": "poder",
+  "img": "icons/creatures/reptiles/serpent-horned-green.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\">O kobold explosivo descrito aqui é apenas um exemplo de kobold que acumulou energia arcana suficiente para se tornar uma bomba ambulante. Mas, na prática, qualquer dessas criaturinhas pode ser explosiva. Você pode transformar qualquer ficha de kobold em sua versão explosiva concedendo a habilidade Detonação Final. Se fizer isso, o ND da criatura aumenta em +1 (apenas para efeitos de experiência).</p><p style=\"text-align:justify\">Quando o kobold é reduzido a 0 PV, role 1d6: com um resultado 1 ou 2, ocorre uma explosão. Todas as criaturas a até 3m sofrem 4d6 pontos de dano de impacto, +2d6 para cada patamar acima de iniciante do kobold (Ref CD baseada no ND reduz à metade, veja a página 383).</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "passive",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": 0,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "raio de 3m",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "4d6",
+            "impacto"
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "racial",
+    "subtipo": "Kobolds",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "automationtags": []
+  },
+  "effects": [],
+  "flags": {
+    "core": {},
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "3BXSjO4o3FwmFZcL"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761759414212,
+    "modifiedTime": 1761759518796,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "3BXSjO4o3FwmFZcL",
+  "sort": 0,
+  "_key": "!items!3BXSjO4o3FwmFZcL"
+}

@@ -1,0 +1,144 @@
+{
+  "folder": "QslOkfS8kZuyufA9",
+  "name": "Ataque Furtivo",
+  "type": "poder",
+  "img": "icons/creatures/abilities/dragon-breath-purple.webp",
+  "system": {
+    "description": {
+      "value": "<p style=\"text-align:justify\"><span class=\"fontstyle2\">A criatura é capaz de desferir ataques furtivos, como um ladino. Uma vez por rodada, ela causa a quantidade de dano adicional indicada com ataques corpo a corpo, ou à distância em alcance curto, contra alvos desprevenidos ou que ela esteja flanqueando. Se o ataque furtivo da ameaça tiver qualquer efeito adicional, ele também será descrito aqui.</span></p><p style=\"text-align:justify\"></p><p style=\"text-align:justify\"></p>",
+      "unidentified": ""
+    },
+    "source": "Ameaças de Arton, Pág. 14",
+    "ativacao": {
+      "execucao": "",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": 0,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [],
+    "tipo": "racial",
+    "subtipo": "Hab. Gerais de Criaturas",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "automationtags": []
+  },
+  "effects": [
+    {
+      "name": "Ataque Furtivo",
+      "origin": "Item.OeOe4GvsmZIGoKWs",
+      "tint": "#ffffff",
+      "flags": {
+        "tormenta20": {
+          "onuse": true,
+          "durationScene": false,
+          "self": false,
+          "attack": true,
+          "skill": false,
+          "ability": false,
+          "power": false,
+          "equipment": false,
+          "spell": false,
+          "consumable": false,
+          "items": "",
+          "aumenta": false,
+          "custo": ""
+        }
+      },
+      "duration": {
+        "startTime": null,
+        "seconds": null,
+        "combat": null,
+        "rounds": null,
+        "turns": null,
+        "startRound": null,
+        "startTurn": null
+      },
+      "disabled": true,
+      "_id": "C7RktHCsJb5MfojM",
+      "changes": [
+        {
+          "key": "dano",
+          "mode": 2,
+          "value": "2d6",
+          "priority": 0
+        }
+      ],
+      "description": "",
+      "transfer": true,
+      "statuses": [],
+      "_stats": {
+        "compendiumSource": null,
+        "duplicateSource": null,
+        "exportSource": null,
+        "coreVersion": "13.348",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.013",
+        "lastModifiedBy": null
+      },
+      "img": "icons/svg/upgrade.svg",
+      "type": "base",
+      "system": {},
+      "sort": 0,
+      "_key": "!items.effects!OeOe4GvsmZIGoKWs.C7RktHCsJb5MfojM",
+      "ownership": {
+        "default": 0
+      },
+      "folder": null
+    }
+  ],
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "OeOe4GvsmZIGoKWs"
+      }
+    }
+  },
+  "_stats": {
+    "exportSource": {
+      "worldId": "t20-ameatlas",
+      "uuid": null,
+      "coreVersion": "11.313",
+      "systemId": "tormenta20",
+      "systemVersion": "1.4.203d2"
+    },
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745784148,
+    "modifiedTime": 1761745784148,
+    "lastModifiedBy": null
+  },
+  "_id": "OeOe4GvsmZIGoKWs",
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "_key": "!items!OeOe4GvsmZIGoKWs"
+}

@@ -2,6 +2,8 @@ import { MODULE_ID } from "@/constants";
 import { isActiveGM } from "@/_shared/gm";
 import { getTokenPosPx } from "@/_shared/canvas-geometry";
 import { warn } from "@/utils/logging";
+import { buildShadowTemplate, SHADOW_IMAGE } from "./servant";
+import { chooseShadowPositions } from "./placement";
 
 type Actor = FoundryActor & {
     getFlag(scope: string, key: string): unknown;
@@ -16,12 +18,13 @@ type Token = {
 };
 type Scene = {
     id: string; width: number; height: number; grid: { size: number; distance: number };
+    dimensions?: { sceneX: number; sceneY: number };
     tokens: { contents: Token[] };
     createEmbeddedDocuments(type: string, data: unknown[]): Promise<Token[]>;
     deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown>;
 };
 type Necromancy = { action: "raise" | "sacrifice" | "strike"; count?: number; defense?: number; damage?: string; reduction?: number };
-type Item = { id: string; name: string; actor?: Actor; getFlag(scope: string, key: string): unknown };
+type Item = { id: string; name: string; actor?: Actor; system?: { ativacao?: { custo?: number | string } }; getFlag(scope: string, key: string): unknown };
 type RollOptions = { createMessage?: boolean; configureDialog?: boolean };
 type NativeRoll = (this: Item, options?: RollOptions) => Promise<ChatMessage | undefined>;
 const busy = new Set<string>();
@@ -47,7 +50,7 @@ function flag(actor: unknown, key: string): unknown {
 }
 
 export function isNecromancyShadow(actor: unknown): boolean {
-    return typeof flag(actor, SHADOW) === "string";
+    return typeof flag(actor, SHADOW) === "string" || flag(actor, "necromancyTemplate") === true;
 }
 
 export function isInitiate(actor: unknown): boolean {
@@ -94,53 +97,26 @@ export async function consumeNecromancySacrifice(actor: unknown): Promise<number
     }
 }
 
-export function findShadowSpaces(origin: { x: number; y: number }, scene: Pick<Scene, "width" | "height" | "grid">,
-    occupied: Array<{ x: number; y: number; width: number; height: number }>, count: number): Array<{ x: number; y: number }> {
-    const size = scene.grid.size;
-    const squares = Math.floor(9 / scene.grid.distance);
-    const candidates: Array<{ x: number; y: number; distance: number }> = [];
-    for (let dx = -squares; dx <= squares; dx++) for (let dy = -squares; dy <= squares; dy++) {
-        if (!dx && !dy || dx * dx + dy * dy > squares * squares) continue;
-        const x = Math.floor(origin.x / size) * size + dx * size;
-        const y = Math.floor(origin.y / size) * size + dy * size;
-        if (x < 0 || y < 0 || x + size > scene.width || y + size > scene.height) continue;
-        if (occupied.some(t => x < t.x + t.width * size && x + size > t.x && y < t.y + t.height * size && y + size > t.y)) continue;
-        candidates.push({ x, y, distance: dx * dx + dy * dy });
+export function shadowData(master: Actor, defense: number, damage: string): Record<string, unknown> {
+    const data: Record<string, unknown> = buildShadowTemplate(defense, damage);
+    delete data._id; delete data._key; delete data.folder;
+    data.name = "Servo de Sombra";
+    data.flags = { [MODULE_ID]: { necromancyHelper: true, [SHADOW]: master.uuid } };
+    const items = data.items as Array<{ _key?: string; flags: Record<string, unknown> }>;
+    for (const item of items) {
+        delete item._key;
+        item.flags[MODULE_ID] = { npcPower: { limit: "round", save: true }, necromancy: { action: "strike" } };
     }
-    return candidates.sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x)
-        .slice(0, count).map(({ x, y }) => ({ x, y }));
+    return data;
 }
 
-function shadowData(master: Actor, defense: number, damage: string): Record<string, unknown> {
-    const attribute = (value: number) => ({ value, base: value, bonus: 0, racial: 0 });
-    return {
-        name: "Servo de Sombra", type: "npc", img: "icons/svg/skull.svg",
-        prototypeToken: { actorLink: false, width: 1, height: 1, texture: { src: "icons/svg/skull.svg" } },
-        ownership: { default: 0 },
-        flags: { [MODULE_ID]: { necromancyHelper: true, [SHADOW]: master.uuid } },
-        system: {
-            atributos: { for: attribute(3), des: attribute(3), con: attribute(0), int: attribute(0), sab: attribute(0), car: attribute(0) },
-            attributes: {
-                nd: "0", cd: 0, pv: { value: 1, max: 1, min: 0, temp: 0 }, pm: { value: 0, max: 0, temp: 0 },
-                defesa: { base: 10, outros: defense - 13, atributo: "des" }, movement: { walk: { base: 9 } },
-            },
-            detalhes: { tipo: "mor", raca: "Morto-vivo de sombra", role: "lackey", tesouro: "Nenhum" },
-            tracos: {
-                tamanho: "med", resistencias: { frio: { base: 0, imunidade: true } },
-                ic: { value: ["atordoado", "doente", "encantamento", "fatigado", "exausto", "ilusao", "paralisado", "sono", "envenenado"], custom: "Imune a dano não letal. Falha automaticamente em resistências e testes opostos." },
-            },
-        },
-        items: [{
-            name: "Golpe de Sombra", type: "poder", img: "icons/svg/skull.svg",
-            flags: { [MODULE_ID]: { necromancy: { action: "strike" }, npcPower: { limit: "round", save: true } } },
-            system: {
-                tipo: "geral", ativacao: { execucao: "standard", custo: 0 }, alcance: "touch", alvo: "1 criatura adjacente",
-                resistencia: { txt: "", pericia: "", atributo: "", bonus: 0 }, duracao: { units: "inst" },
-                rolls: [{ name: "Dano", key: "dano0", type: "dano", parts: [[damage, "trevas", ""]] }],
-                description: { value: "<p>No turno do mestre, uma vez por rodada, causa " + damage + " de trevas em uma criatura adjacente, sem teste de ataque.</p>" },
-            },
-        }],
-    };
+function canAfford(item: Item, actor: Actor): boolean {
+    const raw = Number(item.system?.ativacao?.custo ?? 3);
+    const cost = Number.isFinite(raw) ? Math.max(0, raw) : 3;
+    const pm = actor.system?.attributes?.pm;
+    if ((pm?.value ?? 0) + (pm?.temp ?? 0) >= cost) return true;
+    ui.notifications.warn("PM insuficientes para conjurar os servos.");
+    return false;
 }
 
 async function raise(item: Item, original: NativeRoll, options?: RollOptions): Promise<ChatMessage | undefined> {
@@ -152,25 +128,39 @@ async function raise(item: Item, original: NativeRoll, options?: RollOptions): P
         return;
     }
     const config = item.getFlag(MODULE_ID, "necromancy") as Necromancy;
+    if (!canAfford(item, actor)) return;
     const count = Math.max(1, Math.min(4, config.count ?? 4));
-    const spaces = findShadowSpaces(origin, scene, scene.tokens.contents, count);
-    if (spaces.length < count) {
-        ui.notifications.warn("Não há quatro espaços livres em alcance curto.");
-        return;
-    }
-    const message = await original.call(item, options);
-    if (!message) return;
-    const actors = (globalThis as unknown as { Actor: { create(data: unknown): Promise<Actor> } }).Actor;
-    const helper = await actors.create(shadowData(actor, config.defense ?? 22, config.damage ?? "1d8"));
     const previous = scene.tokens.contents.filter(t => t.getFlag(MODULE_ID, SHADOW) === actor.uuid);
+    const sheet = (actor as Actor & { sheet?: { rendered?: boolean; minimize?(): Promise<unknown>; maximize?(): Promise<unknown> } }).sheet;
+    const minimized = !!sheet?.rendered;
+    if (minimized) await sheet?.minimize?.();
+    let spaces: Array<{ x: number; y: number }> | null;
+    try { spaces = await chooseShadowPositions(origin, scene, count, previous.map(t => t.id)); }
+    finally { if (minimized) await sheet?.maximize?.(); }
+    if (!spaces || currentScene()?.id !== scene.id || !scene.tokens.contents.some(t => t.id === origin.id)) return;
+    if (!canAfford(item, actor)) return;
+    const mana = actor.system?.attributes?.pm;
+    const beforeMana = { value: mana?.value ?? 0, temp: mana?.temp ?? 0 };
+    let helper: Actor | undefined;
+    let message: ChatMessage | undefined;
     try {
+        message = await original.call(item, options);
+        if (!message) return;
+        if (currentScene()?.id !== scene.id) throw new Error("A cena mudou durante a conjuração.");
+        const actors = (globalThis as unknown as { Actor: { create(data: unknown): Promise<Actor> } }).Actor;
+        helper = await actors.create(shadowData(actor, config.defense ?? 22, config.damage ?? "1d8"));
         await scene.createEmbeddedDocuments("Token", spaces.map((xy, i) => ({
-            ...xy, name: "Servo de Sombra " + (i + 1), actorId: helper.id, actorLink: false,
-            texture: { src: "icons/svg/skull.svg" }, width: 1, height: 1, disposition: origin.disposition,
+            ...xy, name: "Servo de Sombra " + (i + 1), actorId: helper!.id, actorLink: false,
+            texture: { src: SHADOW_IMAGE }, width: 1, height: 1, disposition: origin.disposition,
             flags: { [MODULE_ID]: { [SHADOW]: actor.uuid } },
         })));
     } catch (error) {
-        await helper.delete();
+        if (helper) {
+            const partial = scene.tokens.contents.filter(t => t.actorId === helper!.id);
+            if (partial.length) await scene.deleteEmbeddedDocuments("Token", partial.map(t => t.id));
+            if (game.actors?.get(helper.id)) await helper.delete();
+        }
+        if (message) await actor.update({ "system.attributes.pm.value": beforeMana.value, "system.attributes.pm.temp": beforeMana.temp });
         throw error;
     }
     if (previous.length) await scene.deleteEmbeddedDocuments("Token", previous.map(t => t.id));

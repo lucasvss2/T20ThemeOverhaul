@@ -1,0 +1,90 @@
+{
+  "folder": "5YST28cRjHJy5h17",
+  "name": "Zunido Enlouquecedor",
+  "type": "poder",
+  "_id": "hfjkRBHISjZ6G0QZ",
+  "img": "icons/magic/sonic/explosion-shock-sound-wave.webp",
+  "system": {
+    "description": {
+      "value": "<p>A cada 100 PV que perde, o gigante rubro emite um zunido em uma esfera de 30m ao seu redor. Criaturas nessa área perdem 2d8 PM (Von CD 28 evita)</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "ativacao": {
+      "custo": 0,
+      "condicao": "",
+      "execucao": "reaction",
+      "qtd": "",
+      "special": ""
+    },
+    "duracao": {
+      "units": "inst",
+      "value": 0,
+      "special": ""
+    },
+    "range": {
+      "units": "",
+      "value": 0
+    },
+    "alcance": "none",
+    "area": "Esfera 30m",
+    "efeito": "",
+    "resistencia": {
+      "txt": "Von CD 28 evita",
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0
+    },
+    "rolls": [
+      {
+        "name": "PM Perdidos",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "2d8",
+            "curapm",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "racial",
+    "subtipo": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "hfjkRBHISjZ6G0QZ"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745772114,
+    "modifiedTime": 1761745772114,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!hfjkRBHISjZ6G0QZ"
+}

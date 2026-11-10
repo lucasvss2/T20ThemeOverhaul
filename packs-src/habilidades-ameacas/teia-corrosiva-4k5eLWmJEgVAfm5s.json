@@ -1,0 +1,90 @@
+{
+  "type": "poder",
+  "name": "Teia Corrosiva",
+  "img": "icons/creatures/webs/web-nest-ball-teal.webp",
+  "system": {
+    "description": {
+      "value": "<p>O gigante rubro dispara muco adesivo em uma criatura em alcance curto. A vítima sofre 3d6 pontos de dano de ácido e fica imóvel (Ref CD 28 reduz à metade e evita a condição). Enquanto estiver imóvel desta forma, a criatura sofre 3d6 pontos de dano de ácido no início de cada um de seus turnos. Ela pode se libertar com uma ação padrão e um teste de Acrobacia ou Atletismo (CD 28).</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "ativacao": {
+      "execucao": "move",
+      "custo": 0,
+      "qtd": "",
+      "condicao": "",
+      "special": ""
+    },
+    "duracao": {
+      "value": 0,
+      "units": "inst",
+      "special": ""
+    },
+    "range": {
+      "value": 0,
+      "units": ""
+    },
+    "efeito": "",
+    "alcance": "none",
+    "area": "",
+    "resistencia": {
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0,
+      "txt": ""
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "3d6",
+            "acido",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "ability",
+    "subtipo": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "automationtags": []
+  },
+  "effects": [],
+  "folder": "5YST28cRjHJy5h17",
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "4k5eLWmJEgVAfm5s"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761745772114,
+    "modifiedTime": 1761745772114,
+    "lastModifiedBy": null
+  },
+  "ownership": {
+    "default": 0
+  },
+  "_id": "4k5eLWmJEgVAfm5s",
+  "sort": 0,
+  "_key": "!items!4k5eLWmJEgVAfm5s"
+}

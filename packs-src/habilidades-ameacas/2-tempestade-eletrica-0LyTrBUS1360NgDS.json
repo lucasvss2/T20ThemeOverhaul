@@ -1,0 +1,95 @@
+{
+  "folder": "ZPqQDNkTlnRRKw9Q",
+  "name": "2. Tempestade Elétrica",
+  "type": "poder",
+  "_id": "0LyTrBUS1360NgDS",
+  "img": "systems/tormenta20/icons/poderes/concedidos-tormenta.webp",
+  "system": {
+    "description": {
+      "value": "<p>Cada criatura na área deve rolar 1d20. Em um resultado ímpar, é atingida por um relâmpago, sofrendo 5d8 pontos de dano de eletricidade e 5d8 pontos de dano de trevas.</p>",
+      "unidentified": ""
+    },
+    "source": "",
+    "origin": "",
+    "tags": [],
+    "rolltags": [],
+    "automationtags": [],
+    "chatFlavor": "",
+    "chatGif": "",
+    "ativacao": {
+      "custo": 0,
+      "condicao": "",
+      "execucao": "passive",
+      "qtd": "",
+      "special": ""
+    },
+    "duracao": {
+      "units": "inst",
+      "value": 0,
+      "special": ""
+    },
+    "range": {
+      "units": "",
+      "value": 0
+    },
+    "alcance": "none",
+    "area": "",
+    "efeito": "",
+    "resistencia": {
+      "txt": "",
+      "pericia": "",
+      "atributo": "",
+      "bonus": 0
+    },
+    "rolls": [
+      {
+        "name": "Dano",
+        "key": "dano0",
+        "type": "dano",
+        "parts": [
+          [
+            "5d8",
+            "eletricidade",
+            ""
+          ],
+          [
+            "5d8",
+            "trevas",
+            ""
+          ]
+        ],
+        "adaptavel": "",
+        "versatil": ""
+      }
+    ],
+    "tipo": "geral",
+    "subtipo": ""
+  },
+  "effects": [],
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {
+    "t20-theme-overhaul": {
+      "importedCreature": {
+        "module": "bestiario-de-arton",
+        "version": "0.8.6",
+        "pack": "habilidades-do-bestiario",
+        "id": "0LyTrBUS1360NgDS"
+      }
+    }
+  },
+  "_stats": {
+    "compendiumSource": null,
+    "duplicateSource": null,
+    "exportSource": null,
+    "coreVersion": "13.348",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.013",
+    "createdTime": 1761746434650,
+    "modifiedTime": 1761746434650,
+    "lastModifiedBy": null
+  },
+  "_key": "!items!0LyTrBUS1360NgDS"
+}
