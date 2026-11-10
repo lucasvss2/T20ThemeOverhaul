@@ -863,7 +863,7 @@ NPCS.push({
     atributos: { for: 3, des: 3, con: 0, int: 0, sab: 0, car: 0 }, conjuracao: "int", pmMax: 35,
     pericias: {
         ...saves(5, 11, 17),
-        inic: skill(3), perc: skill(4), conh: skill(7, { treinado: true }), mist: skill(9, { treinado: true }),
+        inic: skill(3, { treinado: false }), perc: skill(4, { treinado: false }), conh: skill(7, { treinado: true }), mist: skill(9, { treinado: true }),
     },
     pv: 124,
     items: [
