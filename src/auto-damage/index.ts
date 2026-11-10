@@ -895,7 +895,9 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
                     if (skill === "reduce:sacrificar servo" && isInitiate(targetActor)) {
-                        root.querySelectorAll<HTMLButtonElement>("button").forEach(b => { b.disabled = true; });
+                        // Lock damage/reaction controls, preserving native window controls.
+                        root.querySelectorAll<HTMLButtonElement>('.aad-skill-btn, button[data-action="full"], button[data-action="half"], button[data-action="none"]')
+                            .forEach(b => { b.disabled = true; });
                     }
                     if (skill === "reroll") doReroll();
                     else if (skill === "presenca") void doPresenca(root);
