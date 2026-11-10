@@ -82,20 +82,21 @@ describe("Bestiário de Arton compendiums", () => {
         for (const creature of creatures) {
             const path = creature.img ?? "";
             expect(path, creature.name).toMatch(
-                /^modules\/t20-theme-overhaul\/assets\/bestiario-de-arton\/(originais|criadas)\/[a-z0-9-]+\.webp$/,
+                /^modules\/t20-theme-overhaul\/assets\/bestiario-de-arton\/tokens\/[a-z0-9-]+\.png$/,
             );
             expect(creature.prototypeToken?.texture.src, creature.name).toBe(path);
             const asset = new URL(`../../public/${path.replace("modules/t20-theme-overhaul/", "")}`, import.meta.url);
-            expect(readFileSync(asset).toString("ascii", 8, 12), creature.name).toBe("WEBP");
+            expect(readFileSync(asset).subarray(0, 8), creature.name).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
             paths.add(path);
         }
 
         expect(paths.size).toBe(creatures.length);
     });
 
-    it("reuses the matching Bestiário portraits for races and partners", () => {
-        const creatures = new Map(readPack("bestiario-de-arton").filter(doc => doc.type === "npc")
-            .map(doc => [doc.name.toLowerCase(), doc.img]));
+    it("preserves the original Bestiário portraits for races and partners", () => {
+        const mappings = JSON.parse(readFileSync(new URL("../../scripts/data/bestiario-token-images.json", import.meta.url), "utf8"))
+            .mappings as Array<{ name: string; originalPortrait: string }>;
+        const creatures = new Map(mappings.map(entry => [entry.name.toLowerCase(), entry.originalPortrait]));
         const racePortraits = new Map([
             ["Elfo-do-Gelo", "Elfo-do-Gelo Caçador"],
             ["Lâmia", "Lâmia"],
