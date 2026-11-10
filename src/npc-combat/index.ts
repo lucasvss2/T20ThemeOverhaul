@@ -17,6 +17,8 @@ export interface NpcPower {
     magical?: boolean;
     drain?: boolean;
     conceal?: boolean;
+    conditionDuration?: "scene";
+    fearSplash?: number;
 }
 
 export interface NpcTraits {
@@ -126,6 +128,14 @@ export function npcPowerTargets(message: ChatMessage, radius: number): FoundryTo
     if (!origin) return [];
     return (tokenLayer()?.placeables ?? []).filter(token => token.id !== origin.id && token.actor
         && token.document.disposition !== origin.document.disposition && distance(origin, token) <= radius);
+}
+
+export function npcFearSplashTargets(message: ChatMessage, target: FoundryToken, radius: number): FoundryToken[] {
+    const origin = tokenLayer()?.get(message.speaker?.token ?? "");
+    const center = tokenLayer()?.get(target.id);
+    if (!origin || !center) return [];
+    return (tokenLayer()?.placeables ?? []).filter(t => t.id !== target.id && t.id !== origin.id && t.actor
+        && t.document.disposition !== origin.document.disposition && distance(center, t) <= radius);
 }
 
 function distance(origin: NpcToken, target: NpcToken): number {

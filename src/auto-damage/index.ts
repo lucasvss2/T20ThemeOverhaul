@@ -18,6 +18,7 @@ import {
 } from "@/reactions";
 import { dispatchSpellResistanceToTarget, getMsgAuthorId } from "@/spell-resistance/index";
 import { claimNpcUse, getNpcTraits, npcHitPreparation, npcShield, qualifiesNpcSneak, useNpcShield } from "@/npc-combat";
+import { isInitiate } from "@/npc-necromancy";
 import { getAcoRubiContextForActor } from "@/inspiracao/index";
 import { getGolpePayloadForMessage, handleGolpePostDamage } from "@/golpe-pessoal/index";
 import { acoRubiNegatesCrit } from "@/inspiracao/format";
@@ -893,6 +894,9 @@ function openDamagePrompt(req: AutoDamageRequest): void {
                     ev.preventDefault();
                     if (btn.disabled) return;
                     const skill = btn.dataset["skill"] ?? "";
+                    if (skill === "reduce:sacrificar servo" && isInitiate(targetActor)) {
+                        root.querySelectorAll<HTMLButtonElement>("button").forEach(b => { b.disabled = true; });
+                    }
                     if (skill === "reroll") doReroll();
                     else if (skill === "presenca") void doPresenca(root);
                     else if (skill === "amigo") void doAmigoProtetor(root);

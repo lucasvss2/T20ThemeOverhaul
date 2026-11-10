@@ -18,6 +18,7 @@
 
 import { MODULE_ID } from "@/constants";
 import { log, warn } from "@/utils/logging";
+import { consumeNecromancySacrifice, isInitiate, necromancySacrifice } from "@/npc-necromancy";
 
 export interface DefenseReaction {
     label:    string;
@@ -298,7 +299,11 @@ export function getPostDamageReactions(opts: {
         if (it.type !== "poder" && it.type !== "magia") continue;
         const n = normalizeName(it.name ?? "");
         if (!Object.prototype.hasOwnProperty.call(POSTDAMAGE_REACTIONS, n) || seen.has(n)) continue;
-        const reg = POSTDAMAGE_REACTIONS[n] as PostDamageReaction;
+        const available = n === "sacrificar servo" && isInitiate(actor) ? necromancySacrifice(actor) : null;
+        if (n === "sacrificar servo" && isInitiate(actor) && !available) continue;
+        const reg: PostDamageReaction = available
+            ? { ...POSTDAMAGE_REACTIONS[n]!, kind: "flat", flat: available.reduction }
+            : POSTDAMAGE_REACTIONS[n]!;
         if (pm < minPm(reg)) continue;
         seen.add(n);
         out.push({
@@ -356,6 +361,11 @@ function meleeDamageFormula(actor: AnyActor): string {
 
 /** Quanto PM gastar e qual a redução final (resolve rolagem se necessário). */
 export async function computePostDamageReduction(key: string, damage: number, actor: AnyActor): Promise<{ final: number; pmSpent: number; desc: string; rollHtml?: string }> {
+    if (key === "sacrificar servo" && isInitiate(actor)) {
+        if (damage <= 0) return { final: 0, pmSpent: 0, desc: "nenhum dano a reduzir" };
+        const reduction = await consumeNecromancySacrifice(actor);
+        return { final: Math.max(0, damage - reduction), pmSpent: 0, desc: reduction ? "−" + reduction + " (um servo sacrificado)" : "nenhum servo disponível" };
+    }
     const reg = Object.prototype.hasOwnProperty.call(POSTDAMAGE_REACTIONS, key) ? POSTDAMAGE_REACTIONS[key] : undefined;
     if (!reg) return { final: damage, pmSpent: 0, desc: "" };
     switch (reg.kind) {

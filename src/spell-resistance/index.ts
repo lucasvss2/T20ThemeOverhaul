@@ -24,7 +24,8 @@ import { classifyDuration } from "@/duration-manager/classify";
 import type { DurData } from "@/duration-manager/types";
 import { resolveSpellConditions, lookupSpellEntry } from "./conditions-map";
 import { maybeHandleSetaInfalivel, type OnUseEffectLike, type RollLike, type SetaTokenLike } from "@/seta-infalivel/index";
-import { claimNpcUse, getNpcTraits, npcMessageActor, npcMessagePower, npcPowerTargets } from "@/npc-combat";
+import { claimNpcUse, getNpcTraits, npcMessageActor, npcMessagePower, npcPowerTargets, npcFearSplashTargets } from "@/npc-combat";
+import { consumeNecromancySacrifice, isInitiate, isNecromancyShadow, necromancySacrifice } from "@/npc-necromancy";
 
 // ── socketlib handler names ──────────────────────────────────────────────────
 
@@ -608,6 +609,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
         ? condEntry.resistBonusInCombat : 0;
     const antiMagic = getNpcTraits(targetActor)?.antimagia && (!preReq.npcPower || preReq.npcPower.magical) ? 5 : 0;
     const baseBonus  = (breakdown?.total ?? 0) + combatSituBonus + antiMagic;
+    const automaticFailure = isNecromancyShadow(targetActor);
     const bonusStr   = baseBonus >= 0 ? `+${baseBonus}` : `${baseBonus}`;
     // Tooltip detalhado: mostra a composição do bônus. Quando T20 já consolidou
     // em .value (fromValue:true), mostramos os componentes individuais como
@@ -850,6 +852,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 <button class="smf-dmg-btn" data-dmg="0" id="smf-dmg-none">
                     <i class="fas fa-ban"></i> Não Aplicar
                 </button>
+                ${necromancySacrifice(targetActor) ? '<button class="smf-action-btn" type="button" id="smf-necro-sacrifice">Sacrificar Servo (−15 de dano)</button>' : ""}
             </div>
             <div class="smf-feedback" id="smf-dmg-feedback"></div>
             </div>
@@ -1063,7 +1066,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     const ids = passed ? preReq.npcPower.onPass : preReq.npcPower.conditions;
                     apply.splice(0, apply.length, ...(ids ?? []).map(statusId => ({
                         statusId,
-                        durKind: (["caido", "agarrado", "imovel"].includes(statusId) ? "indeterminate" : "rounds") as "indeterminate" | "rounds",
+                        durKind: (preReq.npcPower?.conditionDuration ?? (["caido", "agarrado", "imovel"].includes(statusId) ? "indeterminate" : "rounds")) as "scene" | "indeterminate" | "rounds",
                         rounds: preReq.npcPower?.rounds ?? 1,
                     })));
                 }
@@ -1151,7 +1154,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 }
 
                 void (async () => {
-                    const roll = new Roll(parts.join(" "));
+                    const roll = new Roll(automaticFailure ? "0" : parts.join(" "));
                     await roll.evaluate({ async: true });
 
                     // Desconta PM apenas na PRIMEIRA rolagem; rerolls s\u00e3o livres
@@ -1167,8 +1170,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         ?.results?.find((r) => r.active)?.result ?? 0;
                     const total    = roll.total ?? 0;
                     const critFail = d20Res === 1;
-                    const critPass = d20Res === 20;
-                    const passed   = critPass || (!critFail && total >= preReq.cd);
+                    const critPass = !automaticFailure && d20Res === 20;
+                    const passed   = !automaticFailure && (critPass || (!critFail && total >= preReq.cd));
                     const sl       = skillKey ? SKILL_LABELS[skillKey] : "Resist\u00eancia";
 
                     const appliedLabels: string[] = selected.map((p) => {
@@ -1308,7 +1311,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     const roll = new Roll(parts.join(" ")); await roll.evaluate({ async: true } as never);
                     const d20 = (roll.dice?.[0] as { results?: { active?: boolean; result?: number }[] } | undefined)?.results?.find((r) => r.active)?.result ?? 0;
                     const total = roll.total ?? 0;
-                    const ok = d20 === 20 || (d20 !== 1 && total >= preReq.cd);
+                    const ok = !automaticFailure && (d20 === 20 || (d20 !== 1 && total >= preReq.cd));
                     await consumeReaction(tActor, pm);
                     lastResistTotal = total; lastResistD20 = d20;
                     await ChatMessage.create({ content: await roll.render({ flavor: `Rerolar Resistência (${targetName}) vs CD ${preReq.cd} — ${ok ? "✓ PASSOU" : "✗ FALHOU"}` }), rolls: [roll.toJSON()], type: 5, speaker: ChatMessage.getSpeaker({ actor: targetActor ?? null }), flags: { [MODULE_ID]: { resistanceRoll: true } } });
@@ -1318,7 +1321,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                 } else if (kind === "bonus") {
                     // Futuro Melhor: +2 (ou bonus) no teste já rolado.
                     const newTotal = lastResistTotal + (bonus || 2);
-                    const ok = lastResistD20 === 20 || (lastResistD20 !== 1 && newTotal >= preReq.cd);
+                    const ok = !automaticFailure && (lastResistD20 === 20 || (lastResistD20 !== 1 && newTotal >= preReq.cd));
                     await consumeReaction(tActor, pm);
                     lastResistTotal = newTotal;
                     paintResult(newTotal, lastResistD20, ok, ok ? `Passou (+${bonus || 2} de ${label})` : "Falhou — efeito completo");
@@ -1329,7 +1332,7 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                     const nivel = Number(((targetActor?.system as { nivel?: { value?: number } } | undefined)?.nivel?.value) ?? 0);
                     const roll = new Roll(`1d20 + ${luta} + ${nivel}`); await roll.evaluate({ async: true } as never);
                     const total = roll.total ?? 0;
-                    const ok = total >= preReq.cd;
+                    const ok = !automaticFailure && total >= preReq.cd;
                     const reflectAlso = total >= preReq.cd + 10;
                     await consumeReaction(tActor, pm);
                     lastResistTotal = total; lastResistD20 = 0;
@@ -1462,8 +1465,8 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
                         ?.results?.find((r) => r.active)?.result ?? 0;
                     const total    = roll.total ?? 0;
                     const critFail = d20Res === 1;
-                    const critPass = d20Res === 20;
-                    const passed   = critPass || (!critFail && preReq.cd > 0 && total >= preReq.cd);
+                    const critPass = !automaticFailure && d20Res === 20;
+                    const passed   = !automaticFailure && (critPass || (!critFail && preReq.cd > 0 && total >= preReq.cd));
                     const cdLabel  = preReq.cd > 0 ? `CD ${preReq.cd}` : "CD ?";
 
                     const chatBadge = critPass ? "\u2726 SUCESSO CR\u00cdTICO" : critFail ? "\u2620 FALHA CR\u00cdTICA" : (passed ? "\u2713 PASSOU" : "\u2717 FALHOU");
@@ -1525,9 +1528,38 @@ function openUnifiedSpellModal(preReq: SpellResistPreRollRequest): void {
             });
 
             // ── Dano / Cura ───────────────────────────────────────────────────
+            let initiateDamageApplied = false;
+            root.querySelector<HTMLButtonElement>("#smf-necro-sacrifice")?.addEventListener("click", async (event) => {
+                const button = event.currentTarget as HTMLButtonElement;
+                if (button.disabled || initiateDamageApplied) return;
+                if (preReq.resistSkill && lastResistD20 === 0) {
+                    ui.notifications.warn("Role a resistência antes de sacrificar um servo.");
+                    return;
+                }
+                button.disabled = true;
+                const passed = lastResistD20 === 20 || lastResistD20 !== 1 && lastResistTotal >= preReq.cd;
+                const amount = passed && ["metade", "parcial"].includes(preReq.resistOutcome) ? Math.floor(preReq.damageTotal / 2)
+                    : passed && preReq.resistOutcome === "anula" ? 0 : preReq.damageTotal;
+                if (amount <= 0 || dmgImmune) return;
+                const rd = Math.max(0, Number(root.querySelector<HTMLInputElement>("#smf-rd-input")?.value ?? 0));
+                initiateDamageApplied = true;
+                const reduction = await consumeNecromancySacrifice(targetActor);
+                if (!reduction) {
+                    initiateDamageApplied = false;
+                    ui.notifications.warn("Nenhum servo disponível ou reação já usada nesta rodada.");
+                    return;
+                }
+                const final = Math.max(0, amount - rd - reduction);
+                await applySpellDamage(preReq.targetActorUuid, preReq.targetActorId, final);
+                root.querySelectorAll<HTMLButtonElement>(".smf-dmg-btn").forEach(b => { b.disabled = true; });
+                const feedback = root.querySelector<HTMLElement>("#smf-dmg-feedback");
+                if (feedback) feedback.textContent = "Servo sacrificado: " + reduction + " de redução; " + final + " de dano aplicado.";
+            });
             let npcDrainApplied = false;
             root.querySelectorAll<HTMLButtonElement>(".smf-dmg-btn, .smf-heal-btn").forEach((btn) => {
                 btn.addEventListener("click", async () => {
+                    if (isInitiate(targetActor) && initiateDamageApplied) return;
+                    if (isInitiate(targetActor)) initiateDamageApplied = true;
                     if (npcDrainApplied) return;
                     if (preReq.npcPower?.drain) npcDrainApplied = true;
                     let label = "";
@@ -1779,7 +1811,7 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
     if (npcPower?.radius) {
         effectiveTargets = npcPowerTargets(message, npcPower.radius);
     } else if (tTargets.length > 0) {
-        effectiveTargets = npcPower?.drain ? tTargets.slice(0, 1) : tTargets;
+        effectiveTargets = npcPower?.drain || npcPower?.fearSplash ? tTargets.slice(0, 1) : tTargets;
     } else {
         const cvs = canvas as unknown as { tokens?: { controlled?: FoundryToken[] } };
         const controlled = cvs.tokens?.controlled ?? [];
@@ -1956,6 +1988,9 @@ async function processSpellMessage(message: ChatMessage): Promise<void> {
 
     for (const token of effectiveTargets) {
         dispatchToToken(token, effectiveDamage);
+    }
+    if (npcPower?.fearSplash && effectiveTargets[0]) {
+        for (const token of npcFearSplashTargets(message, effectiveTargets[0], npcPower.fearSplash)) dispatchToToken(token, 0);
     }
 }
 

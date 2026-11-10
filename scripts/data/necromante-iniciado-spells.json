@@ -1,0 +1,363 @@
+{
+  "Amedrontar": {
+    "name": "Amedrontar",
+    "type": "magia",
+    "img": "systems/tormenta20/icons/magias/amedrontar.webp",
+    "effects": [],
+    "flags": {},
+    "system": {
+      "description": {
+        "value": "<p><strong>Padrão, 1 PM.</strong> Um animal ou humanoide em alcance curto fica apavorado por 1 rodada e depois abalado até o fim da cena. Vontade CD 22 reduz para abalado por 1d4 rodadas.</p>",
+        "unidentified": ""
+      },
+      "source": "Tormenta20 — Edição Jogo do Ano, p. 179",
+      "ativacao": {
+        "execucao": "action",
+        "custo": 1,
+        "qtd": "",
+        "condicao": "",
+        "special": ""
+      },
+      "duracao": {
+        "value": 0,
+        "units": "scene",
+        "special": ""
+      },
+      "target": {
+        "value": null,
+        "width": null,
+        "type": ""
+      },
+      "range": {
+        "value": null,
+        "units": ""
+      },
+      "consume": {
+        "type": "",
+        "target": "",
+        "amount": null,
+        "mpMultiplier": false
+      },
+      "efeito": "",
+      "alcance": "short",
+      "alvo": "1 animal ou humanoide",
+      "area": "",
+      "resistencia": {
+        "pericia": "",
+        "atributo": "",
+        "bonus": 0,
+        "txt": "Vontade parcial"
+      },
+      "rolls": [],
+      "tipo": "arc",
+      "circulo": "1",
+      "preparada": false,
+      "escola": "nec",
+      "chatFlavor": "",
+      "origin": "",
+      "tags": [],
+      "chatGif": ""
+    },
+    "ownership": {
+      "default": 0
+    },
+    "folder": "lcJeISkhj7LBBvIt",
+    "sort": 0,
+    "_id": "wPwIA1PBv0s2u2EI"
+  },
+  "Armadura Arcana": {
+    "name": "Armadura Arcana",
+    "type": "magia",
+    "img": "systems/tormenta20/icons/magias/armadura-arcana.webp",
+    "effects": [
+      {
+        "_id": "DXFHELXQkzrakHqN",
+        "flags": {
+          "tormenta20": {
+            "onuse": false,
+            "durationScene": true
+          },
+          "t20-theme-overhaul": {
+            "necromancyArmor": true
+          }
+        },
+        "changes": [
+          {
+            "key": "system.attributes.defesa.bonus",
+            "mode": 2,
+            "value": "4",
+            "priority": null
+          }
+        ],
+        "disabled": false,
+        "duration": {
+          "seconds": null,
+          "rounds": null,
+          "turns": null
+        },
+        "origin": "Item.6tacmHJDvuMoxe8v",
+        "tint": "#ffffff",
+        "transfer": false,
+        "_stats": {
+          "coreVersion": "13.342",
+          "systemId": null,
+          "systemVersion": null,
+          "createdTime": null,
+          "modifiedTime": null,
+          "lastModifiedBy": null,
+          "compendiumSource": null,
+          "duplicateSource": null,
+          "exportSource": null
+        },
+        "name": "Armadura Arcana (Iniciado)",
+        "img": "systems/tormenta20/icons/magias/armadura-arcana.webp",
+        "type": "base",
+        "system": {},
+        "description": "",
+        "statuses": [],
+        "sort": 0,
+        "_key": "!actors.items.effects!vAEW5YDnI2ECPVRs.hRwxfSGmJGUcHiGB.DXFHELXQkzrakHqN"
+      }
+    ],
+    "flags": {},
+    "system": {
+      "description": {
+        "value": "<p><strong>Padrão, 1 PM, pessoal, cena.</strong> Uma película de força fornece +4 na Defesa do necromante iniciado. O bônus não se acumula com armaduras nem com outra aplicação desta magia.</p>",
+        "unidentified": ""
+      },
+      "source": "Tormenta20 — Edição Jogo do Ano, p. 181",
+      "ativacao": {
+        "execucao": "action",
+        "custo": 1,
+        "qtd": "",
+        "condicao": "",
+        "special": ""
+      },
+      "duracao": {
+        "value": 0,
+        "units": "scene",
+        "special": ""
+      },
+      "target": {
+        "value": null,
+        "width": null,
+        "type": ""
+      },
+      "range": {
+        "value": null,
+        "units": ""
+      },
+      "consume": {
+        "type": "",
+        "target": "",
+        "amount": null,
+        "mpMultiplier": false
+      },
+      "efeito": "",
+      "alcance": "self",
+      "alvo": "Você",
+      "area": "",
+      "resistencia": {
+        "pericia": "",
+        "atributo": "",
+        "bonus": 0,
+        "txt": ""
+      },
+      "rolls": [],
+      "tipo": "arc",
+      "circulo": "1",
+      "preparada": false,
+      "escola": "abj",
+      "chatFlavor": "",
+      "origin": "",
+      "tags": [],
+      "chatGif": ""
+    },
+    "ownership": {
+      "default": 0
+    },
+    "folder": "NYUuIsxegsarXqXr",
+    "sort": 0,
+    "_id": "hRwxfSGmJGUcHiGB"
+  },
+  "Crânio Voador": {
+    "_id": "GPm3N7mryDF24SwL",
+    "name": "Crânio Voador",
+    "type": "magia",
+    "img": "systems/tormenta20/icons/magias/cranio-voador.webp",
+    "effects": [],
+    "flags": {
+      "t20-theme-overhaul": {
+        "npcPower": {
+          "save": true,
+          "conditions": [
+            "abalado"
+          ],
+          "conditionDuration": "scene",
+          "fearSplash": 3,
+          "magical": true
+        }
+      }
+    },
+    "system": {
+      "description": {
+        "value": "<p><strong>Padrão, 3 PM.</strong> Um crânio de energia negativa causa 4d8+4 pontos de dano de trevas em uma criatura em alcance médio. O alvo e os inimigos do iniciado a até 3m dele ficam abalados até o fim da cena. Fortitude CD 22 reduz o dano à metade e evita a condição (cada criatura próxima faz seu próprio teste, sem sofrer o dano direto). Esta versão do iniciado não aumenta medo já existente.</p>",
+        "unidentified": ""
+      },
+      "source": "Tormenta20 — Edição Jogo do Ano, p. 188",
+      "ativacao": {
+        "execucao": "action",
+        "custo": 3,
+        "qtd": "",
+        "condicao": "",
+        "special": ""
+      },
+      "duracao": {
+        "value": 0,
+        "units": "inst",
+        "special": ""
+      },
+      "target": {
+        "value": null,
+        "width": null,
+        "type": ""
+      },
+      "range": {
+        "value": null,
+        "units": ""
+      },
+      "consume": {
+        "type": "",
+        "target": "",
+        "amount": null,
+        "mpMultiplier": false
+      },
+      "efeito": "",
+      "alcance": "medium",
+      "alvo": "1 criatura",
+      "area": "",
+      "resistencia": {
+        "pericia": "",
+        "atributo": "",
+        "bonus": 0,
+        "txt": "Fortitude reduz à metade"
+      },
+      "rolls": [
+        {
+          "name": "Dano",
+          "key": "dano0",
+          "type": "dano",
+          "parts": [
+            [
+              "4d8+4",
+              "trevas",
+              ""
+            ]
+          ],
+          "versatil": ""
+        }
+      ],
+      "tipo": "arc",
+      "circulo": "2",
+      "preparada": false,
+      "escola": "nec",
+      "chatFlavor": "",
+      "origin": "",
+      "tags": [],
+      "chatGif": ""
+    },
+    "ownership": {
+      "default": 0
+    },
+    "folder": "On2IxWYbBpvDPuP1",
+    "sort": 0
+  },
+  "Toque Vampírico": {
+    "_id": "WoyWSYhMaI9eEcty",
+    "name": "Toque Vampírico",
+    "type": "magia",
+    "img": "systems/tormenta20/icons/magias/toque-vampirico.webp",
+    "effects": [],
+    "flags": {
+      "t20-theme-overhaul": {
+        "npcPower": {
+          "save": true,
+          "drain": true,
+          "magical": true
+        }
+      }
+    },
+    "system": {
+      "description": {
+        "value": "<p><strong>Padrão, 3 PM.</strong> Uma criatura adjacente sofre 6d6 pontos de dano de trevas (Fortitude CD 22 reduz à metade). O necromante iniciado recupera PV iguais à metade do dano efetivamente causado, até seu máximo.</p>",
+        "unidentified": ""
+      },
+      "source": "Tormenta20 — Edição Jogo do Ano, p. 209",
+      "ativacao": {
+        "execucao": "action",
+        "custo": 3,
+        "qtd": "",
+        "condicao": "",
+        "special": ""
+      },
+      "duracao": {
+        "value": 0,
+        "units": "inst",
+        "special": ""
+      },
+      "target": {
+        "value": null,
+        "width": null,
+        "type": ""
+      },
+      "range": {
+        "value": null,
+        "units": ""
+      },
+      "consume": {
+        "type": "",
+        "target": "",
+        "amount": null,
+        "mpMultiplier": false
+      },
+      "efeito": "",
+      "alcance": "touch",
+      "alvo": "1 criatura",
+      "area": "",
+      "resistencia": {
+        "pericia": "",
+        "atributo": "",
+        "bonus": 0,
+        "txt": "Fortitude reduz à metade"
+      },
+      "rolls": [
+        {
+          "name": "Dano",
+          "key": "dano0",
+          "type": "dano",
+          "parts": [
+            [
+              "6d6",
+              "trevas",
+              ""
+            ]
+          ],
+          "versatil": ""
+        }
+      ],
+      "tipo": "arc",
+      "circulo": "2",
+      "preparada": false,
+      "escola": "nec",
+      "chatFlavor": "",
+      "origin": "",
+      "tags": [],
+      "chatGif": ""
+    },
+    "ownership": {
+      "default": 0
+    },
+    "folder": "On2IxWYbBpvDPuP1",
+    "sort": 0
+  }
+}

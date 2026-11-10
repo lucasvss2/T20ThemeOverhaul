@@ -25,6 +25,7 @@ mkdirSync(OUT_DIR, { recursive: true });
 // _id/_key regerados por ator. NÃO editar à mão — recolher de novo ao vivo se
 // precisar (ver CLAUDE.md → seção desta feature).
 const SPELL_DATA = JSON.parse(readFileSync(resolve("scripts/data/ameacas-spells.json"), "utf8"));
+const INITIATE_SPELLS = JSON.parse(readFileSync(resolve("scripts/data/necromante-iniciado-spells.json"), "utf8"));
 
 // ── RNG determinístico simples pra ids estáveis entre re-runs ──────────────────
 let seed = 42;
@@ -168,7 +169,7 @@ function damageType(type) {
     return type === "arcano" ? "essencia" : type.normalize("NFD").replace(/\p{Diacritic}/gu, "");
 }
 
-function weaponItem(actorId, spec, { name, atk, dmgFormula, critM = 20, critX = 2, tipoDano = "", alcance = "melee", proposito = "corpo-a-corpo", descricao = "", hits = 1 }) {
+function weaponItem(actorId, spec, { name, atk, dmgFormula, critM = 20, critX = 2, tipoDano = "", alcance = "melee", proposito = "corpo-a-corpo", descricao = "", hits = 1, extraDamage = [] }) {
     const id = makeId();
     // O T20 lê a segunda coluna como perícia e soma a terceira ao total.
     const skillKey = ["disparo", "arremesso"].includes(proposito) ? "pont" : "luta";
@@ -183,7 +184,7 @@ function weaponItem(actorId, spec, { name, atk, dmgFormula, critM = 20, critX = 
             description: { value: `<p>${descricao}</p>`, unidentified: "" },
             rolls: [
                 { name: "Ataque", key: "ataque0", type: "ataque", parts: [["1d20", "", ""], [skillKey, "", ""], [String(fixed), "", ""]], adaptavel: "", versatil: "" },
-                { name: "Dano", key: "dano1", type: "dano", parts: [[dmgFormula, damageType(tipoDano), ""], ["", "", ""]], adaptavel: "", versatil: "" },
+                { name: "Dano", key: "dano1", type: "dano", parts: [[dmgFormula, damageType(tipoDano), ""], ["", "", ""], ...extraDamage], adaptavel: "", versatil: "" },
             ],
             equipado2: { type: "hand", slot: 0 }, carregado: true, espacos: 0, peso: 0, qtd: 1, preco: 0,
             pv: { value: 0, max: 0 }, rd: 0,
@@ -207,7 +208,7 @@ function weaponItem(actorId, spec, { name, atk, dmgFormula, critM = 20, critX = 
 // (execucao:"passive") continuam sempre de graça, nunca recebem `pm`.
 function powerItem(actorId, {
     name, execucao = "passive", alcance = "", area = "", duracaoUnits = "inst",
-    resistPericia = "", resistTxt = "", dmgFormula = "", dmgTipo = "", descricao, pm = 0, combat,
+    resistPericia = "", resistTxt = "", dmgFormula = "", dmgTipo = "", descricao, pm = 0, combat, necromancy,
 }) {
     const id = makeId();
     const rolls = dmgFormula
@@ -224,7 +225,8 @@ function powerItem(actorId, {
             source: "", origin: "", tags: [], rolltags: [], automationtags: [], chatFlavor: "", chatGif: "",
             range: { units: "", value: 0 }, efeito: "", tipo: "geral", subtipo: "",
         },
-        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 }, flags: combat ? { "t20-theme-overhaul": { npcPower: combat } } : {},
+        _id: id, effects: [], folder: null, sort: 0, ownership: { default: 0 },
+        flags: combat || necromancy ? { "t20-theme-overhaul": { ...(combat ? { npcPower: combat } : {}), ...(necromancy ? { necromancy } : {}) } } : {},
         _stats: stats(), _key: `!actors.items!${actorId}.${id}`,
     };
 }
@@ -233,8 +235,8 @@ function powerItem(actorId, {
 // `key` = nome exato em SPELL_DATA. Preserva ativacao/circulo/resistencia/rolls
 // originais (o débito de PM do cast usa esse custo, igual a qualquer magia real
 // na ficha de um PJ) — só troca _id/_key/effects-ids pra não colidir entre atores.
-function spellItem(actorId, key) {
-    const src = SPELL_DATA[key];
+function spellItem(actorId, key, prepared = false) {
+    const src = (prepared ? INITIATE_SPELLS : SPELL_DATA)[key];
     if (!src) throw new Error(`Magia "${key}" não encontrada em scripts/data/ameacas-spells.json`);
     const id = makeId();
     const effects = (src.effects ?? []).map((e) => {
@@ -245,7 +247,7 @@ function spellItem(actorId, key) {
         ...src,
         _id: id,
         effects,
-        folder: null, sort: 0, ownership: { default: 0 }, flags: {},
+        folder: null, sort: 0, ownership: { default: 0 }, flags: prepared ? structuredClone(src.flags ?? {}) : {},
         _stats: stats(), _key: `!actors.items!${actorId}.${id}`,
     };
 }
@@ -260,7 +262,7 @@ function buildActor(spec) {
 
     const items = (spec.items ?? []).map((it) => {
         if (it.kind === "weapon") return weaponItem(actorId, spec, it);
-        if (it.kind === "spell") return spellItem(actorId, it.key);
+        if (it.kind === "spell") return spellItem(actorId, it.key, it.prepared);
         return powerItem(actorId, it);
     });
     const pmMax = spec.pmMax ?? 0;
@@ -304,7 +306,9 @@ function buildActor(spec) {
         },
         items,
         _id: actorId, effects: [], folder: spec.folder, sort: spec.sort ?? 100000,
-        ownership: { default: 0 }, flags: spec.combat ? { "t20-theme-overhaul": { npcTraits: spec.combat } } : {},
+        ownership: { default: 0 }, flags: spec.necromancy
+            ? { "t20-theme-overhaul": { necromancyInitiate: true, autoApplyItems: Object.fromEntries(items.filter(i => i.name === "Armadura Arcana").map(i => [i._id, true])) } }
+            : spec.combat ? { "t20-theme-overhaul": { npcTraits: spec.combat } } : {},
         _stats: stats({ compendiumSource: null, duplicateSource: null, exportSource: null, createdTime: now }),
         _key: `!actors!${actorId}`,
     };
@@ -845,6 +849,29 @@ NPCS.push({
         { kind: "weapon", name: "Espada da Milícia", atk: 11, dmgFormula: "1d8+13", critM: 20, critX: 2, tipoDano: "corte", alcance: "melee", descricao: "Uma espada padrão distribuída aos vigias da milícia local." },
         { kind: "power", name: "Visão Élfica", execucao: "passive", descricao: "Cedric enxerga perfeitamente no escuro parcial, é imune a magias de sono e recebe <strong>+2</strong> em testes de resistência contra efeitos de Encantamento." },
         { kind: "power", name: "Grito de Alarme", execucao: "free", pm: 1, descricao: "<strong>Ação livre, 1 PM.</strong> Cedric alerta até 6 aliados num raio de 9m, que não podem ser surpreendidos até o fim da cena." },
+    ],
+});
+
+// Variante do Necromante oficial (ND 7 → ND 5); sempre no fim para preservar IDs.
+NPCS.push({
+    name: "Necromante Iniciado", nd: 5, role: "special", tipo: "hum", raca: "Elfo", necromancy: true,
+    tamanho: "med", folder: FOLDER_CUSTOM_MADE, img: "Avulsos/Necromante Iniciado.png",
+    disposition: -1, tesouro: "Padrão", cd: 22, def: 16, movement: { walk: 12 },
+    sentidos: ["Visão na penumbra"],
+    bio: "Aprendiz de necromancia baseado no Necromante de ND 7. Conserva servos de sombra, sacrifício defensivo e as quatro magias, em versões de menor potência.<br><br><strong>Magias — como um arcanista de 5º nível (CD 22):</strong> Amedrontar, Armadura Arcana, Crânio Voador e Toque Vampírico. As versões preparadas não incluem aprimoramentos extras.",
+    ataquescac: "Adaga +15 (1d4 perfuração mais 1d4 trevas, 19/×2)", ataquesad: "",
+    atributos: { for: 3, des: 3, con: 0, int: 0, sab: 0, car: 0 }, conjuracao: "int", pmMax: 35,
+    pericias: {
+        ...saves(5, 11, 17),
+        inic: skill(3), perc: skill(4), conh: skill(7, { treinado: true }), mist: skill(9, { treinado: true }),
+    },
+    pv: 124,
+    items: [
+        { kind: "weapon", name: "Adaga", atk: 15, dmgFormula: "1d4", tipoDano: "perfuração", critM: 19, extraDamage: [["1d4", "trevas", ""]], descricao: "Arma secundária do iniciado, com uma pequena carga de energia negativa." },
+        { kind: "power", name: "Ergam-se!", execucao: "full", pm: 3, necromancy: { action: "raise", count: 4, defense: 22, damage: "1d8" }, descricao: "<strong>Completa, 3 PM, cena.</strong> Conjura quatro mortos-vivos de sombra em espaços desocupados em alcance curto. No turno do iniciado, cada servo pode andar 9m e causar 1d8 pontos de dano de trevas a uma criatura adjacente, uma vez por rodada. Os servos têm For 3, Des 3, os demais atributos 0, Defesa 22 e 1 PV; falham automaticamente em resistências e testes opostos. São imunes a atordoamento, dano não letal, doença, encantamento, fadiga, frio, ilusão, paralisia, sono e veneno. Não pode manter mais de quatro servos; uma nova conjuração substitui os anteriores." },
+        { kind: "power", name: "Sacrificar Servo", execucao: "reaction", necromancy: { action: "sacrifice", reduction: 15 }, descricao: "<strong>Reação, uma vez por rodada.</strong> Quando sofre dano, sacrifica um de seus próprios servos ativos para reduzir esse dano em 15 (mínimo 0). Sem um servo vivo na mesma cena, não pode usar esta habilidade." },
+        { kind: "power", name: "Magias", descricao: "O necromante iniciado lança as versões preparadas abaixo como um arcanista de 5º nível (CD 22), sem os aprimoramentos do necromante de ND 7. Amedrontar afeta um alvo; Armadura Arcana fornece +4; Crânio Voador causa 4d8+4 e Toque Vampírico causa 6d6." },
+        ...["Amedrontar", "Armadura Arcana", "Crânio Voador", "Toque Vampírico"].map(key => ({ kind: "spell", key, prepared: true })),
     ],
 });
 
