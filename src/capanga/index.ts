@@ -3,6 +3,7 @@ import { MODULE_ID } from "@/constants";
 import { isActiveGM } from "@/_shared/gm";
 import { warn } from "@/utils/logging";
 import { capangaLevel, named, norm, type ClassActor } from "@/ataque-furtivo/format";
+import { grantCapangaProficiencies } from "./proficiencies";
 
 interface Change { key: string; mode: number; value: string; priority?: number | null }
 interface Effect { id: string; name?: string; changes: Change[]; flags?: Record<string, Record<string, unknown>>; clone(data: object, options: { keepId: boolean }): Effect }
@@ -13,6 +14,7 @@ interface Actor extends ClassActor {
     effects: { contents: Effect[] };
     createEmbeddedDocuments(type: string, data: object[]): Promise<unknown>;
     deleteEmbeddedDocuments(type: string, ids: string[]): Promise<unknown>;
+    update(data: Record<string, string[]>): Promise<unknown>;
 }
 interface Combat { round?: number; started?: boolean; combatants?: { contents: Array<{ actor?: Actor }> } }
 export function rapidoBonus(level: number): number { return level >= 15 ? 6 : level >= 7 ? 4 : level >= 3 ? 2 : 0; }
@@ -74,6 +76,17 @@ function syncAll(): void {
 }
 
 export function setupCapanga(): void {
+    // Só o cliente que criou o documento concede; não altera fichas ao carregar o mundo.
+    Hooks.on("createItem", (...args: unknown[]) => {
+        const item = args[0] as Item;
+        if (args[2] !== game.user?.id || item.type !== "classe" || !named(item.name, "capanga") || !item.actor?.isOwner) return;
+        void grantCapangaProficiencies(item.actor).catch(e => warn("Capanga: proficiências", e));
+    });
+    Hooks.on("createActor", (...args: unknown[]) => {
+        const actor = args[0] as Actor;
+        if (args[2] !== game.user?.id || !actor.isOwner) return;
+        void grantCapangaProficiencies(actor).catch(e => warn("Capanga: proficiências", e));
+    });
     // Perícias usam um objeto simples no diálogo nativo, não ItemT20/getter.
     Hooks.on("renderAbilityUseDialog", (...args: unknown[]) => {
         const app = args[0] as { item?: Item; _onInputChange?: (html: unknown) => void };

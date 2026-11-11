@@ -56,6 +56,7 @@ import { setupDivindades } from "./divindades/index";
 import { setupAdamante } from "./adamante/index";
 import { setupCruzado, grantAlmaGuerreira, diagnoseCruzado } from "./cruzado/index";
 import { setupCapanga } from "./capanga/index";
+import { setupFlanking } from "./flanking";
 import { setupAspiranteHeroi } from "./aspirante-heroi/index";
 import { setupVenenoAprimorado } from "./veneno-aprimorado/index";
 import { setupAdagaNoturna } from "./adaga-noturna/index";
@@ -158,6 +159,7 @@ Hooks.once("setup", () => {
     setupDivindades();            // Divindades: item arrastável → modal de poderes concedidos + complicação O&R + automações Aharadak/Nimb
     setupCruzado();               // Classe Cruzado: Presente dos Deuses (checkbox), Alma Guerreira, Oração Marcial, Guerreiro Santificado
     setupCapanga();               // Capanga: efeitos condicionais, primeira rodada e exclusão com Ladino
+    setupFlanking();              // Flanquear: opção +2 em todo diálogo com teste de ataque, inclusive NPC
     setupAspiranteHeroi();        // Aspirante a herói (Atlas de Arton): escolhe atributo e aplica +1 ao adicionar o poder
     setupVenenoAprimorado();      // Medusa: Natureza Venenosa passa de 1d12 para 2d12 PV (passivo racial)
     setupAdagaNoturna();         // Tenebra: 1 PM por arma, +1d6 de frio pela cena
