@@ -3,6 +3,7 @@ import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
 import { isActiveGM } from "@/_shared/gm";
 import { warn } from "@/utils/logging";
 import { chooseActionActor } from "@/_shared/actor-choice";
+import GIFT_STYLES from "./gift.css?inline";
 import { cruzadoLevel, giftBudget, GIFT_CONFIG, SUMMONED_GIFT, summonedGiftData, validateGiftPlan, type GiftPlan, type GiftClassActor } from "./gift-format";
 
 interface Item {
@@ -59,6 +60,11 @@ export function configureDivineGift(power: Item): Promise<boolean> {
 async function openBuilder(power: Item): Promise<boolean> {
     const actor = power.actor;
     if (!actor?.isOwner) return false;
+    if (!document.getElementById("t20-gift-builder-styles")) {
+        const style = document.createElement("style");
+        style.id = "t20-gift-builder-styles"; style.textContent = GIFT_STYLES;
+        document.head.append(style);
+    }
     const level = cruzadoLevel(actor), budget = giftBudget(level);
     if (!budget.improvements) { ui.notifications.warn("Presente dos Deuses: adicione a classe Cruzado à ficha primeiro."); return false; }
     const all = await weapons(), cfg = config();
@@ -75,7 +81,7 @@ async function openBuilder(power: Item): Promise<boolean> {
         let saved = false;
         const dialog = new Dialog({
             title: `Presente dos Deuses — Cruzado ${level}`,
-            content: `<form class="t20-gift-builder"><p>Monte sua arma divina: <b>${budget.improvements} melhoria(s) e ${budget.enchantments} encanto(s)</b>.</p><p>A arma com a primeira melhoria custa até T$ 500. Material especial não é permitido. Ela só aparece ao invocar, custa 2 PM e ocupa zero espaços.</p><div class="form-group"><label>Buscar arma</label><input name="weaponSearch" placeholder="Nome da arma…"></div><div class="form-group"><label>Arma base</label><select name="weapon"><option value="">Escolha…</option>${list.map((w, i) => `<option value="${i}" ${w._id === current?.weapon._id ? "selected" : ""}>${esc(w.name)} — T$ ${Number((w.system as { preco?: number }).preco)}</option>`).join("")}</select></div>${optionRows}<p class="gift-description"></p><p class="gift-error" role="alert" style="color:#ff9b83"></p></form>`,
+            content: `<form class="t20-gift-builder"><p>Monte sua arma divina: <b>${budget.improvements} melhoria(s) e ${budget.enchantments} encanto(s)</b>.</p><p>A arma com a primeira melhoria custa até T$ 500. Material especial não é permitido. Ela só aparece ao invocar, custa 2 PM e ocupa zero espaços.</p><div class="form-group"><label>Buscar arma</label><input name="weaponSearch" placeholder="Nome da arma…"></div><div class="form-group"><label>Arma base</label><select name="weapon"><option value="">Escolha…</option>${list.map((w, i) => `<option value="${i}" ${w._id === current?.weapon._id ? "selected" : ""}>${esc(w.name)} — T$ ${Number((w.system as { preco?: number }).preco)}</option>`).join("")}</select></div>${optionRows}<div class="gift-description" aria-live="polite"></div><p class="gift-error" role="alert" style="color:#ff9b83"></p></form>`,
             buttons: {
                 save: { label: "Salvar arma divina", callback: async (html: unknown) => {
                     const root = (html as { 0: HTMLElement })[0], form = root.querySelector("form")!;
@@ -97,14 +103,25 @@ async function openBuilder(power: Item): Promise<boolean> {
                     const query = (event.target as HTMLInputElement).value.toLocaleLowerCase("pt-BR");
                     root.querySelectorAll<HTMLOptionElement>('[name="weapon"] option').forEach(o => { o.hidden = !!o.value && !o.text.toLocaleLowerCase("pt-BR").includes(query); });
                 });
-                root.querySelectorAll("select").forEach(s => s.addEventListener("change", () => {
+                const updateDescriptions = () => {
                     const selected = Array.from(root.querySelectorAll<HTMLSelectElement>('select:not([name="weapon"])')).map(s => s.value).filter(Boolean);
-                    root.querySelector(".gift-description")!.textContent = selected.map(k => game.i18n.localize(cfg.upgrades.weapon[k]?.description ?? "").replace(/<[^>]+>/g, " ")).filter(Boolean).join(" ");
+                    const descriptions = root.querySelector(".gift-description")!;
+                    descriptions.replaceChildren();
+                    for (const key of selected) {
+                        const template = cfg.upgrades.weapon[key] ?? cfg.upgrades.general[key];
+                        if (!template?.description) continue;
+                        const paragraph = document.createElement("p"), name = document.createElement("strong");
+                        name.textContent = `${game.i18n.localize(template.name)}. `;
+                        paragraph.append(name, game.i18n.localize(template.description).replace(/<[^>]+>/g, " "));
+                        descriptions.append(paragraph);
+                    }
                     root.querySelector(".gift-error")!.textContent = "";
-                }));
+                };
+                root.querySelectorAll("select").forEach(s => s.addEventListener("change", updateDescriptions));
+                updateDescriptions();
             },
             close: () => resolve(saved),
-        }, { classes: ["t20-dialog"], width: 640, height: "auto" });
+        }, { classes: ["t20-dialog", "t20-gift-builder-dialog"], width: 640, height: "auto" });
         // O Dialog V1 fecha após qualquer callback. Validação ocorre antes de
         // acionar o callback nativo para manter o formulário em caso de erro.
         let submitting = false;

@@ -9,6 +9,12 @@ const weapon = (purpose = "corpo-a-corpo"): GuardItem => ({ name: "Espada", type
 } });
 const actor = (...items: GuardItem[]): GuardActor => ({ type: "character", items: { contents: items }, system: { attributes: { defesa: { bonus: ["2[Outro bônus]"] } } } });
 describe("Guarda — melhoria de arma", () => {
+    it.each(["Lança", "Tridente", "Lança (Presente dos Deuses)"])("aceita %s do catálogo legado mesmo cadastrada como arremesso", name => {
+        const item = { ...weapon("arremesso"), name };
+        expect(isMeleeGuardWeapon(item)).toBe(true);
+        const plan: GiftPlan = { weapon: { ...item, system: { ...item.system, preco: 2 } }, improvements: ["guard", "harmonized"], enchantments: [], milestone: 5 };
+        expect(validateGiftPlan(plan, 6, ["guard", "harmonized"], [])).toBeNull();
+    });
     it("registra nome, descrição e template sem efeitos de ataque ou dano", () => {
         const config = { weaponUpgrades: {}, weaponUpgradesTooltips: {}, upgrades: { weapon: { status: {} } } };
         registerGuardUpgrade(config); registerGuardUpgrade(config);

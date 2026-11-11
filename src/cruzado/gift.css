@@ -1,0 +1,43 @@
+/* O tema geral usa width:auto em Dialog V1. Este formulário mantém largura
+   limitada mesmo com descrições longas de várias melhorias. */
+.window-app.t20-dialog.t20-gift-builder-dialog:not(.ability-use-form) {
+    width: min(640px, calc(100vw - 32px)) !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 32px) !important;
+}
+.window-app.t20-dialog.t20-gift-builder-dialog:not(.ability-use-form) .window-content {
+    min-width: 0;
+    max-height: calc(100vh - 96px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.t20-gift-builder-dialog .dialog-content,
+.t20-gift-builder-dialog .t20-gift-builder {
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+}
+.t20-gift-builder-dialog .t20-gift-builder p,
+.t20-gift-builder-dialog .t20-gift-builder .gift-error {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    line-height: 1.4;
+}
+.t20-gift-builder-dialog .t20-gift-builder .gift-description p {
+    margin: 0.6em 0;
+}
+.t20-gift-builder-dialog .t20-gift-builder .form-group {
+    min-width: 0;
+}
+.t20-gift-builder-dialog .t20-gift-builder .form-group > label {
+    flex: 0 1 110px;
+    white-space: normal;
+}
+.t20-gift-builder-dialog .t20-gift-builder input,
+.t20-gift-builder-dialog .t20-gift-builder select {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+}

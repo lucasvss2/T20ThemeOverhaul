@@ -20,6 +20,10 @@ export function isMeleeGuardWeapon(item: GuardItem): boolean {
     if (item.type === "equipamento") return /manopla/i.test(item.name ?? "");
     if (item.type !== "arma") return false;
     const purpose = item.system?.proposito;
+    // O catálogo nativo antigo cadastra Lança e Tridente só como "arremesso",
+    // embora ambos sejam armas corpo a corpo que também podem ser lançadas.
+    const name = (item.name ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    if (purpose === "arremesso" && /^(?:lanca|tridente)(?:$|\s|\()/.test(name)) return true;
     if (purpose) return ["corpo-a-corpo", "corpo-a-corpo-arremesso"].includes(purpose);
     return !!item.system?.rolls?.some(r => r.type === "ataque" && r.parts?.[1]?.[0] === "luta");
 }
