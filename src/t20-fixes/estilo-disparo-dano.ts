@@ -73,6 +73,7 @@ export function isEstiloDisparoEligible(item: ItemForEstilo): boolean {
 export function danoRollNeedsPadrao(roll: DanoRollLike): boolean {
     if (roll.type !== "dano") return false;
     const parts = roll.parts ?? [];
+    if (parts.some(p => p?.[2] === "anao:ayrelynn")) return false;
     if (parts.some(p => p?.[0] === "padrao")) return false;
     if (parts.some(p => typeof p?.[0] === "string" && p[0].includes("@des"))) return false;
     if (parts.some(p => HEAL_LOSS_TYPES.has(String(p?.[1] ?? "")))) return false;

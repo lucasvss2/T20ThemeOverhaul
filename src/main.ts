@@ -9,6 +9,8 @@
 
 import { MODULE_ID, SYSTEM_ID } from "./constants";
 import { setupPowerCombos } from "./power-combos/index";
+import { setupDwarfPowers } from "./anao/index";
+import { setupCruzadoProficiencies } from "./cruzado/proficiencies";
 import { setupTheme } from "./theme/index";
 import { setupIntegration } from "./integration/index";
 import { setupDialogStyling } from "./dialogs/t20-dialog";
@@ -98,6 +100,8 @@ setupProeficiencia();
 // Ajustada: patch de prepareDerivedData do item também precisa entrar no `init`
 // (a penalidade corrigida tem que valer já na primeira preparação do mundo).
 setupAjustadaFix();
+setupDwarfPowers();
+setupCruzadoProficiencies();
 
 // Defesa de Ameaças: NPC com armadura `equipado:true` mas `equipado2.slot:0`
 // não somava a armadura na Defesa com equipmentSlots ON. Patch no init idem.

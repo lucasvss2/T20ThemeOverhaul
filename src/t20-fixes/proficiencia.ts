@@ -61,7 +61,7 @@ interface ProfActor {
         pericias?: Record<string, { atributo?: string; pda?: boolean }>;
     };
     itemTypes?: { equipamento?: ProfItem[] };
-    items?: { contents: Array<{ type?: string; name?: string }> };
+    items?: { contents: Array<{ type?: string; name?: string; system?: { subtipo?: string } }> };
 }
 
 /** Normaliza nomes (lowercase, sem acentos) para comparação tolerante. */
@@ -105,6 +105,7 @@ export const PROF_POWER_OVERRIDES: ReadonlyArray<{
     appliesTo: (weaponNameNorm: string) => boolean;
 }> = [
     { power: "arquearia elfica", appliesTo: (n) => n.includes("arco") },
+    { power: "tradicao de heredrimm", appliesTo: n => /machado|martelo|marreta|picareta/.test(n) },
 ];
 
 /** O ator tem um poder cujo override de proficiência cobre esta arma? */
@@ -146,11 +147,12 @@ export function isWeaponProficient(actor: ProfActor | null | undefined, item: Pr
     const prof = item.system?.proficiencia;
     if (!prof) return true;
     if (getActorWeaponProfs(actor).has(prof)) return true;
+    if (prof === "fogo" && actor.items?.contents.some(i => i.type === "poder" && normalizeName(i.name ?? "").startsWith("tradicao de ayrelynn"))) return true;
     const wname = normalizeName(item.name ?? "");
     if (customGrantsWeaponProficiency(actor.system?.tracos?.profArmas?.custom, wname)) return true;
     const powerNames = (actor.items?.contents ?? [])
         .filter((i) => i.type === "poder")
-        .map((i) => normalizeName(i.name ?? ""));
+        .map((i) => normalizeName(i.name ?? "") === "tradicao" && normalizeName(i.system?.subtipo ?? "") === "anao" ? "tradicao de heredrimm" : normalizeName(i.name ?? ""));
     return powerGrantsWeaponProficiency(powerNames, wname);
 }
 
