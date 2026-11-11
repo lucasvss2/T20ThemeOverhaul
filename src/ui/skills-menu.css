@@ -119,3 +119,5 @@
 .t20-overhaul-tab .t20-search-results:empty,
 .t20-overhaul-tab [hidden] { display: none !important; }
 .t20-overhaul-tab .t20-search-result small { display: block; margin-top: 3px; font-size: 0.72rem; color: var(--t20-text-muted); }
+.t20-overhaul-tab .t20-search-result[draggable="true"] { cursor: grab; }
+.t20-overhaul-tab .t20-search-result[draggable="true"]:active { cursor: grabbing; }

@@ -29,6 +29,7 @@ import { MODULE_ID } from "@/constants";
 import { warn } from "@/utils/logging";
 import STYLES from "./skills-menu.css?inline";
 import { matchesCompendiumSearch, normalizeCompendiumSearch, searchCompendiumContents } from "./compendium-search";
+import { startCompendiumDrag } from "./compendium-drag";
 import {
     executeSkillAction, getVisibleActions, getVisiblePacks, openCompendium, stripPackLabelPrefix,
 } from "./skills-menu";
@@ -128,6 +129,12 @@ export class T20OverhaulTab extends Base {
             if (!button?.dataset.documentUuid) return;
             void this.openSearchResult(button.dataset.documentUuid);
         });
+        root.querySelector(".t20-search-results")?.addEventListener("dragstart", event => {
+            if (!(event.target instanceof Element)) return;
+            const row = event.target.closest<HTMLElement>("[data-document-uuid]");
+            if (!row) return;
+            startCompendiumDrag(event as DragEvent, { uuid: row.dataset.documentUuid ?? "", documentName: row.dataset.documentType ?? "" });
+        });
         this.updateSearch(root);
         root.querySelectorAll<HTMLButtonElement>(".skill-row").forEach((btn) => {
             btn.addEventListener("click", (e) => {
@@ -174,7 +181,7 @@ export class T20OverhaulTab extends Base {
                 if (generation !== this.searchGeneration || !root.isConnected) return;
                 status.textContent = (found.total ? `${found.total} conteúdo(s) encontrado(s).${found.total > 60 ? " Exibindo os primeiros 60; refine a busca." : ""}`
                     : "Nenhum conteúdo encontrado.") + (found.failed ? ` ${found.failed} compêndio(s) indisponível(is).` : "");
-                results.innerHTML = found.results.map(entry => `<button type="button" class="skill-row t20-search-result" data-document-uuid="${esc(entry.uuid)}">
+                results.innerHTML = found.results.map(entry => `<button type="button" class="skill-row t20-search-result" draggable="${!!entry.documentName}" data-document-type="${esc(entry.documentName)}" data-document-uuid="${esc(entry.uuid)}" title="Arraste para importar ou clique para abrir">
                     <i class="fa-solid fa-file-lines" aria-hidden="true"></i><span>${esc(entry.name)}<small>${esc(entry.packLabel)}</small></span></button>`).join("");
             }).catch(error => {
                 if (generation !== this.searchGeneration || !root.isConnected) return;

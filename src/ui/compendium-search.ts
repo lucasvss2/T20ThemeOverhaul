@@ -9,9 +9,11 @@ export function matchesCompendiumSearch(name: string, query: string): boolean {
     return normalizeCompendiumSearch(query).split(/\s+/).every(word => normalized.includes(word));
 }
 
-export interface CompendiumResult { uuid: string; name: string; packLabel: string }
+export interface CompendiumResult { uuid: string; name: string; packLabel: string; documentName: string }
 interface IndexedPack {
     visible?: boolean;
+    documentName?: string;
+    metadata?: { type?: string };
     getIndex(): Promise<{ contents: Array<{ _id: string; name: string }> }>;
 }
 
@@ -33,7 +35,7 @@ export async function searchCompendiumContents(query: string): Promise<{
             for (const entry of index.contents) {
                 if (!entry._id || !entry.name || !matchesCompendiumSearch(entry.name, query)) continue;
                 found.push({ uuid: `Compendium.${info.id}.${entry._id}`, name: entry.name,
-                    packLabel: stripPackLabelPrefix(info.label) });
+                    packLabel: stripPackLabelPrefix(info.label), documentName: pack.documentName ?? pack.metadata?.type ?? "" });
             }
         } catch { failed++; }
     }));
