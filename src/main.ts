@@ -10,6 +10,7 @@
 import { MODULE_ID, SYSTEM_ID } from "./constants";
 import { setupPowerCombos } from "./power-combos/index";
 import { setupDwarfPowers } from "./anao/index";
+import { setupGuardUpgrade } from "./guarda/index";
 import { setupCruzadoProficiencies } from "./cruzado/proficiencies";
 import { setupTheme } from "./theme/index";
 import { setupIntegration } from "./integration/index";
@@ -102,6 +103,7 @@ setupProeficiencia();
 setupAjustadaFix();
 setupDwarfPowers();
 setupCruzadoProficiencies();
+setupGuardUpgrade();
 
 // Defesa de Ameaças: NPC com armadura `equipado:true` mas `equipado2.slot:0`
 // não somava a armadura na Defesa com equipmentSlots ON. Patch no init idem.

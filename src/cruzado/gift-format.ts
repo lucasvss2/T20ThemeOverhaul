@@ -1,4 +1,5 @@
 import { MODULE_ID } from "@/constants";
+import { GUARD_KEY, isMeleeGuardWeapon, type GuardItem } from "@/guarda/format";
 export const GIFT_CONFIG = "presenteConfig";
 export const SUMMONED_GIFT = "presenteTemporario";
 export const GIFT_LEVELS = [1, 5, 8, 9, 11, 14, 18] as const;
@@ -18,6 +19,7 @@ export function validateGiftPlan(plan: GiftPlan, level: number, allowedImproveme
     const budget = giftBudget(level);
     if (!budget.improvements) return "Adicione a classe Cruzado antes de configurar o presente.";
     if (plan.weapon.type !== "arma") return "Escolha uma arma válida.";
+    if (plan.improvements.includes(GUARD_KEY) && !isMeleeGuardWeapon(plan.weapon as GuardItem)) return "Guarda só pode ser aplicada em armas corpo a corpo.";
     const price = Number((plan.weapon.system as { preco?: number })?.preco);
     // O limite inicial vale para a arma com a primeira melhoria (T$ 300),
     // não para as melhorias e encantos recebidos nos níveis seguintes.

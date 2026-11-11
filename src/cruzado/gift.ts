@@ -169,7 +169,7 @@ export function setupDivineGift(callbacks: { summoned(actor: unknown): Promise<v
                     // Melhorias da arma são locais a ela; nunca transferem seus
                     // bônus para todas as outras armas do personagem.
                     effect.transfer = false; effect.disabled = false;
-                    effect.flags = { ...template.flags, tormenta20: { ...template.flags?.tormenta20, self: true, onuse: true, upgrade: key } };
+                    effect.flags = { ...template.flags, tormenta20: { ...template.flags?.tormenta20, self: true, onuse: template.flags?.tormenta20?.onuse ?? true, upgrade: key } };
                     return [effect];
                 });
                 const data = summonedGiftData(plan, this.id, sceneId(), effects);
