@@ -42,6 +42,7 @@
  */
 
 import { MODULE_ID } from "@/constants";
+import { resolvePowerEffects } from "@/power-combos/format";
 import { isActiveGM } from "@/_shared";
 import { extractSpellName, extractItemId, normalizeCondName, getMsgAuthorId } from "@/spell-resistance/index";
 import { log, warn } from "@/utils/logging";
@@ -248,7 +249,7 @@ function resolveFormulaPreview(formula: string, rd: object): string {
 function collectSkillBoostAEs(actor: FoundryActor): SkillBoost[] {
     const rd = (actor as { getRollData?: () => object }).getRollData?.() ?? {};
     const out: SkillBoost[] = [];
-    for (const ae of actor.effects?.contents ?? []) {
+    for (const ae of resolvePowerEffects(actor, actor.effects?.contents ?? [])) {
         const t20 = ae.flags?.tormenta20 as
             | { onuse?: boolean; skill?: boolean; custo?: unknown } | undefined;
         if (!t20?.onuse || !t20?.skill) continue;

@@ -27,11 +27,13 @@
  */
 
 import { MODULE_ID } from "@/constants";
+import { resolvePowerEffects, type PowerActor } from "@/power-combos/format";
 import { log, warn } from "@/utils/logging";
 
 const SETTING_ENABLED = "iniciativaBuffEnabled";
 
 interface EffectFlagsT20 {
+    [key: string]: unknown;
     onuse?: boolean;
     skill?: unknown;
     custo?: unknown;
@@ -76,7 +78,7 @@ export function eligibleInitiativeBuffEffects(
     });
 }
 
-interface ActorLike {
+interface ActorLike extends PowerActor {
     name?: string;
     effects?: { contents?: EffectLike[] } | EffectLike[];
     system?: {
@@ -101,7 +103,7 @@ function pmAvailable(actor: ActorLike): number {
 export function hasUsableInitiativeBuff(actor: ActorLike): boolean {
     if (typeof actor.rollPericia !== "function") return false;
     const label = actor.system?.pericias?.inic?.label || "Iniciativa";
-    return eligibleInitiativeBuffEffects(actorEffectsList(actor), pmAvailable(actor), label).length > 0;
+    return eligibleInitiativeBuffEffects(resolvePowerEffects(actor, actorEffectsList(actor)), pmAvailable(actor), label).length > 0;
 }
 
 function isEnabled(): boolean {

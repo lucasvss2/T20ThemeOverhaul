@@ -1,4 +1,5 @@
 import { MODULE_ID } from "@/constants";
+import { resolvePowerEffects } from "@/power-combos/format";
 import { computeSkillTotal } from "./skills";
 import type { HiddenTestFlag, HiddenTestRequest, TestOutcome } from "./types";
 
@@ -23,69 +24,69 @@ export function getActivatableItems(actor: FoundryActor, skillLabel: string): Ac
     const items = actor.items?.contents ?? [];
     const result: ActivatableItem[] = [];
 
-    for (const item of items) {
-        const effects = item.effects?.contents ?? [];
-        for (const effect of effects) {
-            const t20 = (effect.flags?.["tormenta20"] ?? {}) as Record<string, unknown>;
-            if (!t20["onuse"] || !t20["skill"]) continue;
+    const entries = items.flatMap(item => (item.effects?.contents ?? []).map(effect => ({ item, effect })));
+    for (const effect of resolvePowerEffects(actor, entries.map(e => e.effect))) {
+        const item = entries.find(e => e.effect.id === effect.id)?.item;
+        if (!item) continue;
+        const t20 = (effect.flags?.["tormenta20"] ?? {}) as Record<string, unknown>;
+        if (!t20["onuse"] || !t20["skill"]) continue;
 
-            // Efeitos com requisito de nível ainda não atingido têm "(Xº nível)" no nome
-            // Ex: "Vindicação Refletir Magia (11º nível)" — ignora estes
-            if (/\(\d+º\s*n[íi]vel\)/i.test(effect.name)) continue;
+        // Efeitos com requisito de nível ainda não atingido têm "(Xº nível)" no nome
+        // Ex: "Vindicação Refletir Magia (11º nível)" — ignora estes
+        if (/\(\d+º\s*n[íi]vel\)/i.test(effect.name)) continue;
 
-            // Skill filter: semicolon-separated labels like "Fortitude;Reflexos;Vontade"
-            const itemsFilter = ((t20["items"] as string) ?? "").trim();
-            if (itemsFilter) {
-                const allowed = itemsFilter.split(";").map((s) => s.trim().toLowerCase());
-                if (!allowed.includes(skillLabel.toLowerCase())) continue;
-            }
-
-            let formula = "";
-            let label = "?";
-            let isAdvantage = false;
-
-            for (const change of effect.changes) {
-                const val = (change.value ?? "").trim();
-
-                if (val === "kh") {
-                    isAdvantage = true;
-                    formula = "kh";
-                    label = "Vantagem";
-                    break;
-                }
-
-                if (val.startsWith("@")) {
-                    const attrKey = val.substring(1);
-                    const attrVal = (actor.system?.atributos as Record<string, { value?: number }>)?.[attrKey]?.value ?? 0;
-                    const sign = attrVal >= 0 ? "+" : "";
-                    formula = `${sign}${attrVal}`;
-                    label = `${sign}${attrVal} ${attrKey.toUpperCase()}`;
-                    break;
-                }
-
-                const num = parseInt(val, 10);
-                if (!isNaN(num)) {
-                    const sign = num >= 0 ? "+" : "";
-                    formula = `${sign}${num}`;
-                    label = formula;
-                    break;
-                }
-            }
-
-            if (label === "?") continue;
-
-            const pm = parseInt((t20["custo"] as string) ?? "0", 10) || 0;
-
-            result.push({
-                id: `${item.id}::${effect.id}`,
-                name: effect.name || item.name,
-                itemType: item.type,
-                pm,
-                bonusFormula: formula,
-                bonusLabel: label,
-                isAdvantage,
-            });
+        // Skill filter: semicolon-separated labels like "Fortitude;Reflexos;Vontade"
+        const itemsFilter = ((t20["items"] as string) ?? "").trim();
+        if (itemsFilter) {
+            const allowed = itemsFilter.split(";").map((s) => s.trim().toLowerCase());
+            if (!allowed.includes(skillLabel.toLowerCase())) continue;
         }
+
+        let formula = "";
+        let label = "?";
+        let isAdvantage = false;
+
+        for (const change of effect.changes) {
+            const val = (change.value ?? "").trim();
+
+            if (val === "kh") {
+                isAdvantage = true;
+                formula = "kh";
+                label = "Vantagem";
+                break;
+            }
+
+            if (val.startsWith("@")) {
+                const attrKey = val.substring(1);
+                const attrVal = (actor.system?.atributos as Record<string, { value?: number }>)?.[attrKey]?.value ?? 0;
+                const sign = attrVal >= 0 ? "+" : "";
+                formula = `${sign}${attrVal}`;
+                label = `${sign}${attrVal} ${attrKey.toUpperCase()}`;
+                break;
+            }
+
+            const num = parseInt(val, 10);
+            if (!isNaN(num)) {
+                const sign = num >= 0 ? "+" : "";
+                formula = `${sign}${num}`;
+                label = formula;
+                break;
+            }
+        }
+
+        if (label === "?") continue;
+
+        const pm = parseInt((t20["custo"] as string) ?? "0", 10) || 0;
+
+        result.push({
+            id: `${item.id}::${effect.id}`,
+            name: effect.name || item.name,
+            itemType: item.type,
+            pm,
+            bonusFormula: formula,
+            bonusLabel: label,
+            isAdvantage,
+        });
     }
 
     return result;

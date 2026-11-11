@@ -8,6 +8,7 @@
  */
 
 import { MODULE_ID, SYSTEM_ID } from "./constants";
+import { setupPowerCombos } from "./power-combos/index";
 import { setupTheme } from "./theme/index";
 import { setupIntegration } from "./integration/index";
 import { setupDialogStyling } from "./dialogs/t20-dialog";
@@ -181,6 +182,7 @@ Hooks.once("setup", () => {
     setupMenteDivina();           // Mente Divina: alvo escolhe o atributo via pop-up (aprimoramentos cobertos)
     setupMiasma();                // Miasma Mefítico: trevas (tipoDano) + Truque (pó de ônix, morte/imunidade/+2 CD)
     setupSheetRedesign();
+    setupPowerCombos();
     setupEncounterRoller();   // botão GM na toolbar: rolar encontro aleatório
     setupTreasure();          // botões GM (toolbar + ficha de ameaça): gerar tesouro + consulta
     setupSheetLog();          // GM: log de auditoria de alterações de ficha (Journal)
