@@ -2,9 +2,14 @@ import { MODULE_ID } from "@/constants";
 import { registerSkillAction, refreshSkillsMenu } from "@/ui/skills-menu";
 import { warn } from "@/utils/logging";
 import { chooseActionActor } from "@/_shared/actor-choice";
-import { applyDuroComoAco, dwarfAttackBonus, dwarfPowerName, hasDwarfPower, isBelovedWeapon, norm, prepareDwarfActor, prepareDwarfWeapon, type DwarfActor, type DwarfItem } from "./format";
+import { applyDuroComoAco, dwarfArmorEffectChanges, dwarfAttackBonus, dwarfPowerName, hasDwarfPower, isBelovedWeapon, norm, prepareDwarfActor, prepareDwarfWeapon, type DwarfActor, type DwarfItem, type DwarfEffectChange } from "./format";
 
-interface Effect { id?: string; name?: string; flags?: Record<string, Record<string, unknown>> }
+interface Effect {
+    id?: string; name?: string; origin?: string; parent?: DwarfItem;
+    flags?: Record<string, Record<string, unknown>>;
+    changes: DwarfEffectChange[];
+    clone(data: { changes: DwarfEffectChange[] }, options: { keepId: boolean }): Effect;
+}
 interface Actor extends DwarfActor {
     id: string; isOwner?: boolean;
     effects: { contents: Effect[]; filter(predicate: (e: Effect) => boolean): Effect[] };
@@ -66,7 +71,9 @@ export function setupDwarfPowers(): void {
         const originalEffects = actorProto.allApplicableEffects;
         actorProto.allApplicableEffects = function*() {
             for (const effect of originalEffects.call(this)) {
-                if (!["duro como pedra", "devagar e sempre"].includes(norm(effect.name))) yield effect;
+                if (["duro como pedra", "devagar e sempre"].includes(norm(effect.name))) continue;
+                const changes = dwarfArmorEffectChanges(this, effect);
+                yield changes.length === effect.changes.length ? effect : effect.clone({ changes }, { keepId: true });
             }
         };
         const originalApply = actorProto.applyActiveEffects;

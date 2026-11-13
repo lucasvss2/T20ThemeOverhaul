@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyDuroComoAco, dwarfAttackBonus, prepareDwarfActor, prepareDwarfWeapon, type DwarfActor, type DwarfItem } from "@/anao/format";
+import { applyDuroComoAco, dwarfArmorEffectChanges, dwarfAttackBonus, prepareDwarfActor, prepareDwarfWeapon, type DwarfActor, type DwarfItem } from "@/anao/format";
 import { isWeaponProficient } from "@/t20-fixes/proficiencia";
 import { danoRollNeedsPadrao } from "@/t20-fixes/estilo-disparo-dano";
 const power = (name: string): DwarfItem => ({ type: "poder", name });
@@ -32,6 +32,39 @@ describe("Anão — poderes raciais", () => {
         expect(a.system!.attributes!.defesa!.bonus).toEqual(["1"]);
         armor.system!.tipo = "pesada"; armor.system!.equipado2!.slot = 0; prepareDwarfActor(a, true);
         expect(a.system!.attributes!.defesa!.bonus).toEqual(["1"]);
+    });
+    it("Conforto reconhece Armadura de Pedra legada como pesada sem mudar seu tipo de deslocamento", () => {
+        const a = actor("Conforto do Aço");
+        const armor: DwarfItem = { id: "stone", name: "Armadura de Pedra Reforçado", type: "equipamento", system: { tipo: "leve", equipado: true, equipado2: { slot: 1.2 } } };
+        a.items!.contents.push(armor);
+        prepareDwarfActor(a, true);
+        expect(a.system!.attributes!.defesa!.bonus).toEqual(["1", "2[Conforto do Aço]"]);
+        expect(armor.system!.tipo).toBe("leve");
+    });
+    it("Conforto anula pda de Reforçada da armadura, preservando +1 Defesa e o documento original", () => {
+        const a = actor("Conforto do Aço");
+        a.items!.contents.push({ id: "stone", name: "Armadura de Pedra Reforçado", type: "equipamento", system: { tipo: "leve" } });
+        const effect = { origin: "Actor.original.Item.stone", changes: [
+            { key: "system.attributes.defesa.bonus", mode: 2, value: "1" },
+            { key: "system.attributes.defesa.pda", mode: 2, value: "1" },
+        ] };
+        expect(dwarfArmorEffectChanges(a, effect)).toEqual([effect.changes[0]]);
+        expect(effect.changes).toHaveLength(2);
+        a.items!.contents[0].name = "Outro Poder";
+        expect(dwarfArmorEffectChanges(a, effect)).toBe(effect.changes);
+    });
+    it("Conforto preserva Reforçada do escudo e penalidades sem origem na armadura", () => {
+        const a = actor("Conforto do Aço");
+        a.items!.contents.push({ id: "shield", type: "equipamento", system: { tipo: "escudo" } });
+        const changes = [{ key: "system.attributes.defesa.pda", mode: 2, value: "1" }];
+        for (const origin of ["Actor.original.Item.shield", "Actor.other.Item.unknown", undefined]) {
+            expect(dwarfArmorEffectChanges(a, { origin, changes })).toBe(changes);
+        }
+    });
+    it("Conforto reconhece efeitos transferidos de armadura pelo parent", () => {
+        const a = actor("Conforto do Aço");
+        const parent: DwarfItem = { type: "equipamento", system: { tipo: "pesada" } };
+        expect(dwarfArmorEffectChanges(a, { parent, changes: [{ key: "system.attributes.defesa.pda", mode: 2, value: "1" }] })).toEqual([]);
     });
     it("Coração de Pedra fornece PV por nível e imunidade, sem acumular a parcela derivada", () => {
         const a = actor("Coração de Pedra (Anão)"); prepareDwarfActor(a, false); prepareDwarfActor(a, false);

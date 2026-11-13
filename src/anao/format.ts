@@ -29,8 +29,27 @@ export function hasDwarfPower(actor: DwarfActor | null | undefined, name: string
 }
 export function isTraditionalWeapon(item: DwarfItem): boolean { return /machado|martelo|marreta|picareta/.test(norm(item.name)); }
 export function equipped(item: DwarfItem, slots: boolean): boolean { return slots ? !!item.system?.equipado2?.slot : !!item.system?.equipado; }
+export function isDwarfArmor(item: DwarfItem): boolean {
+    return item.type === "equipamento" && ["leve", "pesada"].includes(item.system?.tipo ?? "");
+}
 export function heavyArmor(actor: DwarfActor, slots: boolean): DwarfItem | undefined {
-    return actor.items?.contents.find(i => i.type === "equipamento" && i.system?.tipo === "pesada" && equipped(i, slots));
+    // O compêndio legado usa "leve" na Armadura de Pedra para calcular seu
+    // deslocamento especial. Ela continua pesada para os poderes de anão.
+    return actor.items?.contents.find(i => isDwarfArmor(i) && equipped(i, slots)
+        && (i.system?.tipo === "pesada" || /^armadura de pedra(?:$|\s)/.test(norm(i.name))));
+}
+export interface DwarfEffectChange { key: string; mode: number; value: string; priority?: number | null }
+/** Upgrades como Reforçada somam pda no ator, fora da penalidade do item.
+ * Ignora apenas essa parcela de armaduras; preserva Defesa e escudos. */
+export function dwarfArmorEffectChanges(actor: DwarfActor, effect: {
+    origin?: string; parent?: DwarfItem; changes: DwarfEffectChange[];
+}): DwarfEffectChange[] {
+    if (!hasDwarfPower(actor, "conforto do aco")) return effect.changes;
+    const itemId = effect.origin?.match(/(?:^|\.)Item\.([^.]+)$/)?.[1];
+    const owner = effect.parent?.type === "equipamento" ? effect.parent
+        : itemId ? actor.items?.contents.find(i => i.id === itemId) : undefined;
+    if (!owner || !isDwarfArmor(owner)) return effect.changes;
+    return effect.changes.filter(c => c.key !== "system.attributes.defesa.pda");
 }
 export function isBelovedWeapon(actor: DwarfActor, item: DwarfItem): boolean {
     return !!actor.items?.contents.some(power => power.type === "poder" && dwarfPowerName(power) === "arma amada" && typeof power.flags?.[MODULE_ID]?.armaAmadaId === "string"
