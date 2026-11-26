@@ -36,8 +36,8 @@
         "max": 280
       },
       "pm": {
-        "value": 50,
-        "max": 50
+        "value": 56,
+        "max": 56
       },
       "movement": {
         "walk": {
@@ -73,11 +73,11 @@
       "origem": "Tamu-ra",
       "divindade": "Lin-Wu",
       "raca": "Humana",
-      "ataquesad": "Dois Ofudás de Lin-Wu +27 (8d8+4, 20/×2, luz mágica), alcance curto.",
+      "ataquesad": "Dois ofudás de Lin-Wu +24 (6d6+13, 20/×2, luz mágica), alcance curto.",
       "equipamento": "Vestes sacerdotais, símbolo sagrado de Lin-Wu e ofudás.",
       "tesouro": "Padrão.",
       "biography": {
-        "value": "<p>Saeko Akari é a marquesa da Casa Akari e sacerdotisa de Lin-Wu. No campo de batalha, ampara seus aliados com preces e protege a linha de frente lançando selos de papel que se incendeiam em luz dourada.</p><p><strong>Magias (CD 32).</strong> Lança Bênção, Curar Ferimentos e Comando como clériga de 10º nível. A ficha usa os efeitos básicos dessas magias.</p>"
+        "value": "<p>Saeko Akari é a marquesa da Casa Akari e sacerdotisa de Lin-Wu. Em combate, ampara os aliados com preces. Seus ofudás de luz são uma opção de ataque à distância.</p><p><strong>Magias (CD 32).</strong> Conjura como clériga de 10º nível, com Sabedoria +6, 56 PM e magias até o 3º círculo. O limite é de 10 PM por conjuração, contando os aprimoramentos. Os custos básicos são 1 PM no 1º círculo, 3 PM no 2º e 6 PM no 3º.</p>"
       }
     },
     "pericias": {
@@ -99,7 +99,7 @@
       "pont": {
         "atributo": "sab",
         "treinado": true,
-        "outros": 12
+        "outros": 9
       },
       "inic": {
         "atributo": "des",
@@ -153,9 +153,9 @@
       "img": "icons/sundries/scrolls/scroll-magical-yellow.webp",
       "system": {
         "description": {
-          "value": "<p><strong>Mágica.</strong> Saeko lança dois ofudás de luz em alvos em alcance curto (9 m).</p>"
+          "value": "<p><strong>Ataque complementar mágico.</strong> Saeko arremessa dois selos de luz em alcance curto (9 m). Cada selo causa dano de luz.</p>"
         },
-        "proposito": "disparo",
+        "proposito": "arremesso",
         "alcance": "short",
         "empunhadura": "uma",
         "proficiencia": "simples",
@@ -194,7 +194,7 @@
             "type": "dano",
             "parts": [
               [
-                "8d8+4",
+                "6d6+13",
                 "luz",
                 ""
               ],
@@ -468,7 +468,131 @@
         "chatGif": ""
       },
       "flags": {},
-      "effects": [],
+      "effects": [
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alcance",
+              "value": "curto",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alcance para curto.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "6c2373094af01c7d",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.GrmVg8pYWBkU02xH.6c2373094af01c7d"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": true
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "value": "1d8+1",
+              "mode": 0,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta a cura em +1d8+1.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "311cc507197fbe7a",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.GrmVg8pYWBkU02xH.311cc507197fbe7a"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "5",
+              "aumenta": false
+            }
+          },
+          "changes": [
+            {
+              "key": "alcance",
+              "value": "curto",
+              "mode": 5,
+              "priority": null
+            },
+            {
+              "key": "alvo",
+              "value": "criaturas escolhidas",
+              "mode": 5,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "muda o alcance para curto e o alvo para criaturas escolhidas.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "4462fe27147bdcd0",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.GrmVg8pYWBkU02xH.4462fe27147bdcd0"
+        }
+      ],
       "_id": "GrmVg8pYWBkU02xH",
       "_stats": {
         "coreVersion": "13.351",
@@ -576,6 +700,1194 @@
       },
       "sort": 500000,
       "_key": "!actors.items!3dZ6CQelVFLtiqoG.4HRfehp3Ycr1zNih"
+    },
+    {
+      "name": "Escudo da Fé",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+      "system": {
+        "description": {
+          "value": "<p>Como reação, um alvo em alcance curto recebe +2 na Defesa por 1 turno.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 192",
+        "tipo": "div",
+        "circulo": "1",
+        "escola": "abj",
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "short",
+        "alvo": "1 criatura",
+        "area": "",
+        "duracao": {
+          "value": 1,
+          "units": "turn",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": false,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "também fornece ao alvo camuflagem leve contra ataques à distância.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "71d49c6d08fbbc13",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.836c178459b22504.71d49c6d08fbbc13"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": ""
+            }
+          },
+          "changes": [
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "tint": "#ffffff",
+          "transfer": false,
+          "name": "aumenta o bônus na Defesa em +1.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "4809500f8dea15d3",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.836c178459b22504.4809500f8dea15d3"
+        },
+        {
+          "name": "Escudo da Fé",
+          "img": "systems/tormenta20/icons/magias/escudo-da-fe.webp",
+          "type": "base",
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "duration": {
+            "turns": 1
+          },
+          "changes": [
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": 20
+            }
+          ],
+          "_id": "1045e34486c7ce26",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.836c178459b22504.1045e34486c7ce26"
+        }
+      ],
+      "_id": "836c178459b22504",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 600000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.836c178459b22504"
+    },
+    {
+      "name": "Proteção Divina",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/protecao-divina.webp",
+      "system": {
+        "description": {
+          "value": "<p>Uma criatura tocada recebe +2 nos testes de resistência pela cena.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 202",
+        "tipo": "div",
+        "circulo": "1",
+        "escola": "abj",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "touch",
+        "alvo": "1 criatura",
+        "area": "",
+        "duracao": {
+          "value": 0,
+          "units": "scene",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "changes": [
+            {
+              "key": "system.pericias.fort.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            },
+            {
+              "key": "system.pericias.refl.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            },
+            {
+              "key": "system.pericias.vont.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Proteção Divina",
+          "img": "systems/tormenta20/icons/magias/protecao-divina.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "dcd3c52bbc4e5da4",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.bc3342e9f3dca77c.dcd3c52bbc4e5da4"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "skill": false,
+              "attack": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false,
+              "items": ""
+            }
+          },
+          "changes": [
+            {
+              "key": "system.pericias.fort.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            },
+            {
+              "key": "system.pericias.refl.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            },
+            {
+              "key": "system.pericias.vont.bonus",
+              "mode": 2,
+              "value": "1",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta o bônus concedido em +1.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "778531ec9d7beb2d",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.bc3342e9f3dca77c.778531ec9d7beb2d"
+        }
+      ],
+      "_id": "bc3342e9f3dca77c",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 700000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.bc3342e9f3dca77c"
+    },
+    {
+      "name": "Consagrar",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/consagrar.webp",
+      "system": {
+        "description": {
+          "value": "<p>Por um dia, os efeitos de luz na área curam o máximo possível e causam dano maximizado a mortos-vivos. Anula Profanar. Um símbolo visível de outra divindade impede esta conjuração.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 186",
+        "tipo": "div",
+        "circulo": "1",
+        "escola": "evo",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "long",
+        "alvo": "",
+        "area": "esfera com 9m de raio",
+        "duracao": {
+          "value": 1,
+          "units": "day",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral",
+              "mode": 2,
+              "value": "-2",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "-2",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Penalidade em Mortos-Vivos",
+          "img": "systems/tormenta20/icons/magias/consagrar.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "0f38783045a42163",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.c51b38e1147bbce4.0f38783045a42163"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "além do normal, mortos-vivos na área sofrem –2 em testes e Defesa.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "73d7a13b64f7291f",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.c51b38e1147bbce4.73d7a13b64f7291f"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "spell": false,
+              "consumable": false,
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral",
+              "mode": 2,
+              "value": "-1",
+              "priority": null
+            },
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "-1",
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta as penalidades para mortos-vivos em –1.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "39d3d96b096bc477",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.c51b38e1147bbce4.39d3d96b096bc477"
+        }
+      ],
+      "_id": "c51b38e1147bbce4",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 800000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.c51b38e1147bbce4"
+    },
+    {
+      "name": "Oração",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/oracao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Enquanto sustentada, Saeko e seus aliados em alcance curto recebem +2 em testes de perícia e rolagens de dano. Inimigos no alcance sofrem −2 nas mesmas rolagens. Cumulativa com outras magias. Componente material de T$ 25 por PM gasto em incenso ou oferendas.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 200",
+        "tipo": "div",
+        "circulo": "2",
+        "escola": "enc",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "short",
+        "alvo": "todas as criaturas (veja texto)",
+        "area": "",
+        "duracao": {
+          "value": 0,
+          "units": "sust",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral&bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            },
+            {
+              "key": "system.modificadores.dano.geral&bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "transfer": false,
+          "name": "Oração (Bônus)",
+          "img": "systems/tormenta20/icons/magias/oracao.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "166b91daaeabfb51",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.09aabd0f63fdb1c4.166b91daaeabfb51"
+        },
+        {
+          "tint": "#ffffff",
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "disabled": false,
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.geral&penalidade",
+              "mode": 2,
+              "value": "-2",
+              "priority": null
+            },
+            {
+              "key": "system.modificadores.dano.geral&penalidade",
+              "mode": 2,
+              "value": "-2",
+              "priority": null
+            }
+          ],
+          "transfer": false,
+          "name": "Oração (Penalidade)",
+          "img": "systems/tormenta20/icons/magias/oracao.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "e5439fdca952d870",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.09aabd0f63fdb1c4.e5439fdca952d870"
+        }
+      ],
+      "_id": "09aabd0f63fdb1c4",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 900000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.09aabd0f63fdb1c4"
+    },
+    {
+      "name": "Purificação",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/purificacao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Remove da criatura tocada uma condição entre abalado, apavorado, alquebrado, atordoado, cego, confuso, debilitado, enjoado, envenenado, esmorecido, exausto, fascinado, fatigado, fraco, frustrado, lento, ofuscado, paralisado, pasmo e surdo.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 202",
+        "tipo": "div",
+        "circulo": "2",
+        "escola": "evo",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "touch",
+        "alvo": "1 criatura",
+        "area": "",
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "em vez de uma, remove todas as condições listadas.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "5a85befe563ad686",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.035198aa22a84717.5a85befe563ad686"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "7",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "também dissipa magias e efeitos prejudiciais de encantamento, necromancia e transmutação afetando o alvo. Requer 3º círculo.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "86e0d0ad6d64a29c",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.035198aa22a84717.86e0d0ad6d64a29c"
+        }
+      ],
+      "_id": "035198aa22a84717",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 1000000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.035198aa22a84717"
+    },
+    {
+      "name": "Dissipar Magia",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/dissipar-magia.webp",
+      "system": {
+        "description": {
+          "value": "<p>Contra uma criatura ou uma área, Saeko faz um teste de Misticismo e encerra as magias ativas cuja CD não ultrapasse o resultado. Contra um item mágico, neutraliza suas propriedades por 1d6 rodadas (Vontade CD 32 anula).</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 191",
+        "tipo": "uni",
+        "circulo": "2",
+        "escola": "abj",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "medium",
+        "alvo": "1 criatura ou 1 objeto mágico",
+        "area": "ou esfera com 3m de raio",
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [],
+      "_id": "65f32ec96f4cbcda",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 1100000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.65f32ec96f4cbcda"
+    },
+    {
+      "name": "Vestimenta da Fé",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/vestimenta-da-fe.webp",
+      "system": {
+        "description": {
+          "value": "<p>Durante um dia, a armadura, o escudo ou a vestimenta tocada concede +2 na Defesa. O bônus de uma vestimenta não se acumula com armadura. O efeito conta como bônus de encanto.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 210",
+        "tipo": "div",
+        "circulo": "2",
+        "escola": "abj",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 3,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "touch",
+        "alvo": "1 armadura, escudo ou vestimenta",
+        "area": "",
+        "duracao": {
+          "value": 1,
+          "units": "day",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": []
+      },
+      "flags": {},
+      "effects": [
+        {
+          "changes": [
+            {
+              "key": "system.attributes.defesa.bonus",
+              "mode": 2,
+              "value": "2",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Vestimenta da Fé",
+          "img": "systems/tormenta20/icons/magias/vestimenta-da-fe.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "56a79d2816c90862",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.91368211c18e5c67.56a79d2816c90862"
+        }
+      ],
+      "_id": "91368211c18e5c67",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 1200000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.91368211c18e5c67"
+    },
+    {
+      "name": "Coluna de Chamas",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/coluna-de-chamas.webp",
+      "system": {
+        "description": {
+          "value": "<p>Um cilindro de fogo sagrado em alcance longo causa 6d6 de fogo e 6d6 de luz às criaturas e aos objetos livres na área. Reflexos CD 32 reduz o dano à metade.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 184",
+        "tipo": "div",
+        "circulo": "3",
+        "escola": "evo",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "long",
+        "alvo": "",
+        "area": "cilindro com 3m de raio e 30m de altura",
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": "Reflexos reduz à metade"
+        },
+        "rolls": [
+          {
+            "name": "Dano",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "6d6",
+                "fogo",
+                ""
+              ],
+              [
+                "6d6",
+                "luz",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ]
+      },
+      "flags": {},
+      "effects": [
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "dano:luz",
+              "mode": 0,
+              "value": "1d6",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta o dano de luz em +1d6.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "91e98e686d3ee7f9",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.17deb2ba3880a3ae.91e98e686d3ee7f9"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "1",
+              "aumenta": true,
+              "attack": false,
+              "skill": false,
+              "ability": false,
+              "power": false,
+              "equipment": false,
+              "spell": false,
+              "consumable": false,
+              "items": "",
+              "durationScene": false
+            }
+          },
+          "changes": [
+            {
+              "key": "dano:fogo",
+              "mode": 0,
+              "value": "1d6",
+              "priority": 0
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta o dano de fogo em +1d6.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "89ec57953a9e4db5",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.17deb2ba3880a3ae.89ec57953a9e4db5"
+        }
+      ],
+      "_id": "17deb2ba3880a3ae",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 1300000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.17deb2ba3880a3ae"
+    },
+    {
+      "name": "Sopro da Salvação",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/sopro-da-salvacao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Os aliados no cone recuperam 2d8+4 PV. Escolha uma condição para remover dos aliados afetados entre abalado, atordoado, apavorado, alquebrado, cego, confuso, debilitado, enfeitiçado, enjoado, esmorecido, exausto, fascinado, fatigado, fraco, frustrado, lento, paralisado, pasmo e surdo.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 207",
+        "tipo": "div",
+        "circulo": "3",
+        "escola": "evo",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 6,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "alcance": "self",
+        "alvo": "",
+        "area": "cone de 9m",
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Cura",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+4",
+                "curapv",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ]
+      },
+      "flags": {},
+      "effects": [
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "2",
+              "aumenta": true
+            }
+          },
+          "changes": [
+            {
+              "key": "dano",
+              "value": "1d8+2",
+              "mode": 0,
+              "priority": null
+            }
+          ],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "aumenta a quantidade de cura em 1d8+2.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "c80f17d61ab286b9",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.3855ae031f551695.c80f17d61ab286b9"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "4",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "remove todas as condições listadas, em vez de apenas uma.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "b8598138c3fd3143",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.3855ae031f551695.b8598138c3fd3143"
+        },
+        {
+          "flags": {
+            "tormenta20": {
+              "onuse": true,
+              "self": true,
+              "custo": "4",
+              "aumenta": false
+            }
+          },
+          "changes": [],
+          "disabled": true,
+          "duration": {
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "rounds": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "tint": "#ffffff",
+          "name": "além do normal, se um aliado estiver com PV negativos, seus PV são levados a 0 e então a cura é aplicada.",
+          "img": "icons/svg/upgrade.svg",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "f88ea8338d9c2847",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.3855ae031f551695.f88ea8338d9c2847"
+        }
+      ],
+      "_id": "3855ae031f551695",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 1400000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.3855ae031f551695"
     }
   ],
   "effects": [],
