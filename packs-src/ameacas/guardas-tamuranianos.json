@@ -1,0 +1,328 @@
+{
+  "_id": "wI9nlxht2rnL5dby",
+  "_key": "!actors!wI9nlxht2rnL5dby",
+  "name": "Guardas Tamuranianos",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Akari/guardas-tamuranianos.png",
+  "folder": "X9TuFXCvny1ptG5G",
+  "prototypeToken": {
+    "name": "Guarda Tamuraniano",
+    "actorLink": false,
+    "appendNumber": true,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Akari/guardas-tamuranianos.png"
+    },
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "attributes": {
+      "nd": "4",
+      "cd": 18,
+      "defesa": {
+        "atributo": "des",
+        "base": 10,
+        "outros": 10
+      },
+      "pv": {
+        "value": 28,
+        "max": 28
+      },
+      "pm": {
+        "value": 0,
+        "max": 0
+      },
+      "movement": {
+        "walk": {
+          "base": 9
+        },
+        "unit": "m"
+      }
+    },
+    "atributos": {
+      "for": {
+        "base": 3
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 2
+      },
+      "int": {
+        "base": 0
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 0
+      }
+    },
+    "detalhes": {
+      "tipo": "hum",
+      "role": "lackey",
+      "origem": "Tamu-ra",
+      "raca": "Humano",
+      "ataquescac": "Dois golpes de Katana +17 (2d10+5, 19/×2, corte).",
+      "ataquesad": "Arco Longo +14 (4d8+3, 20/×3, perfuração), alcance médio. Alternativa à rotina de katana.",
+      "equipamento": "Armadura samurai, katana, arco longo e aljava.",
+      "tesouro": "Metade.",
+      "biography": {
+        "value": "<p>Samurais a serviço da Casa Akari. Mantêm posição ao lado de um companheiro e alternam a katana e o arco conforme a distância. Cada token desta ficha representa um guarda.</p>"
+      }
+    },
+    "pericias": {
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 11
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 6
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 2
+      },
+      "luta": {
+        "atributo": "for",
+        "treinado": true,
+        "outros": 10
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 8
+      },
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      }
+    },
+    "tracos": {
+      "tamanho": "med",
+      "profArmas": {
+        "value": [
+          "marcial"
+        ]
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Katana",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/katana.webp",
+      "system": {
+        "description": {
+          "value": ""
+        },
+        "proposito": "corpo-a-corpo",
+        "alcance": "melee",
+        "empunhadura": "duas",
+        "proficiencia": "marcial",
+        "criticoM": 19,
+        "criticoX": 2,
+        "ataques": 2,
+        "espacos": 0,
+        "tipoUso": "sim",
+        "enableAutoUpgrades": false,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "2d10+5",
+                "corte",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
+      "effects": [],
+      "_id": "hhRaIqeHfpKzhIrO",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 100000,
+      "_key": "!actors.items!wI9nlxht2rnL5dby.hhRaIqeHfpKzhIrO"
+    },
+    {
+      "name": "Arco Longo",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/arco-longo.webp",
+      "system": {
+        "description": {
+          "value": "<p>Rotina alternativa à katana. Alcance médio (30 m).</p>"
+        },
+        "proposito": "disparo",
+        "alcance": "medium",
+        "empunhadura": "duas",
+        "proficiencia": "marcial",
+        "criticoM": 20,
+        "criticoX": 3,
+        "ataques": 1,
+        "espacos": 0,
+        "tipoUso": "sim",
+        "enableAutoUpgrades": false,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+3",
+                "perfuracao",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 1
+        }
+      },
+      "effects": [],
+      "_id": "oHV7sN3bToqge7jl",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 200000,
+      "_key": "!actors.items!wI9nlxht2rnL5dby.oHV7sN3bToqge7jl"
+    },
+    {
+      "name": "Luta em Formação",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "tipo": "geral",
+        "description": {
+          "value": "<p>Em combate, enquanto estiver adjacente a pelo menos um outro aliado consciente com Luta em Formação, o guarda recebe +2 em testes de ataque e rolagens de dano. O bônus se aplica uma vez, independentemente do número de aliados adjacentes.</p>"
+        },
+        "ativacao": {
+          "execucao": "passive",
+          "custo": 0
+        },
+        "alcance": "none",
+        "duracao": {
+          "units": "inst",
+          "value": 0
+        }
+      },
+      "flags": {},
+      "effects": [],
+      "_id": "j1gekfMxqS6XcIHr",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 300000,
+      "_key": "!actors.items!wI9nlxht2rnL5dby.j1gekfMxqS6XcIHr"
+    }
+  ],
+  "effects": [],
+  "flags": {
+    "t20-theme-overhaul": {
+      "npcTraits": {
+        "guard": true
+      }
+    }
+  },
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015"
+  }
+}

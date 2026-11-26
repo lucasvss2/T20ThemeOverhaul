@@ -1,0 +1,588 @@
+{
+  "_id": "3dZ6CQelVFLtiqoG",
+  "_key": "!actors!3dZ6CQelVFLtiqoG",
+  "name": "Marquesa Akari",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Akari/marquesa-akari.png",
+  "folder": "X9TuFXCvny1ptG5G",
+  "prototypeToken": {
+    "name": "Marquesa Akari",
+    "actorLink": false,
+    "appendNumber": false,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Akari/marquesa-akari.png"
+    },
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "attributes": {
+      "nd": "10",
+      "cd": 32,
+      "defesa": {
+        "atributo": "des",
+        "base": 10,
+        "outros": 22
+      },
+      "pv": {
+        "value": 280,
+        "max": 280
+      },
+      "pm": {
+        "value": 50,
+        "max": 50
+      },
+      "movement": {
+        "walk": {
+          "base": 9
+        },
+        "unit": "m"
+      },
+      "conjuracao": "sab"
+    },
+    "atributos": {
+      "for": {
+        "base": 0
+      },
+      "des": {
+        "base": 2
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 6
+      },
+      "car": {
+        "base": 4
+      }
+    },
+    "detalhes": {
+      "tipo": "hum",
+      "role": "special",
+      "origem": "Tamu-ra",
+      "divindade": "Lin-Wu",
+      "raca": "Humana",
+      "ataquesad": "Dois Ofudás de Lin-Wu +27 (8d8+4, 20/×2, luz mágica), alcance curto.",
+      "equipamento": "Vestes sacerdotais, símbolo sagrado de Lin-Wu e ofudás.",
+      "tesouro": "Padrão.",
+      "biography": {
+        "value": "<p>Saeko Akari é a marquesa da Casa Akari e sacerdotisa de Lin-Wu. No campo de batalha, ampara seus aliados com preces e protege a linha de frente lançando selos de papel que se incendeiam em luz dourada.</p><p><strong>Magias (CD 32).</strong> Lança Bênção, Curar Ferimentos e Comando como clériga de 10º nível. A ficha usa os efeitos básicos dessas magias.</p>"
+      }
+    },
+    "pericias": {
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 8
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 3
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 11
+      },
+      "pont": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 12
+      },
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0
+      },
+      "cura": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0
+      },
+      "dipl": {
+        "atributo": "car",
+        "treinado": true,
+        "outros": 0
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      },
+      "reli": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0
+      }
+    },
+    "tracos": {
+      "tamanho": "med",
+      "profArmas": {
+        "value": [
+          "marcial"
+        ]
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Ofudá de Lin-Wu",
+      "type": "arma",
+      "img": "icons/sundries/scrolls/scroll-magical-yellow.webp",
+      "system": {
+        "description": {
+          "value": "<p><strong>Mágica.</strong> Saeko lança dois ofudás de luz em alvos em alcance curto (9 m).</p>"
+        },
+        "proposito": "disparo",
+        "alcance": "short",
+        "empunhadura": "uma",
+        "proficiencia": "simples",
+        "criticoM": 20,
+        "criticoX": 2,
+        "ataques": 2,
+        "espacos": 0,
+        "tipoUso": "sim",
+        "enableAutoUpgrades": false,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "8d8+4",
+                "luz",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
+      "effects": [],
+      "_id": "QFhXOmH2678ThnhD",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 100000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.QFhXOmH2678ThnhD"
+    },
+    {
+      "name": "Voto do Dragão Celeste",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "tipo": "geral",
+        "description": {
+          "value": "<p><strong>Mágica. Uma vez por cena.</strong> Escolha até três outros aliados em alcance curto (9 m). Cada um recebe +2 em testes de resistência por 1 rodada. Se estiver abalado, também pode repetir imediatamente o teste de resistência que causou essa condição, se houve um teste, para encerrá-la.</p>"
+        },
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0
+        },
+        "alcance": "short",
+        "duracao": {
+          "units": "round",
+          "value": 1
+        }
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "scene"
+          }
+        }
+      },
+      "effects": [
+        {
+          "name": "Voto do Dragão Celeste",
+          "img": "systems/tormenta20/icons/svg/skills.svg",
+          "type": "base",
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "duration": {
+            "rounds": 1
+          },
+          "changes": [
+            {
+              "key": "system.modificadores.pericias.resistencia",
+              "mode": 2,
+              "value": "2",
+              "priority": 20
+            }
+          ],
+          "_id": "iYJRpgGBjwjr7cN1",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.2S2X2xgAYtYtslPP.iYJRpgGBjwjr7cN1"
+        }
+      ],
+      "_id": "2S2X2xgAYtYtslPP",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 200000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.2S2X2xgAYtYtslPP"
+    },
+    {
+      "name": "Bênção",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/bencao.webp",
+      "system": {
+        "description": {
+          "value": "<p>Aliados em alcance curto recebem +1 nos testes de ataque e nas rolagens de dano até o fim da cena. Dissipa Perdição sobre os alvos.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 182",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "scene",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "short",
+        "alvo": "Aliados",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "enc",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": ""
+      },
+      "flags": {},
+      "effects": [
+        {
+          "changes": [
+            {
+              "key": "system.modificadores.ataque.geral",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            },
+            {
+              "key": "system.modificadores.dano.geral",
+              "mode": 2,
+              "value": "1",
+              "priority": null
+            }
+          ],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": true
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Benção",
+          "img": "systems/tormenta20/icons/magias/bencao.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "ogCnoeU31rAOOTxI",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.42H2FP8WIW62h8nl.ogCnoeU31rAOOTxI"
+        }
+      ],
+      "_id": "42H2FP8WIW62h8nl",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 300000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.42H2FP8WIW62h8nl"
+    },
+    {
+      "name": "Curar Ferimentos",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/curar-ferimentos.webp",
+      "system": {
+        "description": {
+          "value": "<p>Ao tocar uma criatura viva, Saeko restaura 2d8+2 PV.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 189",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "touch",
+        "alvo": "1 criatura",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [
+          {
+            "name": "Cura",
+            "key": "dano0",
+            "type": "dano",
+            "parts": [
+              [
+                "2d8+2",
+                "curapv",
+                ""
+              ]
+            ],
+            "versatil": ""
+          }
+        ],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "evo",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": ""
+      },
+      "flags": {},
+      "effects": [],
+      "_id": "GrmVg8pYWBkU02xH",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 400000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.GrmVg8pYWBkU02xH"
+    },
+    {
+      "name": "Comando",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/comando.webp",
+      "system": {
+        "description": {
+          "value": "<p>Saeko dá uma ordem a um humanoide em alcance curto que possa ouvi-la (Vontade CD 32 anula). Em seu próximo turno, o alvo obedece à ordem escolhida: fugir, largar o que tem nas mãos, parar (pasmo, uma vez por cena por alvo), sentar-se ou aproximar-se.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 184",
+        "ativacao": {
+          "execucao": "action",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 1,
+          "units": "round",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "short",
+        "alvo": "1 humanóide",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": "Vontade anula"
+        },
+        "rolls": [],
+        "tipo": "div",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "enc",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": ""
+      },
+      "flags": {},
+      "effects": [
+        {
+          "changes": [],
+          "disabled": false,
+          "duration": {
+            "rounds": 1,
+            "startTime": null,
+            "seconds": null,
+            "combat": null,
+            "turns": null,
+            "startRound": null,
+            "startTurn": null
+          },
+          "transfer": false,
+          "flags": {
+            "tormenta20": {
+              "onuse": false,
+              "durationScene": false
+            }
+          },
+          "tint": "#ffffff",
+          "name": "Alvo Afetado",
+          "img": "systems/tormenta20/icons/magias/comando.webp",
+          "type": "base",
+          "system": {},
+          "description": "",
+          "statuses": [],
+          "sort": 0,
+          "_id": "QG7GDJ7e9RhVHBOm",
+          "_key": "!actors.items.effects!3dZ6CQelVFLtiqoG.4HRfehp3Ycr1zNih.QG7GDJ7e9RhVHBOm"
+        }
+      ],
+      "_id": "4HRfehp3Ycr1zNih",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 500000,
+      "_key": "!actors.items!3dZ6CQelVFLtiqoG.4HRfehp3Ycr1zNih"
+    }
+  ],
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015"
+  }
+}

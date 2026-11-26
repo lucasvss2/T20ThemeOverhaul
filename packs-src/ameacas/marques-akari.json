@@ -1,0 +1,516 @@
+{
+  "_id": "pvWEorq6uDpSQuNm",
+  "_key": "!actors!pvWEorq6uDpSQuNm",
+  "name": "Marquês Akari",
+  "type": "npc",
+  "img": "modules/t20-theme-overhaul/assets/Akari/marques-akari.png",
+  "folder": "X9TuFXCvny1ptG5G",
+  "prototypeToken": {
+    "name": "Marquês Akari",
+    "actorLink": false,
+    "appendNumber": false,
+    "disposition": -1,
+    "width": 1,
+    "height": 1,
+    "texture": {
+      "src": "modules/t20-theme-overhaul/assets/Akari/marques-akari.png"
+    },
+    "bar1": {
+      "attribute": "attributes.pv"
+    },
+    "bar2": {
+      "attribute": "attributes.pm"
+    }
+  },
+  "system": {
+    "attributes": {
+      "nd": "9",
+      "cd": 28,
+      "defesa": {
+        "atributo": "des",
+        "base": 10,
+        "outros": 18
+      },
+      "pv": {
+        "value": 360,
+        "max": 360
+      },
+      "pm": {
+        "value": 6,
+        "max": 6
+      },
+      "movement": {
+        "walk": {
+          "base": 12
+        },
+        "unit": "m"
+      },
+      "conjuracao": "int"
+    },
+    "atributos": {
+      "for": {
+        "base": 4
+      },
+      "des": {
+        "base": 6
+      },
+      "con": {
+        "base": 3
+      },
+      "int": {
+        "base": 3
+      },
+      "sab": {
+        "base": 1
+      },
+      "car": {
+        "base": 3
+      }
+    },
+    "detalhes": {
+      "tipo": "hum",
+      "role": "solo",
+      "origem": "Tamu-ra",
+      "raca": "Humano",
+      "ataquescac": "Dois golpes de katana +27 (4d10+15, 19/×2, corte).",
+      "ataquesad": "Dois disparos de Arco Longo +24 (4d8+13, 20/×3, perfuração), alcance médio. Alternativa à rotina de katana.",
+      "equipamento": "Armadura samurai, katana, arco longo e aljava.",
+      "tesouro": "Padrão.",
+      "biography": {
+        "value": "<p>Jin Akari comanda sua casa da linha de frente. Usa a mobilidade para abrir caminho aos guardas, defende quem luta a seu lado e recorre ao arco longo quando não pode cruzar lâminas.</p><p><strong>Magias de 1º círculo (CD 28).</strong> Lança Aviso e Concentração de Combate como um arcanista de 1º nível, sem aprimoramentos.</p>"
+      }
+    },
+    "pericias": {
+      "fort": {
+        "atributo": "con",
+        "treinado": false,
+        "outros": 8
+      },
+      "refl": {
+        "atributo": "des",
+        "treinado": false,
+        "outros": 11
+      },
+      "vont": {
+        "atributo": "sab",
+        "treinado": false,
+        "outros": 4
+      },
+      "luta": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 13
+      },
+      "pont": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 10
+      },
+      "inic": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0
+      },
+      "perc": {
+        "atributo": "sab",
+        "treinado": true,
+        "outros": 0
+      },
+      "acro": {
+        "atributo": "des",
+        "treinado": true,
+        "outros": 0
+      },
+      "guer": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      },
+      "mist": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      },
+      "nobr": {
+        "atributo": "int",
+        "treinado": true,
+        "outros": 0
+      }
+    },
+    "tracos": {
+      "tamanho": "med",
+      "profArmas": {
+        "value": [
+          "marcial"
+        ]
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Katana",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/katana.webp",
+      "system": {
+        "description": {
+          "value": ""
+        },
+        "proposito": "corpo-a-corpo",
+        "alcance": "melee",
+        "empunhadura": "duas",
+        "proficiencia": "marcial",
+        "criticoM": 19,
+        "criticoX": 2,
+        "ataques": 2,
+        "espacos": 0,
+        "tipoUso": "sim",
+        "enableAutoUpgrades": false,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "luta",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d10+15",
+                "corte",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
+      "effects": [],
+      "_id": "3foKmcAcYxGCr3OY",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 100000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.3foKmcAcYxGCr3OY"
+    },
+    {
+      "name": "Arco Longo",
+      "type": "arma",
+      "img": "systems/tormenta20/icons/itens/equipamentos/arco-longo.webp",
+      "system": {
+        "description": {
+          "value": "<p>Rotina alternativa à katana. Alcance médio (30 m).</p>"
+        },
+        "proposito": "disparo",
+        "alcance": "medium",
+        "empunhadura": "duas",
+        "proficiencia": "marcial",
+        "criticoM": 20,
+        "criticoX": 3,
+        "ataques": 2,
+        "espacos": 0,
+        "tipoUso": "sim",
+        "enableAutoUpgrades": false,
+        "rolls": [
+          {
+            "name": "Ataque",
+            "key": "ataque0",
+            "type": "ataque",
+            "parts": [
+              [
+                "1d20",
+                "",
+                ""
+              ],
+              [
+                "pont",
+                "",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          },
+          {
+            "name": "Dano",
+            "key": "dano1",
+            "type": "dano",
+            "parts": [
+              [
+                "4d8+13",
+                "perfuracao",
+                ""
+              ],
+              [
+                "",
+                "",
+                ""
+              ]
+            ]
+          }
+        ]
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcRoutineHits": 2
+        }
+      },
+      "effects": [],
+      "_id": "rHluNJmvrr1s3laS",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 200000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.rHluNJmvrr1s3laS"
+    },
+    {
+      "name": "Sinal de Avanço",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "tipo": "geral",
+        "description": {
+          "value": "<p><strong>Uma vez por cena.</strong> Escolha até dois outros aliados em alcance curto (9 m) que possam vê-lo ou ouvi-lo. Cada um pode usar uma reação para se deslocar até 3 m, uma vez, sem realizar um ataque como parte desse movimento.</p>"
+        },
+        "ativacao": {
+          "execucao": "move",
+          "custo": 0
+        },
+        "alcance": "short",
+        "duracao": {
+          "units": "inst",
+          "value": 0
+        }
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "scene"
+          }
+        }
+      },
+      "effects": [],
+      "_id": "juiL7OBRsgZAg548",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 300000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.juiL7OBRsgZAg548"
+    },
+    {
+      "name": "Guarda do Daimiô",
+      "type": "poder",
+      "img": "systems/tormenta20/icons/svg/skills.svg",
+      "system": {
+        "tipo": "geral",
+        "description": {
+          "value": "<p><strong>Uma vez por rodada.</strong> Quando um outro aliado adjacente for alvo de um ataque, antes de o ataque ser resolvido, Jin pode interpor a katana. O aliado recebe +2 na Defesa contra aquele ataque. Aplique o bônus à resolução desse ataque.</p>"
+        },
+        "ativacao": {
+          "execucao": "reaction",
+          "custo": 0
+        },
+        "alcance": "melee",
+        "duracao": {
+          "units": "inst",
+          "value": 0
+        }
+      },
+      "flags": {
+        "t20-theme-overhaul": {
+          "npcPower": {
+            "limit": "round"
+          }
+        }
+      },
+      "effects": [],
+      "_id": "UhFjwUP1Wj8oxRRU",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 400000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.UhFjwUP1Wj8oxRRU"
+    },
+    {
+      "name": "Aviso",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/aviso.webp",
+      "system": {
+        "description": {
+          "value": "<p>Jin avisa telepaticamente uma criatura em alcance longo. Escolhe entre dar +5 ao próximo teste de Iniciativa e ao próximo de Percepção na cena, enviar uma mensagem de até 25 palavras em um idioma comum ou revelar sua posição atual. Aplique o bônus de Alerta apenas aos testes indicados.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 182",
+        "ativacao": {
+          "execucao": "move",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 0,
+          "units": "inst",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "long",
+        "alvo": "1 criatura",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "sab",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "uni",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "adv",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": ""
+      },
+      "flags": {},
+      "effects": [],
+      "_id": "KPIdh8BV7f8AQOcB",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 500000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.KPIdh8BV7f8AQOcB"
+    },
+    {
+      "name": "Concentração de Combate",
+      "type": "magia",
+      "img": "systems/tormenta20/icons/magias/concentracao-de-combate.webp",
+      "system": {
+        "description": {
+          "value": "<p>Durante 1 rodada, Jin rola dois d20 em cada teste de ataque e usa o melhor resultado.</p>"
+        },
+        "source": "Tormenta20 — Edição Jogo do Ano, p. 185",
+        "ativacao": {
+          "execucao": "free",
+          "custo": 1,
+          "qtd": "",
+          "condicao": "",
+          "special": ""
+        },
+        "duracao": {
+          "value": 1,
+          "units": "round",
+          "special": ""
+        },
+        "target": {
+          "value": null,
+          "width": null,
+          "units": "",
+          "type": ""
+        },
+        "range": {
+          "value": null,
+          "units": ""
+        },
+        "consume": {
+          "type": "",
+          "target": "",
+          "amount": null,
+          "mpMultiplier": false
+        },
+        "efeito": "",
+        "alcance": "self",
+        "alvo": "Você",
+        "area": "",
+        "resistencia": {
+          "pericia": "",
+          "atributo": "int",
+          "bonus": 0,
+          "txt": ""
+        },
+        "rolls": [],
+        "tipo": "arc",
+        "circulo": "1",
+        "preparada": false,
+        "escola": "adv",
+        "chatFlavor": "",
+        "origin": "",
+        "tags": [],
+        "chatGif": ""
+      },
+      "flags": {},
+      "effects": [],
+      "_id": "w5ymJZWn0AnqxEci",
+      "_stats": {
+        "coreVersion": "13.351",
+        "systemId": "tormenta20",
+        "systemVersion": "1.5.015"
+      },
+      "sort": 600000,
+      "_key": "!actors.items!pvWEorq6uDpSQuNm.w5ymJZWn0AnqxEci"
+    }
+  ],
+  "effects": [],
+  "flags": {},
+  "_stats": {
+    "coreVersion": "13.351",
+    "systemId": "tormenta20",
+    "systemVersion": "1.5.015"
+  }
+}
